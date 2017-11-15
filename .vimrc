@@ -419,7 +419,7 @@ Plug 'chriskempson/base16-vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 " Editing and formatting
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
