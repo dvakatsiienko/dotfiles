@@ -1,5 +1,7 @@
 export ZSH="/Users/$USER/.oh-my-zsh"
 
+source ~/.iterm2_shell_integration.zsh
+
 ZSH_THEME="spaceship"
 SPACESHIP_PROMPT_SYMBOL="λ"
 SPACESHIP_PROMPT_SEPARATE_LINE="false"
@@ -104,9 +106,13 @@ alias grh="git reset --hard"
 # Yarn
 alias y='yarn'
 alias ys='yarn start'
+alias yb='yarn build'
+alias yt='yarn test'
 alias ya='yarn add'
+alias yga='yarn global add'
 alias yad='yarn add --dev'
 alias yre='yarn remove'
+alias ygre='yarn global remove'
 alias yr='yarn run'
 alias yo='yarn outdated'
 alias yu='yarn upgrade'
@@ -127,3 +133,5 @@ source "/Users/$USER/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 export PATH="/usr/local/bin:$PATH"
 
 source "/Users/$USER/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
