@@ -16,18 +16,20 @@ sudo defaults write ~/Library/Containers/com.apple.tonelibraryd/Data/Library/Pre
 # defaults delete NSGlobalDomain KeyRepeat
 # defaults delete NSGlobalDomain InitialKeyRepeat
 
-echo 'Installing xcode command line tools'
+echo 'Installing xcode command line tools...'
 xcode-select --install
 
-echo 'Installning Homebrew'
+echo 'Installning Homebrew...'
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+echo "Installing Yarn..."
+curl -o- -L https://yarnpkg.com/install.sh | bash
 
 echo 'Fixing Homebrew permissions'
 sudo chown -R "$USER":admin /usr/local
 
 echo 'Installing classic brew formulas'
 brew install node
-brew install yarn
 brew install the_silver_searcher
 brew install hub
 brew install httpie
