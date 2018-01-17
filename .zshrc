@@ -68,6 +68,7 @@ export EDITOR='vim'
 # General
 alias v="open -a macvim"
 alias vv="vim"
+
 # alias reinstall="rm -rf node_modules && if [-f yarn.lock] then rm yarn.lock package-lock.json && y && rm -rf node_modules && npm i"
 alias reinstall="sh ~/.sh/reinstall.sh"
 
@@ -131,7 +132,5 @@ source "/Users/$USER/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 # Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
 export PATH="/usr/local/bin:$PATH"
-
-source "/Users/$USER/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

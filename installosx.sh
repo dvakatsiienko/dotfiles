@@ -1,4 +1,4 @@
-# Pre-requisite - system ssh agentsetup  with keys
+# Pre-requisite - system ssh agent setup  with keys
 
 echo 'Setting up a blazingly fast keyboard repeat rate'
 defaults write NSGlobalDomain KeyRepeat -int 1
@@ -22,16 +22,48 @@ xcode-select --install
 echo 'Installning Homebrew...'
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-echo "Installing Yarn..."
-curl -o- -L https://yarnpkg.com/install.sh | bash
-
 echo 'Fixing Homebrew permissions'
 sudo chown -R "$USER":admin /usr/local
 
+echo "Installing Yarn..."
+curl -o- -L https://yarnpkg.com/install.sh | bash
+
+echo 'Deleting old bash meta info'
+rm ~/.bash_history
+rm -rf ~/.bash_sessions
+
+echo 'Installing omzsh'
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+echo 'Switching to zsh'
+if [ $SHELL != '/bin/zsh' ]; then
+    chsh -s $(which zsh)
+    exec zsh
+else
+    echo 'Shell is already switched to zsh'
+fi
+
+echo "Installing .dotfiles"
+cd ~ && git clone git@github.com:dvakatsiienko/.dotfiles.git
+sh ~/.dotfiles/install.sh
+
+echo "Installing nvm..."
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+
+echo "Applying installed nvm..."
+source ~/.zshrc
+
+echo "Installing node..."
+nvm install --lts
+
+echo "Installing npm..."
+nvm install --latest-npm
+
+echo "Applying installed npm..."
+source ~/.zshrc
+
 echo 'Installing classic brew formulas'
-brew install node
 brew install the_silver_searcher
-brew install hub
 brew install httpie
 brew install macvim
 
@@ -63,12 +95,6 @@ cd vim
 make
 sudo make install
 
-echo 'Changing Yarn global target dir'
-yarn config set prefix /usr/local/
-
-echo 'Fixing npm permissions'
-sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
-
 echo 'Installing Vim Plug'
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
@@ -77,24 +103,6 @@ git clone git@github.com:powerline/fonts.git ~/fonts && sh ~/fonts/install.sh &&
 
 echo 'Installing Nerd Fonts'
 git clone git@github.com:ryanoasis/nerd-fonts.git ~/nerd-fonts && cd ~/nerd-fonts && ./install.sh && cd ~ && rm -rf ~/nerd-fonts
-
-echo 'Deleting old bash meta info'
-rm ~/.bash_history
-rm -rf ~/.bash_sessions
-
-echo 'Installing omzsh'
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-echo 'Switching to zsh'
-if [ $SHELL != '/bin/zsh' ]; then
-    chsh -s $(which zsh)
-    exec zsh
-else
-    echo 'Shell is already switched to zsh'
-fi
-
-echo "Installing .dotfiles"
-sh ~/.dotfiles/install.sh
 
 echo "Installing Spaceship zsh theme"
 npm install -g spaceship-zsh-theme
@@ -107,4 +115,5 @@ echo "Activating terminal themes"
 open ~/.dotfiles/themes/gruvbox-dark.terminal
 open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
+
 
