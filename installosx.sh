@@ -98,14 +98,14 @@ sudo make install
 echo 'Installing Vim Plug'
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-echo 'Installing Powerline Fonts'
+echo 'Installing Powerline Fonts (spaceship-prompt dependency)'
 git clone git@github.com:powerline/fonts.git ~/fonts && sh ~/fonts/install.sh && rm -rf ~/fonts
 
 echo 'Installing Nerd Fonts'
 git clone git@github.com:ryanoasis/nerd-fonts.git ~/nerd-fonts && cd ~/nerd-fonts && ./install.sh && cd ~ && rm -rf ~/nerd-fonts
 
-echo "Installing Spaceship zsh theme"
-npm install -g spaceship-zsh-theme
+echo "Installing Spaceship zsh prompt"
+npm i -g spaceship-prompt
 
 echo "Installing syntax highlighting"
 cd ~/.oh-my-zsh/plugins

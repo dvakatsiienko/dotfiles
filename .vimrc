@@ -604,7 +604,8 @@ nnoremap <leader>tf :TableFormat<CR>
 let g:gitgutter_max_signs = 500
 
 " Always display signs column, no matter there are changes or not
-let g:gitgutter_sign_column_always = 1
+" recheck this option during refactoring
+let signcolumn = 1
 
 " Change modified and deleted line symbol
 let g:gitgutter_sign_modified_removed = '~-'
