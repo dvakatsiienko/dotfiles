@@ -1,51 +1,54 @@
 export ZSH="/Users/$USER/.oh-my-zsh"
 
 #ZSH_THEME="spaceship"
-SPACESHIP_CHAR_SYMBOL="λ"
-SPACESHIP_PROMPT_SEPARATE_LINE="false"
-SPACESHIP_PROMPT_DEFAULT_PREFIX=""
-SPACESHIP_DIR_PREFIX="=> "
-SPACESHIP_DIR_COLOR="blue"
-SPACESHIP_GIT_PREFIX="=>"
-SPACESHIP_GIT_SYMBOL="  "
-SPACESHIP_GIT_BRANCH_COLOR="blue"
-SPACESHIP_NODE_SHOW="false"
-SPACESHIP_DOCKER_SHOW='false'
 
 SPACESHIP_PROMPT_ORDER=(
-    time          # Time stampts section
     user          # Username section
-    dir           # Current directory section
-    host          # Hostname section
-    git           # Git section (git_branch + git_status)
-    hg            # Mercurial section (hg_branch  + hg_status)
-    package       # Package version
     node          # Node.js section
-    ruby          # Ruby section
-    elixir        # Elixir section
-    xcode         # Xcode section
-    swift         # Swift section
-    golang        # Go section
-    php           # PHP section
-    rust          # Rust section
-    haskell       # Haskell Stack section
-    julia         # Julia section
-    docker        # Docker section
-    aws           # Amazon Web Services section
-    venv          # virtualenv section
-    conda         # conda virtualenv section
-    pyenv         # Pyenv section
-    dotnet        # .NET section
-    ember         # Ember.js section
-    kubecontext   # Kubectl context section
+    package       # Package version
+    battery       # Battery level and status
+    host          # Hostname section
+    dir           # Current directory section
+    git           # Git section (git_branch + git_status)
+    exit_code     # Exit code section
     exec_time     # Execution time
     line_sep      # Line break
-    battery       # Battery level and status
-    vi_mode       # Vi-mode indicator
     jobs          # Backgound jobs indicator
-    exit_code     # Exit code section
     char          # Prompt character
 )
+
+SPACESHIP_RPROMPT_ORDER=(
+    docker        # Docker section
+)
+
+SPACESHIP_PROMPT_DEFAULT_PREFIX=""
+
+SPACESHIP_CHAR_SYMBOL="λ"
+
+SPACESHIP_USER_SHOW="always"
+SPACESHIP_USER_PREFIX="=> "
+
+SPACESHIP_BATTERY_SHOW="always"
+SPACESHIP_BATTERY_SYMBOL_FULL=""
+SPACESHIP_BATTERY_PREFIX="🔋 "
+
+SPACESHIP_DIR_PREFIX="=> "
+SPACESHIP_DIR_COLOR="blue"
+SPACESHIP_DIR_TRUNC=0
+
+SPACESHIP_GIT_PREFIX="=> "
+SPACESHIP_GIT_SYMBOL=" "
+SPACESHIP_GIT_BRANCH_COLOR="blue"
+
+SPACESHIP_EXIT_CODE_SHOW=true
+SPACESHIP_EXIT_CODE_SYMBOL=":( "
+
+SPACESHIP_PACKAGE_SHOW=true
+SPACESHIP_PACKAGE_PREFIX=""
+SPACESHIP_NODE_SHOW=true
+SPACESHIP_DOCKER_SHOW=true
+
+
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
@@ -135,12 +138,15 @@ PATH=/opt/local/bin:$PATH
 # for remote in $(git remote); do git remote rm $remote; done
 # for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
 export PATH="/usr/local/bin:$PATH"
+
+# expose yarn
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
