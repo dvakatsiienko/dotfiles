@@ -48,7 +48,6 @@ SPACESHIP_PACKAGE_PREFIX=""
 SPACESHIP_NODE_SHOW=true
 SPACESHIP_DOCKER_SHOW=true
 
-
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.

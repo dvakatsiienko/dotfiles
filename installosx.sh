@@ -59,6 +59,9 @@ nvm install --lts
 echo "Installing npm..."
 nvm install --latest-npm
 
+echo "Installing npx..."
+yarn global add npx node-ip create-react-app prettier prettier-eslint-cli
+
 echo "Applying installed npm..."
 source ~/.zshrc
 
