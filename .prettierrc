@@ -13,6 +13,13 @@
         {
             "files": ".prettierrc",
             "options": { "parser": "json" }
+        },
+        {
+            "files": "*.md",
+            "options": {
+                "printWidth": 68,
+                "trailingComma": "none"
+            }
         }
     ]
 }

@@ -65,10 +65,6 @@ yarn global add npx node-ip create-react-app prettier prettier-eslint-cli
 echo "Applying installed npm..."
 source ~/.zshrc
 
-echo 'Installing classic brew formulas'
-brew install the_silver_searcher
-brew install httpie
-brew install macvim
 
 echo 'Installing set of cask formulas'
 brew cask install atom
@@ -119,4 +115,8 @@ open ~/.dotfiles/themes/gruvbox-dark.terminal
 open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
+echo 'Installing classic formulas'
+brew install the_silver_searcher httpie googler fzf hub
+sudo gem install lolcat
+yarn global add tldr
 
