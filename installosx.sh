@@ -32,7 +32,7 @@ echo 'Deleting old bash meta info'
 rm ~/.bash_history
 rm -rf ~/.bash_sessions
 
-echo 'Installing omzsh'
+echo 'Installing ohmyz.sh'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 echo 'Switching to zsh'
@@ -116,7 +116,7 @@ open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
-brew install the_silver_searcher httpie googler fzf hub
+brew install the_silver_searcher httpie googler fzf hub z
 sudo gem install lolcat
-yarn global add tldr
+yarn global add tldr trash-cli empty-trash-cli
 

@@ -23,14 +23,14 @@ SPACESHIP_RPROMPT_ORDER=(
 
 SPACESHIP_PROMPT_DEFAULT_PREFIX=""
 
-SPACESHIP_CHAR_SYMBOL="λ"
+SPACESHIP_CHAR_SYMBOL="λ "
 
 SPACESHIP_USER_SHOW="always"
 SPACESHIP_USER_PREFIX="=> "
 
 SPACESHIP_BATTERY_SHOW="always"
 SPACESHIP_BATTERY_SYMBOL_FULL=""
-SPACESHIP_BATTERY_PREFIX="🔋 "
+SPACESHIP_BATTERY_PREFIX="⚡️ "
 
 SPACESHIP_DIR_PREFIX="=> "
 SPACESHIP_DIR_COLOR="blue"
@@ -58,7 +58,6 @@ SPACESHIP_DOCKER_SHOW=true
 # The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # HIST_STAMPS="mm/dd/yyyy"
 
-#
 # Defines transfer alias and provides easy command line file and folder sharing.
 
 curl --version 2>&1 > /dev/null
@@ -77,7 +76,7 @@ transfer() {
 
     # get temporarily filename, output is written to this file show progress can be showed
     tmpfile=$( mktemp -t transferXXX )
-    
+
     # upload stdin or file
     file=$1
 
@@ -90,7 +89,7 @@ transfer() {
             echo "File $file doesn't exists."
             return 1
         fi
-        
+
         if [ -d $file ];
         then
             # zip directory and transfer
@@ -118,7 +117,7 @@ alias transfer=transfer
 
 # Plugins
 
-plugins=(git, zsh-syntax-highlighting)
+plugins=(yarn npm history copyfile copydir colored-man-pages git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -177,10 +176,8 @@ alias ys='yarn start'
 alias yb='yarn build'
 alias yt='yarn test'
 alias ya='yarn add'
-alias yi='yarn import'
-alias yv='yarn version'
-alias yvs='yarn versions'
-alias yp='yarn publish'
+alias yi='yarn init'
+alias yim='yarn import'
 alias yga='yarn global add'
 alias yad='yarn add --dev'
 alias yre='yarn remove'
@@ -190,7 +187,19 @@ alias yo='yarn outdated'
 alias yu='yarn upgrade'
 alias yui='yarn upgrade-interactive'
 
+# Package management
+alias yp='yarn publish'
+alias yv='yarn version'
+alias yvn='yarn version --new-version'
+alias yvs='yarn versions'
+
 PATH=/opt/local/bin:$PATH
+
+# enable z
+# . ~/.sh/z.sh
+. /usr/local/Cellar/z/1.9/etc/profile.d/z.sh
+
+# take - recursife mkdir
 
 # for remote in $(git remote); do git remote rm $remote; done
 # for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
@@ -208,3 +217,4 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt spaceship
+
