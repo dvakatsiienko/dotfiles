@@ -120,3 +120,4 @@ brew install the_silver_searcher httpie googler fzf hub z
 sudo gem install lolcat
 yarn global add tldr trash-cli empty-trash-cli
 
+
