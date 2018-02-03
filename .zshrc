@@ -1,7 +1,102 @@
+# Reference oh-my-zsh
 export ZSH="/Users/$USER/.oh-my-zsh"
 
-#ZSH_THEME="spaceship"
+# Load zplug
+source ~/.zplug/init.zsh
 
+# Oh-my-zsh plugins
+plugins=(
+    nvm node npm yarn
+    git gitignore
+    z copyfile copydir forklift
+    colored-man-page shistory
+    zsh-syntax-highlighting
+    colorize
+)
+
+# Initi oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Global configs
+export EDITOR='vim'
+
+# Tuning
+alias v="open -a macvim"
+
+# System
+alias k="lsof -i tcp:3000"
+alias kk="kill -9"
+alias kkk netstat -na | grep 8080
+alias reinstall="sh ~/.sh/reinstall.sh"
+
+# Git
+alias gq="ga && gc 'quick update' && gp"
+alias gs="git status -s"
+alias ga="git add ."
+alias gc="git commit -m"
+alias gca="git commit -a -m"
+alias gcam="git commit --amend"
+alias gch="git checkout"
+alias gchb="git checkout -b"
+alias gp="git push"
+alias gpf="git push --force"
+alias gpu="git push --set-upstream origin"
+alias gpl="git pull"
+alias gcl="git clone"
+alias gbd="git branch -d"
+alias gba="git branch -a"
+alias gbD="git branch -D"
+alias gsl="git stash list"
+alias gss="git stash save"
+alias gsp="git stash pop"
+alias gcv="git cherry -v dev | wc -l"
+alias grb="git rebase"
+alias grbi="git rebase -i"
+alias grba="git rebase --abort"
+alias grbc="git rebase --continue"
+alias grbd="git rebase dev"
+alias grh="git reset --hard"
+
+alias gprune="git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
+# for remote in $(git remote); do git remote rm $remote; done
+# for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
+
+# Yarn
+alias y='yarn'
+alias ys='yarn start'
+alias yb='yarn build'
+alias yt='yarn test'
+alias ya='yarn add'
+alias yi='yarn init'
+alias yim='yarn import'
+alias yga='yarn global add'
+alias yad='yarn add --dev'
+alias yre='yarn remove'
+alias ygre='yarn global remove'
+alias yr='yarn run'
+alias yo='yarn outdated'
+alias yu='yarn upgrade'
+alias yui='yarn upgrade-interactive'
+
+# Package management
+alias yp='yarn publish'
+alias yv='yarn version'
+alias yvn='yarn version --new-version'
+alias yvs='yarn versions'
+
+# exa:
+alias la="exa -abghl --git --color=automatic"
+
+# Expose yarn
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# ?
+PATH=/opt/local/bin:$PATH
+
+# Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
+export PATH="/usr/local/bin:$PATH"
+
+# Spaceship prompt description
 SPACESHIP_PROMPT_ORDER=(
     user          # Username section
     node          # Node.js section
@@ -48,173 +143,22 @@ SPACESHIP_PACKAGE_PREFIX=""
 SPACESHIP_NODE_SHOW=true
 SPACESHIP_DOCKER_SHOW=true
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Defines transfer alias and provides easy command line file and folder sharing.
-
-curl --version 2>&1 > /dev/null
-if [ $? -ne 0 ]; then
-  echo "Could not find curl."
-  return 1
-fi
-
-transfer() { 
-    # check arguments
-    if [ $# -eq 0 ]; 
-    then 
-        echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"
-        return 1
-    fi
-
-    # get temporarily filename, output is written to this file show progress can be showed
-    tmpfile=$( mktemp -t transferXXX )
-
-    # upload stdin or file
-    file=$1
-
-    if tty -s; 
-    then 
-        basefile=$(basename "$file" | sed -e 's/[^a-zA-Z0-9._-]/-/g') 
-
-        if [ ! -e $file ];
-        then
-            echo "File $file doesn't exists."
-            return 1
-        fi
-
-        if [ -d $file ];
-        then
-            # zip directory and transfer
-            zipfile=$( mktemp -t transferXXX.zip )
-            cd $(dirname $file) && zip -r -q - $(basename $file) >> $zipfile
-            curl --progress-bar --upload-file "$zipfile" "https://transfer.sh/$basefile.zip" >> $tmpfile
-            rm -f $zipfile
-        else
-            # transfer file
-            curl --progress-bar --upload-file "$file" "https://transfer.sh/$basefile" >> $tmpfile
-        fi
-    else 
-        # transfer pipe
-        curl --progress-bar --upload-file "-" "https://transfer.sh/$file" >> $tmpfile
-    fi
-   
-    # cat output link
-    cat $tmpfile
-
-    # cleanup
-    rm -f $tmpfile
-}
-
-alias transfer=transfer
-
-# Plugins
-
-plugins=(yarn npm history copyfile copydir colored-man-pages git zsh-syntax-highlighting)
-
-source $ZSH/oh-my-zsh.sh
-
-# Syntax highlighting
-ZSH_HIGHLIGHT_STYLES[path]='fg=yellow'
-
-# Global configs
-
-export EDITOR='vim'
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Tuning
-
-# General
-alias v="open -a macvim"
-
-alias reinstall="sh ~/.sh/reinstall.sh"
-
-# System
-alias k="lsof -i tcp:3000"
-alias kk="kill -9"
-
-# Git
-alias gq="ga && gc 'quick update' && gp"
-alias gs="git status -s"
-alias ga="git add ."
-alias gc="git commit -m"
-alias gca="git commit -a -m"
-alias gcam="git commit --amend"
-alias gch="git checkout"
-alias gchb="git checkout -b"
-alias gp="git push"
-alias gpf="git push --force"
-alias gpu="git push --set-upstream origin"
-alias gpl="git pull"
-alias gcl="git clone"
-alias gbd="git branch -d"
-alias gba="git branch -a"
-alias gbD="git branch -D"
-alias gsl="git stash list"
-alias gss="git stash save"
-alias gsp="git stash pop"
-alias gcv="git cherry -v dev | wc -l"
-alias grb="git rebase"
-alias grbi="git rebase -i"
-alias grba="git rebase --abort"
-alias grbc="git rebase --continue"
-alias grbd="git rebase dev"
-alias grh="git reset --hard"
-
-# Yarn
-alias y='yarn'
-alias ys='yarn start'
-alias yb='yarn build'
-alias yt='yarn test'
-alias ya='yarn add'
-alias yi='yarn init'
-alias yim='yarn import'
-alias yga='yarn global add'
-alias yad='yarn add --dev'
-alias yre='yarn remove'
-alias ygre='yarn global remove'
-alias yr='yarn run'
-alias yo='yarn outdated'
-alias yu='yarn upgrade'
-alias yui='yarn upgrade-interactive'
-
-# Package management
-alias yp='yarn publish'
-alias yv='yarn version'
-alias yvn='yarn version --new-version'
-alias yvs='yarn versions'
-
-PATH=/opt/local/bin:$PATH
-
-# enable z
-# . ~/.sh/z.sh
-. /usr/local/Cellar/z/1.9/etc/profile.d/z.sh
-
-# take - recursife mkdir
-
-# for remote in $(git remote); do git remote rm $remote; done
-# for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
-
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
-export PATH="/usr/local/bin:$PATH"
-
-# expose yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt spaceship
+
+# List zsplug plugins
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"
+
+# Load zplug plugins
+zplug load
+
+# Prompt highlighting
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+ZSH_HIGHLIGHT_STYLES[path]='fg=yellow,bold'
+ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
+ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=white'
+ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
 

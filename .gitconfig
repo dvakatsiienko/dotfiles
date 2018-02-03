@@ -1,8 +1,8 @@
 [user]
     name         = d.vakatsiienko
     email        = d.vakatsiienko@lectrum.io
-    # signingkey = B147F8989BA189C3
-    signingkey = 794D2C4D9AD75B2A
+    signingkey = B147F8989BA189C3
+    # signingkey = 794D2C4D9AD75B2A
 
 [alias]
     q            = ! git commit -a -m \"quick fix\" && git push

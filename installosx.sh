@@ -28,6 +28,12 @@ sudo chown -R "$USER":admin /usr/local
 echo "Installing Yarn..."
 curl -o- -L https://yarnpkg.com/install.sh | bash
 
+echo "Installing pip..."
+cd ~
+curl -O 'https://bootstrap.pypa.io/get-pip.py'
+sudo python get-pip.py
+rm get-pip.py
+
 echo 'Deleting old bash meta info'
 rm ~/.bash_history
 rm -rf ~/.bash_sessions
@@ -43,9 +49,14 @@ else
     echo 'Shell is already switched to zsh'
 fi
 
-echo "Installing .dotfiles"
-cd ~ && git clone git@github.com:dvakatsiienko/.dotfiles.git
-sh ~/.dotfiles/install.sh
+echo 'Installing zplug...'
+curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
+echo "Applying installed zplug..."
+source ~/.zshrc
+
+echo 'Activating zplug install mechanism...'
+zplug install
 
 echo "Installing nvm..."
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
@@ -64,7 +75,6 @@ yarn global add npx node-ip create-react-app prettier prettier-eslint-cli
 
 echo "Applying installed npm..."
 source ~/.zshrc
-
 
 echo 'Installing set of cask formulas'
 brew cask install atom
@@ -116,8 +126,9 @@ open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
-brew install the_silver_searcher httpie googler fzf hub z
+brew install the_silver_searcher httpie googler fzf hub exa
 sudo gem install lolcat
+sudo pip install Pygments
 yarn global add tldr trash-cli empty-trash-cli
 
 

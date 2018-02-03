@@ -1,3 +1,10 @@
+### OS ###
 .DS_STORE
-*.un~
-*.swp
+
+### Vim ###
+.sw[a-p]
+.*.sw[a-p]
+Session.vim
+.netrwhist
+*~
+tags
