@@ -8,7 +8,7 @@
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
     "arrowParens": "avoid",
-    "proseWrap": "never",
+    "proseWrap": false,
     "overrides": [
         {
             "files": ".prettierrc",
