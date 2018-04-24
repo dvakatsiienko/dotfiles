@@ -6,7 +6,7 @@ source ~/.zplug/init.zsh
 
 # Oh-my-zsh plugins
 plugins=(
-    nvm node npm yarn
+    node npm yarn
     git gitignore
     z copyfile copydir forklift
     colored-man-page shistory
@@ -28,6 +28,8 @@ alias k="lsof -i tcp:3000"
 alias kk="kill -9"
 alias kkk netstat -na | grep 8080
 alias reinstall="sh ~/.sh/reinstall.sh"
+alias replace="sh ~/.sh/replace.sh"
+alias rm="trash"
 
 # Git
 alias gq="ga && gc 'quick update' && gp"
@@ -57,17 +59,31 @@ alias grbc="git rebase --continue"
 alias grbd="git rebase dev"
 alias grh="git reset --hard"
 
-alias gprune="git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
+alias gfp="git fetch --prune"
+alias gprune="git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
 # for remote in $(git remote); do git remote rm $remote; done
 # for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
 
-# Yarn
+# Yarn: packages
 alias y='yarn'
 alias ys='yarn start'
 alias yb='yarn build'
+alias ybd='yarn build:dev'
+alias ybs='yarn build:stage'
+alias ybp='yarn build:prod'
+alias yan='yarn analyze'
+alias yba='yarn build:analyze'
 alias yt='yarn test'
-alias ya='yarn add'
+alias ytu='yarn test -u'
+alias ytw='yarn test:watch'
+alias yl='yarn lint'
+alias ylj='yarn lint:javascript'
+alias ylc='yarn lint:css'
+alias yso='yarn soundcheck'
 alias yi='yarn init'
+alias yfmt='yarn prettier'
+
+alias ya='yarn add'
 alias yim='yarn import'
 alias yga='yarn global add'
 alias yad='yarn add --dev'
@@ -77,11 +93,13 @@ alias yr='yarn run'
 alias yo='yarn outdated'
 alias yu='yarn upgrade'
 alias yui='yarn upgrade-interactive'
+alias yul='yarn upgrade --latest'
 
 # Package management
 alias yp='yarn publish'
 alias yv='yarn version'
 alias yvn='yarn version --new-version'
+alias yvnp='yarn version --new-version patch'
 alias yvs='yarn versions'
 
 # exa:
@@ -161,4 +179,9 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=white'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
+
+
+# Set Spaceship ZSH as a prompt
+autoload -U promptinit; promptinit
+prompt spaceship
 

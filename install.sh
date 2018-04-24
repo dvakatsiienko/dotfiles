@@ -17,7 +17,7 @@ dir=~/.dotfiles                                                             # do
 vimPluginsDir=$dir/.vim/plugin                                              # personal Vim plugins directory
 vimSpellDir=$dir/.vim/spell
 olddir=~/.dotfiles_old                                                      # old dotfiles backup directory
-files=".hushlogin .zprofile .npmrc .vimrc .zshrc .ctags .hyper.js .gitconfig .yarnrc .prettierrc .gitignore_global"            # list of files/folders to symlink in homedir
+files=".hushlogin .zprofile .npmrc .vimrc .zshrc .ctags .hyper.js .yarnrc .prettierrc .gitignore_global"            # list of files/folders to symlink in homedir
 vimPlugins="AddSubstract.vim GlobalHunkNav.vim ResCur.vim Functional.vim Stab.vim WordCount.vim"       # list of personal Vim plugins
 spellFiles="en.utf-8.add en.utf-8.add.spl"
 

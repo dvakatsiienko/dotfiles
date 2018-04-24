@@ -126,7 +126,7 @@ open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
-brew install the_silver_searcher httpie googler fzf hub exa
+brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename
 sudo gem install lolcat
 sudo pip install Pygments
 yarn global add tldr trash-cli empty-trash-cli
