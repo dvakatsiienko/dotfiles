@@ -7,10 +7,9 @@ source ~/.zplug/init.zsh
 # Oh-my-zsh plugins
 plugins=(
     node npm yarn
-    git gitignore
-    z copyfile copydir forklift
+    z
+    copyfile copydir
     colored-man-page shistory
-    zsh-syntax-highlighting
     colorize
 )
 
@@ -20,15 +19,13 @@ source $ZSH/oh-my-zsh.sh
 # Global configs
 export EDITOR='vim'
 
-# Tuning
-alias v="open -a macvim"
-
 # System
 alias k="lsof -i tcp:3000"
 alias kk="kill -9"
 alias kkk netstat -na | grep 8080
-alias reinstall="sh ~/.sh/reinstall.sh"
-alias replace="sh ~/.sh/replace.sh"
+
+alias reinstall="sh ~/.dotfiles/.sh/reinstall.sh"
+alias replace="sh ~/.dotfiles/.sh/replace.sh"
 alias rm="trash"
 
 # Git
@@ -58,11 +55,8 @@ alias grba="git rebase --abort"
 alias grbc="git rebase --continue"
 alias grbd="git rebase dev"
 alias grh="git reset --hard"
-
 alias gfp="git fetch --prune"
 alias gprune="git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
-# for remote in $(git remote); do git remote rm $remote; done
-# for branch in $(git branch -a | grep -v master); do git branch -D $branch; done
 
 # Yarn: packages
 alias y='yarn'
@@ -165,10 +159,6 @@ SPACESHIP_PACKAGE_SHOW=true
 SPACESHIP_PACKAGE_PREFIX=""
 SPACESHIP_NODE_SHOW=true
 SPACESHIP_DOCKER_SHOW=true
-
-# Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
 
 # Load zplug plugins
 zplug load
