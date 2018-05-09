@@ -12,9 +12,9 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 echo 'Turn off annoying FaceTime ringer on Mac'
 sudo defaults write ~/Library/Containers/com.apple.tonelibraryd/Data/Library/Preferences/com.apple.ToneLibrary.plist ringtone "system:"
 
-# Revert to default settings with:
-# defaults delete NSGlobalDomain KeyRepeat
-# defaults delete NSGlobalDomain InitialKeyRepeat
+Revert to default settings with:
+defaults delete NSGlobalDomain KeyRepeat
+defaults delete NSGlobalDomain InitialKeyRepeat
 
 echo 'Installing xcode command line tools...'
 xcode-select --install
@@ -60,7 +60,6 @@ sudo chown -R "$USER":admin /usr/local
 echo "Installing Yarn without node (because nvm is already installed)..."
 brew install yarn --without-node
 
-
 echo 'Deleting old bash meta info'
 rm ~/.bash_history
 rm -rf ~/.bash_sessions
@@ -81,3 +80,12 @@ brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename
 
 echo "Installing classic packages"
 yarn global add npx node-ip http-server create-react-app speed-test tldr trash-cli empty-trash-cli
+
+echo "Installing core rc files"
+sh ~/.dotfiles/install.sh
+
+echo "Installing zsh plugins via zplug"
+zplug install
+
+echo "Applying changes"
+source ~/.zshrc

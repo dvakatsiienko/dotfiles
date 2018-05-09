@@ -1,5 +1,5 @@
 # Reference oh-my-zsh
-export ZSH="/Users/$USER/.oh-my-zsh"
+export ZSH=/Users/$USER/.oh-my-zsh
 
 # Load zplug
 source ~/.zplug/init.zsh
@@ -96,17 +96,14 @@ alias yvn='yarn version --new-version'
 alias yvnp='yarn version --new-version patch'
 alias yvs='yarn versions'
 
-# exa:
+# exa (beautiful la)
 alias la="exa -abghl --git --color=automatic"
 
 # Expose yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# ?
-PATH=/opt/local/bin:$PATH
-
 # Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
-export PATH="/usr/local/bin:$PATH"
+ export PATH="/usr/local/bin:$PATH"
 
 # List zsplug plugins
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
@@ -169,7 +166,3 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=white'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
-
-# Set Spaceship ZSH as a prompt
-autoload -U promptinit; promptinit
-prompt spaceship
