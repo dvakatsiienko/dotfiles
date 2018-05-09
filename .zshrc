@@ -114,6 +114,11 @@ PATH=/opt/local/bin:$PATH
 # Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
 export PATH="/usr/local/bin:$PATH"
 
+# List zsplug plugins
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+
 # Spaceship prompt description
 SPACESHIP_PROMPT_ORDER=(
     user          # Username section
@@ -165,23 +170,16 @@ SPACESHIP_DOCKER_SHOW=true
 autoload -U promptinit; promptinit
 prompt spaceship
 
-# List zsplug plugins
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-autosuggestions"
-
 # Load zplug plugins
 zplug load
 
 # Prompt highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
 ZSH_HIGHLIGHT_STYLES[path]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=white'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
 
-
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 prompt spaceship
-

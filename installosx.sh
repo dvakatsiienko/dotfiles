@@ -19,25 +19,6 @@ sudo defaults write ~/Library/Containers/com.apple.tonelibraryd/Data/Library/Pre
 echo 'Installing xcode command line tools...'
 xcode-select --install
 
-echo 'Installning Homebrew...'
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-echo 'Fixing Homebrew permissions'
-sudo chown -R "$USER":admin /usr/local
-
-echo "Installing Yarn..."
-curl -o- -L https://yarnpkg.com/install.sh | bash
-
-echo "Installing pip..."
-cd ~
-curl -O 'https://bootstrap.pypa.io/get-pip.py'
-sudo python get-pip.py
-rm get-pip.py
-
-echo 'Deleting old bash meta info'
-rm ~/.bash_history
-rm -rf ~/.bash_sessions
-
 echo 'Installing ohmyz.sh'
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
@@ -70,55 +51,25 @@ nvm install --lts
 echo "Installing npm..."
 nvm install --latest-npm
 
-echo "Installing npx..."
-yarn global add npx node-ip create-react-app prettier prettier-eslint-cli
+echo 'Installning Homebrew...'
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-echo "Applying installed npm..."
-source ~/.zshrc
+echo 'Fixing Homebrew permissions'
+sudo chown -R "$USER":admin /usr/local
 
-echo 'Installing set of cask formulas'
-brew cask install atom
-brew cask install google-chrome
-brew cask install google-drive
-brew cask install firefox
-brew cask install postman
-brew cask install hyper
-brew cask install iterm2
-brew cask install skype
-brew cask install alfred
-brew cask install sip
-brew cask install cloudapp
-brew cask install appcleaner
-brew cask install battle-net
-open /usr/local/Caskroom/battle-net/latest/Battle.net-Setup.app
-brew cask install steam
-brew cask install vlc
-brew cask install transmission
+echo "Installing Yarn without node (because nvm is already installed)..."
+brew install yarn --without-node
 
-echo 'Installing Vim from binaries'
-sudo mkdir -p /opt/local/bin
-cd ~
-git clone https://github.com/vim/vim.git
-cd vim
-./configure --prefix=/opt/local --with-features=huge --enable-pythoninterp
-make
-sudo make install
 
-echo 'Installing Vim Plug'
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo 'Deleting old bash meta info'
+rm ~/.bash_history
+rm -rf ~/.bash_sessions
 
 echo 'Installing Powerline Fonts (spaceship-prompt dependency)'
 git clone git@github.com:powerline/fonts.git ~/fonts && sh ~/fonts/install.sh && rm -rf ~/fonts
 
 echo 'Installing Nerd Fonts'
 git clone git@github.com:ryanoasis/nerd-fonts.git ~/nerd-fonts && cd ~/nerd-fonts && ./install.sh && cd ~ && rm -rf ~/nerd-fonts
-
-echo "Installing Spaceship zsh prompt"
-npm i -g spaceship-prompt
-
-echo "Installing syntax highlighting"
-cd ~/.oh-my-zsh/plugins
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 echo "Activating terminal themes"
 open ~/.dotfiles/themes/gruvbox-dark.terminal
@@ -127,8 +78,6 @@ open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
 brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename
-sudo gem install lolcat
-sudo pip install Pygments
-yarn global add tldr trash-cli empty-trash-cli
 
-
+echo "Installing classic packages"
+yarn global add npx node-ip http-server create-react-app speed-test tldr trash-cli empty-trash-cli
