@@ -76,10 +76,10 @@ open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
-brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename
+brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename bat tree
 
 echo "Installing classic packages"
-yarn global add npx node-ip http-server create-react-app speed-test tldr trash-cli empty-trash-cli
+yarn global add npx node-ip serve create-react-app speed-test tldr trash-cli empty-trash-cli ngrok yo
 
 echo "Installing core rc files"
 sh ~/.dotfiles/install.sh

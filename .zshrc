@@ -1,3 +1,5 @@
+# export ZSH_COMPDUMP=/tmp/zcompdump-$USER
+
 # Reference oh-my-zsh
 export ZSH=/Users/$USER/.oh-my-zsh
 
@@ -27,6 +29,7 @@ alias kkk netstat -na | grep 8080
 alias reinstall="sh ~/.dotfiles/.sh/reinstall.sh"
 alias replace="sh ~/.dotfiles/.sh/replace.sh"
 alias rm="trash"
+alias RM=rm -rf
 
 # Git
 alias gq="ga && gc 'quick update' && gp"
@@ -58,6 +61,8 @@ alias grh="git reset --hard"
 alias gfp="git fetch --prune"
 alias gprune="git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
 
+alias go="git open"
+
 # Yarn: packages
 alias y='yarn'
 alias ys='yarn start'
@@ -84,7 +89,7 @@ alias yad='yarn add --dev'
 alias yre='yarn remove'
 alias ygre='yarn global remove'
 alias yr='yarn run'
-alias yo='yarn outdated'
+alias yot='yarn outdated'
 alias yu='yarn upgrade'
 alias yui='yarn upgrade-interactive'
 alias yul='yarn upgrade --latest'
@@ -96,19 +101,23 @@ alias yvn='yarn version --new-version'
 alias yvnp='yarn version --new-version patch'
 alias yvs='yarn versions'
 
-# exa (beautiful la)
+# exa:
 alias la="exa -abghl --git --color=automatic"
 
 # Expose yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
- export PATH="/usr/local/bin:$PATH"
+# ?
+# PATH=/opt/local/bin:$PATH
 
+# Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
+export PATH="/usr/local/bin:$PATH"
 # List zsplug plugins
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "paulirish/git-open", as:plugin
 
 # Spaceship prompt description
 SPACESHIP_PROMPT_ORDER=(
@@ -135,7 +144,6 @@ SPACESHIP_PROMPT_DEFAULT_PREFIX=""
 SPACESHIP_CHAR_SYMBOL="λ "
 
 SPACESHIP_USER_SHOW="always"
-SPACESHIP_USER_PREFIX="=> "
 
 SPACESHIP_BATTERY_SHOW="always"
 SPACESHIP_BATTERY_SYMBOL_FULL=""
@@ -166,3 +174,28 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=yellow,bold'
 ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=white'
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=blue,bold'
+
+# fix alias conflict with yeoman
+unalias yo
+
+# nvm: automatic node version switching based on .nvmrc. Place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc

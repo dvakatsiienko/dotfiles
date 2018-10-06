@@ -14,8 +14,7 @@
 dir=~/.dotfiles        # dotfiles directory
 olddir=~/.dotfiles_old # old dotfiles backup directory
 
-# легаси-файлы: .vimrc
-files=".hushlogin .zprofile .npmrc .zshrc .yarnrc .prettierrc .gitignore_global" # list of files/folders to symlink in homedir
+files=".vimrc .hushlogin .zprofile .npmrc .zshrc .yarnrc .prettierrc .gitignore_global" # list of files/folders to symlink in homedir
 
 # go to the dotfiles directory
 echo "Changing to the $dir directory"
