@@ -1,5 +1,5 @@
 # Installation
 
-`sh install.sh` — installs config files
+`sh dotfilesinstall.sh` — install dot files
 
-`sh installosx.sh` — setups environemnt globally
+`sh installosx.sh` — setup global environemnt
