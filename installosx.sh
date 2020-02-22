@@ -76,10 +76,19 @@ open ~/.dotfiles/themes/gruvbox-light.terminal
 open ~/.dotfiles/themes/Treehouse.terminal
 
 echo 'Installing classic formulas'
-brew install the_silver_searcher httpie googler fzf hub exa youtube-dl rename bat tree
+brew install the_silver_searcher fzf httpie googler exa youtube-dl rename bat
+# the_silver_searcher — a code searching tool similar to ack, with a focus on speed (source code).
+# fzf — 🌸 A command-line fuzzy finder (directories).
+# httpie — is a command line HTTP client with an intuitive UI, JSON support, syntax highlighting, wget-like downloads, plugins, and more.
+# googler — 👀 Google from the terminal.
+# exa — a modern version of ls.
+# youtube-dl — youtube-dl is a command-line program to download videos from YouTube.com and a few more sites.
+# rename — rename [switches|transforms] [files] (http://plasmasturm.org/code/rename/).
+# bat — A cat(1) clone with wings.
+# ‼️  do not forget to install z.
 
 echo "Installing classic packages"
-yarn global add npx node-ip serve create-react-app speed-test tldr trash-cli empty-trash-cli ngrok yo
+yarn global add create-react-app create-next-app serve node-ip speed-test trash-cli ndb
 
 echo "Installing core rc files"
 sh ~/.dotfiles/install.sh
