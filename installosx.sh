@@ -88,7 +88,7 @@ brew install the_silver_searcher fzf httpie googler exa youtube-dl rename bat
 # ‼️  do not forget to install z.
 
 echo "Installing classic packages"
-yarn global add create-react-app create-next-app serve node-ip speed-test trash-cli ndb
+yarn global add create-react-app create-next-app serve node-ip speed-test trash-cli empty-trash-cli ndb
 
 echo "Installing core rc files"
 sh ~/.dotfiles/install.sh
