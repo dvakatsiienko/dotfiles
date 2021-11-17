@@ -1,32 +1,53 @@
-# export ZSH_COMPDUMP=/tmp/zcompdump-$USER
 
-
-# Reference oh-my-zsh
-export ZSH=/Users/$USER/.oh-my-zsh
-
-# Load zplug
-source ~/.zplug/init.zsh
-
-# Oh-my-zsh plugins
-plugins=(
-    node npm yarn
-    z
-    copyfile copydir
-    colored-man-page shistory
-    colorize
-)
-
-# Initi oh-my-zsh
-source $ZSH/oh-my-zsh.sh
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the start of this file.
+[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+#### END FIG ENV VARIABLES ####
 
 # Global configs
 export EDITOR='vim'
+
+# Global variables
+export ZSH=/Users/$USER/.oh-my-zsh # Reference oh-my-zsh
+export PATH="/usr/local/bin:$PATH" # Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
+export DENO_INSTALL=/Users/$USER/.deno
+export PATH=$DENO_INSTALL/bin:$PATH
+
+# Oh-my-zsh plugins
+plugins=(
+    node
+    npm
+    z
+    copyfile
+    copydir
+    colored-man-page
+    shistory
+    colorize
+)
+
+# Init
+source $HOME/.profile        # source github token for release-it
+source $HOME/.zplug/init.zsh # init zplug
+source $ZSH/oh-my-zsh.sh     # init oh-my-zsh
+
+# List zplug plugins
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+zplug "paulirish/git-open", as:plugin
+
+# VSCode
+alias .="code ."
+
+# Railway
+alias rw="railway"
 
 # System
 alias k="lsof -i tcp:3000"
 alias kk="kill -9"
 alias kkk netstat -na | grep 8080
 
+# Dotfiles
 alias reinstall="sh ~/.dotfiles/.sh/reinstall.sh"
 alias replace="sh ~/.dotfiles/.sh/replace.sh"
 alias RM=rm -rf
@@ -60,65 +81,44 @@ alias grbd="git rebase dev"
 alias grh="git reset --hard"
 alias gfp="git fetch --prune"
 alias gprune="git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
-
 alias go="git open"
 
 # Yarn: packages
 alias y='yarn'
-alias yd='yarn dev'
 alias ys='yarn start'
+alias yd='yarn dev'
 alias yb='yarn build'
-alias ybd='yarn build:dev'
-alias ybs='yarn build:stage'
-alias ybp='yarn build:prod'
-alias yan='yarn analyze'
-alias yba='yarn build:analyze'
 alias yt='yarn test'
-alias ytu='yarn test -u'
-alias ytw='yarn test:watch'
-alias yl='yarn lint'
-alias ylj='yarn lint:javascript'
-alias ylc='yarn lint:css'
-alias yso='yarn soundcheck'
-alias yi='yarn init'
-alias yfmt='yarn prettier'
-
 alias ya='yarn add'
-alias yim='yarn import'
 alias yga='yarn global add'
 alias yad='yarn add --dev'
 alias yre='yarn remove'
-alias ygre='yarn global remove'
 alias yr='yarn run'
 alias yot='yarn outdated'
 alias yu='yarn upgrade'
 alias yui='yarn upgrade-interactive'
 alias yul='yarn upgrade --latest'
 
-# Package management
-alias yp='yarn publish'
-alias yv='yarn version'
-alias yvn='yarn version --new-version'
-alias yvnp='yarn version --new-version patch'
-alias yvs='yarn versions'
+# pnpm
+alias p="pnpm"
+alias pi="pnpm i"
+alias pid="pnpm i -D"
+alias pu="pnpm un"
+alias ps="pnpm start"
+alias pb="pnpm build"
+alias px="pnpm exec"
+alias dlx="pnpm dlx"
 
-# exa:
+# npm-check
+alias out="NPM_CHECK_INSTALLER=pnpm npm-check --skip-unused"
+alias outg="NPM_CHECK_INSTALLER=pnpm npm-check -g --skip-unused"
+alias upd="NPM_CHECK_INSTALLER=pnpm npm-check --skip-unused --update-all"
+alias updg="NPM_CHECK_INSTALLER=pnpm npm-check -g --skip-unused --update-all"
+alias updi="NPM_CHECK_INSTALLER=pnpm npm-check --skip-unused --update"
+alias updgi="NPM_CHECK_INSTALLER=pnpm npm-check -g --skip-unused --update"
+
+# exa
 alias la="exa -abghl --git --color=automatic"
-
-# Expose yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# ?
-# PATH=/opt/local/bin:$PATH
-
-# Homebrew requires /usr/local/bin occurs before /usr/bin in PATH
-export PATH="/usr/local/bin:$PATH"
-# List zsplug plugins
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-autosuggestions"
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
-zplug "paulirish/git-open", as:plugin
 
 # Spaceship prompt description
 SPACESHIP_PROMPT_ORDER=(
@@ -164,7 +164,7 @@ SPACESHIP_PACKAGE_PREFIX=""
 SPACESHIP_NODE_SHOW=true
 SPACESHIP_DOCKER_SHOW=true
 
-# Load zplug plugins
+# Load zplug plugins after spaceship but before zsh hightlight (order is important)
 zplug load
 
 # Prompt highlighting
@@ -195,63 +195,13 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
-###-begin-npm-completion-###
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
 
-if type complete &>/dev/null; then
-  _npm_completion () {
-    local words cword
-    if type _get_comp_words_by_ref &>/dev/null; then
-      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-    else
-      cword="$COMP_CWORD"
-      words=("${COMP_WORDS[@]}")
-    fi
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-    local si="$IFS"
-    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${words[@]}" \
-                           2>/dev/null)) || return $?
-    IFS="$si"
-    if type __ltrim_colon_completions &>/dev/null; then
-      __ltrim_colon_completions "${words[cword]}"
-    fi
-  }
-  complete -o default -F _npm_completion npm
-elif type compdef &>/dev/null; then
-  _npm_completion() {
-    local si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-  _npm_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  compctl -K _npm_completion npm
-fi
-###-end-npm-completion-###
+
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the end of this file.
+[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
