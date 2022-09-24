@@ -1,9 +1,3 @@
-
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the start of this file.
-[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
-#### END FIG ENV VARIABLES ####
-
 # Global configs
 export EDITOR='vim'
 
@@ -15,6 +9,7 @@ export PATH=$DENO_INSTALL/bin:$PATH
 
 # Oh-my-zsh plugins
 plugins=(
+    # todo: git
     node
     npm
     z
@@ -81,7 +76,9 @@ alias grbd="git rebase dev"
 alias grh="git reset --hard"
 alias gfp="git fetch --prune"
 alias gprune="git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d"
-alias go="git open"
+
+# Github CLI
+alias go="gh go"
 
 # Yarn: packages
 alias y='yarn'
@@ -199,9 +196,10 @@ load-nvmrc
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 
-#### FIG ENV VARIABLES ####
-# Please make sure this block is at the end of this file.
-[ -s ~/.fig/fig.sh ] && source ~/.fig/fig.sh
-#### END FIG ENV VARIABLES ####
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/furthur/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
