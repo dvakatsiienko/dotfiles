@@ -7,4 +7,3 @@ set expandtab             " On pressing tab, insert 4 spaces
 " ∞∞∞∞∞ Style ∞∞∞∞∞
 syntax on
 colorscheme pablo
-
