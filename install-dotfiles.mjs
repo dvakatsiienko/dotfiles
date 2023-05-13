@@ -27,58 +27,73 @@ const dotfile_list = [
     '.yarnrc', // ? yarn config file
     '.hushlogin', // ? remove the "Last login" message when opening a new terminal window
 ];
+const shellBinList = [ 'zsh', 'vim', 'yarn' ];
 
-// ? Go to the dotfiles directory
-zx.echo(bb(`🏁 Moving to the ${ yb(dotfiles_source_dir) } directory.`));
-zx.cd(dotfiles_source_dir);
+zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shellBinList.join(', ')) }.`));
 
-new_line();
+let is_all_bins_installed = true;
 
-zx.echo(bb(`📦 Creating a ${ yb(dotfiles_backup_dir) } directory to backup existing dotfiles in ${ yb(homedir) }.`));
-await zx.$`mkdir -p ${ dotfiles_backup_dir }`;
+for await (const bin of shellBinList) {
+    try {
+        await zx.which(bin);
+    } catch {
+        zx.echo(rb(`🚨 ${ mb(bin) } is not installed. Please install ${ mb(bin) } first.`));
+        is_all_bins_installed = false;
+    }
+}
 
-new_line();
+if (is_all_bins_installed) {
+    zx.echo(gb('✓ All required binaries are installed. Proceeding...'));
+    new_line();
 
-for await (const dotfile of dotfile_list) {
-    const dotfile_homedir_path = `${ homedir }/${ dotfile }`;
-    const dotfile_source_path = `${ dotfiles_source_dir }/${ dotfile }`;
-    const dotfile_backup_path = `${ dotfiles_backup_dir }/${ dotfile }`;
+    // ? Go to the dotfiles directory
+    zx.echo(bb(`🏁 Moving to the ${ yb(dotfiles_source_dir) } directory.`));
+    zx.cd(dotfiles_source_dir);
+    new_line();
 
-    // ? If a dotfile is already backed up, do not backup dotfile from homedir, because it will overwrite the existing one.
-    zx.echo(bb(`🔎 Checking if a ${ mb(dotfile) } is already exists in ${ yb(dotfiles_backup_dir) }.`));
-    const is_dotfile_exists = await zx.fs.exists(dotfile_backup_path);
+    zx.echo(bb(`📦 Creating a ${ yb(dotfiles_backup_dir) } directory to backup existing dotfiles in ${ yb(homedir) }.`));
+    await zx.$`mkdir -p ${ dotfiles_backup_dir }`;
+    new_line();
 
-    if (is_dotfile_exists) {
-        zx.echo(rb(`Error: ${ mb(dotfile) } is already exists in ${ yb(dotfiles_backup_dir) }. Skipping backup fo this file.`));
-    } else {
-        zx.echo(gb(`✓ No backup ${ mb(dotfile) } found in ${ yb(dotfiles_backup_dir) }. Proceeding...`));
+    for await (const dotfile of dotfile_list) {
+        const dotfile_homedir_path = `${ homedir }/${ dotfile }`;
+        const dotfile_source_path = `${ dotfiles_source_dir }/${ dotfile }`;
+        const dotfile_backup_path = `${ dotfiles_backup_dir }/${ dotfile }`;
+        new_line();
+
+        // ? If a dotfile is already backed up, do not backup dotfile from homedir, because it will overwrite the existing one.
+        zx.echo(bb(`🔎 Checking if a ${ mb(dotfile) } is already exists in ${ yb(dotfiles_backup_dir) }.`));
+        const is_dotfile_exists = await zx.fs.exists(dotfile_backup_path);
+
+        if (is_dotfile_exists) {
+            zx.echo(rb(`Error: ${ mb(dotfile) } is already exists in ${ yb(dotfiles_backup_dir) }. Skipping backup fo this file.`));
+        } else {
+            zx.echo(gb(`✓ No backup ${ mb(dotfile) } found in ${ yb(dotfiles_backup_dir) }. Proceeding...`));
+
+            try {
+                // ? Backup (move) existing dotfile from homedir to dotfiles backup dir
+                zx.echo(bb(`↩️  Moving a ${ mb(dotfile) } from ${ yb(homedir) } to ${ yb(dotfiles_backup_dir) }.`));
+
+                await zx.$`mv ${ dotfile_homedir_path } ${ dotfiles_backup_dir }`;
+                zx.echo(gb(`✓ Dotfile moved from ${ yb(dotfile_homedir_path) } to ${ yb(dotfiles_backup_dir) }.`));
+            } catch (error) {
+                zx.echo(rb(`Error: ${ error }`));
+            }
+        }
 
         try {
-            // ? Backup (move) existing dotfile from homedir to dotfiles backup dir
-            zx.echo(bb(`↩️  Moving a ${ mb(dotfile) } from ${ yb(homedir) } to ${ yb(dotfiles_backup_dir) }.`));
-
-            await zx.$`mv ${ dotfile_homedir_path } ${ dotfiles_backup_dir }`;
-            zx.echo(gb(`✓ Dotfile moved from ${ yb(dotfile_homedir_path) } to ${ yb(dotfiles_backup_dir) }.`));
+            // ? Symlink source dotfiles to homedir
+            zx.echo(bb(`🔗 Creating a symlink for ${ mb(dotfile) }. ${ yb(dotfile_source_path) } → ${ yb(dotfile_homedir_path) }.`));
+            await zx.$`ln -s ${ dotfile_source_path } ${ dotfile_homedir_path }`;
+            zx.echo(gb(`✓ Symlinked: ${ mb(dotfile) }.`));
         } catch (error) {
             zx.echo(rb(`Error: ${ error }`));
         }
     }
 
-    try {
-        // ? Symlink source dotfiles to homedir
-        zx.echo(bb(`🔗 Creating a symlink for ${ mb(dotfile) }. ${ yb(dotfile_source_path) } → ${ yb(dotfile_homedir_path) }.`));
-        await zx.$`ln -s ${ dotfile_source_path } ${ dotfile_homedir_path }`;
-        zx.echo(gb(`✓ Symlinked: ${ mb(dotfile) }.`));
-    } catch (error) {
-        zx.echo(rb(`Error: ${ error }`));
-    }
-
     new_line();
+    zx.echo('✅ Done.');
 }
-
-new_line();
-
-zx.echo('✅ Done.');
 
 /* Helpers */
 function bb (...args) {
