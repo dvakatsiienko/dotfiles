@@ -29,4 +29,3 @@ export NVM_DIR="$HOME/.nvm"
 
 # Init starship
 eval "$(starship init zsh)"
-
