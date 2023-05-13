@@ -2,6 +2,9 @@
     "name": "dotfiles",
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
+    "scripts": {
+        "install-dotfiles": "zx ./install-dotfiles.mjs"
+    },
     "dependencies": {
         "zx": "7.2.2"
     },
