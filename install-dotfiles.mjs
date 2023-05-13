@@ -76,7 +76,6 @@ for await (const dotfile of dotfile_list) {
     new_line();
 }
 
-// ln -s $dotfiles_source_dir/$dotfile ~/$dotfile
 new_line();
 
 zx.echo('✅ Done.');
