@@ -8,6 +8,8 @@
 // mv ~/.ssh/config $dotfiles_backup_dir
 // ln -s $dotfiles_source_dir/.ssh/config ~/.ssh/config
 
+// backup and symlink iTerm configs
+
 /* Core */
 import * as zx from 'zx';
 
