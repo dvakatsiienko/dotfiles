@@ -1,0 +1,16 @@
+{
+    "name": "dotfiles",
+    "version": "0.0.1",
+    "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
+    "dependencies": {
+        "zx": "7.2.2"
+    },
+    "devDependencies": {
+        "prettier": "2.8.8",
+        "prettier-config-polished": "0.0.5"
+    },
+    "engines": {
+        "pnpm": ">=8.0.0",
+        "node": ">=18.12.0"
+    }
+}
