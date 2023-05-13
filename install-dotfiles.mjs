@@ -94,7 +94,7 @@ if (is_all_bins_installed) {
             await zx.$`ln -s ${ dotfile_source_path } ${ dotfile_path }`;
             zx.echo(gb(`✓ Symlinked: ${ mb(dotfile) }.`));
         } catch (error) {
-            zx.echo(rb(`Error: symlink already exists.`));
+            zx.echo(rb('Error: symlink already exists.'));
         }
     }
 
