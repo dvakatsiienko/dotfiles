@@ -7,6 +7,11 @@
 // ~/.config/oh-my-zsh-custom/functions.zsh
 // ~/.config/oh-my-zsh-custom/aliases.zsh
 
+// TODO
+// backup and symlink ssh configs
+// mv ~/.ssh/config $dotfiles_backup_dir
+// ln -s $dotfiles_source_dir/.ssh/config ~/.ssh/config
+
 /* Core */
 import * as zx from 'zx';
 
