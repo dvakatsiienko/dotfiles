@@ -21,7 +21,7 @@ const omzsh_custom_source_dir = `${ dotfiles_source_dir }/.config/oh-my-zsh-cust
 const omzsh_custom_backup_dir = `${ dotfiles_backup_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 
 const dotfile_list = [
-    /// ? list of files/folders to symlink in homedir.
+    // ? list of files/folders to symlink in homedir.
     '.zshrc', // ? zsh main config file
     '.zprofile', // ? zsh config file that sets the environment for login shells
     '.zshenv', // ? additional zsh config file that sets the environment for login shells
