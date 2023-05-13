@@ -6,6 +6,7 @@
         "zx": "7.2.2"
     },
     "devDependencies": {
+        "eslint-config-polished": "0.0.12",
         "prettier": "2.8.8",
         "prettier-config-polished": "0.0.5"
     },
