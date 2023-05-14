@@ -3,9 +3,6 @@
  * ? This script creates symlinks from the home directory to any desired dotfiles in ~/.dotfiles
  */
 
-// TODO
-// backup and symlink iTerm configs
-
 /* Core */
 import * as zx from 'zx';
 
