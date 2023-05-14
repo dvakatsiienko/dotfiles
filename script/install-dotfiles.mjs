@@ -23,7 +23,7 @@ const omzsh_custom_dir = `${ homedir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh
 const omzsh_custom_source_dir = `${ dotfiles_source_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_backup_dir = `${ dotfiles_backup_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 
-const dotfile_list = [
+const dotfile_list_homedir = [
     // ? list of files/folders to symlink in homedir.
     '.zshrc', // ? zsh main config file
     '.zprofile', // ? zsh config file that sets the environment for login shells
@@ -32,7 +32,7 @@ const dotfile_list = [
     '.yarnrc', // ? yarn config file
     '.hushlogin', // ? remove the "Last login" message when opening a new terminal window
 ];
-const omzsh_file_list = [ 'aliases.zsh', 'functions.zsh' ];
+const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const shellBinList = [ 'zsh', 'vim', 'yarn' ];
 
 zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shellBinList.join(', ')) }.`));
@@ -60,14 +60,32 @@ if (is_all_bins_installed) {
     await zx.$`mkdir -p ${ omzsh_custom_backup_dir }`;
     new_line();
 
-    for await (const dotfile of [ ...dotfile_list, ...omzsh_file_list ]) {
-        const is_omzsh_dotfile = omzsh_file_list.includes(dotfile);
+    await proces_dotfiles({
+        // ? homedir dotfiles
+        dotfile_list:       dotfile_list_homedir,
+        dotfile_dir:        homedir,
+        dotfile_source_dir: dotfiles_source_dir,
+        dotfile_backup_dir: dotfiles_backup_dir,
+    });
+    await proces_dotfiles({
+        // ? oh-my-zsh custom files
+        dotfile_list:       dotfile_list_omzsh,
+        dotfile_dir:        omzsh_custom_dir,
+        dotfile_source_dir: omzsh_custom_source_dir,
+        dotfile_backup_dir: omzsh_custom_backup_dir,
+    });
 
-        const dotfile_dir = is_omzsh_dotfile ? omzsh_custom_dir : homedir;
+    new_line();
+    zx.echo('✅ Done.');
+}
+
+/* Helpers */
+async function proces_dotfiles (options) {
+    const { dotfile_list, dotfile_dir, dotfile_source_dir, dotfile_backup_dir } = options;
+
+    for await (const dotfile of dotfile_list) {
         const dotfile_path = `${ dotfile_dir }/${ dotfile }`;
-        const dotfile_source_dir = is_omzsh_dotfile ? omzsh_custom_source_dir : dotfiles_source_dir;
         const dotfile_source_path = `${ dotfile_source_dir }/${ dotfile }`;
-        const dotfile_backup_dir = is_omzsh_dotfile ? omzsh_custom_backup_dir : dotfiles_backup_dir;
         const dotfile_backup_path = `${ dotfile_backup_dir }/${ dotfile }`;
         new_line();
 
@@ -100,7 +118,4 @@ if (is_all_bins_installed) {
             zx.echo(rb('Error: symlink already exists.'));
         }
     }
-
-    new_line();
-    zx.echo('✅ Done.');
 }
