@@ -4,10 +4,6 @@
  */
 
 // TODO
-// backup and symlink ssh configs
-// mv ~/.ssh/config $dotfiles_backup_dir
-// ln -s $dotfiles_source_dir/.ssh/config ~/.ssh/config
-
 // backup and symlink iTerm configs
 
 /* Core */
@@ -38,35 +34,19 @@ const dotfile_list_homedir = [
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const dotfile_list_ssh = [ 'config', 'known_hosts' ];
 const shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
+const dotfiles_qty = [ ...dotfile_list_homedir, ...dotfile_list_omzsh, ...dotfile_list_ssh ].length;
 
-zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shell_bin_list.join(', ')) }.`));
+zx.echo(gb(`🏁 Initiating processing of ${ yb(dotfiles_qty) } dotfiles.`));
 
-let is_all_bins_installed = true;
-
-for await (const bin of shell_bin_list) {
-    try {
-        await zx.which(bin);
-    } catch {
-        zx.echo(rb(`🚨 ${ mb(bin) } is not installed. Please install ${ mb(bin) } first.`));
-        is_all_bins_installed = false;
-    }
-}
+const is_all_bins_installed = await validate_installed_bins();
 
 if (is_all_bins_installed) {
     zx.echo(gb('✓ All required binaries are installed. Proceeding...'));
     new_line();
 
-    zx.echo(bb(`📦 Creating a ${ yb(dotfiles_backup_dir) } directory to backup existing homedir dotfiles.`));
-    await zx.$`mkdir -p ${ dotfiles_backup_dir }`;
-    new_line();
-
-    zx.echo(bb(`📦 Creating a ${ yb(omzsh_custom_backup_dir) } directory to backup existing oh-my-zsh config files.`));
-    await zx.$`mkdir -p ${ omzsh_custom_backup_dir }`;
-    new_line();
-
-    zx.echo(bb(`📦 Creating a ${ yb(ssh_backup_dir) } directory to backup existing ssh config files.`));
-    await zx.$`mkdir -p ${ ssh_backup_dir }`;
-    new_line();
+    await create_backup_dir('homedir', dotfiles_backup_dir);
+    await create_backup_dir('omzsh', omzsh_custom_backup_dir);
+    await create_backup_dir('ssh', ssh_backup_dir);
 
     await proces_dotfiles({
         // ? homedir dotfiles
@@ -95,6 +75,35 @@ if (is_all_bins_installed) {
 }
 
 /* Helpers */
+async function validate_installed_bins () {
+    zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shell_bin_list.join(', ')) }.`));
+
+    for await (const bin of shell_bin_list) {
+        try {
+            await zx.which(bin);
+        } catch {
+            new_line();
+            zx.echo(rb(`🚨 ${ mb(bin) } is not installed. Please install ${ mb(bin) } first.`));
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+async function create_backup_dir (scope, backup_dir) {
+    const is_backup_dir_exists = await zx.fs.exists(backup_dir);
+
+    if (!is_backup_dir_exists) {
+        zx.echo(bb(`📦 Creating a ${ yb(backup_dir) } directory to backup existing ${ mb(scope) } dotifles.`));
+        await zx.$`mkdir -p ${ backup_dir }`;
+        new_line();
+    } else {
+        zx.echo(bb(`📦 A ${ mb(scope) } dotfiles backup directory already exists: ${ yb(backup_dir) }.`));
+    }
+}
+
 async function proces_dotfiles (options) {
     const { dotfile_list, dotfile_initial_dir, dotfile_source_dir, dotfile_backup_dir } = options;
 
