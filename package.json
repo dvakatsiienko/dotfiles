@@ -14,7 +14,7 @@
         "prettier-config-polished": "0.0.5"
     },
     "engines": {
-        "pnpm": ">=8.0.0",
+        "pnpm": ">=8.5.0",
         "node": ">=18.12.0"
     }
 }
