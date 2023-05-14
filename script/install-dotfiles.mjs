@@ -35,9 +35,9 @@ const dotfiles_qty = [ ...dotfile_list_homedir, ...dotfile_list_omzsh, ...dotfil
 
 zx.echo(gb(`🏁 Initiating processing of ${ yb(dotfiles_qty) } dotfiles.`));
 
-const is_all_bins_installed = await validate_installed_bins();
+const is_required_bins_installed = await validate_installed_bins();
 
-if (is_all_bins_installed) {
+if (is_required_bins_installed) {
     zx.echo(gb('✓ All required binaries are installed. Proceeding...'));
     new_line();
 
