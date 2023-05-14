@@ -1,6 +1,7 @@
 /**
- * ? install-dotfiles.sh
- * ? This script creates symlinks from the home directory to any desired dotfiles in ~/.dotfiles
+ * ? This script:
+ * ? - backs up any existing dotfiles in the home directory to ~/.dotfiles_backup
+ * ? - creates symlinks to dotfiles stores in ~/.dotfiles
  */
 
 /* Core */
