@@ -33,7 +33,7 @@ const dotfile_list_homedir = [
 ];
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const dotfile_list_ssh = [ 'config', 'known_hosts' ];
-const shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
+const required_shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
 const dotfiles_qty = [ ...dotfile_list_homedir, ...dotfile_list_omzsh, ...dotfile_list_ssh ].length;
 
 zx.echo(gb(`🏁 Initiating processing of ${ yb(dotfiles_qty) } dotfiles.`));
@@ -76,9 +76,9 @@ if (is_all_bins_installed) {
 
 /* Helpers */
 async function validate_installed_bins () {
-    zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shell_bin_list.join(', ')) }.`));
+    zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(required_shell_bin_list.join(', ')) }.`));
 
-    for await (const bin of shell_bin_list) {
+    for await (const bin of required_shell_bin_list) {
         try {
             await zx.which(bin);
         } catch {
