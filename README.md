@@ -5,7 +5,7 @@
 First, install dependencies:
 
 ```bash
-pnpm install
+pnpm i
 ```
 
 Before running an install script, ensure that all
