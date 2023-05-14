@@ -22,6 +22,9 @@ const dotfiles_backup_dir = `${ homedir }/.dotfiles_backup`; // ? dotfiles backu
 const omzsh_custom_dir = `${ homedir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_source_dir = `${ dotfiles_source_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_backup_dir = `${ dotfiles_backup_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
+const ssh_dir = `${ homedir }/.ssh`; // ? oh-my-zsh custom directory
+const ssh_source_dir = `${ dotfiles_source_dir }/.ssh`; // ? oh-my-zsh custom directory
+const ssh_backup_dir = `${ dotfiles_backup_dir }/.ssh`; // ? oh-my-zsh custom directory
 
 const dotfile_list_homedir = [
     // ? list of files/folders to symlink in homedir.
@@ -33,13 +36,14 @@ const dotfile_list_homedir = [
     '.hushlogin', // ? remove the "Last login" message when opening a new terminal window
 ];
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
-const shellBinList = [ 'zsh', 'vim', 'yarn' ];
+const dotfile_list_ssh = [ 'config', 'known_hosts' ];
+const shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
 
-zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shellBinList.join(', ')) }.`));
+zx.echo(bb(`🔐 Checking if required binaries are installed: ${ mb(shell_bin_list.join(', ')) }.`));
 
 let is_all_bins_installed = true;
 
-for await (const bin of shellBinList) {
+for await (const bin of shell_bin_list) {
     try {
         await zx.which(bin);
     } catch {
@@ -60,19 +64,26 @@ if (is_all_bins_installed) {
     await zx.$`mkdir -p ${ omzsh_custom_backup_dir }`;
     new_line();
 
+    // await proces_dotfiles({
+    //     // ? homedir dotfiles
+    //     dotfile_list:       dotfile_list_homedir,
+    //     dotfile_dir:        homedir,
+    //     dotfile_source_dir: dotfiles_source_dir,
+    //     dotfile_backup_dir: dotfiles_backup_dir,
+    // });
+    // await proces_dotfiles({
+    //     // ? oh-my-zsh dotfiles
+    //     dotfile_list:       dotfile_list_omzsh,
+    //     dotfile_dir:        omzsh_custom_dir,
+    //     dotfile_source_dir: omzsh_custom_source_dir,
+    //     dotfile_backup_dir: omzsh_custom_backup_dir,
+    // });
     await proces_dotfiles({
-        // ? homedir dotfiles
-        dotfile_list:       dotfile_list_homedir,
-        dotfile_dir:        homedir,
-        dotfile_source_dir: dotfiles_source_dir,
-        dotfile_backup_dir: dotfiles_backup_dir,
-    });
-    await proces_dotfiles({
-        // ? oh-my-zsh custom files
-        dotfile_list:       dotfile_list_omzsh,
-        dotfile_dir:        omzsh_custom_dir,
-        dotfile_source_dir: omzsh_custom_source_dir,
-        dotfile_backup_dir: omzsh_custom_backup_dir,
+        // ? .ssh dotfiles
+        dotfile_list:       dotfile_list_ssh,
+        dotfile_dir:        ssh_dir,
+        dotfile_source_dir: ssh_source_dir,
+        dotfile_backup_dir: ssh_backup_dir,
     });
 
     new_line();
