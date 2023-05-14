@@ -19,7 +19,7 @@ Install dotfiles:
 pnpm install-dotfiles
 ```
 
-Install macOS defaults and bins:
+Install macOS defaults and binaries:
 
 ```bash
 pnpm install-macos
