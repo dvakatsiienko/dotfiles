@@ -13,6 +13,9 @@
 /* Core */
 import * as zx from 'zx';
 
+/* Instruments */
+import { bb, yb, mb, gb, rb, new_line } from './lib.mjs';
+
 const homedir = zx.os.homedir();
 const dotfiles_source_dir = `${ homedir }/.dotfiles/source`; // ? dotfiles source directory
 const dotfiles_backup_dir = `${ homedir }/.dotfiles_backup`; // ? dotfiles backup directory
@@ -100,24 +103,4 @@ if (is_all_bins_installed) {
 
     new_line();
     zx.echo('✅ Done.');
-}
-
-/* Helpers */
-function bb (...args) {
-    return zx.chalk.blueBright(...args);
-}
-function yb (...args) {
-    return zx.chalk.yellowBright(...args);
-}
-function mb (...args) {
-    return zx.chalk.magentaBright(...args);
-}
-function gb (...args) {
-    return zx.chalk.greenBright(...args);
-}
-function rb (...args) {
-    return zx.chalk.redBright(...args);
-}
-function new_line () {
-    zx.echo('');
 }
