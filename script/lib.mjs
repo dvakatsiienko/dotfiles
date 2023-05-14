@@ -1,6 +1,9 @@
 /* Core */
 import * as zx from 'zx';
 
+/**
+ * ? Shortstand zx functions.
+ */
 export const bb = (...args) => zx.chalk.blueBright(...args);
 export const yb = (...args) => zx.chalk.yellowBright(...args);
 export const mb = (...args) => zx.chalk.magentaBright(...args);
