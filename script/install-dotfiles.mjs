@@ -19,10 +19,10 @@ import { bb, yb, mb, gb, rb, new_line } from './lib.mjs';
 const homedir = zx.os.homedir();
 const dotfiles_source_dir = `${ homedir }/.dotfiles/source`; // ? dotfiles source directory
 const dotfiles_backup_dir = `${ homedir }/.dotfiles_backup`; // ? dotfiles backup directory
-const omzsh_custom_dir = `${ homedir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
+const omzsh_custom_initial_dir = `${ homedir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_source_dir = `${ dotfiles_source_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_backup_dir = `${ dotfiles_backup_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
-const ssh_dir = `${ homedir }/.ssh`; // ? oh-my-zsh custom directory
+const ssh_initial_dir = `${ homedir }/.ssh`; // ? oh-my-zsh custom directory
 const ssh_source_dir = `${ dotfiles_source_dir }/.ssh`; // ? oh-my-zsh custom directory
 const ssh_backup_dir = `${ dotfiles_backup_dir }/.ssh`; // ? oh-my-zsh custom directory
 
@@ -68,26 +68,26 @@ if (is_all_bins_installed) {
     await zx.$`mkdir -p ${ ssh_backup_dir }`;
     new_line();
 
-    // await proces_dotfiles({
-    //     // ? homedir dotfiles
-    //     dotfile_list:       dotfile_list_homedir,
-    //     dotfile_dir:        homedir,
-    //     dotfile_source_dir: dotfiles_source_dir,
-    //     dotfile_backup_dir: dotfiles_backup_dir,
-    // });
-    // await proces_dotfiles({
-    //     // ? oh-my-zsh dotfiles
-    //     dotfile_list:       dotfile_list_omzsh,
-    //     dotfile_dir:        omzsh_custom_dir,
-    //     dotfile_source_dir: omzsh_custom_source_dir,
-    //     dotfile_backup_dir: omzsh_custom_backup_dir,
-    // });
+    await proces_dotfiles({
+        // ? homedir dotfiles
+        dotfile_list:        dotfile_list_homedir,
+        dotfile_initial_dir: homedir,
+        dotfile_source_dir:  dotfiles_source_dir,
+        dotfile_backup_dir:  dotfiles_backup_dir,
+    });
+    await proces_dotfiles({
+        // ? oh-my-zsh dotfiles
+        dotfile_list:        dotfile_list_omzsh,
+        dotfile_initial_dir: omzsh_custom_initial_dir,
+        dotfile_source_dir:  omzsh_custom_source_dir,
+        dotfile_backup_dir:  omzsh_custom_backup_dir,
+    });
     await proces_dotfiles({
         // ? .ssh dotfiles
-        dotfile_list:       dotfile_list_ssh,
-        dotfile_dir:        ssh_dir,
-        dotfile_source_dir: ssh_source_dir,
-        dotfile_backup_dir: ssh_backup_dir,
+        dotfile_list:        dotfile_list_ssh,
+        dotfile_initial_dir: ssh_initial_dir,
+        dotfile_source_dir:  ssh_source_dir,
+        dotfile_backup_dir:  ssh_backup_dir,
     });
 
     new_line();
@@ -96,10 +96,10 @@ if (is_all_bins_installed) {
 
 /* Helpers */
 async function proces_dotfiles (options) {
-    const { dotfile_list, dotfile_dir, dotfile_source_dir, dotfile_backup_dir } = options;
+    const { dotfile_list, dotfile_initial_dir, dotfile_source_dir, dotfile_backup_dir } = options;
 
     for await (const dotfile of dotfile_list) {
-        const dotfile_path = `${ dotfile_dir }/${ dotfile }`;
+        const dotfile_path = `${ dotfile_initial_dir }/${ dotfile }`;
         const dotfile_source_path = `${ dotfile_source_dir }/${ dotfile }`;
         const dotfile_backup_path = `${ dotfile_backup_dir }/${ dotfile }`;
         new_line();
