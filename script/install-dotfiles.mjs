@@ -56,12 +56,16 @@ if (is_all_bins_installed) {
     zx.echo(gb('✓ All required binaries are installed. Proceeding...'));
     new_line();
 
-    zx.echo(bb(`📦 Creating a ${ yb(dotfiles_backup_dir) } directory to backup existing dotfiles.`));
+    zx.echo(bb(`📦 Creating a ${ yb(dotfiles_backup_dir) } directory to backup existing homedir dotfiles.`));
     await zx.$`mkdir -p ${ dotfiles_backup_dir }`;
     new_line();
 
     zx.echo(bb(`📦 Creating a ${ yb(omzsh_custom_backup_dir) } directory to backup existing oh-my-zsh config files.`));
     await zx.$`mkdir -p ${ omzsh_custom_backup_dir }`;
+    new_line();
+
+    zx.echo(bb(`📦 Creating a ${ yb(ssh_backup_dir) } directory to backup existing ssh config files.`));
+    await zx.$`mkdir -p ${ ssh_backup_dir }`;
     new_line();
 
     // await proces_dotfiles({
