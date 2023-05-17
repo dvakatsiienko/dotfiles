@@ -48,12 +48,13 @@ if (!is_brew_installed) {
 new_line();
 
 zx.echo(bb(`🍺 Installing classic ${ mb('brew') } formulaes.`));
-await zx.$`brew install exa bat the_silver_searcher fzf vim`;
+await zx.$`brew install exa bat the_silver_searcher fzf vim gh`;
 // ? exa — a modern version of ls.
 // ? bat — A cat(1) clone with wings.
 // ? the_silver_searcher — a code searching tool similar to ack, with a focus on speed (source code).
 // ? fzf — 🌸 A command-line fuzzy finder (directories).
 // ? vim
+// ? gh — github cli
 
 zx.echo(`🔌 Installing ${ mb('vim-plug') } into ${ yb('~/.vim/autoload') }`);
 await zx.$`curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`;
