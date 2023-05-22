@@ -15,8 +15,8 @@ plugins=( z )
 
 source $ZSH/oh-my-zsh.sh
 
-. $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-. $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# . $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# . $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # User Configuration
 export EDITOR=vim # Default editor
