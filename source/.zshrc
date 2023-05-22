@@ -1,8 +1,10 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+
 # Oh My Zsh
 export ZSH=$HOME/.oh-my-zsh # Path to oh-my-zsh installation.
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST # Store zsh's completion cache inside oh-my-zsh cache folder
 
-# Oh My Zsh config variables
 ZSH_CUSTOM=~/.config/oh-my-zsh-custom # my oh-my-zsh customization folder. contains aliases, functions, plugins, etc.
 
 # Oh My Zsh plugins
@@ -11,7 +13,6 @@ plugins=( z )
 # TODO: Try plugins
 # plugins=(alias-finder brew common-aliases copydir copyfile docker docker-compose dotenv encode64 extract git jira jsontools node npm npx osx urltools vscode web-search z)
 
-# Init Oh My Zsh after its config variables are set
 source $ZSH/oh-my-zsh.sh
 
 . $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -29,3 +30,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # Init starship
 eval "$(starship init zsh)"
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

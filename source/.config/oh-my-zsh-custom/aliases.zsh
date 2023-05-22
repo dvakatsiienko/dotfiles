@@ -26,6 +26,7 @@ alias kk='kill -9' # kill process by passing PID
 # Exotic
 alias rezsh='exec zsh'
 alias ezsh='vim ~/.zshrc'
+alias ealiases='~/.config/oh-my-zsh-custom/aliases.zsh'
 alias evim='vim ~/.vimrc'
 
 # Git
