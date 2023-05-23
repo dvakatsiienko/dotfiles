@@ -27,10 +27,11 @@ const dotfile_list_homedir = [
     '.zshenv', // ? additional zsh config file that sets the environment for login shells
     '.vimrc', // ? vim config file
     '.yarnrc', // ? yarn config file
-    '.hushlogin', // ? remove the "Last login" message when opening a new terminal window
+    '.hushlogin', // ? removes the "Last login" message when opening a new terminal window
+    '.gitconfig', // ? git global config
 ];
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
-const dotfile_list_ssh = [ 'config', 'known_hosts' ];
+const dotfile_list_ssh = [ 'config', 'known_hosts', 'allowed_signers' ];
 const required_shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
 const dotfiles_qty = [ ...dotfile_list_homedir, ...dotfile_list_omzsh, ...dotfile_list_ssh ].length;
 
