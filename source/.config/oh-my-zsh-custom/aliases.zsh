@@ -53,7 +53,7 @@ alias grbc='git rebase --continue'
 alias grbd='git rebase dev'
 alias grh='git reset --hard'
 alias gfp='git fetch --prune'
-alias gprune='git fetch --prune && git branch --merged | egrep -v \"(^\*|master|dev)\" | xargs git branch -d'
+alias gprune='git fetch --prune && git branch --merged | egrep -v \"(^\*|main|master|dev|develop)\" | xargs git branch -d'
 
 # Github CLI
 alias go='gh browse' # TODO: connect GITHUB_TOKEN
@@ -86,3 +86,6 @@ alias yre='yarn remove'
 alias yot='yarn outdated'
 alias yui='yarn upgrade-interactive'
 alias yul='yarn upgrade --latest'
+
+# npm-check-updates
+alias ncu='ncu --format=repo'
