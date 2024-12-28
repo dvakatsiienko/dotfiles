@@ -48,10 +48,10 @@ if (!is_brew_installed) {
 new_line();
 
 zx.echo(bb(`🍺 Installing classic ${ mb('brew') } formulaes.`));
-await zx.$`brew install zsh sharship exa bat fzf vim gh the_silver_searcher`;
+await zx.$`brew install zsh starship eza bat fzf vim gh the_silver_searcher`;
 // ? zsh — a zsh shell (check if needed because macos have it installed by default)
 // ? starship  — a zsh prompt framework
-// ? exa — a modern version of ls.
+// ? eza — a modern version of ls.
 // ? bat — A cat(1) clone with wings.
 // ? fzf — 🌸 A command-line fuzzy finder (directories).
 // ? vim
