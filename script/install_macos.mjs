@@ -34,6 +34,7 @@ const is_brew_installed = await check_is_brew_installed();
 
 if (!is_brew_installed) {
     zx.echo(rb(`Error: ${ mb('brew') } is not installed. Installing...`));
+
     try {
         await zx.$`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`;
         zx.echo(gb(`✓ ${ mb('brew') } is now installed. Proceeding...`));
