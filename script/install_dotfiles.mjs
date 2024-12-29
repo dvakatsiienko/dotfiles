@@ -10,15 +10,16 @@ import * as zx from 'zx';
 /* Instruments */
 import { bb, yb, mb, gb, rb, new_line } from './lib.mjs';
 
+// TODO sanitise comments
 const homedir = zx.os.homedir();
 const dotfiles_source_dir = `${ homedir }/.dotfiles/source`; // ? dotfiles source directory
 const dotfiles_backup_dir = `${ homedir }/.dotfiles_backup`; // ? dotfiles backup directory
 const omzsh_custom_initial_dir = `${ homedir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_source_dir = `${ dotfiles_source_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
 const omzsh_custom_backup_dir = `${ dotfiles_backup_dir }/.config/oh-my-zsh-custom`; // ? oh-my-zsh custom directory
-const ssh_initial_dir = `${ homedir }/.ssh`; // ? oh-my-zsh custom directory
-const ssh_source_dir = `${ dotfiles_source_dir }/.ssh`; // ? oh-my-zsh custom directory
-const ssh_backup_dir = `${ dotfiles_backup_dir }/.ssh`; // ? oh-my-zsh custom directory
+const ssh_initial_dir = `${ homedir }/.ssh`; // ?
+const ssh_source_dir = `${ dotfiles_source_dir }/.ssh`; // ?
+const ssh_backup_dir = `${ dotfiles_backup_dir }/.ssh`; // ?
 
 const dotfile_list_homedir = [
     // ? list of files/folders to symlink in homedir.
