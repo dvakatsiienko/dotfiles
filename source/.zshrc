@@ -5,7 +5,7 @@ export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST # Store zsh's completion cache i
 # 1Password variables
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 
-ZSH_CUSTOM=~/.config/oh-my-zsh-custom # my oh-my-zsh customization folder. contains aliases, functions, plugins, etc.
+ZSH_CUSTOM=$HOME/.config/oh-my-zsh-custom # my oh-my-zsh customization folder. contains aliases, functions, plugins, etc.
 
 # Oh My Zsh plugins
 plugins=( z )

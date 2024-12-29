@@ -1,11 +1,12 @@
-# List files with exa
+# List files with eza
+# TODO revalidate eza argument list after exa deprecation
 function l() {
     if [ "$#" -eq "0" ]; then
-        exa --all --long --header --color=always --icons --group-directories-first --binary --no-user --no-time --git
+        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --no-time --git
     elif [[ "$1" == "-m" ]]; then
-        exa --all --long --header --color=always --icons --group-directories-first --binary --no-user --git
+        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --git
     else
-        exa --all --long --header --color=always --icons --group-directories-first --binary --no-user --git "$1"
+        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --git "$1"
     fi
 }
 
