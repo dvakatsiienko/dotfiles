@@ -7,7 +7,7 @@
         "install-macos": "zx ./script/install_macos.mjs"
     },
     "dependencies": {
-        "zx": "7.2.2"
+        "zx": "8.3.0"
     },
     "devDependencies": {
         "eslint-config-polished": "0.0.12",
