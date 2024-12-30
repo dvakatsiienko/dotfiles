@@ -1,6 +1,7 @@
 /**
  * ? This script:
- * ? - ...
+ * ? - Sets reasonable macOS defaults
+ * ? - Installs homebrew
  */
 
 /* Core */
@@ -43,7 +44,7 @@ if (!is_brew_installed) {
         await zx.$`exit 1`;
     }
 } else {
-    zx.echo(gb(`✓ ${ mb('brew') } is installed. Proceeding...`));
+    zx.echo(gb(`✓ ${ mb('brew') } is already installed. Proceeding...`));
 }
 
 new_line();
@@ -55,10 +56,13 @@ await zx.$`brew install zsh starship eza bat fzf vim gh the_silver_searcher`;
 // ? eza — a modern version of ls.
 // ? bat — A cat(1) clone with wings.
 // ? fzf — 🌸 A command-line fuzzy finder (directories).
-// ? vim
+// ? vim — vim
 // ? gh — github cli
 // ? the_silver_searcher — a code searching tool similar to ack, with a focus on speed (source code).
 
+// ? Installing Vim plugin manager.
+// ? A list of Vim plugins is set in .vimrc config file.
+// ? Vim plugins are installed by executing :PlugInstall command from inside of a Vim session.
 zx.echo(`🔌 Installing ${ mb('vim-plug') } into ${ yb('~/.vim/autoload') }`);
 await zx.$`curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`;
 
