@@ -50,8 +50,9 @@ if (!is_brew_installed) {
 new_line();
 
 zx.echo(bb(`🍺 Installing classic ${ mb('brew') } formulaes.`));
-await zx.$`brew install zsh starship eza bat fzf vim gh the_silver_searcher`;
+await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf vim gh the_silver_searcher`;
 // ? zsh — a zsh shell (check if needed because macos have it installed by default)
+// ? zsh-* - zsh plugins
 // ? starship  — a zsh prompt framework
 // ? eza — a modern version of ls.
 // ? bat — A cat(1) clone with wings.
@@ -60,7 +61,7 @@ await zx.$`brew install zsh starship eza bat fzf vim gh the_silver_searcher`;
 // ? gh — github cli
 // ? the_silver_searcher — a code searching tool similar to ack, with a focus on speed (source code).
 
-// ? Installing Vim plugin manager.
+// ? Installing a Vim plugin manager.
 // ? A list of Vim plugins is set in .vimrc config file.
 // ? Vim plugins are installed by executing :PlugInstall command from inside of a Vim session.
 zx.echo(`🔌 Installing ${ mb('vim-plug') } into ${ yb('~/.vim/autoload') }`);
