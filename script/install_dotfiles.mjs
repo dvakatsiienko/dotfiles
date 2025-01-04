@@ -27,9 +27,10 @@ const dotfile_list_homedir = [
     '.zprofile', // ? zsh config file that sets the environment for login shells
     '.zshenv', // ? additional zsh config file that sets the environment for login shells
     '.vimrc', // ? vim config file
+    '.npmrc', // ? npm global config
     '.yarnrc', // ? yarn config file
-    '.hushlogin', // ? removes the "Last login" message when opening a new terminal window
     '.gitconfig', // ? git global config
+    '.hushlogin', // ? removes the "Last login" message when opening a new terminal window
 ];
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const dotfile_list_ssh = [ 'config', 'known_hosts', 'allowed_signers' ];
@@ -133,6 +134,7 @@ async function proces_dotfiles (options) {
             }
         }
 
+        // TODO: for each new dotfile, that do not exists in a source repository – copy it to the source repository.
         try {
             // ? Symlink source dotfiles to homedir
             zx.echo(bb(`🔗 Creating a symlink for ${ mb(dotfile) }. ${ yb(dotfile_source_path) } → ${ yb(dotfile_path) }.`));
