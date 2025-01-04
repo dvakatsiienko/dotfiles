@@ -2,11 +2,13 @@
 
 ### Installation
 
-Before executing an install script, to kickoff the system windup, perform the following steps manually:
-1. Install **brew**
-2. Install **nvm** (curl) and **node**
-3. Install **pnpm**
-4. Install **oh-my-zsh** (curl)
+Before executing an install script, to kickoff the system windup, perform the following steps
+manually:
+
+1. Install **[brew](https://brew.sh/)**
+2. Install **[nvm](https://github.com/nvm-sh/nvm)** (curl) and **[node](https://nodejs.org/en)**
+3. Install **[pnpm](https://pnpm.io/installation)**
+4. Install **[oh-my-zsh](https://ohmyz.sh/#install)** (curl)
 
 Install project dependencies:
 
@@ -26,8 +28,4 @@ Install dotfiles:
 pnpm install-dotfiles
 ```
 
-Before running an install script, ensure that all
-[required binaries](https://github.com/dvakatsiienko/.dotfiles/blob/main/script/install_macos.mjs#L36)
-are installed.
-
-💡 Note: a [zx](https://github.com/google/zx#fs-package) is used for scripting.
+💡 **Note**: a [zx](https://github.com/google/zx#fs-package) scripting unility is used for scripting.

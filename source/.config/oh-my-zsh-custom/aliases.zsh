@@ -24,10 +24,12 @@ alias k='lsof -i tcp:3000' # list processses on port 3000
 alias kk='kill -9' # kill process by passing PID
 
 # Exotic
-alias rezsh='exec zsh'
+alias rezsh='omz reload'
 alias ezsh='vim ~/.zshrc'
 alias ealiases='~/.config/oh-my-zsh-custom/aliases.zsh'
 alias evim='vim ~/.vimrc'
+alias fpson='/bin/launchctl setenv MTL_HUD_ENABLED 1'
+alias fpsoff='/bin/launchctl setenv MTL_HUD_ENABLED 0'
 
 # Git
 alias gs='git status -s'
