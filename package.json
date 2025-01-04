@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "scripts": {
-        "install-dotfiles": "zx ./script/install_dotfiles.mjs",
-        "install-macos": "zx ./script/install_macos.mjs"
+        "install-macos": "zx ./script/install-macos.mjs",
+        "install-dotfiles": "zx ./script/install-dotfiles.mjs"
     },
     "dependencies": {
         "zx": "8.3.0"
