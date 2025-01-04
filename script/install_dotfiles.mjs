@@ -21,6 +21,11 @@ const ssh_initial_dir = `${ homedir }/.ssh`; // ?
 const ssh_source_dir = `${ dotfiles_source_dir }/.ssh`; // ?
 const ssh_backup_dir = `${ dotfiles_backup_dir }/.ssh`; // ?
 
+// ? starship config
+const starship_initial_dir = `${ homedir }/.config`;
+const starship_source_dir = `${ dotfiles_source_dir }/.config`;
+const starship_backup_dir = `${ dotfiles_backup_dir }/.config`;
+
 const dotfile_list_homedir = [
     // ? list of files/folders to symlink in homedir.
     '.zshrc', // ? zsh main config file
@@ -35,7 +40,14 @@ const dotfile_list_homedir = [
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const dotfile_list_ssh = [ 'config', 'known_hosts', 'allowed_signers' ];
 const required_shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
-const dotfiles_qty = [ ...dotfile_list_homedir, ...dotfile_list_omzsh, ...dotfile_list_ssh ].length;
+const dotfile_list_starship = [ 'starship.toml' ];
+
+const dotfiles_qty = [
+    ...dotfile_list_homedir,
+    ...dotfile_list_omzsh,
+    ...dotfile_list_ssh,
+    ...dotfile_list_starship,
+].length;
 
 zx.echo(gb(`🏁 Initiating processing of ${ yb(dotfiles_qty) } dotfiles.`));
 
@@ -62,6 +74,13 @@ if (is_required_bins_installed) {
         dotfile_initial_dir: omzsh_custom_initial_dir,
         dotfile_source_dir:  omzsh_custom_source_dir,
         dotfile_backup_dir:  omzsh_custom_backup_dir,
+    });
+    await proces_dotfiles({
+        // ? starship dotfiles
+        dotfile_list:        dotfile_list_starship,
+        dotfile_initial_dir: starship_initial_dir,
+        dotfile_source_dir:  starship_source_dir,
+        dotfile_backup_dir:  starship_backup_dir,
     });
     await proces_dotfiles({
         // ? .ssh dotfiles
