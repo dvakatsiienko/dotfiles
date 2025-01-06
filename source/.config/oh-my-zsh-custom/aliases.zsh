@@ -69,6 +69,7 @@ alias pno='pnpm outdated'
 alias pnor='pnpm outdated -r'
 alias pnup='pnpm update --latest'
 alias pnun='pnpm uninstall'
+alias pnpx='pnpm dlx'
 
 # pnpm: scripts
 alias pns='pnpm start'
