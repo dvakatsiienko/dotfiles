@@ -1097,7 +1097,7 @@
 	<key>DrawBottomLineForHorizontalTabBar</key>
 	<true/>
 	<key>EnableAPIServer</key>
-	<true/>
+	<false/>
 	<key>EnableDivisionView</key>
 	<false/>
 	<key>EnableProxyIcon</key>
@@ -2403,8 +2403,12 @@
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
-	<true/>
+	<false/>
 	<key>QuitWhenAllWindowsClosed</key>
+	<true/>
+	<key>RestoreWindowsToSameSpaces</key>
+	<false/>
+	<key>SavePasteHistory</key>
 	<true/>
 	<key>SeparateStatusBarsPerPane</key>
 	<false/>
@@ -2416,6 +2420,8 @@
 	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
+	<key>ShowSessionRestoredBanner</key>
+	<false/>
 	<key>SmartPlacement</key>
 	<true/>
 	<key>SoundForEsc</key>
@@ -18437,6 +18443,10 @@
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 	<key>kCPKUseSystemColorPicker</key>
+	<false/>
+	<key>metalMaximizeThroughput</key>
+	<false/>
+	<key>preferIntegratedGPU</key>
 	<false/>
 </dict>
 </plist>
