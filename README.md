@@ -6,7 +6,9 @@ Before executing an install script, to kickoff the system windup, perform the fo
 manually:
 
 1. Install **[brew](https://brew.sh/)**
-2. Install **[nvm](https://github.com/nvm-sh/nvm)** (curl) and **[node](https://nodejs.org/en)**
+2. Install **[nvm](https://github.com/nvm-sh/nvm)** (curl) /
+   **[fnm](https://github.com/Schniz/fnm?tab=readme-ov-file#installation)** and
+   **[node](https://nodejs.org/en)**
 3. Install **[pnpm](https://pnpm.io/installation)**
 4. Install **[oh-my-zsh](https://ohmyz.sh/#install)** (curl)
 
@@ -28,4 +30,5 @@ Install dotfiles:
 pnpm install-dotfiles
 ```
 
-💡 **Note**: a [zx](https://github.com/google/zx#fs-package) scripting unility is used for scripting.
+💡 **Note**: a [zx](https://github.com/google/zx#fs-package) scripting unility is used for
+scripting.
