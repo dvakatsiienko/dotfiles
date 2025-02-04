@@ -6,9 +6,7 @@ Before executing an install script, to kickoff the system windup, perform the fo
 manually:
 
 1. Install **[brew](https://brew.sh/)**
-2. Install **[nvm](https://github.com/nvm-sh/nvm)** (curl) /
-   **[fnm](https://github.com/Schniz/fnm?tab=readme-ov-file#installation)** and
-   **[node](https://nodejs.org/en)**
+2. Install **[node](https://nodejs.org/en)** via **[fnm](https://github.com/Schniz/fnm)**
 3. Install **[pnpm](https://pnpm.io/installation)**
 4. Install **[oh-my-zsh](https://ohmyz.sh/#install)** (curl)
 

@@ -19,10 +19,16 @@ export EDITOR=vim # Default editor
 export BAT_THEME=gruvbox-dark # Set bat theme
 export FZF_DEFAULT_COMMAND='find * -type f' # tells fzf to include hiden files in search results
 
-# Init nvm
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Init fnm -- START
+FNM_PATH="/Users/dima/Library/Application Support/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/Users/dima/Library/Application Support/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+export PATH=/home/$USER/.fnm:$PATH
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+# Init fnm -- END
 
 # Init starship
 eval "$(starship init zsh)"
@@ -41,3 +47,4 @@ esac
 
 
 PATH=~/.console-ninja/.bin:$PATH
+
