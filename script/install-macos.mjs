@@ -51,10 +51,9 @@ new_line();
 
 zx.echo(bb(`🍺 Installing classic ${ mb('brew') } formulaes.`));
 // TODO check if zsh is needed to install on a new system
-await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting fnm starship eza bat fzf vim gh the_silver_searcher`;
+await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf vim gh the_silver_searcher yarn`;
 // ? zsh — a zsh shell (check if needed because macos have it installed by default)
 // ? zsh-* - zsh plugins
-// ? fnm  — a fast node version manager
 // ? starship  — a zsh prompt framework
 // ? eza — a modern version of ls.
 // ? bat — A cat(1) clone with wings.
@@ -62,6 +61,7 @@ await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting fnm star
 // ? vim — vim
 // ? gh — github cli
 // ? the_silver_searcher — a code searching tool similar to ack, with a focus on speed (source code).
+// ? yarn — old good node package manager
 
 // ? Installing a Vim plugin manager.
 // ? A list of Vim plugins is set in .vimrc config file.
