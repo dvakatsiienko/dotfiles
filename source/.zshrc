@@ -19,6 +19,10 @@ export EDITOR=vim # Default editor
 export BAT_THEME=gruvbox-dark # Set bat theme
 export FZF_DEFAULT_COMMAND='find * -type f' # tells fzf to include hiden files in search results
 
+# iTerm2
+export CLICOLOR=1 # Set CLICOLOR if you want Ansi Colors in iTerm2
+export TERM=xterm-256color # Set colors to match iTerm2 Terminal Colors
+
 # Init fnm -- START
 FNM_PATH="/Users/dima/Library/Application Support/fnm"
 if [ -d "$FNM_PATH" ]; then
