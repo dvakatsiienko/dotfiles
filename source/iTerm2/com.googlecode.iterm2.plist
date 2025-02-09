@@ -2353,6 +2353,8 @@
 	<false/>
 	<key>OpenNoWindowsAtStartup</key>
 	<false/>
+	<key>OpenTmuxWindowsIn</key>
+	<integer>0</integer>
 	<key>OptimumTabWidth</key>
 	<integer>175</integer>
 	<key>PMPrintingExpandedStateForPrint2</key>
