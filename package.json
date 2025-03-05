@@ -7,11 +7,11 @@
         "install-dotfiles": "zx ./script/install-dotfiles.mjs"
     },
     "dependencies": {
-        "zx": "8.3.2"
+        "zx": "8.4.0"
     },
     "devDependencies": {
         "eslint-config-polished": "0.0.13",
-        "prettier": "3.5.2",
+        "prettier": "3.5.3",
         "prettier-config-polished": "0.0.6",
         "prettier-eslint": "16.3.0"
     },
