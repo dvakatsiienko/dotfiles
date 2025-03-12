@@ -93,4 +93,5 @@ alias yul='yarn upgrade --latest'
 alias ncu='ncu --format=repo'
 
 # trash
+alias rmx='rm'
 alias rm='trash'
