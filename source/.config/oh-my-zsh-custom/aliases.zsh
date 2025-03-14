@@ -91,6 +91,3 @@ alias yul='yarn upgrade --latest'
 
 # npm-check-updates
 alias ncu='ncu --format=repo'
-
-# trash
-alias rm='trash'
