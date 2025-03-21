@@ -8,8 +8,18 @@
 The script should do this: \(ai.prompt)</string>
 	<key>AdjustWindowForFontSizeChange</key>
 	<true/>
+	<key>AlertsIndicateShortcuts</key>
+	<false/>
+	<key>AlwaysUseLineStyleMarks</key>
+	<false/>
+	<key>AnimateGraphStatusBarComponents</key>
+	<true/>
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
+	<key>BadgeFontIsBold</key>
+	<true/>
+	<key>BadgeRightMargin</key>
+	<integer>10</integer>
 	<key>BracketedPasteMode</key>
 	<true/>
 	<key>ClickToSelectCommand</key>
@@ -1096,6 +1106,8 @@ The script should do this: \(ai.prompt)</string>
 	<false/>
 	<key>DisableTabBarTooltips</key>
 	<false/>
+	<key>DisableTopRightIndicators</key>
+	<false/>
 	<key>DoubleClickPerformsSmartSelection</key>
 	<false/>
 	<key>DrawBottomLineForHorizontalTabBar</key>
@@ -1112,6 +1124,8 @@ The script should do this: \(ai.prompt)</string>
 	<false/>
 	<key>FocusOnRightOrMiddleClick</key>
 	<false/>
+	<key>ForceAntialiasingOnRetina</key>
+	<true/>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -1244,6 +1258,8 @@ The script should do this: \(ai.prompt)</string>
 	<key>HTMLTabTitles</key>
 	<false/>
 	<key>HapticFeedbackForEsc</key>
+	<false/>
+	<key>HdrCursor</key>
 	<false/>
 	<key>HideActivityIndicator</key>
 	<false/>
@@ -2801,7 +2817,7 @@ The script should do this: \(ai.prompt)</string>
 					<key>auto-rainbow style</key>
 					<integer>3</integer>
 					<key>font</key>
-					<string>.AppleSystemUIFont 12</string>
+					<string>.SFNS-Regular 12</string>
 					<key>remove empty components</key>
 					<false/>
 				</dict>
@@ -2821,13 +2837,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.63</real>
+									<real>0.63590961694717407</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.63</real>
+									<real>0.6414334774017334</real>
 									<key>Red Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.86000317335128784</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -2837,7 +2853,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -2857,13 +2873,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.63</real>
+									<real>0.65958398580551147</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.89919322729110718</real>
 									<key>Red Component</key>
-									<real>0.87515999999999994</real>
+									<real>0.8796347975730896</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -2873,7 +2889,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -2893,13 +2909,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.67968000000000006</real>
+									<real>0.69797295331954956</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.89270001649856567</real>
 									<key>Red Component</key>
-									<real>0.63</real>
+									<real>0.68831330537796021</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -2909,7 +2925,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -2931,13 +2947,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.89110654592514038</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.82547999999999988</real>
+									<real>0.81993860006332397</real>
 									<key>Red Component</key>
-									<real>0.63</real>
+									<real>0.67023450136184692</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -2947,7 +2963,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -2969,13 +2985,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.88136154413223267</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.63</real>
+									<real>0.63362252712249756</real>
 									<key>Red Component</key>
-									<real>0.72936000000000012</real>
+									<real>0.71302109956741333</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -2985,7 +3001,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -3009,13 +3025,13 @@ The script should do this: \(ai.prompt)</string>
 									<key>Alpha Component</key>
 									<real>1</real>
 									<key>Blue Component</key>
-									<real>0.77580000000000027</real>
+									<real>0.76881867647171021</real>
 									<key>Color Space</key>
-									<string>sRGB</string>
+									<string>P3</string>
 									<key>Green Component</key>
-									<real>0.63</real>
+									<real>0.64143049716949463</real>
 									<key>Red Component</key>
-									<real>0.90000000000000002</real>
+									<real>0.86000508069992065</real>
 								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
@@ -3025,7 +3041,7 @@ The script should do this: \(ai.prompt)</string>
 								<key>auto-rainbow style</key>
 								<integer>3</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>.SFNS-Regular 12</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -3068,6 +3084,8 @@ The script should do this: \(ai.prompt)</string>
 			<key>Use Cursor Guide (Dark)</key>
 			<false/>
 			<key>Use Cursor Guide (Light)</key>
+			<false/>
+			<key>Use Custom Tab Title</key>
 			<false/>
 			<key>Use Italic Font</key>
 			<true/>
@@ -3174,6 +3192,8 @@ The script should do this: \(ai.prompt)</string>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
 	<true/>
+	<key>ShowMetalFPSmeter</key>
+	<false/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
 	<key>ShowPaneTitles</key>
@@ -3186,6 +3206,8 @@ The script should do this: \(ai.prompt)</string>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.01</real>
+	<key>StatusBarHeight</key>
+	<real>21</real>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>StretchTabsToFillBar</key>
