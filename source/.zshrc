@@ -50,6 +50,6 @@ esac
 # pnpm end
 
 
-PATH=~/.console-ninja/.bin:$PATH
+
 
 
