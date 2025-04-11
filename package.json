@@ -7,7 +7,7 @@
         "install-dotfiles": "zx ./script/install-dotfiles.mjs"
     },
     "dependencies": {
-        "zx": "8.5.0"
+        "zx": "8.5.2"
     },
     "devDependencies": {
         "eslint-config-polished": "0.0.13",
