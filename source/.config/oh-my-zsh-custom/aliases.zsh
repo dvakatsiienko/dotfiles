@@ -93,5 +93,8 @@ alias yul='yarn upgrade --latest'
 # npm-check-updates
 alias ncu='ncu --format=repo'
 
+# turbo
+alias tb='turbo'
+
 # other
 alias rmx='trash'
