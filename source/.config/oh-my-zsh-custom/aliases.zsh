@@ -31,6 +31,16 @@ alias evim='vim ~/.vimrc'
 alias fpson='/bin/launchctl setenv MTL_HUD_ENABLED 1'
 alias fpsoff='/bin/launchctl setenv MTL_HUD_ENABLED 0'
 
+# Git vibe
+alias grab='git add .'
+alias mana='git commit' 
+alias vibe='git commit -m' 
+alias vibetune='git commit -m' 
+alias vibetune='git commit --amend' 
+alias slay='git push' 
+alias slayer='git push' 
+alias sup='git status -s' 
+
 # Git
 alias gs='git status -s'
 alias ga='git add .'
