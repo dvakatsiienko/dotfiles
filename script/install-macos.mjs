@@ -51,14 +51,13 @@ new_line();
 
 zx.echo(bb(`🍺 Installing classic ${ mb('brew') } formulaes.`));
 // TODO check if zsh is needed to install on a new system
-await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf tldr trash vim gh the_silver_searcher yarn 1password-cli`;
+await zx.$`brew install zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf trash vim gh the_silver_searcher yarn 1password-cli`;
 // ? zsh — a zsh shell (check if needed because macos have it installed by default)
 // ? zsh-* - zsh plugins
 // ? starship  — a zsh prompt framework
 // ? eza — a modern version of ls
 // ? bat — A cat(1) clone with wings
 // ? fzf — 🌸 A command-line fuzzy finder (directories)
-// ? tldr — terminal docs simplified
 // ? trash — move files and folders to the trash instead of permanently deleting them via [rm].
 // ? vim — vim
 // ? gh — github cli
