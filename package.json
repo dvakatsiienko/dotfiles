@@ -13,7 +13,7 @@
         "eslint-config-polished": "0.0.13",
         "prettier": "3.5.3",
         "prettier-config-polished": "0.0.6",
-        "prettier-eslint": "16.3.2"
+        "prettier-eslint": "16.4.1"
     },
     "engines": {
         "pnpm": ">=8.5.0",
