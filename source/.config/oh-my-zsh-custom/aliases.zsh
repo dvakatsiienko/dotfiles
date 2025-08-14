@@ -39,6 +39,7 @@ alias vibetune='git commit --amend'
 alias slay='git push'
 alias slayer='git push --force'
 alias sup='git status -s'
+alias chill='git rebase -i $(git merge-base HEAD master)'
 
 # Git
 alias gs='git status -s'
@@ -47,8 +48,8 @@ alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -a -m'
 alias gcam='git commit --amend'
-alias gch='git checkout'
-alias gchb='git checkout -b'
+alias gsw='git switch'
+alias gswb='git switch -c'
 alias gp='git push'
 alias gpf='git push --force'
 alias gpu='git push --set-upstream origin'
@@ -65,10 +66,14 @@ alias grbc='git rebase --continue'
 alias grbd='git rebase dev'
 alias grh='git reset --hard'
 alias gfp='git fetch --prune'
-alias gprune='git fetch --prune && git branch --merged | egrep -v \"(^\*|main|master|dev|develop)\" | xargs git branch -d'
+alias gwa='git worktree add'
+alias gwl='git worktree list'
+alias gwr='git worktree remove'
+alias gprune='git fetch --prune && git for-each-ref --format='\''%(refname:short) %(upstream:track)'\'' refs/heads | awk '\''$2 == "[gone]" { print $1 }'\'' | xargs -r git branch -D && git branch --merged | grep -v "^\*" | grep -Ev "(^|\s+)(main|master|dev|develop)$" | xargs -r git branch -d'
+alias gpruned='git fetch --prune && echo "Branches to delete:" && git branch --merged | grep -v "^\*" | grep -Ev "(^|\s+)(main|master|dev|develop)$"'
 
 # Github CLI
-alias go='gh browse' # TODO: connect GITHUB_TOKEN
+# alias go='gh browse' # TODO: connect GITHUB_TOKEN
 
 # pnpm: core
 alias pn='pnpm'
@@ -80,8 +85,10 @@ alias pnor='pnpm outdated -r'
 alias pnup='pnpm update --latest'
 alias pnun='pnpm uninstall'
 alias pnpx='pnpm dlx'
+alias pnt='pnpm typecheck'
 
 # pnpm: scripts
+alias pnd='pnpm dev'
 alias pns='pnpm start'
 alias pnb='pnpm build'
 
@@ -107,3 +114,10 @@ alias tb='turbo'
 
 # other
 alias rmx='trash'
+
+# llms
+alias cute='claude'
+alias cutemon='claude-monitor --plan max5 --time-format	24h'
+
+# gum
+alias gg='git log --oneline | gum filter | cut -d" " -f1 # | copy'

@@ -1276,7 +1276,7 @@ The script should do this: \(ai.prompt)</string>
 	<key>HideTabNumber</key>
 	<true/>
 	<key>Hotkey</key>
-	<true/>
+	<false/>
 	<key>HotkeyChar</key>
 	<integer>116</integer>
 	<key>HotkeyCode</key>

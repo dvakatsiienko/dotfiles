@@ -1,3 +1,6 @@
 node_modules
 
 .DS_STORE
+
+.users_cache.json
+.channels_cache_v2.json

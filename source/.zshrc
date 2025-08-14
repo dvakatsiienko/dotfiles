@@ -51,3 +51,5 @@ esac
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:~/.lmstudio/bin"
+export PATH="~/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
