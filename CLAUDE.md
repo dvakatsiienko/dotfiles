@@ -230,6 +230,24 @@ rb()  // red bright
 new_line()  // empty line
 ```
 
+### Dotfiles Management Scripts
+
+#### list-symlinks.mjs
+- **Purpose**: Lists all current dotfiles symlinks and their status
+- **Output**: Shows symlinks, real files, and missing files with visual indicators
+- **Usage**: `pnpm list-symlinks`
+- **Features**: Categorizes by location (home, .config, .ssh) and shows link targets
+
+#### untrack-dotfile.mjs  
+- **Purpose**: Safely converts symlinked dotfiles to real files and removes from git tracking
+- **Process**: 
+  1. Verifies file is a dotfiles symlink
+  2. Copies symlink content to real file
+  3. Removes from git tracking (`git rm --cached`)
+  4. Deletes source file from repo
+- **Safety**: Interactive confirmation and comprehensive error checking
+- **Usage**: `pnpm untrack-dotfile ~/.yarnrc`
+
 ### Error Handling & Safety
 - **Backup system**: Prevents overwriting existing configurations
 - **Validation checks**: Ensures required binaries are installed
@@ -254,6 +272,17 @@ new_line()  // empty line
 ```bash
 pnpm install-macos     # Setup macOS + install tools
 pnpm install-dotfiles  # Backup + create symlinks
+```
+
+### Dotfiles Management Commands
+```bash
+pnpm list-symlinks     # List all current dotfiles symlinks
+pnpm untrack-dotfile   # Convert symlink to real file and remove from repo
+
+# Examples:
+pnpm list-symlinks                    # See what's currently tracked
+pnpm untrack-dotfile ~/.yarnrc        # Remove .yarnrc from tracking
+pnpm untrack-dotfile ~/.gitconfig     # Remove .gitconfig from tracking
 ```
 
 ### Useful Aliases

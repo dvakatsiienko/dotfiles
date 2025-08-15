@@ -4,7 +4,9 @@
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "scripts": {
         "install-macos": "zx ./script/install-macos.mjs",
-        "install-dotfiles": "zx ./script/install-dotfiles.mjs"
+        "install-dotfiles": "zx ./script/install-dotfiles.mjs",
+        "list-symlinks": "zx ./script/list-symlinks.mjs",
+        "untrack-dotfile": "zx ./script/untrack-dotfile.mjs"
     },
     "dependencies": {
         "zx": "8.5.4"

@@ -73,7 +73,7 @@ alias gprune='git fetch --prune && git for-each-ref --format='\''%(refname:short
 alias gpruned='git fetch --prune && echo "Branches to delete:" && git branch --merged | grep -v "^\*" | grep -Ev "(^|\s+)(main|master|dev|develop)$"'
 
 # Github CLI
-# alias go='gh browse' # TODO: connect GITHUB_TOKEN
+alias goo='gh browse' # TODO: connect GITHUB_TOKEN
 
 # pnpm: core
 alias pn='pnpm'
