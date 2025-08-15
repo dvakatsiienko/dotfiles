@@ -13,7 +13,7 @@ Personal macOS dotfiles repository with automated installation and symlink-based
 
 ### Core Development Environment
 - **Node.js**: fnm (Fast Node Manager) with auto-switching via `.nvmrc`
-- **Package Managers**: pnpm (primary), yarn (legacy support)
+- **Package Managers**: pnpm (primary)
 - **Shell**: zsh with oh-my-zsh framework
 - **Terminal Enhancement**: Starship prompt with gruvbox theme
 - **Version Control**: Git with 1Password SSH signing integration
@@ -22,7 +22,7 @@ Personal macOS dotfiles repository with automated installation and symlink-based
 ### Installed Tools & Utilities
 ```bash
 # Core utilities (installed via brew)
-zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf trash vim gh the_silver_searcher yarn 1password-cli
+zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf trash vim gh the_silver_searcher 1password-cli
 
 # Key tools explained:
 # eza        - modern ls replacement with icons and git integration
@@ -46,7 +46,7 @@ zsh zsh-autosuggestions zsh-syntax-highlighting starship eza bat fzf trash vim g
 │   ├── .zshrc .zprofile .zshenv  # Shell configuration
 │   ├── .gitconfig             # Git configuration with 1Password
 │   ├── .vimrc                 # Vim configuration
-│   └── .npmrc .yarnrc         # Package manager configs
+│   └── .npmrc                 # Package manager config
 ├── script/                    # Installation automation
 │   ├── install-macos.mjs      # macOS defaults + Homebrew setup
 │   ├── install-dotfiles.mjs   # Backup + symlink creation
@@ -85,7 +85,7 @@ pnpm install-dotfiles
 - Sets up vim-plug plugin manager
 
 ### What install-dotfiles.mjs Does
-- Validates required binaries (zsh, vim, yarn)
+- Validates required binaries (zsh, vim)
 - Creates backup directories (`~/.dotfiles_backup`)
 - Backs up existing dotfiles to prevent data loss
 - Creates symlinks from `source/` to target locations:
@@ -159,10 +159,10 @@ pnd='pnpm dev'
 pnb='pnpm build'
 pnt='pnpm typecheck'
 
-# yarn aliases  
-y='yarn'
-yd='yarn dev'
-yb='yarn build'
+# Package management
+pn='pnpm'
+pnd='pnpm dev'
+pnb='pnpm build'
 ```
 
 ### Custom Functions
@@ -189,7 +189,6 @@ cutemon='claude-monitor --plan max5 --time-format 24h'  # Claude monitoring
 ### Node.js Management
 - **fnm** with automatic version switching based on `.nvmrc`
 - **pnpm** as primary package manager (faster, disk-efficient)
-- **yarn** for legacy project support
 
 ### Terminal Enhancement
 - **eza**: Modern ls with git integration, icons, and tree view
@@ -246,7 +245,7 @@ new_line()  // empty line
   3. Removes from git tracking (`git rm --cached`)
   4. Deletes source file from repo
 - **Safety**: Interactive confirmation and comprehensive error checking
-- **Usage**: `pnpm untrack-dotfile ~/.yarnrc`
+- **Usage**: `pnpm untrack-dotfile ~/.npmrc`
 
 ### Error Handling & Safety
 - **Backup system**: Prevents overwriting existing configurations
@@ -281,7 +280,7 @@ pnpm untrack-dotfile   # Convert symlink to real file and remove from repo
 
 # Examples:
 pnpm list-symlinks                    # See what's currently tracked
-pnpm untrack-dotfile ~/.yarnrc        # Remove .yarnrc from tracking
+pnpm untrack-dotfile ~/.npmrc         # Remove .npmrc from tracking
 pnpm untrack-dotfile ~/.gitconfig     # Remove .gitconfig from tracking
 ```
 

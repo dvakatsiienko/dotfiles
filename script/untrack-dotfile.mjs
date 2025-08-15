@@ -3,7 +3,7 @@
  * ? and removes it from git tracking
  * 
  * Usage: zx untrack-dotfile.mjs <dotfile-path>
- * Example: zx untrack-dotfile.mjs ~/.yarnrc
+ * Example: zx untrack-dotfile.mjs ~/.npmrc
  */
 
 /* Core */
@@ -17,7 +17,7 @@ const dotfile_path = process.argv[3];
 if (!dotfile_path) {
     zx.echo(rb('❌ Error: Please provide a dotfile path'));
     zx.echo(bb('Usage: zx untrack-dotfile.mjs <dotfile-path>'));
-    zx.echo(bb('Example: zx untrack-dotfile.mjs ~/.yarnrc'));
+    zx.echo(bb('Example: zx untrack-dotfile.mjs ~/.npmrc'));
     process.exit(1);
 }
 

@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch",
+      "WebSearch",
+      "Read",
+      "Bash",
+      "mcp__context7-mcp",
+      "mcp__grep-mcp",
+      "mcp__jira-mcp",
+      "mcp__slack-mcp",
+      "mcp__gitlab-mcp",
+      "mcp__shadcn-mcp",
+      "mcp__gitmcp-bubletea",
+      "mcp__gitmcp-gum",
+      "mcp__lipgloss-mcp",
+      "mcp__gitmcp-mobx",
+      "mcp__github-mcp",
+      "mcp__chrome-mcp"
+    ],
+    "defaultMode": "plan"
+  },
+  "model": "sonnet",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh ~/.claude/sounds/notification.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/dima/.claude/statusline/statusline-go/statusline-bubbletea"
+  }
+}

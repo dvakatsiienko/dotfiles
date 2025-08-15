@@ -92,19 +92,6 @@ alias pnd='pnpm dev'
 alias pns='pnpm start'
 alias pnb='pnpm build'
 
-# yarn
-alias y='yarn'
-alias ys='yarn start'
-alias yserv='yarn start'
-alias yd='yarn dev'
-alias yb='yarn build'
-alias yt='yarn test'
-alias ya='yarn add'
-alias yad='yarn add --dev'
-alias yre='yarn remove'
-alias yot='yarn outdated'
-alias yui='yarn upgrade-interactive'
-alias yul='yarn upgrade --latest'
 
 # npm-check-updates
 alias ncu='ncu --format=repo'

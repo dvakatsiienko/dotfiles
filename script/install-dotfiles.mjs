@@ -33,13 +33,12 @@ const dotfile_list_homedir = [
     '.zshenv', // ? additional zsh config file that sets the environment for login shells
     '.vimrc', // ? vim config file
     '.npmrc', // ? npm global config
-    '.yarnrc', // ? yarn config file
     '.gitconfig', // ? git global config
     '.hushlogin', // ? removes the "Last login" message when opening a new terminal window
 ];
 const dotfile_list_omzsh = [ 'aliases.zsh', 'functions.zsh' ];
 const dotfile_list_ssh = [ 'config', 'known_hosts', 'allowed_signers' ];
-const required_shell_bin_list = [ 'zsh', 'vim', 'yarn' ];
+const required_shell_bin_list = [ 'zsh', 'vim' ];
 const dotfile_list_starship = [ 'starship.toml' ];
 
 const dotfiles_qty = [

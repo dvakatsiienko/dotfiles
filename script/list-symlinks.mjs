@@ -16,7 +16,7 @@ new_line();
 
 const symlink_locations = [
     // Home directory dotfiles
-    { location: homedir, files: ['.zshrc', '.zprofile', '.zshenv', '.vimrc', '.npmrc', '.yarnrc', '.gitconfig', '.hushlogin'] },
+    { location: homedir, files: ['.zshrc', '.zprofile', '.zshenv', '.vimrc', '.npmrc', '.gitconfig', '.hushlogin'] },
     
     // oh-my-zsh custom
     { location: `${homedir}/.config/oh-my-zsh-custom`, files: ['aliases.zsh', 'functions.zsh'] },
@@ -84,5 +84,5 @@ if (symlink_count > 0) {
     new_line();
     zx.echo(bb('🔧 To untrack a symlink:'));
     zx.echo(bb('   pnpm untrack-dotfile ~/.gitconfig'));
-    zx.echo(bb('   pnpm untrack-dotfile ~/.yarnrc'));
+    zx.echo(bb('   pnpm untrack-dotfile ~/.npmrc'));
 }

@@ -1,0 +1,1385 @@
+Directory structure:
+└── jeerbl-webfonts-loader/
+    ├── README.md
+    ├── emit-codepoints.js
+    ├── index.js
+    ├── LICENSE
+    ├── package.json
+    ├── runTest.sh
+    ├── runTestEmbed.sh
+    ├── utils.js
+    ├── .editorconfig
+    ├── .npmignore
+    ├── .snyk
+    ├── test/
+    │   ├── ava.js
+    │   ├── entry.js
+    │   ├── myfont.font.js
+    │   ├── package.json
+    │   └── webpack.config.js
+    ├── test-embed/
+    │   ├── ava.js
+    │   ├── entry.js
+    │   ├── myfont.font.json
+    │   ├── package.json
+    │   └── webpack.config.js
+    └── .github/
+        ├── FUNDING.yml
+        └── workflows/
+            ├── codeql-analysis.yml
+            ├── codeql.yml
+            ├── dependency-review.yml
+            ├── nodejs-test.yml
+            ├── ossar.yml
+            └── stale.yml
+
+================================================
+FILE: README.md
+================================================
+# webfonts-loader
+
+[![npm](https://img.shields.io/npm/v/webfonts-loader.svg)](https://www.npmjs.com/package/webfonts-loader)
+[![npm](https://img.shields.io/npm/dm/webfonts-loader.svg)](https://www.npmjs.com/package/webfonts-loader)
+[![GitHub Action](https://img.shields.io/github/actions/workflow/status/jeerbl/webfonts-loader/nodejs-test.yml)](https://github.com/jeerbl/webfonts-loader/actions/workflows/nodejs-test.yml)
+[![license](https://img.shields.io/github/license/jeerbl/webfonts-loader.svg)](https://github.com/jeerbl/webfonts-loader/blob/master/LICENSE)
+
+A Webpack loader that generates fonts from your SVG icons and allows you to use your icons in your HTML.
+
+`webfonts-loader` uses the [`webfonts-generator`](https://github.com/vusion/webfonts-generator) plugin to create fonts in any format. It also generates CSS files so that you can use your icons directly in your HTML, using CSS classes.
+
+## Installation
+
+```
+npm install webfonts-loader
+```
+
+## Usage
+
+An example of usage can be found in the `test/` directory of this repository.
+
+### Webpack rule
+
+Add this rule to your Webpack config:
+
+```javascript
+{
+  test: /\.font\.js/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+      options: {
+        url: false
+      }
+    },
+    'webfonts-loader'
+  ]
+}
+```
+
+So that each font configuration file will be loaded using this rule.
+
+#### Loader options
+
+You can provide `options` objects to configure the loader behaviour:
+
+```javascript
+{
+  test: /\.font\.js/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+      options: {
+        url: false
+      }
+    },
+    {
+      loader: 'webfonts-loader',
+      options: { ... }
+    }
+  ]
+}
+```
+
+Available options are:
+
+##### `publicPath`, String
+
+This is the URL prefix for generated links (e.g. `/static/` or `https://cdn.project.net/`). Should typically match Webpack's `config.output.publicPath`.
+
+##### Any font config option
+
+If you pass `types`, `fileName` or any other font config option, it will be used as a default (unless overriden in font config file).
+
+### The font configuration file
+
+#### Description
+
+The config file allows you to specify parameters for the loader to use. Here is an example configuration file:
+
+```javascript
+// myfont.font.js
+module.exports = {
+  'files': [
+    './myfont/*.svg'
+  ],
+  'fontName': 'myfonticons',
+  'classPrefix': 'myfonticon-',
+  'baseSelector': '.myfonticon',
+  'types': ['eot', 'woff2', 'woff', 'ttf', 'svg'],
+  'fileName': 'app.[fontname].[hash].[ext]'
+};
+```
+
+Then you have to require the configuration file:
+
+```javascript
+// entry.js
+require('./myfont.font');
+```
+
+The loader will then generate:
+
+* CSS with the base and class prefix
+* Font files for the SVG icons
+
+#### All font configuration options
+
+##### `baseSelector`, String
+
+The base CSS selector, under which each icon class is to be created.
+See [webfonts-generator#templateOptions](https://github.com/vusion/webfonts-generator#templateoptions)
+
+##### `classPrefix`, String
+
+The prefix to be used with each icon class.
+See [webfonts-generator#templateOptions](https://github.com/vusion/webfonts-generator#templateoptions)
+
+##### `cssContext`, Function
+
+Add parameters or helpers to your template.
+See [webfonts-generator#cssContext](https://github.com/vusion/webfonts-generator#cssContext)
+
+##### `htmlContext`, Function
+
+Add parameters or helpers to your template.
+See [webfonts-generator#htmlContext](https://github.com/vusion/webfonts-generator#htmlContext)
+
+##### `cssTemplate`, String
+
+See [webfonts-generator#cssTemplate](https://github.com/vusion/webfonts-generator#csstemplate)
+
+##### `cssDest`, String
+
+See [webfonts-generator#cssDest](https://github.com/vusion/webfonts-generator#csstemplate)
+
+##### `embed`, Boolean
+
+If true the font is encoded in base64 and embedded inside the `@font-face` declaration, otherwise font files are written to disk.
+Default: `false`
+
+##### `scssFile`, Boolean
+
+If true, the build process will export a .scss file in the same path as the .css file.
+Default: `false`
+
+##### `hashLength`, Number
+
+Optional. The length of hash in `fileName`.
+Min: 8
+Max: 32
+Default: 20
+
+##### `fileName`, String
+
+The generated font file names. These elements can be used:
+
+* `[fontname]`: the value of the `fontName` parameter
+* `[ext]`: the extension of the font file being generated (`eot`, ...)
+* `[hash]`: the hash of the current compilation
+* `[chunkhash]`: the hash of the SVG files
+
+This option can be also configured globally in the webpack loader options.
+
+##### `emitCodepoints`, Array (with shorthand versions of Boolean, String and Object)
+
+Optional. The generated codepoints file names.
+
+Examples:
+
+* `emitCodepoints: true`: emits a javascript file named `[fontname].codepoints.js` in the `web` (default) format
+* `emitCodepoints: '[fontname].codepoints.fonts.js'`: emits a javascript file named `[fontname].codepoints.fonts.js` in the `commonjs` format
+* `emitCodepoints: { fileName: '[fontname].codepoints.json', type: 'json'] }`: emits a file named `[fontname].codepoints.json` in the `json` format
+* `emitCodepoints: [{ fileName: '[fontname].codepoints.json', type: 'json'] }, { fileName: '[fontname].codepoints.js', type: 'web'] }, { fileName: '[fontname].codepoints.inc.js', type: 'web'] }]`: emits three files with their respective names and types
+
+These are the existing formats:
+
+* `web`: (default): generates a file containing the array of codepoints in a format suitable for inclusion in html pages.
+
+Example (for a font named myfonticons):
+```javascript
+if (typeof webfontIconCodepoints === 'undefined') {
+  webfontIconCodepoints = {};
+}
+webfontIconCodepoints["myfonticons"] = {"alert":61697,"arrow-down":61698,"arrow-left":61699};
+```
+
+* `commonjs`: generates a file containing the array of codepoints in the commonjs format, for use with `require`.
+```javascript
+module.exports = {"alert":61697,"arrow-down":61698,"arrow-left":61699}
+```
+
+* `json`: generates a file containing the array of codepoints in the JSON format.
+```javascript
+{"alert":61697,"arrow-down":61698,"arrow-left":61699,"arrow-right":61700,"arrow-small-down":61701}
+```
+
+These elements can be used in the filename:
+
+* `[fontname]`: the value of the `fontName` parameter
+* `[chunkhash]`: the hash of the SVG files
+
+This option can be also configured globally in the webpack loader options.
+
+##### `files`, Array
+
+See [webfonts-generator#files](https://github.com/vusion/webfonts-generator#files)
+
+##### `fontName`, String
+
+See [webfonts-generator#fontname](https://github.com/vusion/webfonts-generator#fontname)
+
+##### `formatOptions`, Object
+
+See [webfonts-generator#formatoptions](https://github.com/vusion/webfonts-generator#formatoptions)
+
+##### `rename`, Function
+
+See [webfonts-generator#rename](https://github.com/vusion/webfonts-generator#rename)
+
+##### `types`, Array<String>
+
+See [webfonts-generator#types](https://github.com/vusion/webfonts-generator#types)
+
+##### `dest`, String
+
+See [webfonts-generator#dest](https://github.com/vusion/webfonts-generator#dest)
+
+##### `html`, Boolean
+
+See [webfonts-generator#html](https://github.com/vusion/webfonts-generator#html)
+
+##### `htmlDest`, String
+
+See [webfonts-generator#htmldest](https://github.com/vusion/webfonts-generator#htmldest)
+
+##### `ligature`, Boolean
+
+See [webfonts-generator#ligature](https://github.com/vusion/webfonts-generator#ligature)
+
+##### `cssFontsUrl`, String (before cssFontsPath)
+
+See [webfonts-generator#cssfontspath](https://github.com/vusion/webfonts-generator#cssfontspath)
+
+##### `htmlTemplate`, String
+#### Example
+```
+...
+htmlTemplate: path.resolve(__dirname, 'src/html.hbs'),
+...
+```
+
+See [webfonts-generator#htmltemplate](https://github.com/vusion/webfonts-generator#htmltemplate)
+
+##### `startCodepoint`, Number
+
+See [webfonts-generator#startcodepoint](https://github.com/vusion/webfonts-generator#startcodepoint)
+
+
+
+================================================
+FILE: emit-codepoints.js
+================================================
+var loaderUtils = require('loader-utils');
+
+var hashFiles = require('./utils').hashFiles;
+
+module.exports = {
+  createArrayCodepointFiles (codepointFiles, elem) {
+    const defaultElem = { fileName: '[fontname].codepoints.js', type: 'web' };
+    if (typeof (elem) === 'boolean') {
+      codepointFiles.push(Object.assign({}, defaultElem));
+    } else if (typeof (elem) === 'string') {
+      codepointFiles.push(Object.assign({}, defaultElem, { fileName: elem }));
+    } else if (Array.isArray(elem)) {
+      elem.forEach(e => this.createArrayCodepointFiles(codepointFiles, e));
+    } else if (typeof (elem) === 'object') {
+      codepointFiles.push(Object.assign({}, defaultElem, elem));
+    }
+  },
+  emitFiles (loaderContext, emitCodepointsOptions, generatorOptions, options) {
+    var codepointFiles = [];
+    this.createArrayCodepointFiles(codepointFiles, emitCodepointsOptions);
+    codepointFiles.forEach(emitOption => {
+      var codepointsContent = JSON.stringify(generatorOptions.codepoints);
+      switch (emitOption.type) {
+        case 'commonjs': {
+          codepointsContent = 'module.exports = ' + codepointsContent + ';';
+          break;
+        }
+        case 'web': {
+          codepointsContent = [
+            'if (typeof webfontIconCodepoints === \'undefined\') {',
+            '  webfontIconCodepoints = {};',
+            '}',
+            'webfontIconCodepoints[' + JSON.stringify(generatorOptions.fontName) + '] = ' + codepointsContent + ';'
+          ].join('\n');
+          break;
+        }
+        case 'json': {
+          break;
+        }
+      }
+
+      var codepointsFilename = emitOption.fileName;
+      var chunkHash = codepointsFilename.indexOf('[chunkhash]') !== -1
+        ? hashFiles(generatorOptions.files, options.hashLength) : '';
+
+      codepointsFilename = codepointsFilename
+        .replace('[chunkhash]', chunkHash)
+        .replace('[fontname]', generatorOptions.fontName);
+
+      codepointsFilename = loaderUtils.interpolateName(loaderContext,
+        codepointsFilename,
+        {
+          context: loaderContext.rootContext || loaderContext.options.context || loaderContext.context,
+          content: codepointsContent
+        }
+      );
+      loaderContext.emitFile(codepointsFilename, codepointsContent);
+    });
+  }
+};
+
+
+
+================================================
+FILE: index.js
+================================================
+var loaderUtils = require('loader-utils');
+var webfontsGenerator = require('@vusion/webfonts-generator');
+var path = require('path');
+var glob = require('glob');
+var url = require('url');
+var hashFiles = require('./utils').hashFiles;
+
+var NativeModule = require('module');
+
+var mimeTypes = {
+  'eot': 'application/vnd.ms-fontobject',
+  'svg': 'image/svg+xml',
+  'ttf': 'application/x-font-ttf',
+  'woff': 'application/font-woff',
+  'woff2': 'font/woff2'
+};
+
+function getFilesAndDeps (patterns, context) {
+  var files = [];
+  var filesDeps = [];
+  var directoryDeps = [];
+
+  function addFile (file) {
+    filesDeps.push(file);
+    files.push(path.resolve(context, file));
+  }
+
+  function addByGlob (globExp) {
+    var globOptions = {
+      cwd: context
+    };
+
+    var foundFiles = glob.sync(globExp, globOptions);
+    files = files.concat(foundFiles.map(file => {
+      return path.resolve(context, file);
+    }));
+
+    var globDirs = glob.sync(path.dirname(globExp) + '/', globOptions);
+    directoryDeps = directoryDeps.concat(globDirs.map(file => {
+      return path.resolve(context, file);
+    }));
+  }
+
+  // Re-work the files array.
+  patterns.forEach(function (pattern) {
+    if (glob.hasMagic(pattern)) {
+      addByGlob(pattern);
+    } else {
+      addFile(pattern);
+    }
+  });
+
+  return {
+    files: files,
+    dependencies: {
+      directories: directoryDeps,
+      files: filesDeps
+    }
+  };
+}
+
+// Futureproof webpack option parsing
+function wpGetOptions (context) {
+  if (typeof context.query === 'string') return loaderUtils.getOptions(context);
+  return context.query;
+}
+
+module.exports = function (content) {
+  this.cacheable();
+
+  var options = wpGetOptions(this) || {};
+  var rawFontConfig;
+  try {
+    rawFontConfig = JSON.parse(content);
+  } catch (ex) {
+    var module = new NativeModule(this.resourcePath);
+
+    module.paths = NativeModule._nodeModulePaths(this.context);
+    module.filename = this.resourcePath;
+    module._compile(content, this.resourcePath);
+
+    rawFontConfig = module.exports;
+  }
+  var fontConfig = Object.assign({}, options, rawFontConfig);
+
+  var filesAndDeps = getFilesAndDeps(fontConfig.files, this.context);
+  filesAndDeps.dependencies.files.forEach(this.addDependency.bind(this));
+  filesAndDeps.dependencies.directories.forEach(this.addContextDependency.bind(this));
+  fontConfig.files = filesAndDeps.files;
+
+  // With everything set up, let's make an ACTUAL config.
+  var formats = fontConfig.types || ['eot', 'woff2', 'woff', 'ttf', 'svg'];
+  if (formats.constructor !== Array) {
+    formats = [formats];
+  }
+
+  var generatorOptions = {
+    files: fontConfig.files,
+    fontName: fontConfig.fontName,
+    types: formats,
+    order: formats,
+    fontHeight: fontConfig.fontHeight || 1000, // Fixes conversion issues with small svgs,
+    codepoints: fontConfig.codepoints || {},
+    templateOptions: {
+      baseSelector: fontConfig.baseSelector || '.icon',
+      classPrefix: 'classPrefix' in fontConfig ? fontConfig.classPrefix : 'icon-'
+    },
+    scssFile: fontConfig.scssFile || false,
+    dest: fontConfig.dest || '',
+    html: fontConfig.html || false,
+    htmlDest: fontConfig.htmlDest || undefined,
+    cssDest: fontConfig.cssDest ? path.resolve(this.context, fontConfig.cssDest, fontConfig.fontName.toLowerCase() + '.css') : undefined,
+    cssFontsUrl: fontConfig.cssFontsUrl || '',
+    embed: fontConfig.embed || false,
+    formatOptions: fontConfig.formatOptions || {},
+    writeFiles: false
+  };
+
+  if ('startCodepoint' in fontConfig) generatorOptions.startCodepoint = fontConfig.startCodepoint;
+  if ('ligature' in fontConfig) generatorOptions.ligature = fontConfig.ligature;
+  if ('htmlTemplate' in fontConfig) generatorOptions.htmlTemplate = fontConfig.htmlTemplate;
+
+  // This originally was in the object notation itself.
+  // Unfortunately that actually broke my editor's syntax-highlighting...
+  // ... what a shame.
+  if (typeof fontConfig.rename === 'function') {
+    generatorOptions.rename = fontConfig.rename;
+  } else {
+    generatorOptions.rename = function (f) {
+      return path.basename(f, '.svg');
+    };
+  }
+
+  if (fontConfig.cssContext) {
+    generatorOptions.cssContext = fontConfig.cssContext;
+  }
+
+  if (fontConfig.htmlContext) {
+    generatorOptions.htmlContext = fontConfig.htmlContext;
+  }
+
+  if (fontConfig.cssTemplate) {
+    generatorOptions.cssTemplate = path.resolve(this.context, fontConfig.cssTemplate);
+  }
+
+  if (fontConfig.cssFontsUrl) {
+    generatorOptions.cssFontsUrl = path.resolve(this.context, fontConfig.cssFontsUrl);
+  }
+
+  if (fontConfig.htmlTemplate) {
+    generatorOptions.htmlTemplate = path.resolve(this.context, fontConfig.htmlTemplate);
+  }
+
+  if (fontConfig.htmlDest) {
+    generatorOptions.htmlDest = path.resolve(this.context, fontConfig.htmlDest);
+  }
+
+  if (fontConfig.dest) {
+    if (fontConfig.dest.endsWith('/')) {
+      generatorOptions.dest = fontConfig.dest;
+    } else {
+      generatorOptions.dest = `${fontConfig.dest}/`;
+    }
+  }
+
+  // Spit out SCSS file to same path as CSS file to easily use mixins (scssFile must be true)
+  if (fontConfig.cssDest && fontConfig.scssFile) {
+    generatorOptions.cssDest = path.resolve(this.context, fontConfig.cssDest, fontConfig.fontName.toLowerCase() + '.scss');
+  }
+
+  // svgicons2svgfont stuff
+  var keys = [
+    'fixedWidth',
+    'centerHorizontally',
+    'normalize',
+    'fontHeight',
+    'round',
+    'descent'
+  ];
+  for (var x in keys) {
+    if (typeof fontConfig[keys[x]] !== 'undefined') {
+      generatorOptions[keys[x]] = fontConfig[keys[x]];
+    }
+  }
+
+  var cb = this.async();
+
+  var publicPath;
+  if (typeof options.publicPath === 'string') {
+    if (options.publicPath === '' || options.publicPath.endsWith('/')) {
+      publicPath = options.publicPath;
+    } else {
+      publicPath = `${options.publicPath}/`;
+    }
+  } else {
+    if (typeof options.publicPath === 'function') {
+      publicPath = options.publicPath(this.resourcePath, this.rootContext);
+    } else {
+      publicPath = this._compilation.outputOptions.publicPath || '/';
+    }
+  }
+
+  var embed = !!generatorOptions.embed;
+
+  if (generatorOptions.cssTemplate) {
+    this.addDependency(generatorOptions.cssTemplate);
+  }
+
+  if (generatorOptions.cssFontsUrl) {
+    this.addDependency(generatorOptions.cssFontsUrl);
+  }
+
+  webfontsGenerator(generatorOptions, (err, res) => {
+    if (err) {
+      return cb(err);
+    }
+    var urls = {};
+    for (var i in formats) {
+      var format = formats[i];
+      var filename = fontConfig.fileName || options.fileName || '[chunkhash]-[fontname].[ext]';
+      var chunkHash = filename.indexOf('[chunkhash]') !== -1
+        ? hashFiles(generatorOptions.files, options.hashLength) : '';
+
+      filename = generatorOptions.dest.concat(filename);
+      filename = filename
+        .replace('[chunkhash]', chunkHash)
+        .replace('[fontname]', generatorOptions.fontName)
+        .replace('[ext]', format);
+
+      if (!embed) {
+        var formatFilename = loaderUtils.interpolateName(this,
+          filename,
+          {
+            context: this.rootContext || this.options.context || this.context,
+            content: res[format]
+          }
+        );
+        urls[format] = url.resolve(publicPath, formatFilename.replace(/\\/g, '/'));
+        this.emitFile(formatFilename, res[format]);
+      } else {
+        urls[format] = 'data:' +
+        mimeTypes[format] +
+        ';charset=utf-8;base64,' +
+        (Buffer.from(res[format]).toString('base64'));
+      }
+    }
+    var emitCodepointsOptions = fontConfig.emitCodepoints || options.emitCodepoints || null;
+    if (emitCodepointsOptions) {
+      var emitCodepoints = require('./emit-codepoints');
+      emitCodepoints.emitFiles(this, emitCodepointsOptions, generatorOptions, options);
+    }
+
+    if (generatorOptions.html) {
+      var htmlDest = generatorOptions.htmlDest ? generatorOptions.htmlDest : generatorOptions.fontName + '.html';
+      htmlDest = generatorOptions.dest.concat(htmlDest);
+      htmlDest = loaderUtils.interpolateName(this,
+        htmlDest,
+        {
+          context: this.rootContext || this.options.context || this.context
+        }
+      );
+
+      var relativeUrls = {};
+      for (var key in urls) {
+        relativeUrls[key] = path.relative(url.resolve(publicPath, path.dirname(htmlDest.replace(/\\/g, '/'))), urls[key]);
+      }
+
+      var htmlContent = res.generateHtml(relativeUrls);
+      this.emitFile(htmlDest, htmlContent);
+    }
+
+    cb(null, res.generateCss(urls));
+  });
+};
+
+
+
+================================================
+FILE: LICENSE
+================================================
+MIT License
+
+Copyright (c) 2017 Jerome Brunel
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+================================================
+FILE: package.json
+================================================
+{
+  "name": "webfonts-loader",
+  "version": "8.1.1",
+  "description": "A WebPack loader to automatically generate font files and CSS to make your own icon font",
+  "repository": "jeerbl/webfonts-loader",
+  "main": "index.js",
+  "scripts": {
+    "test": "semistandard && ./runTest.sh && ./runTestEmbed.sh",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "keywords": [
+    "font",
+    "webfont",
+    "iconfont",
+    "web",
+    "icon",
+    "generator",
+    "webpack",
+    "loader"
+  ],
+  "author": "Jérôme",
+  "funding": {
+    "url": "https://github.com/sponsors/jeerbl"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@vusion/webfonts-generator": "^0.8.0",
+    "glob": "^7.1.6",
+    "loader-utils": "^2.0.0"
+  },
+  "devDependencies": {
+    "semistandard": "^13.0.1",
+    "snyk": "^1.461.0"
+  },
+  "semistandard": {
+    "ignore": [
+      "**/node_modules/"
+    ]
+  },
+  "snyk": true
+}
+
+
+
+================================================
+FILE: runTest.sh
+================================================
+#!/bin/sh
+
+cd test && npm install && npm test
+
+
+
+================================================
+FILE: runTestEmbed.sh
+================================================
+#!/bin/sh
+
+cd test-embed && npm install && npm test
+
+
+
+================================================
+FILE: utils.js
+================================================
+var crypto = require('crypto');
+var fs = require('fs');
+
+module.exports = {
+  hashFiles: function (files, hashLength) {
+    // FIXME: For compatibility with the hash-files package, this
+    // function just sorts by filename and hashes the concatenation of
+    // the file contents. This algorithm will not detect certain
+    // changes where files are renamed or chunks are moved across
+    // file boundaries (https://github.com/mac-/hash-files/issues/4).
+
+    hashLength = hashLength && +hashLength >= 8 && +hashLength <= 32 ? +hashLength : 20;
+    var hash = crypto.createHash('sha1');
+    Array.from(new Set(files)).sort().forEach(function (file) {
+      hash.update(fs.readFileSync(file));
+    });
+    return hash.digest('hex').slice(0, hashLength);
+  }
+};
+
+
+
+================================================
+FILE: .editorconfig
+================================================
+# http://editorconfig.org
+
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+[*.sh]
+indent_size = 4
+
+
+
+================================================
+FILE: .npmignore
+================================================
+test/*
+test-embed/*
+
+
+
+================================================
+FILE: .snyk
+================================================
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@vusion/webfonts-generator > svg2ttf > lodash':
+        patched: '2020-05-01T05:58:26.942Z'
+
+
+
+================================================
+FILE: test/ava.js
+================================================
+var test = require('ava');
+var glob = require('glob').sync;
+var hashFiles = require('../utils').hashFiles;
+
+test('check consistency of files hash without hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee5e6b4b0d3255';
+
+  t.is(hashFiles(files), expected);
+});
+
+test('check consistency of files hash with min hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee';
+  var minHashLength = 8;
+
+  t.is(hashFiles(files, minHashLength), expected);
+});
+
+test('check consistency of files hash with max hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee5e6b4b0d3255bfef95601890';
+  var maxHashLength = 32;
+
+  t.is(hashFiles(files, maxHashLength), expected);
+});
+
+
+
+================================================
+FILE: test/entry.js
+================================================
+require('./myfont.font');
+
+
+
+================================================
+FILE: test/myfont.font.js
+================================================
+module.exports = {
+  'files': [
+    './test-svg/*.svg'
+  ],
+  'fontName': 'myfonticons',
+  'classPrefix': 'myfonticon-',
+  'baseSelector': '.myfonticon',
+  'types': ['eot', 'woff2', 'woff', 'ttf', 'svg'],
+  'fixedWidth': true,
+  'fileName': 'app.[fontname].[chunkhash].[ext]'
+};
+
+
+
+================================================
+FILE: test/package.json
+================================================
+{
+  "name": "webfonts-loader-test",
+  "private": true,
+  "main": "entry.js",
+  "scripts": {
+    "test": "rimraf ./dist && ava -v ./ava.js && webpack --mode production"
+  },
+  "devDependencies": {
+    "ava": "^5.1.0",
+    "css-loader": "^5.1.0",
+    "mini-css-extract-plugin": "^1.3.9",
+    "rimraf": "^3.0.2",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.76.0",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "standard": {
+    "ignore": [
+      "./dist"
+    ]
+  }
+}
+
+
+
+================================================
+FILE: test/webpack.config.js
+================================================
+const path = require('path');
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  entry: [
+    './entry.js'
+  ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'app.bundle.js'
+  },
+  performance: {
+    hints: false
+  },
+  module: {
+    rules: [
+      {
+        test: /\.font\.js/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              url: false
+            }
+          },
+          require.resolve('../') // Replace this line with require('webfonts-loader')
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'app.bundle.[contenthash].css'
+    })
+  ],
+  devServer: {
+    compress: true,
+    historyApiFallback: true,
+    host: 'localhost',
+    hot: true,
+    https: true,
+    inline: true,
+    port: '8080'
+  }
+};
+
+
+
+================================================
+FILE: test-embed/ava.js
+================================================
+var test = require('ava');
+var glob = require('glob').sync;
+var hashFiles = require('../utils').hashFiles;
+
+test('check consistency of files hash without hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee5e6b4b0d3255';
+
+  t.is(hashFiles(files), expected);
+});
+
+test('check consistency of files hash with min hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee';
+  var minHashLength = 8;
+
+  t.is(hashFiles(files, minHashLength), expected);
+});
+
+test('check consistency of files hash with max hash length option', function (t) {
+  var files = glob('./test/test-svg/*.svg');
+  var expected = 'da39a3ee5e6b4b0d3255bfef95601890';
+  var maxHashLength = 32;
+
+  t.is(hashFiles(files, maxHashLength), expected);
+});
+
+
+
+================================================
+FILE: test-embed/entry.js
+================================================
+require('./myfont.font');
+
+
+
+================================================
+FILE: test-embed/myfont.font.json
+================================================
+{
+  "files": [
+    "./test-svg/*.svg"
+  ],
+  "fontName": "myfonticons",
+  "classPrefix": "myfonticon-",
+  "baseSelector": ".myfonticon",
+  "types": ["eot", "woff2", "woff", "ttf", "svg"],
+  "fixedWidth": true,
+  "embed": true,
+  "fileName": "app.[fontname].[chunkhash].[ext]"
+}
+
+
+
+================================================
+FILE: test-embed/package.json
+================================================
+{
+  "name": "webfonts-loader-test",
+  "private": true,
+  "main": "entry.js",
+  "scripts": {
+    "test": "rimraf ./dist && ava -v ./ava.js && webpack --mode production"
+  },
+  "devDependencies": {
+    "ava": "^5.1.0",
+    "css-loader": "^5.1.0",
+    "rimraf": "^3.0.2",
+    "style-loader": "^2.0.0",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "standard": {
+    "ignore": [
+      "./dist"
+    ]
+  }
+}
+
+
+
+================================================
+FILE: test-embed/webpack.config.js
+================================================
+const path = require('path');
+
+module.exports = {
+  entry: [
+    './entry.js'
+  ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'app.bundle.js'
+  },
+  performance: {
+    hints: false
+  },
+  module: {
+    rules: [
+      {
+        test: /\.font\.json/,
+        type: 'javascript/auto',
+        use: [
+          'style-loader',
+          'css-loader',
+          require.resolve('../') // Replace this line with require('webfonts-loader')
+        ]
+      }
+    ]
+  },
+  devServer: {
+    compress: true,
+    historyApiFallback: true,
+    host: 'localhost',
+    hot: true,
+    https: true,
+    inline: true,
+    port: '8080'
+  }
+};
+
+
+
+================================================
+FILE: .github/FUNDING.yml
+================================================
+github: jeerbl
+
+
+
+================================================
+FILE: .github/workflows/codeql-analysis.yml
+================================================
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "master" ]
+  schedule:
+    - cron: '28 6 * * 0'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
+        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        
+        # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+        
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+
+    #   If the Autobuild fails above, remove it and uncomment the following three lines. 
+    #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
+
+    # - run: |
+    #   echo "Run, Build Application using script"
+    #   ./location_of_script_within_repo/buildscript.sh
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+
+
+================================================
+FILE: .github/workflows/codeql.yml
+================================================
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "master" ]
+  schedule:
+    - cron: '42 20 * * 4'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
+        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        
+        # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+        
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+
+    #   If the Autobuild fails above, remove it and uncomment the following three lines. 
+    #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
+
+    # - run: |
+    #   echo "Run, Build Application using script"
+    #   ./location_of_script_within_repo/buildscript.sh
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+
+
+================================================
+FILE: .github/workflows/dependency-review.yml
+================================================
+# Dependency Review Action
+#
+# This Action will scan dependency manifest files that change as part of a Pull Request, surfacing known-vulnerable versions of the packages declared or updated in the PR. Once installed, if the workflow run is marked as required, PRs introducing known-vulnerable packages will be blocked from merging.
+#
+# Source repository: https://github.com/actions/dependency-review-action
+# Public documentation: https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-dependency-review#dependency-review-enforcement
+name: 'Dependency Review'
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v2
+
+
+
+================================================
+FILE: .github/workflows/nodejs-test.yml
+================================================
+name: NodeJS
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        npm install
+        npm test
+
+
+
+================================================
+FILE: .github/workflows/ossar.yml
+================================================
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow integrates a collection of open source static analysis tools
+# with GitHub code scanning. For documentation, or to provide feedback, visit
+# https://github.com/github/ossar-action
+name: OSSAR
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "master" ]
+  schedule:
+    - cron: '32 5 * * 3'
+
+permissions:
+  contents: read
+
+jobs:
+  OSSAR-Scan:
+    # OSSAR runs on windows-latest.
+    # ubuntu-latest and macos-latest support coming soon
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Ensure a compatible version of dotnet is installed.
+    # The [Microsoft Security Code Analysis CLI](https://aka.ms/mscadocs) is built with dotnet v3.1.201.
+    # A version greater than or equal to v3.1.201 of dotnet must be installed on the agent in order to run this action.
+    # GitHub hosted runners already have a compatible version of dotnet installed and this step may be skipped.
+    # For self-hosted runners, ensure dotnet version 3.1.201 or later is installed by including this action:
+    # - name: Install .NET
+    #   uses: actions/setup-dotnet@v2
+    #   with:
+    #     dotnet-version: '3.1.x'
+
+      # Run open source static analysis tools
+    - name: Run OSSAR
+      uses: github/ossar-action@v1
+      id: ossar
+
+      # Upload results to the Security tab
+    - name: Upload OSSAR results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: ${{ steps.ossar.outputs.sarifFile }}
+
+
+
+================================================
+FILE: .github/workflows/stale.yml
+================================================
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+  - cron: "30 1 * * *"
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/stale@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'Stale issue message'
+        stale-pr-message: 'Stale pull request message'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
+
+
