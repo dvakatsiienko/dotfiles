@@ -37,14 +37,6 @@ Personal macOS dotfiles repository with automated symlink-based configuration ma
 
 ## Installation Process
 
-### Quick Start
-
-```bash
-pnpm i                    # Install dependencies
-pnpm install-macos        # Setup macOS + install tools
-pnpm install-dotfiles     # Backup + create symlinks
-```
-
 ### What the Scripts Do
 
 **install-macos.mjs:**
