@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Switch Claude Code statusline to Bubble Tea version
+# Switch Claude Code statusline to Go version
 
 SETTINGS_FILE="$HOME/.claude/settings.json"
-STATUSLINE_BINARY="$HOME/.claude/statusline/statusline-go/statusline-bubbletea"
+STATUSLINE_BINARY="$HOME/.claude/statusline/statusline-go/statusline"
 STATUSLINE_SOURCE="$HOME/.claude/statusline/statusline-go/main.go"
 
 # Check if settings file exists
@@ -14,7 +14,7 @@ fi
 
 # Check if Go source exists
 if [ ! -f "$STATUSLINE_SOURCE" ]; then
-    echo "Error: Bubble Tea statusline source not found at $STATUSLINE_SOURCE"
+    echo "Error: Go statusline source not found at $STATUSLINE_SOURCE"
     exit 1
 fi
 
@@ -28,33 +28,33 @@ fi
 
 # Compile the Go program if binary doesn't exist or source is newer
 if [ ! -f "$STATUSLINE_BINARY" ] || [ "$STATUSLINE_SOURCE" -nt "$STATUSLINE_BINARY" ]; then
-    echo "🔨 Compiling Bubble Tea statusline..."
+    echo "🔨 Compiling Go statusline..."
     cd "$HOME/.claude/statusline/statusline-go"
     
     # Initialize go module if it doesn't exist
     if [ ! -f "go.mod" ]; then
         echo "📦 Initializing Go module..."
         unalias go 2>/dev/null || true
-        go mod init statusline-bubbletea
+        go mod init statusline-go
         go mod tidy
     fi
     
     # Compile the binary
     unalias go 2>/dev/null || true
-    go build -o statusline-bubbletea main.go
+    go build -o statusline main.go
     
     if [ $? -ne 0 ]; then
-        echo "❌ Failed to compile Bubble Tea statusline"
+        echo "❌ Failed to compile Go statusline"
         exit 1
     fi
     
     echo "✅ Compilation successful"
 fi
 
-# Update settings.json to use Bubble Tea statusline
+# Update settings.json to use Go statusline
 # Using sed to replace the statusline command
 sed -i.bak 's|"statusline": "[^"]*"|"statusline": "'$STATUSLINE_BINARY'"|' "$SETTINGS_FILE"
 
-echo "✅ Switched to Bubble Tea statusline: $STATUSLINE_BINARY"
+echo "✅ Switched to Go statusline: $STATUSLINE_BINARY"
 echo "🔄 Restart your terminal or run 'cc' to see changes"
 echo "💡 Use '--watch' flag to see live updates: $STATUSLINE_BINARY --watch"

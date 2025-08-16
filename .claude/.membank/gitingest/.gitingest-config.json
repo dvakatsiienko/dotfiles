@@ -9,6 +9,22 @@
             "quality": 88,
             "url": "https://github.com/biomejs/biome"
         },
+        "bubbletea": {
+            "file_size": 418516,
+            "filename": "libsource-bubbletea.txt",
+            "last_updated": "2025-08-13T01:26:00.000000",
+            "loc": 16724,
+            "quality": 92,
+            "url": "https://github.com/charmbracelet/bubbletea"
+        },
+        "lipgloss": {
+            "file_size": 415091,
+            "filename": "libsource-lipgloss.txt",
+            "last_updated": "2025-08-13T02:11:00.000000",
+            "loc": 13863,
+            "quality": 94,
+            "url": "https://github.com/charmbracelet/lipgloss"
+        },
         "lodash": {
             "file_size": 154597,
             "filename": "libsource-lodash.txt",
