@@ -13,18 +13,22 @@ argument-hint: [issue ID | correction instruction | additional context]
 
 When a `correction` argument is provided:
 
-- **real correction with instructions**: if correction contains actual instructions or feedback → follow this instruction to modify the commit
-- **issue tracking ID**: if $ARGUMENTS contains an issue ID or issue tracking URL → extract the issue ID and append it to the commit message title with format: [ISSUE-ID]
-  - Examples:
-    - `ABC-1234` → append `[ABC-1234]`
-    - `https://issue-tracker.com/ABC-1234` → extract `ABC-1234` and append `[ABC-1234]`
-    - `https://issue-tracker.com/browse/PROJ-123` → extract `PROJ-123` and append `[PROJ-123]`
-  - Pattern matching: extract issue IDs using format `[A-Z]+-\d+` from URLs or direct input
-  - Final commit message format: `🐞 checkout: fix currency input validation [ABC-1234]`
-- **cleanup operations**: if $ARGUMENTS contains "cleanup" → add `- maintenance: code-cleanup` to commit body for easier searching and reverting of cleanup commits in the future
+- **real correction with instructions**: if correction contains actual instructions or feedback →
+  follow this instruction to modify the commit
+- **issue tracking ID**: if $ARGUMENTS contains an issue ID or issue tracking URL → extract the
+  issue ID and append it to the commit message title with format: [ISSUE-ID]
+    - Examples:
+        - `ABC-1234` → append `[ABC-1234]`
+        - `https://issue-tracker.com/ABC-1234` → extract `ABC-1234` and append `[ABC-1234]`
+        - `https://issue-tracker.com/browse/PROJ-123` → extract `PROJ-123` and append `[PROJ-123]`
+    - Pattern matching: extract issue IDs using format `[A-Z]+-\d+` from URLs or direct input
+    - Final commit message format: `🐞 checkout: fix currency input validation [ABC-1234]`
+- **cleanup operations**: if $ARGUMENTS contains "cleanup" → add `- maintenance: code-cleanup` to
+  commit body for easier searching and reverting of cleanup commits in the future
 - **branch name parsing**: in all cases, check current branch name:
-  - if branch is formatted like `ISSUE-ID/branch-name` → extract the issue ID and add reference in commit body: `relates to: #ISSUE-ID`
-  - example: branch `PROJ-123/fix-login` → add `relates to: #PROJ-123` to commit body
+    - if branch is formatted like `ISSUE-ID/branch-name` → extract the issue ID and add reference in
+      commit body: `relates to: #ISSUE-ID`
+    - example: branch `PROJ-123/fix-login` → add `relates to: #PROJ-123` to commit body
 
 ## format
 
@@ -46,44 +50,52 @@ Note: [ISSUE-ID] is optional and only added when issue ID is provided as argumen
 
 - always kebab-case
 - do not follow semver, pick dynamic scope for each commit based on committed content
-- to decide the scope fully analyze changes and pick scope name that best describes changes in a commit
-- example 1: search functionality changed to remove opening search with a hotkey, but along with that few styles tweaked. emoji = ⚙️, scope = search
+- to decide the scope fully analyze changes and pick scope name that best describes changes in a
+  commit
+- example 1: search functionality changed to remove opening search with a hotkey, but along with
+  that few styles tweaked. emoji = ⚙️, scope = search
 - example 2: a legacy modal component is replaced with radix-ui dialog. emoji = ⚙️, scope = my-bets
 - example 3: package.json dependencies updated and lock file regenerated. emoji = 📦, scope = deps
-- example 4: a legacy component deleted, settings deleted, dead code deleted. emoji = 🧹, scope = cleanup
+- example 4: a legacy component deleted, settings deleted, dead code deleted. emoji = 🧹, scope =
+  cleanup
 - example 5: tweaks to sockets. emoji = 📡, scope = socket
 - example 6: merge conflict resolved. emoji = 🐞, scope = git
 - to identify the scope aim for most overall context for example:
-  - EventPage has EventTile component
-  - a padding on EventTitle was broken on mobile devices
-  - a commit contains a fixed padding for EventTitle
-  - resulting commit: 🐞 event-page: fix EventTitle padding for mobile devices
+    - EventPage has EventTile component
+    - a padding on EventTitle was broken on mobile devices
+    - a commit contains a fixed padding for EventTitle
+    - resulting commit: 🐞 event-page: fix EventTitle padding for mobile devices
 
 [description]:
 
 - short, concise but descriptive
-- rarely longer than 7 words
+    - rarely longer than 7 words
 - if relevant, put details into commit body
-- be calm when picking words for commit message, do not use words «exterminate» or «legacy» except not asked to use them directly
+- be calm when picking words for commit message, do not use words «exterminate» or «legacy» except
+  not asked to use them directly
 
 [commit body]:
 
 - use your own language to shape it concisely
-- always check current branch name and if formatted like ISSUE-ID/branch-name → add reference: `relates to: #ISSUE-ID`
-- **important**: commit body is separate from commit message title - issue IDs from $ARGUMENTS go in the message title [ISSUE-ID], branch references go in commit body
+- always check current branch name and if formatted like ISSUE-ID/branch-name → add reference:
+  `relates to: #ISSUE-ID`
+- **important**: commit body is separate from commit message title - issue IDs from $ARGUMENTS go in
+  the message title [ISSUE-ID], branch references go in commit body
 
 ## important corrections
 
 - !important before actual commit make mini-code-sanity-check to identify:
-  - obviously dangerous testing code that I could to delete
-  - commented out potentially important code that I've commented out for testing purposes but forgot to uncomment again
-  - other common mistakes, debuggers etc
-  - if you encounter situations like this, immediately pause commit process and notify me
-  - when an issue is resolved, resume previously paused committing flow
+    - obviously dangerous testing code that I could to delete
+    - commented out potentially important code that I've commented out for testing purposes but
+      forgot to uncomment again
+    - other common mistakes, debuggers etc
+    - if you encounter situations like this, immediately pause commit process and notify me
+    - when an issue is resolved, resume previously paused committing flow
 - you must strictly follow commit format
-  - wrong format: ⚙️ migrate Flash Games components to mobx-react-lite
-    - emoji — OK
-    - message description — Ok
-    - missing scope — NOT OK
-    - correct format: ⚙️ flash-games: migrate components to mobx-react-lite
-- if pre-commit hook fails discarding commit attempt — do not try to fix it by yourself, but print summary of a problem for me
+    - wrong format: ⚙️ migrate Flash Games components to mobx-react-lite
+        - emoji — OK
+        - message description — Ok
+        - missing scope — NOT OK
+        - correct format: ⚙️ flash-games: migrate components to mobx-react-lite
+- if pre-commit hook fails discarding commit attempt — do not try to fix it by yourself, but print
+  summary of a problem for me

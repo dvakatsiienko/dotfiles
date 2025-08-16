@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "scripts": {
+        "check": "biome check --write",
         "install-macos": "zx ./script/install-macos.mjs",
         "install-dotfiles": "zx ./script/install-dotfiles.mjs",
         "list-symlinks": "zx ./script/list-symlinks.mjs",
@@ -12,10 +13,10 @@
         "zx": "8.5.4"
     },
     "devDependencies": {
-        "eslint-config-polished": "0.0.13",
+        "@biomejs/biome": "2.2.0",
+        "biome-config-polished": "0.0.1",
         "prettier": "3.5.3",
-        "prettier-config-polished": "0.0.6",
-        "prettier-eslint": "16.4.2"
+        "prettier-config-polished": "0.0.6"
     },
     "engines": {
         "pnpm": ">=8.5.0",
