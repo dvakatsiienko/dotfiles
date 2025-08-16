@@ -32,7 +32,6 @@ const dotfile_list_homedir = [
     '.zprofile', // ? zsh config file that sets the environment for login shells
     '.zshenv', // ? additional zsh config file that sets the environment for login shells
     '.vimrc', // ? vim config file
-    '.npmrc', // ? npm global config
     '.gitconfig', // ? git global config
     '.hushlogin', // ? removes the "Last login" message when opening a new terminal window
 ];

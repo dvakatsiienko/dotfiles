@@ -36,6 +36,6 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/dima/.claude/statusline/statusline-go/statusline-bubbletea"
+    "command": "/Users/dima/.claude/statusline/statusline-go/statusline-go"
   }
 }

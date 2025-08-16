@@ -327,23 +327,23 @@ func formatSyncIndicator(status GitSyncStatus) string {
 	}
 	
 	if status.Ahead > 0 && status.Behind > 0 {
-		// Diverged: ↕ in magenta, numbers in their respective colors
+		// Diverged: ↕ in green (like branch), numbers in their respective colors
 		aheadStr := toSuperscript(status.Ahead)
 		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↕%s%s%s%s↓%s%s%s", 
-			SyncDivergedColor, Reset, SyncAheadColor, aheadStr, Reset,
-			SyncBehindColor, behindStr, Reset)
+		return fmt.Sprintf("%s↕%s%s%s%s%s↓%s%s%s%s", 
+			BranchColor, Reset, SyncAheadColor, aheadStr, Reset,
+			BranchColor, Reset, SyncBehindColor, behindStr, Reset)
 	} else if status.Ahead > 0 {
-		// Ahead only: ↑ and number in yellow
+		// Ahead only: ↑ in green (branch color), number in yellow (ahead color)
 		aheadStr := toSuperscript(status.Ahead)
-		return fmt.Sprintf("%s↑%s%s", SyncAheadColor, aheadStr, Reset)
+		return fmt.Sprintf("%s↑%s%s%s%s", BranchColor, Reset, SyncAheadColor, aheadStr, Reset)
 	} else if status.Behind > 0 {
-		// Behind only: ↓ and number in red
+		// Behind only: ↓ in green (branch color), number in red (behind color)
 		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↓%s%s", SyncBehindColor, behindStr, Reset)
+		return fmt.Sprintf("%s↓%s%s%s%s", BranchColor, Reset, SyncBehindColor, behindStr, Reset)
 	} else {
-		// Up to date: ✓ in green
-		return fmt.Sprintf("%s✓%s", SyncUpToDateColor, Reset)
+		// Up to date: no indicator, just clean branch display
+		return ""
 	}
 }
 
@@ -391,12 +391,12 @@ func generateStatusline() string {
 		
 		if stagedStats != "" && unstagedStats != "" {
 			// Both staged and unstaged changes
-			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s staged | %s+%s%s%s-%s%s",
+			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓ | %s+%s%s%s-%s%s",
 				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
 				AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
 		} else if stagedStats != "" {
 			// Only staged changes
-			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s staged",
+			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓",
 				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset))
 		} else if unstagedStats != "" {
 			// Only unstaged changes
