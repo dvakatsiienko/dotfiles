@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Gitingest command - Get and register library source code.
+Libsource command - Get and register library source code.
 
-Usage: /gitingest [library-name]
-Example: /gitingest vue
+Usage: /libsource [library-name]
+Example: /libsource vue
 """
 
 import json
@@ -14,8 +14,8 @@ from pathlib import Path
 
 
 def load_config():
-    """Load the gitingest configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "gitingest" / ".gitingest-config.json"
+    """Load the libsource configuration file."""
+    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
     
     if config_file.exists():
         with open(config_file, 'r') as f:
@@ -25,8 +25,8 @@ def load_config():
 
 
 def save_config(config):
-    """Save the gitingest configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "gitingest" / ".gitingest-config.json"
+    """Save the libsource configuration file."""
+    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
     config_file.parent.mkdir(parents=True, exist_ok=True)
     
     with open(config_file, 'w') as f:
@@ -47,7 +47,7 @@ def calculate_loc(file_path):
 
 def get_library_source(lib_name, repo_url):
     """Download library source using gitingest."""
-    membank_dir = Path.home() / ".claude" / ".membank" / "gitingest"
+    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     
     print(f"🚀 Fetching {lib_name} source from {repo_url}...")
@@ -82,11 +82,12 @@ def get_library_source(lib_name, repo_url):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /gitingest [library-name]")
-        print("Example: /gitingest vue")
+        print("Usage: /libsource [library-name] [optional-url]")
+        print("Example: /libsource vue https://github.com/vuejs/core")
         sys.exit(1)
     
     lib_name = sys.argv[1]
+    provided_url = sys.argv[2] if len(sys.argv) > 2 else None
     
     # Load existing config
     config = load_config()
@@ -104,8 +105,11 @@ def main():
             print("Cancelled.")
             sys.exit(0)
     
-    # Get repo URL from user
-    repo_url = input(f"Enter GitHub repo URL for '{lib_name}': ").strip()
+    # Get repo URL from user or command line
+    if provided_url:
+        repo_url = provided_url
+    else:
+        repo_url = input(f"Enter GitHub repo URL for '{lib_name}': ").strip()
     
     if not repo_url.startswith('https://github.com/'):
         print("❌ Please provide a valid GitHub URL starting with 'https://github.com/'")
@@ -115,7 +119,7 @@ def main():
     file_size = get_library_source(lib_name, repo_url)
     
     # Calculate LOC
-    membank_dir = Path.home() / ".claude" / ".membank" / "gitingest"
+    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     loc_count = calculate_loc(output_file)
     

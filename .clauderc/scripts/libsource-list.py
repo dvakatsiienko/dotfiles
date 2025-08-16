@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Gitingest List command - List all registered library sources.
+Libsource List command - List all registered library sources.
 
-Usage: /gitingest-list
+Usage: /libsource-list
 """
 
 import json
@@ -10,8 +10,8 @@ from pathlib import Path
 
 
 def load_config():
-    """Load the gitingest configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "gitingest" / ".gitingest-config.json"
+    """Load the libsource configuration file."""
+    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
     
     if config_file.exists():
         with open(config_file, 'r') as f:
@@ -26,7 +26,7 @@ def main():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use /gitingest [library-name] to add libraries!")
+        print("Use /libsource [library-name] to add libraries!")
         return
     
     print("📚 Registered Library Sources:")

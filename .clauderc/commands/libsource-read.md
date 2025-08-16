@@ -15,7 +15,7 @@ This command instructs me to read a specific libsource file and extract targeted
 
 When you run `/libsource-read mobx "how to create observable arrays"`, I will:
 
-1. **Load libsource file** - Read `libsource-[lib-name].txt` from `.membank/gitingest/`
+1. **Load libsource file** - Read `libsource-[lib-name].txt` from `.membank/libsource/`
 2. **Parse with prompt context** - Analyze the libsource content with your specific prompt in mind
 3. **Extract relevant information** - Focus on sections, patterns, and code examples that match your query
 4. **Provide targeted response** - Return actionable information specific to your prompt
