@@ -1,7 +1,7 @@
 /**
  * ? This script safely converts a symlinked dotfile back to a real file
  * ? and removes it from git tracking
- * 
+ *
  * Usage: zx untrack-dotfile.mjs <dotfile-path>
  * Example: zx untrack-dotfile.mjs ~/.npmrc
  */
@@ -10,7 +10,7 @@
 import * as zx from 'zx';
 
 /* Instruments */
-import { bb, yb, mb, gb, rb, new_line } from './lib.mjs';
+import { bb, gb, mb, new_line, rb, yb } from './lib.mjs';
 
 const dotfile_path = process.argv[3];
 
@@ -50,14 +50,16 @@ try {
 
     // Verify it points to our dotfiles repo
     if (!link_target.includes('.dotfiles/source')) {
-        zx.echo(rb(`❌ Symlink doesn't point to dotfiles repo: ${link_target}`));
+        zx.echo(
+            rb(`❌ Symlink doesn't point to dotfiles repo: ${link_target}`),
+        );
         process.exit(1);
     }
 
     // Determine the source file path in repo
     const filename = zx.path.basename(resolved_path);
     let source_file_path;
-    
+
     if (link_target.includes('.config/oh-my-zsh-custom')) {
         source_file_path = `source/.config/oh-my-zsh-custom/${filename}`;
     } else if (link_target.includes('.config')) {
@@ -117,7 +119,6 @@ try {
     zx.echo(gb(`✅ Successfully untracked: ${yb(dotfile_path)}`));
     zx.echo(bb(`📝 The file is now a regular file (not symlinked)`));
     zx.echo(bb(`📝 Run 'git status' to see the changes ready to commit`));
-
 } catch (error) {
     zx.echo(rb(`❌ Error: ${error.message}`));
     process.exit(1);

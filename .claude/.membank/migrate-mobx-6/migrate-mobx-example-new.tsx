@@ -5,28 +5,33 @@ import { observer } from 'mobx-react-lite';
 import { mobx } from '@/lib/mobx';
 
 export const AuthResolver = observer(() => {
-  const {
-    ui: {
-      setNotifierData,
-      setCoreSettings,
-      setAlert,
-      setDynamicHeight,
-      setTheme,
-      applyCustomStyles,
-      setIsSLG,
-      setIsSDK,
-      setSdkUrls,
-      setHasParentIframe,
-      setThemeEditorData,
-      setViewType,
-      setIsViewTypeWasSettledByQueryParam,
-      getBanners,
-      language: languageFromStore,
-      setIsWasRequestToTheSettings,
-      setLineFilter,
-    },
-    profile: { getToken, setIsResetCacheInProfileRequest, markTokenExpired, updateBalance },
-  } = mobx;
+    const {
+        ui: {
+            setNotifierData,
+            setCoreSettings,
+            setAlert,
+            setDynamicHeight,
+            setTheme,
+            applyCustomStyles,
+            setIsSLG,
+            setIsSDK,
+            setSdkUrls,
+            setHasParentIframe,
+            setThemeEditorData,
+            setViewType,
+            setIsViewTypeWasSettledByQueryParam,
+            getBanners,
+            language: languageFromStore,
+            setIsWasRequestToTheSettings,
+            setLineFilter,
+        },
+        profile: {
+            getToken,
+            setIsResetCacheInProfileRequest,
+            markTokenExpired,
+            updateBalance,
+        },
+    } = mobx;
 
-  return <div>code...</div>;
+    return <div>code...</div>;
 });

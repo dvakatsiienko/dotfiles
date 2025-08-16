@@ -1,62 +1,62 @@
 {
-  "last_updated": "2025-08-16T00:46:00.000000",
-  "version": "1.0",
-  "libraries": {
-    "biome": {
-      "url": "https://github.com/biomejs/biome",
-      "filename": "libsource-biome.txt",
-      "last_updated": "2025-08-16T00:46:00.000000",
-      "file_size": 1050980,
-      "loc": 35000,
-      "quality": 88
+    "last_updated": "2025-08-16T00:46:00.000000",
+    "libraries": {
+        "biome": {
+            "file_size": 1050980,
+            "filename": "libsource-biome.txt",
+            "last_updated": "2025-08-16T00:46:00.000000",
+            "loc": 35000,
+            "quality": 88,
+            "url": "https://github.com/biomejs/biome"
+        },
+        "lodash": {
+            "file_size": 154597,
+            "filename": "libsource-lodash.txt",
+            "last_updated": "2025-08-15T02:23:05.293136",
+            "loc": 5281,
+            "quality": 79,
+            "url": "https://github.com/lodash/lodash"
+        },
+        "mobx": {
+            "file_size": 1996581,
+            "filename": "libsource-mobx.txt",
+            "last_updated": "2025-08-13T19:30:00.000000",
+            "loc": 68000,
+            "quality": 85,
+            "url": "https://github.com/mobxjs/mobx"
+        },
+        "react": {
+            "file_size": 17418387,
+            "filename": "libsource-react.txt",
+            "last_updated": "2025-08-15T01:45:00.000000",
+            "loc": 610938,
+            "quality": 83,
+            "url": "https://github.com/facebook/react"
+        },
+        "vite": {
+            "file_size": 3803461,
+            "filename": "libsource-vite.txt",
+            "last_updated": "2025-08-15T02:28:44.886408",
+            "loc": 124377,
+            "quality": 83,
+            "url": "https://github.com/vitejs/vite"
+        },
+        "webfonts-loader": {
+            "file_size": 40560,
+            "filename": "libsource-webfonts-loader.txt",
+            "last_updated": "2025-08-11T19:14:00.000000",
+            "loc": 1400,
+            "quality": 96,
+            "url": "https://github.com/jeerbl/webfonts-loader"
+        },
+        "webpack": {
+            "file_size": 8989946,
+            "filename": "libsource-webpack.txt",
+            "last_updated": "2025-08-14T01:10:00.000000",
+            "loc": 290000,
+            "quality": 78,
+            "url": "https://github.com/webpack/webpack"
+        }
     },
-    "lodash": {
-      "url": "https://github.com/lodash/lodash",
-      "filename": "libsource-lodash.txt",
-      "last_updated": "2025-08-15T02:23:05.293136",
-      "file_size": 154597,
-      "loc": 5281,
-      "quality": 79
-    },
-    "mobx": {
-      "url": "https://github.com/mobxjs/mobx",
-      "filename": "libsource-mobx.txt",
-      "last_updated": "2025-08-13T19:30:00.000000",
-      "file_size": 1996581,
-      "loc": 68000,
-      "quality": 85
-    },
-    "react": {
-      "url": "https://github.com/facebook/react",
-      "filename": "libsource-react.txt",
-      "last_updated": "2025-08-15T01:45:00.000000",
-      "file_size": 17418387,
-      "loc": 610938,
-      "quality": 83
-    },
-    "vite": {
-      "url": "https://github.com/vitejs/vite",
-      "filename": "libsource-vite.txt",
-      "last_updated": "2025-08-15T02:28:44.886408",
-      "file_size": 3803461,
-      "loc": 124377,
-      "quality": 83
-    },
-    "webfonts-loader": {
-      "url": "https://github.com/jeerbl/webfonts-loader",
-      "filename": "libsource-webfonts-loader.txt",
-      "last_updated": "2025-08-11T19:14:00.000000",
-      "file_size": 40560,
-      "loc": 1400,
-      "quality": 96
-    },
-    "webpack": {
-      "url": "https://github.com/webpack/webpack",
-      "filename": "libsource-webpack.txt",
-      "last_updated": "2025-08-14T01:10:00.000000",
-      "file_size": 8989946,
-      "loc": 290000,
-      "quality": 78
-    }
-  }
+    "version": "1.0"
 }
