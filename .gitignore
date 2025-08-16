@@ -4,3 +4,6 @@ node_modules
 
 .users_cache.json
 .channels_cache_v2.json
+
+cute-config.md
+todo.md
