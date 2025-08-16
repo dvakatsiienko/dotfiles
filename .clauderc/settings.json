@@ -4,11 +4,11 @@
             {
                 "hooks": [
                     {
-                        "command": "sh ~/.claude/sounds/notification.sh",
+                        "command": "sh ~/.claude/hooks/notification.sh",
                         "type": "command"
                     }
                 ],
-                "matcher": ""
+                "matcher": ".*"
             }
         ]
     },
