@@ -11,16 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/charmbracelet/lipgloss"
 )
 
-// Lip Gloss Styles
-var (
-	// Base styles
-	baseStyle = lipgloss.NewStyle().
-			MarginBottom(1).
-			PaddingBottom(1)
-)
 
 // Legacy color definitions (keeping for compatibility)
 const (
@@ -520,9 +512,9 @@ func generateStatusline() string {
 	// System Performance Section removed - matching statusline.sh
 	
 	
-	// Apply Lip Gloss styling and add bottom margin
-	finalOutput := baseStyle.Render(output.String())
-	return finalOutput
+	// Add bottom margin for consistent spacing
+	output.WriteString("\n")
+	return output.String()
 }
 
 func main() {
