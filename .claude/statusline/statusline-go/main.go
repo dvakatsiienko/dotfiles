@@ -237,6 +237,33 @@ func getUntrackedCount() int {
 	return len(strings.Split(strings.TrimSpace(output), "\n"))
 }
 
+func getUntrackedLineCount() int {
+	files := runCommand("git", "ls-files", "--others", "--exclude-standard")
+	if files == "" {
+		return 0
+	}
+	
+	totalLines := 0
+	fileList := strings.Split(strings.TrimSpace(files), "\n")
+	
+	for _, file := range fileList {
+		if file != "" {
+			content := runCommand("wc", "-l", file)
+			if content != "" {
+				// wc -l output format: "   123 filename"
+				parts := strings.Fields(content)
+				if len(parts) > 0 {
+					if lines := parseIntSafe(parts[0]); lines > 0 {
+						totalLines += lines
+					}
+				}
+			}
+		}
+	}
+	
+	return totalLines
+}
+
 func getStagedFileCount() int {
 	output := runCommand("git", "diff", "--cached", "--name-only")
 	if output == "" {
@@ -416,9 +443,10 @@ func generateStatusline() string {
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
 		
-		// Add untracked files to unstaged insertions
+		// Add untracked files line count to unstaged insertions
 		if untrackedCount > 0 {
-			unstagedInsertionsInt := parseIntSafe(unstagedInsertions) + untrackedCount
+			untrackedLines := getUntrackedLineCount()
+			unstagedInsertionsInt := parseIntSafe(unstagedInsertions) + untrackedLines
 			unstagedInsertions = fmt.Sprintf("%d", unstagedInsertionsInt)
 		}
 		
