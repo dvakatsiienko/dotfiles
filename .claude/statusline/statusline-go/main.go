@@ -229,6 +229,14 @@ func parseGitStats(stats string) (insertions, deletions string) {
 	return insertions, deletions
 }
 
+func getUntrackedCount() int {
+	output := runCommand("git", "ls-files", "--others", "--exclude-standard")
+	if output == "" {
+		return 0
+	}
+	return len(strings.Split(strings.TrimSpace(output), "\n"))
+}
+
 func getStashCount() int {
 	output := runCommand("git", "stash", "list")
 	if output == "" {
@@ -327,20 +335,19 @@ func formatSyncIndicator(status GitSyncStatus) string {
 	}
 	
 	if status.Ahead > 0 && status.Behind > 0 {
-		// Diverged: ↕ in green (like branch), numbers in their respective colors
+		// Diverged: arrows and numbers in red
 		aheadStr := toSuperscript(status.Ahead)
 		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↕%s%s%s%s%s↓%s%s%s%s", 
-			BranchColor, Reset, SyncAheadColor, aheadStr, Reset,
-			BranchColor, Reset, SyncBehindColor, behindStr, Reset)
+		return fmt.Sprintf("%s↕%s%s↓%s%s", 
+			SyncBehindColor, aheadStr, behindStr, Reset)
 	} else if status.Ahead > 0 {
-		// Ahead only: ↑ in green (branch color), number in yellow (ahead color)
+		// Ahead only: ↑ and number in green
 		aheadStr := toSuperscript(status.Ahead)
-		return fmt.Sprintf("%s↑%s%s%s%s", BranchColor, Reset, SyncAheadColor, aheadStr, Reset)
+		return fmt.Sprintf("%s↑%s%s", BranchColor, aheadStr, Reset)
 	} else if status.Behind > 0 {
-		// Behind only: ↓ in green (branch color), number in red (behind color)
+		// Behind only: ↓ and number in yellow
 		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↓%s%s%s%s", BranchColor, Reset, SyncBehindColor, behindStr, Reset)
+		return fmt.Sprintf("%s↓%s%s", SyncAheadColor, behindStr, Reset)
 	} else {
 		// Up to date: no indicator, just clean branch display
 		return ""
@@ -383,13 +390,21 @@ func generateStatusline() string {
 		// Git diff stats
 		stagedStats := runCommand("git", "diff", "--cached", "--shortstat")
 		unstagedStats := runCommand("git", "diff", "--shortstat")
+		untrackedCount := getUntrackedCount()
 		
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
 		
-		gitEmoji := getGitEmoji()
+		// Add untracked files to unstaged insertions
+		if untrackedCount > 0 {
+			unstagedInsertionsInt := parseIntSafe(unstagedInsertions) + untrackedCount
+			unstagedInsertions = fmt.Sprintf("%d", unstagedInsertionsInt)
+		}
 		
-		if stagedStats != "" && unstagedStats != "" {
+		gitEmoji := getGitEmoji()
+		hasUnstagedChanges := unstagedStats != "" || untrackedCount > 0
+		
+		if stagedStats != "" && hasUnstagedChanges {
 			// Both staged and unstaged changes
 			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓ | %s+%s%s%s-%s%s",
 				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
@@ -398,7 +413,7 @@ func generateStatusline() string {
 			// Only staged changes
 			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓",
 				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset))
-		} else if unstagedStats != "" {
+		} else if hasUnstagedChanges {
 			// Only unstaged changes
 			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s",
 				gitEmoji, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
