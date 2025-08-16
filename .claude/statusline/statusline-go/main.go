@@ -30,6 +30,10 @@ const (
 	NodeIconColor  = "\033[38;5;71m"
 	PnpmColor      = "\033[38;5;202m"
 	PnpmIconColor  = "\033[38;5;202m"
+	ModelColor     = "\033[38;5;201m"
+	ModelIconColor = "\033[38;5;201m"
+	DirColor       = "\033[38;5;248m" // Lighter gray for directory
+	DirIconColor   = "\033[38;5;248m" // Lighter gray for directory icon
 	BranchColor    = "\033[32m"
 	AddColor       = "\033[32m"
 	DelColor       = "\033[31m"
@@ -41,7 +45,7 @@ const (
 	SyncUpToDateColor = "\033[32m"  // green for up to date
 )
 
-// Retro gradient colors for model name
+// Retro gradient colors for model name (bright ANSI codes 90-97 range)
 var gradientColors = []string{
 	"\033[95m", // bright magenta
 	"\033[94m", // bright blue
@@ -91,6 +95,35 @@ func applyGradient(text string) string {
 	return result.String()
 }
 
+
+func getCurrentDirName() string {
+	wd, err := os.Getwd()
+	if err != nil {
+		return "unknown"
+	}
+	
+	homeDir, _ := os.UserHomeDir()
+	
+	// Handle special cases
+	if wd == "/" {
+		return "/"
+	}
+	if wd == homeDir {
+		return "~"
+	}
+	
+	// If we're in home directory or subdirectory, use ~ prefix
+	if strings.HasPrefix(wd, homeDir) {
+		relativePath := strings.TrimPrefix(wd, homeDir)
+		if relativePath == "" {
+			return "~"
+		}
+		return "~" + relativePath
+	}
+	
+	// If we're outside home directory, return full path from root
+	return wd
+}
 
 func getGitEmoji() string {
 	hour := time.Now().Hour()
@@ -401,22 +434,24 @@ func formatSyncIndicator(status GitSyncStatus) string {
 func generateStatusline() string {
 	var output strings.Builder
 	
-	// Model section
+	// Add explicit reset at start to fix first-position dimming
+	output.WriteString(Reset)
+	
+	// Directory section (first)
+	dirName := getCurrentDirName()
+	output.WriteString(fmt.Sprintf("%s%s%s", DirColor, dirName, Reset))
+	
+	// Model section (second)
 	model := getModelFromSettings()
+	modelEmoji := "🪸"
 	gradientModel := applyGradient(model)
-	modelEmoji := getModelEmoji()
-	output.WriteString(fmt.Sprintf("%s %s", modelEmoji, gradientModel))
+	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, gradientModel))
 	
-	// Build the complete statusline content
-	// Node.js version
+	// Merged Node and PNPM section (third)
 	nodeVersion := getNodeVersion()
-	output.WriteString(fmt.Sprintf(" • %s%s󰎙%s %s%s%s", 
-		Bold, NodeIconColor, Reset, NodeColor, nodeVersion, Reset))
-	
-	// PNPM version
 	pnpmVersion := getPnpmVersion()
-	output.WriteString(fmt.Sprintf(" • %s📦%s %s%s%s",
-		PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
+	output.WriteString(fmt.Sprintf(" • %s%s󰎙%s %s%s%s · %s%s%s", 
+		Bold, NodeIconColor, Reset, NodeColor, nodeVersion, Reset, PnpmColor, pnpmVersion, Reset))
 	
 	// Git section
 	if isGitRepo() {
