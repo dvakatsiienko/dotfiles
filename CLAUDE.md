@@ -103,6 +103,76 @@ Reference actual files for current aliases:
 - **Dependencies**: zx for scripting
 - **Code quality**: ESLint + Prettier with polished configs
 
+## Claude Config Management (.clauderc)
+
+### System Architecture
+
+**Config Locations:**
+
+- `~/.claude/` = Standard Claude Code config directory (symlink targets)
+- `~/.dotfiles/.clauderc/` = Source of truth (original files, git tracked)
+- `~/.dotfiles/.claude/` = Project-level claude configs for dotfiles project
+
+**Symlink Flow:**
+
+```
+~/.claude/settings.json  → ~/.dotfiles/.clauderc/settings.json
+~/.claude/.membank/      → ~/.dotfiles/.clauderc/.membank/
+~/.claude/agents/        → ~/.dotfiles/.clauderc/agents/
+~/.claude/commands/      → ~/.dotfiles/.clauderc/commands/
+```
+
+### Configuration Categories
+
+**Claude Built-in Configs:**
+
+- ✅ `settings.json` - Permissions, hooks, integrations
+- ✅ `agents/` - Agent definitions (.md files)
+- ✅ `commands/` - Command definitions (.md files)
+
+**Custom Configs:**
+
+- ✅ `.membank/` - Documentation, libsources, implementation guides
+- ✅ `statusline/` - Statusline code and scripts
+- ⚠️ `config/` - Legacy notification configs (needs cleanup)
+- ⚠️ `scripts/` - Python libsource scripts (needs reformatting)
+- ⚠️ `sounds/` - Audio notifications (needs cleanup)
+- ❌ `agents.md` - Legacy subagents config (candidate for removal)
+
+### Management Rules
+
+**Source of Truth:** `.clauderc/` contains originals
+
+- ✅ Edit files in `.clauderc/` only
+- ✅ Changes automatically reflect via symlinks
+- ❌ Never edit files in `~/.claude/` directly
+
+**Backup Strategy:**
+
+- ✅ Git tracks `.clauderc/` originals
+- ❌ No automated dotfile scripts (manual management only)
+- ✅ Symlinks preserve real-time sync
+
+**Cache vs Config:**
+
+- ✅ Conversation history, todos, thinking files stay in `~/.claude/`
+- ✅ Only true configuration files stored in `.clauderc/`
+
+### Current Structure
+
+```
+.clauderc/
+├── settings.json          # Main Claude settings
+├── .membank/              # Knowledge base system
+├── agents/                # Agent definitions
+├── commands/              # Command definitions
+├── statusline/            # Statusline implementation
+├── config/                # ⚠️ Needs cleanup
+├── scripts/               # ⚠️ Needs reformatting
+├── sounds/                # ⚠️ Needs cleanup
+└── agents.md              # ❌ Legacy file
+```
+
 ## Important Notes
 
 - **1Password required** for SSH signing functionality
