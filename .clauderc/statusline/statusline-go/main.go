@@ -443,7 +443,7 @@ func generateStatusline() string {
 	
 	// Model section (second)
 	model := getModelFromSettings()
-	modelEmoji := "🪸"
+	modelEmoji := getModelEmoji()
 	gradientModel := applyGradient(model)
 	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, gradientModel))
 	
@@ -490,13 +490,13 @@ func generateStatusline() string {
 		
 		if stagedStats != "" && hasUnstagedChanges {
 			// Both staged and unstaged changes
-			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s ✓ | %s+%s%s%s-%s%s",
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s | %s+%s%s%s-%s%s",
 				gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
-				AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
+				AddColor, Reset, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
 		} else if stagedStats != "" {
 			// Only staged changes
-			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s ✓",
-				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset))
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
+				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset, AddColor, Reset))
 		} else if hasUnstagedChanges {
 			// Only unstaged changes (modified + untracked)
 			unstagedFileCount := modifiedFileCount + untrackedCount
