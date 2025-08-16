@@ -237,6 +237,22 @@ func getUntrackedCount() int {
 	return len(strings.Split(strings.TrimSpace(output), "\n"))
 }
 
+func getStagedFileCount() int {
+	output := runCommand("git", "diff", "--cached", "--name-only")
+	if output == "" {
+		return 0
+	}
+	return len(strings.Split(strings.TrimSpace(output), "\n"))
+}
+
+func getModifiedFileCount() int {
+	output := runCommand("git", "diff", "--name-only")
+	if output == "" {
+		return 0
+	}
+	return len(strings.Split(strings.TrimSpace(output), "\n"))
+}
+
 func getStashCount() int {
 	output := runCommand("git", "stash", "list")
 	if output == "" {
@@ -390,7 +406,12 @@ func generateStatusline() string {
 		// Git diff stats
 		stagedStats := runCommand("git", "diff", "--cached", "--shortstat")
 		unstagedStats := runCommand("git", "diff", "--shortstat")
+		
+		// File counts
+		stagedFileCount := getStagedFileCount()
+		modifiedFileCount := getModifiedFileCount()
 		untrackedCount := getUntrackedCount()
+		totalFileCount := stagedFileCount + modifiedFileCount + untrackedCount
 		
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
@@ -406,17 +427,18 @@ func generateStatusline() string {
 		
 		if stagedStats != "" && hasUnstagedChanges {
 			// Both staged and unstaged changes
-			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓ | %s+%s%s%s-%s%s",
-				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s ✓ | %s+%s%s%s-%s%s",
+				gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
 				AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
 		} else if stagedStats != "" {
 			// Only staged changes
-			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s ✓",
-				gitEmoji, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset))
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s ✓",
+				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset))
 		} else if hasUnstagedChanges {
-			// Only unstaged changes
-			output.WriteString(fmt.Sprintf(" • %s %s+%s%s%s-%s%s",
-				gitEmoji, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
+			// Only unstaged changes (modified + untracked)
+			unstagedFileCount := modifiedFileCount + untrackedCount
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s",
+				gitEmoji, CleanColor, unstagedFileCount, Reset, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
 		} else {
 			// Clean repo
 			output.WriteString(fmt.Sprintf(" • %s %sclean%s", gitEmoji, CleanColor, Reset))
