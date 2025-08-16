@@ -4,7 +4,29 @@
             {
                 "hooks": [
                     {
-                        "command": "sh ~/.claude/hooks/notification.sh",
+                        "command": "sh ~/.claude/notification.sh",
+                        "type": "command"
+                    }
+                ],
+                "matcher": ".*"
+            }
+        ],
+        "task-completed": [
+            {
+                "hooks": [
+                    {
+                        "command": "sh ~/.claude/notification.sh", 
+                        "type": "command"
+                    }
+                ],
+                "matcher": ".*"
+            }
+        ],
+        "command-completed": [
+            {
+                "hooks": [
+                    {
+                        "command": "sh ~/.claude/notification.sh",
                         "type": "command"
                     }
                 ],
