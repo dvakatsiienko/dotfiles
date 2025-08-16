@@ -3,7 +3,7 @@
 # Switch Claude Code statusline to Go version
 
 SETTINGS_FILE="$HOME/.claude/settings.json"
-STATUSLINE_BINARY="$HOME/.claude/statusline/statusline-go/statusline"
+STATUSLINE_BINARY="$HOME/.claude/statusline/statusline-go/bin"
 STATUSLINE_SOURCE="$HOME/.claude/statusline/statusline-go/main.go"
 
 # Check if settings file exists
@@ -41,7 +41,7 @@ if [ ! -f "$STATUSLINE_BINARY" ] || [ "$STATUSLINE_SOURCE" -nt "$STATUSLINE_BINA
     
     # Compile the binary
     unalias go 2>/dev/null || true
-    go build -o statusline main.go
+    go build -o bin main.go
     
     if [ $? -ne 0 ]; then
         echo "❌ Failed to compile Go statusline"

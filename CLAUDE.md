@@ -159,11 +159,49 @@ Reference actual files for current aliases:
 ├── agents/                # Agent definitions
 ├── commands/              # Command definitions
 ├── statusline/            # Statusline implementation
+│   ├── statusline-db.json # Shared emoji rotation state
+│   ├── statusline.sh      # Bash implementation
+│   ├── statusline-go/     # Go implementation directory
+│   │   ├── bin            # Compiled Go binary
+│   │   ├── main.go        # Go source code
+│   │   ├── go.mod         # Go module file
+│   │   └── go.sum         # Go dependencies
+│   ├── switch-to-go.sh    # Switch to Go version
+│   └── switch-to-sh.sh    # Switch to Bash version
 ├── config/                # ⚠️ Needs cleanup
 ├── scripts/               # ⚠️ Needs reformatting
 ├── sounds/                # ⚠️ Needs cleanup
 └── agents.md              # ❌ Legacy file
 ```
+
+## Statusline System
+
+### Overview
+Dual-implementation statusline system providing rich terminal display with:
+- Directory path with ~ shortening
+- Dynamic model detection with rotating emoji (hourly rotation)
+- Node.js and pnpm version display  
+- Comprehensive git status: branch, sync indicators, file counts, line changes
+- Stash count when present
+- Day/night themed git emojis (🦔/🦦)
+
+### Architecture
+- **Shared State**: `statusline-db.json` tracks emoji rotation across implementations
+- **Go Version**: High-performance compiled binary in `statusline-go/bin`
+- **Bash Version**: Portable shell script `statusline.sh`
+- **Switch Scripts**: Toggle between implementations seamlessly
+
+### Features
+- **Emoji Rotation**: 66 unique emojis rotate every hour
+- **Git Sync Status**: Superscript ahead/behind indicators (↑¹ ↓²)
+- **Error Handling**: Graceful fallbacks for missing tools
+- **Dynamic Model**: Reads current model from settings.json
+- **Rich Git Stats**: Staged/unstaged/untracked files with line counts
+
+### Usage
+- **Switch to Go**: `./switch-to-go.sh` (compiles if needed)
+- **Switch to Bash**: `./switch-to-sh.sh`
+- **Current**: Points to `statusline-go/bin` in settings.json
 
 ## Important Notes
 

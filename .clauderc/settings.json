@@ -35,7 +35,7 @@
         "defaultMode": "plan"
     },
     "statusLine": {
-        "command": "/Users/dima/.claude/statusline/statusline",
+        "command": "/Users/dima/.claude/statusline/statusline-go/bin",
         "padding": 2,
         "type": "command"
     }

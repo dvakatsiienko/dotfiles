@@ -3,7 +3,7 @@
 # Switch Claude Code statusline to bash version
 
 SETTINGS_FILE="$HOME/.claude/settings.json"
-STATUSLINE_SCRIPT="$HOME/.claude/statusline/statusline-sh/statusline.sh"
+STATUSLINE_SCRIPT="$HOME/.claude/statusline/statusline.sh"
 
 # Check if settings file exists
 if [ ! -f "$SETTINGS_FILE" ]; then
