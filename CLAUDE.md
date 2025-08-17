@@ -126,10 +126,8 @@ Reference actual files for current aliases:
 
 - ✅ `.membank/` - Documentation, libsources, implementation guides
 - ✅ `statusline/` - Statusline code and scripts
-- ⚠️ `config/` - Legacy notification configs (needs cleanup)
 - ✅ `scripts/` - Python libsource management scripts
-- ⚠️ `sounds/` - Audio notifications (needs cleanup)
-- ❌ `agents.md` - Legacy subagents config (candidate for removal)
+- ❌ `agents.md` - Legacy subagents config (needs cleanup)
 
 ### Management Rules
 
@@ -156,65 +154,38 @@ Reference actual files for current aliases:
 .clauderc/
 ├── settings.json          # Main Claude settings
 ├── .membank/              # Knowledge base system
-│   ├── libsource/         # Standardized libsource collection
-│   │   ├── .libsource-config.json # Library tracking config
-│   │   ├── libsource-biome.txt    # Biome (1MB, 35K LOC, 88% quality)
-│   │   ├── libsource-bubbletea.txt # Bubble Tea (409KB, 16.7K LOC, 92% quality)
-│   │   ├── libsource-lipgloss.txt  # Lip Gloss (405KB, 13.9K LOC, 94% quality)
-│   │   ├── libsource-lodash.txt    # Lodash (151KB, 5.3K LOC, 79% quality)
-│   │   ├── libsource-mobx.txt      # MobX (1.9MB, 68K LOC, 85% quality)
-│   │   ├── libsource-react.txt     # React (16.6MB, 610K LOC, 83% quality)
-│   │   ├── libsource-vite.txt      # Vite (3.6MB, 124K LOC, 83% quality)
-│   │   ├── libsource-webfonts-loader.txt # Webfonts Loader (40KB, 1.4K LOC, 96% quality)
-│   │   ├── libsource-webpack.txt   # Webpack (8.6MB, 290K LOC, 78% quality)
-│   │   └── libsource-zx.txt        # zx (424KB, 14.6K LOC, unrated)
-│   ├── implementation.md   # Project implementation guides
-│   ├── migrate-preact-to-react.md # Migration documentation
-│   └── typescript.md       # TypeScript conventions
+│   ├── libsource/         # Library source collection (11 libraries)
+│   ├── implementation.md  # Project guides
+│   └── typescript.md      # Type conventions
 ├── agents/                # Agent definitions
 ├── commands/              # Command definitions
-│   ├── libsource.md       # Main libsource command
-│   ├── libsource-read.md  # Targeted libsource analysis
-│   ├── libsource-add.md   # Add new libraries
-│   └── [other commands]
-├── scripts/               # Python libsource management scripts
-│   ├── libsource.py       # Add libraries to collection
-│   ├── libsource-list.py  # List registered libraries
-│   ├── libsource-update.py # Update existing libraries
-│   └── libsource-delete.py # Remove libraries
-├── statusline/            # Statusline implementation
-│   ├── statusline-db.json # Shared emoji rotation state
-│   ├── statusline.sh      # Bash implementation
-│   ├── statusline-go/     # Go implementation directory
-│   │   ├── bin            # Compiled Go binary
-│   │   ├── main.go        # Go source code
-│   │   ├── go.mod         # Go module file
-│   │   └── go.sum         # Go dependencies
-│   ├── switch-to-go.sh    # Switch to Go version
-│   └── switch-to-sh.sh    # Switch to Bash version
-├── config/                # ⚠️ Needs cleanup
-├── sounds/                # ⚠️ Needs cleanup
-└── agents.md              # ❌ Legacy file
+├── scripts/               # Python libsource management
+├── statusline/            # Dual statusline implementation (Go + Bash)
+└── agents.md              # ❌ Legacy file (needs cleanup)
 ```
 
 ## Statusline System
 
 ### Overview
+
 Dual-implementation statusline system providing rich terminal display with:
+
 - Directory path with ~ shortening
 - Dynamic model detection with rotating emoji (hourly rotation)
-- Node.js and pnpm version display  
+- Node.js and pnpm version display
 - Comprehensive git status: branch, sync indicators, file counts, line changes
 - Stash count when present
 - Day/night themed git emojis (🦔/🦦)
 
 ### Architecture
+
 - **Shared State**: `statusline-db.json` tracks emoji rotation across implementations
 - **Go Version**: High-performance compiled binary in `statusline-go/bin`
 - **Bash Version**: Portable shell script `statusline.sh`
 - **Switch Scripts**: Toggle between implementations seamlessly
 
 ### Features
+
 - **Emoji Rotation**: 66 unique emojis rotate every hour
 - **Git Sync Status**: Superscript ahead/behind indicators (↑¹ ↓²)
 - **Error Handling**: Graceful fallbacks for missing tools
@@ -222,91 +193,31 @@ Dual-implementation statusline system providing rich terminal display with:
 - **Rich Git Stats**: Staged/unstaged/untracked files with line counts
 
 ### Usage
+
 - **Switch to Go**: `./switch-to-go.sh` (compiles if needed)
 - **Switch to Bash**: `./switch-to-sh.sh`
 - **Current**: Points to `statusline-go/bin` in settings.json
 
 ## Libsource System
 
-### Overview
+### Purpose
+Standardized library source code collection for AI-optimized implementation guidance.
 
-Standardized library source code collection optimized for AI consumption. The libsource system provides comprehensive source code snapshots of key libraries, enabling detailed implementation analysis and code generation assistance.
+### Technical Architecture
+- **Fetching**: Uses `gitingest` CLI tool to extract optimized source snapshots
+- **Storage**: `.clauderc/.membank/libsource/` with `.libsource-config.json` tracking
+- **Management**: Python scripts in `.clauderc/scripts/libsource-*.py`
 
-### Architecture
+### Key Components
+- **libsource.py**: Add libraries with URL, calculates LOC and quality metrics
+- **libsource-list.py**: Display collection with human-readable metrics  
+- **Commands**: `/libsource-read`, `/libsource`, `/libsource-list`
+- **Config**: `.libsource-config.json` tracks metadata and quality ratings
 
-**Core Directory**: `.clauderc/.membank/libsource/`
-- **Config File**: `.libsource-config.json` - Tracks library metadata, quality ratings, and update history
-- **Source Files**: `libsource-[name].txt` - Optimized library source code snapshots
-- **Management**: Python scripts for adding, listing, updating, and removing libraries
-
-### Current Library Collection
-
-**High Quality Sources** (85%+ rating):
-- **webfonts-loader** (96% quality) - Font generation system (40KB, 1.4K LOC)
-- **lipgloss** (94% quality) - Terminal styling library (405KB, 13.9K LOC)
-- **bubbletea** (92% quality) - TUI framework (409KB, 16.7K LOC)
-- **biome** (88% quality) - Modern linter/formatter (1MB, 35K LOC)
-- **mobx** (85% quality) - State management (1.9MB, 68K LOC)
-
-**Core Libraries**:
-- **react** (83% quality) - UI framework (16.6MB, 610K LOC)
-- **vite** (83% quality) - Build tool (3.6MB, 124K LOC)
-- **lodash** (79% quality) - Utility functions (151KB, 5.3K LOC)
-- **webpack** (78% quality) - Build system (8.6MB, 290K LOC)
-
-**Recent Additions**:
-- **zx** (unrated) - Google's shell scripting utility (424KB, 14.6K LOC)
-
-### Commands
-
-**Primary Commands**:
-- `/libsource-read [lib-name] "targeted prompt"` - Extract specific implementation details
-- `/libsource [lib-name] [optional-url]` - Add new library to collection
-- `/libsource-list` - Display all registered libraries with metrics
-
-**Management Scripts**:
-- `libsource.py` - Add libraries with automatic quality detection
-- `libsource-list.py` - List registered libraries with human-readable metrics
-- `libsource-update.py` - Update existing library sources
-- `libsource-delete.py` - Remove libraries from collection
-
-### Usage Patterns
-
-**Implementation Research**:
-```bash
-/libsource-read react "hooks patterns for state management"
-/libsource-read mobx "observable decorators vs makeObservable"
-/libsource-read vite "plugin development API"
-```
-
-**Configuration Examples**:
-```bash
-/libsource-read webpack "code splitting configuration"
-/libsource-read biome "ESLint migration rules mapping"
-```
-
-**Performance Analysis**:
-```bash
-/libsource-read react "rendering optimization techniques"
-/libsource-read vite "build performance optimizations"
-```
-
-### Quality Metrics
-
-Quality ratings (0-100%) indicate:
-- **Code completeness** and accuracy
-- **Documentation coverage**
-- **Implementation pattern** consistency
-- **API surface coverage**
-
-Libraries with 85%+ ratings are considered authoritative sources for implementation guidance.
-
-### Research Priority
-
-The libsource system serves as the **primary source** for library-related questions:
-1. **First**: Query libsource collection via `/libsource-read`
-2. **Second**: Web search only when libsource lacks needed information
-3. **Prioritize**: High-quality rated libraries (85%+) as authoritative
+### Maintenance
+- **Quality Ratings**: 0-100% based on completeness, documentation, API coverage
+- **Current Collection**: 11 libraries (React, MobX, Vite, Webpack, Biome, etc.)
+- **Priority**: 85%+ quality libraries considered authoritative sources
 
 ## Important Notes
 
