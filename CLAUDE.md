@@ -219,6 +219,10 @@ Standardized library source code collection for AI-optimized implementation guid
 - **Current Collection**: 11 libraries (React, MobX, Vite, Webpack, Biome, etc.)
 - **Priority**: 85%+ quality libraries considered authoritative sources
 
+### Gitingest Reference
+
+**When working on libsource features:** Always consult `.clauderc/.membank/libsource/libsource-gitingest.txt` when something needs clarification regarding gitingest behavior.
+
 ## Important Notes
 
 - **1Password required** for SSH signing functionality

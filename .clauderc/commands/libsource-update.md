@@ -16,10 +16,10 @@ This command prompts with an instruction to update libsource files in the collec
 When you run `/libsource-update mobx`, I will:
 
 1. **Check current libsource** - Examine existing `libsource-[lib-name].txt` file
-2. **Fetch fresh repository data** - Use gitingest API to get latest repository snapshot
+2. **Fetch fresh repository data** - Use gitingest tool to get latest repository snapshot
 3. **Compare versions** - Analyze differences between current and new versions
 4. **Update libsource file** - Replace with updated content
-5. **Update config** - Refresh metadata in `.gitingest-config.json` including:
+5. **Update config** - Refresh metadata in `.libsource-config.json` including:
     - Last updated timestamp
     - File size and LOC estimates
     - Quality score if changed significantly

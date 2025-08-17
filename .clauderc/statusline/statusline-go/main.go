@@ -470,12 +470,8 @@ func generateStatusline() string {
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
 		
-		// Add untracked files line count to unstaged insertions
-		if untrackedCount > 0 {
-			untrackedLines := getUntrackedLineCount()
-			unstagedInsertionsInt := parseIntSafe(unstagedInsertions) + untrackedLines
-			unstagedInsertions = fmt.Sprintf("%d", unstagedInsertionsInt)
-		}
+		// Note: Untracked files are counted in file count but NOT in line diff stats
+		// Git's --shortstat only shows changes to tracked files, not new file additions
 		
 		gitEmoji := getGitEmoji()
 		hasUnstagedChanges := unstagedStats != "" || untrackedCount > 0

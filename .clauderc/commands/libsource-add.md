@@ -13,7 +13,7 @@ This command adds a new library to your libsource collection using the existing 
 ### Function
 When you run `/libsource-add vue`, I will:
 
-1. **Execute gitingest script** - Run `python3 ~/.claude/scripts/gitingest.py [library-name]`
+1. **Execute libsource script** - Run `python3 ~/.dotfiles/.clauderc/scripts/libsource-add.py [library-name]`
 2. **Monitor the process** - Track the download and registration process
 3. **Verify completion** - Ensure the library was successfully added to config
 4. **Calculate metrics** - LOC and file size are automatically calculated
@@ -23,12 +23,12 @@ When you run `/libsource-add vue`, I will:
 🎉 Library '[library-name]' added successfully!
 📊 File: libsource-[library-name].txt (X.X MB, XXX,XXX lines)
 
-Would you like me to run /gitingest-inspect [library-name] to evaluate 
+Would you like me to run /libsource-inspect [library-name] to evaluate 
 its quality and save the score to config? (y/N)
 ```
 
 ### What Happens If You Say Yes:
-- I'll automatically run `/gitingest-inspect [library-name]`
+- I'll automatically run `/libsource-inspect [library-name]`
 - Generate a comprehensive quality analysis report
 - Calculate the overall quality score (0-100%)
 - Update the config file with the quality rating

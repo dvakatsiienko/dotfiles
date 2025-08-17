@@ -16,7 +16,7 @@ source code.
 
 When you run `/libsource-inspect vite`, I will:
 
-1. **Load the libsource file** - Read `libsource-[lib-name].txt` from `.membank/gitingest/`
+1. **Load the libsource file** - Read `libsource-[lib-name].txt` from `.membank/libsource/`
 2. **Parse file structure** - Extract directory structure and file listings
 3. **Analyze content coverage** - Count files, assess language breakdown, identify file types
 4. **Compare with GitHub repo** - Use GitHub API to get repository statistics and structure
@@ -65,5 +65,5 @@ After displaying the inspection report, I will prompt you:
 
 **"Would you like me to update the config file with the quality analysis for [lib-name]? (y/N)"**
 
-If you confirm, I will update the `.gitingest-config.json` file with the calculated quality score,
+If you confirm, I will update the `.libsource-config.json` file with the calculated quality score,
 making it available for future reference and display in `/libsource-list`.

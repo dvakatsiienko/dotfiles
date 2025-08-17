@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Libsource command - Get and register library source code.
+Libsource Add command - Get and register library source code.
 
-Usage: /libsource [library-name]
-Example: /libsource vue
+Usage: /libsource-add [library-name]
+Example: /libsource-add vue
 """
 
 import json
@@ -82,8 +82,8 @@ def get_library_source(lib_name, repo_url):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /libsource [library-name] [optional-url]")
-        print("Example: /libsource vue https://github.com/vuejs/core")
+        print("Usage: /libsource-add [library-name] [optional-url]")
+        print("Example: /libsource-add vue https://github.com/vuejs/core")
         sys.exit(1)
     
     lib_name = sys.argv[1]

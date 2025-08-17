@@ -89,10 +89,6 @@ alias pnd='pnpm dev'
 alias pns='pnpm start'
 alias pnb='pnpm build'
 
-
-# npm-check-updates
-alias ncu='ncu --format=repo'
-
 # turbo
 alias tb='turbo'
 
@@ -105,3 +101,9 @@ alias cutemon='claude-monitor --plan max5 --time-format	24h'
 
 # gum
 alias gg='git log --oneline | gum filter | cut -d" " -f1 # | copy'
+
+# libsource management
+alias lib-add='python3 ~/.dotfiles/.clauderc/scripts/libsource-add.py'
+alias lib-list='python3 ~/.dotfiles/.clauderc/scripts/libsource-list.py'
+alias lib-update='python3 ~/.dotfiles/.clauderc/scripts/libsource-update.py'
+alias lib-delete='python3 ~/.dotfiles/.clauderc/scripts/libsource-delete.py'
