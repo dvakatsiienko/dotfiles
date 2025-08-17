@@ -57,10 +57,27 @@ def calculate_loc(file_path):
         return None
 
 
+def format_duration(seconds):
+    """Convert seconds to human readable format: 1h 2m 16s"""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60) 
+    secs = int(seconds % 60)
+    
+    parts = []
+    if hours > 0:
+        parts.append(f"{hours}h")
+    if minutes > 0:
+        parts.append(f"{minutes}m")
+    if secs > 0 or not parts:  # Always show seconds if nothing else
+        parts.append(f"{secs}s")
+    
+    return " ".join(parts)
+
+
 def fetch_libsource(lib_name, source_path, silent=False):
     """
     Fetch library source using gitingest (from URL or local path).
-    Returns file_size on success, None on failure.
+    Returns (file_size, generation_time) on success, (None, None) on failure.
     """
     import threading
     import time
@@ -124,13 +141,15 @@ def fetch_libsource(lib_name, source_path, silent=False):
             progress_active = False
             print("\r" + " " * 50 + "\r", end="")  # Clear progress line
         
-        # Get file size
+        # Get file size and calculate generation time
         file_size = output_file.stat().st_size
-        if not silent:
-            elapsed = time.time() - start_time
-            print(f"✅ Successfully processed {lib_name} in {elapsed:.1f}s! ({file_size / 1024 / 1024:.1f} MB)")
+        elapsed = time.time() - start_time
+        generation_time = format_duration(elapsed)
         
-        return file_size
+        if not silent:
+            print(f"✅ Successfully processed {lib_name} in {generation_time}! ({file_size / 1024 / 1024:.1f} MB)")
+        
+        return file_size, generation_time
         
     except subprocess.CalledProcessError as e:
         # Stop progress indication
@@ -139,7 +158,7 @@ def fetch_libsource(lib_name, source_path, silent=False):
             print("\r" + " " * 50 + "\r", end="")  # Clear progress line
             print(f"❌ Error fetching {lib_name}: {e}")
             print(f"STDERR: {e.stderr}")
-        return None
+        return None, None
 
 
 def ensure_libsource_exists(lib_name, config=None, silent=False):
@@ -168,7 +187,7 @@ def ensure_libsource_exists(lib_name, config=None, silent=False):
     if not silent:
         print(f"🔍 Libsource file missing for {lib_name}, auto-fetching...")
     
-    file_size = fetch_libsource(lib_name, source_path, silent)
+    file_size, generation_time = fetch_libsource(lib_name, source_path, silent)
     if file_size is None:
         return False
     
@@ -177,7 +196,8 @@ def ensure_libsource_exists(lib_name, config=None, silent=False):
     config["libraries"][lib_name].update({
         "last_updated": datetime.now().isoformat(),
         "file_size": file_size,
-        "loc": new_loc
+        "loc": new_loc,
+        "generation_time": generation_time
     })
     save_config(config)
     

@@ -48,50 +48,8 @@ def calculate_loc(file_path):
         return None
 
 
-def update_library_source(lib_name, source_path):
-    """Update library source using gitingest (from URL or local path)."""
-    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
-    output_file = membank_dir / f"libsource-{lib_name}.txt"
-    
-    # Validate and handle different source types
-    if source_path.startswith('https://github.com/'):
-        # Remote GitHub repository
-        print(f"🔄 Updating {lib_name} source from {source_path}...")
-        source_type = "remote"
-    elif Path(source_path).exists():
-        # Local repository or directory
-        resolved_path = str(Path(source_path).resolve())
-        print(f"🔄 Updating {lib_name} source from local path: {resolved_path}...")
-        source_path = resolved_path  # Use absolute path
-        source_type = "local"
-    else:
-        # Invalid source
-        print(f"❌ Invalid source for {lib_name}: {source_path}")
-        print("   Path doesn't exist and isn't a valid GitHub URL")
-        return None
-    
-    # Run gitingest command
-    cmd = [
-        "gitingest", 
-        source_path,
-        "--output", str(output_file),
-        "--max-size", "51200",  # 50KB max file size
-    ]
-    
-    try:
-        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
-        
-        # Get file size
-        file_size = output_file.stat().st_size
-        print(f"✅ Successfully updated {lib_name} source!")
-        print(f"📊 File size: {file_size:,} bytes ({file_size / 1024 / 1024:.1f} MB)")
-        
-        return file_size
-        
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Error running gitingest for {lib_name}: {e}")
-        print(f"STDERR: {e.stderr}")
-        return None
+# Import our shared utilities  
+from libsource_utils import fetch_libsource, format_duration
 
 
 def update_single_library(config, lib_name):
@@ -106,13 +64,16 @@ def update_single_library(config, lib_name):
     library_info = config["libraries"][lib_name]
     old_file_size = library_info.get('file_size', 0)
     old_loc = library_info.get('loc', 0)
+    old_generation_time = library_info.get('generation_time', 'unknown')
     
     print(f"\n📚 Updating library: {lib_name}")
     print(f"   🔗 URL: {library_info['url']}")
     print(f"   📊 Current: {old_file_size:,} bytes, {old_loc:,} LOC")
+    print(f"   ⏱️  Last generation: {old_generation_time}")
     
     # Update the source
-    new_file_size = update_library_source(lib_name, library_info['url'])
+    print(f"🔄 Updating {lib_name} source from {library_info['url']}...")
+    new_file_size, generation_time = fetch_libsource(lib_name, library_info['url'])
     if new_file_size is None:
         return False, False
     
@@ -128,10 +89,12 @@ def update_single_library(config, lib_name):
     config["libraries"][lib_name].update({
         "last_updated": datetime.now().isoformat(),
         "file_size": new_file_size,
-        "loc": new_loc
+        "loc": new_loc,
+        "generation_time": generation_time
     })
     
     # Show results
+    print(f"⏱️  Generation time: {generation_time}")
     if content_changed:
         print(f"📈 Changes detected:")
         if new_file_size != old_file_size:

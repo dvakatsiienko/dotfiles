@@ -56,6 +56,12 @@ def format_library_info(lib_name, info, show_file_status=True):
     else:
         lines.append(f"   📏 LOC: Not calculated")
     
+    # Show generation time if available
+    generation_time = info.get('generation_time')
+    if generation_time:
+        lines.append(f"   ⏱️  Generation: {generation_time}")
+    else:
+        lines.append(f"   ⏱️  Generation: Not recorded")
     
     # Show file status if missing
     if show_file_status and not get_libsource_path(lib_name).exists():
@@ -101,14 +107,16 @@ def show_verification_report(config):
         for lib in sorted(existing):
             info = config["libraries"][lib]
             size_mb = info['file_size'] / 1024 / 1024
-            print(f"  ✅ {lib} ({size_mb:.1f}MB)")
+            generation_time = info.get('generation_time', 'unknown')
+            print(f"  ✅ {lib} ({size_mb:.1f}MB, {generation_time})")
     
     if missing:
         print(f"\n❌ Missing {len(missing)} files:")
         for lib in sorted(missing):
             info = config["libraries"][lib]
             size_mb = info['file_size'] / 1024 / 1024
-            print(f"  ❌ {lib} ({size_mb:.1f}MB) - from {info['url']}")
+            generation_time = info.get('generation_time', 'unknown')
+            print(f"  ❌ {lib} ({size_mb:.1f}MB, {generation_time}) - from {info['url']}")
         
         print(f"\n💡 Run 'pnpm lib:restore' to fetch all missing files")
     else:
