@@ -37,7 +37,7 @@
     },
     "statusLine": {
         "command": "/Users/dima/.claude/statusline/statusline-go/bin",
-        "padding": 2,
+        "padding": 0,
         "type": "command"
     }
 }
