@@ -93,7 +93,6 @@ def fetch_libsource(lib_name, source_path, silent=False):
         "gitingest", 
         source_path,
         "--output", str(output_file),
-        "--max-size", "51200",  # 50KB max file size
     ]
     
     # Progress indication (only if not silent)
