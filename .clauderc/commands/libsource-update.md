@@ -5,7 +5,7 @@ argument-hint: [lib-name]
 
 ## libsource-update command function
 
-This command updates libsource files by re-fetching fresh repository snapshots and refreshing metadata.
+This command updates libsource files by re-fetching fresh repository snapshots (remote or local) and refreshing metadata.
 
 ### Usage
 
@@ -23,11 +23,20 @@ When you run `/libsource-update mobx`, I will:
 
 ### What the script does
 
-- **Re-fetch repository data** - Use gitingest tool to get latest repository snapshot
+- **Re-fetch repository data** - Use gitingest tool to get latest repository snapshot (GitHub or local)
+- **Validate source paths** - Check if stored paths/URLs are still valid and accessible
 - **Update libsource file** - Replace with fresh content using same gitingest settings
 - **Refresh metadata** - Update file size, LOC, and timestamp in `.libsource-config.json`
 - **Reset quality ratings** - Set quality to `null` for all updated libraries (requires re-evaluation)
 - **Detect changes** - Compare old vs new metrics to identify actual content changes
+
+### Source Path Handling
+
+The script supports both source types:
+- **GitHub URLs** - Re-downloads latest repository snapshot from remote
+- **Local paths** - Re-processes current local repository state
+- **Path validation** - Verifies local paths still exist before updating
+- **Error handling** - Reports invalid or missing sources clearly
 
 ### Change Detection
 
@@ -54,6 +63,7 @@ When run without arguments:
 
 ### Example Output
 
+**Remote repository update:**
 ```
 🔄 Updating mobx source from https://github.com/mobxjs/mobx...
 ✅ Successfully updated mobx source!
@@ -62,8 +72,22 @@ When run without arguments:
    📊 Size: 1,950,000 → 1,996,581 bytes (+46,581)
    📏 LOC: 67,500 → 68,000 lines (+500)
    ⭐ Quality: 85% → reset to null (needs re-evaluation)
+```
 
-📊 Performing automatic quality analysis for mobx...
+**Local repository update:**
+```
+🔄 Updating next-local source from local path: /Users/dima/projects/next.js...
+✅ Successfully updated next-local source!
+📊 File size: 8,245,123 bytes (7.9 MB)
+📈 Changes detected:
+   📊 Size: 8,100,000 → 8,245,123 bytes (+145,123)
+   📏 LOC: 280,000 → 285,500 lines (+5,500)
+   ⭐ Quality: null → reset to null (needs re-evaluation)
+```
+
+**Post-update quality analysis:**
+```
+📊 Performing automatic quality analysis for changed libraries...
 🎯 Overall Score: 87% (Very Good)
 ✅ Quality rating updated in config
 ```

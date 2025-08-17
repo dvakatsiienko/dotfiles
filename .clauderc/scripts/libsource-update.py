@@ -48,17 +48,32 @@ def calculate_loc(file_path):
         return None
 
 
-def update_library_source(lib_name, repo_url):
-    """Update library source using gitingest."""
+def update_library_source(lib_name, source_path):
+    """Update library source using gitingest (from URL or local path)."""
     membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     
-    print(f"🔄 Updating {lib_name} source from {repo_url}...")
+    # Validate and handle different source types
+    if source_path.startswith('https://github.com/'):
+        # Remote GitHub repository
+        print(f"🔄 Updating {lib_name} source from {source_path}...")
+        source_type = "remote"
+    elif Path(source_path).exists():
+        # Local repository or directory
+        resolved_path = str(Path(source_path).resolve())
+        print(f"🔄 Updating {lib_name} source from local path: {resolved_path}...")
+        source_path = resolved_path  # Use absolute path
+        source_type = "local"
+    else:
+        # Invalid source
+        print(f"❌ Invalid source for {lib_name}: {source_path}")
+        print("   Path doesn't exist and isn't a valid GitHub URL")
+        return None
     
     # Run gitingest command
     cmd = [
         "gitingest", 
-        repo_url,
+        source_path,
         "--output", str(output_file),
         "--max-size", "51200",  # 50KB max file size
     ]

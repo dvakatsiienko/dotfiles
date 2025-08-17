@@ -1,5 +1,5 @@
 {
-    "last_updated": "2025-08-17T15:58:52.407949",
+    "last_updated": "2025-08-17T17:13:11.974505",
     "libraries": {
         "biome": {
             "file_size": 29542020,
@@ -57,6 +57,14 @@
             "quality": null,
             "url": "https://github.com/facebook/react"
         },
+        "react-query": {
+            "file_size": 3951454,
+            "filename": "libsource-react-query.txt",
+            "last_updated": "2025-08-17T16:54:30.344546",
+            "loc": 135601,
+            "quality": null,
+            "url": "https://github.com/TanStack/query"
+        },
         "vite": {
             "file_size": 3804135,
             "filename": "libsource-vite.txt",
@@ -88,6 +96,14 @@
             "loc": 14561,
             "quality": null,
             "url": "https://github.com/google/zx"
+        },
+        "test-local": {
+            "url": "/Users/dima/.dotfiles",
+            "filename": "libsource-test-local.txt",
+            "last_updated": "2025-08-17T17:15:55.706923",
+            "file_size": 280309,
+            "loc": 8091,
+            "quality": null
         }
     },
     "version": "1.0"

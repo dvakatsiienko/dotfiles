@@ -2,8 +2,12 @@
 """
 Libsource Add command - Get and register library source code.
 
-Usage: /libsource-add [library-name]
-Example: /libsource-add vue
+Usage: /libsource-add [library-name] [optional-url-or-path]
+Examples: 
+  /libsource-add vue
+  /libsource-add vue https://github.com/vuejs/core
+  /libsource-add next-local /path/to/nextjs
+  /libsource-add my-project .
 """
 
 import json
@@ -45,18 +49,18 @@ def calculate_loc(file_path):
         return None
 
 
-def get_library_source(lib_name, repo_url):
-    """Download library source using gitingest."""
+def get_library_source(lib_name, source_path):
+    """Process library source using gitingest (from URL or local path)."""
     membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     
-    print(f"🚀 Fetching {lib_name} source from {repo_url}...")
+    print(f"🚀 Processing {lib_name} source from {source_path}...")
     print(f"📁 Output: {output_file}")
     
     # Run gitingest command
     cmd = [
         "gitingest", 
-        repo_url,
+        source_path,
         "--output", str(output_file),
         "--max-size", "51200",  # 50KB max file size
     ]
@@ -82,8 +86,11 @@ def get_library_source(lib_name, repo_url):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /libsource-add [library-name] [optional-url]")
-        print("Example: /libsource-add vue https://github.com/vuejs/core")
+        print("Usage: /libsource-add [library-name] [optional-url-or-path]")
+        print("Examples:")
+        print("  /libsource-add vue https://github.com/vuejs/core")
+        print("  /libsource-add next-local /path/to/nextjs")
+        print("  /libsource-add my-project .")
         sys.exit(1)
     
     lib_name = sys.argv[1]
@@ -105,17 +112,28 @@ def main():
             print("Cancelled.")
             sys.exit(0)
     
-    # Get repo URL from user or command line
+    # Get repo URL or local path from user or command line
     if provided_url:
         repo_url = provided_url
     else:
-        repo_url = input(f"Enter GitHub repo URL for '{lib_name}': ").strip()
+        repo_url = input(f"Enter GitHub repo URL or local path for '{lib_name}': ").strip()
     
-    if not repo_url.startswith('https://github.com/'):
-        print("❌ Please provide a valid GitHub URL starting with 'https://github.com/'")
+    # Validate input: accept GitHub URLs or local paths
+    if repo_url.startswith('https://github.com/'):
+        # GitHub URL - validation passed
+        source_type = "remote"
+    elif Path(repo_url).exists():
+        # Local path exists - validation passed  
+        source_type = "local"
+        repo_url = str(Path(repo_url).resolve())  # Convert to absolute path
+        print(f"📁 Using local repository: {repo_url}")
+    else:
+        print("❌ Please provide either:")
+        print("   - A valid GitHub URL starting with 'https://github.com/'")
+        print("   - A valid local directory path")
         sys.exit(1)
     
-    # Download the library source
+    # Process the library source
     file_size = get_library_source(lib_name, repo_url)
     
     # Calculate LOC

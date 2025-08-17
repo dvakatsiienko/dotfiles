@@ -57,21 +57,38 @@ def calculate_loc(file_path):
         return None
 
 
-def fetch_libsource(lib_name, repo_url, silent=False):
+def fetch_libsource(lib_name, source_path, silent=False):
     """
-    Fetch library source using gitingest.
+    Fetch library source using gitingest (from URL or local path).
     Returns file_size on success, None on failure.
     """
     membank_dir = get_membank_dir()
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     
-    if not silent:
-        print(f"📥 Fetching {lib_name} source from {repo_url}...")
+    # Validate and handle different source types
+    if source_path.startswith('https://github.com/'):
+        # Remote GitHub repository
+        if not silent:
+            print(f"📥 Fetching {lib_name} source from {source_path}...")
+        source_type = "remote"
+    elif Path(source_path).exists():
+        # Local repository or directory
+        resolved_path = str(Path(source_path).resolve())
+        if not silent:
+            print(f"📥 Processing {lib_name} source from local path: {resolved_path}...")
+        source_path = resolved_path  # Use absolute path
+        source_type = "local"
+    else:
+        # Invalid source
+        if not silent:
+            print(f"❌ Invalid source for {lib_name}: {source_path}")
+            print("   Path doesn't exist and isn't a valid GitHub URL")
+        return None
     
     # Run gitingest command
     cmd = [
         "gitingest", 
-        repo_url,
+        source_path,
         "--output", str(output_file),
         "--max-size", "51200",  # 50KB max file size
     ]
@@ -114,12 +131,12 @@ def ensure_libsource_exists(lib_name, config=None, silent=False):
     
     # File missing, attempt to fetch
     library_info = config["libraries"][lib_name]
-    repo_url = library_info["url"]
+    source_path = library_info["url"]
     
     if not silent:
         print(f"🔍 Libsource file missing for {lib_name}, auto-fetching...")
     
-    file_size = fetch_libsource(lib_name, repo_url, silent)
+    file_size = fetch_libsource(lib_name, source_path, silent)
     if file_size is None:
         return False
     

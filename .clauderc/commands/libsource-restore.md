@@ -5,7 +5,7 @@ argument-hint: [lib-name]
 
 ## libsource-restore command function
 
-This command restores missing libsource files by fetching them from their registered URLs. Essential for cache-based libsource architecture.
+This command restores missing libsource files by fetching them from their registered URLs or processing local paths. Essential for cache-based libsource architecture.
 
 ### Usage
 

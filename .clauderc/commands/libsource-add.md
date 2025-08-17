@@ -1,6 +1,6 @@
 ---
 description: add new library to libsource collection
-argument-hint: [library-name] [github-url]
+argument-hint: [library-name] [url-or-path]
 ---
 
 ## libsource-add command function
@@ -10,15 +10,15 @@ script, then prompts for quality evaluation.
 
 ### Usage
 
-- `/libsource-add [library-name]` - Prompts for GitHub URL
-- `/libsource-add [library-name] [github-url]` - Full automation (no prompts)
+- `/libsource-add [library-name]` - Prompts for GitHub URL or local path
+- `/libsource-add [library-name] [url-or-path]` - Full automation (no prompts)
 
 ### Function
 
 **Single argument mode** - When you run `/libsource-add vue`, I will:
 
 1. **Execute libsource script** - Run `python3 ~/.dotfiles/.clauderc/scripts/libsource-add.py vue`
-2. **Prompt for URL** - Script will ask: "Enter GitHub repo URL for 'vue': "
+2. **Prompt for URL/path** - Script will ask: "Enter GitHub repo URL or local path for 'vue': "
 3. **Monitor the process** - Track the download and registration process
 4. **Verify completion** - Ensure the library was successfully added to config
 5. **Calculate metrics** - LOC and file size are automatically calculated
@@ -82,9 +82,17 @@ its quality and save the score to config? (y/N)
 → Perfect for batch operations or when you know the URL
 ```
 
+**Local path mode (no prompts):**
+```
+/libsource-add next-local ~/projects/next.js
+→ Processes local repository without any user input  
+→ Perfect for large repos or private codebases
+```
+
 ### Benefits:
 
 - **Cross-directory compatible** - Works from any directory using absolute paths
+- **Local & remote support** - Process GitHub repos or local directories
 - **Flexible usage** - Choose interactive or automated mode as needed
 - **Streamlined workflow** - Add and evaluate libraries in one flow
 - **Complete metadata** - All fields populated immediately
