@@ -1,32 +1,33 @@
 #!/usr/bin/env python3
 """
-Libsource List command - List all registered library sources.
+Libsource List command - List all registered library sources with file verification.
 
 Usage: 
   /libsource-list              # List all libraries
   /libsource-list [lib-name]   # Show specific library details
+  /libsource-list --verify     # Verify all files exist and show missing ones
 """
 
 import json
 import sys
 from pathlib import Path
 
-
-def load_config():
-    """Load the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-    
-    if config_file.exists():
-        with open(config_file, 'r') as f:
-            return json.load(f)
-    else:
-        return {"libraries": {}, "last_updated": None, "version": "1.0"}
+# Import our shared utilities
+from libsource_utils import load_config, get_libsource_path, verify_all_libsources
 
 
-def format_library_info(lib_name, info):
+def format_library_info(lib_name, info, show_file_status=True):
     """Format library information for display."""
     lines = []
-    lines.append(f"📖 {lib_name}")
+    
+    # Check if file exists and add status indicator
+    if show_file_status:
+        file_exists = get_libsource_path(lib_name).exists()
+        status_icon = "✅" if file_exists else "❌"
+        lines.append(f"{status_icon} 📖 {lib_name}")
+    else:
+        lines.append(f"📖 {lib_name}")
+    
     lines.append(f"   🔗 URL: {info['url']}")
     lines.append(f"   📁 File: {info['filename']}")
     lines.append(f"   📅 Updated: {info['last_updated'][:10]}")
@@ -61,6 +62,10 @@ def format_library_info(lib_name, info):
         lines.append(f"   ⭐ Quality: {quality}%")
     else:
         lines.append(f"   ⭐ Quality: Not rated")
+    
+    # Show file status if missing
+    if show_file_status and not get_libsource_path(lib_name).exists():
+        lines.append(f"   ⚠️  File missing (use /libsource-restore)")
         
     return "\n".join(lines)
 
@@ -90,6 +95,32 @@ def show_all_libraries(config):
         print()
 
 
+def show_verification_report(config):
+    """Show comprehensive verification report."""
+    existing, missing = verify_all_libsources(config)
+    
+    print("🔍 Libsource File Verification Report:")
+    print("=" * 50)
+    
+    if existing:
+        print(f"✅ Found {len(existing)} existing files:")
+        for lib in sorted(existing):
+            info = config["libraries"][lib]
+            size_mb = info['file_size'] / 1024 / 1024
+            print(f"  ✅ {lib} ({size_mb:.1f}MB)")
+    
+    if missing:
+        print(f"\n❌ Missing {len(missing)} files:")
+        for lib in sorted(missing):
+            info = config["libraries"][lib]
+            size_mb = info['file_size'] / 1024 / 1024
+            print(f"  ❌ {lib} ({size_mb:.1f}MB) - from {info['url']}")
+        
+        print(f"\n💡 Run '/libsource-restore' to fetch all missing files")
+    else:
+        print(f"\n🎉 All libsource files are present!")
+
+
 def main():
     """Main command entry point."""
     config = load_config()
@@ -101,8 +132,13 @@ def main():
     
     # Parse command line arguments
     if len(sys.argv) > 1:
-        lib_name = sys.argv[1].lower()
-        show_specific_library(config, lib_name)
+        arg = sys.argv[1].lower()
+        
+        if arg == "--verify":
+            show_verification_report(config)
+        else:
+            # Treat as library name
+            show_specific_library(config, arg)
     else:
         show_all_libraries(config)
 

@@ -7,3 +7,9 @@ node_modules
 
 # cute-config.md
 todo.md
+
+# Libsource cache files (regenerable from config)
+.clauderc/.membank/libsource/libsource-*.txt
+
+# Python cache files
+**/__pycache__/

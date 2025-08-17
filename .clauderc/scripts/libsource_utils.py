@@ -1,0 +1,189 @@
+#!/usr/bin/env python3
+"""
+Shared utilities for libsource management.
+Provides missing file detection, auto-recovery, and common operations.
+"""
+
+import json
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+
+def get_config_file():
+    """Get path to libsource config file."""
+    return Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
+
+
+def get_membank_dir():
+    """Get path to libsource directory."""
+    return Path.home() / ".claude" / ".membank" / "libsource"
+
+
+def get_libsource_path(lib_name):
+    """Get path to specific libsource file."""
+    return get_membank_dir() / f"libsource-{lib_name}.txt"
+
+
+def load_config():
+    """Load the libsource configuration file."""
+    config_file = get_config_file()
+    
+    if config_file.exists():
+        with open(config_file, 'r') as f:
+            return json.load(f)
+    else:
+        return {"libraries": {}, "last_updated": None, "version": "1.0"}
+
+
+def save_config(config):
+    """Save the libsource configuration file."""
+    config_file = get_config_file()
+    config_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    with open(config_file, 'w') as f:
+        json.dump(config, f, indent=4)
+
+
+def calculate_loc(file_path):
+    """Calculate lines of code in a libsource file."""
+    try:
+        result = subprocess.run(['wc', '-l', str(file_path)], 
+                              capture_output=True, text=True, check=True)
+        # Extract the number from "12345 filename" output
+        loc_count = int(result.stdout.strip().split()[0])
+        return loc_count
+    except (subprocess.CalledProcessError, ValueError, IndexError):
+        return None
+
+
+def fetch_libsource(lib_name, repo_url, silent=False):
+    """
+    Fetch library source using gitingest.
+    Returns file_size on success, None on failure.
+    """
+    membank_dir = get_membank_dir()
+    output_file = membank_dir / f"libsource-{lib_name}.txt"
+    
+    if not silent:
+        print(f"📥 Fetching {lib_name} source from {repo_url}...")
+    
+    # Run gitingest command
+    cmd = [
+        "gitingest", 
+        repo_url,
+        "--output", str(output_file),
+        "--max-size", "51200",  # 50KB max file size
+    ]
+    
+    try:
+        result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        
+        # Get file size
+        file_size = output_file.stat().st_size
+        if not silent:
+            print(f"✅ Successfully fetched {lib_name}! ({file_size / 1024 / 1024:.1f} MB)")
+        
+        return file_size
+        
+    except subprocess.CalledProcessError as e:
+        if not silent:
+            print(f"❌ Error fetching {lib_name}: {e}")
+            print(f"STDERR: {e.stderr}")
+        return None
+
+
+def ensure_libsource_exists(lib_name, config=None, silent=False):
+    """
+    Ensure libsource file exists, fetch if missing.
+    Returns True if file exists/was fetched, False if failed.
+    """
+    if config is None:
+        config = load_config()
+    
+    # Check if library is registered
+    if lib_name not in config["libraries"]:
+        if not silent:
+            print(f"❌ Library '{lib_name}' not found in collection.")
+        return False
+    
+    # Check if file exists
+    file_path = get_libsource_path(lib_name)
+    if file_path.exists():
+        return True
+    
+    # File missing, attempt to fetch
+    library_info = config["libraries"][lib_name]
+    repo_url = library_info["url"]
+    
+    if not silent:
+        print(f"🔍 Libsource file missing for {lib_name}, auto-fetching...")
+    
+    file_size = fetch_libsource(lib_name, repo_url, silent)
+    if file_size is None:
+        return False
+    
+    # Update config with fresh metadata
+    new_loc = calculate_loc(file_path)
+    config["libraries"][lib_name].update({
+        "last_updated": datetime.now().isoformat(),
+        "file_size": file_size,
+        "loc": new_loc,
+        "quality": None  # Reset quality after fetch
+    })
+    save_config(config)
+    
+    return True
+
+
+def verify_all_libsources(config=None, silent=False):
+    """
+    Check which libsource files are missing.
+    Returns (existing_libs, missing_libs) tuple.
+    """
+    if config is None:
+        config = load_config()
+    
+    existing = []
+    missing = []
+    
+    for lib_name in config["libraries"]:
+        file_path = get_libsource_path(lib_name)
+        if file_path.exists():
+            existing.append(lib_name)
+        else:
+            missing.append(lib_name)
+    
+    if not silent and missing:
+        print(f"🔍 Found {len(missing)} missing libsource files:")
+        for lib in missing:
+            print(f"  • {lib}")
+    
+    return existing, missing
+
+
+def restore_missing_libsources(missing_libs=None, config=None):
+    """
+    Restore all missing libsource files from config.
+    Returns (success_count, total_count).
+    """
+    if config is None:
+        config = load_config()
+    
+    if missing_libs is None:
+        _, missing_libs = verify_all_libsources(config, silent=True)
+    
+    if not missing_libs:
+        print("✨ All libsource files are already present!")
+        return 0, 0
+    
+    print(f"🔄 Restoring {len(missing_libs)} missing libsource files...")
+    
+    success_count = 0
+    for i, lib_name in enumerate(missing_libs, 1):
+        print(f"\n[{i}/{len(missing_libs)}] Restoring {lib_name}...")
+        if ensure_libsource_exists(lib_name, config):
+            success_count += 1
+    
+    print(f"\n✅ Restoration complete: {success_count}/{len(missing_libs)} successful")
+    return success_count, len(missing_libs)

@@ -201,23 +201,47 @@ Dual-implementation statusline system providing rich terminal display with:
 ## Libsource System
 
 ### Purpose
-Standardized library source code collection for AI-optimized implementation guidance.
+Cache-based library source code collection for AI-optimized implementation guidance.
 
-### Technical Architecture
-- **Fetching**: Uses `gitingest` CLI tool to extract optimized source snapshots
-- **Storage**: `.clauderc/.membank/libsource/` with `.libsource-config.json` tracking
-- **Management**: Python scripts in `.clauderc/scripts/libsource-*.py`
+### Architecture: Cache-Based Storage
+- **Config Tracking**: `.libsource-config.json` maintains library registry with URLs
+- **Local Cache**: `libsource-*.txt` files are working copies (not git-tracked)
+- **Auto-Recovery**: Missing files automatically fetched when needed
+- **Gitignore**: Large source files excluded from repository to keep it lightweight
 
-### Key Components
-- **libsource.py**: Add libraries with URL, calculates LOC and quality metrics
-- **libsource-list.py**: Display collection with human-readable metrics  
-- **Commands**: `/libsource-read`, `/libsource`, `/libsource-list`
-- **Config**: `.libsource-config.json` tracks metadata and quality ratings
+### Post-Clone Setup
+After cloning dotfiles to a new machine:
+```bash
+/libsource-restore    # Populate entire libsource cache from config
+```
 
-### Maintenance
-- **Quality Ratings**: 0-100% based on completeness, documentation, API coverage
+### Management Scripts
+- **libsource-add.py**: Add new libraries with URL and metrics calculation
+- **libsource-list.py**: Display collection with file status verification
+- **libsource-update.py**: Update existing libraries with change detection
+- **libsource-delete.py**: Remove libraries from both cache and config
+- **libsource-restore.py**: Restore missing cache files from config
+- **libsource-read.py**: Read and analyze libraries with auto-recovery
+
+### Available Commands
+- `/libsource-read [lib] "prompt"`: Analyze library with targeted prompt
+- `/libsource-list [--verify]`: Show collection and verify file status
+- `/libsource-update [lib]`: Update library sources with quality re-evaluation
+- `/libsource-restore [lib]`: Restore missing libsource files
+- `/libsource-add [lib] [url]`: Add new library to collection
+- `/libsource-delete [lib]`: Remove library from collection
+
+### Benefits
+- **Lightweight Repository**: 61MB cache files not tracked in git
+- **Always Fresh**: Restored files use latest source extraction
+- **Auto-Recovery**: Transparent file restoration on missing cache
+- **Selective Caching**: Only download libraries you actually use
+
+### Quality System
+- **Ratings**: 0-100% based on completeness, documentation, API coverage
 - **Current Collection**: 11 libraries (React, MobX, Vite, Webpack, Biome, etc.)
-- **Priority**: 85%+ quality libraries considered authoritative sources
+- **Authority Threshold**: 85%+ quality libraries considered authoritative sources
+- **Re-evaluation**: Quality ratings reset after updates for accuracy
 
 ### Gitingest Reference
 
