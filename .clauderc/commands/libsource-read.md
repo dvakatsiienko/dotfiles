@@ -13,7 +13,7 @@ This command instructs me to read a specific libsource file and extract targeted
 
 ### Function
 
-When you run `/libsource-read mobx "how to create observable arrays"`, I will:
+When you run `/libsource-read next "server-side rendering patterns"`, I will:
 
 1. **Load libsource file** - Read `libsource-[lib-name].txt` from `.membank/libsource/`
 2. **Parse with prompt context** - Analyze the libsource content with your specific prompt in mind
@@ -24,7 +24,7 @@ When you run `/libsource-read mobx "how to create observable arrays"`, I will:
 
 #### Implementation Patterns
 - `/libsource-read react "hooks patterns for state management"`
-- `/libsource-read mobx "observable decorators vs makeObservable"`
+- `/libsource-read next "app router vs pages router patterns"`
 - `/libsource-read vite "plugin development API"`
 
 #### Configuration Examples
@@ -33,9 +33,9 @@ When you run `/libsource-read mobx "how to create observable arrays"`, I will:
 - `/libsource-read vite "TypeScript setup patterns"`
 
 #### API Usage
-- `/libsource-read lodash "performance-optimized array methods"`
 - `/libsource-read react "context API best practices"`
-- `/libsource-read mobx "computed values optimization"`
+- `/libsource-read next "API routes with middleware"`
+- `/libsource-read vite "plugin development patterns"`
 
 #### Architecture Insights
 - `/libsource-read webpack "loader system architecture"`
@@ -44,13 +44,13 @@ When you run `/libsource-read mobx "how to create observable arrays"`, I will:
 
 #### Migration Guidance
 - `/libsource-read react "class to hooks conversion patterns"`
-- `/libsource-read mobx "v5 to v6 migration breaking changes"`
+- `/libsource-read next "pages to app router migration patterns"`
 - `/libsource-read webpack "v4 to v5 upgrade requirements"`
 
 #### Performance Optimization
 - `/libsource-read react "rendering optimization techniques"`
 - `/libsource-read vite "build performance optimizations"`
-- `/libsource-read lodash "bundle size reduction strategies"`
+- `/libsource-read webpack "bundle size optimization strategies"`
 
 ### Advanced Prompt Techniques
 
@@ -62,7 +62,7 @@ When you run `/libsource-read mobx "how to create observable arrays"`, I will:
 
 #### Implementation Deep Dive
 ```
-/libsource-read mobx "internal implementation of makeObservable"
+/libsource-read next "server components implementation patterns"
 /libsource-read vite "how plugin system resolves dependencies"
 ```
 
@@ -91,58 +91,61 @@ I will provide:
 ### Example Output
 
 ```
-📚 Libsource Analysis: mobx - "observable decorators vs makeObservable"
+📚 Libsource Analysis: next - "app router vs pages router patterns"
 
 🎯 Direct Answer:
-Starting MobX v6, decorators are legacy. makeObservable() is the modern approach 
-offering better TypeScript support and explicit observable definitions.
+App Router is Next.js 13+ modern approach using React Server Components and nested layouts. 
+Pages Router is the legacy file-based routing system still supported but not recommended for new projects.
 
 📋 Key Differences:
-// Legacy (decorators)
-class TodoStore {
-  @observable todos = []
-  @action addTodo(todo) { this.todos.push(todo) }
+// Pages Router (legacy)
+// pages/api/users.js
+export default function handler(req, res) {
+  res.json({ users: [] })
 }
 
-// Modern (makeObservable)
-class TodoStore {
-  todos = []
-  constructor() {
-    makeObservable(this, {
-      todos: observable,
-      addTodo: action
-    })
-  }
-  addTodo(todo) { this.todos.push(todo) }
+// pages/users/[id].js
+export default function UserPage({ user }) {
+  return <div>{user.name}</div>
+}
+
+// App Router (modern)
+// app/api/users/route.js
+export async function GET() {
+  return Response.json({ users: [] })
+}
+
+// app/users/[id]/page.js
+export default function UserPage({ params }) {
+  return <div>User {params.id}</div>
 }
 
 💡 Implementation Notes:
-- makeObservable() provides compile-time safety
-- Decorators require experimental TypeScript features
-- makeObservable allows selective observable properties
-- Better tree-shaking with makeObservable approach
+- App Router supports React Server Components by default
+- Nested layouts with app/layout.js
+- Co-located loading.js, error.js, and not-found.js
+- Better TypeScript support with generateStaticParams
 
 📁 References:
-- /src/core/observable.ts (lines 156-203)
-- /docs/observable-state.md
-- /packages/mobx/src/api/makeObservable.ts
+- /packages/next/src/server/app-render (lines 234-567)
+- /docs/app/building-your-application/routing
+- /packages/next/src/client/components/app-router.tsx
 
 🔗 Related Patterns:
-- makeAutoObservable() for simpler syntax
-- runInAction() for batched updates
-- Observer component optimization
+- Server Components for data fetching
+- Streaming with Suspense boundaries
+- Route handlers for API endpoints
 ```
 
 ### Available Libraries
 
 Current libsource files you can query:
-- **biome** - Modern linter/formatter (1MB, 35K LOC, quality: 88%)
-- **lodash** - Utility functions (154KB, 5K LOC, quality: 79%)
-- **mobx** - State management (1.9MB, 68K LOC, quality: 85%)
-- **react** - UI framework (17MB, 610K LOC, quality: 83%)
-- **vite** - Build tool (3.8MB, 124K LOC, quality: 83%)
-- **webfonts-loader** - Font generation (40KB, 1.4K LOC, quality: 96%)
-- **webpack** - Build system (8.9MB, 290K LOC, quality: 78%)
+- **biome** - Modern linter/formatter (1MB, 35K LOC)
+- **next** - React framework (12MB, 450K LOC)
+- **react** - UI framework (17MB, 610K LOC)
+- **vite** - Build tool (3.8MB, 124K LOC)
+- **webfonts-loader** - Font generation (40KB, 1.4K LOC)
+- **webpack** - Build system (8.9MB, 290K LOC)
 
 ### Best Practices
 
@@ -159,11 +162,11 @@ Current libsource files you can query:
 #### Examples of Good Prompts
 ```
 ✅ "React Suspense implementation for data fetching with TypeScript"
-✅ "MobX computed values performance optimization in large stores"
+✅ "Next.js app router data fetching with TypeScript"
 ✅ "Webpack dev server proxy configuration for microservices"
 
 ❌ "how React works"
-❌ "MobX tutorial"
+❌ "Next.js tutorial"
 ❌ "Webpack help"
 ```
 

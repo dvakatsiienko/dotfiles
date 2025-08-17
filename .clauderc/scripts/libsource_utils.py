@@ -177,8 +177,7 @@ def ensure_libsource_exists(lib_name, config=None, silent=False):
     config["libraries"][lib_name].update({
         "last_updated": datetime.now().isoformat(),
         "file_size": file_size,
-        "loc": new_loc,
-        "quality": None  # Reset quality after fetch
+        "loc": new_loc
     })
     save_config(config)
     

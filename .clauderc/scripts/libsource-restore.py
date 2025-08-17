@@ -2,11 +2,11 @@
 """
 Libsource Restore command - Restore missing libsource files from config.
 
-Usage: /libsource-restore [lib-name]
-       /libsource-restore (restores all missing)
+Usage: python3 libsource-restore.py [lib-name]
+       python3 libsource-restore.py (restores all missing)
 
-Example: /libsource-restore react
-         /libsource-restore
+Example: python3 libsource-restore.py react
+         python3 libsource-restore.py
 """
 
 import sys
@@ -45,7 +45,7 @@ def restore_all_missing():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use /libsource-add [library-name] to add libraries!")
+        print("Use 'pnpm lib:add [library-name] [url]' to add libraries!")
         return False
     
     # Check what's missing

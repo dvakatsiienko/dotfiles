@@ -2,11 +2,11 @@
 """
 Libsource Update command - Update existing library sources.
 
-Usage: /libsource-update [library-name]
-       /libsource-update (updates all)
+Usage: python3 libsource-update.py [library-name]
+       python3 libsource-update.py (updates all)
 
-Example: /libsource-update react
-         /libsource-update
+Example: python3 libsource-update.py react
+         python3 libsource-update.py
 """
 
 import json
@@ -106,13 +106,10 @@ def update_single_library(config, lib_name):
     library_info = config["libraries"][lib_name]
     old_file_size = library_info.get('file_size', 0)
     old_loc = library_info.get('loc', 0)
-    old_quality = library_info.get('quality')
     
     print(f"\n📚 Updating library: {lib_name}")
     print(f"   🔗 URL: {library_info['url']}")
     print(f"   📊 Current: {old_file_size:,} bytes, {old_loc:,} LOC")
-    if old_quality is not None:
-        print(f"   ⭐ Current quality: {old_quality}% (will be reset)")
     
     # Update the source
     new_file_size = update_library_source(lib_name, library_info['url'])
@@ -131,8 +128,7 @@ def update_single_library(config, lib_name):
     config["libraries"][lib_name].update({
         "last_updated": datetime.now().isoformat(),
         "file_size": new_file_size,
-        "loc": new_loc,
-        "quality": None  # Reset quality after update
+        "loc": new_loc
     })
     
     # Show results
@@ -146,10 +142,8 @@ def update_single_library(config, lib_name):
             loc_diff = new_loc - old_loc
             sign = "+" if loc_diff > 0 else ""
             print(f"   📏 LOC: {old_loc:,} → {new_loc:,} lines ({sign}{loc_diff:,})")
-        print(f"   ⭐ Quality: {old_quality}% → reset to null (needs re-evaluation)")
     else:
         print(f"✨ No changes detected (same size and LOC)")
-        print(f"   ⭐ Quality: reset to null anyway (standard after update)")
     
     return True, content_changed
 
@@ -160,7 +154,7 @@ def main():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use /libsource-add [library-name] to add libraries!")
+        print("Use 'pnpm lib:add [library-name] [url]' to add libraries!")
         return
     
     updated_libraries = []
@@ -201,7 +195,7 @@ def main():
         print(f"📈 Changed: {len(changed_libraries)} libraries")
         
         if changed_libraries:
-            print(f"\n🔍 Libraries with changes (need quality re-evaluation):")
+            print(f"\n🔍 Libraries with changes:")
             for lib in changed_libraries:
                 print(f"  • {lib}")
             print(f"\n💡 Suggestion: Run /libsource-inspect for changed libraries")

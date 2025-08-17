@@ -2,10 +2,10 @@
 """
 Libsource Delete command - Remove library sources.
 
-Usage: /libsource-delete [library-name] [--force]
+Usage: python3 libsource-delete.py [library-name] [--force]
 Examples: 
-  /libsource-delete vue                # Interactive confirmation
-  /libsource-delete vue --force        # Skip confirmation
+  python3 libsource-delete.py vue                # Interactive confirmation
+  python3 libsource-delete.py vue --force        # Skip confirmation
   
 Auto-detects non-interactive mode and skips confirmation automatically.
 """
@@ -108,9 +108,9 @@ def delete_library(lib_name, force=False):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /libsource-delete [library-name] [--force]")
-        print("Example: /libsource-delete vue")
-        print("         /libsource-delete vue --force")
+        print("Usage: python3 libsource-delete.py [library-name] [--force]")
+        print("Example: python3 libsource-delete.py vue")
+        print("         python3 libsource-delete.py vue --force")
         sys.exit(1)
 
     # Parse arguments

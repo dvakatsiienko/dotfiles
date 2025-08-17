@@ -8,7 +8,7 @@ argument-hint: scope, prompt
 ## Behavior
 
 - **Default scope**: Updates project-level CLAUDE.md in current working directory
-- **Root scope**: Use `/cuteconfig root [arguments]` to update root/user-level CLAUDE.md
+- **Root scope**: Use `/cuteconfig root [arguments]` to update root/user-level ~/.claude/CLAUDE.md
 
 ## Examples
 

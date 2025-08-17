@@ -56,16 +56,10 @@ def format_library_info(lib_name, info, show_file_status=True):
     else:
         lines.append(f"   📏 LOC: Not calculated")
     
-    # Show quality rating
-    quality = info.get('quality')
-    if quality is not None:
-        lines.append(f"   ⭐ Quality: {quality}%")
-    else:
-        lines.append(f"   ⭐ Quality: Not rated")
     
     # Show file status if missing
     if show_file_status and not get_libsource_path(lib_name).exists():
-        lines.append(f"   ⚠️  File missing (use /libsource-restore)")
+        lines.append(f"   ⚠️  File missing (use 'pnpm lib:restore')")
         
     return "\n".join(lines)
 
@@ -116,7 +110,7 @@ def show_verification_report(config):
             size_mb = info['file_size'] / 1024 / 1024
             print(f"  ❌ {lib} ({size_mb:.1f}MB) - from {info['url']}")
         
-        print(f"\n💡 Run '/libsource-restore' to fetch all missing files")
+        print(f"\n💡 Run 'pnpm lib:restore' to fetch all missing files")
     else:
         print(f"\n🎉 All libsource files are present!")
 
@@ -127,7 +121,7 @@ def main():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use /libsource-add [library-name] to add libraries!")
+        print("Use 'pnpm lib:add [library-name] [url]' to add libraries!")
         return
     
     # Parse command line arguments

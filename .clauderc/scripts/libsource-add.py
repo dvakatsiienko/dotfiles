@@ -2,12 +2,12 @@
 """
 Libsource Add command - Get and register library source code.
 
-Usage: /libsource-add [library-name] [optional-url-or-path]
+Usage: python3 libsource-add.py [library-name] [optional-url-or-path]
 Examples: 
-  /libsource-add vue
-  /libsource-add vue https://github.com/vuejs/core
-  /libsource-add next-local /path/to/nextjs
-  /libsource-add my-project .
+  python3 libsource-add.py vue
+  python3 libsource-add.py vue https://github.com/vuejs/core
+  python3 libsource-add.py next-local /path/to/nextjs
+  python3 libsource-add.py my-project .
 """
 
 import json
@@ -117,11 +117,11 @@ def get_library_source(lib_name, source_path):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /libsource-add [library-name] [optional-url-or-path]")
+        print("Usage: python3 libsource-add.py [library-name] [optional-url-or-path]")
         print("Examples:")
-        print("  /libsource-add vue https://github.com/vuejs/core")
-        print("  /libsource-add next-local /path/to/nextjs")
-        print("  /libsource-add my-project .")
+        print("  python3 libsource-add.py vue https://github.com/vuejs/core")
+        print("  python3 libsource-add.py next-local /path/to/nextjs")
+        print("  python3 libsource-add.py my-project .")
         sys.exit(1)
     
     lib_name = sys.argv[1]
@@ -181,8 +181,7 @@ def main():
         "filename": f"libsource-{lib_name}.txt",
         "last_updated": datetime.now().isoformat(),
         "file_size": file_size,
-        "loc": loc_count,
-        "quality": None
+        "loc": loc_count
     }
     config["last_updated"] = datetime.now().isoformat()
     

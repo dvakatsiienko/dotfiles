@@ -25,7 +25,7 @@ PERFORMANCE ANALYSIS:
 
 - Bundle size impact of changes
 - Runtime performance implications
-- Memory leak potential in React/MobX patterns
+- Memory leak potential in React/Zustand patterns
 - WebSocket connection efficiency
 
 REVIEW CHECKLIST:

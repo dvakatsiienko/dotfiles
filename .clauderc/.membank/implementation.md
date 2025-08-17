@@ -9,7 +9,7 @@ This document serves as the central implementation guide for the embeddable spor
 ### Current Architecture
 
 - **Frontend**: Preact/React with TypeScript (partial migration)
-- **State Management**: MobX for reactive state management
+- **State Management**: Zustand for lightweight reactive state
 - **Build System**: Webpack 5 with multiple entry points
 - **Integration Modes**: Shadow DOM (modern) + iFrame (legacy)
 - **Styling**: Tailwind CSS + Sass (legacy)
@@ -58,7 +58,7 @@ This document serves as the central implementation guide for the embeddable spor
 - **Current Status**: ~30% TypeScript coverage
 - **Target**: 80%+ coverage
 - **Priority Areas**:
-  - Core MobX stores (`src/lib/mobx/`)
+  - Core Zustand stores (`src/lib/stores/`)
   - API layer (`src/lib/api/`)
   - Utility functions (`src/helpers/`)
   - Component type definitions
@@ -80,7 +80,7 @@ This document serves as the central implementation guide for the embeddable spor
 - [ ] Standardize component patterns across codebase
 - [ ] Implement comprehensive error boundary strategy
 - [ ] Add unit tests for critical business logic
-- [ ] Improve MobX observable cleanup patterns
+- [ ] Improve Zustand store cleanup patterns
 
 #### Build System
 
@@ -127,7 +127,7 @@ This document serves as the central implementation guide for the embeddable spor
 ### High Priority
 
 1. **TypeScript Migration**
-   - **Focus**: Core MobX stores and API layer
+   - **Focus**: Core Zustand stores and API layer
    - **Goal**: Improve developer experience and reduce runtime errors
    - **Approach**: Convert by feature area, maintain backward compatibility
 
@@ -137,7 +137,7 @@ This document serves as the central implementation guide for the embeddable spor
    - **Approach**: Consolidate configs, implement shared constants
 
 3. **Memory Leak Investigation**
-   - **Focus**: MobX observable cleanup and WebSocket subscriptions
+   - **Focus**: Zustand store cleanup and WebSocket subscriptions
    - **Goal**: Stable performance in long-running sessions
    - **Approach**: Audit disposers, implement monitoring
 
@@ -265,7 +265,7 @@ window.LiveTopEvents.init({
 ### External Resources
 
 - [Preact Documentation](https://preactjs.com/guide/v10/getting-started)
-- [MobX Documentation](https://mobx.js.org/README.html)
+- [Zustand Documentation](https://zustand-demo.pmnd.rs/)
 - [Webpack 5 Guide](https://webpack.js.org/guides/)
 - [Shadow DOM Specification](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM)
 

@@ -201,52 +201,21 @@ Dual-implementation statusline system providing rich terminal display with:
 
 ## Libsource System
 
-### Purpose
-Cache-based library source code collection for AI-optimized implementation guidance.
+**Cache-based library source collection for AI implementation guidance.**
 
-### Architecture: Cache-Based Storage
-- **Config Tracking**: `.libsource-config.json` maintains library registry with URLs
-- **Local Cache**: `libsource-*.txt` files are working copies (not git-tracked)
-- **Auto-Recovery**: Missing files automatically fetched when needed
-- **Gitignore**: Large source files excluded from repository to keep it lightweight
+### Key Files
 
-### Post-Clone Setup
-After cloning dotfiles to a new machine:
+- **Config**: `.clauderc/.membank/libsource/.libsource-config.json`
+- **Cache**: `.clauderc/.membank/libsource/libsource-*.txt` (git-ignored)
+- **Scripts**: `.clauderc/scripts/libsource-*.py`
+- **feature driver lib source code**: `.clauderc/.membank/libsource/libsource-gitingest.txt`
+
+### Management
+
 ```bash
-pnpm lib:restore    # Populate entire libsource cache from config
+pnpm lib:*              # CLI management commands
+/libsource-read         # Claude command for AI analysis
 ```
-
-### Management Commands
-- **pnpm lib:add**: Add new libraries with URL and metrics calculation
-- **pnpm lib:list**: Display collection with file status verification
-- **pnpm lib:update**: Update existing libraries with change detection
-- **pnpm lib:delete**: Remove libraries from both cache and config
-- **pnpm lib:restore**: Restore missing cache files from config
-- **pnpm lib:read**: Read and analyze libraries with auto-recovery
-
-### Available Commands
-- `pnpm lib:read [lib] "prompt"`: Analyze library with targeted prompt
-- `pnpm lib:list [--verify]`: Show collection and verify file status
-- `pnpm lib:update [lib]`: Update library sources with quality re-evaluation
-- `pnpm lib:restore [lib]`: Restore missing libsource files
-- `pnpm lib:add [lib] [url]`: Add new library to collection
-- `pnpm lib:delete [lib]`: Remove library from collection
-
-### Benefits
-- **Lightweight Repository**: 61MB cache files not tracked in git
-- **Always Fresh**: Restored files use latest source extraction
-- **Auto-Recovery**: Transparent file restoration on missing cache
-- **Selective Caching**: Only download libraries you actually use
-
-### Quality System
-- **Ratings**: 0-100% based on completeness, documentation, API coverage
-- **Current Collection**: 11 libraries (React, MobX, Vite, Webpack, Biome, etc.)
-- **Authority Threshold**: 85%+ quality libraries considered authoritative sources
-- **Re-evaluation**: Quality ratings reset after updates for accuracy
-
-### Gitingest Reference
-
-**When working on libsource features:** Always consult `.clauderc/.membank/libsource/libsource-gitingest.txt` when something needs clarification regarding gitingest behavior.
 
 ## Important Notes
 

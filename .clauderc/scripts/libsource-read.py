@@ -39,10 +39,9 @@ def read_libsource_with_prompt(lib_name, prompt):
     library_info = config["libraries"][lib_name]
     file_size_mb = library_info['file_size'] / 1024 / 1024
     loc = library_info.get('loc', 'unknown')
-    quality = library_info.get('quality', 'not rated')
     
     print(f"📚 Libsource Analysis: {lib_name} - \"{prompt}\"")
-    print(f"📊 Source: {file_size_mb:.1f}MB, {loc:,} LOC, Quality: {quality}{'%' if isinstance(quality, int) else ''}")
+    print(f"📊 Source: {file_size_mb:.1f}MB, {loc:,} LOC")
     print(f"🔗 URL: {library_info['url']}")
     print(f"📅 Last updated: {library_info['last_updated'][:10]}")
     print()
@@ -75,11 +74,10 @@ def main():
                 lib_info = config["libraries"][lib_name]
                 file_size_mb = lib_info['file_size'] / 1024 / 1024
                 loc = lib_info.get('loc', '?')
-                quality = lib_info.get('quality', '?')
                 status = "✅" if get_libsource_path(lib_name).exists() else "❌"
-                print(f"  {status} {lib_name} ({file_size_mb:.1f}MB, {loc:,} LOC, {quality}{'%' if isinstance(quality, int) else ''})")
+                print(f"  {status} {lib_name} ({file_size_mb:.1f}MB, {loc:,} LOC)")
         else:
-            print("No libraries registered yet. Use /libsource-add to add libraries!")
+            print("No libraries registered yet. Use 'pnpm lib:add [lib] [url]' to add libraries!")
         
         sys.exit(1)
     
