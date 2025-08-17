@@ -30,7 +30,8 @@
             "mcp__lipgloss-mcp",
             "mcp__gitmcp-mobx",
             "mcp__github-mcp",
-            "mcp__chrome-mcp"
+            "mcp__chrome-mcp",
+            "mcp__archon-mcp"
         ],
         "defaultMode": "plan"
     },
