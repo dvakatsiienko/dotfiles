@@ -7,6 +7,13 @@
         "install-dotfiles": "zx ./script/install-dotfiles.mjs",
         "list-symlinks": "zx ./script/list-symlinks.mjs",
         "untrack-dotfile": "zx ./script/untrack-dotfile.mjs",
+        "lib:add": "python3 ./.clauderc/scripts/libsource-add.py",
+        "lib:list": "python3 ./.clauderc/scripts/libsource-list.py",
+        "lib:update": "python3 ./.clauderc/scripts/libsource-update.py",
+        "lib:delete": "python3 ./.clauderc/scripts/libsource-delete.py",
+        "lib:restore": "python3 ./.clauderc/scripts/libsource-restore.py",
+        "lib:read": "python3 ./.clauderc/scripts/libsource-read.py",
+        "statusline:build": "cd ./.clauderc/statusline/statusline-go && go build -o bin main.go",
         "check": "biome check --write"
     },
     "dependencies": {

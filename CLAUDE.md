@@ -194,6 +194,7 @@ Dual-implementation statusline system providing rich terminal display with:
 
 ### Usage
 
+- **Build statusline**: `pnpm statusline:build` (compile Go binary)
 - **Switch to Go**: `./switch-to-go.sh` (compiles if needed)
 - **Switch to Bash**: `./switch-to-sh.sh`
 - **Current**: Points to `statusline-go/bin` in settings.json
@@ -212,24 +213,24 @@ Cache-based library source code collection for AI-optimized implementation guida
 ### Post-Clone Setup
 After cloning dotfiles to a new machine:
 ```bash
-/libsource-restore    # Populate entire libsource cache from config
+pnpm lib:restore    # Populate entire libsource cache from config
 ```
 
-### Management Scripts
-- **libsource-add.py**: Add new libraries with URL and metrics calculation
-- **libsource-list.py**: Display collection with file status verification
-- **libsource-update.py**: Update existing libraries with change detection
-- **libsource-delete.py**: Remove libraries from both cache and config
-- **libsource-restore.py**: Restore missing cache files from config
-- **libsource-read.py**: Read and analyze libraries with auto-recovery
+### Management Commands
+- **pnpm lib:add**: Add new libraries with URL and metrics calculation
+- **pnpm lib:list**: Display collection with file status verification
+- **pnpm lib:update**: Update existing libraries with change detection
+- **pnpm lib:delete**: Remove libraries from both cache and config
+- **pnpm lib:restore**: Restore missing cache files from config
+- **pnpm lib:read**: Read and analyze libraries with auto-recovery
 
 ### Available Commands
-- `/libsource-read [lib] "prompt"`: Analyze library with targeted prompt
-- `/libsource-list [--verify]`: Show collection and verify file status
-- `/libsource-update [lib]`: Update library sources with quality re-evaluation
-- `/libsource-restore [lib]`: Restore missing libsource files
-- `/libsource-add [lib] [url]`: Add new library to collection
-- `/libsource-delete [lib]`: Remove library from collection
+- `pnpm lib:read [lib] "prompt"`: Analyze library with targeted prompt
+- `pnpm lib:list [--verify]`: Show collection and verify file status
+- `pnpm lib:update [lib]`: Update library sources with quality re-evaluation
+- `pnpm lib:restore [lib]`: Restore missing libsource files
+- `pnpm lib:add [lib] [url]`: Add new library to collection
+- `pnpm lib:delete [lib]`: Remove library from collection
 
 ### Benefits
 - **Lightweight Repository**: 61MB cache files not tracked in git
