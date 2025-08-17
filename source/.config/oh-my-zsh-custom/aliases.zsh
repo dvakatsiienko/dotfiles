@@ -1,9 +1,6 @@
 # Delete all built-in aliases: system and oh-my-zsh
 unalias -m '*'
 
-# Oh-my-zsh — return unaliased z alias
-alias z='zshz 2>&1'
-
 # System
 alias _=sudo
 alias -- -='cd -'
