@@ -1,110 +1,102 @@
 {
-  "last_updated": "2025-08-17T17:40:56.515283",
-  "libraries": {
-    "biome": {
-      "file_size": 29542020,
-      "filename": "libsource-biome.txt",
-      "last_updated": "2025-08-17T15:57:51.048282",
-      "loc": 902997,
-      "quality": 91,
-      "url": "https://github.com/biomejs/biome"
+    "last_updated": "2025-08-17T17:52:06.869881",
+    "libraries": {
+        "biome": {
+            "file_size": 29540772,
+            "filename": "libsource-biome.txt",
+            "last_updated": "2025-08-17T17:43:54.065200",
+            "loc": 902942,
+            "quality": null,
+            "url": "https://github.com/biomejs/biome"
+        },
+        "bubbletea": {
+            "file_size": 418536,
+            "filename": "libsource-bubbletea.txt",
+            "last_updated": "2025-08-17T15:57:54.237717",
+            "loc": 16724,
+            "quality": null,
+            "url": "https://github.com/charmbracelet/bubbletea"
+        },
+        "gitingest": {
+            "file_size": 423066,
+            "filename": "libsource-gitingest.txt",
+            "last_updated": "2025-08-17T17:46:47.624522",
+            "loc": 12585,
+            "quality": null,
+            "url": "https://github.com/coderamp-labs/gitingest"
+        },
+        "lipgloss": {
+            "file_size": 415097,
+            "filename": "libsource-lipgloss.txt",
+            "last_updated": "2025-08-17T17:46:50.637597",
+            "loc": 13863,
+            "quality": null,
+            "url": "https://github.com/charmbracelet/lipgloss"
+        },
+        "mobx": {
+            "file_size": 1997089,
+            "filename": "libsource-mobx.txt",
+            "last_updated": "2025-08-17T17:44:11.668012",
+            "loc": 66573,
+            "quality": null,
+            "url": "https://github.com/mobxjs/mobx"
+        },
+        "react": {
+            "file_size": 17364703,
+            "filename": "libsource-react.txt",
+            "last_updated": "2025-08-17T17:44:38.767364",
+            "loc": 609258,
+            "quality": null,
+            "url": "https://github.com/facebook/react"
+        },
+        "react-query": {
+            "file_size": 3951454,
+            "filename": "libsource-react-query.txt",
+            "last_updated": "2025-08-17T17:46:35.165266",
+            "loc": 135601,
+            "quality": null,
+            "url": "https://github.com/TanStack/query"
+        },
+        "vite": {
+            "file_size": 3803188,
+            "filename": "libsource-vite.txt",
+            "last_updated": "2025-08-17T17:44:49.401556",
+            "loc": 124368,
+            "quality": null,
+            "url": "https://github.com/vitejs/vite"
+        },
+        "webfonts-loader": {
+            "file_size": 40560,
+            "filename": "libsource-webfonts-loader.txt",
+            "last_updated": "2025-08-17T17:46:44.747092",
+            "loc": 1385,
+            "quality": null,
+            "url": "https://github.com/jeerbl/webfonts-loader"
+        },
+        "webpack": {
+            "file_size": 8992173,
+            "filename": "libsource-webpack.txt",
+            "last_updated": "2025-08-17T17:45:05.177274",
+            "loc": 315812,
+            "quality": null,
+            "url": "https://github.com/webpack/webpack"
+        },
+        "zod": {
+            "file_size": 1752130,
+            "filename": "libsource-zod.txt",
+            "last_updated": "2025-08-17T17:46:38.820077",
+            "loc": 57293,
+            "quality": null,
+            "url": "https://github.com/colinhacks/zod"
+        },
+        "zx": {
+            "file_size": 433847,
+            "filename": "libsource-zx.txt",
+            "last_updated": "2025-08-17T17:46:53.843977",
+            "loc": 14561,
+            "quality": null,
+            "url": "https://github.com/google/zx"
+        }
     },
-    "bubbletea": {
-      "file_size": 418536,
-      "filename": "libsource-bubbletea.txt",
-      "last_updated": "2025-08-17T15:57:54.237717",
-      "loc": 16724,
-      "quality": null,
-      "url": "https://github.com/charmbracelet/bubbletea"
-    },
-    "gitingest": {
-      "file_size": 423066,
-      "filename": "libsource-gitingest.txt",
-      "last_updated": "2025-08-17T15:57:57.099810",
-      "loc": 12585,
-      "quality": null,
-      "url": "https://github.com/coderamp-labs/gitingest"
-    },
-    "lipgloss": {
-      "file_size": 415097,
-      "filename": "libsource-lipgloss.txt",
-      "last_updated": "2025-08-17T15:57:59.991193",
-      "loc": 13863,
-      "quality": null,
-      "url": "https://github.com/charmbracelet/lipgloss"
-    },
-    "lodash": {
-      "file_size": 154597,
-      "filename": "libsource-lodash.txt",
-      "last_updated": "2025-08-17T16:12:53.908244",
-      "loc": 5281,
-      "quality": null,
-      "url": "https://github.com/lodash/lodash"
-    },
-    "mobx": {
-      "file_size": 1996581,
-      "filename": "libsource-mobx.txt",
-      "last_updated": "2025-08-17T15:58:06.819327",
-      "loc": 66562,
-      "quality": 87,
-      "url": "https://github.com/mobxjs/mobx"
-    },
-    "react": {
-      "file_size": 17364703,
-      "filename": "libsource-react.txt",
-      "last_updated": "2025-08-17T15:58:29.217495",
-      "loc": 609258,
-      "quality": null,
-      "url": "https://github.com/facebook/react"
-    },
-    "react-query": {
-      "file_size": 3951454,
-      "filename": "libsource-react-query.txt",
-      "last_updated": "2025-08-17T16:54:30.344546",
-      "loc": 135601,
-      "quality": null,
-      "url": "https://github.com/TanStack/query"
-    },
-    "vite": {
-      "file_size": 3804135,
-      "filename": "libsource-vite.txt",
-      "last_updated": "2025-08-17T15:58:34.786948",
-      "loc": 124391,
-      "quality": 85,
-      "url": "https://github.com/vitejs/vite"
-    },
-    "webfonts-loader": {
-      "file_size": 40560,
-      "filename": "libsource-webfonts-loader.txt",
-      "last_updated": "2025-08-17T15:58:37.895870",
-      "loc": 1385,
-      "quality": null,
-      "url": "https://github.com/jeerbl/webfonts-loader"
-    },
-    "webpack": {
-      "file_size": 8992173,
-      "filename": "libsource-webpack.txt",
-      "last_updated": "2025-08-17T15:58:49.392730",
-      "loc": 315812,
-      "quality": null,
-      "url": "https://github.com/webpack/webpack"
-    },
-    "zx": {
-      "file_size": 433847,
-      "filename": "libsource-zx.txt",
-      "last_updated": "2025-08-17T15:58:52.407914",
-      "loc": 14561,
-      "quality": null,
-      "url": "https://github.com/google/zx"
-    },
-    "zod": {
-      "url": "https://github.com/colinhacks/zod",
-      "filename": "libsource-zod.txt",
-      "last_updated": "2025-08-17T17:40:56.515259",
-      "file_size": 3192109,
-      "loc": 99063,
-      "quality": null
-    }
-  },
-  "version": "1.0"
+    "version": "1.0"
 }
