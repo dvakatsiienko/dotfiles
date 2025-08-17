@@ -17,40 +17,15 @@ from datetime import datetime
 from pathlib import Path
 
 
-def load_config():
-    """Load the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-    
-    if config_file.exists():
-        with open(config_file, 'r') as f:
-            return json.load(f)
-    else:
-        return {"libraries": {}, "last_updated": None, "version": "1.0"}
-
-
-def save_config(config):
-    """Save the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-    config_file.parent.mkdir(parents=True, exist_ok=True)
-    
-    with open(config_file, 'w') as f:
-        json.dump(config, f, indent=2)
-
-
-def calculate_loc(file_path):
-    """Calculate lines of code in a libsource file."""
-    try:
-        result = subprocess.run(['wc', '-l', str(file_path)], 
-                              capture_output=True, text=True, check=True)
-        # Extract the number from "12345 filename" output
-        loc_count = int(result.stdout.strip().split()[0])
-        return loc_count
-    except (subprocess.CalledProcessError, ValueError, IndexError):
-        return None
-
-
 # Import our shared utilities
-from libsource_utils import fetch_libsource, format_duration
+from libsource_utils import (
+    load_config, 
+    save_config, 
+    calculate_loc, 
+    fetch_libsource, 
+    format_duration,
+    get_membank_dir
+)
 
 
 def main():
@@ -112,7 +87,7 @@ def main():
         sys.exit(1)
     
     # Calculate LOC
-    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
+    membank_dir = get_membank_dir()
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     loc_count = calculate_loc(output_file)
     

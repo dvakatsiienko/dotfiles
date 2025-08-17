@@ -12,12 +12,12 @@ from pathlib import Path
 
 def get_config_file():
     """Get path to libsource config file."""
-    return Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
+    return Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource" / ".libsource-config.json"
 
 
 def get_membank_dir():
     """Get path to libsource directory."""
-    return Path.home() / ".claude" / ".membank" / "libsource"
+    return Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource"
 
 
 def get_libsource_path(lib_name):
@@ -74,9 +74,67 @@ def format_duration(seconds):
     return " ".join(parts)
 
 
+def detect_project_type(path):
+    """Detect project type for smart exclusions."""
+    path = Path(path)
+    
+    if (path / "package.json").exists():
+        return "node"
+    elif (path / "requirements.txt").exists() or (path / "pyproject.toml").exists():
+        return "python"  
+    elif (path / "Cargo.toml").exists():
+        return "rust"
+    elif (path / "go.mod").exists():
+        return "go"
+    elif (path / "pom.xml").exists() or (path / "build.gradle").exists():
+        return "java"
+    else:
+        return "generic"
+
+
+def get_smart_exclusions(project_type):
+    """Get smart exclusion patterns based on project type."""
+    
+    # Common exclusions for all projects
+    common_excludes = [
+        ".git/*", ".DS_Store", "*.log", "*.tmp", "*.cache",
+        ".env*", "coverage/*", "*.coverage", ".nyc_output/*"
+    ]
+    
+    # Project-specific exclusions
+    project_excludes = {
+        "node": [
+            "node_modules/*", "dist/*", "build/*", "out/*", 
+            ".next/*", ".nuxt/*", ".vite/*", ".turbo/*",
+            "pnpm-lock.yaml", "package-lock.json", "yarn.lock",
+            ".yarn/*", ".pnp.*", "npm-debug.log*", "yarn-debug.log*",
+            "*.tsbuildinfo", ".eslintcache"
+        ],
+        "python": [
+            "__pycache__/*", "*.pyc", "*.pyo", "*.pyd", 
+            "venv/*", ".venv/*", "env/*", ".env/*",
+            "dist/*", "build/*", "*.egg-info/*",
+            ".pytest_cache/*", ".mypy_cache/*", ".tox/*"
+        ],
+        "rust": [
+            "target/*", "Cargo.lock"
+        ],
+        "go": [
+            "vendor/*", "*.exe", "*.dll", "*.so", "*.dylib"
+        ],
+        "java": [
+            "target/*", "build/*", "*.class", "*.jar", "*.war"
+        ],
+        "generic": []
+    }
+    
+    return common_excludes + project_excludes.get(project_type, [])
+
+
 def fetch_libsource(lib_name, source_path, silent=False):
     """
     Fetch library source using gitingest (from URL or local path).
+    For local paths, automatically applies smart filtering to exclude common non-source files.
     Returns (file_size, generation_time) on success, (None, None) on failure.
     """
     import threading
@@ -105,12 +163,25 @@ def fetch_libsource(lib_name, source_path, silent=False):
             print("   Path doesn't exist and isn't a valid GitHub URL")
         return None
     
-    # Run gitingest command
+    # Build gitingest command with smart exclusions for local paths
     cmd = [
         "gitingest", 
         source_path,
         "--output", str(output_file),
     ]
+    
+    # Add smart exclusions for local directories
+    if source_type == "local":
+        project_type = detect_project_type(source_path)
+        exclusions = get_smart_exclusions(project_type)
+        
+        if not silent:
+            print(f"🧠 Detected project type: {project_type}")
+            print(f"🚫 Applying {len(exclusions)} exclusion patterns...")
+        
+        # Add each exclusion pattern as a separate --exclude-pattern flag
+        for pattern in exclusions:
+            cmd.extend(["--exclude-pattern", pattern])
     
     # Progress indication (only if not silent)
     progress_active = True
