@@ -2,8 +2,12 @@
 """
 Libsource Delete command - Remove library sources.
 
-Usage: /libsource-delete [library-name]
-Example: /libsource-delete vue
+Usage: /libsource-delete [library-name] [--force]
+Examples: 
+  /libsource-delete vue                # Interactive confirmation
+  /libsource-delete vue --force        # Skip confirmation
+  
+Auto-detects non-interactive mode and skips confirmation automatically.
 """
 
 import json
@@ -31,7 +35,7 @@ def save_config(config):
         json.dump(config, f, indent=4)
 
 
-def delete_library(lib_name):
+def delete_library(lib_name, force=False):
     """Delete a library from both file system and config."""
     config = load_config()
 
@@ -51,11 +55,21 @@ def delete_library(lib_name):
     print(f"   📁 File: {library_info['filename']}")
     print(f"   📅 Last updated: {library_info['last_updated'][:10]}")
 
-    # Confirm deletion
-    response = input(f"\n⚠️  Are you sure you want to delete '{lib_name}'? (y/N): ").strip().lower()
-    if response != 'y':
-        print("❌ Deletion cancelled.")
-        return False
+    # Confirm deletion (skip if force=True or non-interactive)
+    if not force:
+        import sys
+        # Check if stdin is available and we're in an interactive terminal
+        if not sys.stdin.isatty():
+            print("🤖 Non-interactive mode detected, auto-confirming deletion...")
+        else:
+            try:
+                response = input(f"\n⚠️  Are you sure you want to delete '{lib_name}'? (y/N): ").strip().lower()
+                if response != 'y':
+                    print("❌ Deletion cancelled.")
+                    return False
+            except (EOFError, KeyboardInterrupt):
+                print("\n❌ Deletion cancelled.")
+                return False
 
     # Delete the actual file
     membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
@@ -94,17 +108,28 @@ def delete_library(lib_name):
 def main():
     """Main command entry point."""
     if len(sys.argv) < 2:
-        print("Usage: /libsource-delete [library-name]")
+        print("Usage: /libsource-delete [library-name] [--force]")
         print("Example: /libsource-delete vue")
+        print("         /libsource-delete vue --force")
         sys.exit(1)
 
-    lib_name = sys.argv[1].lower().strip()
+    # Parse arguments
+    args = sys.argv[1:]
+    force = "--force" in args
+    if force:
+        args.remove("--force")
+    
+    if not args:
+        print("❌ Library name is required.")
+        sys.exit(1)
+        
+    lib_name = args[0].lower().strip()
 
     if not lib_name:
         print("❌ Library name cannot be empty.")
         sys.exit(1)
 
-    success = delete_library(lib_name)
+    success = delete_library(lib_name, force=force)
     sys.exit(0 if success else 1)
 
 

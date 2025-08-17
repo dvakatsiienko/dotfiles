@@ -1,5 +1,5 @@
 {
-    "last_updated": "2025-08-17T17:13:11.974505",
+    "last_updated": "2025-08-17T17:29:24.625842",
     "libraries": {
         "biome": {
             "file_size": 29542020,
@@ -96,14 +96,6 @@
             "loc": 14561,
             "quality": null,
             "url": "https://github.com/google/zx"
-        },
-        "test-local": {
-            "url": "/Users/dima/.dotfiles",
-            "filename": "libsource-test-local.txt",
-            "last_updated": "2025-08-17T17:15:55.706923",
-            "file_size": 280309,
-            "loc": 8091,
-            "quality": null
         }
     },
     "version": "1.0"

@@ -62,6 +62,9 @@ def fetch_libsource(lib_name, source_path, silent=False):
     Fetch library source using gitingest (from URL or local path).
     Returns file_size on success, None on failure.
     """
+    import threading
+    import time
+    
     membank_dir = get_membank_dir()
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     
@@ -93,18 +96,48 @@ def fetch_libsource(lib_name, source_path, silent=False):
         "--max-size", "51200",  # 50KB max file size
     ]
     
+    # Progress indication (only if not silent)
+    progress_active = True
+    start_time = time.time()
+    
+    def show_progress():
+        """Show animated progress while gitingest is running."""
+        spinners = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+        i = 0
+        while progress_active:
+            elapsed = int(time.time() - start_time)
+            mins, secs = divmod(elapsed, 60)
+            time_str = f"{mins:02d}:{secs:02d}"
+            print(f"\r{spinners[i % len(spinners)]} Processing... [{time_str}]", end="", flush=True)
+            i += 1
+            time.sleep(0.1)
+    
+    # Start progress thread (only if not silent)
+    if not silent:
+        progress_thread = threading.Thread(target=show_progress, daemon=True)
+        progress_thread.start()
+    
     try:
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+        
+        # Stop progress indication
+        if not silent:
+            progress_active = False
+            print("\r" + " " * 50 + "\r", end="")  # Clear progress line
         
         # Get file size
         file_size = output_file.stat().st_size
         if not silent:
-            print(f"✅ Successfully fetched {lib_name}! ({file_size / 1024 / 1024:.1f} MB)")
+            elapsed = time.time() - start_time
+            print(f"✅ Successfully processed {lib_name} in {elapsed:.1f}s! ({file_size / 1024 / 1024:.1f} MB)")
         
         return file_size
         
     except subprocess.CalledProcessError as e:
+        # Stop progress indication
         if not silent:
+            progress_active = False
+            print("\r" + " " * 50 + "\r", end="")  # Clear progress line
             print(f"❌ Error fetching {lib_name}: {e}")
             print(f"STDERR: {e.stderr}")
         return None
