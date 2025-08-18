@@ -5,114 +5,96 @@ argument-hint: [component-name | component-path]
 
 ### Instructions for Claude
 
-When this command is invoked, migrate React components from the legacy inject() prop-drilling API to the modern observer() API from mobx-react-lite.
-This migration eliminates the inject dependency injection pattern in favor of direct store access with better performance characteristics.
+Migrate React components from inject() prop-drilling to direct MobX store access with observer() from mobx-react-lite.
+Eliminate the dual component pattern (Base + inject wrapper) and use direct `mobx.store.property` access.
 
 ### Pattern to Follow
 
-**BEFORE (Old - inject() prop-drilling API):**
+**BEFORE (inject() with dual component pattern):**
 
 ```tsx
-import { inject, observer } from "mobx-react";
+import { inject, observer } from 'mobx-react';
 
 export const AuthResolverBase = ({
-  setCoreSettings,
-  setAlert,
-  getToken,
-  languageFromStore,
-  // ...other injected props
-}) => {
-  return <div>component code...</div>;
-};
-
-export const AuthResolver = inject(
-  ({
-    ui: { setCoreSettings, setAlert, language: languageFromStore },
-    profile: { getToken },
-  }) => ({
     setCoreSettings,
     setAlert,
     getToken,
     languageFromStore,
-  })
+    // ...other injected props
+}) => {
+    return <div>component code...</div>;
+};
+
+export const AuthResolver = inject(
+    ({
+        ui: { setCoreSettings, setAlert, language: languageFromStore },
+        profile: { getToken },
+    }) => ({
+        setCoreSettings,
+        setAlert,
+        getToken,
+        languageFromStore,
+    })
 )(observer(AuthResolverBase));
 ```
 
-**AFTER (New - observer() API with direct accessor pattern):**
+**AFTER (direct MobX store access):**
 
 ```tsx
-import { observer } from "mobx-react-lite";
-import { mobx } from "@/lib/mobx";
+import { observer } from 'mobx-react-lite';
+import { mobx } from '@/lib/mobx';
 
 export const AuthResolver = observer(() => {
-  // Use direct accessors for better performance and MobX optimization
-  return (
-    <div>
-      <button disabled={!mobx.profile.token} onClick={mobx.ui.setCoreSettings}>
-        {mobx.ui.language}
-      </button>
-      <span onClick={mobx.ui.setAlert}>{mobx.profile.getToken()}</span>
-    </div>
-  );
-});
-```
-
-**AVOID (Destructuring - only use when explicitly needed):**
-
-```tsx
-import { observer } from "mobx-react-lite";
-import { mobx } from "@/lib/mobx";
-
-export const AuthResolver = observer(() => {
-  // ❌ Avoid destructuring - breaks MobX optimization
-  const { ui, profile } = mobx;
-  const { setCoreSettings, setAlert, language } = ui;
-
-  return <div>component code...</div>;
+    return (
+        <div>
+            <button disabled={!mobx.profile.token} onClick={mobx.ui.setCoreSettings}>
+                {mobx.ui.language}
+            </button>
+            <span onClick={() => mobx.ui.setAlert('message')}>
+                {mobx.profile.getToken()}
+            </span>
+        </div>
+    );
 });
 ```
 
 ### Migration Steps
 
-1. **Identify Target Component**: Locate the React component to migrate (likely specified as $ARGUMENTS)
-2. **Update Imports**:
-   - Replace `import { inject, observer } from 'mobx-react'`
-   - With `import { observer } from 'mobx-react-lite'`
-   - Add `import { mobx } from '@/lib/mobx'` if not present
-3. **Transform Component Structure**:
-   - Remove the `Base` component function parameters (injected props)
-   - Remove the `inject()` wrapper entirely
-   - Rename `ComponentNameBase` to `ComponentName`
-   - Change to direct export: `export const ComponentName = observer(() => { ... })`
-4. **Migrate Store Access**:
-   - Replace injected props with direct `mobx.store.property` accessor pattern
-   - Map injected props to their corresponding store paths (e.g., `setCoreSettings` → `mobx.ui.setCoreSettings`)
-   - Use direct access in JSX: `{mobx.ui.language}` instead of destructured variables
-   - Avoid destructuring unless explicitly needed for complex operations
-5. **Clean Up Props**:
-   - Remove only props that are now sourced from MobX store via direct access
-   - Keep props that are actually passed from parent components
-   - Be careful not to delete legitimate component props
-6. **Apply Direct Accessor Pattern**:
-   - Use `mobx.store.property` throughout the component
-   - This preserves MobX's built-in memoization and reduces unnecessary re-renders
-   - Only use destructuring when explicitly prompted or for very complex operations
+1. **Update Imports**:
+   - Replace `import { inject, observer } from 'mobx-react'` with `import { observer } from 'mobx-react-lite'`
+   - Add `import { mobx } from '@/lib/mobx'`
 
-### Special Cases to Handle
+2. **Eliminate Dual Component Pattern**:
+   - Delete the `ComponentNameBase` function entirely
+   - Delete the `inject()(observer(ComponentNameBase))` export
+   - Create single `export const ComponentName = observer(() => { ... })` component
 
-- **Function Declaration to Arrow Function**: Convert `function ComponentName()` to `export const ComponentName = observer(() => { ... })`
-- **Renamed Store Properties**: Map `language: languageFromStore` to `mobx.ui.language`
-- **Nested Store Access**: Convert deep inject patterns to `mobx.ui.prop1`, `mobx.ui.prop2` direct access
-- **Mixed Props**: Distinguish between MobX-injected props (convert to direct access) and actual component props (preserve)
-- **Legacy Comments**: Preserve or update relevant comments about store usage
+3. **Convert Props to Direct Store Access**:
+   - Map injected props to `mobx.store.property` calls in JSX
+   - Example: `setCoreSettings` → `mobx.ui.setCoreSettings`, `languageFromStore` → `mobx.ui.language`
+   - **Do NOT use destructuring** - reference store properties directly in render
 
-### Quality Checks
+4. **Preserve Real Component Props**:
+   - Keep props that are passed from parent components (not injected from MobX)
+   - Only remove props that were injected via the inject() wrapper
 
-- Verify component still renders correctly
-- Ensure all MobX store references are properly migrated
-- Check that legitimate component props are preserved
-- Confirm observer wrapper is correctly applied
-- Test that performance optimizations don't break functionality
+5. **Function Declaration Conversion**:
+   - Convert `function ComponentName()` to `export const ComponentName = observer(() => {})`
+
+### Key Requirements
+
+- **No Destructuring**: Use `mobx.store.property` directly in JSX, not `const { property } = mobx.store`
+- **Direct Access Only**: Late dereferencing preserves MobX performance optimizations  
+- **Single Component**: Eliminate `Base` component + inject wrapper pattern
+- **Rename Mapping**: Map `language: languageFromStore` → `mobx.ui.language`
+
+### Verification
+
+- Component renders correctly with identical functionality
+- No inject() or Base component remnants
+- All store access uses `mobx.store.property` pattern (no destructuring)
+- Real component props preserved, injected props removed
+- Observer wrapper applied to single component export
 
 ### Usage
 
@@ -130,7 +112,6 @@ The assistant should:
 
 ### Important Notes
 
-- Do not iterate on fixing linter and TypeScript errors during migration
-- Focus on structural migration first, type safety second
-- Preserve component behavior while modernizing the MobX integration - this commands is a purely code structure refactoring
-- Consider performance implications of early vs late dereferencing
+- Do not fix linter/TypeScript errors during migration
+- Preserve component behavior - this is structure refactoring only  
+- Use direct access (`mobx.ui.property`) not destructuring for optimal MobX performance
