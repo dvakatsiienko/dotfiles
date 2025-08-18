@@ -344,7 +344,7 @@ get_model_display_name() {
             echo "$(apply_gradient "opus")${lightgray_color} 4.1${RESET}"
             ;;
         "opusplan")
-            echo "$(apply_gradient "opus-plan")${lightgray_color} 4.1${RESET}"
+            echo "$(apply_gradient "opus plan")${lightgray_color} 4.1${RESET}"
             ;;
         "sonnet")
             echo "$(apply_gradient "sonnet")${lightgray_color} 4.0${RESET}"
