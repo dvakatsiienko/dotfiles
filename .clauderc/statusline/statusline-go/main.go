@@ -189,6 +189,23 @@ func getModelFromSettings() string {
 	return "sonnet"
 }
 
+func getModelDisplayName() string {
+	modelName := getModelFromSettings()
+	
+	switch modelName {
+	case "opus":
+		return "opus 4.1"
+	case "opusplan":
+		return "opus 4.1 plan"
+	case "sonnet":
+		return "sonnet 4"
+	case "haiku":
+		return "haiku 3.5"
+	default:
+		return modelName
+	}
+}
+
 func runCommand(command string, args ...string) string {
 	cmd := exec.Command(command, args...)
 	output, err := cmd.Output()
@@ -434,7 +451,7 @@ func generateStatusline() string {
 	output.WriteString(fmt.Sprintf("%s%s%s", DirColor, dirName, Reset))
 	
 	// Model section (second)
-	model := getModelFromSettings()
+	model := getModelDisplayName()
 	modelEmoji := getModelEmoji()
 	gradientModel := applyGradient(model)
 	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, gradientModel))

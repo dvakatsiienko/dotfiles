@@ -334,6 +334,29 @@ get_model_from_settings() {
     fi
 }
 
+# Function to get model display name with version
+get_model_display_name() {
+    local model_name=$(get_model_from_settings)
+    
+    case "$model_name" in
+        "opus")
+            echo "opus 4.1"
+            ;;
+        "opusplan")
+            echo "opus 4.1 plan"
+            ;;
+        "sonnet")
+            echo "sonnet 4"
+            ;;
+        "haiku")
+            echo "haiku 3.5"
+            ;;
+        *)
+            echo "$model_name"
+            ;;
+    esac
+}
+
 # Function to extract JSON value (simple but more robust than grep/cut)
 extract_json_value() {
     local json_file="$1"
@@ -377,7 +400,7 @@ get_model_emoji() {
 
 # Get model emoji and dynamic model name
 model_emoji=$(get_model_emoji)
-model_name=$(get_model_from_settings)
+model_name=$(get_model_display_name)
 
 # Build the model section with gradient
 model_text=$(apply_gradient "$model_name")
