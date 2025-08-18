@@ -334,25 +334,26 @@ get_model_from_settings() {
     fi
 }
 
-# Function to get model display name with version
+# Function to get model display name with version and coloring
 get_model_display_name() {
     local model_name=$(get_model_from_settings)
+    local lightgray_color=$'\033[38;5;250m'  # Light gray color for version/plan
     
     case "$model_name" in
         "opus")
-            echo "opus 4.1"
+            echo "$(apply_gradient "opus")${lightgray_color} 4.1${RESET}"
             ;;
         "opusplan")
-            echo "opus 4.1 plan"
+            echo "$(apply_gradient "opus-plan")${lightgray_color} 4.1${RESET}"
             ;;
         "sonnet")
-            echo "sonnet 4"
+            echo "$(apply_gradient "sonnet")${lightgray_color} 4.0${RESET}"
             ;;
         "haiku")
-            echo "haiku 3.5"
+            echo "$(apply_gradient "haiku")${lightgray_color} 3.5${RESET}"
             ;;
         *)
-            echo "$model_name"
+            echo "$(apply_gradient "$model_name")"
             ;;
     esac
 }
@@ -400,10 +401,7 @@ get_model_emoji() {
 
 # Get model emoji and dynamic model name
 model_emoji=$(get_model_emoji)
-model_name=$(get_model_display_name)
-
-# Build the model section with gradient
-model_text=$(apply_gradient "$model_name")
+model_text=$(get_model_display_name)
 
 # Get Node.js version with error handling
 node_version=""

@@ -191,18 +191,19 @@ func getModelFromSettings() string {
 
 func getModelDisplayName() string {
 	modelName := getModelFromSettings()
+	lightGrayColor := "\033[38;5;250m" // Light gray color for version/plan
 	
 	switch modelName {
 	case "opus":
-		return "opus 4.1"
+		return applyGradient("opus") + lightGrayColor + " 4.1" + Reset
 	case "opusplan":
-		return "opus 4.1 plan"
+		return applyGradient("opus-plan") + lightGrayColor + " 4.1" + Reset
 	case "sonnet":
-		return "sonnet 4"
+		return applyGradient("sonnet") + lightGrayColor + " 4.0" + Reset
 	case "haiku":
-		return "haiku 3.5"
+		return applyGradient("haiku") + lightGrayColor + " 3.5" + Reset
 	default:
-		return modelName
+		return applyGradient(modelName)
 	}
 }
 
@@ -453,8 +454,7 @@ func generateStatusline() string {
 	// Model section (second)
 	model := getModelDisplayName()
 	modelEmoji := getModelEmoji()
-	gradientModel := applyGradient(model)
-	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, gradientModel))
+	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, model))
 	
 	// Merged Node and PNPM section (third)
 	nodeVersion := getNodeVersion()
