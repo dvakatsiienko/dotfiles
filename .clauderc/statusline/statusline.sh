@@ -77,7 +77,7 @@ get_current_dir_name() {
 
 # Emoji arrays and state management
 STATE_FILE="$HOME/.claude/statusline/statusline-db.json"
-MODEL_EMOJIS=(👽 👻 💫 💨 💭 🤷‍♂️ 🤦‍♂️ 🏄‍♂️ 🐺 🦊 🐆 🦄 🦌 🦬 🐄 🐖 🐪 🦙 🦏 🐇 🦇 🐻 🦥 🦨 🦘 🐓 🐣 🐥 🦅 🦢 🦉 🦩 🐢 🦎 🦭 🪸 🐌 🦂 🌾 🍀 🍌 🥭 🥝 🥥 🍆 🥕 🌶️ 🧀 🍕 🎃 🥋 🔮 🧸 🪵 🪂 ⛈️ ⚡ 🌈 🎹 🕯️ 💡)
+MODEL_EMOJIS=(👽 👻 💫 💨 💭 🤷‍♂️ 🤦‍♂️ 🏄‍♂️ 🐺 🦊 🐆 🦄 🦌 🦬 🐄 🐖 🐪 🦙 🦏 🐇 🦇 🐻 🦥 🦨 🦘 🐓 🐣 🐥 🦅 🦢 🦉 🦩 🐢 🦎 🦭 🪸 🐌 🦂 🌾 🍀 🍌 🥭 🥝 🥥 🍆 🥕 🌶️ 🧀 🍕 🎃 🥋 🔮 🧸 🪵 🪂 ⛈️ ⚡️ 🌈 🎹 🕯️ 💡)
 
 # Function to get day/night git emoji
 get_git_emoji() {
@@ -338,22 +338,23 @@ get_model_from_settings() {
 get_model_display_name() {
     local model_name=$(get_model_from_settings)
     local lightgray_color=$'\033[38;5;250m'  # Light gray color for version/plan
+    local en_space=$(printf '\xe2\x80\x82')  # En Space (U+2002) for better emoji spacing
     
     case "$model_name" in
         "opus")
-            echo "$(apply_gradient "opus")${lightgray_color} 4.1${RESET}"
+            echo "${en_space}$(apply_gradient "opus")${lightgray_color} 4.1${RESET}"
             ;;
         "opusplan")
-            echo "$(apply_gradient "opus plan")${lightgray_color} 4.1${RESET}"
+            echo "${en_space}$(apply_gradient "opus plan")${lightgray_color} 4.1${RESET}"
             ;;
         "sonnet")
-            echo "$(apply_gradient "sonnet")${lightgray_color} 4.0${RESET}"
+            echo "${en_space}$(apply_gradient "sonnet")${lightgray_color} 4.0${RESET}"
             ;;
         "haiku")
-            echo "$(apply_gradient "haiku")${lightgray_color} 3.5${RESET}"
+            echo "${en_space}$(apply_gradient "haiku")${lightgray_color} 3.5${RESET}"
             ;;
         *)
-            echo "$(apply_gradient "$model_name")"
+            echo "${en_space}$(apply_gradient "$model_name")"
             ;;
     esac
 }
@@ -507,7 +508,7 @@ dir_name=$(get_current_dir_name)
 # Build the complete status line
 status_parts=()
 status_parts+=("${DIR_COLOR}${dir_name}${RESET}")
-status_parts+=("${model_emoji} ${model_text}")
+status_parts+=("${model_emoji}${model_text}")
 [ ! -z "$node_version" ] && status_parts+=("$node_version")
 [ ! -z "$pnpm_version" ] && status_parts+=("$pnpm_version")
 [ ! -z "$git_info" ] && status_parts+=("$git_info")

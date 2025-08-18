@@ -54,7 +54,7 @@ var modelEmojis = []string{
 	"🦇", "🐻", "🦥", "🦨", "🦘", "🐓", "🐣", "🐥", "🦅", "🦢",
 	"🦉", "🦩", "🐢", "🦎", "🦭", "🪸", "🐌", "🦂", "🌾", "🍀",
 	"🍌", "🥭", "🥝", "🥥", "🍆", "🥕", "🌶️", "🧀", "🍕", "🎃",
-	"🥋", "🔮", "🧸", "🪵", "🪂", "⛈️", "⚡", "🌈", "🎹", "🕯️", "💡",
+	"🥋", "🔮", "🧸", "🪵", "🪂", "⛈️", "⚡️", "🌈", "🎹", "🕯️", "💡",
 }
 
 // State management for emoji rotation
@@ -192,18 +192,19 @@ func getModelFromSettings() string {
 func getModelDisplayName() string {
 	modelName := getModelFromSettings()
 	lightGrayColor := "\033[38;5;250m" // Light gray color for version/plan
+	enSpace := "\u2002" // En Space (U+2002) for better emoji spacing
 	
 	switch modelName {
 	case "opus":
-		return applyGradient("opus") + lightGrayColor + " 4.1" + Reset
+		return enSpace + applyGradient("opus") + lightGrayColor + " 4.1" + Reset
 	case "opusplan":
-		return applyGradient("opus plan") + lightGrayColor + " 4.1" + Reset
+		return enSpace + applyGradient("opus plan") + lightGrayColor + " 4.1" + Reset
 	case "sonnet":
-		return applyGradient("sonnet") + lightGrayColor + " 4.0" + Reset
+		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4.0" + Reset
 	case "haiku":
-		return applyGradient("haiku") + lightGrayColor + " 3.5" + Reset
+		return enSpace + applyGradient("haiku") + lightGrayColor + " 3.5" + Reset
 	default:
-		return applyGradient(modelName)
+		return enSpace + applyGradient(modelName)
 	}
 }
 
@@ -454,7 +455,7 @@ func generateStatusline() string {
 	// Model section (second)
 	model := getModelDisplayName()
 	modelEmoji := getModelEmoji()
-	output.WriteString(fmt.Sprintf(" • %s%s%s %s", ModelIconColor, modelEmoji, Reset, model))
+	output.WriteString(fmt.Sprintf(" • %s%s%s%s", ModelIconColor, modelEmoji, Reset, model))
 	
 	// Merged Node and PNPM section (third)
 	nodeVersion := getNodeVersion()
