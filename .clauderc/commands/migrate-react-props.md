@@ -98,6 +98,12 @@ export const ExampleCorrect = (props: ExampleCorrectProps) => {
 - Confirm event handlers are properly migrated
 - Test component still renders correctly
 
+### Important Notes
+
+- **Do not iterate on linter or TypeScript errors** during migration - ignore these completely
+- **This is structural refactoring ONLY** - 100% of functionality must remain identical
+- **If you notice issues** during refactoring that would be good to address, shape the proposal and present it as a question like "Should we take care of this problem?"
+
 ### Usage
 
 To use this command: `@migrate-react-props.md [ComponentName]`

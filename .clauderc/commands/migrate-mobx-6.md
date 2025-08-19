@@ -1,12 +1,18 @@
 ---
 description: migrate React component from inject() prop-drilling API to observer() API from mobx-react-lite
-argument-hint: [component-name | component-path]
+argument-hint: [component-name | component-path] [with props]
 ---
 
 ### Instructions for Claude
 
 Migrate React components from inject() prop-drilling to direct MobX store access with observer() from mobx-react-lite.
 Eliminate the dual component pattern (Base + inject wrapper) and use direct `mobx.store.property` access.
+
+**COMBINED MIGRATION**: When "with props" is specified in the prompt, perform TWO migrations in this EXACT order:
+1. **FIRST**: Complete MobX 6 migration (as described in this command) - this is CRITICAL for correct identifier linking
+2. **SECOND**: Apply React props migration (destructuring → accessor pattern from migrate-react-props.md)
+
+**IDENTIFIER PRESERVATION**: During MobX migration, pay EXTREME attention to correctly linking previously destructured identifiers to their new `mobx.store.property` references. This re-referencing work is complex and must be done meticulously to avoid breaking functionality.
 
 ### Pattern to Follow
 
@@ -98,20 +104,26 @@ export const AuthResolver = observer(() => {
 
 ### Usage
 
-To use this command: `@migrate-mobx-6.md [ComponentName]`
+To use this command: 
+- Basic: `@migrate-mobx-6.md [ComponentName]`
+- Combined: `@migrate-mobx-6.md [ComponentName] with props`
 
 The assistant should:
 
 1. Read the specified component file
-2. Apply the migration pattern systematically
-3. Remove the inject() wrapper and Base component pattern
-4. Migrate to direct MobX store access using `mobx.store.property` accessor pattern
-5. Use direct accessors throughout (avoid destructuring unless explicitly needed)
-6. Verify the migration doesn't break component functionality
-7. Provide a summary of changes made
+2. **If "with props" specified**: Perform BOTH migrations in correct order (MobX first, then props)
+3. Apply the MobX migration pattern systematically with EXTREME care for identifier linking
+4. Remove the inject() wrapper and Base component pattern
+5. Migrate to direct MobX store access using `mobx.store.property` accessor pattern
+6. Use direct accessors throughout (avoid destructuring unless explicitly needed)
+7. **If "with props" specified**: Then apply props migration (destructuring → accessor pattern)
+8. Verify the migration doesn't break component functionality
+9. Provide a summary of changes made
 
 ### Important Notes
 
-- Do not fix linter/TypeScript errors during migration
-- Preserve component behavior - this is structure refactoring only  
+- **Do not iterate on linter or TypeScript errors** during migration - ignore these completely
+- **This is structural refactoring ONLY** - 100% of functionality must remain identical
+- **If you notice issues** during refactoring that would be good to address, shape the proposal and present it as a question like "Should we take care of this problem?"
 - Use direct access (`mobx.ui.property`) not destructuring for optimal MobX performance
+- **CRITICAL**: During the complex re-referencing work, ensure ALL previously destructured identifiers are correctly mapped to their new `mobx.store.property` equivalents

@@ -17,7 +17,8 @@
       "mcp__gitmcp-mobx",
       "mcp__github-mcp",
       "mcp__chrome-mcp",
-      "mcp__archon-mcp"
+      "mcp__archon-mcp",
+      "mcp__obsidian-mcp"
     ],
     "defaultMode": "plan"
   },
