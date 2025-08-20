@@ -7,4 +7,5 @@
 # @raycast.packageName Language Switcher
 # @raycast.keyword eng
 
+# a lib to switch keyboard layouts — https://github.com/Lutzifer/keyboardSwitcher
 /opt/homebrew/bin/keyboardSwitcher select "org.sil.ukelele.keyboardlayout.t.english–ilyabirmantypography"
