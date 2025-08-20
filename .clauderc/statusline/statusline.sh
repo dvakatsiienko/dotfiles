@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Status line script for Claude Code
-# Shows: Model | Node.js version | Git branch | Git diff stats | Git stash count
+# Shows: Model | Node.js version | Git branch | Git diff stats | Git stash count | Session cost info
 # With emoji prefixes and enhanced Unicode separators for better visual distinction
+# Supports JSON input from Claude Code v1.0.85+ with session cost integration
 
 # Color definitions
 NODE_COLOR=$'\033[38;5;71m'  # Node.js official green #3c873a
@@ -16,6 +17,7 @@ ADD_COLOR=$'\033[32m'        # green for additions
 DEL_COLOR=$'\033[31m'        # red for deletions
 CLEAN_COLOR=$'\033[2;37m'    # dim white for clean status
 STASH_COLOR=$'\033[96m'      # cyan for stash
+COST_COLOR=$'\033[38;5;214m' # orange for cost info
 RESET=$'\033[0m'
 BOLD=$'\033[1m'
 
@@ -400,6 +402,16 @@ get_model_emoji() {
     echo "${MODEL_EMOJIS[$current_index]}"
 }
 
+# Check if we have JSON input from Claude Code v1.0.85+
+has_json_input=false
+json_input=""
+if [ ! -t 0 ]; then
+    json_input=$(cat)
+    if [ ! -z "$json_input" ] && echo "$json_input" | grep -q '"session_id"'; then
+        has_json_input=true
+    fi
+fi
+
 # Get model emoji and dynamic model name
 model_emoji=$(get_model_emoji)
 model_text=$(get_model_display_name)
@@ -505,6 +517,20 @@ fi
 # Get directory name
 dir_name=$(get_current_dir_name)
 
+# Get cost information if JSON input is available
+cost_info=""
+if [ "$has_json_input" = "true" ] && command -v bun >/dev/null 2>&1; then
+    cost_output=$(echo "$json_input" | bun x ccusage statusline --visual-burn-rate emoji 2>/dev/null)
+    if [ ! -z "$cost_output" ] && [[ "$cost_output" != *"❌"* ]]; then
+        # Extract just the cost part (between first and second |)
+        # Format: 🤖 Model | 💰 costs | 🔥 burn rate | 🧠 context
+        if [[ "$cost_output" =~ \|\ (💰.*)\|\ 🔥 ]]; then
+            cost_part="${BASH_REMATCH[1]}"
+            cost_info="${COST_COLOR}${cost_part}${RESET}"
+        fi
+    fi
+fi
+
 # Build the complete status line
 status_parts=()
 status_parts+=("${DIR_COLOR}${dir_name}${RESET}")
@@ -512,6 +538,7 @@ status_parts+=("${model_emoji}${model_text}")
 [ ! -z "$node_version" ] && status_parts+=("$node_version")
 [ ! -z "$pnpm_version" ] && status_parts+=("$pnpm_version")
 [ ! -z "$git_info" ] && status_parts+=("$git_info")
+[ ! -z "$cost_info" ] && status_parts+=("$cost_info")
 
 # Join with separator
 separator=" • "
@@ -524,3 +551,8 @@ for i in "${!status_parts[@]}"; do
 done
 
 echo "$status_line"
+
+# Debug: Log JSON input if available (for testing)
+if [ "$has_json_input" = "true" ] && [ ! -z "$DEBUG_STATUSLINE" ]; then
+    echo "JSON input received: $json_input" >> /tmp/statusline-debug.log
+fi

@@ -3,18 +3,18 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
-
 )
 
-
-// Legacy color definitions (keeping for compatibility)
+// Legacy color definitions
 const (
 	Reset          = "\033[0m"
 	Bold           = "\033[1m"
@@ -22,22 +22,18 @@ const (
 	NodeIconColor  = "\033[38;5;71m"
 	PnpmColor      = "\033[38;5;202m"
 	PnpmIconColor  = "\033[38;5;202m"
-	ModelColor     = "\033[38;5;201m"
-	ModelIconColor = "\033[38;5;201m"
-	DirColor       = "\033[38;5;248m" // Lighter gray for directory
-	DirIconColor   = "\033[38;5;248m" // Lighter gray for directory icon
+	DirColor       = "\033[38;5;248m"
 	BranchColor    = "\033[32m"
 	AddColor       = "\033[32m"
 	DelColor       = "\033[31m"
 	CleanColor     = "\033[2;37m"
 	StashColor     = "\033[96m"
+	CostColor      = "\033[38;5;214m" // orange for cost info
 	SyncAheadColor = "\033[33m"     // yellow for ahead
 	SyncBehindColor = "\033[31m"    // red for behind  
-	SyncDivergedColor = "\033[35m"  // magenta for diverged
-	SyncUpToDateColor = "\033[32m"  // green for up to date
 )
 
-// Retro gradient colors for model name (bright ANSI codes 90-97 range)
+// Retro gradient colors for model name
 var gradientColors = []string{
 	"\033[95m", // bright magenta
 	"\033[94m", // bright blue
@@ -57,6 +53,21 @@ var modelEmojis = []string{
 	"🥋", "🔮", "🧸", "🪵", "🪂", "⛈️", "⚡️", "🌈", "🎹", "🕯️", "💡",
 }
 
+// Claude Code context structure (v1.0.85+)
+type ClaudeContext struct {
+	SessionID      string `json:"session_id"`
+	TranscriptPath string `json:"transcript_path"`
+	Cwd            string `json:"cwd"`
+	Model          struct {
+		ID          string `json:"id"`
+		DisplayName string `json:"display_name"`
+	} `json:"model"`
+	Workspace struct {
+		CurrentDir string `json:"current_dir"`
+		ProjectDir string `json:"project_dir"`
+	} `json:"workspace"`
+}
+
 // State management for emoji rotation
 type EmojiState struct {
 	CurrentIndex   int   `json:"current_index"`
@@ -69,9 +80,6 @@ type GitSyncStatus struct {
 	Behind int
 	HasUpstream bool
 }
-
-
-
 
 func applyGradient(text string) string {
 	var result strings.Builder
@@ -87,7 +95,6 @@ func applyGradient(text string) string {
 	return result.String()
 }
 
-
 func getCurrentDirName() string {
 	wd, err := os.Getwd()
 	if err != nil {
@@ -96,7 +103,6 @@ func getCurrentDirName() string {
 	
 	homeDir, _ := os.UserHomeDir()
 	
-	// Handle special cases
 	if wd == "/" {
 		return "/"
 	}
@@ -104,7 +110,6 @@ func getCurrentDirName() string {
 		return "~"
 	}
 	
-	// If we're in home directory or subdirectory, use ~ prefix
 	if strings.HasPrefix(wd, homeDir) {
 		relativePath := strings.TrimPrefix(wd, homeDir)
 		if relativePath == "" {
@@ -113,7 +118,6 @@ func getCurrentDirName() string {
 		return "~" + relativePath
 	}
 	
-	// If we're outside home directory, return full path from root
 	return wd
 }
 
@@ -129,7 +133,6 @@ func getStateFilePath() string {
 	homeDir, _ := os.UserHomeDir()
 	return filepath.Join(homeDir, ".claude", "statusline", "statusline-db.json")
 }
-
 
 func initStateFile(filePath string) {
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
@@ -156,13 +159,10 @@ func getModelEmoji() string {
 	
 	currentTime := time.Now().Unix()
 	
-	// Check if 1+ hours (3600 seconds) have passed
 	if currentTime-state.LastUpdateTime >= 3600 {
-		// Rotate to next emoji
 		state.CurrentIndex = (state.CurrentIndex + 1) % len(modelEmojis)
 		state.LastUpdateTime = currentTime
 		
-		// Update state file
 		data, _ := json.Marshal(state)
 		ioutil.WriteFile(stateFile, data, 0644)
 	}
@@ -179,7 +179,6 @@ func getModelFromSettings() string {
 		return "sonnet"
 	}
 	
-	// Simple regex to extract model value
 	re := regexp.MustCompile(`"model"\s*:\s*"([^"]*)"`)
 	matches := re.FindStringSubmatch(string(data))
 	if len(matches) > 1 {
@@ -191,8 +190,8 @@ func getModelFromSettings() string {
 
 func getModelDisplayName() string {
 	modelName := getModelFromSettings()
-	lightGrayColor := "\033[38;5;250m" // Light gray color for version/plan
-	enSpace := "\u2002" // En Space (U+2002) for better emoji spacing
+	lightGrayColor := "\033[38;5;250m"
+	enSpace := "\u2002"
 	
 	switch modelName {
 	case "opus":
@@ -220,7 +219,6 @@ func runCommand(command string, args ...string) string {
 func getNodeVersion() string {
 	version := runCommand("node", "--version")
 	if version != "" {
-		// Node.js already includes 'v' prefix, so just return it
 		return version
 	}
 	return "none"
@@ -229,7 +227,6 @@ func getNodeVersion() string {
 func getPnpmVersion() string {
 	version := runCommand("pnpm", "--version")
 	if version != "" {
-		// Add 'v' prefix to pnpm version
 		return "v" + version
 	}
 	return "none"
@@ -246,6 +243,100 @@ func getGitBranch() string {
 		return "detached"
 	}
 	return branch
+}
+
+func parseIntSafe(s string) int {
+	val, err := strconv.Atoi(s)
+	if err != nil {
+		return 0
+	}
+	return val
+}
+
+func toSuperscript(n int) string {
+	superscripts := []string{"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"}
+	
+	if n == 0 {
+		return superscripts[0]
+	}
+	
+	result := ""
+	temp := n
+	
+	for temp > 0 {
+		digit := temp % 10
+		result = superscripts[digit] + result
+		temp /= 10
+	}
+	
+	return result
+}
+
+func getBranchSyncStatus() GitSyncStatus {
+	status := GitSyncStatus{Ahead: 0, Behind: 0, HasUpstream: false}
+	
+	output := runCommand("git", "status", "-b", "--porcelain")
+	if output == "" {
+		return status
+	}
+	
+	lines := strings.Split(output, "\n")
+	if len(lines) == 0 {
+		return status
+	}
+	
+	branchLine := lines[0]
+	if !strings.HasPrefix(branchLine, "## ") {
+		return status
+	}
+	
+	if !strings.Contains(branchLine, "...") {
+		return status
+	}
+	
+	status.HasUpstream = true
+	
+	if strings.Contains(branchLine, "[ahead ") {
+		re := regexp.MustCompile(`\[ahead (\d+)`)
+		matches := re.FindStringSubmatch(branchLine)
+		if len(matches) > 1 {
+			if val := parseIntSafe(matches[1]); val > 0 {
+				status.Ahead = val
+			}
+		}
+	}
+	
+	if strings.Contains(branchLine, "behind ") {
+		re := regexp.MustCompile(`behind (\d+)`)
+		matches := re.FindStringSubmatch(branchLine)
+		if len(matches) > 1 {
+			if val := parseIntSafe(matches[1]); val > 0 {
+				status.Behind = val
+			}
+		}
+	}
+	
+	return status
+}
+
+func formatSyncIndicator(status GitSyncStatus) string {
+	if !status.HasUpstream {
+		return ""
+	}
+	
+	if status.Ahead > 0 && status.Behind > 0 {
+		aheadStr := toSuperscript(status.Ahead)
+		behindStr := toSuperscript(status.Behind)
+		return fmt.Sprintf("%s↕%s%s↓%s", SyncBehindColor, aheadStr, behindStr, Reset)
+	} else if status.Ahead > 0 {
+		aheadStr := toSuperscript(status.Ahead)
+		return fmt.Sprintf("%s↑%s%s", BranchColor, aheadStr, Reset)
+	} else if status.Behind > 0 {
+		behindStr := toSuperscript(status.Behind)
+		return fmt.Sprintf("%s↓%s%s", SyncAheadColor, behindStr, Reset)
+	}
+	
+	return ""
 }
 
 func parseGitStats(stats string) (insertions, deletions string) {
@@ -273,51 +364,8 @@ func parseGitStats(stats string) (insertions, deletions string) {
 	return insertions, deletions
 }
 
-func getUntrackedCount() int {
-	output := runCommand("git", "ls-files", "--others", "--exclude-standard")
-	if output == "" {
-		return 0
-	}
-	return len(strings.Split(strings.TrimSpace(output), "\n"))
-}
-
-func getUntrackedLineCount() int {
-	files := runCommand("git", "ls-files", "--others", "--exclude-standard")
-	if files == "" {
-		return 0
-	}
-	
-	totalLines := 0
-	fileList := strings.Split(strings.TrimSpace(files), "\n")
-	
-	for _, file := range fileList {
-		if file != "" {
-			content := runCommand("wc", "-l", file)
-			if content != "" {
-				// wc -l output format: "   123 filename"
-				parts := strings.Fields(content)
-				if len(parts) > 0 {
-					if lines := parseIntSafe(parts[0]); lines > 0 {
-						totalLines += lines
-					}
-				}
-			}
-		}
-	}
-	
-	return totalLines
-}
-
-func getStagedFileCount() int {
-	output := runCommand("git", "diff", "--cached", "--name-only")
-	if output == "" {
-		return 0
-	}
-	return len(strings.Split(strings.TrimSpace(output), "\n"))
-}
-
-func getModifiedFileCount() int {
-	output := runCommand("git", "diff", "--name-only")
+func getFileCount(command string, args ...string) int {
+	output := runCommand(command, args...)
 	if output == "" {
 		return 0
 	}
@@ -332,136 +380,82 @@ func getStashCount() int {
 	return len(strings.Split(output, "\n"))
 }
 
-func getBranchSyncStatus() GitSyncStatus {
-	status := GitSyncStatus{Ahead: 0, Behind: 0, HasUpstream: false}
-	
-	// Get branch status with tracking info
-	output := runCommand("git", "status", "-b", "--porcelain")
-	if output == "" {
-		return status
+// Helper function to check if file descriptor is a terminal
+func isTerminal(fd int) bool {
+	stat, err := os.Stdin.Stat()
+	if err != nil {
+		return false
 	}
-	
-	// Parse first line which contains branch info
-	lines := strings.Split(output, "\n")
-	if len(lines) == 0 {
-		return status
-	}
-	
-	branchLine := lines[0]
-	// Format: ## branch...origin/branch [ahead 2, behind 1]
-	if !strings.HasPrefix(branchLine, "## ") {
-		return status
-	}
-	
-	// Check if branch has upstream
-	if !strings.Contains(branchLine, "...") {
-		return status // No upstream
-	}
-	
-	status.HasUpstream = true
-	
-	// Parse ahead/behind info
-	if strings.Contains(branchLine, "[ahead ") {
-		re := regexp.MustCompile(`\[ahead (\d+)`)
-		matches := re.FindStringSubmatch(branchLine)
-		if len(matches) > 1 {
-			if val := parseIntSafe(matches[1]); val > 0 {
-				status.Ahead = val
-			}
-		}
-	}
-	
-	if strings.Contains(branchLine, "behind ") {
-		re := regexp.MustCompile(`behind (\d+)`)
-		matches := re.FindStringSubmatch(branchLine)
-		if len(matches) > 1 {
-			if val := parseIntSafe(matches[1]); val > 0 {
-				status.Behind = val
-			}
-		}
-	}
-	
-	return status
+	return (stat.Mode() & os.ModeCharDevice) != 0
 }
 
-func parseIntSafe(s string) int {
-	val := 0
-	for _, char := range s {
-		if char >= '0' && char <= '9' {
-			val = val*10 + int(char-'0')
-		} else {
-			break
-		}
-	}
-	return val
-}
-
-func toSuperscript(n int) string {
-	superscripts := []string{"⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"}
-	
-	if n == 0 {
-		return superscripts[0]
-	}
-	
-	result := ""
-	temp := n
-	
-	// Convert each digit to superscript
-	for temp > 0 {
-		digit := temp % 10
-		result = superscripts[digit] + result
-		temp /= 10
-	}
-	
-	return result
-}
-
-func formatSyncIndicator(status GitSyncStatus) string {
-	if !status.HasUpstream {
-		return "" // No upstream, no indicator
-	}
-	
-	if status.Ahead > 0 && status.Behind > 0 {
-		// Diverged: arrows and numbers in red
-		aheadStr := toSuperscript(status.Ahead)
-		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↕%s%s↓%s%s", 
-			SyncBehindColor, aheadStr, behindStr, Reset)
-	} else if status.Ahead > 0 {
-		// Ahead only: ↑ and number in green
-		aheadStr := toSuperscript(status.Ahead)
-		return fmt.Sprintf("%s↑%s%s", BranchColor, aheadStr, Reset)
-	} else if status.Behind > 0 {
-		// Behind only: ↓ and number in yellow
-		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↓%s%s", SyncAheadColor, behindStr, Reset)
-	} else {
-		// Up to date: no indicator, just clean branch display
+func getCostInfo(context *ClaudeContext) string {
+	if context == nil {
 		return ""
 	}
+	
+	// Convert context back to JSON
+	contextJSON, err := json.Marshal(context)
+	if err != nil {
+		return ""
+	}
+	
+	// Call ccusage statusline
+	cmd := exec.Command("bun", "x", "ccusage", "statusline", "--visual-burn-rate", "emoji")
+	cmd.Stdin = strings.NewReader(string(contextJSON))
+	output, err := cmd.Output()
+	if err != nil {
+		return ""
+	}
+	
+	ccusageOutput := strings.TrimSpace(string(output))
+	if strings.Contains(ccusageOutput, "❌") {
+		return ""
+	}
+	
+	// Extract cost part using regex: | 💰 costs | 🔥
+	re := regexp.MustCompile(`\| (💰.*) \| 🔥`)
+	matches := re.FindStringSubmatch(ccusageOutput)
+	if len(matches) > 1 {
+		return fmt.Sprintf("%s%s%s", CostColor, matches[1], Reset)
+	}
+	
+	return ""
 }
-
 
 func generateStatusline() string {
 	var output strings.Builder
 	
-	// Add explicit reset at start to fix first-position dimming
+	// Check for JSON input from Claude Code v1.0.85+
+	var claudeContext *ClaudeContext
+	if !isTerminal(0) {
+		input, err := io.ReadAll(os.Stdin)
+		if err == nil && len(input) > 0 {
+			var ctx ClaudeContext
+			if json.Unmarshal(input, &ctx) == nil && ctx.SessionID != "" {
+				claudeContext = &ctx
+			}
+		}
+	}
+	
+	// Add explicit reset at start
 	output.WriteString(Reset)
 	
-	// Directory section (first)
+	// Directory section
 	dirName := getCurrentDirName()
 	output.WriteString(fmt.Sprintf("%s%s%s", DirColor, dirName, Reset))
 	
-	// Model section (second)
+	// Model section
 	model := getModelDisplayName()
 	modelEmoji := getModelEmoji()
-	output.WriteString(fmt.Sprintf(" • %s%s%s%s", ModelIconColor, modelEmoji, Reset, model))
+	output.WriteString(fmt.Sprintf(" • %s%s", modelEmoji, model))
 	
-	// Merged Node and PNPM section (third)
+	// Node and PNPM section
 	nodeVersion := getNodeVersion()
 	pnpmVersion := getPnpmVersion()
-	output.WriteString(fmt.Sprintf(" • %s%s󰎙%s %s%s%s · %s%s%s", 
-		Bold, NodeIconColor, Reset, NodeColor, nodeVersion, Reset, PnpmColor, pnpmVersion, Reset))
+	output.WriteString(fmt.Sprintf(" • %s%s󰎙%s %s%s%s • %s📦%s %s%s%s", 
+		Bold, NodeIconColor, Reset, NodeColor, nodeVersion, Reset, 
+		PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
 	
 	// Git section
 	if isGitRepo() {
@@ -479,37 +473,32 @@ func generateStatusline() string {
 		stagedStats := runCommand("git", "diff", "--cached", "--shortstat")
 		unstagedStats := runCommand("git", "diff", "--shortstat")
 		
-		// File counts
-		stagedFileCount := getStagedFileCount()
-		modifiedFileCount := getModifiedFileCount()
-		untrackedCount := getUntrackedCount()
+		stagedFileCount := getFileCount("git", "diff", "--cached", "--name-only")
+		modifiedFileCount := getFileCount("git", "diff", "--name-only") 
+		untrackedCount := getFileCount("git", "ls-files", "--others", "--exclude-standard")
 		totalFileCount := stagedFileCount + modifiedFileCount + untrackedCount
 		
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
 		
-		// Note: Untracked files are counted in file count but NOT in line diff stats
-		// Git's --shortstat only shows changes to tracked files, not new file additions
-		
 		gitEmoji := getGitEmoji()
 		hasUnstagedChanges := unstagedStats != "" || untrackedCount > 0
 		
 		if stagedStats != "" && hasUnstagedChanges {
-			// Both staged and unstaged changes
 			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s | %s+%s%s%s-%s%s",
-				gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset,
-				AddColor, Reset, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
+				gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset, 
+				DelColor, stagedDeletions, Reset, AddColor, Reset, AddColor, unstagedInsertions, 
+				Reset, DelColor, unstagedDeletions, Reset))
 		} else if stagedStats != "" {
-			// Only staged changes
 			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
-				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset, DelColor, stagedDeletions, Reset, AddColor, Reset))
+				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset, 
+				DelColor, stagedDeletions, Reset, AddColor, Reset))
 		} else if hasUnstagedChanges {
-			// Only unstaged changes (modified + untracked)
 			unstagedFileCount := modifiedFileCount + untrackedCount
 			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s",
-				gitEmoji, CleanColor, unstagedFileCount, Reset, AddColor, unstagedInsertions, Reset, DelColor, unstagedDeletions, Reset))
+				gitEmoji, CleanColor, unstagedFileCount, Reset, AddColor, unstagedInsertions, 
+				Reset, DelColor, unstagedDeletions, Reset))
 		} else {
-			// Clean repo
 			output.WriteString(fmt.Sprintf(" • %s %sclean%s", gitEmoji, CleanColor, Reset))
 		}
 		
@@ -523,16 +512,17 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset))
 	}
 	
-	// System Performance Section removed - matching statusline.sh
+	// Cost information section
+	costInfo := getCostInfo(claudeContext)
+	if costInfo != "" {
+		output.WriteString(fmt.Sprintf(" • %s", costInfo))
+	}
 	
-	
-	// Add bottom margin for consistent spacing
 	output.WriteString("\n")
 	return output.String()
 }
 
 func main() {
-	// Static output for statusline usage
 	output := generateStatusline()
 	fmt.Print(output)
 }
