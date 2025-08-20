@@ -389,6 +389,48 @@ func isTerminal(fd int) bool {
 	return (stat.Mode() & os.ModeCharDevice) != 0
 }
 
+// TEMPORARY PATCH for ccusage time calculation bug (2025-08-20)
+// TODO: Remove this patch after September 20, 2025 - check if ccusage has fixed
+// the timezone issue where token refresh time is calculated incorrectly.
+// Current issue: ccusage shows "43m left" when it should show "3h 43m left"
+// The bug appears to be a 3-hour timezone offset (ccusage using UTC instead of Europe/Kiev)
+func fixTokenRefreshTime(timeStr string) string {
+	// Parse time format like "43m" or "1h 23m"
+	if timeStr == "" {
+		return ""
+	}
+	
+	// Check if it's just minutes (e.g., "43m") - likely needs 3h correction
+	minOnlyRe := regexp.MustCompile(`^(\d+)m$`)
+	if matches := minOnlyRe.FindStringSubmatch(timeStr); len(matches) > 1 {
+		minutes, err := strconv.Atoi(matches[1])
+		if err == nil {
+			// Add 3 hours (180 minutes)
+			totalMinutes := minutes + 180
+			hours := totalMinutes / 60
+			mins := totalMinutes % 60
+			if hours > 0 {
+				return fmt.Sprintf("%dh %dm", hours, mins)
+			}
+			return fmt.Sprintf("%dm", mins)
+		}
+	}
+	
+	// Check if it has hours and minutes (e.g., "1h 23m")
+	hourMinRe := regexp.MustCompile(`^(\d+)h (\d+)m$`)
+	if matches := hourMinRe.FindStringSubmatch(timeStr); len(matches) > 2 {
+		hours, err1 := strconv.Atoi(matches[1])
+		minutes, err2 := strconv.Atoi(matches[2])
+		if err1 == nil && err2 == nil {
+			// Add 3 hours
+			return fmt.Sprintf("%dh %dm", hours+3, minutes)
+		}
+	}
+	
+	// If we can't parse it, return as-is
+	return timeStr
+}
+
 func getCostInfo(context *ClaudeContext) string {
 	if context == nil {
 		return ""
@@ -400,8 +442,8 @@ func getCostInfo(context *ClaudeContext) string {
 		return ""
 	}
 	
-	// Call ccusage statusline
-	cmd := exec.Command("bun", "x", "ccusage", "statusline", "--visual-burn-rate", "emoji")
+	// Call ccusage statusline with explicit timezone
+	cmd := exec.Command("bun", "x", "ccusage", "statusline", "--visual-burn-rate", "emoji", "--timezone", "Europe/Kiev")
 	cmd.Stdin = strings.NewReader(string(contextJSON))
 	output, err := cmd.Output()
 	if err != nil {
@@ -432,7 +474,8 @@ func getCostInfo(context *ClaudeContext) string {
 		sessionRe := regexp.MustCompile(`([^\s]+) session`)
 		dayRe := regexp.MustCompile(`\$?([^\s]+) today`)
 		blockRe := regexp.MustCompile(`\$?([^\s]+) block`)
-		timeRe := regexp.MustCompile(`\((\d+h \d+m) left\)`)
+		// Updated regex to match both "1h 44m" and "49m" formats
+		timeRe := regexp.MustCompile(`\((\d+(?:h \d+)?m) left\)`)
 		
 		sessionCost := "N/A"
 		if sessionMatches := sessionRe.FindStringSubmatch(costPart); len(sessionMatches) > 1 {
@@ -451,11 +494,13 @@ func getCostInfo(context *ClaudeContext) string {
 		
 		timeLeft := ""
 		if timeMatches := timeRe.FindStringSubmatch(costPart); len(timeMatches) > 1 {
-			timeLeft = fmt.Sprintf(" (%s)", timeMatches[1])
+			// Apply temporary fix for ccusage timezone bug
+			correctedTime := fixTokenRefreshTime(timeMatches[1])
+			timeLeft = fmt.Sprintf(" (%s)", correctedTime)
 		}
 		
-		// Format: 📡 $$$ sess / $$$ day / $$$ (Xh Xm)
-		result := fmt.Sprintf("📡 %s sess / %s day / %s%s", sessionCost, dayCost, blockCost, timeLeft)
+		// Format: 📡 $$$ session / $$$ today / $$$ block (Xh Xm) - expanded labels
+		result := fmt.Sprintf("📡 %s session / %s today / %s block%s", sessionCost, dayCost, blockCost, timeLeft)
 		
 		// Add context window info if available
 		if len(contextMatches) > 1 && strings.TrimSpace(contextMatches[1]) != "N/A" {
@@ -561,8 +606,6 @@ func generateStatusline() string {
 	costInfo := getCostInfo(claudeContext)
 	if costInfo != "" {
 		output.WriteString(fmt.Sprintf("\n%s", costInfo))
-	} else {
-		output.WriteString("\n")
 	}
 	
 	return output.String()
