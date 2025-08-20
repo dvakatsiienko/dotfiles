@@ -45,7 +45,7 @@ var gradientColors = []string{
 
 // Emoji arrays
 var modelEmojis = []string{
-	"👽", "👻", "💫", "💨", "💭", "🤷‍♂️", "🤦‍♂️", "🏄‍♂️", "🐺", "🦊",
+	"👽", "👻", "💫", "💨", "💭", "🤦‍♂️", "🏄‍♂️", "🐺", "🦊",
 	"🐆", "🦄", "🦌", "🦬", "🐄", "🐖", "🐪", "🦙", "🦏", "🐇",
 	"🦇", "🐻", "🦥", "🦨", "🦘", "🐓", "🐣", "🐥", "🦅", "🦢",
 	"🦉", "🦩", "🐢", "🦎", "🦭", "🪸", "🐌", "🦂", "🌾", "🍀",
@@ -413,11 +413,56 @@ func getCostInfo(context *ClaudeContext) string {
 		return ""
 	}
 	
-	// Extract cost part using regex: | 💰 costs | 🔥
-	re := regexp.MustCompile(`\| (💰.*) \| 🔥`)
-	matches := re.FindStringSubmatch(ccusageOutput)
-	if len(matches) > 1 {
-		return fmt.Sprintf("%s%s%s", CostColor, matches[1], Reset)
+	// Extract cost part and context window info
+	// Full format: 🤖 Opus | 💰 N/A session / $37.84 today / $16.97 block (1h 55m left) | 🔥 $7.61/hr 🟢 | 🧠 N/A
+	costRe := regexp.MustCompile(`\| 💰 ([^|]+) \|`)
+	contextRe := regexp.MustCompile(`🧠 ([^|]*?)(?:\s*\||$)`)
+	
+	costMatches := costRe.FindStringSubmatch(ccusageOutput)
+	contextMatches := contextRe.FindStringSubmatch(ccusageOutput)
+	
+	if len(costMatches) > 1 {
+		costPart := costMatches[1]
+		
+		// Parse and reformat the cost string
+		// From: "N/A session / $37.84 today / $16.97 block (1h 55m left)"
+		// To: "📡 N/A sess / $37.84 day / $16.97 (1h 55m)"
+		
+		// Extract session, day, block costs and time
+		sessionRe := regexp.MustCompile(`([^\s]+) session`)
+		dayRe := regexp.MustCompile(`\$?([^\s]+) today`)
+		blockRe := regexp.MustCompile(`\$?([^\s]+) block`)
+		timeRe := regexp.MustCompile(`\((\d+h \d+m) left\)`)
+		
+		sessionCost := "N/A"
+		if sessionMatches := sessionRe.FindStringSubmatch(costPart); len(sessionMatches) > 1 {
+			sessionCost = sessionMatches[1]
+		}
+		
+		dayCost := "N/A"
+		if dayMatches := dayRe.FindStringSubmatch(costPart); len(dayMatches) > 1 {
+			dayCost = "$" + dayMatches[1]
+		}
+		
+		blockCost := "N/A"
+		if blockMatches := blockRe.FindStringSubmatch(costPart); len(blockMatches) > 1 {
+			blockCost = "$" + blockMatches[1]
+		}
+		
+		timeLeft := ""
+		if timeMatches := timeRe.FindStringSubmatch(costPart); len(timeMatches) > 1 {
+			timeLeft = fmt.Sprintf(" (%s)", timeMatches[1])
+		}
+		
+		// Format: 📡 $$$ sess / $$$ day / $$$ (Xh Xm)
+		result := fmt.Sprintf("📡 %s sess / %s day / %s%s", sessionCost, dayCost, blockCost, timeLeft)
+		
+		// Add context window info if available
+		if len(contextMatches) > 1 && strings.TrimSpace(contextMatches[1]) != "N/A" {
+			result += fmt.Sprintf(" | 🧠 %s", strings.TrimSpace(contextMatches[1]))
+		}
+		
+		return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 	}
 	
 	return ""
@@ -512,13 +557,14 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset))
 	}
 	
-	// Cost information section
+	// Cost information section - on second line
 	costInfo := getCostInfo(claudeContext)
 	if costInfo != "" {
-		output.WriteString(fmt.Sprintf(" • %s", costInfo))
+		output.WriteString(fmt.Sprintf("\n%s", costInfo))
+	} else {
+		output.WriteString("\n")
 	}
 	
-	output.WriteString("\n")
 	return output.String()
 }
 
