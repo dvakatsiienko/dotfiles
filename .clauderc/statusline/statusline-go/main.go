@@ -54,10 +54,12 @@ var modelEmojis = []string{
 }
 
 // Claude Code context structure (v1.0.85+)
+// Reference: https://docs.anthropic.com/en/docs/claude-code/statusline#json-input-structure
 type ClaudeContext struct {
 	SessionID      string `json:"session_id"`
 	TranscriptPath string `json:"transcript_path"`
 	Cwd            string `json:"cwd"`
+	Version        string `json:"version"`
 	Model          struct {
 		ID          string `json:"id"`
 		DisplayName string `json:"display_name"`
@@ -66,6 +68,13 @@ type ClaudeContext struct {
 		CurrentDir string `json:"current_dir"`
 		ProjectDir string `json:"project_dir"`
 	} `json:"workspace"`
+	Cost *struct {
+		TotalCostUSD       float64 `json:"total_cost_usd"`
+		TotalDurationMs    int64   `json:"total_duration_ms"`
+		TotalApiDurationMs int64   `json:"total_api_duration_ms"`
+		TotalLinesAdded    int     `json:"total_lines_added"`
+		TotalLinesRemoved  int     `json:"total_lines_removed"`
+	} `json:"cost"`
 }
 
 // State management for emoji rotation
@@ -431,6 +440,69 @@ func fixTokenRefreshTime(timeStr string) string {
 	return timeStr
 }
 
+func getAnthropicResetTime() string {
+	now := time.Now()
+	
+	// Anthropic resets usage every 5 hours: 03:00, 08:00, 13:00, 18:00, 22:00
+	resetTimes := []int{3, 8, 13, 18, 22}
+	
+	var nextReset time.Time
+	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	
+	// Find the next reset time today
+	for _, hour := range resetTimes {
+		candidate := today.Add(time.Duration(hour) * time.Hour)
+		if now.Before(candidate) {
+			nextReset = candidate
+			break
+		}
+	}
+	
+	// If no reset found today, use first reset tomorrow (03:00)
+	if nextReset.IsZero() {
+		tomorrow := today.Add(24 * time.Hour)
+		nextReset = tomorrow.Add(time.Duration(resetTimes[0]) * time.Hour)
+	}
+	
+	duration := nextReset.Sub(now)
+	hours := int(duration.Hours())
+	minutes := int(duration.Minutes()) % 60
+	
+	if hours > 0 {
+		return fmt.Sprintf("%dh %dm", hours, minutes)
+	}
+	return fmt.Sprintf("%dm", minutes)
+}
+
+func getNativeCostInfo(context *ClaudeContext) string {
+	if context == nil || context.Cost == nil {
+		return ""
+	}
+
+	cost := context.Cost
+	
+	// Calculate burn rate ($ per hour)
+	var burnRate float64
+	if cost.TotalDurationMs > 0 {
+		hoursElapsed := float64(cost.TotalDurationMs) / (1000 * 60 * 60) // ms to hours
+		burnRate = cost.TotalCostUSD / hoursElapsed
+	}
+
+	// Format native cost info (2 decimal places)
+	sessionCost := fmt.Sprintf("$%.2f", cost.TotalCostUSD)
+	burnRateStr := ""
+	if burnRate > 0 {
+		burnRateStr = fmt.Sprintf(" | $%.2f/hr", burnRate)
+	}
+
+	// Add Anthropic reset time instead of lines
+	resetTime := getAnthropicResetTime()
+	resetInfo := fmt.Sprintf(" | ⏰ %s", resetTime)
+
+	result := fmt.Sprintf("💎 Native: %s session%s%s", sessionCost, burnRateStr, resetInfo)
+	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
+}
+
 func getCostInfo(context *ClaudeContext) string {
 	if context == nil {
 		return ""
@@ -468,14 +540,11 @@ func getCostInfo(context *ClaudeContext) string {
 
 		// Parse and reformat the cost string
 		// From: "N/A session / $37.84 today / $16.97 block (1h 55m left)"
-		// To: "📡 N/A sess / $37.84 day / $16.97 (1h 55m)"
+		// To: "📡 N/A session / $37.84 today" (remove block cost completely)
 
-		// Extract session, day, block costs and time
+		// Extract session and day costs only
 		sessionRe := regexp.MustCompile(`([^\s]+) session`)
 		dayRe := regexp.MustCompile(`\$?([^\s]+) today`)
-		blockRe := regexp.MustCompile(`\$?([^\s]+) block`)
-		// Updated regex to match both "1h 44m" and "49m" formats
-		timeRe := regexp.MustCompile(`\((\d+(?:h \d+)?m) left\)`)
 
 		sessionCost := "N/A"
 		if sessionMatches := sessionRe.FindStringSubmatch(costPart); len(sessionMatches) > 1 {
@@ -487,20 +556,8 @@ func getCostInfo(context *ClaudeContext) string {
 			dayCost = "$" + dayMatches[1]
 		}
 
-		blockCost := "N/A"
-		if blockMatches := blockRe.FindStringSubmatch(costPart); len(blockMatches) > 1 {
-			blockCost = "$" + blockMatches[1]
-		}
-
-		timeLeft := ""
-		if timeMatches := timeRe.FindStringSubmatch(costPart); len(timeMatches) > 1 {
-			// Apply temporary fix for ccusage timezone bug
-			correctedTime := fixTokenRefreshTime(timeMatches[1])
-			timeLeft = fmt.Sprintf(" (%s)", correctedTime)
-		}
-
-		// Format: 📡 $$$ session / $$$ today / $$$ block (Xh Xm) - expanded labels
-		result := fmt.Sprintf("📡 %s session / %s today / %s block%s", sessionCost, dayCost, blockCost, timeLeft)
+		// Format: 📡 $$$ session / $$$ today - no block cost
+		result := fmt.Sprintf("📡 %s session / %s today", sessionCost, dayCost)
 
 		// Add context window info if available
 		if len(contextMatches) > 1 && strings.TrimSpace(contextMatches[1]) != "N/A" {
@@ -606,6 +663,12 @@ func generateStatusline() string {
 	costInfo := getCostInfo(claudeContext)
 	if costInfo != "" {
 		output.WriteString(fmt.Sprintf("\n%s", costInfo))
+	}
+
+	// Native cost information - on third line (v1.0.85+ testing)
+	nativeCostInfo := getNativeCostInfo(claudeContext)
+	if nativeCostInfo != "" {
+		output.WriteString(fmt.Sprintf("\n%s", nativeCostInfo))
 	}
 
 	return output.String()
