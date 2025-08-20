@@ -499,7 +499,7 @@ func getNativeCostInfo(context *ClaudeContext) string {
 	resetTime := getAnthropicResetTime()
 	resetInfo := fmt.Sprintf(" | ⏰ %s", resetTime)
 
-	result := fmt.Sprintf("💎 Native: %s session%s%s", sessionCost, burnRateStr, resetInfo)
+	result := fmt.Sprintf("🛰️  %s session%s%s", sessionCost, burnRateStr, resetInfo)
 	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 }
 
@@ -556,8 +556,8 @@ func getCostInfo(context *ClaudeContext) string {
 			dayCost = "$" + dayMatches[1]
 		}
 
-		// Format: 📡 $$$ session / $$$ today - no block cost
-		result := fmt.Sprintf("📡 %s session / %s today", sessionCost, dayCost)
+		// Format: 📡 $$$ session | $$$ today - no block cost
+		result := fmt.Sprintf("📡 %s session | %s today", sessionCost, dayCost)
 
 		// Add context window info if available
 		if len(contextMatches) > 1 && strings.TrimSpace(contextMatches[1]) != "N/A" {
