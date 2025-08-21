@@ -139,8 +139,49 @@ def main():
         # Update all libraries
         print(f"🔄 Updating all {len(config['libraries'])} registered libraries...\n")
         
-        for i, lib_name in enumerate(sorted(config["libraries"].keys()), 1):
-            print(f"[{i}/{len(config['libraries'])}]", end=" ")
+        # Sort libraries by generation time (fastest first, slowest last)
+        # Convert generation time strings to seconds for sorting
+        def parse_generation_time(time_str):
+            """Convert generation time string like '59m 7s' or '3s' to seconds."""
+            if not time_str or time_str == 'unknown':
+                return 0
+            
+            total_seconds = 0
+            parts = time_str.split()
+            
+            for part in parts:
+                if part.endswith('h'):
+                    total_seconds += int(part[:-1]) * 3600
+                elif part.endswith('m'):
+                    total_seconds += int(part[:-1]) * 60
+                elif part.endswith('s'):
+                    total_seconds += int(part[:-1])
+            
+            return total_seconds
+        
+        # Sort by generation time, with fallback to file size for new libraries
+        sorted_libs = sorted(
+            config["libraries"].keys(),
+            key=lambda lib: (
+                parse_generation_time(config["libraries"][lib].get("generation_time", "0s")) 
+                if config["libraries"][lib].get("generation_time") 
+                else config["libraries"][lib].get("file_size", 0) / 1000000  # Convert to rough seconds estimate
+            )
+        )
+        
+        print("📊 Processing order (fastest → slowest):")
+        for lib in sorted_libs:
+            gen_time = config["libraries"][lib].get("generation_time", "unknown")
+            size = config["libraries"][lib].get("file_size", 0)
+            size_mb = size / 1024 / 1024 if size > 0 else 0
+            print(f"  • {lib}: {size_mb:.1f} MB, last gen time: {gen_time}")
+        print()
+        
+        for i, lib_name in enumerate(sorted_libs, 1):
+            gen_time = config["libraries"][lib_name].get("generation_time", "unknown")
+            size = config["libraries"][lib_name].get("file_size", 0)
+            size_mb = size / 1024 / 1024 if size > 0 else 0
+            print(f"[{i}/{len(config['libraries'])}] (prev: {gen_time})", end=" ")
             success, changed = update_single_library(config, lib_name)
             if success:
                 updated_libraries.append(lib_name)
