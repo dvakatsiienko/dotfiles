@@ -165,7 +165,7 @@ Reference actual files for current aliases:
 ├── agents/                # Agent definitions
 ├── commands/              # Command definitions
 ├── scripts/               # Python libsource management
-├── statusline/            # Dual statusline implementation (Go + Bash)
+├── statusline/            # Go statusline implementation
 └── agents.md              # ❌ Legacy file (needs cleanup)
 ```
 
@@ -173,7 +173,7 @@ Reference actual files for current aliases:
 
 ### Overview
 
-Dual-implementation statusline system providing rich terminal display with:
+Go-based statusline system providing rich terminal display with:
 
 - Directory path with ~ shortening
 - Dynamic model detection with rotating emoji (hourly rotation)
@@ -181,28 +181,29 @@ Dual-implementation statusline system providing rich terminal display with:
 - Comprehensive git status: branch, sync indicators, file counts, line changes
 - Stash count when present
 - Day/night themed git emojis (🦔/🦦)
+- Claude Code v1.0.85+ native cost API integration
+- Anthropic 5-hour usage reset time windows
 
 ### Architecture
 
-- **Shared State**: `statusline-db.json` tracks emoji rotation across implementations
-- **Go Version**: High-performance compiled binary in `statusline-go/bin`
-- **Bash Version**: Portable shell script `statusline.sh`
-- **Switch Scripts**: Toggle between implementations seamlessly
+- **Single Implementation**: Go binary at `statusline/bin`
+- **Shared State**: `statusline-db.json` tracks emoji rotation
+- **Native API**: Supports Claude Code v1.0.85+ cost data
+- **ccusage Integration**: Fallback for daily/monthly cost totals
 
 ### Features
 
-- **Emoji Rotation**: 66 unique emojis rotate every hour
+- **Emoji Rotation**: 64 unique emojis rotate every hour
 - **Git Sync Status**: Superscript ahead/behind indicators (↑¹ ↓²)
+- **Cost Display**: Session cost, burn rate, and proper reset timers
+- **Reset Time Windows**: 5-hour Anthropic cycles (03:00, 08:00, 13:00, 18:00, 22:00)
+- **Multi-line Output**: ccusage data + native API data when available
 - **Error Handling**: Graceful fallbacks for missing tools
-- **Dynamic Model**: Reads current model from settings.json
-- **Rich Git Stats**: Staged/unstaged/untracked files with line counts
 
 ### Usage
 
-- **Build statusline**: `pnpm statusline:build` (compile Go binary)
-- **Switch to Go**: `./switch-to-go.sh` (compiles if needed)
-- **Switch to Bash**: `./switch-to-sh.sh`
-- **Current**: Points to `statusline-go/bin` in settings.json
+- **Build statusline**: `pnpm statusline:build`
+- **Current**: Points to `statusline/bin` in settings.json
 
 ## Libsource System
 

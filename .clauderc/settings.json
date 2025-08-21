@@ -1,44 +1,58 @@
 {
-    "hooks": {
-        "Notification": [
-            {
-                "hooks": [
-                    {
-                        "command": "sh ~/.claude/notification.sh",
-                        "type": "command"
-                    }
-                ],
-                "matcher": ""
-            }
+  "permissions": {
+    "allow": [
+      "WebFetch",
+      "WebSearch",
+      "Read",
+      "Bash",
+      "mcp__context7-mcp",
+      "mcp__grep-mcp",
+      "mcp__jira-mcp",
+      "mcp__slack-mcp",
+      "mcp__gitlab-mcp",
+      "mcp__shadcn-mcp",
+      "mcp__gitmcp-bubletea",
+      "mcp__gitmcp-gum",
+      "mcp__lipgloss-mcp",
+      "mcp__gitmcp-mobx",
+      "mcp__github-mcp",
+      "mcp__chrome-mcp",
+      "mcp__archon-mcp",
+      "mcp__obsidian-mcp",
+      "mcp__n8n-mcp"
+    ],
+    "defaultMode": "plan"
+  },
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh ~/.claude/notification.sh"
+          }
         ]
-    },
-    "model": "opusplan",
-    "permissions": {
-        "allow": [
-            "WebFetch",
-            "WebSearch",
-            "Read",
-            "Bash",
-            "mcp__context7-mcp",
-            "mcp__grep-mcp",
-            "mcp__jira-mcp",
-            "mcp__slack-mcp",
-            "mcp__gitlab-mcp",
-            "mcp__shadcn-mcp",
-            "mcp__gitmcp-bubletea",
-            "mcp__gitmcp-gum",
-            "mcp__lipgloss-mcp",
-            "mcp__gitmcp-mobx",
-            "mcp__github-mcp",
-            "mcp__chrome-mcp",
-            "mcp__archon-mcp",
-            "mcp__obsidian-mcp"
-        ],
-        "defaultMode": "plan"
-    },
-    "statusLine": {
-        "command": "/Users/dima/.claude/statusline/statusline-go/bin",
-        "padding": 0,
-        "type": "command"
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/dima/.claude/statusline/bin",
+    "padding": 0
+  },
+  "mcpServers": {
+    "n8n-mcp": {
+      "command": "npx",
+      "args": [
+        "n8n-mcp"
+      ],
+      "env": {
+        "MCP_MODE": "stdio",
+        "LOG_LEVEL": "error",
+        "DISABLE_CONSOLE_OUTPUT": "true"
+      }
     }
+  }
 }

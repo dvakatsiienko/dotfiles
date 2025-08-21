@@ -659,15 +659,27 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset))
 	}
 
-	// Cost information section - on second line
+	// Consolidated cost information - single line format
 	costInfo := getCostInfo(claudeContext)
-	if costInfo != "" {
-		output.WriteString(fmt.Sprintf("\n%s", costInfo))
-	}
-
-	// Native cost information - on third line (v1.0.85+ testing)
 	nativeCostInfo := getNativeCostInfo(claudeContext)
-	if nativeCostInfo != "" {
+	
+	if costInfo != "" && nativeCostInfo != "" {
+		// Extract just the session cost from costInfo (remove daily/context info)
+		sessionRe := regexp.MustCompile(`📡 ([^\|]+) session`)
+		sessionMatches := sessionRe.FindStringSubmatch(costInfo)
+		sessionPart := "📡 $0.00 session"
+		if len(sessionMatches) > 1 {
+			sessionPart = fmt.Sprintf("📡 %s session", sessionMatches[1])
+		}
+		
+		// Extract native cost part (remove 🛰️ emoji and color codes)
+		nativeClean := regexp.MustCompile(`🛰️\s*([^$]*\$[^|]+.*)`).ReplaceAllString(nativeCostInfo, "$1")
+		nativeClean = regexp.MustCompile(`\033\[[0-9;]*m`).ReplaceAllString(nativeClean, "") // Remove color codes
+		
+		output.WriteString(fmt.Sprintf("\n%s%s 🛰️  %s%s", CostColor, sessionPart, nativeClean, Reset))
+	} else if costInfo != "" {
+		output.WriteString(fmt.Sprintf("\n%s", costInfo))
+	} else if nativeCostInfo != "" {
 		output.WriteString(fmt.Sprintf("\n%s", nativeCostInfo))
 	}
 
