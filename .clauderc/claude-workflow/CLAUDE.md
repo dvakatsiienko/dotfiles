@@ -25,26 +25,86 @@ complex feature development.
 
 ## File Structure
 
-Each feature research lives in its own directory under `.clauderc/claude-workflow/feature-name/`:
+Each feature research lives in its own directory under `claude-workflow/feature-name/`:
 
 ```
 feature-name/
-├── init.md           # Initial briefing to Claude Desktop
+├── init.md           # Initial briefing with requirements
+├── prescreen.md      # MANDATORY: Claude Code's prescreen analysis (codebase/feature analysis)
 ├── research.md       # Claude Desktop's research findings
 ├── qa.md            # Questions & answers from both sides
 └── final-plan.md    # Implementation plan with readiness checkboxes
+```
+
+## Workflow State Management
+
+### Checkmark-Based Progress Tracking
+
+**IMPORTANT**: The entire workflow state is determined by readiness checkmarks (✅/❌).
+
+**Workflow Processing Rules**:
+1. **Sequential Processing**: Process files in order: `prescreen.md` → `research.md` → `qa.md` → `final-plan.md`
+2. **Current Focus**: The first file containing any ❌ checkmark is the current active task
+3. **Completion Criteria**: A file is complete when ALL its checkmarks show ✅
+4. **Progression Rule**: Only proceed to next file when current file has ALL ✅ checkmarks
+5. **State Check**: Always scan files in order to find the first ❌ and focus efforts there
+
+**Example State Flow**:
+- `prescreen.md`: Claude Code ✅ → Move to research
+- `research.md`: Claude Desktop ❌ → STOP, wait for Desktop to complete
+- `qa.md`: Both ❌ → Work on QA until both mark ✅
+- `final-plan.md`: All ❌ → Cannot start until previous files are ✅
+
+This ensures systematic progression and prevents skipping critical steps.
+
+### Workflow Continuation Rules
+
+**Claude Code Workflow Memory**:
+1. **Continuation Command**: When user says "let's continue workflow" → resume last active workflow
+2. **State Recovery**: 
+   - Check `claude-workflow/` directory for existing workflows
+   - Scan each workflow's files for first ❌ checkmark
+   - Resume from that point
+3. **Uncertainty Handling**: If unsure which workflow was active:
+   - List all existing workflows in `claude-workflow/`
+   - Show current state (which file has ❌)
+   - Ask user which workflow to continue
+4. **Never Auto-Start**: Never begin a workflow without explicit user instruction
+5. **Periodic Reminders**: Allowed to remind user about incomplete workflows occasionally
+
+**Example Continuation**:
+```
+User: "Let's continue workflow"
+Claude Code: 
+1. Checks claude-workflow/ → finds "preact-to-react" 
+2. Scans files → prescreen.md ❌ is first incomplete
+3. Resumes prescreen analysis
 ```
 
 ## Workflow Process
 
 ### Phase 1: Research Initiation
 
+Note: all research initiation steps are mandatory.
+
 1. User creates `feature-name/init.md` with feature requirements
-2. User asks Claude Desktop to research the feature
-3. Claude Desktop may ask clarifying questions to the user.
-4. Once all Claude Desktop questions are answered, Cluade Desktop registers its questions and
+2. **MANDATORY: Claude Code performs prescreen analysis**
+   - For migrations: Analyzes current codebase implementation state
+   - For new features: Analyzes existing related code and integration points
+   - Identifies potential challenges, weak spots, and risk areas
+   - **CRITICAL**: Prepares specific questions for Claude Desktop based on most problematic areas
+   - Creates `prescreen.md` with comprehensive findings and targeted research questions
+   - Marks prescreen.md with Claude Code ✅ when complete
+3. User forwards `init.md` + `prescreen.md` to Claude Desktop for research
+4. **Claude Desktop MUST read prescreen.md first**
+   - Analyzes Claude Code's findings and questions
+   - Uses prescreen insights to make research more relevant and precise
+   - Marks prescreen.md with Claude Desktop ✅ after review
+5. Claude Desktop may ask clarifying questions to the user
+6. Once all Claude Desktop questions are answered, Claude Desktop registers its questions and
    answers in qa.md
-5. Claude Desktop populates `research.md` with findings
+7. Claude Desktop populates `research.md` with findings
+8. Claude Desktop confirms prescreen.md Claude Desktop ✅ when research is complete
 
 ### Phase 2: Clarification Loop
 
@@ -85,6 +145,49 @@ skip the QA phase if:
 - Both parties mark "Fast-Track Approved: ✅" in research.md
 
 ## File Formats
+
+### prescreen.md Structure (MANDATORY)
+
+```markdown
+# [Feature/Migration Name] Prescreen Analysis
+
+## Prescreen Readiness
+
+- **Claude Code**: ❌ (set to ✅ when analysis and questions are complete)
+- **Claude Desktop**: ❌ (set to ✅ when prescreen is reviewed and research is complete)
+
+## Analysis Type
+
+- **Type**: Codebase Migration / Feature Integration / Refactor Analysis
+- **Scope**: [Components affected, files involved]
+- **Analysis Date**: [Date]
+
+## Current State Assessment
+
+[Comprehensive analysis of current implementation]
+
+## Risk Areas & Weak Spots
+
+[Identified problematic areas that may cause migration/implementation issues]
+
+## Complexity Estimation
+
+- **Overall Complexity**: Low/Medium/High/Critical
+- **Confidence Level**: High/Medium/Low
+- **Estimated Effort**: [Time/scope estimate]
+
+## Key Findings
+
+[Bullet points of most important discoveries]
+
+## Critical Questions for Claude Desktop Research
+
+[Specific questions based on most problematic areas identified]
+
+## Recommendations for Research
+
+[Specific areas Claude Desktop should focus on]
+```
 
 ### research.md Structure
 

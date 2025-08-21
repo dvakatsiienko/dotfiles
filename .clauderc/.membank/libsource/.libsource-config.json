@@ -1,27 +1,27 @@
 {
-    "last_updated": "2025-08-21T14:05:16.571617",
+    "last_updated": "2025-08-21T22:50:39.348998",
     "libraries": {
         "archon": {
             "file_size": 4979898,
             "filename": "libsource-archon.txt",
             "generation_time": "1s",
-            "last_updated": "2025-08-21T13:04:03.339828",
+            "last_updated": "2025-08-21T21:48:46.853822",
             "loc": 130740,
             "url": "/Users/dima/projects/archon"
         },
         "biome": {
-            "file_size": 45928959,
+            "file_size": 46160279,
             "filename": "libsource-biome.txt",
-            "generation_time": "19s",
-            "last_updated": "2025-08-21T13:04:46.585133",
-            "loc": 1229984,
+            "generation_time": "20s",
+            "last_updated": "2025-08-21T21:49:32.101520",
+            "loc": 1237239,
             "url": "https://github.com/biomejs/biome"
         },
         "bubbletea": {
             "file_size": 418536,
             "filename": "libsource-bubbletea.txt",
-            "generation_time": "2s",
-            "last_updated": "2025-08-21T13:04:12.129367",
+            "generation_time": "3s",
+            "last_updated": "2025-08-21T21:48:49.928647",
             "loc": 16724,
             "url": "https://github.com/charmbracelet/bubbletea"
         },
@@ -29,80 +29,80 @@
             "file_size": 423066,
             "filename": "libsource-gitingest.txt",
             "generation_time": "2s",
-            "last_updated": "2025-08-21T13:04:06.096792",
+            "last_updated": "2025-08-21T21:48:52.814872",
             "loc": 12585,
             "url": "https://github.com/coderamp-labs/gitingest"
         },
         "lipgloss": {
             "file_size": 479859,
             "filename": "libsource-lipgloss.txt",
-            "generation_time": "3s",
-            "last_updated": "2025-08-21T13:04:09.131170",
+            "generation_time": "2s",
+            "last_updated": "2025-08-21T21:48:58.988416",
             "loc": 15279,
             "url": "https://github.com/charmbracelet/lipgloss"
         },
         "mobx": {
-            "file_size": 4860493,
+            "file_size": 4861001,
             "filename": "libsource-mobx.txt",
             "generation_time": "3s",
-            "last_updated": "2025-08-21T13:04:16.064676",
-            "loc": 130566,
+            "last_updated": "2025-08-21T21:49:02.917286",
+            "loc": 130577,
             "url": "https://github.com/mobxjs/mobx"
         },
         "next": {
-            "file_size": 19862062,
+            "file_size": 20213671,
             "filename": "libsource-next.txt",
-            "generation_time": "56m 49s",
-            "last_updated": "2025-08-21T14:05:16.571561",
-            "loc": 504363,
+            "generation_time": "57m 20s",
+            "last_updated": "2025-08-21T22:50:39.348935",
+            "loc": 512127,
             "url": "/Users/dima/projects/next.js"
         },
         "react": {
-            "file_size": 26004031,
+            "file_size": 26007590,
             "filename": "libsource-react.txt",
-            "generation_time": "21s",
-            "last_updated": "2025-08-21T13:05:08.461499",
-            "loc": 869344,
+            "generation_time": "22s",
+            "last_updated": "2025-08-21T21:49:54.699679",
+            "loc": 869358,
             "url": "https://github.com/facebook/react"
         },
         "react-query": {
             "file_size": 5821282,
             "filename": "libsource-react-query.txt",
-            "generation_time": "1m 19s",
-            "last_updated": "2025-08-21T13:06:27.752048",
+            "generation_time": "1m 20s",
+            "last_updated": "2025-08-21T21:51:15.041997",
             "loc": 192767,
             "url": "https://github.com/TanStack/query"
         },
         "vite": {
-            "file_size": 4933586,
+            "file_size": 4937038,
             "filename": "libsource-vite.txt",
             "generation_time": "5s",
-            "last_updated": "2025-08-21T13:04:27.524955",
-            "loc": 151147,
+            "last_updated": "2025-08-21T21:49:11.659270",
+            "loc": 151150,
             "url": "https://github.com/vitejs/vite"
         },
         "webfonts-loader": {
             "file_size": 40560,
             "filename": "libsource-webfonts-loader.txt",
-            "generation_time": "2s",
-            "last_updated": "2025-08-21T13:04:18.979617",
+            "generation_time": "3s",
+            "last_updated": "2025-08-21T21:48:56.018046",
             "loc": 1385,
             "url": "https://github.com/jeerbl/webfonts-loader"
         },
         "webpack": {
             "file_size": 22127582,
             "filename": "libsource-webpack.txt",
-            "generation_time": "1m 59s",
-            "last_updated": "2025-08-21T13:08:26.965433",
+            "generation_time": "2m 3s",
+            "last_updated": "2025-08-21T21:53:18.502896",
             "loc": 460223,
             "url": "https://github.com/webpack/webpack"
         },
         "zx": {
-            "file_size": 434320,
+            "file_size": 434418,
             "filename": "libsource-zx.txt",
-            "generation_time": "3s",
-            "last_updated": "2025-08-21T13:04:22.064339",
-            "loc": 14608,
+            "generation_time": "2s",
+            "last_updated": "2025-08-21T21:49:05.908250",
+            "loc": 14618,
             "url": "https://github.com/google/zx"
         }
     },
