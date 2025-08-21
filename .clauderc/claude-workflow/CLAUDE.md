@@ -23,6 +23,19 @@ complex feature development.
 - Implements features based on finalized research
 - May request research updates during implementation
 
+## Available Workflows
+
+**IMPORTANT**: This list must be kept in sync with actual `claude-workflow/` directory contents.
+
+### Currently Available Workflows:
+1. **`preact-to-react/`** - Migration from Preact to React framework (Status: Research Complete ✅)
+2. **`semantic-search/`** - Libsource semantic enhancement (Status: Research Complete ✅)
+
+### Workflow Management Rules:
+- **Add New**: When creating new workflow directory, update this list
+- **Remove**: When deleting workflow directory, remove from this list  
+- **Status Tracking**: Update status based on readiness checkmarks in each workflow
+
 ## File Structure
 
 Each feature research lives in its own directory under `claude-workflow/feature-name/`:
@@ -71,6 +84,7 @@ This ensures systematic progression and prevents skipping critical steps.
    - Ask user which workflow to continue
 4. **Never Auto-Start**: Never begin a workflow without explicit user instruction
 5. **Periodic Reminders**: Allowed to remind user about incomplete workflows occasionally
+6. **Sync Maintenance**: When creating/deleting workflows, automatically update the Available Workflows list in this config
 
 **Example Continuation**:
 ```

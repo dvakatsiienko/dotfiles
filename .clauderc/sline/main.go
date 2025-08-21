@@ -607,20 +607,42 @@ func generateStatusline() string {
 		gitEmoji := getGitEmoji()
 		hasUnstagedChanges := unstagedStats != "" || untrackedCount > 0
 
+		// Calculate net diff metric (only show if both + and - are present)
+		totalInsertions := parseIntSafe(stagedInsertions) + parseIntSafe(unstagedInsertions)
+		totalDeletions := parseIntSafe(stagedDeletions) + parseIntSafe(unstagedDeletions)
+		netDiffStr := ""
+		if totalInsertions > 0 && totalDeletions > 0 {
+			netResult := totalInsertions - totalDeletions
+			if netResult > 0 {
+				netDiffStr = fmt.Sprintf(" %s+%d%s", CleanColor, netResult, Reset)
+			} else {
+				netDiffStr = fmt.Sprintf(" %s%d%s", CleanColor, netResult, Reset)
+			}
+		}
+
 		if stagedStats != "" && hasUnstagedChanges {
-			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s | %s+%s%s%s-%s%s",
+			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s %s+%s%s%s-%s%s",
 				gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset,
 				DelColor, stagedDeletions, Reset, AddColor, Reset, AddColor, unstagedInsertions,
 				Reset, DelColor, unstagedDeletions, Reset))
+			if netDiffStr != "" {
+				output.WriteString(netDiffStr)
+			}
 		} else if stagedStats != "" {
 			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
 				gitEmoji, CleanColor, stagedFileCount, Reset, AddColor, stagedInsertions, Reset,
 				DelColor, stagedDeletions, Reset, AddColor, Reset))
+			if netDiffStr != "" {
+				output.WriteString(netDiffStr)
+			}
 		} else if hasUnstagedChanges {
 			unstagedFileCount := modifiedFileCount + untrackedCount
 			output.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s",
 				gitEmoji, CleanColor, unstagedFileCount, Reset, AddColor, unstagedInsertions,
 				Reset, DelColor, unstagedDeletions, Reset))
+			if netDiffStr != "" {
+				output.WriteString(netDiffStr)
+			}
 		} else {
 			output.WriteString(fmt.Sprintf(" • %s %sclean%s", gitEmoji, CleanColor, Reset))
 		}
