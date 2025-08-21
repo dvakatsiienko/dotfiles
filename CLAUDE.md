@@ -10,6 +10,7 @@ extend @.clauderc/.membank/archon.md the archon info:
 ## Repository Overview
 
 - **Purpose**: Complete macOS development environment setup with automated configuration management.
+- **Secondary Purpose**: Development and evolution of efficient agentic workflows (primarily in `.clauderc/` scope).
 - **Approach**: Symlink-based dotfiles with backup system.
 - **Git Repository**: `git@github.com:dvakatsiienko/.dotfiles.git`.
 - **Scripting**: zx (Google's shell scripting utility) for automation.
