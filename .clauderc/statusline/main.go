@@ -367,6 +367,32 @@ func formatSyncIndicator(status GitSyncStatus) string {
 	return ""
 }
 
+func getUntrackedFileLines() (int, error) {
+	untrackedFiles := runCommand("git", "ls-files", "--others", "--exclude-standard")
+	if untrackedFiles == "" {
+		return 0, nil
+	}
+
+	totalLines := 0
+	for _, file := range strings.Split(strings.TrimSpace(untrackedFiles), "\n") {
+		if file == "" {
+			continue
+		}
+		
+		output := runCommand("wc", "-l", file)
+		if output != "" {
+			parts := strings.Fields(output)
+			if len(parts) > 0 {
+				if lineCount := parseIntSafe(parts[0]); lineCount > 0 {
+					totalLines += lineCount
+				}
+			}
+		}
+	}
+	
+	return totalLines, nil
+}
+
 func parseGitStats(stats string) (insertions, deletions string) {
 	if stats == "" {
 		return "0", "0"
@@ -549,6 +575,14 @@ func generateStatusline() string {
 
 		stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
 		unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
+
+		// Add untracked file lines to unstaged insertions
+		untrackedLines, _ := getUntrackedFileLines()
+		if untrackedLines > 0 {
+			unstagedInsertionsInt := parseIntSafe(unstagedInsertions)
+			totalUnstagedInsertions := unstagedInsertionsInt + untrackedLines
+			unstagedInsertions = fmt.Sprintf("%d", totalUnstagedInsertions)
+		}
 
 		gitEmoji := getGitEmoji()
 		hasUnstagedChanges := unstagedStats != "" || untrackedCount > 0

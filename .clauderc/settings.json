@@ -23,6 +23,7 @@
     ],
     "defaultMode": "plan"
   },
+  "model": "opusplan",
   "hooks": {
     "Notification": [
       {
