@@ -51,6 +51,7 @@ feature-name/
 
 1. Claude Code reviews `research.md`
 2. Claude Code adds questions to `qa.md` under `## claude-code qa`
+   - **Note**: Claude Code can directly reference Claude Desktop's research when asking questions to reduce back-and-forth
 3. User forwards questions to Claude Desktop
 4. Claude Desktop answers in `qa.md` under `## claude-desktop qa`
 5. Repeat until all technical unknowns are resolved
@@ -73,7 +74,32 @@ feature-name/
 - Implementation can be resumed from any checkpoint after refinements
 - Research and plan may evolve based on implementation learnings
 
+## Fast-Track Exception
+
+For simple features where research is comprehensive and no obvious unknowns exist, Claude Code may skip the QA phase if:
+
+- Research meets all quality standards
+- Implementation approach is straightforward
+- No major technical unknowns identified
+- Both parties mark "Fast-Track Approved: ✅" in research.md
+
 ## File Formats
+
+### research.md Structure
+
+```markdown
+# [Feature Name] Research
+
+## Research Scope
+- **Complexity**: Simple/Medium/Complex
+- **Confidence**: High/Medium/Low  
+- **Ready for QA**: Yes/No
+- **Fast-Track Approved**: 
+  - Claude Desktop: ✅/❌
+  - Claude Code: ✅/❌
+
+## [Rest of research content...]
+```
 
 ### qa.md Structure
 

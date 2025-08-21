@@ -225,48 +225,25 @@ pnpm lib:*              # CLI management commands
 
 **Structured research and implementation system for complex feature development.**
 
-### Overview
+This repository uses a collaborative workflow between Claude Desktop (researcher) and Claude Code
+(implementer) for complex features requiring architectural research. The system provides structured
+research phases, dual approval gates, and checkpoint-based implementation tracking.
 
-For complex features requiring architectural research, this repository uses a collaborative workflow between Claude Desktop (researcher) and Claude Code (implementer):
+**Complete specification**: See @.clauderc/claude-workflow/contract.md for detailed workflow phases,
+file formats, quality standards, and compliance requirements.
 
-1. **Research Phase**: Claude Desktop conducts deep research on implementation approaches and gathers code examples
-2. **Clarification Phase**: Iterative Q&A between both parties to resolve technical unknowns
-3. **Planning Phase**: Detailed implementation plan with dual approval readiness validation
-4. **Implementation Phase**: Claude Code builds based on finalized research with checkpoint tracking
+### Key Features
 
-### Key Files & Structure
+- **4-Phase Process**: Research → Clarification → Planning → Implementation
+- **Dual Approval System**: Both parties must explicitly approve before implementation
+- **Fast-Track Exception**: Skip QA phase for straightforward features
+- **Checkpoint Tracking**: Suspend/resume implementation using markdown checkboxes
+- **Quality Standards**: Comprehensive research requirements and validation criteria
 
-- **Contract**: `.clauderc/claude-workflow/contract.md` - Complete workflow specification
-- **Research Directories**: `.clauderc/claude-workflow/feature-name/` containing:
-  - `init.md` - Initial briefing to Claude Desktop
-  - `research.md` - Claude Desktop's comprehensive findings
-  - `qa.md` - Questions & answers from both parties
-  - `final-plan.md` - Implementation plan with readiness checkboxes
+### Usage
 
-### Dual Approval System
-
-Implementation requires explicit ✅ approval from both:
-- **Claude Desktop**: Research completeness and technical accuracy
-- **Claude Code**: Implementation readiness and plan clarity
-
-### Progress Tracking
-
-- **Readiness Checkboxes**: Both parties must mark ✅ before implementation
-- **Markdown Checkboxes**: Implementation steps use `- [ ]` for suspend/resume capability
-- **Dynamic Refinement**: Can flip to ❌ and add questions during implementation
-
-### Usage Guidelines
-
-**Use this workflow for:**
-- Complex features with unknown implementation patterns
-- Multi-library integrations requiring research
-- Architectural decisions needing validation
-- Features requiring extensive technical investigation
-
-**Skip for:**
-- Simple bug fixes or minor feature additions
-- Well-understood implementation patterns
-- Straightforward UI/styling changes
+**Use for**: Complex features, unknown implementation patterns, multi-library integrations **Skip
+for**: Simple bug fixes, well-understood patterns, straightforward changes
 
 ## Archon Integration (Experimental)
 
