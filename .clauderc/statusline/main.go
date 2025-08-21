@@ -265,12 +265,32 @@ func isGitRepo() bool {
 	return cmd.Run() == nil
 }
 
+func getGitTag() string {
+	tag := runCommand("git", "describe", "--exact-match", "HEAD")
+	return tag
+}
+
+func getGitCommitHash() string {
+	hash := runCommand("git", "rev-parse", "--short", "HEAD")
+	return hash
+}
+
 func getGitBranch() string {
 	branch := runCommand("git", "branch", "--show-current")
 	if branch == "" {
-		return "detached"
+		// Check if we're on a tag
+		tag := getGitTag()
+		if tag != "" {
+			return "🏷️  " + tag
+		}
+		// Arbitrary commit - show hash with pin emoji
+		hash := getGitCommitHash()
+		if hash != "" {
+			return "📍 " + hash
+		}
+		return "📍 detached"
 	}
-	return branch
+	return "🌿 " + branch
 }
 
 func parseIntSafe(s string) int {
@@ -559,9 +579,9 @@ func generateStatusline() string {
 		syncIndicator := formatSyncIndicator(syncStatus)
 
 		if syncIndicator != "" {
-			output.WriteString(fmt.Sprintf(" • 🌿 %s%s%s %s", BranchColor, branch, Reset, syncIndicator))
+			output.WriteString(fmt.Sprintf(" • %s%s%s %s", BranchColor, branch, Reset, syncIndicator))
 		} else {
-			output.WriteString(fmt.Sprintf(" • 🌿 %s%s%s", BranchColor, branch, Reset))
+			output.WriteString(fmt.Sprintf(" • %s%s%s", BranchColor, branch, Reset))
 		}
 
 		// Git diff stats
