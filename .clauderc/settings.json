@@ -23,7 +23,6 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "opusplan",
   "hooks": {
     "Notification": [
       {
@@ -54,5 +53,6 @@
         "DISABLE_CONSOLE_OUTPUT": "true"
       }
     }
-  }
+  },
+  "model": "sonnet"
 }

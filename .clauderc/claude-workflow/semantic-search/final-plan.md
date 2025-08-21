@@ -130,7 +130,9 @@
   - Test pipeline end-to-end with small samples
 
 - [ ] **Integration Test with Bubbletea**
-  - Process `libsource-bubbletea.txt` (~1-5MB)
+  - Keep original `libsource-bubbletea.txt` untouched
+  - Generate enhanced version as `libsource-bubbletea-enhanced.txt` in same directory
+  - Do NOT update `.libsource-config.json` during testing phase
   - Manual quality assessment of generated semantic tags
   - Compare search results: substring vs semantic BM25F
   - Measure processing time and output file size increase
@@ -153,6 +155,7 @@
   - Test semantic search queries on enhanced bubbletea libsource
   - Compare relevance of results vs current substring search
   - Validate metadata accuracy and usefulness
+  - Create comparison table in `result-comparison.md`
   - Document improvement metrics
 
 ## Phase 2: LLM Integration (Weeks 2-3) - Target: 250-350% Improvement
@@ -173,9 +176,11 @@
   - 30-50% recall improvement implementation
 
 - [ ] **Medium Complexity Testing**
-  - Process libsource-vite.txt or libsource-react.txt (~10-20MB)
+  - Process libsource-vite.txt → libsource-vite-enhanced.txt (~10-20MB)
+  - Keep originals untouched, generate enhanced versions with `-enhanced` suffix
   - A/B testing against Phase 1 results
   - Performance optimization based on learnings
+  - Update comparison table with medium-scale results
 
 ## Phase 3: Full Enhancement (Month 1-2) - Target: 300-500% Improvement
 
@@ -195,9 +200,11 @@
   - Memory usage optimization
 
 - [ ] **Large-Scale Validation**
-  - Process libsource-webpack.txt (~50MB+)
-  - Full libsource collection enhancement
+  - Process libsource-webpack.txt → libsource-webpack-enhanced.txt (~50MB+)
+  - Generate enhanced versions for full libsource collection
+  - Keep all originals preserved during testing
   - Production readiness assessment
+  - Final comparison table with all enhanced libsources
 
 ## Success Metrics and Validation
 
@@ -240,9 +247,11 @@
 
 ### Rollback Plan
 - [ ] **Preserve Original Libsources**
-  - Backup original .txt files before enhancement
-  - Version control for enhanced files
-  - Easy rollback to substring search if needed
+  - Keep all original libsource files completely untouched
+  - Generate enhanced versions with `-enhanced` suffix in same directory
+  - Do not update `.libsource-config.json` during testing phase
+  - Easy rollback by simply using original files
+  - Version control enhanced files separately from originals
 
 ## Timeline and Milestones
 
