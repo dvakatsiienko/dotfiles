@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -14,23 +13,23 @@ import (
 	"time"
 )
 
-// Legacy color definitions
+// ANSI color codes for terminal styling
 const (
-	Reset          = "\033[0m"
-	Bold           = "\033[1m"
-	NodeColor      = "\033[38;5;71m"
-	NodeIconColor  = "\033[38;5;71m"
-	PnpmColor      = "\033[38;5;202m"
-	PnpmIconColor  = "\033[38;5;202m"
-	DirColor       = "\033[38;5;248m"
-	BranchColor    = "\033[32m"
-	AddColor       = "\033[32m"
-	DelColor       = "\033[31m"
-	CleanColor     = "\033[2;37m"
-	StashColor     = "\033[96m"
-	CostColor      = "\033[38;5;214m" // orange for cost info
-	SyncAheadColor = "\033[33m"     // yellow for ahead
-	SyncBehindColor = "\033[31m"    // red for behind
+	Reset           = "\033[0m"
+	Bold            = "\033[1m"
+	NodeColor       = "\033[38;5;71m"
+	NodeIconColor   = "\033[38;5;71m"
+	PnpmColor       = "\033[38;5;202m"
+	PnpmIconColor   = "\033[38;5;202m"
+	DirColor        = "\033[38;5;248m"
+	BranchColor     = "\033[32m"
+	AddColor        = "\033[32m"
+	DelColor        = "\033[31m"
+	CleanColor      = "\033[2;37m"
+	StashColor      = "\033[96m"
+	CostColor       = "\033[38;5;214m" // orange for cost info
+	SyncAheadColor  = "\033[32m"       // green for ahead
+	SyncBehindColor = "\033[31m"       // red for behind
 )
 
 // Retro gradient colors for model name
@@ -85,10 +84,14 @@ type EmojiState struct {
 
 // Git sync status structure
 type GitSyncStatus struct {
-	Ahead  int
-	Behind int
+	Ahead       int
+	Behind      int
 	HasUpstream bool
 }
+
+// =============================================================================
+// COLOR AND STYLING FUNCTIONS
+// =============================================================================
 
 func applyGradient(text string) string {
 	var result strings.Builder
@@ -103,6 +106,10 @@ func applyGradient(text string) string {
 	result.WriteString(Reset)
 	return result.String()
 }
+
+// =============================================================================
+// DIRECTORY AND PATH FUNCTIONS
+// =============================================================================
 
 func getCurrentDirName() string {
 	wd, err := os.Getwd()
@@ -130,6 +137,10 @@ func getCurrentDirName() string {
 	return wd
 }
 
+// =============================================================================
+// EMOJI AND STATE MANAGEMENT FUNCTIONS
+// =============================================================================
+
 func getGitEmoji() string {
 	hour := time.Now().Hour()
 	if hour >= 6 && hour < 18 {
@@ -148,7 +159,7 @@ func initStateFile(filePath string) {
 		os.MkdirAll(filepath.Dir(filePath), 0755)
 		state := EmojiState{CurrentIndex: 0, LastUpdateTime: 0}
 		data, _ := json.Marshal(state)
-		ioutil.WriteFile(filePath, data, 0644)
+		os.WriteFile(filePath, data, 0644)
 	}
 }
 
@@ -156,7 +167,7 @@ func getModelEmoji() string {
 	stateFile := getStateFilePath()
 	initStateFile(stateFile)
 
-	data, err := ioutil.ReadFile(stateFile)
+	data, err := os.ReadFile(stateFile)
 	if err != nil {
 		return modelEmojis[0]
 	}
@@ -173,17 +184,21 @@ func getModelEmoji() string {
 		state.LastUpdateTime = currentTime
 
 		data, _ := json.Marshal(state)
-		ioutil.WriteFile(stateFile, data, 0644)
+		os.WriteFile(stateFile, data, 0644)
 	}
 
 	return modelEmojis[state.CurrentIndex]
 }
 
+// =============================================================================
+// MODEL AND VERSION DETECTION FUNCTIONS
+// =============================================================================
+
 func getModelFromSettings() string {
 	homeDir, _ := os.UserHomeDir()
 	settingsPath := filepath.Join(homeDir, ".claude", "settings.json")
 
-	data, err := ioutil.ReadFile(settingsPath)
+	data, err := os.ReadFile(settingsPath)
 	if err != nil {
 		return "sonnet"
 	}
@@ -240,6 +255,10 @@ func getPnpmVersion() string {
 	}
 	return "none"
 }
+
+// =============================================================================
+// GIT REPOSITORY FUNCTIONS
+// =============================================================================
 
 func isGitRepo() bool {
 	cmd := exec.Command("git", "rev-parse", "--git-dir")
@@ -339,10 +358,10 @@ func formatSyncIndicator(status GitSyncStatus) string {
 		return fmt.Sprintf("%s↕%s%s↓%s", SyncBehindColor, aheadStr, behindStr, Reset)
 	} else if status.Ahead > 0 {
 		aheadStr := toSuperscript(status.Ahead)
-		return fmt.Sprintf("%s↑%s%s", BranchColor, aheadStr, Reset)
+		return fmt.Sprintf("%s↑%s%s", SyncAheadColor, aheadStr, Reset)
 	} else if status.Behind > 0 {
 		behindStr := toSuperscript(status.Behind)
-		return fmt.Sprintf("%s↓%s%s", SyncAheadColor, behindStr, Reset)
+		return fmt.Sprintf("%s↓%s%s", SyncBehindColor, behindStr, Reset)
 	}
 
 	return ""
@@ -389,6 +408,10 @@ func getStashCount() int {
 	return len(strings.Split(output, "\n"))
 }
 
+// =============================================================================
+// UTILITY FUNCTIONS
+// =============================================================================
+
 // Helper function to check if file descriptor is a terminal
 func isTerminal(fd int) bool {
 	stat, err := os.Stdin.Stat()
@@ -397,7 +420,6 @@ func isTerminal(fd int) bool {
 	}
 	return (stat.Mode() & os.ModeCharDevice) != 0
 }
-
 
 func getAnthropicResetTime() string {
 	now := time.Now()
@@ -433,6 +455,10 @@ func getAnthropicResetTime() string {
 	return fmt.Sprintf("%dm", minutes)
 }
 
+// =============================================================================
+// COST INFORMATION FUNCTIONS
+// =============================================================================
+
 func getNativeCostInfo(context *ClaudeContext) string {
 	if context == nil || context.Cost == nil {
 		return ""
@@ -462,6 +488,9 @@ func getNativeCostInfo(context *ClaudeContext) string {
 	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 }
 
+// =============================================================================
+// MAIN STATUSLINE GENERATION
+// =============================================================================
 
 func generateStatusline() string {
 	var output strings.Builder

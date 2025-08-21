@@ -1,0 +1,15 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# n8n data
+.n8n/
+n8n-data/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
