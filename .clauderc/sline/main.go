@@ -151,7 +151,7 @@ func getGitEmoji() string {
 
 func getStateFilePath() string {
 	homeDir, _ := os.UserHomeDir()
-	return filepath.Join(homeDir, ".claude", "statusline", "statusline-db.json")
+	return filepath.Join(homeDir, ".claude", "sline", "sline-db.json")
 }
 
 func initStateFile(filePath string) {
@@ -223,7 +223,7 @@ func getModelDisplayName() string {
 	case "opusplan":
 		return enSpace + applyGradient("opus plan") + lightGrayColor + " 4.1" + Reset
 	case "sonnet":
-		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4.0" + Reset
+		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4" + Reset
 	case "haiku":
 		return enSpace + applyGradient("haiku") + lightGrayColor + " 3.5" + Reset
 	default:

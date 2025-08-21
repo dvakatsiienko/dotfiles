@@ -96,15 +96,21 @@ Note: all research initiation steps are mandatory.
    - Creates `prescreen.md` with comprehensive findings and targeted research questions
    - Marks prescreen.md with Claude Code ✅ when complete
 3. User forwards `init.md` + `prescreen.md` to Claude Desktop for research
-4. **Claude Desktop MUST read prescreen.md first**
-   - Analyzes Claude Code's findings and questions
-   - Uses prescreen insights to make research more relevant and precise
-   - Marks prescreen.md with Claude Desktop ✅ after review
-5. Claude Desktop may ask clarifying questions to the user
-6. Once all Claude Desktop questions are answered, Claude Desktop registers its questions and
+4. **MANDATORY: Claude Desktop tech stack analysis**
+   - **Step 4a**: Examine project's actual tech stack using:
+     - Project CLAUDE.md for technology overview
+     - package.json dependencies
+     - prescreen.md findings
+   - **Step 4b**: Read and analyze Claude Code's prescreen findings and questions
+   - **Step 4c**: Align research focus with ACTUAL technologies used (avoid irrelevant research)
+   - Example: If project uses Tailwind → research Tailwind patterns, NOT styled-components
+   - Marks prescreen.md with Claude Desktop ✅ after tech stack analysis and prescreen review
+5. Claude Desktop conducts focused research based on actual tech stack
+6. Claude Desktop may ask clarifying questions to the user
+7. Once all Claude Desktop questions are answered, Claude Desktop registers its questions and
    answers in qa.md
-7. Claude Desktop populates `research.md` with findings
-8. Claude Desktop confirms prescreen.md Claude Desktop ✅ when research is complete
+8. Claude Desktop populates `research.md` with findings relevant to actual project tech stack
+9. Claude Desktop confirms prescreen.md Claude Desktop ✅ when research is complete
 
 ### Phase 2: Clarification Loop
 
@@ -161,6 +167,21 @@ skip the QA phase if:
 - **Type**: Codebase Migration / Feature Integration / Refactor Analysis
 - **Scope**: [Components affected, files involved]
 - **Analysis Date**: [Date]
+
+## Project Tech Stack (FOR CLAUDE DESKTOP FOCUS)
+
+### Currently Used Technologies
+- **UI Framework**: [e.g., Preact 10.x, React 18.x]
+- **State Management**: [e.g., MobX 6, Redux Toolkit, Zustand]
+- **Styling**: [e.g., Tailwind v4, styled-components, Sass]
+- **Bundler**: [e.g., Webpack 5, Vite, Parcel]
+- **Routing**: [e.g., React Router v7, Next.js Router]
+- **Testing**: [e.g., Jest, Vitest, none]
+- **Real-time**: [e.g., WebSocket, Socket.io, none]
+
+### Technologies NOT Used (Avoid Research)
+- [List technologies that might be confused with current stack]
+- [Helps Claude Desktop avoid irrelevant research paths]
 
 ## Current State Assessment
 

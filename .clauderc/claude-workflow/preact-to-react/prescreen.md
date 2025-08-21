@@ -11,6 +11,29 @@
 - **Scope**: Full application migration from Preact 10.27.1 to React 18.x
 - **Analysis Date**: 2024-12-19
 
+## Project Tech Stack (FOR CLAUDE DESKTOP FOCUS)
+
+### Currently Used Technologies
+- **UI Framework**: Preact 10.27.1 with React compatibility aliases
+- **State Management**: MobX 6.13.7 (mixed v5/v6 patterns, ~50 inject() HOCs)
+- **Styling**: Tailwind CSS v4 with @layer system, CSS custom properties, shadow DOM isolation
+- **Bundler**: Webpack 5 with multiple entry points (migrating to Vite planned)
+- **Routing**: React Router v7 with shadow DOM support
+- **Testing**: NONE (zero test coverage - critical gap)
+- **Real-time**: Custom WebSocket implementation with MobX integration
+- **Performance**: Manual DOM optimizations, react-lazyload for virtualization
+- **CSS Isolation**: Complex stylesInjector.js with media→container query transformation
+
+### Technologies NOT Used (Avoid Research)
+- **NOT styled-components** → Focus on Tailwind CSS migration patterns
+- **NOT Redux/Zustand** → Focus on MobX 6 + React 18 integration  
+- **NOT Socket.io** → Focus on custom WebSocket + React compatibility
+- **NOT Vite** (yet) → Focus on Webpack 5 configuration for React
+- **NOT Jest/Vitest** → Focus on testing setup from scratch
+- **NOT Emotion/Stitches** → Focus on Tailwind + shadow DOM patterns
+- **NOT Next.js** → Focus on React Router v7 migration
+- **NOT create-react-app** → Focus on custom Webpack build system
+
 ## Current State Assessment
 
 ### Codebase Scale

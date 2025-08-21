@@ -23,7 +23,7 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "opus",
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -39,7 +39,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "/Users/dima/.claude/statusline/bin",
+    "command": "/Users/dima/.claude/sline/bin",
     "padding": 0
   }
 }

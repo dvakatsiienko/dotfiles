@@ -130,7 +130,7 @@ Reference actual files for current aliases:
 **Custom Configs:**
 
 - ✅ `.membank/` - Documentation, libsources, implementation guides
-- ✅ `statusline/` - Statusline code and scripts
+- ✅ `sline/` - Sline code and scripts
 - ✅ `scripts/` - Python libsource management scripts
 
 ### Management Rules
@@ -166,14 +166,14 @@ Reference actual files for current aliases:
 │   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
 ├── scripts/               # Python libsource management
-├── statusline/            # Go statusline implementation
+├── sline/                 # Go sline implementation
 ```
 
-## Statusline System
+## Sline System
 
 ### Overview
 
-Go-based statusline system providing rich terminal display with:
+Go-based sline system providing rich terminal display with:
 
 - Directory path with ~ shortening
 - Dynamic model detection with rotating emoji (hourly rotation)
@@ -186,8 +186,8 @@ Go-based statusline system providing rich terminal display with:
 
 ### Architecture
 
-- **Single Implementation**: Go binary at `statusline/bin`
-- **Shared State**: `statusline-db.json` tracks emoji rotation
+- **Single Implementation**: Go binary at `sline/bin`
+- **Shared State**: `sline-db.json` tracks emoji rotation
 - **Native API**: Supports Claude Code v1.0.85+ cost data
 - **ccusage Integration**: Fallback for daily/monthly cost totals
 
@@ -202,8 +202,8 @@ Go-based statusline system providing rich terminal display with:
 
 ### Usage
 
-- **Build statusline**: `pnpm statusline:build`
-- **Current**: Points to `statusline/bin` in settings.json
+- **Build sline**: `pnpm sline:build`
+- **Current**: Points to `sline/bin` in settings.json
 
 ## Libsource System
 
