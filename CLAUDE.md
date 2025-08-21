@@ -10,7 +10,8 @@ extend @.clauderc/.membank/archon.md the archon info:
 ## Repository Overview
 
 - **Purpose**: Complete macOS development environment setup with automated configuration management.
-- **Secondary Purpose**: Development and evolution of efficient agentic workflows (primarily in `.clauderc/` scope).
+- **Secondary Purpose**: Development and evolution of efficient agentic workflows (primarily in
+  `.clauderc/` scope).
 - **Approach**: Symlink-based dotfiles with backup system.
 - **Git Repository**: `git@github.com:dvakatsiienko/.dotfiles.git`.
 - **Scripting**: zx (Google's shell scripting utility) for automation.
@@ -160,8 +161,8 @@ Reference actual files for current aliases:
 │   ├── libsource/         # Library source collection (11 libraries)
 │   ├── implementation.md  # Project guides
 │   └── typescript.md      # Type conventions
-├── claude-workflow/       # Collaborative research workflow
-│   ├── contract.md        # Workflow specification
+├── claude-workflow/       # Cluade Desktop and Claude Code Collaborative workflow
+│   ├── CLAUDE.md          # Workflow specification
 │   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
 ├── scripts/               # Python libsource management
@@ -226,25 +227,10 @@ pnpm lib:*              # CLI management commands
 
 **Structured research and implementation system for complex feature development.**
 
-This repository uses a collaborative workflow between Claude Desktop (researcher) and Claude Code
-(implementer) for complex features requiring architectural research. The system provides structured
-research phases, dual approval gates, and checkpoint-based implementation tracking.
+4-phase process (Research → Clarification → Planning → Implementation) with dual approval gates, fast-track exceptions, and checkpoint-based tracking for complex features requiring architectural research.
 
-**Complete specification**: See @.clauderc/claude-workflow/contract.md for detailed workflow phases,
-file formats, quality standards, and compliance requirements.
-
-### Key Features
-
-- **4-Phase Process**: Research → Clarification → Planning → Implementation
-- **Dual Approval System**: Both parties must explicitly approve before implementation
-- **Fast-Track Exception**: Skip QA phase for straightforward features
-- **Checkpoint Tracking**: Suspend/resume implementation using markdown checkboxes
-- **Quality Standards**: Comprehensive research requirements and validation criteria
-
-### Usage
-
-**Use for**: Complex features, unknown implementation patterns, multi-library integrations **Skip
-for**: Simple bug fixes, well-understood patterns, straightforward changes
+**Use for**: Complex features, unknown patterns, multi-library integrations  
+**Skip for**: Simple fixes, well-understood patterns
 
 ## Archon Integration (Experimental)
 
