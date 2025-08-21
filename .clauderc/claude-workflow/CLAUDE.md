@@ -108,13 +108,24 @@ skip the QA phase if:
 ```markdown
 # Questions & Answers
 
-## claude-desktop qa
+## QA Status
 
-**Q1:** [Question from Claude Desktop] **A1:** [Answer from user/Claude Code]
+- Claude Desktop: ✅/❌ (readiness status)
+- Claude Code: ✅/❌ (readiness status)
 
 ## claude-code qa
 
-**Q1:** [Question from Claude Code] **A1:** [Answer from Claude Desktop via user]
+**Q1:** [Question from Claude Code]
+
+**A1 by claude desktop:** [Answer from Claude Desktop] **A1 by claude code:** [Answer from Claude
+Code] **A1 by user:** [Answer from user - highest priority]
+
+## claude-desktop qa
+
+**Q1:** [Question from Claude Desktop]
+
+**A1 by claude desktop:** [Answer from Claude Desktop] **A1 by claude code:** [Answer from Claude
+Code] **A1 by user:** [Answer from user - highest priority]
 ```
 
 ### final-plan.md Readiness Checkboxes
