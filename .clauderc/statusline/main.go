@@ -398,57 +398,16 @@ func isTerminal(fd int) bool {
 	return (stat.Mode() & os.ModeCharDevice) != 0
 }
 
-// TEMPORARY PATCH for ccusage time calculation bug (2025-08-20)
-// TODO: Remove this patch after September 20, 2025 - check if ccusage has fixed
-// the timezone issue where token refresh time is calculated incorrectly.
-// Current issue: ccusage shows "43m left" when it should show "3h 43m left"
-// The bug appears to be a 3-hour timezone offset (ccusage using UTC instead of Europe/Kiev)
-func fixTokenRefreshTime(timeStr string) string {
-	// Parse time format like "43m" or "1h 23m"
-	if timeStr == "" {
-		return ""
-	}
-
-	// Check if it's just minutes (e.g., "43m") - likely needs 3h correction
-	minOnlyRe := regexp.MustCompile(`^(\d+)m$`)
-	if matches := minOnlyRe.FindStringSubmatch(timeStr); len(matches) > 1 {
-		minutes, err := strconv.Atoi(matches[1])
-		if err == nil {
-			// Add 3 hours (180 minutes)
-			totalMinutes := minutes + 180
-			hours := totalMinutes / 60
-			mins := totalMinutes % 60
-			if hours > 0 {
-				return fmt.Sprintf("%dh %dm", hours, mins)
-			}
-			return fmt.Sprintf("%dm", mins)
-		}
-	}
-
-	// Check if it has hours and minutes (e.g., "1h 23m")
-	hourMinRe := regexp.MustCompile(`^(\d+)h (\d+)m$`)
-	if matches := hourMinRe.FindStringSubmatch(timeStr); len(matches) > 2 {
-		hours, err1 := strconv.Atoi(matches[1])
-		minutes, err2 := strconv.Atoi(matches[2])
-		if err1 == nil && err2 == nil {
-			// Add 3 hours
-			return fmt.Sprintf("%dh %dm", hours+3, minutes)
-		}
-	}
-
-	// If we can't parse it, return as-is
-	return timeStr
-}
 
 func getAnthropicResetTime() string {
 	now := time.Now()
-	
+
 	// Anthropic resets usage every 5 hours: 03:00, 08:00, 13:00, 18:00, 22:00
 	resetTimes := []int{3, 8, 13, 18, 22}
-	
+
 	var nextReset time.Time
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	
+
 	// Find the next reset time today
 	for _, hour := range resetTimes {
 		candidate := today.Add(time.Duration(hour) * time.Hour)
@@ -457,17 +416,17 @@ func getAnthropicResetTime() string {
 			break
 		}
 	}
-	
+
 	// If no reset found today, use first reset tomorrow (03:00)
 	if nextReset.IsZero() {
 		tomorrow := today.Add(24 * time.Hour)
 		nextReset = tomorrow.Add(time.Duration(resetTimes[0]) * time.Hour)
 	}
-	
+
 	duration := nextReset.Sub(now)
 	hours := int(duration.Hours())
 	minutes := int(duration.Minutes()) % 60
-	
+
 	if hours > 0 {
 		return fmt.Sprintf("%dh %dm", hours, minutes)
 	}
@@ -480,7 +439,7 @@ func getNativeCostInfo(context *ClaudeContext) string {
 	}
 
 	cost := context.Cost
-	
+
 	// Calculate burn rate ($ per hour)
 	var burnRate float64
 	if cost.TotalDurationMs > 0 {
@@ -499,76 +458,10 @@ func getNativeCostInfo(context *ClaudeContext) string {
 	resetTime := getAnthropicResetTime()
 	resetInfo := fmt.Sprintf(" | ⏰ %s", resetTime)
 
-	result := fmt.Sprintf("🛰️  %s session%s%s", sessionCost, burnRateStr, resetInfo)
+	result := fmt.Sprintf("📡 %s session%s%s", sessionCost, burnRateStr, resetInfo)
 	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 }
 
-func getCostInfo(context *ClaudeContext) string {
-	if context == nil {
-		return ""
-	}
-
-	// Convert context back to JSON
-	contextJSON, err := json.Marshal(context)
-	if err != nil {
-		return ""
-	}
-
-	// Call ccusage statusline with explicit timezone
-	cmd := exec.Command("bun", "x", "ccusage", "statusline", "--visual-burn-rate", "emoji", "--timezone", "Europe/Kiev")
-	cmd.Stdin = strings.NewReader(string(contextJSON))
-	output, err := cmd.Output()
-	if err != nil {
-		return ""
-	}
-
-	ccusageOutput := strings.TrimSpace(string(output))
-	if strings.Contains(ccusageOutput, "❌") {
-		return ""
-	}
-
-	// Extract cost part and context window info
-	// Full format: 🤖 Opus | 💰 N/A session / $37.84 today / $16.97 block (1h 55m left) | 🔥 $7.61/hr 🟢 | 🧠 N/A
-	costRe := regexp.MustCompile(`\| 💰 ([^|]+) \|`)
-	contextRe := regexp.MustCompile(`🧠 ([^|]*?)(?:\s*\||$)`)
-
-	costMatches := costRe.FindStringSubmatch(ccusageOutput)
-	contextMatches := contextRe.FindStringSubmatch(ccusageOutput)
-
-	if len(costMatches) > 1 {
-		costPart := costMatches[1]
-
-		// Parse and reformat the cost string
-		// From: "N/A session / $37.84 today / $16.97 block (1h 55m left)"
-		// To: "📡 N/A session / $37.84 today" (remove block cost completely)
-
-		// Extract session and day costs only
-		sessionRe := regexp.MustCompile(`([^\s]+) session`)
-		dayRe := regexp.MustCompile(`\$?([^\s]+) today`)
-
-		sessionCost := "N/A"
-		if sessionMatches := sessionRe.FindStringSubmatch(costPart); len(sessionMatches) > 1 {
-			sessionCost = sessionMatches[1]
-		}
-
-		dayCost := "N/A"
-		if dayMatches := dayRe.FindStringSubmatch(costPart); len(dayMatches) > 1 {
-			dayCost = "$" + dayMatches[1]
-		}
-
-		// Format: 📡 $$$ session | $$$ today - no block cost
-		result := fmt.Sprintf("📡 %s session | %s today", sessionCost, dayCost)
-
-		// Add context window info if available
-		if len(contextMatches) > 1 && strings.TrimSpace(contextMatches[1]) != "N/A" {
-			result += fmt.Sprintf(" | 🧠 %s", strings.TrimSpace(contextMatches[1]))
-		}
-
-		return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
-	}
-
-	return ""
-}
 
 func generateStatusline() string {
 	var output strings.Builder
@@ -659,27 +552,9 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset))
 	}
 
-	// Consolidated cost information - single line format
-	costInfo := getCostInfo(claudeContext)
+	// Native Claude Code cost information only
 	nativeCostInfo := getNativeCostInfo(claudeContext)
-	
-	if costInfo != "" && nativeCostInfo != "" {
-		// Extract just the session cost from costInfo (remove daily/context info)
-		sessionRe := regexp.MustCompile(`📡 ([^\|]+) session`)
-		sessionMatches := sessionRe.FindStringSubmatch(costInfo)
-		sessionPart := "📡 $0.00 session"
-		if len(sessionMatches) > 1 {
-			sessionPart = fmt.Sprintf("📡 %s session", sessionMatches[1])
-		}
-		
-		// Extract native cost part (remove 🛰️ emoji and color codes)
-		nativeClean := regexp.MustCompile(`🛰️\s*([^$]*\$[^|]+.*)`).ReplaceAllString(nativeCostInfo, "$1")
-		nativeClean = regexp.MustCompile(`\033\[[0-9;]*m`).ReplaceAllString(nativeClean, "") // Remove color codes
-		
-		output.WriteString(fmt.Sprintf("\n%s%s 🛰️  %s%s", CostColor, sessionPart, nativeClean, Reset))
-	} else if costInfo != "" {
-		output.WriteString(fmt.Sprintf("\n%s", costInfo))
-	} else if nativeCostInfo != "" {
+	if nativeCostInfo != "" {
 		output.WriteString(fmt.Sprintf("\n%s", nativeCostInfo))
 	}
 

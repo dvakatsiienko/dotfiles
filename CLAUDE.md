@@ -115,7 +115,6 @@ Reference actual files for current aliases:
 ```
 ~/.claude/settings.json  → ~/.dotfiles/.clauderc/settings.json
 ~/.claude/.membank/      → ~/.dotfiles/.clauderc/.membank/
-~/.claude/agents/        → ~/.dotfiles/.clauderc/agents/
 ~/.claude/commands/      → ~/.dotfiles/.clauderc/commands/
 ```
 
@@ -124,7 +123,6 @@ Reference actual files for current aliases:
 **Claude Built-in Configs:**
 
 - ✅ `settings.json` - Permissions, hooks, integrations
-- ✅ `agents/` - Agent definitions (.md files)
 - ✅ `commands/` - Command definitions (.md files)
 
 **Custom Configs:**
@@ -132,7 +130,6 @@ Reference actual files for current aliases:
 - ✅ `.membank/` - Documentation, libsources, implementation guides
 - ✅ `statusline/` - Statusline code and scripts
 - ✅ `scripts/` - Python libsource management scripts
-- ❌ `agents.md` - Legacy subagents config (needs cleanup)
 
 ### Management Rules
 
@@ -162,11 +159,12 @@ Reference actual files for current aliases:
 │   ├── libsource/         # Library source collection (11 libraries)
 │   ├── implementation.md  # Project guides
 │   └── typescript.md      # Type conventions
-├── agents/                # Agent definitions
+├── claude-workflow/       # Collaborative research workflow
+│   ├── contract.md        # Workflow specification
+│   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
 ├── scripts/               # Python libsource management
 ├── statusline/            # Go statusline implementation
-└── agents.md              # ❌ Legacy file (needs cleanup)
 ```
 
 ## Statusline System
@@ -222,6 +220,60 @@ Go-based statusline system providing rich terminal display with:
 pnpm lib:*              # CLI management commands
 /libsource-read         # Claude command for AI analysis
 ```
+
+## Claude Desktop & Claude Code Collaboration Workflow
+
+**Structured research and implementation system for complex feature development.**
+
+### Overview
+
+For complex features requiring architectural research, this repository uses a collaborative workflow between Claude Desktop (researcher) and Claude Code (implementer):
+
+1. **Research Phase**: Claude Desktop conducts deep research on implementation approaches and gathers code examples
+2. **Clarification Phase**: Iterative Q&A between both parties to resolve technical unknowns
+3. **Planning Phase**: Detailed implementation plan with dual approval readiness validation
+4. **Implementation Phase**: Claude Code builds based on finalized research with checkpoint tracking
+
+### Key Files & Structure
+
+- **Contract**: `.clauderc/claude-workflow/contract.md` - Complete workflow specification
+- **Research Directories**: `.clauderc/claude-workflow/feature-name/` containing:
+  - `init.md` - Initial briefing to Claude Desktop
+  - `research.md` - Claude Desktop's comprehensive findings
+  - `qa.md` - Questions & answers from both parties
+  - `final-plan.md` - Implementation plan with readiness checkboxes
+
+### Dual Approval System
+
+Implementation requires explicit ✅ approval from both:
+- **Claude Desktop**: Research completeness and technical accuracy
+- **Claude Code**: Implementation readiness and plan clarity
+
+### Progress Tracking
+
+- **Readiness Checkboxes**: Both parties must mark ✅ before implementation
+- **Markdown Checkboxes**: Implementation steps use `- [ ]` for suspend/resume capability
+- **Dynamic Refinement**: Can flip to ❌ and add questions during implementation
+
+### Usage Guidelines
+
+**Use this workflow for:**
+- Complex features with unknown implementation patterns
+- Multi-library integrations requiring research
+- Architectural decisions needing validation
+- Features requiring extensive technical investigation
+
+**Skip for:**
+- Simple bug fixes or minor feature additions
+- Well-understood implementation patterns
+- Straightforward UI/styling changes
+
+## Archon Integration (Experimental)
+
+- **Status**: Beta/experimental - may be dropped if not mature enough
+- **Project ID**: `0768e702-fa50-4701-9eae-2d9a079b4606`
+- **Current Role**: Task management (when stable)
+- **Research Workflow**: Operates independently of Archon
 
 ## Important Notes
 
