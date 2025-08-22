@@ -57,7 +57,7 @@ export const AuthResolver = inject(
 import { observer } from 'mobx-react-lite';
 import { mobx } from '@/lib/mobx';
 
-export const AuthResolver = observer(() => {
+export const AuthResolver = observer<AuthResolverProps>(() => {
     return (
         <div>
             <button disabled={!mobx.profile.token} onClick={mobx.ui.setCoreSettings}>
@@ -101,6 +101,7 @@ export const AuthResolver = observer(() => {
 - **Direct Access Only**: Late dereferencing preserves MobX performance optimizations
 - **Single Component**: Eliminate `Base` component + inject wrapper pattern
 - **Rename Mapping**: Map `language: languageFromStore` → `mobx.ui.language`
+- **⚠️ CRITICAL: Observer Closing Parenthesis**: Always ensure the observer() call has its closing parenthesis - `observer(() => { ... })` - this is commonly forgotten!
 
 ### Verification
 
