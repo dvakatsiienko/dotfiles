@@ -173,7 +173,9 @@ Reference actual files for current aliases:
 
 ### Overview
 
-Go-based sline system providing rich terminal display with:
+note: sline — is our local shortcut name for an official claude code «statusline» feature.
+
+Go-based statusline system providing rich terminal display with:
 
 - Directory path with ~ shortening
 - Dynamic model detection with rotating emoji (hourly rotation)
@@ -227,10 +229,12 @@ pnpm lib:*              # CLI management commands
 
 **Structured research and implementation system for complex feature development.**
 
-4-phase process (Research → Clarification → Planning → Implementation) with dual approval gates, fast-track exceptions, and checkpoint-based tracking for complex features requiring architectural research.
+4-phase process (Research → Clarification → Planning → Implementation) with dual approval gates,
+fast-track exceptions, and checkpoint-based tracking for complex features requiring architectural
+research.
 
-**Use for**: Complex features, unknown patterns, multi-library integrations  
-**Skip for**: Simple fixes, well-understood patterns
+**Use for**: Complex features, unknown patterns, multi-library integrations **Skip for**: Simple
+fixes, well-understood patterns
 
 ## Archon Integration (Experimental)
 
