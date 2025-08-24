@@ -26,73 +26,79 @@ re-referencing work is complex and must be done meticulously to avoid breaking f
 **BEFORE (inject() with dual component pattern):**
 
 ```tsx
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from "mobx-react";
 
 export const AuthResolverBase = ({
+  setCoreSettings,
+  setAlert,
+  getToken,
+  languageFromStore,
+  // ...other injected props
+}) => {
+  return <div>component code...</div>;
+};
+
+export const AuthResolver = inject(
+  ({
+    ui: { setCoreSettings, setAlert, language: languageFromStore },
+    profile: { getToken },
+  }) => ({
     setCoreSettings,
     setAlert,
     getToken,
     languageFromStore,
-    // ...other injected props
-}) => {
-    return <div>component code...</div>;
-};
-
-export const AuthResolver = inject(
-    ({
-        ui: { setCoreSettings, setAlert, language: languageFromStore },
-        profile: { getToken },
-    }) => ({
-        setCoreSettings,
-        setAlert,
-        getToken,
-        languageFromStore,
-    }),
+  })
 )(observer(AuthResolverBase));
 ```
 
 **AFTER (direct MobX store access):**
 
 ```tsx
-import { observer } from 'mobx-react-lite';
-import { mobx } from '@/lib/mobx';
+import { observer } from "mobx-react-lite";
+import { mobx } from "@/lib/mobx";
 
 export const AuthResolver = observer<AuthResolverProps>(() => {
-    return (
-        <div>
-            <button disabled={!mobx.profile.token} onClick={mobx.ui.setCoreSettings}>
-                {mobx.ui.language}
-            </button>
-            <span onClick={() => mobx.ui.setAlert('message')}>{mobx.profile.getToken()}</span>
-        </div>
-    );
+  return (
+    <div>
+      <button disabled={!mobx.profile.token} onClick={mobx.ui.setCoreSettings}>
+        {mobx.ui.language}
+      </button>
+      <span onClick={() => mobx.ui.setAlert("message")}>
+        {mobx.profile.getToken()}
+      </span>
+    </div>
+  );
 });
 ```
 
 ### Migration Steps
 
 1. **Update Imports**:
-    - Replace `import { inject, observer } from 'mobx-react'` with
-      `import { observer } from 'mobx-react-lite'`
-    - Add `import { mobx } from '@/lib/mobx'`
+
+   - Replace `import { inject, observer } from 'mobx-react'` with
+     `import { observer } from 'mobx-react-lite'`
+   - Add `import { mobx } from '@/lib/mobx'`
 
 2. **Eliminate Dual Component Pattern**:
-    - Delete the `ComponentNameBase` function entirely
-    - Delete the `inject()(observer(ComponentNameBase))` export
-    - Create single `export const ComponentName = observer(() => { ... })` component
+
+   - Delete the `ComponentNameBase` function entirely
+   - Delete the `inject()(observer(ComponentNameBase))` export
+   - Create single `export const ComponentName = observer(() => { ... })` component
 
 3. **Convert Props to Direct Store Access**:
-    - Map injected props to `mobx.store.property` calls in JSX
-    - Example: `setCoreSettings` → `mobx.ui.setCoreSettings`, `languageFromStore` →
-      `mobx.ui.language`
-    - **Do NOT use destructuring** - reference store properties directly in render
+
+   - Map injected props to `mobx.store.property` calls in JSX
+   - Example: `setCoreSettings` → `mobx.ui.setCoreSettings`, `languageFromStore` →
+     `mobx.ui.language`
+   - **Do NOT use destructuring** - reference store properties directly in render
 
 4. **Preserve Real Component Props**:
-    - Keep props that are passed from parent components (not injected from MobX)
-    - Only remove props that were injected via the inject() wrapper
+
+   - Keep props that are passed from parent components (not injected from MobX)
+   - Only remove props that were injected via the inject() wrapper
 
 5. **Function Declaration Conversion**:
-    - Convert `function ComponentName()` to `export const ComponentName = observer(() => {})`
+   - Convert `function ComponentName()` to `export const ComponentName = observer(() => {})`
 
 ### Key Requirements
 
