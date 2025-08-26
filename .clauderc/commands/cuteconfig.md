@@ -1,6 +1,7 @@
 ---
 description: update CLAUDE.md configuration files with specified changes
 argument-hint: scope, prompt
+model: opus
 ---
 
 **Syntax**: `/cuteconfig [arguments]`
