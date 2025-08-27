@@ -50,25 +50,19 @@ export CLICOLOR=1
 export TERM=xterm-256color
 
 # =============================================================================
-# Development Tools & Package Managers
+# PATH Configuration
 # =============================================================================
 
 # fnm - Node.js version manager
 export FNM_PATH="$HOME/Library/Application Support/fnm"
 
-# pnpm - Package manager
-export PNPM_HOME="$HOME/Library/pnpm"
-
-# =============================================================================
-# PATH Configuration
-# =============================================================================
-
-# Base PATH additions for development tools
 if [ -d "$FNM_PATH" ]; then
   export PATH="$FNM_PATH:$PATH"
 fi
 
-# pnpm PATH
+# pnpm - Package manager
+export PNPM_HOME="$HOME/Library/pnpm"
+
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
