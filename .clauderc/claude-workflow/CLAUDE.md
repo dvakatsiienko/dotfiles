@@ -28,12 +28,15 @@ complex feature development.
 **IMPORTANT**: This list must be kept in sync with actual `claude-workflow/` directory contents.
 
 ### Currently Available Workflows:
+
 1. **`preact-to-react/`** - Migration from Preact to React framework (Status: Research Complete ✅)
 2. **`semantic-search/`** - Libsource semantic enhancement (Status: Research Complete ✅)
+3. **`interactive-workflows/`** - N8N interactive workflow system (Status: Research Phase 🔄)
 
 ### Workflow Management Rules:
+
 - **Add New**: When creating new workflow directory, update this list
-- **Remove**: When deleting workflow directory, remove from this list  
+- **Remove**: When deleting workflow directory, remove from this list
 - **Status Tracking**: Update status based on readiness checkmarks in each workflow
 
 ## File Structure
@@ -56,13 +59,16 @@ feature-name/
 **IMPORTANT**: The entire workflow state is determined by readiness checkmarks (✅/❌).
 
 **Workflow Processing Rules**:
-1. **Sequential Processing**: Process files in order: `prescreen.md` → `research.md` → `qa.md` → `final-plan.md`
+
+1. **Sequential Processing**: Process files in order: `prescreen.md` → `research.md` → `qa.md` →
+   `final-plan.md`
 2. **Current Focus**: The first file containing any ❌ checkmark is the current active task
 3. **Completion Criteria**: A file is complete when ALL its checkmarks show ✅
 4. **Progression Rule**: Only proceed to next file when current file has ALL ✅ checkmarks
 5. **State Check**: Always scan files in order to find the first ❌ and focus efforts there
 
 **Example State Flow**:
+
 - `prescreen.md`: Claude Code ✅ → Move to research
 - `research.md`: Claude Desktop ❌ → STOP, wait for Desktop to complete
 - `qa.md`: Both ❌ → Work on QA until both mark ✅
@@ -73,24 +79,27 @@ This ensures systematic progression and prevents skipping critical steps.
 ### Workflow Continuation Rules
 
 **Claude Code Workflow Memory**:
+
 1. **Continuation Command**: When user says "let's continue workflow" → resume last active workflow
-2. **State Recovery**: 
-   - Check `claude-workflow/` directory for existing workflows
-   - Scan each workflow's files for first ❌ checkmark
-   - Resume from that point
+2. **State Recovery**:
+    - Check `claude-workflow/` directory for existing workflows
+    - Scan each workflow's files for first ❌ checkmark
+    - Resume from that point
 3. **Uncertainty Handling**: If unsure which workflow was active:
-   - List all existing workflows in `claude-workflow/`
-   - Show current state (which file has ❌)
-   - Ask user which workflow to continue
+    - List all existing workflows in `claude-workflow/`
+    - Show current state (which file has ❌)
+    - Ask user which workflow to continue
 4. **Never Auto-Start**: Never begin a workflow without explicit user instruction
 5. **Periodic Reminders**: Allowed to remind user about incomplete workflows occasionally
-6. **Sync Maintenance**: When creating/deleting workflows, automatically update the Available Workflows list in this config
+6. **Sync Maintenance**: When creating/deleting workflows, automatically update the Available
+   Workflows list in this config
 
 **Example Continuation**:
+
 ```
 User: "Let's continue workflow"
-Claude Code: 
-1. Checks claude-workflow/ → finds "preact-to-react" 
+Claude Code:
+1. Checks claude-workflow/ → finds "preact-to-react"
 2. Scans files → prescreen.md ❌ is first incomplete
 3. Resumes prescreen analysis
 ```
@@ -101,30 +110,32 @@ Claude Code:
 
 Note: all research initiation steps are mandatory.
 
-1. User creates `feature-name/init.md` with feature requirements
-2. **MANDATORY: Claude Code performs prescreen analysis**
-   - For migrations: Analyzes current codebase implementation state
-   - For new features: Analyzes existing related code and integration points
-   - Identifies potential challenges, weak spots, and risk areas
-   - **CRITICAL**: Prepares specific questions for Claude Desktop based on most problematic areas
-   - Creates `prescreen.md` with comprehensive findings and targeted research questions
-   - Marks prescreen.md with Claude Code ✅ when complete
-3. User forwards `init.md` + `prescreen.md` to Claude Desktop for research
-4. **MANDATORY: Claude Desktop tech stack analysis**
-   - **Step 4a**: Examine project's actual tech stack using:
-     - Project CLAUDE.md for technology overview
-     - package.json dependencies
-     - prescreen.md findings
-   - **Step 4b**: Read and analyze Claude Code's prescreen findings and questions
-   - **Step 4c**: Align research focus with ACTUAL technologies used (avoid irrelevant research)
-   - Example: If project uses Tailwind → research Tailwind patterns, NOT styled-components
-   - Marks prescreen.md with Claude Desktop ✅ after tech stack analysis and prescreen review
-5. Claude Desktop conducts focused research based on actual tech stack
-6. Claude Desktop may ask clarifying questions to the user
-7. Once all Claude Desktop questions are answered, Claude Desktop registers its questions and
+1. User prompts to create `feature-name` workflow space
+2. Claude Code creates a starting point for this new `feature-name/*.md` with feature requirements:
+    - all files for each workflow phase: `init.md`, `prescreen.md` etc
+3. **MANDATORY: Claude Code performs prescreen analysis**
+    - For migrations: Analyzes current codebase implementation state
+    - For new features: Analyzes existing related code and integration points
+    - Identifies potential challenges, weak spots, and risk areas
+    - **CRITICAL**: Prepares specific questions for Claude Desktop based on most problematic areas
+    - Creates `prescreen.md` with comprehensive findings and targeted research questions
+    - Marks prescreen.md with Claude Code ✅ when complete
+4. User forwards `init.md` + `prescreen.md` to Claude Desktop for research
+5. **MANDATORY: Claude Desktop tech stack analysis**
+    - **Step 4a**: Examine project's actual tech stack using:
+        - Project CLAUDE.md for technology overview
+        - package.json dependencies
+        - prescreen.md findings
+    - **Step 4b**: Read and analyze Claude Code's prescreen findings and questions
+    - **Step 4c**: Align research focus with ACTUAL technologies used (avoid irrelevant research)
+    - Example: If project uses Tailwind → research Tailwind patterns, NOT styled-components
+    - Marks prescreen.md with Claude Desktop ✅ after tech stack analysis and prescreen review
+6. Claude Desktop conducts focused research based on actual tech stack
+7. Claude Desktop may ask clarifying questions to the user
+8. Once all Claude Desktop questions are answered, Claude Desktop registers its questions and
    answers in qa.md
-8. Claude Desktop populates `research.md` with findings relevant to actual project tech stack
-9. Claude Desktop confirms prescreen.md Claude Desktop ✅ when research is complete
+9. Claude Desktop populates `research.md` with findings relevant to actual project tech stack
+10. Claude Desktop confirms prescreen.md Claude Desktop ✅ when research is complete
 
 ### Phase 2: Clarification Loop
 
@@ -185,6 +196,7 @@ skip the QA phase if:
 ## Project Tech Stack (FOR CLAUDE DESKTOP FOCUS)
 
 ### Currently Used Technologies
+
 - **UI Framework**: [e.g., Preact 10.x, React 18.x]
 - **State Management**: [e.g., MobX 6, Redux Toolkit, Zustand]
 - **Styling**: [e.g., Tailwind v4, styled-components, Sass]
@@ -194,6 +206,7 @@ skip the QA phase if:
 - **Real-time**: [e.g., WebSocket, Socket.io, none]
 
 ### Technologies NOT Used (Avoid Research)
+
 - [List technologies that might be confused with current stack]
 - [Helps Claude Desktop avoid irrelevant research paths]
 

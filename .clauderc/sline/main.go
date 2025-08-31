@@ -30,7 +30,6 @@ const (
 	CostColor       = "\033[38;5;214m" // orange for cost info
 	SyncAheadColor  = "\033[32m"       // green for ahead
 	SyncBehindColor = "\033[31m"       // red for behind
-	TokenWarningColor = "\033[38;5;196m" // bright red for token warning
 )
 
 // Retro gradient colors for model name
@@ -75,7 +74,6 @@ type ClaudeContext struct {
 		TotalLinesAdded    int     `json:"total_lines_added"`
 		TotalLinesRemoved  int     `json:"total_lines_removed"`
 	} `json:"cost"`
-	Exceeds200kTokens *bool `json:"exceeds_200k_tokens,omitempty"`
 }
 
 // State management for emoji rotation
@@ -536,15 +534,6 @@ func getNativeCostInfo(context *ClaudeContext) string {
 	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 }
 
-func getTokenWarning(context *ClaudeContext) string {
-	if context == nil || context.Exceeds200kTokens == nil || !*context.Exceeds200kTokens {
-		return ""
-	}
-	
-	warning := "⚠️  Context exceeds 200k tokens - /compact may auto-run"
-	return fmt.Sprintf("%s%s%s", TokenWarningColor, warning, Reset)
-}
-
 // =============================================================================
 // MAIN STATUSLINE GENERATION
 // =============================================================================
@@ -672,12 +661,6 @@ func generateStatusline() string {
 	nativeCostInfo := getNativeCostInfo(claudeContext)
 	if nativeCostInfo != "" {
 		output.WriteString(fmt.Sprintf("\n%s", nativeCostInfo))
-	}
-
-	// Token warning (v1.0.88+)
-	tokenWarning := getTokenWarning(claudeContext)
-	if tokenWarning != "" {
-		output.WriteString(fmt.Sprintf("\n%s", tokenWarning))
 	}
 
 	return output.String()
