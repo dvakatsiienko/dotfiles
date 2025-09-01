@@ -467,39 +467,6 @@ func isTerminal(fd int) bool {
 	return (stat.Mode() & os.ModeCharDevice) != 0
 }
 
-func getAnthropicResetTime() string {
-	now := time.Now()
-
-	// Anthropic resets usage every 5 hours: 03:00, 08:00, 13:00, 18:00, 22:00
-	resetTimes := []int{3, 8, 13, 18, 22}
-
-	var nextReset time.Time
-	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-
-	// Find the next reset time today
-	for _, hour := range resetTimes {
-		candidate := today.Add(time.Duration(hour) * time.Hour)
-		if now.Before(candidate) {
-			nextReset = candidate
-			break
-		}
-	}
-
-	// If no reset found today, use first reset tomorrow (03:00)
-	if nextReset.IsZero() {
-		tomorrow := today.Add(24 * time.Hour)
-		nextReset = tomorrow.Add(time.Duration(resetTimes[0]) * time.Hour)
-	}
-
-	duration := nextReset.Sub(now)
-	hours := int(duration.Hours())
-	minutes := int(duration.Minutes()) % 60
-
-	if hours > 0 {
-		return fmt.Sprintf("%dh %dm", hours, minutes)
-	}
-	return fmt.Sprintf("%dm", minutes)
-}
 
 // =============================================================================
 // COST INFORMATION FUNCTIONS
@@ -526,11 +493,7 @@ func getNativeCostInfo(context *ClaudeContext) string {
 		burnRateStr = fmt.Sprintf(" | $%.2f/hr", burnRate)
 	}
 
-	// Add Anthropic reset time instead of lines
-	resetTime := getAnthropicResetTime()
-	resetInfo := fmt.Sprintf(" | ⏰ %s", resetTime)
-
-	result := fmt.Sprintf("📡 %s session%s%s", sessionCost, burnRateStr, resetInfo)
+	result := fmt.Sprintf("📡 %s session%s", sessionCost, burnRateStr)
 	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
 }
 
