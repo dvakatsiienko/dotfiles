@@ -3,6 +3,16 @@ description: migrate React component props destructuring pattern to accessor pat
 argument-hint: [component-name | component-path]
 ---
 
+# 🚨 STRUCTURAL REFACTORING ONLY - PRESERVE 100% FUNCTIONALITY
+
+**CRITICAL**: This is purely structural code transformation. You must:
+- ❌ **NEVER fix linter warnings, TypeScript errors, or code quality issues**
+- ❌ **NEVER add missing useEffect dependencies or fix React hooks warnings**
+- ❌ **NEVER improve code style, formatting, or apply best practices**
+- ✅ **ONLY transform the props access pattern exactly as specified**
+- ✅ **Preserve identical behavior and functionality**
+- ✅ **Ask user before fixing any discovered issues**
+
 ### Instructions for Claude
 
 When this command is invoked, migrate React components from props destructuring pattern to props accessor pattern. This improves readability and maintainability for components with many props.
@@ -100,9 +110,21 @@ export const ExampleCorrect = (props: ExampleCorrectProps) => {
 
 ### Important Notes
 
-- **Do not iterate on linter or TypeScript errors** during migration - ignore these completely
-- **This is structural refactoring ONLY** - 100% of functionality must remain identical
-- **If you notice issues** during refactoring that would be good to address, shape the proposal and present it as a question like "Should we take care of this problem?"
+- **IGNORE ALL AUTOMATED TOOLING WARNINGS**: Do not fix ESLint errors, Prettier formatting, TypeScript errors, or any IDE suggestions during migration
+- **IGNORE REACT HOOKS WARNINGS**: Do not add missing useEffect dependencies, fix exhaustive-deps warnings, or address hooks-related linting issues
+- **PRESERVE EXACT FUNCTIONALITY**: Every piece of logic, conditional rendering, event handling, and side effects must remain completely unchanged
+- **NO CODE IMPROVEMENTS**: Do not refactor, optimize, or modernize code patterns - only transform the props access pattern
+- **ASK BEFORE FIXING**: If you discover bugs, performance issues, or code smells, ask the user: "Should we address this issue?" rather than fixing automatically
+
+**Example of what NOT to fix during migration:**
+```tsx
+// DON'T fix missing dependencies, unused variables, or formatting
+useEffect(() => {
+  fetchUserData(props.userId); // eslint-disable-line react-hooks/exhaustive-deps
+}, []); // Missing props.userId dependency - IGNORE
+
+const unusedVariable = "keep this"; // unused-vars warning - IGNORE
+```
 
 ### Usage
 

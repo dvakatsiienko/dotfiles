@@ -3,6 +3,16 @@ description: migrate React component from inject() prop-drilling API to observer
 argument-hint: [component-name | component-path] [with props]
 ---
 
+# 🚨 STRUCTURAL REFACTORING ONLY - PRESERVE 100% FUNCTIONALITY
+
+**CRITICAL**: This is purely structural code transformation. You must:
+- ❌ **NEVER fix linter warnings, TypeScript errors, or code quality issues**
+- ❌ **NEVER add missing useEffect dependencies or fix React hooks warnings**
+- ❌ **NEVER improve code style, formatting, or apply best practices**
+- ✅ **ONLY transform the architectural pattern exactly as specified**
+- ✅ **Preserve identical behavior and functionality**
+- ✅ **Ask user before fixing any discovered issues**
+
 ### Instructions for Claude
 
 Migrate React components from inject() prop-drilling to direct MobX store access with observer()
@@ -138,10 +148,18 @@ The assistant should:
 
 ### Important Notes
 
-- **Do not iterate on linter or TypeScript errors** during migration - ignore these completely
-- **This is structural refactoring ONLY** - 100% of functionality must remain identical
-- **If you notice issues** during refactoring that would be good to address, shape the proposal and
-  present it as a question like "Should we take care of this problem?"
+- **IGNORE ALL AUTOMATED TOOLING WARNINGS**: Do not fix ESLint errors, Prettier formatting, TypeScript errors, or any IDE suggestions during migration
+- **IGNORE REACT HOOKS WARNINGS**: Do not add missing useEffect dependencies, fix exhaustive-deps warnings, or address hooks-related linting issues
+- **PRESERVE EXACT FUNCTIONALITY**: Every piece of logic, conditional rendering, event handling, and side effects must remain completely unchanged
+- **NO CODE IMPROVEMENTS**: Do not refactor, optimize, or modernize code patterns - only transform the architectural pattern
+- **ASK BEFORE FIXING**: If you discover bugs, performance issues, or code smells, ask the user: "Should we address this issue?" rather than fixing automatically
 - Use direct access (`mobx.ui.property`) not destructuring for optimal MobX performance
-- **CRITICAL**: During the complex re-referencing work, ensure ALL previously destructured
-  identifiers are correctly mapped to their new `mobx.store.property` equivalents
+- **CRITICAL**: During the complex re-referencing work, ensure ALL previously destructured identifiers are correctly mapped to their new `mobx.store.property` equivalents
+
+**Example of what NOT to fix during migration:**
+```tsx
+// DON'T fix missing dependencies, unused variables, or formatting
+useEffect(() => {
+  mobx.store.fetchData(); // eslint-disable-line react-hooks/exhaustive-deps
+}, []); // Missing dependency warning - IGNORE
+```
