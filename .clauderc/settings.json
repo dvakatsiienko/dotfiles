@@ -19,10 +19,12 @@
       "mcp__chrome-mcp",
       "mcp__archon-mcp",
       "mcp__obsidian-mcp",
-      "mcp__n8n-mcp"
+      "mcp__n8n-mcp",
+      "mcp__shadcn-mcp-registry"
     ],
     "defaultMode": "plan"
   },
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -40,6 +42,5 @@
     "type": "command",
     "command": "/Users/dima/.claude/sline/bin",
     "padding": 0
-  },
-  "model": "sonnet"
+  }
 }

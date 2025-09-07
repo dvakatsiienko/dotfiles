@@ -1,5 +1,5 @@
 {
-    "last_updated": "2025-08-21T22:50:39.348998",
+    "last_updated": "2025-09-05T23:45:13.339072",
     "libraries": {
         "archon": {
             "file_size": 4979898,
@@ -104,6 +104,14 @@
             "last_updated": "2025-08-21T21:49:05.908250",
             "loc": 14618,
             "url": "https://github.com/google/zx"
+        },
+        "motion.dev": {
+            "url": "https://github.com/motiondivision/motion",
+            "filename": "libsource-motion.dev.txt",
+            "last_updated": "2025-09-05T23:45:13.339050",
+            "file_size": 3594685,
+            "loc": 118078,
+            "generation_time": "13s"
         }
     },
     "version": "1.0"
