@@ -1,135 +1,165 @@
-# Vite 7 Migration Initiative
+# Webpack to Vite Migration Guide
 
 ## Overview
 
-Our primary direction with this project is to migrate from Webpack 5 to Vite 7. However, this codebase has significant legacy cruft that makes a direct migration problematic. We need a strategic, phased approach to eliminate blockers first, then smoothly transition to Vite.
+Migrate any Webpack 5 project to Vite 7 for faster builds, better DX, and modern tooling. This guide provides a strategic, phased approach to handle common blockers and ensure smooth transition.
 
 ## Migration Roadmap
 
-### Phase 1: Icon System Modernization (PARTIALLY COMPLETE ⚠️)
-**Goal**: Replace legacy webfonts-loader with modern SVG sprite system
+### Phase 1: Remove Migration Blockers
+**Goal**: Eliminate Webpack-specific dependencies that prevent Vite adoption
 
-1. **SVG Cleanup** ✅
-   - Analysis complete in `claude-workflows/icons.md`
-   - ~17 unused SVG files identified for deletion
-   - Must carefully verify icon usage in CSS, JSX, and dynamic references
+1. **Icon System Modernization** (if using webfonts-loader)
+   - Replace icon fonts with SVG sprites or inline SVGs
+   - Remove webfonts-loader dependency
+   - Implement modern icon component system
 
-2. **Icon Font Decoupling** 🚧 **IN PROGRESS**
-   - ✅ MenuNav and MenuMode components migrated to SVGIcon
-   - ⚠️ **DeviceStatusbar still uses iconFont** (network, wifi, battery icons)
-   - ⚠️ **SCSS files have direct SVG imports** (Header.scss, Layout.scss)
-   - Legacy iconFont system needs complete removal
+2. **Legacy Plugin Removal**
+   - Identify Webpack-only plugins
+   - Find Vite alternatives or native solutions
+   - Remove deprecated patterns
 
-3. **Modern SVG Implementation** 🚧 **NEEDS COMPLETION**
-   - ✅ Created consolidated SVG sprite in `src/img/sprite.svg`
-   - ✅ Implemented `SVGIcon.tsx` component with proper TypeScript interfaces
-   - ✅ Replaced MenuNav/MenuMode icon font references
-   - ✅ SVG sprite processed via webpack as asset for proper URL handling
-   - ✅ All icons use `fill="currentColor"` for theme consistency
-   - ✅ Fixed malformed XML that was breaking sprite parsing
-   - ❌ **Missing icons**: network, wifi, battery (needed for DeviceStatusbar)
-   - ❌ **webfonts-loader still active** - blocks Vite migration
-
-### Phase 2: Build System Preparation
-**Goal**: Simplify webpack config for easier Vite migration
-
-1. **Dependency Audit**
-   - Remove webpack-specific plugins that Vite handles natively
-   - Identify Vite-incompatible patterns in current setup
-   - Document required feature parity checklist
-
-2. **Path Resolution Cleanup**
-   - Standardize alias usage (`@/*`, `~/*`)
-   - Remove legacy aliases (`img`, `scss`)
-   - Ensure consistent import patterns
-
-3. **Asset Pipeline Simplification**
-   - Consolidate asset handling strategies
-   - Remove redundant copy operations
+3. **Asset Pipeline Cleanup**
+   - Standardize asset imports
+   - Remove Webpack-specific loaders
    - Prepare for Vite's native asset handling
 
+### Phase 2: Build System Preparation
+**Goal**: Simplify configuration for easier migration
+
+1. **Dependency Audit**
+   - List all Webpack plugins and their purposes
+   - Identify Vite equivalents
+   - Document feature parity requirements
+
+2. **Path Resolution Standardization**
+   - Unify alias patterns (`@/*`, `~/*)
+   - Remove legacy aliases
+   - Ensure consistent import patterns
+
+3. **Config Simplification**
+   - Extract environment variables
+   - Document build requirements
+   - Remove unnecessary complexity
+
 ### Phase 3: Vite Integration
-**Goal**: Run Vite alongside Webpack initially
+**Goal**: Implement Vite alongside existing build system
 
 1. **Vite Installation & Config**
-   - Install Vite 7 and required plugins
-   - Create `vite.config.ts` mirroring webpack functionality
+   ```bash
+   npm install -D vite @vitejs/plugin-react
+   ```
+   - Create `vite.config.ts`
+   - Mirror essential Webpack functionality
    - Set up dev server with HMR
 
-2. **Feature Parity Implementation**
-   - Environment variables (`.env` support)
-   - MobX decorators support
-   - SCSS with legacy `@import` handling
-   - Content hash for production builds
-   - SWC integration for fast compilation
+2. **Feature Parity Checklist**
+   - [ ] Environment variables (`.env` support)
+   - [ ] CSS preprocessor support (SCSS/Less)
+   - [ ] TypeScript/JSX transpilation
+   - [ ] Asset optimization
+   - [ ] Build output structure
+   - [ ] Development proxy configuration
 
 3. **Parallel Testing**
    - Run both build systems temporarily
-   - Compare bundle sizes and performance
-   - Validate all features work identically
+   - Compare bundle sizes
+   - Validate functionality
+   - Performance benchmarking
 
-### Phase 4: Webpack Removal
-**Goal**: Complete migration to Vite
+### Phase 4: Complete Migration
+**Goal**: Remove Webpack and optimize Vite setup
 
-1. **Final Migration**
-   - Update all npm scripts to use Vite
-   - Migrate CI/CD pipelines (Docker, Jenkins)
-   - Remove webpack dependencies
+1. **Final Cutover**
+   - Update all npm scripts
+   - Migrate CI/CD pipelines
+   - Remove Webpack dependencies
 
-2. **Optimization**
-   - Implement Vite-specific optimizations
-   - Configure build chunking strategy
-   - Set up proper caching headers
+2. **Vite Optimization**
+   - Configure build chunking
+   - Implement caching strategy
+   - Fine-tune performance
 
-## Technical Blockers to Address
+## Common Migration Patterns
 
-### Critical Issues
-1. **Icon Font System** - Tightly coupled to webpack via `webfonts-loader`
-2. **Legacy SCSS Imports** - May need adjustments for Vite
-3. **MobX Decorators** - Requires specific transpilation setup
-4. **Environment Variables** - Different handling between webpack/Vite
+### Webpack → Vite Equivalents
 
-### Risk Areas
-- Dynamic imports in iframe API
-- PostMessage communication patterns
-- Multi-brand configuration logic
-- Legacy browser support requirements
+| Webpack | Vite Solution |
+|---------|--------------|
+| `webpack-dev-server` | Vite dev server (built-in) |
+| `html-webpack-plugin` | Vite HTML handling (built-in) |
+| `mini-css-extract-plugin` | Vite CSS handling (built-in) |
+| `copy-webpack-plugin` | `vite-plugin-static-copy` |
+| `dotenv-webpack` | Vite env handling (built-in) |
+| `webpack.DefinePlugin` | `define` in vite.config |
+
+### Config Translation Example
+
+```javascript
+// webpack.config.js → vite.config.ts
+export default {
+  resolve: {
+    alias: {
+      '@': '/src',
+      '~': '/src'
+    }
+  },
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': 'http://localhost:8080'
+    }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true
+  }
+}
+```
+
+## Technical Considerations
+
+### Critical Areas to Review
+
+1. **Dynamic Imports**
+   - Vite handles differently than Webpack
+   - May need glob imports for dynamic routes
+
+2. **Environment Variables**
+   - Vite uses `import.meta.env` instead of `process.env`
+   - Prefix with `VITE_` for client exposure
+
+3. **Legacy Browser Support**
+   - Vite targets modern browsers by default
+   - Use `@vitejs/plugin-legacy` if needed
+
+4. **Build Output**
+   - Different chunk splitting strategy
+   - May affect deployment scripts
 
 ## Success Criteria
 
-- [ ] All icon fonts replaced with SVG components (Phase 1 - PARTIAL ⚠️)
-  - [x] MenuNav and MenuMode components ✅
-  - [ ] DeviceStatusbar component (network, wifi, battery icons)
-  - [ ] All iconFont CSS classes removed
-  - [ ] webfonts-loader completely removed
-- [ ] Webpack config simplified to essential features
-- [ ] Vite dev server running with full HMR support
-- [ ] Production builds identical in functionality
-- [ ] Build time reduced by >50%
+- [ ] Dev server starts in <1 second
+- [ ] HMR updates in <100ms
+- [ ] Production build time reduced by >50%
 - [ ] Bundle size maintained or reduced
-- [ ] All CI/CD pipelines updated
+- [ ] All existing features working
 - [ ] Zero regression in functionality
 
 ## Timeline Estimation
 
-- **Phase 1**: 2-3 days (Icon system modernization)
-- **Phase 2**: 1-2 days (Build preparation)
-- **Phase 3**: 3-4 days (Vite integration)
-- **Phase 4**: 1-2 days (Webpack removal)
+- **Phase 1**: 1-3 days (depending on blockers)
+- **Phase 2**: 1-2 days (preparation)
+- **Phase 3**: 2-3 days (integration)
+- **Phase 4**: 1-2 days (cutover)
 
-**Total**: ~10 days of focused work
+**Total**: 5-10 days depending on project complexity
 
-## Notes
+## Benefits of Migration
 
-This migration is necessary because:
-- Webpack config has accumulated significant technical debt
-- Build times are unnecessarily slow
-- Vite 7 offers superior DX with instant HMR
-- Modern tooling will make future maintenance easier
-- Current setup blocks adoption of modern patterns
-
-The phased approach ensures we can:
-- Test each change in isolation
-- Maintain working builds throughout
-- Roll back if issues arise
-- Learn and adapt as we progress
+- **Instant server start** - No bundling in development
+- **Lightning fast HMR** - Sub-100ms updates
+- **Better tree-shaking** - Smaller production bundles
+- **Native ES modules** - Modern development experience
+- **Simplified config** - Less boilerplate
+- **Future-proof** - Active development and ecosystem

@@ -6,12 +6,18 @@ Streamlined workflow system for feature planning and implementation. Just you an
 
 ## How It Works
 
-We use a simple 3-file system to plan and execute features:
-1. **init.md** - You describe what we're building
-2. **prescreen.md** - Technical evaluation of current state
-3. **plan.md** - My todo-list style implementation plan
+We use a structured workflow system to research, plan and execute features:
 
-That's it. No committees, no approvals, just shipping code.
+### Core Files
+1. **init.md** - Initial requirements and objectives (you create this)
+2. **implementation.md** - Structured implementation guide with copy-paste ready code (Claude Desktop creates)
+3. **plan.md** - Todo-list style execution plan (Claude Code creates from implementation.md)
+
+### Supporting Files  
+- **prescreen.md** - Technical evaluation of current state (optional)
+- **qa.md** - Q&A clarifications between user and Claude (optional)
+
+That's it. Init → Guide → Plan → Ship.
 
 ## Available Workflows
 
@@ -20,9 +26,10 @@ That's it. No committees, no approvals, just shipping code.
 ### Currently Available Workflows:
 
 1. **`preact-to-react/`** - Migration from Preact to React framework (Status: Research Complete ✅)
-2. **`semantic-search/`** - Libsource semantic enhancement (Status: Research Complete ✅)
+2. **`rag/`** - Libsource RAG search MVP (Status: Research Complete ✅)
 3. **`interactive-workflows/`** - N8N interactive workflow system (Status: Research Phase 🔄)
 4. **`migrate-vite/`** - Webpack to Vite 7 migration with icon system modernization (Status: Init Phase 🆕)
+5. **`docs-chatbot/`** - NextJS documentation chatbot with RAG (Status: Init Phase 🆕)
 
 ### Workflow Management Rules:
 
@@ -36,12 +43,14 @@ Each workflow lives in `claude-workflow/feature-name/`:
 
 ```
 feature-name/
-├── init.md       # What we're building (your idea, examples, links)
-├── prescreen.md  # Tech evaluation of current state
-└── plan.md       # Todo-list implementation plan
+├── prescreen.md        # Tech evaluation of current state (optional)
+├── init.md             # What we're building (your requirements)
+├── implementation.md   # Structured guide with ready code (Claude Desktop)
+├── plan.md             # Todo-list execution plan (Claude Code)
+└── qa.md               # Q&A clarifications (optional)
 ```
 
-Keep it simple, ship it fast.
+**Key difference**: `implementation.md` is NOT a plan - it's a structured reference guide with copy-paste ready code that Claude Code uses during execution.
 
 ## Workflow State Management
 
@@ -64,21 +73,35 @@ Never starting workflows without you asking.
 
 ### Step 1: You Create init.md
 Tell me what we're building. Include:
-- The goal
+- The goal/objective
 - Examples/links if helpful
 - Any specific requirements
 
-### Step 2: Prescreen Analysis
-I (or you) create prescreen.md with:
+### Step 2: Prescreen Analysis (Optional)
+Create prescreen.md with:
 - Current state evaluation
 - Technical context
 - Potential gotchas
 
-### Step 3: Implementation Plan
-I create plan.md with:
+### Step 3: Implementation Guide
+Claude Desktop creates implementation.md with:
+- **Structured, copy-paste ready code**
+- Step-by-step implementation order
+- Testing protocols and benchmarks
+- Common pitfalls to avoid
+- Quick reference sections
+
+### Step 4: Execution Plan
+Claude Code creates plan.md from implementation.md:
 - Todo-list style tasks
 - Markdown checkboxes for tracking
-- Concise, actionable items
+- References implementation.md sections
+
+### Step 5: Build It
+Claude Code executes using:
+- plan.md for task tracking
+- implementation.md as reference guide
+- Test and validate at each step
 
 Then we ship it. 🚀
 

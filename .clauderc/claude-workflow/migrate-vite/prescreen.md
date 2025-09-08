@@ -1,49 +1,65 @@
-# Vite Migration - Technical Evaluation
+# Vite Migration - Technical Evaluation Template
 
-## Current State
+## Current State Analysis
 
-### Webpack Setup (What We're Escaping From)
-- **Webpack 5.101.3** with 3 config files (base, dev, prod)
-- **SWC loader** for TS/JSX compilation (good, we'll keep this)
-- **webfonts-loader** generating icon fonts from SVGs (blocking Vite)
-- **MobX decorators** requiring special transpilation
-- **SCSS** with legacy imports everywhere
-- **~500KB bundle** with React 19
+### Webpack Setup Checklist
+- [ ] Webpack version: _____
+- [ ] Config complexity (single file vs multiple environments)
+- [ ] Build time for development: _____
+- [ ] Build time for production: _____
+- [ ] Bundle size: _____
 
-### Icon System Analysis
-Based on `claude-workflows/icons.md`:
-- **32 total SVGs**, only ~15 actually used
-- Icons processed by webpack's `webfonts-loader` plugin
-- Referenced via `iconFont-icon-{name}` CSS classes
-- ~17 files ready for deletion (500KB+ savings)
+### Key Dependencies to Review
+- [ ] TypeScript/JavaScript transpilation method
+- [ ] CSS preprocessor (SCSS/Less/PostCSS)
+- [ ] Framework-specific plugins (React/Vue/etc)
+- [ ] Asset handling (images, fonts, SVGs)
+- [ ] Custom webpack plugins
 
-### Migration Blockers
-1. **Icon font generator** - Webpack-specific plugin, no Vite equivalent
-2. **MobX decorators** - Needs proper Vite plugin setup
-3. **Legacy SCSS imports** - May need path adjustments
-4. **Environment variables** - Different handling in Vite
+### Common Migration Blockers
 
-### What's Good
-- Already using SWC (Vite supports it)
-- Clean path aliases (`@/*`, `~/*`)
-- No SSR complexity
-- Simple static output
+1. **Webpack-Specific Plugins**
+   - webfonts-loader (icon font generation)
+   - Custom webpack plugins
+   - Legacy polyfills
 
-## Risk Assessment
+2. **Build Features**
+   - Module federation
+   - DLL plugin usage
+   - Complex chunking strategies
 
-**Low Risk:**
-- Path aliases migration
-- Environment variables
-- SCSS compilation
+3. **Code Patterns**
+   - require.context() usage
+   - Dynamic imports with expressions
+   - process.env references
 
-**Medium Risk:**
-- MobX decorator support
-- Development server parity
-- Build output structure
+4. **Asset Pipeline**
+   - Complex file-loader configurations
+   - url-loader with size limits
+   - Custom publicPath handling
 
-**High Risk:**
-- Icon font system (needs complete replacement)
+## Risk Assessment Matrix
 
-## Effort Estimate
+| Component | Risk Level | Migration Approach |
+|-----------|------------|-------------------|
+| Path aliases | Low | Direct config translation |
+| Environment variables | Low | Use import.meta.env |
+| CSS preprocessing | Low | Native Vite support |
+| TypeScript | Low | Native support |
+| Custom plugins | Medium | Find Vite alternatives |
+| Dev server features | Medium | Verify feature parity |
+| Build output | Medium | Test deployment compatibility |
+| Legacy patterns | High | Refactor required |
 
-~10 days total, but front-loading the icon cleanup makes everything else smooth.
+## Effort Estimation
+
+- **Simple project** (CRA-like): 2-3 days
+- **Medium complexity**: 5-7 days  
+- **Complex enterprise**: 10-15 days
+
+Factors that increase complexity:
+- Multiple entry points
+- Custom webpack plugins
+- Legacy browser requirements
+- Complex proxy configurations
+- Non-standard build outputs

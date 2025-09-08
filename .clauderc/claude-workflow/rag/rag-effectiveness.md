@@ -1,4 +1,4 @@
-# Semantic Search Enhancement Results Comparison
+# RAG Enhancement Effectiveness Metrics
 
 ## Overview
 
