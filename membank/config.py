@@ -9,7 +9,7 @@ DATABASE_NAME = "db.sqlite"
 DATABASE_PATH = Path(__file__).parent / DATABASE_NAME
 
 # Server configuration  
-SERVER_PORT = 1409
+SERVER_PORT = 1408
 SERVER_HOST = "0.0.0.0"
 
 # Indexing configuration

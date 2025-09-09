@@ -203,77 +203,38 @@ Go-based statusline system providing rich terminal display with:
 - **Build sline**: `pnpm sline:build`
 - **Current**: Points to `sline/bin` in settings.json
 
-## Libsource System (RAG-Integrated)
+## Membank System
 
-**RAG-augmented library source collection with semantic search capabilities.**
+**Unified knowledge base for RAG-augmented library source code with semantic search.**
 
-### Architecture
+- **Location**: `~/.dotfiles/membank/`
+- **Documentation**: See `@membank/CLAUDE.md` for complete details
+- **Server**: Port 1408 (production)
+- **Database**: `membank/db.sqlite`
+- **Libraries**: 15 indexed (~3.9M LOC, 19,303 chunks)
 
-- **Core Technology**: BM25F scoring with semantic pattern tagging (22.6x search improvement)
-- **Storage**: SQLite database with JSON fields for chunks and semantic tags
-- **Chunking**: 300-line chunks with 20% overlap for context preservation
-- **Auto-Integration**: RAG indexing happens automatically on add/update/delete operations
-- **Server**: FastAPI on port 1408 with REST API and OpenAPI docs
-
-### Directory Structure
-
-```
-.clauderc/.membank/libsource-scripts/
-├── core/                      # Core libsource operations
-│   ├── libsource_add.py      # Add new libraries (auto-indexes RAG)
-│   ├── libsource_update.py   # Update existing (auto-reindexes RAG)
-│   ├── libsource_delete.py   # Delete libraries (auto-removes from RAG)
-│   ├── libsource_list.py     # List available libraries
-│   └── libsource_restore.py  # Restore from backups
-├── rag/                       # RAG augmentation modules
-│   ├── indexer.py            # Auto-indexing integration
-│   ├── database.py           # SQLite operations
-│   ├── chunker.py            # Text chunking logic
-│   ├── tagger.py             # Semantic pattern tagging
-│   ├── search.py             # BM25F search engine
-│   └── server.py             # FastAPI server
-├── cli/                       # CLI entry points
-│   ├── search.py             # Search RAG index
-│   └── server.py             # Manage RAG server
-└── utils/                     # Shared utilities
-```
-
-### Key Files
-
-- **Config**: `.clauderc/.membank/libsource/.libsource-config.json`
-- **Text Sources**: `.clauderc/.membank/libsource/libsource-*.txt` (git-ignored)
-- **RAG Database**: `.clauderc/.membank/libsource-scripts/data/libsources.db` (git-ignored)
-- **Scripts**: `.clauderc/.membank/libsource-scripts/` (all Python modules)
-
-### Commands
+### Quick Commands
 
 ```bash
-# Library management (with auto-RAG)
-pnpm lib:add <github-url>      # Add library + auto-index RAG
-pnpm lib:update <lib-name>     # Update library + auto-reindex RAG
-pnpm lib:delete <lib-name>     # Delete library + auto-remove from RAG
-pnpm lib:list                  # List all libraries with stats
-pnpm lib:restore               # Restore from backups
+# Server management
+pnpm rag:start    # Start server on port 1408
+pnpm rag:stop     # Stop server
+pnpm rag:status   # Check status
 
-# RAG search operations
-pnpm lib:search "query" [lib]  # Search RAG index (CLI)
-pnpm lib:server start          # Start RAG server on port 1408
-pnpm lib:server stop           # Stop RAG server
-pnpm lib:server status         # Check server status
-pnpm lib:server restart        # Restart server
+# Library management  
+pnpm lib:add <github-url>   # Add new library
+pnpm lib:list              # List all libraries
+pnpm lib:update <name>     # Update library
+pnpm lib:search "query"    # Search libraries
 
-# API access (when server running)
-curl http://localhost:1408/search?q=useState&library=react
+# API access
 curl http://localhost:1408/health
+curl -X POST http://localhost:1408/api/search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "useState", "library": "react"}'
 ```
 
-### RAG Features
-
-- **Semantic Tagging**: 15 patterns (hooks, state, async, error handling, etc.)
-- **Multi-Library Search**: Query across all libraries or specific ones
-- **Context Preservation**: Returns surrounding code for better understanding
-- **Visual CLI**: Emoji indicators for operation status
-- **Auto-Integration**: No manual indexing required
+**Note**: Full documentation including architecture, API reference, troubleshooting, and development guide available in `membank/CLAUDE.md`.
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 
