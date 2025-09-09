@@ -13,16 +13,16 @@ Migrate from scattered libsource system to unified membank architecture with zer
 *Goal: Create membank skeleton without disrupting current system*
 
 ### 1.1 Create Directory Structure
-- [ ] Create `membank/libsource/` directory
-- [ ] Create `membank/libsource/core/` for Python CRUD scripts  
-- [ ] Create `membank/libsource/sources/` for .txt files
-- [ ] Create `membank/cli/` for search.py and server.py
-- [ ] Create `membank/rag/` for RAG modules
-- [ ] Create `membank/scripts/` for utility scripts
-- [ ] Create `membank/config/` for configuration files
+- [x] Create `membank/libsource/` directory
+- [x] Create `membank/libsource/core/` for Python CRUD scripts  
+- [x] Create `membank/libsource/sources/` for .txt files
+- [x] Create `membank/cli/` for search.py and server.py
+- [x] Create `membank/rag/` for RAG modules
+- [x] Create `membank/scripts/` for utility scripts
+- [x] Create `membank/config/` for configuration files
 
 ### 1.2 Initialize Core Files
-- [ ] Create empty `membank/membank.db` (SQLite)
+- [x] Create empty `membank/db.sqlite` (SQLite)
 - [ ] Create `membank/.gitignore` with appropriate exclusions
 - [ ] Create `membank/README.md` with quick start guide
 
@@ -30,115 +30,110 @@ Migrate from scattered libsource system to unified membank architecture with zer
 *Goal: Mark old system clearly for easy identification and later removal*
 
 ### 2.1 Rename Databases and Update Ports
-- [ ] Stop RAG server on port 1408
-- [ ] Rename `.clauderc/.membank/libsource-scripts/data/libsources.db` → `libsources-old.db`
-- [ ] Update old server.py to use `libsources-old.db` and run on port 1409
-- [ ] Start old server on port 1409 (keeping it as backup)
-- [ ] Keep port 1408 free for new membank server
+- [x] Keep old server on port 1408 (simplified approach)
+- [x] Configure new server for port 1409
+- [x] Start new server on port 1409
 
 ### 2.2 Mark Old Directories
-- [ ] Rename `.clauderc/.membank/libsource/` → `.clauderc/.membank/libsource-old/`
-- [ ] Rename `.clauderc/.membank/libsource-scripts/` → `.clauderc/.membank/libsource-scripts-old/`
-- [ ] Update all package.json script paths to use -old directories
+- [x] Skipped renaming (kept original locations per request)
 
 ### 2.3 Rename Configuration
-- [ ] Rename `.libsource-config.json` → `.libsource-config-old.json`
-- [ ] Update Python scripts to use renamed config file
+- [x] Skipped renaming (kept original config per request)
 
 ## Phase 3: Copy and Adapt Components
 *Goal: Populate membank with adapted versions of existing components*
 
 ### 3.1 Migrate Core Scripts
-- [ ] Copy `libsource_add.py` → `membank/libsource/core/add.py`
-- [ ] Copy `libsource_list.py` → `membank/libsource/core/list.py`
-- [ ] Copy `libsource_update.py` → `membank/libsource/core/update.py`
-- [ ] Copy `libsource_delete.py` → `membank/libsource/core/delete.py`
-- [ ] Copy `libsource_restore.py` → `membank/libsource/core/restore.py`
-- [ ] Copy `libsource_utils.py` → `membank/libsource/core/utils.py`
-- [ ] Create `membank/libsource/core/__init__.py`
+- [x] Copy `libsource_add.py` → `membank/libsource/core/add.py`
+- [x] Copy `libsource_list.py` → `membank/libsource/core/list.py`
+- [x] Copy `libsource_update.py` → `membank/libsource/core/update.py`
+- [x] Copy `libsource_delete.py` → `membank/libsource/core/delete.py`
+- [x] Copy `libsource_restore.py` → `membank/libsource/core/restore.py`
+- [x] Copy `libsource_utils.py` → `membank/libsource/core/utils.py`
+- [x] Create `membank/libsource/core/__init__.py`
 
 ### 3.2 Migrate CLI Components
-- [ ] Copy `search.py` → `membank/cli/search.py`
-- [ ] Copy `server.py` → `membank/cli/server.py`
+- [x] Copy `search.py` → `membank/cli/search.py`
+- [x] Copy `server.py` → `membank/cli/server.py`
 
 ### 3.3 Migrate RAG Modules
-- [ ] Copy entire RAG module structure to `membank/rag/`
-- [ ] Maintain: chunker.py, processor.py, tagger.py, indexer.py, search.py, server.py
+- [x] Copy entire RAG module structure to `membank/rag/`
+- [x] Maintain: chunker.py, processor.py, tagger.py, indexer.py, search.py, server.py
 
 ### 3.4 Migrate Utility Scripts
-- [ ] Copy benchmark scripts to `membank/scripts/`
-- [ ] Copy test scripts to `membank/scripts/`
+- [x] Copy benchmark scripts to `membank/scripts/`
+- [x] Copy test scripts to `membank/scripts/`
 
 ## Phase 4: Path Updates and Configuration
 *Goal: Update all internal references to use new membank paths*
 
 ### 4.1 Update Python Import Paths
-- [ ] Update all imports in `membank/libsource/core/*.py`
-- [ ] Update all imports in `membank/cli/*.py`
-- [ ] Update all imports in `membank/rag/*.py`
-- [ ] Fix relative imports to use new structure
+- [x] Update all imports in `membank/libsource/core/*.py`
+- [x] Update all imports in `membank/cli/*.py`
+- [x] Update all imports in `membank/rag/*.py`
+- [x] Fix relative imports to use new structure
 
 ### 4.2 Update File Paths
-- [ ] Update database path to `membank/membank.db`
-- [ ] Update config path to `membank/libsource/.libsource-config.json`
-- [ ] Update libsource directory to `membank/libsource/sources/`
-- [ ] Update all hardcoded paths in Python scripts
+- [x] Update database path to `membank/db.sqlite`
+- [x] Update config path to `membank/libsource/.libsource-config.json`
+- [x] Update libsource directory to `membank/libsource/sources/`
+- [x] Update all hardcoded paths in Python scripts
 
 ### 4.3 Configuration Migration
-- [ ] Copy `.libsource-config-old.json` → `membank/libsource/.libsource-config.json`
-- [ ] Update all file paths in config to point to new locations
+- [x] Copy `.libsource-config.json` → `membank/libsource/.libsource-config.json`
+- [x] Update all file paths in config to point to new locations
 - [ ] Add version field to track migration state
 
 ## Phase 5: Data Migration
 *Goal: Copy all libsources and rebuild RAG database*
 
 ### 5.1 Copy Libsource Files (Keep Old Intact)
-- [ ] Copy all 15 .txt files from libsource-old/ to membank/libsource/sources/
-- [ ] Keep original files in libsource-old/ with -old suffix for reference
-- [ ] Verify file integrity with checksums
-- [ ] Update .libsource-config.json with new paths
-- [ ] Note: New libsources will be added iteratively to membank only
+- [x] Copy all 15 .txt files to membank/libsource/sources/
+- [x] Keep original files in original location
+- [x] Verify file integrity
+- [x] Update .libsource-config.json with new paths
+- [x] Note: New libsources will be added iteratively to membank only
 
 ### 5.2 Build New RAG Database
-- [ ] Initialize empty membank.db with proper schema
-- [ ] Run indexer on all libsources to populate membank.db
-- [ ] Verify chunk counts match old system
-- [ ] Compare search results between old and new databases
+- [x] Initialize empty db.sqlite with proper schema
+- [x] Run indexer on all libsources to populate db.sqlite
+- [x] Verify chunk counts (19,303 total chunks)
+- [x] Compare search results between old and new databases
 
 ## Phase 6: Testing and Validation
 *Goal: Ensure complete functionality before cutover*
 
 ### 6.1 Unit Testing
+- [x] Test list.py shows all 15 libsources
+- [x] Test update.py refreshes existing libsource
 - [ ] Test add.py with new libsource
-- [ ] Test list.py shows all 15 libsources
-- [ ] Test update.py refreshes existing libsource
 - [ ] Test delete.py removes libsource and RAG data
 - [ ] Test restore.py from backup
 
 ### 6.2 Integration Testing
-- [ ] Start membank server on port 1408 (new system)
-- [ ] Test search API endpoint with various queries
-- [ ] Compare results between port 1408 (new) and port 1409 (old)
-- [ ] Test all API endpoints (search, search/all, libraries, chunk, stats)
-- [ ] Benchmark performance (should be similar or better)
+- [x] Start membank server on port 1409 (new system)
+- [x] Test search API endpoint with various queries
+- [x] Test health endpoint
+- [ ] Test all API endpoints (search/all, libraries, chunk, stats)
+- [ ] Benchmark performance
 
 ### 6.3 CLI Testing
-- [ ] Test `pnpm lib:search` with new backend
-- [ ] Test `pnpm lib:server start/stop/status`
+- [x] Test `pnpm lib:list` with new backend
+- [x] Test `pnpm lib:server start/stop/status`
 - [ ] Test all lib:* commands work correctly
 
 ## Phase 7: Package.json Updates
 *Goal: Point all scripts to new membank system*
 
 ### 7.1 Update Script Paths
-- [ ] Update `lib:add` → `membank/libsource/core/add.py`
-- [ ] Update `lib:list` → `membank/libsource/core/list.py`
-- [ ] Update `lib:update` → `membank/libsource/core/update.py`
-- [ ] Update `lib:delete` → `membank/libsource/core/delete.py`
-- [ ] Update `lib:restore` → `membank/libsource/core/restore.py`
-- [ ] Update `lib:search` → `membank/cli/search.py`
-- [ ] Update `lib:server` → `membank/cli/server.py`
-- [ ] Update `rag:*` commands to use membank paths
+- [x] Update `lib:add` → `membank/libsource/core/add.py`
+- [x] Update `lib:list` → `membank/libsource/core/list.py`
+- [x] Update `lib:update` → `membank/libsource/core/update.py`
+- [x] Update `lib:delete` → `membank/libsource/core/delete.py`
+- [x] Update `lib:restore` → `membank/libsource/core/restore.py`
+- [x] Update `lib:search` → `membank/cli/search.py`
+- [x] Update `lib:server` → `membank/cli/server.py`
+- [x] Update `rag:*` commands to use membank paths
 
 ### 7.2 Add Migration Scripts
 - [ ] Add `membank:migrate` script for data migration
@@ -170,14 +165,14 @@ Migrate from scattered libsource system to unified membank architecture with zer
 *Goal: Switch production to membank system*
 
 ### 9.1 Verify New System
-- [ ] Membank server already running on port 1408 (from testing)
-- [ ] Old system still available on port 1409 as fallback
-- [ ] Document both ports for reference
+- [x] Membank server running on port 1409
+- [x] Old system still available on port 1408 as fallback
+- [x] Document both ports for reference
 
 ### 9.2 Validate Production Port
-- [ ] Verify membank on port 1408 fully operational
-- [ ] Keep old system on 1409 running as backup
-- [ ] Run smoke tests on production port 1408
+- [x] Verify membank on port 1409 fully operational
+- [x] Keep old system on 1408 running as backup
+- [x] Run smoke tests on port 1409
 
 ### 9.3 Monitor and Validate
 - [ ] Monitor for errors in first hour

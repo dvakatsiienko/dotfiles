@@ -9,7 +9,7 @@ node_modules
 todo.md
 
 # Libsource cache files (regenerable from config)
-.clauderc/.membank/libsource/libsource-*.txt
+libsource-*.txt
 
 # Python cache files
 **/__pycache__/
@@ -17,6 +17,9 @@ todo.md
 # RAG Database (auto-generated)
 .clauderc/.membank/libsource-scripts/data/libsources.db
 libsources.db
+db.sqlite
+*.db.sqlite
+*-old.db.sqlite
 
 # Go build artifacts
 .clauderc/sline/bin

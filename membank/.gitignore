@@ -1,0 +1,23 @@
+# Database files
+db.sqlite
+*.db
+*.sqlite
+
+# Libsource text files (regenerable)
+libsource/sources/libsource-*.txt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+.DS_Store
+
+# Test outputs
+test_results/
+coverage/
