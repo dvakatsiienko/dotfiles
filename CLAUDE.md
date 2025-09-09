@@ -1,7 +1,6 @@
-# CLAUDE.md
+# .dotfiles
 
 Personal macOS dotfiles repository with automated symlink-based configuration management.
-
 
 ## Repository Overview
 
@@ -112,7 +111,7 @@ Reference actual files for current aliases:
 
 ```
 ~/.claude/settings.json  → ~/.dotfiles/.clauderc/settings.json
-~/.claude/.membank/      → ~/.dotfiles/.clauderc/.membank/
+~/.claude/guides/        → ~/.dotfiles/.clauderc/guides/
 ~/.claude/commands/      → ~/.dotfiles/.clauderc/commands/
 ```
 
@@ -125,7 +124,7 @@ Reference actual files for current aliases:
 
 **Custom Configs:**
 
-- ✅ `.membank/` - Documentation, libsources, implementation guides
+- ✅ `guides/` - Documentation and implementation guides
 - ✅ `sline/` - Sline code and scripts
 - ✅ `scripts/` - Python libsource management scripts
 
@@ -153,7 +152,7 @@ Reference actual files for current aliases:
 ```
 .clauderc/
 ├── settings.json          # Main Claude settings
-├── .membank/              # Knowledge base system
+├── guides/                # Documentation and guides
 │   ├── libsource/         # Library source collection (11 libraries)
 │   ├── implementation.md  # Project guides
 │   └── typescript.md      # Type conventions
@@ -221,20 +220,18 @@ pnpm rag:start    # Start server on port 1408
 pnpm rag:stop     # Stop server
 pnpm rag:status   # Check status
 
-# Library management  
+# Library management
 pnpm lib:add <github-url>   # Add new library
 pnpm lib:list              # List all libraries
 pnpm lib:update <name>     # Update library
 pnpm lib:search "query"    # Search libraries
 
-# API access
+# Quick API test
 curl http://localhost:1408/health
-curl -X POST http://localhost:1408/api/search \
-  -H "Content-Type: application/json" \
-  -d '{"query": "useState", "library": "react"}'
 ```
 
-**Note**: Full documentation including architecture, API reference, troubleshooting, and development guide available in `membank/CLAUDE.md`.
+**Note**: Full documentation including architecture, API reference, troubleshooting, and development
+guide available in `membank/CLAUDE.md`.
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 
@@ -246,7 +243,6 @@ research.
 
 **Use for**: Complex features, unknown patterns, multi-library integrations **Skip for**: Simple
 fixes, well-understood patterns
-
 
 ## Important Notes
 

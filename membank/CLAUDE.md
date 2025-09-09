@@ -1,10 +1,13 @@
-# Membank System Documentation
+# membank system
 
 ## Overview
 
-Membank is a unified knowledge base system for RAG-augmented library source code with semantic search capabilities. Evolution of the libsource system supporting multiple data types and improved organization.
+Membank is a unified knowledge base system for RAG-augmented library source code with semantic
+search capabilities. Evolution of the libsource system supporting multiple data types and improved
+organization.
 
 **Key Features:**
+
 - BM25F scoring with semantic tagging (22.6x search improvement)
 - 15 indexed libraries with ~3.9M lines of code
 - FastAPI server with REST API
@@ -69,12 +72,14 @@ pnpm rag:status
 ### REST API Endpoints
 
 #### Health Check
+
 ```bash
 GET /health
 curl http://localhost:1408/health
 ```
 
 #### Search Library
+
 ```bash
 POST /api/search
 curl -X POST http://localhost:1409/api/search \
@@ -83,6 +88,7 @@ curl -X POST http://localhost:1409/api/search \
 ```
 
 #### Search All Libraries
+
 ```bash
 POST /api/search/all
 curl -X POST http://localhost:1409/api/search/all \
@@ -91,18 +97,21 @@ curl -X POST http://localhost:1409/api/search/all \
 ```
 
 #### List Libraries
+
 ```bash
 GET /api/libraries
 curl http://localhost:1408/api/libraries
 ```
 
 #### Get Chunk by ID
+
 ```bash
 GET /api/chunk/{chunk_id}
 curl http://localhost:1408/api/chunk/12345
 ```
 
 #### Library Statistics
+
 ```bash
 GET /api/stats/{library}
 curl http://localhost:1408/api/stats/react
@@ -174,23 +183,23 @@ python3 membank/cli/search.py "query" [library]
 
 ## Indexed Libraries
 
-| Library | Description | LOC | Chunks |
-|---------|-------------|-----|--------|
-| **react** | Core React library | 890K | 3,914 |
-| **next** | Next.js framework | 511K | 2,202 |
-| **vite** | Modern build tool | 151K | 660 |
-| **webpack** | Module bundler | 465K | 2,007 |
-| **biome** | Fast formatter/linter | 1.2M | 5,233 |
-| **mobx** | State management | 130K | 569 |
-| **react-query** | TanStack Query | 193K | 844 |
-| **ai** | Vercel AI SDK | 433K | 1,857 |
-| **zx** | Shell scripting | 14K | 62 |
-| **zod** | TypeScript validation | 52K | 246 |
-| **motion.dev** | Framer Motion | 118K | 516 |
-| **bubbletea** | Go TUI framework | 16K | 70 |
-| **lipgloss** | Go styling library | 15K | 64 |
-| **gitingest** | Repository extraction | 12K | 53 |
-| **webfonts-loader** | Webpack fonts | 1K | 6 |
+| Library             | Description           | LOC  | Chunks |
+| ------------------- | --------------------- | ---- | ------ |
+| **react**           | Core React library    | 890K | 3,914  |
+| **next**            | Next.js framework     | 511K | 2,202  |
+| **vite**            | Modern build tool     | 151K | 660    |
+| **webpack**         | Module bundler        | 465K | 2,007  |
+| **biome**           | Fast formatter/linter | 1.2M | 5,233  |
+| **mobx**            | State management      | 130K | 569    |
+| **react-query**     | TanStack Query        | 193K | 844    |
+| **ai**              | Vercel AI SDK         | 433K | 1,857  |
+| **zx**              | Shell scripting       | 14K  | 62     |
+| **zod**             | TypeScript validation | 52K  | 246    |
+| **motion.dev**      | Framer Motion         | 118K | 516    |
+| **bubbletea**       | Go TUI framework      | 16K  | 70     |
+| **lipgloss**        | Go styling library    | 15K  | 64     |
+| **gitingest**       | Repository extraction | 12K  | 53     |
+| **webfonts-loader** | Webpack fonts         | 1K   | 6      |
 
 Total: ~3.9M LOC, 19,303 chunks
 
@@ -237,6 +246,7 @@ CREATE INDEX idx_semantic_tags ON chunks(semantic_tags);
 ## Troubleshooting
 
 ### Server Won't Start
+
 ```bash
 # Check if port is in use
 lsof -i :1409
@@ -249,6 +259,7 @@ pnpm rag:start
 ```
 
 ### Database Issues
+
 ```bash
 # Check database exists
 ls -la membank/db.sqlite
@@ -259,6 +270,7 @@ python3 membank/scripts/reindex.py
 ```
 
 ### Search Not Working
+
 ```bash
 # Check server health
 curl http://localhost:1408/health
@@ -272,19 +284,21 @@ curl http://localhost:1408/api/libraries
 ### Adding New Libraries
 
 1. Add library source:
+
 ```bash
 pnpm lib:add https://github.com/owner/repo
 ```
 
 2. Library is automatically:
-   - Downloaded via gitingest
-   - Chunked into 300-line segments
-   - Tagged with semantic patterns
-   - Indexed in database
+    - Downloaded via gitingest
+    - Chunked into 300-line segments
+    - Tagged with semantic patterns
+    - Indexed in database
 
 ### Customizing Search
 
 Edit `membank/rag/search.py` to modify:
+
 - BM25F parameters (k1, b, field weights)
 - Semantic tag boosting
 - Result ranking algorithm
@@ -292,6 +306,7 @@ Edit `membank/rag/search.py` to modify:
 ### Adding New Semantic Tags
 
 Edit `membank/rag/tagger.py`:
+
 1. Add pattern to `SEMANTIC_PATTERNS`
 2. Update tag detection logic
 3. Re-index: `python3 membank/scripts/reindex.py`
@@ -303,11 +318,10 @@ Edit `membank/rag/tagger.py`:
 - Database indexes: See schema above
 - Server workers: Edit `membank/rag/server.py`
 
-## Migration Notes
+## Implementation Notes
 
-- Old system: Port 1408, path `.clauderc/.membank/`
-- New system: Port 1408, path `membank/`
-- Database: `libsources.db` → `db.sqlite`
-- Config: Scattered → `config.py`
-
-Rollback available: Old system intact on port 1408
+- Location: `~/.dotfiles/membank/`
+- Port: 1408 (production)
+- Database: `db.sqlite` (SQLite with JSON fields)
+- Config: Centralized in `config.py`
+- Old system: Removed (was in `.clauderc/.membank/`)
