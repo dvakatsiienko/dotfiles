@@ -13,3 +13,12 @@ todo.md
 
 # Python cache files
 **/__pycache__/
+
+# RAG Database (auto-generated)
+.clauderc/.membank/libsource-scripts/data/libsources.db
+libsources.db
+
+# Go build artifacts
+.clauderc/sline/bin
+.clauderc/statusline/bin
+**/*statusline*/bin
