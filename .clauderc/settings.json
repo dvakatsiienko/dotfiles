@@ -24,6 +24,7 @@
     ],
     "defaultMode": "plan"
   },
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -41,6 +42,5 @@
     "type": "command",
     "command": "/Users/dima/.claude/sline/bin",
     "padding": 0
-  },
-  "model": "sonnet"
+  }
 }

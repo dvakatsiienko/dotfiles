@@ -12,7 +12,7 @@ from pathlib import Path
 
 def get_config_file():
     """Get path to libsource config file."""
-    return Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource" / ".libsource-config.json"
+    return Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource-scripts" / "config" / "libsource-config.json"
 
 
 def get_membank_dir():

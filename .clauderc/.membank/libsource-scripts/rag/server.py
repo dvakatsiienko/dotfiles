@@ -56,9 +56,11 @@ class ChunkRequest(BaseModel):
 async def startup_event():
     """Initialize search engine on startup."""
     global search_engine
-    search_engine = SearchEngine()
+    # Get the correct database path
+    db_path = Path(__file__).parent.parent / "data" / "libsources.db"
+    search_engine = SearchEngine(str(db_path))
     search_engine.__enter__()
-    print("✅ Search engine initialized")
+    print(f"✅ Search engine initialized with database: {db_path}")
 
 
 @app.on_event("shutdown")

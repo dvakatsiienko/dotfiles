@@ -3,9 +3,14 @@ Smart code chunker using tree-sitter for AST-aware chunking.
 300 lines per chunk with 20% (60 lines) overlap.
 """
 
-import tree_sitter_languages as tsl
 from typing import List, Dict, Any
 import re
+
+try:
+    import tree_sitter_languages as tsl
+    HAS_TREE_SITTER = True
+except ImportError:
+    HAS_TREE_SITTER = False
 
 
 class LibsourceChunker:
@@ -16,6 +21,8 @@ class LibsourceChunker:
         
     def _get_parser(self, language: str):
         """Get tree-sitter parser for language detection."""
+        if not HAS_TREE_SITTER:
+            return None
         try:
             return tsl.get_parser(language)
         except:

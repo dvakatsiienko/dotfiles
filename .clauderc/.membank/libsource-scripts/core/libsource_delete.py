@@ -71,8 +71,22 @@ def delete_library(lib_name, force=False):
                 print("\n❌ Deletion cancelled.")
                 return False
 
+    # Remove from RAG index first (before deleting the file)
+    config = load_config()
+    rag_enabled = config.get('rag_enabled', True)
+    
+    if rag_enabled:
+        print(f"🗑️  Removing from RAG index...")
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from rag.indexer import remove_from_index
+        
+        if remove_from_index(lib_name, silent=True):
+            print(f"✅ Removed from RAG index")
+        else:
+            print(f"⚠️  Failed to remove from RAG index (continuing anyway)")
+    
     # Delete the actual file
-    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
+    membank_dir = Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource"
     libsource_file = membank_dir / library_info['filename']
 
     if libsource_file.exists():

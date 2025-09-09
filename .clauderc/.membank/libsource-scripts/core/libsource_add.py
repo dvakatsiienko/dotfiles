@@ -94,6 +94,23 @@ def main():
     if loc_count:
         print(f"📏 Lines of code: {loc_count:,}")
     
+    # RAG augmentation
+    config = load_config()
+    rag_enabled = config.get('rag_enabled', True)
+    rag_metrics = {}
+    
+    if rag_enabled:
+        print(f"🔄 Creating RAG augmentation...")
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from rag.indexer import auto_index
+        
+        success, metrics = auto_index(lib_name, output_file)
+        if success:
+            rag_metrics = metrics
+            print(f"✅ RAG augmentation complete ({metrics['chunk_count']} chunks, {metrics['tag_coverage']:.0f}% coverage)")
+        else:
+            print(f"⚠️  RAG augmentation failed but libsource created successfully")
+    
     # Update config
     config["libraries"][lib_name] = {
         "url": repo_url,

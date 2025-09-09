@@ -16,24 +16,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def load_config():
-    """Load the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-    
-    if config_file.exists():
-        with open(config_file, 'r') as f:
-            return json.load(f)
-    else:
-        return {"libraries": {}, "last_updated": None, "version": "1.0"}
-
-
-def save_config(config):
-    """Save the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-    config_file.parent.mkdir(parents=True, exist_ok=True)
-    
-    with open(config_file, 'w') as f:
-        json.dump(config, f, indent=4)
+# load_config and save_config are imported from libsource_utils
 
 
 def calculate_loc(file_path):
@@ -49,7 +32,7 @@ def calculate_loc(file_path):
 
 
 # Import our shared utilities  
-from libsource_utils import fetch_libsource, format_duration
+from libsource_utils import fetch_libsource, format_duration, load_config, save_config
 
 
 def update_single_library(config, lib_name):
@@ -78,9 +61,24 @@ def update_single_library(config, lib_name):
         return False, False
     
     # Calculate new LOC
-    membank_dir = Path.home() / ".claude" / ".membank" / "libsource"
+    membank_dir = Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource"
     output_file = membank_dir / f"libsource-{lib_name}.txt"
     new_loc = calculate_loc(output_file)
+    
+    # RAG reindexing
+    config = load_config()
+    rag_enabled = config.get('rag_enabled', True)
+    
+    if rag_enabled:
+        print(f"🔄 Updating RAG augmentation...")
+        sys.path.insert(0, str(Path(__file__).parent.parent))
+        from rag.indexer import reindex
+        
+        success, metrics = reindex(lib_name, output_file, silent=True)
+        if success:
+            print(f"✅ RAG augmentation updated ({metrics['chunk_count']} chunks)")
+        else:
+            print(f"⚠️  RAG augmentation update failed")
     
     # Check if content actually changed
     content_changed = (new_file_size != old_file_size or new_loc != old_loc)

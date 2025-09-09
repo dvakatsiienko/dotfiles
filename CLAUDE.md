@@ -207,23 +207,77 @@ Go-based statusline system providing rich terminal display with:
 - **Build sline**: `pnpm sline:build`
 - **Current**: Points to `sline/bin` in settings.json
 
-## Libsource System
+## Libsource System (RAG-Integrated)
 
-**Cache-based library source collection for AI implementation guidance.**
+**RAG-augmented library source collection with semantic search capabilities.**
+
+### Architecture
+
+- **Core Technology**: BM25F scoring with semantic pattern tagging (22.6x search improvement)
+- **Storage**: SQLite database with JSON fields for chunks and semantic tags
+- **Chunking**: 300-line chunks with 20% overlap for context preservation
+- **Auto-Integration**: RAG indexing happens automatically on add/update/delete operations
+- **Server**: FastAPI on port 1408 with REST API and OpenAPI docs
+
+### Directory Structure
+
+```
+.clauderc/.membank/libsource-scripts/
+├── core/                      # Core libsource operations
+│   ├── libsource_add.py      # Add new libraries (auto-indexes RAG)
+│   ├── libsource_update.py   # Update existing (auto-reindexes RAG)
+│   ├── libsource_delete.py   # Delete libraries (auto-removes from RAG)
+│   ├── libsource_list.py     # List available libraries
+│   └── libsource_restore.py  # Restore from backups
+├── rag/                       # RAG augmentation modules
+│   ├── indexer.py            # Auto-indexing integration
+│   ├── database.py           # SQLite operations
+│   ├── chunker.py            # Text chunking logic
+│   ├── tagger.py             # Semantic pattern tagging
+│   ├── search.py             # BM25F search engine
+│   └── server.py             # FastAPI server
+├── cli/                       # CLI entry points
+│   ├── search.py             # Search RAG index
+│   └── server.py             # Manage RAG server
+└── utils/                     # Shared utilities
+```
 
 ### Key Files
 
 - **Config**: `.clauderc/.membank/libsource/.libsource-config.json`
-- **Cache**: `.clauderc/.membank/libsource/libsource-*.txt` (git-ignored)
-- **Scripts**: `.clauderc/scripts/libsource-*.py`
-- **feature driver lib source code**: `.clauderc/.membank/libsource/libsource-gitingest.txt`
+- **Text Sources**: `.clauderc/.membank/libsource/libsource-*.txt` (git-ignored)
+- **RAG Database**: `.clauderc/.membank/libsource-scripts/data/libsources.db` (git-ignored)
+- **Scripts**: `.clauderc/.membank/libsource-scripts/` (all Python modules)
 
-### Management
+### Commands
 
 ```bash
-pnpm lib:*              # CLI management commands
-/libsource-read         # Claude command for AI analysis
+# Library management (with auto-RAG)
+pnpm lib:add <github-url>      # Add library + auto-index RAG
+pnpm lib:update <lib-name>     # Update library + auto-reindex RAG
+pnpm lib:delete <lib-name>     # Delete library + auto-remove from RAG
+pnpm lib:list                  # List all libraries with stats
+pnpm lib:restore               # Restore from backups
+
+# RAG search operations
+pnpm lib:search "query" [lib]  # Search RAG index (CLI)
+pnpm lib:server start          # Start RAG server on port 1408
+pnpm lib:server stop           # Stop RAG server
+pnpm lib:server status         # Check server status
+pnpm lib:server restart        # Restart server
+
+# API access (when server running)
+curl http://localhost:1408/search?q=useState&library=react
+curl http://localhost:1408/health
 ```
+
+### RAG Features
+
+- **Semantic Tagging**: 15 patterns (hooks, state, async, error handling, etc.)
+- **Multi-Library Search**: Query across all libraries or specific ones
+- **Context Preservation**: Returns surrounding code for better understanding
+- **Visual CLI**: Emoji indicators for operation status
+- **Auto-Integration**: No manual indexing required
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 
