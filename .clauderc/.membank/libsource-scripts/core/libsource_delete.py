@@ -17,8 +17,13 @@ from pathlib import Path
 
 def load_config():
     """Load the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
-
+    # Try new location first
+    config_file = Path(__file__).parent.parent / "config" / "libsource-config.json"
+    
+    # Fallback to old location if not found
+    if not config_file.exists():
+        config_file = Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource" / ".libsource-config.json"
+    
     if config_file.exists():
         with open(config_file, 'r') as f:
             return json.load(f)
@@ -28,7 +33,7 @@ def load_config():
 
 def save_config(config):
     """Save the libsource configuration file."""
-    config_file = Path.home() / ".claude" / ".membank" / "libsource" / ".libsource-config.json"
+    config_file = Path(__file__).parent.parent / "config" / "libsource-config.json"
     config_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(config_file, 'w') as f:
@@ -57,7 +62,6 @@ def delete_library(lib_name, force=False):
 
     # Confirm deletion (skip if force=True or non-interactive)
     if not force:
-        import sys
         # Check if stdin is available and we're in an interactive terminal
         if not sys.stdin.isatty():
             print("🤖 Non-interactive mode detected, auto-confirming deletion...")

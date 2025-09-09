@@ -2,10 +2,6 @@
 
 Personal macOS dotfiles repository with automated symlink-based configuration management.
 
-extend @.clauderc/.membank/archon.md the archon info:
-
-- project id: 0768e702-fa50-4701-9eae-2d9a079b4606
-- use this id to connect to archon project via archon-mcp
 
 ## Repository Overview
 
@@ -290,12 +286,6 @@ research.
 **Use for**: Complex features, unknown patterns, multi-library integrations **Skip for**: Simple
 fixes, well-understood patterns
 
-## Archon Integration (Experimental)
-
-- **Status**: Beta/experimental - may be dropped if not mature enough
-- **Project ID**: `0768e702-fa50-4701-9eae-2d9a079b4606`
-- **Current Role**: Task management (when stable)
-- **Research Workflow**: Operates independently of Archon
 
 ## Important Notes
 

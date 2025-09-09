@@ -1,14 +1,6 @@
 {
-    "last_updated": "2025-09-08T23:37:26.818629",
+    "last_updated": "2025-09-09T20:23:31.522030",
     "libraries": {
-        "archon": {
-            "file_size": 5092125,
-            "filename": "libsource-archon.txt",
-            "generation_time": "1s",
-            "last_updated": "2025-09-07T18:53:04.362374",
-            "loc": 134236,
-            "url": "/Users/dima/projects/archon"
-        },
         "biome": {
             "file_size": 46545676,
             "filename": "libsource-biome.txt",
