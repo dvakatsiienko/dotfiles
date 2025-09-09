@@ -1,0 +1,25 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Output/Generated
+output/
+*.log
+
+# IDE/System
+.vscode/
+.idea/
+*.swp
+.DS_Store
