@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CLI entry point for lib:server command - Manage RAG search server."""
+"""CLI entry point for mem:server command - Manage RAG search server."""
 
 import sys
 import os
@@ -31,13 +31,13 @@ def start_server():
     pid = get_server_pid()
     if pid:
         print(f"⚠️  Server already running on port {SERVER_PORT} (PID: {pid})")
-        print(f"   Stop it first: pnpm lib:server stop")
+        print(f"   Stop it first: pnpm mem:server:stop")
         return False
     
     print(f"🚀 Starting RAG Search Server on port {SERVER_PORT}...")
     
     # Path to server module
-    server_path = Path(__file__).parent.parent / "rag" / "membank_server.py"
+    server_path = Path(__file__).parent.parent / "rag" / "server.py"
     
     # Start server in background
     process = subprocess.Popen(
@@ -56,7 +56,7 @@ def start_server():
         print(f"✅ Server started successfully (PID: {pid})")
         print(f"📍 API: http://localhost:{SERVER_PORT}")
         print(f"📚 Docs: http://localhost:{SERVER_PORT}/docs")
-        print(f"\n🛑 To stop: pnpm lib:server stop")
+        print(f"\n🛑 To stop: pnpm mem:server:stop")
         return True
     else:
         print("❌ Failed to start server")
@@ -100,7 +100,7 @@ def server_status():
             print(f"⚠️  Server is running but not responding")
     else:
         print("❌ Server is not running")
-        print("   Start it with: pnpm lib:server start")
+        print("   Start it with: pnpm mem:server:start")
 
 
 def main():

@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import DATABASE_PATH
-from rag.membank_search import SearchEngine
+from rag.search import SearchEngine
 from rag.db_init import ensure_database_exists
 
 
@@ -72,7 +72,7 @@ def main():
             else:
                 print(f"❌ No results found for '{query}' in any library")
     
-    print("\n💡 Tip: Use the RAG server (pnpm lib:server) for API access on port 1408")
+    print("\n💡 Tip: Use the RAG server (pnpm mem:server:start) for API access on port 1408")
 
 
 if __name__ == "__main__":

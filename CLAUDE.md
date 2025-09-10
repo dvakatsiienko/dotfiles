@@ -126,7 +126,7 @@ Reference actual files for current aliases:
 
 - ✅ `guides/` - Documentation and implementation guides
 - ✅ `sline/` - Sline code and scripts
-- ✅ `scripts/` - Python libsource management scripts
+- ✅ `scripts/` - Python membank management scripts
 
 ### Management Rules
 
@@ -153,14 +153,14 @@ Reference actual files for current aliases:
 .clauderc/
 ├── settings.json          # Main Claude settings
 ├── guides/                # Documentation and guides
-│   ├── libsource/         # Library source collection (11 libraries)
+│   ├── membank/           # Membank guides and documentation
 │   ├── implementation.md  # Project guides
 │   └── typescript.md      # Type conventions
 ├── claude-workflow/       # Cluade Desktop and Claude Code Collaborative workflow
 │   ├── CLAUDE.md          # Workflow specification
 │   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
-├── scripts/               # Python libsource management
+├── scripts/               # Python membank management
 ├── sline/                 # Go sline implementation
 ```
 
@@ -207,31 +207,30 @@ Go-based statusline system providing rich terminal display with:
 **Unified knowledge base for RAG-augmented library source code with semantic search.**
 
 - **Location**: `~/.dotfiles/membank/`
-- **Documentation**: See `@membank/CLAUDE.md` for complete details
-- **Server**: Port 1408 (production)
-- **Database**: `membank/db.sqlite`
+- **Documentation**: See `membank/CLAUDE.md` for complete details
+- **Server**: Port 1408 (FastAPI with REST API)
+- **Database**: `membank/db.sqlite` (SQLite with BM25F scoring)
 - **Libraries**: 15 indexed (~3.9M LOC, 19,303 chunks)
 
 ### Quick Commands
 
 ```bash
 # Server management
-pnpm rag:start    # Start server on port 1408
-pnpm rag:stop     # Stop server
-pnpm rag:status   # Check status
+pnpm mem:server:start   # Start server on port 1408
+pnpm mem:server:stop    # Stop server
+pnpm mem:server:status  # Check status
 
 # Library management
-pnpm lib:add <github-url>   # Add new library
-pnpm lib:list              # List all libraries
-pnpm lib:update <name>     # Update library
-pnpm lib:search "query"    # Search libraries
+pnpm mem:add <github-url>       # Add new library
+pnpm mem:list                   # List all libraries
+pnpm mem:update [library-name]  # Update/restore library
+pnpm mem:search "query" [lib]   # Search libraries
 
 # Quick API test
 curl http://localhost:1408/health
 ```
 
-**Note**: Full documentation including architecture, API reference, troubleshooting, and development
-guide available in `membank/CLAUDE.md`.
+**Key Feature**: Two-stage library analysis strategy combining RAG search (fast snippets) with full source analysis (complete architecture understanding). See `membank/CLAUDE.md` for details.
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 

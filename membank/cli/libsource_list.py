@@ -94,7 +94,7 @@ def format_library_info(lib_name, info, show_file_status=True):
     
     # Show file status if missing
     if show_file_status and not get_libsource_path(lib_name).exists():
-        lines.append(f"   ⚠️  File missing (use 'pnpm lib:restore')")
+        lines.append(f"   ⚠️  File missing (use 'pnpm mem:update {lib_name}')")
         
     return "\n".join(lines)
 
@@ -152,7 +152,7 @@ def show_verification_report(config):
             generation_time = info.get('generation_time', 'unknown')
             print(f"  ❌ {lib} ({size_mb:.1f}MB, {generation_time}) - from {info['url']}")
         
-        print(f"\n💡 Run 'pnpm lib:restore' to fetch all missing files")
+        print(f"\n💡 Run 'pnpm mem:update' to fetch all missing files")
     else:
         print(f"\n🎉 All libsource files are present!")
 
@@ -163,7 +163,7 @@ def main():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use 'pnpm lib:add [library-name] [url]' to add libraries!")
+        print("Use 'pnpm mem:add <github-url>' to add libraries!")
         return
     
     # Parse command line arguments

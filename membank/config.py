@@ -18,4 +18,4 @@ CHUNK_OVERLAP = 20  # 20% overlap
 
 # Libsource configuration
 LIBSOURCE_CONFIG = ".libsource-config.json"
-LIBSOURCE_DIR = "sources"
+LIBSOURCE_DIR = "libsource"

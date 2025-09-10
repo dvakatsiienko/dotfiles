@@ -10,16 +10,32 @@ todo.md
 
 # Libsource cache files (regenerable from config)
 libsource-*.txt
+membank/libsource/libsource-*.txt
 
 # Python cache files
 **/__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# RAG Database (auto-generated)
+# Database files (auto-generated)
 .clauderc/.membank/libsource-scripts/data/libsources.db
 libsources.db
 db.sqlite
+*.db
+*.sqlite
 *.db.sqlite
 *-old.db.sqlite
+membank/db.sqlite
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+
+# Test outputs
+test_results/
+coverage/
 
 # Go build artifacts
 .clauderc/sline/bin
