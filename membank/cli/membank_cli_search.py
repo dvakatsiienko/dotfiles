@@ -9,7 +9,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import DATABASE_PATH
-from rag.search import SearchEngine
+from rag.membank_search import SearchEngine
+from rag.db_init import ensure_database_exists
 
 
 def main():
@@ -25,10 +26,10 @@ def main():
     library = sys.argv[2] if len(sys.argv) > 2 else None
     
     # Database path from config
-    db_path = DATABASE_PATH
+    db_path = str(DATABASE_PATH)
     
-    if not db_path.exists():
-        print("❌ RAG database not found. Run 'pnpm lib:add' to create indexed libsources first.")
+    # Ensure database exists, prompt if missing
+    if not ensure_database_exists(db_path, prompt=True):
         sys.exit(1)
     
     print(f"🔍 Searching for: '{query}'")
@@ -38,7 +39,7 @@ def main():
         print(f"📚 Searching all libraries")
     print("-" * 50)
     
-    with SearchEngine(str(db_path)) as engine:
+    with SearchEngine(db_path) as engine:
         if library:
             # Search specific library
             results = engine.search(query, library, limit=5)

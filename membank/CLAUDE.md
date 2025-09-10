@@ -19,19 +19,25 @@ organization.
 ```
 membank/
 ├── libsource/                # Library source management
-│   ├── core/                # CRUD operations
-│   ├── sources/             # Generated .txt files (gitignored)
+│   ├── libsource-*.txt      # Generated .txt files (gitignored)
 │   └── .libsource-config.json
 ├── rag/                     # RAG augmentation system
 │   ├── chunker.py          # 300-line chunks with 20% overlap
 │   ├── tagger.py           # Semantic pattern detection
 │   ├── processor.py        # Pipeline orchestration
 │   ├── indexer.py          # Auto-indexing integration
-│   ├── search.py           # BM25F search engine
-│   └── server.py           # FastAPI REST API
+│   ├── membank_search.py   # BM25F search engine
+│   └── membank_server.py   # FastAPI REST API
 ├── cli/                     # Command-line interfaces
-│   ├── search.py           # CLI search tool
-│   └── server.py           # Server management
+│   ├── libsource_add.py    # Add new libraries
+│   ├── libsource_list.py   # List libraries
+│   ├── libsource_update.py # Update/restore libraries
+│   ├── libsource_delete.py # Delete libraries
+│   ├── libsource_read.py   # Read raw .txt for analysis
+│   ├── libsource_utils.py  # Shared utilities
+│   ├── membank_cli_search.py # CLI search tool
+│   ├── membank_cli_server.py # Server management
+│   └── init_db.py          # Database initialization
 ├── scripts/                 # Utility scripts
 ├── config.py               # Central configuration
 └── db.sqlite               # SQLite database (gitignored)
@@ -55,15 +61,15 @@ CHUNK_OVERLAP = 20  # 20% overlap
 
 ```bash
 # Start server
-pnpm rag:start
+pnpm mem:server:start
 # or
-python3 membank/cli/server.py start
+python3 membank/cli/membank_cli_server.py start
 
 # Stop server
-pnpm rag:stop
+pnpm mem:server:stop
 
 # Check status
-pnpm rag:status
+pnpm mem:server:status
 
 # Server runs on http://localhost:1408
 # API docs at http://localhost:1408/docs
@@ -147,38 +153,116 @@ curl http://localhost:1408/api/stats/react
 }
 ```
 
+## Two-Stage Library Analysis Strategy
+
+**For comprehensive library inspection, always use this intelligent two-stage approach:**
+
+### Stage 1: RAG Search - Targeted Discovery
+**Use REST API or CLI for focused searches:**
+
+```bash
+# REST API (preferred)
+curl -X POST http://localhost:1408/api/search \
+  -d '{"query": "hooks patterns state", "library": "react", "limit": 10}'
+
+# CLI alternative
+pnpm mem:search "hooks patterns state" react
+```
+
+**Purpose:**
+- Find specific patterns, examples, implementations
+- Get relevant code snippets quickly  
+- Target user's specific question efficiently
+- Avoid overwhelming with massive code dumps
+
+### Stage 2: Full Source Analysis - Comprehensive Context
+**Use mem:read for architectural understanding:**
+
+```bash
+pnpm mem:read react "analyze hook architecture and design patterns based on previous findings"
+```
+
+**Purpose:**
+- Understand overall architecture and design philosophy
+- See how patterns connect across entire codebase
+- Discover cross-cutting concerns and relationships
+- Find patterns that span multiple chunks
+
+### Why Both Stages Are Essential
+
+**RAG Limitations (Stage 1):**
+- 300-line chunks with 20% overlap may fragment large patterns
+- Keyword-dependent searches miss unknown patterns
+- Individual snippets lack broader architectural context
+- Returns pieces, not relationships between them
+
+**Full Source Value (Stage 2):**
+- Complete architectural understanding
+- Design philosophy and decision rationale
+- Cross-cutting patterns that span multiple files
+- Discovery of unexpected but relevant patterns
+
+**Combined Power:**
+- **RAG = Find the trees** 🌲 (specific implementations)
+- **Full Source = See the forest** 🌳 (overall architecture)  
+- **Together = Complete understanding** 💡
+
+### Example Analysis Workflow
+
+**User Question:** "How does Vite handle module resolution?"
+
+1. **Stage 1 - RAG Search:**
+   ```bash
+   curl -X POST http://localhost:1408/api/search \
+     -d '{"query": "module resolution resolver", "library": "vite", "limit": 10}'
+   ```
+   → Get specific resolver implementations, configuration options
+
+2. **Stage 2 - Full Source Analysis:**
+   ```bash
+   pnpm mem:read vite "analyze the complete module resolution architecture and how the specific resolver implementations fit into the overall bundling strategy"
+   ```
+   → Understand how module resolution fits into Vite's overall architecture
+
+3. **Synthesize:** Combine targeted examples with architectural context for comprehensive answer
+
+**Always prefer this two-stage approach for library analysis questions.**
+
 ## CLI Commands
 
 ### Library Management
 
 ```bash
 # Add new library
-pnpm lib:add <github-url>
+pnpm mem:add <github-url>
 
-# List all libraries
-pnpm lib:list
+# List all libraries  
+pnpm mem:list
 
-# Update library source and re-index
-pnpm lib:update <library-name>
+# Update/restore library (intelligent - handles both missing and existing)
+pnpm mem:update <library-name>  # Single library
+pnpm mem:update                 # All libraries
+
+# Note: Update command automatically:
+#   - Creates missing .txt files from scratch
+#   - Refreshes existing .txt files  
+#   - Always re-indexes in RAG database
 
 # Delete library
-pnpm lib:delete <library-name>
-
-# Restore from backup
-pnpm lib:restore
+pnpm mem:delete <library-name>
 ```
 
 ### Search Operations
 
 ```bash
 # Search all libraries
-pnpm lib:search "query text"
+pnpm mem:search "query text"
 
 # Search specific library
-pnpm lib:search "useState" react
+pnpm mem:search "useState" react
 
 # Python direct usage
-python3 membank/cli/search.py "query" [library]
+python3 membank/cli/membank_cli_search.py "query" [library]
 ```
 
 ## Indexed Libraries
@@ -252,10 +336,10 @@ CREATE INDEX idx_semantic_tags ON chunks(semantic_tags);
 lsof -i :1409
 
 # Kill existing process
-pnpm rag:stop
+pnpm mem:server:stop
 
 # Start fresh
-pnpm rag:start
+pnpm mem:server:start
 ```
 
 ### Database Issues
@@ -286,7 +370,7 @@ curl http://localhost:1408/api/libraries
 1. Add library source:
 
 ```bash
-pnpm lib:add https://github.com/owner/repo
+pnpm mem:add https://github.com/owner/repo
 ```
 
 2. Library is automatically:
@@ -295,9 +379,21 @@ pnpm lib:add https://github.com/owner/repo
     - Tagged with semantic patterns
     - Indexed in database
 
+3. To update libraries (handles both missing and existing):
+
+```bash
+pnpm mem:update              # Update/restore all libraries
+pnpm mem:update react        # Update/restore specific library
+```
+
+The update command intelligently:
+- Creates missing .txt files from scratch if deleted/lost
+- Refreshes existing .txt files with latest source  
+- Always re-indexes updated content in database
+
 ### Customizing Search
 
-Edit `membank/rag/search.py` to modify:
+Edit `membank/rag/membank_search.py` to modify:
 
 - BM25F parameters (k1, b, field weights)
 - Semantic tag boosting
@@ -316,7 +412,7 @@ Edit `membank/rag/tagger.py`:
 - Chunk size: `config.CHUNK_SIZE` (default: 300 lines)
 - Overlap: `config.CHUNK_OVERLAP` (default: 20%)
 - Database indexes: See schema above
-- Server workers: Edit `membank/rag/server.py`
+- Server workers: Edit `membank/rag/membank_server.py`
 
 ## Implementation Notes
 

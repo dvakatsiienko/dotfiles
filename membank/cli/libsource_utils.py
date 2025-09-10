@@ -17,7 +17,7 @@ def get_config_file():
 
 def get_membank_dir():
     """Get path to libsource directory."""
-    return Path.home() / ".dotfiles" / "membank" / "libsource" / "sources"
+    return Path.home() / ".dotfiles" / "membank" / "libsource"
 
 
 def get_libsource_path(lib_name):

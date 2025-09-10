@@ -9,6 +9,7 @@ import time
 from typing import List, Dict, Any, Optional, Tuple
 from rank_bm25 import BM25Okapi
 from collections import Counter
+from .db_init import ensure_database_exists
 
 
 class SearchEngine:
@@ -26,6 +27,8 @@ class SearchEngine:
         self.chunk_cache = {}
     
     def __enter__(self):
+        # Ensure database exists before connecting
+        ensure_database_exists(self.db_path, prompt=False)
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         return self

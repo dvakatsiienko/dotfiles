@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from .chunker import LibsourceChunker
 from .tagger import SemanticTagger
+from .db_init import ensure_database_exists
 
 
 class LibsourceProcessor:
@@ -20,6 +21,8 @@ class LibsourceProcessor:
         self.cursor = None
         
     def __enter__(self):
+        # Ensure database exists before connecting
+        ensure_database_exists(self.db_path, prompt=False)
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         return self

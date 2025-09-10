@@ -10,10 +10,34 @@ Usage:
 
 import json
 import sys
+import sqlite3
 from pathlib import Path
 
 # Import our shared utilities
 from libsource_utils import load_config, get_libsource_path, verify_all_libsources
+
+# Add parent to path for config imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from config import DATABASE_PATH
+
+
+def check_rag_indexing_status(lib_name):
+    """Check if library is indexed in RAG database."""
+    try:
+        if not DATABASE_PATH.exists():
+            return False, "No database"
+        
+        conn = sqlite3.connect(str(DATABASE_PATH))
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT COUNT(*) FROM chunks WHERE library = ?", (lib_name,))
+        chunk_count = cursor.fetchone()[0]
+        
+        conn.close()
+        return chunk_count > 0, f"{chunk_count:,} chunks" if chunk_count > 0 else "Not indexed"
+        
+    except Exception:
+        return False, "DB error"
 
 
 def format_library_info(lib_name, info, show_file_status=True):
@@ -63,6 +87,11 @@ def format_library_info(lib_name, info, show_file_status=True):
     else:
         lines.append(f"   ⏱️  Generation: Not recorded")
     
+    # Show RAG indexing status
+    is_indexed, status_text = check_rag_indexing_status(lib_name)
+    rag_icon = "🔍" if is_indexed else "⭕"
+    lines.append(f"   {rag_icon} RAG: {status_text}")
+    
     # Show file status if missing
     if show_file_status and not get_libsource_path(lib_name).exists():
         lines.append(f"   ⚠️  File missing (use 'pnpm lib:restore')")
@@ -93,6 +122,11 @@ def show_all_libraries(config):
     for lib_name, info in config["libraries"].items():
         print(format_library_info(lib_name, info))
         print()
+    
+    # Show total count
+    total_count = len(config["libraries"])
+    print("=" * 50)
+    print(f"📊 Total: {total_count} registered libsource{'s' if total_count != 1 else ''}")
 
 
 def show_verification_report(config):

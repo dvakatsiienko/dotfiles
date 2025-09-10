@@ -37,7 +37,7 @@ def start_server():
     print(f"🚀 Starting RAG Search Server on port {SERVER_PORT}...")
     
     # Path to server module
-    server_path = Path(__file__).parent.parent / "rag" / "server.py"
+    server_path = Path(__file__).parent.parent / "rag" / "membank_server.py"
     
     # Start server in background
     process = subprocess.Popen(

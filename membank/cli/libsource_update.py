@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """
-Libsource Update command - Update existing library sources.
+Libsource Update command - Update or restore library sources.
+
+Intelligently handles both missing and existing libraries:
+- If .txt file missing: Creates from scratch via gitingest
+- If .txt file exists: Refreshes via gitingest
+- Always re-indexes in RAG database
 
 Usage: python3 libsource-update.py [library-name]
-       python3 libsource-update.py (updates all)
+       python3 libsource-update.py (updates/restores all)
 
 Example: python3 libsource-update.py react
          python3 libsource-update.py
@@ -32,7 +37,7 @@ def calculate_loc(file_path):
 
 
 # Import our shared utilities  
-from libsource_utils import fetch_libsource, format_duration, load_config, save_config
+from libsource_utils import fetch_libsource, format_duration, load_config, save_config, get_libsource_path
 
 
 def update_single_library(config, lib_name):
@@ -49,13 +54,25 @@ def update_single_library(config, lib_name):
     old_loc = library_info.get('loc', 0)
     old_generation_time = library_info.get('generation_time', 'unknown')
     
-    print(f"\n📚 Updating library: {lib_name}")
-    print(f"   🔗 URL: {library_info['url']}")
-    print(f"   📊 Current: {old_file_size:,} bytes, {old_loc:,} LOC")
-    print(f"   ⏱️  Last generation: {old_generation_time}")
+    # Check if .txt file exists
+    txt_file_path = get_libsource_path(lib_name)
+    file_missing = not txt_file_path.exists()
     
-    # Update the source
-    print(f"🔄 Updating {lib_name} source from {library_info['url']}...")
+    if file_missing:
+        print(f"\n📥 Restoring missing library: {lib_name}")
+        print(f"   🔗 URL: {library_info['url']}")
+        print(f"   📊 Expected: {old_file_size:,} bytes, {old_loc:,} LOC")
+        print(f"   ⚠️  File missing - will create from scratch")
+        action_verb = "Restoring"
+    else:
+        print(f"\n📚 Updating library: {lib_name}")
+        print(f"   🔗 URL: {library_info['url']}")
+        print(f"   📊 Current: {old_file_size:,} bytes, {old_loc:,} LOC")
+        print(f"   ⏱️  Last generation: {old_generation_time}")
+        action_verb = "Updating"
+    
+    # Update/restore the source
+    print(f"🔄 {action_verb} {lib_name} source from {library_info['url']}...")
     new_file_size, generation_time = fetch_libsource(lib_name, library_info['url'])
     if new_file_size is None:
         return False, False
@@ -83,8 +100,8 @@ def update_single_library(config, lib_name):
         else:
             print(f"⚠️  RAG augmentation update failed")
     
-    # Check if content actually changed
-    content_changed = (new_file_size != old_file_size or new_loc != old_loc)
+    # Check if content actually changed (or if file was missing)
+    content_changed = file_missing or (new_file_size != old_file_size or new_loc != old_loc)
     
     # Update config
     config["libraries"][lib_name].update({
@@ -96,7 +113,11 @@ def update_single_library(config, lib_name):
     
     # Show results
     print(f"⏱️  Generation time: {generation_time}")
-    if content_changed:
+    if file_missing:
+        print(f"✅ File restored successfully:")
+        print(f"   📊 Size: {new_file_size:,} bytes")
+        print(f"   📏 LOC: {new_loc:,} lines")
+    elif content_changed:
         print(f"📈 Changes detected:")
         if new_file_size != old_file_size:
             size_diff = new_file_size - old_file_size
@@ -118,7 +139,7 @@ def main():
     
     if not config["libraries"]:
         print("📚 No libraries registered yet.")
-        print("Use 'pnpm lib:add [library-name] [url]' to add libraries!")
+        print("Use 'pnpm mem:add [github-url]' to add libraries!")
         return
     
     updated_libraries = []
@@ -138,7 +159,7 @@ def main():
                 changed_libraries.append(lib_name)
     else:
         # Update all libraries
-        print(f"🔄 Updating all {len(config['libraries'])} registered libraries...\n")
+        print(f"🔄 Updating/restoring all {len(config['libraries'])} registered libraries...\n")
         
         # Sort libraries by generation time (fastest first, slowest last)
         # Convert generation time strings to seconds for sorting

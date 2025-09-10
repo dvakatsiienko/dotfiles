@@ -77,9 +77,9 @@ def main():
                 status = "✅" if get_libsource_path(lib_name).exists() else "❌"
                 print(f"  {status} {lib_name} ({file_size_mb:.1f}MB, {loc:,} LOC)")
         else:
-            print("No libraries registered yet. Use 'pnpm lib:add [lib] [url]' to add libraries!")
+            print("No libraries registered yet. Use 'pnpm mem:add [lib] [url]' to add libraries!")
         
-        sys.exit(1)
+        sys.exit(0)  # Exit with success when showing usage help
     
     lib_name = sys.argv[1].lower().strip()
     prompt = sys.argv[2].strip()
