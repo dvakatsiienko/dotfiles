@@ -18,7 +18,8 @@
         "mem:server:stop": "python3 ./membank/cli/membank_cli_server.py stop",
         "mem:server:status": "python3 ./membank/cli/membank_cli_server.py status",
         "mem:server:restart": "python3 ./membank/cli/membank_cli_server.py restart",
-        "mem:init": "python3 ./membank/cli/init_db.py",
+        "mem:db:init": "python3 ./membank/cli/membank_db_init.py",
+        "mem:db:explore": "python3 ./membank/cli/membank_db_explore.py",
         "sline:build": "cd ./.clauderc/sline && go build -o bin main.go",
         "check": "biome check --write"
     },

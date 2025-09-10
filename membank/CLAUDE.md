@@ -37,8 +37,8 @@ membank/
 │   ├── libsource_utils.py  # Shared utilities
 │   ├── membank_cli_search.py # CLI search tool
 │   ├── membank_cli_server.py # Server management
-│   └── init_db.py          # Database initialization
-├── scripts/                 # Utility scripts
+│   ├── membank_db_init.py    # Database initialization
+│   └── membank_db_explore.py # Database exploration tool
 ├── config.py               # Central configuration
 └── db.sqlite               # SQLite database (gitignored)
 ```
@@ -263,6 +263,16 @@ pnpm mem:search "useState" react
 
 # Python direct usage
 python3 membank/cli/membank_cli_search.py "query" [library]
+```
+
+### Database Operations
+
+```bash
+# Initialize empty database with schema
+pnpm mem:db:init
+
+# Explore database contents and statistics  
+pnpm mem:db:explore
 ```
 
 ## Indexed Libraries
