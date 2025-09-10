@@ -78,8 +78,7 @@ def update_single_library(config, lib_name):
         return False, False
     
     # Calculate new LOC
-    membank_dir = Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource"
-    output_file = membank_dir / f"libsource-{lib_name}.txt"
+    output_file = get_libsource_path(lib_name)
     new_loc = calculate_loc(output_file)
     
     # RAG reindexing
@@ -88,17 +87,24 @@ def update_single_library(config, lib_name):
     
     if rag_enabled:
         print(f"🔄 Updating RAG augmentation...")
-        sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-        from rag.indexer import RagIndexer
-        indexer = RagIndexer()
-        def reindex(lib_name, txt_path, silent=False):
-            return indexer.reindex(lib_name, txt_path, silent=silent)
+        sys.path.insert(0, str(Path(__file__).parent.parent))
         
-        success, metrics = reindex(lib_name, output_file, silent=True)
-        if success:
-            print(f"✅ RAG augmentation updated ({metrics['chunk_count']} chunks)")
+        # Ensure database exists before attempting RAG operations
+        from rag.db_init import ensure_database_exists
+        from config import DATABASE_PATH
+        if not ensure_database_exists(str(DATABASE_PATH), prompt=False):
+            print(f"⚠️  Could not initialize database - skipping RAG augmentation")
         else:
-            print(f"⚠️  RAG augmentation update failed")
+            from rag.indexer import RagIndexer
+            indexer = RagIndexer()
+            def reindex(lib_name, txt_path, silent=False):
+                return indexer.reindex(lib_name, txt_path, silent=silent)
+            
+            success, metrics = reindex(lib_name, output_file, silent=False)
+            if success:
+                print(f"✅ RAG augmentation updated ({metrics['chunk_count']} chunks)")
+            else:
+                print(f"⚠️  RAG augmentation update failed")
     
     # Check if content actually changed (or if file was missing)
     content_changed = file_missing or (new_file_size != old_file_size or new_loc != old_loc)
@@ -115,18 +121,34 @@ def update_single_library(config, lib_name):
     print(f"⏱️  Generation time: {generation_time}")
     if file_missing:
         print(f"✅ File restored successfully:")
-        print(f"   📊 Size: {new_file_size:,} bytes")
-        print(f"   📏 LOC: {new_loc:,} lines")
+        if new_file_size is not None:
+            print(f"   📊 Size: {new_file_size:,} bytes")
+        else:
+            print(f"   📊 Size: Unable to calculate")
+        if new_loc is not None:
+            print(f"   📏 LOC: {new_loc:,} lines")
+        else:
+            print(f"   📏 LOC: Unable to calculate")
     elif content_changed:
         print(f"📈 Changes detected:")
         if new_file_size != old_file_size:
-            size_diff = new_file_size - old_file_size
-            sign = "+" if size_diff > 0 else ""
-            print(f"   📊 Size: {old_file_size:,} → {new_file_size:,} bytes ({sign}{size_diff:,})")
+            if old_file_size is not None and new_file_size is not None:
+                size_diff = new_file_size - old_file_size
+                sign = "+" if size_diff > 0 else ""
+                print(f"   📊 Size: {old_file_size:,} → {new_file_size:,} bytes ({sign}{size_diff:,})")
+            elif new_file_size is not None:
+                print(f"   📊 Size: {new_file_size:,} bytes (new file)")
+            else:
+                print(f"   📊 Size: Unable to calculate")
         if new_loc != old_loc:
-            loc_diff = new_loc - old_loc
-            sign = "+" if loc_diff > 0 else ""
-            print(f"   📏 LOC: {old_loc:,} → {new_loc:,} lines ({sign}{loc_diff:,})")
+            if old_loc is not None and new_loc is not None:
+                loc_diff = new_loc - old_loc
+                sign = "+" if loc_diff > 0 else ""
+                print(f"   📏 LOC: {old_loc:,} → {new_loc:,} lines ({sign}{loc_diff:,})")
+            elif new_loc is not None:
+                print(f"   📏 LOC: {new_loc:,} lines (new file)")
+            else:
+                print(f"   📏 LOC: Unable to calculate")
     else:
         print(f"✨ No changes detected (same size and LOC)")
     
@@ -224,7 +246,7 @@ def main():
             print(f"\n🔍 Libraries with changes:")
             for lib in changed_libraries:
                 print(f"  • {lib}")
-            print(f"\n💡 Suggestion: Run /libsource-inspect for changed libraries")
+            print(f"\n💡 Suggestion: Run 'pnpm mem:list' to see all libraries")
         else:
             print(f"\n✨ No content changes detected in any library")
     else:

@@ -1,5 +1,5 @@
 {
-    "last_updated": "2025-09-10T01:47:05.201835",
+    "last_updated": "2025-09-10T15:14:27.946531",
     "libraries": {
         "ai": {
             "file_size": 12763247,
@@ -112,6 +112,14 @@
             "last_updated": "2025-09-07T18:53:13.368727",
             "loc": 14643,
             "url": "https://github.com/google/zx"
+        },
+        "fumadocs": {
+            "url": "https://github.com/fuma-nama/fumadocs",
+            "filename": "libsource-fumadocs.txt",
+            "last_updated": "2025-09-10T14:53:17.140261",
+            "file_size": 3182790,
+            "loc": 116617,
+            "generation_time": "6s"
         }
     },
     "version": "1.0"

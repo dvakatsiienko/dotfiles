@@ -207,7 +207,7 @@ Go-based statusline system providing rich terminal display with:
 **Unified knowledge base for RAG-augmented library source code with semantic search.**
 
 - **Location**: `~/.dotfiles/membank/`
-- **Documentation**: See `membank/CLAUDE.md` for complete details
+- **Documentation**: See @membank/CLAUDE.md for complete details
 - **Server**: Port 1408 (FastAPI with REST API)
 - **Database**: `membank/db.sqlite` (SQLite with BM25F scoring)
 - **Libraries**: 15 indexed (~3.9M LOC, 19,303 chunks)
@@ -230,7 +230,8 @@ pnpm mem:search "query" [lib]   # Search libraries
 curl http://localhost:1408/health
 ```
 
-**Key Feature**: Two-stage library analysis strategy combining RAG search (fast snippets) with full source analysis (complete architecture understanding). See `membank/CLAUDE.md` for details.
+**Key Feature**: Two-stage library analysis strategy combining RAG search (fast snippets) with full
+source analysis (complete architecture understanding). See `membank/CLAUDE.md` for details.
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 
