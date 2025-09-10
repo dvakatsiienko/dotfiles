@@ -17,8 +17,8 @@ from pathlib import Path
 
 def load_config():
     """Load the libsource configuration file."""
-    # Try new location first
-    config_file = Path(__file__).parent.parent / "config" / "libsource-config.json"
+    # Current location
+    config_file = Path(__file__).parent.parent / "libsource" / ".libsource-config.json"
     
     # Fallback to old location if not found
     if not config_file.exists():
@@ -33,7 +33,7 @@ def load_config():
 
 def save_config(config):
     """Save the libsource configuration file."""
-    config_file = Path(__file__).parent.parent / "config" / "libsource-config.json"
+    config_file = Path(__file__).parent.parent / "libsource" / ".libsource-config.json"
     config_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(config_file, 'w') as f:
@@ -90,7 +90,7 @@ def delete_library(lib_name, force=False):
             print(f"⚠️  Failed to remove from RAG index (continuing anyway)")
     
     # Delete the actual file
-    membank_dir = Path.home() / ".dotfiles" / ".clauderc" / ".membank" / "libsource"
+    membank_dir = Path(__file__).parent.parent / "libsource"
     libsource_file = membank_dir / library_info['filename']
 
     if libsource_file.exists():
