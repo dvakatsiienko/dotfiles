@@ -1,5 +1,5 @@
 {
-    "last_updated": "2025-09-10T15:37:53.620020",
+    "last_updated": "2025-09-10T23:05:18.625502",
     "libraries": {
         "ai": {
             "file_size": 12763247,
@@ -120,6 +120,14 @@
             "file_size": 3182790,
             "loc": 116617,
             "generation_time": "6s"
+        },
+        "apollo-client": {
+            "url": "https://github.com/apollographql/apollo-client",
+            "filename": "libsource-apollo-client.txt",
+            "last_updated": "2025-09-10T22:55:45.484258",
+            "file_size": 11708256,
+            "loc": 386650,
+            "generation_time": "5s"
         }
     },
     "version": "1.0"
