@@ -4,7 +4,7 @@
 
 This workflow contains the following documents:
 
-- **[init.md](./init.md)** - Requirements and objectives for RAG search MVP
+- **[spec.md](./spec.md)** - Requirements and objectives for RAG search MVP
 - **[implementation.md](./implementation.md)** - Structured implementation guide with copy-paste ready code for Phase 1 MVP
 - **[plan.md](./plan.md)** - Detailed implementation plan with 3-phase approach (150-500% improvement targets)
 - **[qa.md](./qa.md)** - Critical implementation Q&A: model sizing (7B vs 14B), processing order, metadata format, priority patterns

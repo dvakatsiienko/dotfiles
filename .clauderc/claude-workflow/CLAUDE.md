@@ -9,7 +9,7 @@ Streamlined workflow system for feature planning and implementation. Just you an
 We use a structured workflow system to research, plan and execute features:
 
 ### Core Files
-1. **init.md** - Initial requirements and objectives (you create this)
+1. **spec.md** - Feature specification and requirements (you create this)
 2. **implementation.md** - Structured implementation guide with copy-paste ready code (Claude Desktop creates)
 3. **plan.md** - Todo-list style execution plan (Claude Code creates from implementation.md)
 
@@ -44,7 +44,7 @@ Each workflow lives in `claude-workflow/feature-name/`:
 ```
 feature-name/
 ├── prescreen.md        # Tech evaluation of current state (optional)
-├── init.md             # What we're building (your requirements)
+├── spec.md             # Feature specification (your requirements)
 ├── implementation.md   # Structured guide with ready code (Claude Desktop)
 ├── plan.md             # Todo-list execution plan (Claude Code)
 └── qa.md               # Q&A clarifications (optional)
@@ -71,7 +71,7 @@ Never starting workflows without you asking.
 
 ## Workflow Process
 
-### Step 1: You Create init.md
+### Step 1: You Create spec.md
 Tell me what we're building. Include:
 - The goal/objective
 - Examples/links if helpful

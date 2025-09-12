@@ -6,7 +6,7 @@
 cd /path/to/your/nextjs-docs-app
 
 # Initialize with this task specification
-claude-code --task="/Users/dima/.dotfiles/.clauderc/claude-workflow/claude-code-task.md" --context="/Users/dima/.dotfiles/.clauderc/claude-workflow/init.md"
+claude-code --task="/Users/dima/.dotfiles/.clauderc/claude-workflow/claude-code-task.md" --context="/Users/dima/.dotfiles/.clauderc/claude-workflow/spec.md"
 ```
 
 ## Manual Implementation
