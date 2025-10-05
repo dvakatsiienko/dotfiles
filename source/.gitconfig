@@ -6,6 +6,7 @@
 [core]
     editor        = vim
     autocrlf      = input
+	pager = less -FRX
 
 [gpg]
     format = ssh
@@ -33,3 +34,7 @@
 	clean = git-lfs clean -- %f
 [init]
 	defaultBranch = main
+[pager]
+	log = false
+[coderabbit]
+	machineId = cli/95824464dd714d25a8c79a117fe70a14

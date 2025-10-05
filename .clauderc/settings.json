@@ -7,8 +7,6 @@
       "Bash",
       "mcp__context7-mcp",
       "mcp__grep-mcp",
-      "mcp__jira-mcp",
-      "mcp__slack-mcp",
       "mcp__gitlab-mcp",
       "mcp__shadcn-mcp",
       "mcp__gitmcp-bubletea",
@@ -23,7 +21,6 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -41,5 +38,7 @@
     "type": "command",
     "command": "/Users/dima/.claude/sline/bin",
     "padding": 0
-  }
+  },
+  "spinnerTipsEnabled": false,
+  "alwaysThinkingEnabled": false
 }
