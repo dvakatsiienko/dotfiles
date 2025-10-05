@@ -24,6 +24,7 @@
         "check": "biome check --write"
     },
     "dependencies": {
+        "@orama/orama": "3.1.14",
         "zx": "8.8.1"
     },
     "devDependencies": {

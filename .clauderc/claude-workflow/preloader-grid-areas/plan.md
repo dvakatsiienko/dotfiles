@@ -51,12 +51,16 @@ This plan outlines the step-by-step implementation of distributed preloaders acr
   - [ ] Wrap Outlet content in GridAreaPreloader
   - [ ] Wrap Footer in GridAreaPreloader
 
-- [ ] Connect to loading states
-  - [ ] Header: `mobx.ui.hasHeader && gridLoading.areas.header`
-  - [ ] Sidebar: `pageWithBetslip && gridLoading.areas.sidebar`
-  - [ ] Nav: `pageWithNav && gridLoading.areas.nav`
-  - [ ] Content: `gridLoading.areas.content`
-  - [ ] Footer: `mobx.ui.isMobile && gridLoading.areas.footer`
+- [ ] Connect to loading states (Progressive Reveal Strategy)
+  - [ ] **Single Visible Preloader**: Only show ONE preloader at a time
+  - [ ] **Smart Positioning**: Preloader moves to the last loading area
+  - [ ] **Progressive Content**: Reveal loaded areas while showing preloader on pending area
+  - [ ] Example flow:
+    1. Start: Full-screen preloader (all areas loading)
+    2. Header loads → Preloader shrinks to content area
+    3. Nav loads → Preloader stays on content
+    4. Content loads → Hide preloader completely
+  - [ ] Implementation: Use `gridLoading.getActivePreloaderArea()` to determine position
 
 ### Phase 4: Critical Path Refactoring ✅
 **Goal**: Safely refactor app initialization flow
@@ -143,6 +147,17 @@ export class GridLoadingStore {
     return this.initializationComplete || !this.isAnyLoading;
   }
   
+  // Returns which area should show the preloader (only one at a time)
+  get activePreloaderArea() {
+    // Priority order: content > sidebar > nav > header > footer
+    if (this.areas.content) return 'content';
+    if (this.areas.sidebar) return 'sidebar';
+    if (this.areas.nav) return 'nav';
+    if (this.areas.header) return 'header';
+    if (this.areas.footer) return 'footer';
+    return null;
+  }
+  
   completeInitialization() {
     this.initializationComplete = true;
     // Start showing areas progressively
@@ -178,12 +193,16 @@ interface GridAreaPreloaderProps {
 export const GridAreaPreloader = observer((props: GridAreaPreloaderProps) => {
   const { area, children, className, customLoader } = props;
   const isLoading = mobx.gridLoading.areas[area];
+  const activePreloaderArea = mobx.gridLoading.activePreloaderArea;
+  
+  // Only show preloader if THIS area is the active one
+  const shouldShowPreloader = isLoading && activePreloaderArea === area;
   
   if (!mobx.gridLoading.initializationComplete) {
-    // During init, show children but with reduced opacity
+    // During init, show skeleton or blur
     return (
       <div className={cn('grid-area-wrapper', className, {
-        'opacity-30': true,
+        'opacity-30 blur-sm': isLoading,
         [`grid-area-${area}`]: true
       })}>
         {children}
@@ -195,9 +214,14 @@ export const GridAreaPreloader = observer((props: GridAreaPreloaderProps) => {
     <div className={cn('grid-area-wrapper', className, {
       [`grid-area-${area}`]: true
     })}>
-      {isLoading ? (
+      {shouldShowPreloader ? (
+        // Only ONE area shows the actual preloader
         customLoader || <Preloader className={`preloader-${area}`} />
+      ) : isLoading ? (
+        // Other loading areas show blurred/skeleton content
+        <div className="opacity-30 blur-sm">{children}</div>
       ) : (
+        // Loaded areas show normal content
         children
       )}
     </div>

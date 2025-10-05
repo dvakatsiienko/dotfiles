@@ -1,4 +1,4 @@
-# typescript guide
+# typescript guidelines
 
 # convensions
 

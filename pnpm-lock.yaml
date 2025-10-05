@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@orama/orama':
+        specifier: 3.1.14
+        version: 3.1.14
       zx:
         specifier: 8.8.1
         version: 8.8.1
@@ -80,6 +83,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@orama/orama@3.1.14':
+    resolution: {integrity: sha512-Iq4RxYC7y0pA/hLgcUGpYYs5Vze4qNmJk0Qi1uIrg2bHGpm6A06nbjWcH9h4HQsddkDFFlanLj/zYBH3Sxdb4w==}
+    engines: {node: '>= 20.0.0'}
+
   biome-config-polished@0.0.2:
     resolution: {integrity: sha512-Q2g2QhDU1OLDRS+ynBaoK8JIMSfTxoaM7MQTK7BsCt9xNXA68954knaovmubPU/wr7a7LvSiWcJwLCr95T/D/Q==}
     peerDependencies:
@@ -134,6 +141,8 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.2.4':
     optional: true
+
+  '@orama/orama@3.1.14': {}
 
   biome-config-polished@0.0.2(@biomejs/biome@2.2.4):
     dependencies:
