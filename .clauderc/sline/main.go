@@ -194,6 +194,24 @@ func getModelEmoji() string {
 // MODEL AND VERSION DETECTION FUNCTIONS
 // =============================================================================
 
+// extractVersionFromModelID parses version from Claude model IDs
+// Example: "claude-sonnet-4-5-20250929" -> "4.5"
+func extractVersionFromModelID(modelID string) string {
+	parts := strings.Split(modelID, "-")
+	// Format: claude-{family}-{major}-{minor}-{date}
+	if len(parts) >= 4 && parts[0] == "claude" {
+		major := parts[2]
+		minor := parts[3]
+		// Validate that major and minor are numeric
+		if _, err := strconv.Atoi(major); err == nil {
+			if _, err := strconv.Atoi(minor); err == nil {
+				return major + "." + minor
+			}
+		}
+	}
+	return ""
+}
+
 func getModelFromSettings() string {
 	homeDir, _ := os.UserHomeDir()
 	settingsPath := filepath.Join(homeDir, ".claude", "settings.json")
@@ -212,23 +230,46 @@ func getModelFromSettings() string {
 	return "sonnet"
 }
 
-func getModelDisplayName() string {
-	modelName := getModelFromSettings()
+func getModelDisplayName(claudeContext *ClaudeContext) string {
 	lightGrayColor := "\033[38;5;250m"
 	enSpace := "\u2002"
 
-	switch modelName {
-	case "opus":
-		return enSpace + applyGradient("opus") + lightGrayColor + " 4.1" + Reset
-	case "opusplan":
-		return enSpace + applyGradient("opus plan") + lightGrayColor + " 4.1" + Reset
-	case "sonnet":
-		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4.5" + Reset
-	case "haiku":
-		return enSpace + applyGradient("haiku") + lightGrayColor + " 4.5" + Reset
-	default:
-		return enSpace + applyGradient(modelName)
+	var modelFamily, version string
+
+	// Try to extract from Claude Code context first (v1.0.85+)
+	if claudeContext != nil && claudeContext.Model.ID != "" {
+		// Use display name from context (e.g., "Sonnet", "Opus", "Haiku")
+		modelFamily = strings.ToLower(claudeContext.Model.DisplayName)
+		version = extractVersionFromModelID(claudeContext.Model.ID)
 	}
+
+	// Fallback to settings.json if no context or version extraction failed
+	if modelFamily == "" {
+		modelFamily = getModelFromSettings()
+	}
+
+	if version == "" {
+		// Hardcoded fallback versions
+		switch modelFamily {
+		case "opus", "opusplan":
+			version = "4.1"
+		case "sonnet":
+			version = "4.5"
+		case "haiku":
+			version = "4.5"
+		default:
+			// Unknown model, return without version
+			return enSpace + applyGradient(modelFamily)
+		}
+	}
+
+	// Format display name
+	displayName := modelFamily
+	if modelFamily == "opusplan" {
+		displayName = "opus plan"
+	}
+
+	return enSpace + applyGradient(displayName) + lightGrayColor + " " + version + Reset
 }
 
 func runCommand(command string, args ...string) string {
@@ -524,7 +565,7 @@ func generateStatusline() string {
 	output.WriteString(fmt.Sprintf("%s%s%s", DirColor, dirName, Reset))
 
 	// Model section
-	model := getModelDisplayName()
+	model := getModelDisplayName(claudeContext)
 	modelEmoji := getModelEmoji()
 	output.WriteString(fmt.Sprintf(" • %s%s", modelEmoji, model))
 
