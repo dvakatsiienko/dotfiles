@@ -223,9 +223,9 @@ func getModelDisplayName() string {
 	case "opusplan":
 		return enSpace + applyGradient("opus plan") + lightGrayColor + " 4.1" + Reset
 	case "sonnet":
-		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4" + Reset
+		return enSpace + applyGradient("sonnet") + lightGrayColor + " 4.5" + Reset
 	case "haiku":
-		return enSpace + applyGradient("haiku") + lightGrayColor + " 3.5" + Reset
+		return enSpace + applyGradient("haiku") + lightGrayColor + " 4.5" + Reset
 	default:
 		return enSpace + applyGradient(modelName)
 	}
