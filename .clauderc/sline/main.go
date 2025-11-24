@@ -212,6 +212,14 @@ func extractVersionFromModelID(modelID string) string {
 	return ""
 }
 
+// extractModelFamily removes version numbers from display name
+// Example: "Sonnet 4.5" -> "Sonnet", "Opus 4.1" -> "Opus"
+func extractModelFamily(displayName string) string {
+	// Remove version patterns like "4.5", "4.1", etc.
+	re := regexp.MustCompile(`\s+\d+\.\d+.*$`)
+	return strings.TrimSpace(re.ReplaceAllString(displayName, ""))
+}
+
 func getModelFromSettings() string {
 	homeDir, _ := os.UserHomeDir()
 	settingsPath := filepath.Join(homeDir, ".claude", "settings.json")
@@ -239,7 +247,8 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 	// Try to extract from Claude Code context first (v1.0.85+)
 	if claudeContext != nil && claudeContext.Model.ID != "" {
 		// Use display name from context (e.g., "Sonnet", "Opus", "Haiku")
-		modelFamily = strings.ToLower(claudeContext.Model.DisplayName)
+		// Strip any version from display name to avoid duplication
+		modelFamily = strings.ToLower(extractModelFamily(claudeContext.Model.DisplayName))
 		version = extractVersionFromModelID(claudeContext.Model.ID)
 	}
 

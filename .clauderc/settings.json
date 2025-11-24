@@ -40,5 +40,5 @@
     "padding": 0
   },
   "spinnerTipsEnabled": false,
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": true
 }
