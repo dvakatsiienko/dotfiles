@@ -22,16 +22,7 @@
             "Bash",
             "mcp__context7-mcp",
             "mcp__grep-mcp",
-            "mcp__gitlab-mcp",
             "mcp__shadcn-mcp",
-            "mcp__gitmcp-bubletea",
-            "mcp__gitmcp-gum",
-            "mcp__lipgloss-mcp",
-            "mcp__gitmcp-mobx",
-            "mcp__github-mcp",
-            "mcp__chrome-mcp",
-            "mcp__obsidian-mcp",
-            "mcp__n8n-mcp",
             "mcp__shadcn-mcp-registry"
         ],
         "defaultMode": "plan"
