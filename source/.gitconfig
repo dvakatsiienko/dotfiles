@@ -17,7 +17,6 @@
 
 [commit]
     gpgsign = true
-	template = /Users/dima/.dotfiles/.gitmessage
 	status = false
 	verbose = false
 
