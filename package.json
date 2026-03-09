@@ -24,13 +24,13 @@
         "check": "biome check --write"
     },
     "dependencies": {
-        "@orama/orama": "3.1.14",
-        "zx": "8.8.1"
+        "@orama/orama": "3.1.18",
+        "zx": "8.8.5"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.4",
+        "@biomejs/biome": "2.4.6",
         "biome-config-polished": "0.0.2",
-        "prettier": "3.6.2",
+        "prettier": "3.8.1",
         "prettier-config-polished": "0.0.6"
     },
     "engines": {
