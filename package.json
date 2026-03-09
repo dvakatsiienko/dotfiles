@@ -29,7 +29,7 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.4.6",
-        "biome-config-polished": "0.0.2",
+        "biome-config-polished": "0.0.3",
         "prettier": "3.8.1",
         "prettier-config-polished": "0.0.6"
     },

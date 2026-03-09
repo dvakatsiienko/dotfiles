@@ -4,7 +4,7 @@
   "extends": ["biome-config-polished"],
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/public/**/*"]
+    "includes": ["!**/public/**/*"]
   },
 
   "vcs": {

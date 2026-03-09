@@ -9,6 +9,14 @@
             "loc": 433061,
             "url": "https://github.com/vercel/ai"
         },
+        "apollo-client": {
+            "file_size": 11708256,
+            "filename": "libsource-apollo-client.txt",
+            "generation_time": "5s",
+            "last_updated": "2025-09-10T22:55:45.484258",
+            "loc": 386650,
+            "url": "https://github.com/apollographql/apollo-client"
+        },
         "biome": {
             "file_size": 46545676,
             "filename": "libsource-biome.txt",
@@ -24,6 +32,14 @@
             "last_updated": "2025-09-07T18:53:16.390189",
             "loc": 16746,
             "url": "https://github.com/charmbracelet/bubbletea"
+        },
+        "fumadocs": {
+            "file_size": 3182790,
+            "filename": "libsource-fumadocs.txt",
+            "generation_time": "6s",
+            "last_updated": "2025-09-10T14:53:17.140261",
+            "loc": 116617,
+            "url": "https://github.com/fuma-nama/fumadocs"
         },
         "gitingest": {
             "file_size": 423066,
@@ -112,22 +128,6 @@
             "last_updated": "2025-09-07T18:53:13.368727",
             "loc": 14643,
             "url": "https://github.com/google/zx"
-        },
-        "fumadocs": {
-            "url": "https://github.com/fuma-nama/fumadocs",
-            "filename": "libsource-fumadocs.txt",
-            "last_updated": "2025-09-10T14:53:17.140261",
-            "file_size": 3182790,
-            "loc": 116617,
-            "generation_time": "6s"
-        },
-        "apollo-client": {
-            "url": "https://github.com/apollographql/apollo-client",
-            "filename": "libsource-apollo-client.txt",
-            "last_updated": "2025-09-10T22:55:45.484258",
-            "file_size": 11708256,
-            "loc": 386650,
-            "generation_time": "5s"
         }
     },
     "version": "1.0"

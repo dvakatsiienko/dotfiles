@@ -202,8 +202,8 @@ async function proces_dotfiles(options) {
             );
             await zx.$`ln -s ${dotfile_source_path} ${dotfile_path}`;
             zx.echo(gb(`✓ Symlinked: ${mb(dotfile)}.`));
-        } catch (error) {
-            zx.echo(rb('Error: symlink already exists.'));
+        } catch (_error) {
+            zx.echo(rb(`Error: symlink already exists. ${_error.message}`));
         }
     }
 }
