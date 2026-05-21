@@ -194,22 +194,21 @@ func getModelEmoji() string {
 // MODEL AND VERSION DETECTION FUNCTIONS
 // =============================================================================
 
-// extractVersionFromModelID parses version from Claude model IDs
-// Example: "claude-sonnet-4-5-20250929" -> "4.5"
+// extractVersionFromModelID parses version from Claude model IDs.
+// Handles dated ("claude-opus-4-7-20251001") and suffixed ("claude-opus-4-7[1m]") forms.
 func extractVersionFromModelID(modelID string) string {
-	parts := strings.Split(modelID, "-")
-	// Format: claude-{family}-{major}-{minor}-{date}
-	if len(parts) >= 4 && parts[0] == "claude" {
-		major := parts[2]
-		minor := parts[3]
-		// Validate that major and minor are numeric
-		if _, err := strconv.Atoi(major); err == nil {
-			if _, err := strconv.Atoi(minor); err == nil {
-				return major + "." + minor
-			}
-		}
+	re := regexp.MustCompile(`^claude-\w+-(\d+)-(\d+)`)
+	matches := re.FindStringSubmatch(modelID)
+	if len(matches) == 3 {
+		return matches[1] + "." + matches[2]
 	}
 	return ""
+}
+
+// extractVersionFromDisplayName parses "Opus 4.7 (1M context)" -> "4.7".
+func extractVersionFromDisplayName(displayName string) string {
+	re := regexp.MustCompile(`\d+\.\d+`)
+	return re.FindString(displayName)
 }
 
 // extractModelFamily removes version numbers from display name
@@ -244,40 +243,28 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 
 	var modelFamily, version string
 
-	// Try to extract from Claude Code context first (v1.0.85+)
 	if claudeContext != nil && claudeContext.Model.ID != "" {
-		// Use display name from context (e.g., "Sonnet", "Opus", "Haiku")
-		// Strip any version from display name to avoid duplication
 		modelFamily = strings.ToLower(extractModelFamily(claudeContext.Model.DisplayName))
-		version = extractVersionFromModelID(claudeContext.Model.ID)
-	}
-
-	// Fallback to settings.json if no context or version extraction failed
-	if modelFamily == "" {
+		version = extractVersionFromDisplayName(claudeContext.Model.DisplayName)
+		if version == "" {
+			version = extractVersionFromModelID(claudeContext.Model.ID)
+		}
+		if version == "" {
+			version = "v.err"
+		}
+	} else {
+		// No stdin JSON (running from a bare terminal): show family only.
 		modelFamily = getModelFromSettings()
 	}
 
-	if version == "" {
-		// Hardcoded fallback versions
-		switch modelFamily {
-		case "opus", "opusplan":
-			version = "4.1"
-		case "sonnet":
-			version = "4.5"
-		case "haiku":
-			version = "4.5"
-		default:
-			// Unknown model, return without version
-			return enSpace + applyGradient(modelFamily)
-		}
-	}
-
-	// Format display name
 	displayName := modelFamily
 	if modelFamily == "opusplan" {
 		displayName = "opus plan"
 	}
 
+	if version == "" {
+		return enSpace + applyGradient(displayName)
+	}
 	return enSpace + applyGradient(displayName) + lightGrayColor + " " + version + Reset
 }
 

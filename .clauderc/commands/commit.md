@@ -1,6 +1,6 @@
 ---
 description: create a comprehensive commit
-argument-hint: [correction instruction | additional context]
+argument-hint: [correction instruction | confirmation]
 ---
 
 ## flow
@@ -29,6 +29,12 @@ When a `correction` argument is provided:
   - if branch is formatted like `ISSUE-ID/branch-name` → extract the issue ID and add reference in
     commit body: `relates to: #ISSUE-ID`
   - example: branch `PROJ-123/fix-login` → add `relates to: #PROJ-123` to commit body
+
+## confirmation argument handling
+
+A confirmation argument «go» — means that you do not have to ask me for commit approval (y). If you receive /commit go command — commit right away, without presenting a commit message and asking for approval to commit.
+
+A confirmation argument «slay» — means the same as «go», but also asks you to push right after commit.
 
 ## format
 
@@ -81,6 +87,17 @@ Note: [ISSUE-ID] is optional and only added when issue ID is provided as argumen
   `relates to: #ISSUE-ID`
 - **important**: commit body is separate from commit message title - issue IDs go in
   the message title [ISSUE-ID], branch references go in commit body
+- **always append the Co-Authored-By trailer at the end of the body**, separated by a blank line.
+  Use whichever Claude model name you (the agent) are currently running as — do NOT hardcode a
+  version. Format:
+
+  ```
+  Co-Authored-By: Claude <model-name> <noreply@anthropic.com>
+  ```
+
+  Examples: `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>`,
+  `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`,
+  `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>` — match your actual runtime model.
 
 ## important corrections
 

@@ -19,3 +19,8 @@ eval "$(starship init zsh)"
 
 # zoxide - directory navigation
 source $ZSH_CUSTOM/functions-zoxide.zsh
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/dima/.lmstudio/bin"
+# End of LM Studio CLI section
+
