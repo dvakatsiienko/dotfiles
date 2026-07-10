@@ -197,25 +197,28 @@ func getModelEmoji() string {
 // extractVersionFromModelID parses version from Claude model IDs.
 // Handles dated ("claude-opus-4-7-20251001") and suffixed ("claude-opus-4-7[1m]") forms.
 func extractVersionFromModelID(modelID string) string {
-	re := regexp.MustCompile(`^claude-\w+-(\d+)-(\d+)`)
+	re := regexp.MustCompile(`^claude-\w+-(\d+)(?:-(\d+))?`)
 	matches := re.FindStringSubmatch(modelID)
 	if len(matches) == 3 {
-		return matches[1] + "." + matches[2]
+		if matches[2] != "" {
+			return matches[1] + "." + matches[2]
+		}
+		return matches[1]
 	}
 	return ""
 }
 
-// extractVersionFromDisplayName parses "Opus 4.7 (1M context)" -> "4.7".
+// extractVersionFromDisplayName parses "Opus 4.7 (1M context)" -> "4.7", "Sonnet 5" -> "5".
 func extractVersionFromDisplayName(displayName string) string {
-	re := regexp.MustCompile(`\d+\.\d+`)
+	re := regexp.MustCompile(`\d+(?:\.\d+)?`)
 	return re.FindString(displayName)
 }
 
 // extractModelFamily removes version numbers from display name
-// Example: "Sonnet 4.5" -> "Sonnet", "Opus 4.1" -> "Opus"
+// Example: "Sonnet 4.5" -> "Sonnet", "Opus 4.1" -> "Opus", "Fable 5" -> "Fable"
 func extractModelFamily(displayName string) string {
-	// Remove version patterns like "4.5", "4.1", etc.
-	re := regexp.MustCompile(`\s+\d+\.\d+.*$`)
+	// Remove version patterns like "4.5", "4.1", "5", etc.
+	re := regexp.MustCompile(`\s+\d+(?:\.\d+)?.*$`)
 	return strings.TrimSpace(re.ReplaceAllString(displayName, ""))
 }
 

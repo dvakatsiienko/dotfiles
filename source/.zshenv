@@ -9,7 +9,7 @@
 # =============================================================================
 
 export ZSH=$HOME/.oh-my-zsh
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST-$ZSH_VERSION
 export ZSH_CUSTOM=$HOME/.config/oh-my-zsh-custom
 
 # =============================================================================

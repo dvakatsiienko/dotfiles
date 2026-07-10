@@ -16,6 +16,7 @@
     ],
     "defaultMode": "plan"
   },
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -55,6 +56,7 @@
   },
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
+  "tui": "fullscreen",
   "autoDreamEnabled": true,
   "preferredNotifChannel": "notifications_disabled",
   "voiceEnabled": true
