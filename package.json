@@ -28,9 +28,9 @@
         "zx": "8.8.5"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.4.6",
-        "biome-config-polished": "0.0.3",
-        "prettier": "3.8.1",
+        "@biomejs/biome": "2.5.5",
+        "biome-config-polished": "0.0.6",
+        "prettier": "3.9.6",
         "prettier-config-polished": "0.0.6"
     },
     "engines": {
