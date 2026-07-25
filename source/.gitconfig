@@ -37,3 +37,5 @@
 	log = false
 [coderabbit]
 	machineId = cli/95824464dd714d25a8c79a117fe70a14
+[url "git@github.com:"]
+	insteadOf = https://github.com/

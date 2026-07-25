@@ -33,7 +33,7 @@
             }
         ]
     },
-    "model": "sonnet",
+    "model": "claude-fable-5[1m]",
     "permissions": {
         "allow": [
             "WebFetch",
@@ -47,7 +47,8 @@
             "mcp__shadcn-mcp-registry",
             "mcp__claude_ai_Linear",
             "mcp__claude_ai_Notion",
-            "mcp__claude_ai_Vercel"
+            "mcp__claude_ai_Vercel",
+            "mcp__pharaoh"
         ],
         "defaultMode": "plan"
     },
