@@ -1,0 +1,4 @@
+"$schema" = "https://conductor.build/schemas/settings.repo.schema.json"
+
+[scripts]
+setup = "git -C \"$CONDUCTOR_ROOT_PATH\" fetch --prune origin && git -C \"$CONDUCTOR_ROOT_PATH\" pull --ff-only || true"
