@@ -7,7 +7,6 @@
         "context7@claude-plugins-official": true,
         "frontend-design@claude-plugins-official": true,
         "notion@claude-plugins-official": true,
-        "telegram@claude-plugins-official": true,
         "typescript-lsp@claude-plugins-official": true,
         "vercel@claude-plugins-official": true,
         "warp@claude-code-warp": true
@@ -33,7 +32,7 @@
             }
         ]
     },
-    "model": "claude-fable-5[1m]",
+    "model": "sonnet",
     "permissions": {
         "allow": [
             "WebFetch",
@@ -43,8 +42,6 @@
             "mcp__next-devtools",
             "mcp__context7-mcp",
             "mcp__grep-mcp",
-            "mcp__shadcn-mcp",
-            "mcp__shadcn-mcp-registry",
             "mcp__claude_ai_Linear",
             "mcp__claude_ai_Notion",
             "mcp__claude_ai_Vercel",

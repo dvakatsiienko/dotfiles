@@ -2,13 +2,6 @@
 description: Decompose work into parallel, isolated sessions using git worktrees
 ---
 
-<!--
-  ⚠️ Installed by the Pharaoh MCP plugin (pharaoh@pharaoh-so, pharaoh.so) on 2026-07-25.
-  This command depends on Pharaoh MCP tools (get_codebase_map, get_module_context, …).
-  If Pharaoh is uninstalled or no longer used: DELETE this command, or strip the Pharaoh
-  tool calls and keep the generic workflow.
--->
-
 # Session Decomposition
 
 Break large tasks into parallel, isolated work sessions. Each session runs in its own git worktree with fresh context, focused scope, and atomic commits.

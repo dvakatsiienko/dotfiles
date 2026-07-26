@@ -2,13 +2,6 @@
 description: Architecture-aware code review with Pharaoh
 ---
 
-<!--
-  ⚠️ Installed by the Pharaoh MCP plugin (pharaoh@pharaoh-so, pharaoh.so) on 2026-07-25.
-  This command depends on Pharaoh MCP tools (pharaoh_recon, get_regression_risk, get_vision_docs, …).
-  If Pharaoh is uninstalled or no longer used: DELETE this command, or strip the Pharaoh
-  tool calls and keep the generic workflow.
--->
-
 # Review with Pharaoh
 
 The definitive code review. Architecture-aware, branch-aware, multi-agent, adversarial. Five phases that combine Pharaoh's knowledge graph with parallel specialized reviewers and an independent cross-model second opinion.

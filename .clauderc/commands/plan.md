@@ -2,13 +2,6 @@
 description: Architecture-aware planning with Pharaoh reconnaissance (adapted from Garry Tan's planning framework)
 ---
 
-<!--
-  ⚠️ Installed by the Pharaoh MCP plugin (pharaoh@pharaoh-so, pharaoh.so) on 2026-07-25.
-  This command depends on Pharaoh MCP tools (get_codebase_map, get_vision_docs, get_blast_radius, …).
-  If Pharaoh is uninstalled or no longer used: DELETE this command, or strip the Pharaoh
-  tool calls and keep the generic workflow.
--->
-
 # Plan Review
 
 Architecture-aware plan review before implementation. Adapted from [Garry Tan's planning framework](https://www.youtube.com/watch?v=bMknfKXIFA8) for AI-assisted development.

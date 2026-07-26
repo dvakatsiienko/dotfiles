@@ -2,13 +2,6 @@
 description: Draft a VISION.md for this repo by filling a graph-derived scaffold
 ---
 
-<!--
-  ⚠️ Installed by the Pharaoh MCP plugin (pharaoh@pharaoh-so, pharaoh.so) on 2026-07-25.
-  This command depends on Pharaoh MCP tools (get_vision_docs, get_vision_gaps, get_module_context, …)
-  and Pharaoh's PR Guard / vision linter. If Pharaoh is uninstalled or no longer used:
-  DELETE this command, or strip the Pharaoh tool calls and keep the generic workflow.
--->
-
 # Vision Drafting
 
 Author a VISION.md that captures this repo's invariants — what must always be
