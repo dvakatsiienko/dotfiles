@@ -179,10 +179,14 @@ Go-based statusline system providing rich terminal display with:
 
 ### Architecture
 
-- **Single Implementation**: Go binary at `sline/bin`
-- **Shared State**: `sline-db.json` tracks emoji rotation
+- **Single Implementation**: Go binary at `sline/bin`, stdlib only (no deps),
+  source split across `main.go` / `git.go` / `model.go` / `usage.go` / `style.go`
+- **Shared State**: `sline-db.json` tracks emoji rotation and caches the pnpm
+  version (12h TTL, keyed by binary path — `pnpm --version` costs ~200ms)
 - **Data Source**: statusline JSON on stdin — every displayed number is
   server-provided, no client-side estimates
+- **Hot Path**: one `git status --porcelain=v2 --branch --show-stash` call feeds
+  branch, sync, file counts, untracked list and stash; ~60ms warm render
 
 ### Features
 
@@ -207,6 +211,7 @@ sat idle and spiked in the first seconds.
 ### Usage
 
 - **Build sline**: `pnpm sline:build`
+- **Test sline**: `pnpm sline:test`
 - **Current**: Points to `sline/bin` in settings.json
 
 ## Important Notes

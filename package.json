@@ -7,8 +7,9 @@
         "install-dotfiles": "zx ./script/install-dotfiles.mjs",
         "list-symlinks": "zx ./script/list-symlinks.mjs",
         "untrack-dotfile": "zx ./script/untrack-dotfile.mjs",
-        "sline:build": "cd ./.clauderc/sline && go build -o bin main.go",
-        "check": "biome check --write"
+        "sline:build": "cd ./.clauderc/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
+        "check": "biome check --write",
+        "sline:test": "cd ./.clauderc/sline && go test ./..."
     },
     "dependencies": {
         "zx": "8.8.5"
