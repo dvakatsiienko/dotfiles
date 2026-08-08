@@ -562,10 +562,9 @@ func formatWindow(label string, window *RateLimitWindow, withReset bool) string 
 
 	if withReset && window.ResetsAt > 0 {
 		if resetIn := formatResetIn(window.ResetsAt - time.Now().Unix()); resetIn != "" {
-			// High-plane emoji (U+1F504). Low-range symbols like ⏳ (U+23F3) get
-			// a text-presentation glyph from patched terminal fonts, which renders
-			// narrow while the terminal still reserves two cells.
-			segment += fmt.Sprintf(" %s🔄 %s%s", CleanColor, resetIn, Reset)
+			// → (U+2192) has no emoji presentation, so it renders single-width as
+			// plain text — no color-emoji fallback to mis-size, unlike ⏳ (U+23F3).
+			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, resetIn, Reset)
 		}
 	}
 
