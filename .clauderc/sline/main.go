@@ -540,7 +540,7 @@ func usageColor(pct float64) string {
 	}
 }
 
-// formatResetIn renders seconds until a window resets as "2h 14m" or "43m".
+// formatResetIn renders seconds until a window resets as "2d 5h 14m", "2h 14m" or "43m".
 func formatResetIn(seconds int64) string {
 	if seconds <= 0 {
 		return ""
@@ -549,7 +549,10 @@ func formatResetIn(seconds int64) string {
 	if minutes < 60 {
 		return fmt.Sprintf("%dm", minutes)
 	}
-	return fmt.Sprintf("%dh %02dm", minutes/60, minutes%60)
+	if minutes < 24*60 {
+		return fmt.Sprintf("%dh %02dm", minutes/60, minutes%60)
+	}
+	return fmt.Sprintf("%dd %dh %02dm", minutes/(24*60), (minutes%(24*60))/60, minutes%60)
 }
 
 func formatWindow(label string, window *RateLimitWindow, withReset bool) string {
@@ -590,7 +593,7 @@ func getUsageInfo(context *ClaudeContext) string {
 		if segment := formatWindow("5h", limits.FiveHour, true); segment != "" {
 			segments = append(segments, segment)
 		}
-		if segment := formatWindow("week", limits.SevenDay, false); segment != "" {
+		if segment := formatWindow("week", limits.SevenDay, true); segment != "" {
 			segments = append(segments, segment)
 		}
 	}
