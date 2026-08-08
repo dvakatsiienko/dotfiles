@@ -155,9 +155,6 @@ Reference actual files for current aliases:
 ├── guides/                # Language convention guides
 │   ├── react.md           # React conventions
 │   └── typescript.md      # Type conventions
-├── claude-workflow/       # Claude Desktop and Claude Code collaborative workflow
-│   ├── CLAUDE.md          # Workflow specification
-│   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
@@ -211,17 +208,6 @@ sat idle and spiked in the first seconds.
 
 - **Build sline**: `pnpm sline:build`
 - **Current**: Points to `sline/bin` in settings.json
-
-## Claude Desktop & Claude Code Collaboration Workflow
-
-**Structured research and implementation system for complex feature development.**
-
-4-phase process (Research → Clarification → Planning → Implementation) with dual approval gates,
-fast-track exceptions, and checkpoint-based tracking for complex features requiring architectural
-research.
-
-**Use for**: Complex features, unknown patterns, multi-library integrations **Skip for**: Simple
-fixes, well-understood patterns
 
 ## Important Notes
 
