@@ -540,7 +540,7 @@ func usageColor(pct float64) string {
 	}
 }
 
-// formatResetIn renders seconds until a window resets as "2h14m" or "43m".
+// formatResetIn renders seconds until a window resets as "2h 14m" or "43m".
 func formatResetIn(seconds int64) string {
 	if seconds <= 0 {
 		return ""
@@ -549,7 +549,7 @@ func formatResetIn(seconds int64) string {
 	if minutes < 60 {
 		return fmt.Sprintf("%dm", minutes)
 	}
-	return fmt.Sprintf("%dh%02dm", minutes/60, minutes%60)
+	return fmt.Sprintf("%dh %02dm", minutes/60, minutes%60)
 }
 
 func formatWindow(label string, window *RateLimitWindow, withReset bool) string {
@@ -562,7 +562,7 @@ func formatWindow(label string, window *RateLimitWindow, withReset bool) string 
 
 	if withReset && window.ResetsAt > 0 {
 		if resetIn := formatResetIn(window.ResetsAt - time.Now().Unix()); resetIn != "" {
-			segment += fmt.Sprintf(" %s⟳%s%s", CleanColor, resetIn, Reset)
+			segment += fmt.Sprintf(" %s⏳ %s%s", CleanColor, resetIn, Reset)
 		}
 	}
 
