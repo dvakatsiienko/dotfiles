@@ -54,6 +54,7 @@
     "statusLine": {
         "command": "/Users/dima/.claude/sline/bin",
         "padding": 0,
+        "refreshInterval": 60,
         "type": "command"
     },
     "tui": "fullscreen",
