@@ -199,11 +199,14 @@ Go-based statusline system providing rich terminal display with:
 - **Error Handling**: Each segment is omitted when its field is absent; the whole
   second line disappears rather than showing a stale or estimated value
 
-Deliberately not shown: `cost.total_cost_usd`. Claude Code documents it as a
-client-side estimate that "may differ from your actual bill", and on a
-subscription it prices tokens that aren't billed per-unit. A burn rate derived
-from it was worse — `total_duration_ms` is wall-clock, so the figure decayed
-while the session sat idle.
+- **Value Gauge**: `cost.total_cost_usd` as `~$4.82`. On a Max subscription
+  nothing is billed per-unit, so this is the API-equivalent value of the
+  session's tokens, not money spent — the leading `~` marks it as such. Resets
+  on `/clear`; omitted while zero.
+
+Deliberately not shown: a burn rate. The old one divided cost by
+`total_duration_ms`, which is wall-clock time, so it decayed while the session
+sat idle and spiked in the first seconds.
 
 ### Usage
 

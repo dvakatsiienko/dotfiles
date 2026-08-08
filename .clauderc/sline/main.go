@@ -69,6 +69,12 @@ type ClaudeContext struct {
 		CurrentDir string `json:"current_dir"`
 		ProjectDir string `json:"project_dir"`
 	} `json:"workspace"`
+	// API-equivalent value of this session's tokens. On a subscription nothing is
+	// billed per-unit, so this is what the tokens would have cost at API rates —
+	// a token-volume gauge, not a bill. Rendered with a leading "~" to say so.
+	Cost *struct {
+		TotalCostUSD float64 `json:"total_cost_usd"`
+	} `json:"cost"`
 	// Server-provided subscription quota. Pro/Max only, and only after the
 	// first API response of a session — each window may be independently absent.
 	RateLimits *struct {
@@ -572,6 +578,11 @@ func getUsageInfo(context *ClaudeContext) string {
 	}
 
 	var segments []string
+
+	if cost := context.Cost; cost != nil && cost.TotalCostUSD > 0 {
+		segments = append(segments,
+			fmt.Sprintf("%s~$%.2f%s", UsageOkColor, cost.TotalCostUSD, Reset))
+	}
 
 	if limits := context.RateLimits; limits != nil {
 		if segment := formatWindow("5h", limits.FiveHour, true); segment != "" {
