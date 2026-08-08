@@ -25,11 +25,7 @@ That's it. Init → Guide → Plan → Ship.
 
 ### Currently Available Workflows:
 
-1. **`preact-to-react/`** - Migration from Preact to React framework (Status: Research Complete ✅)
-2. **`rag/`** - Libsource RAG search MVP (Status: Research Complete ✅)
-3. **`interactive-workflows/`** - N8N interactive workflow system (Status: Research Phase 🔄)
-4. **`migrate-vite/`** - Webpack to Vite 7 migration with icon system modernization (Status: Init Phase 🆕)
-5. **`docs-chatbot/`** - NextJS documentation chatbot with RAG (Status: Init Phase 🆕)
+_None._ Add an entry here when a feature directory is created.
 
 ### Workflow Management Rules:
 

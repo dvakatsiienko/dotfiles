@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@orama/orama':
-        specifier: 3.1.18
-        version: 3.1.18
       zx:
         specifier: 8.8.5
         version: 8.8.5
@@ -86,10 +83,6 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
-
-  '@orama/orama@3.1.18':
-    resolution: {integrity: sha512-a61ljmRVVyG5MC/698C8/FfFDw5a8LOIvyOLW5fztgUXqUpc1jOfQzOitSCbge657OgXXThmY3Tk8fpiDb4UcA==}
-    engines: {node: '>= 20.0.0'}
 
   ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -668,8 +661,6 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.5.5':
     optional: true
-
-  '@orama/orama@3.1.18': {}
 
   ansi-styles@3.2.1:
     dependencies:

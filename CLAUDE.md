@@ -124,9 +124,9 @@ Reference actual files for current aliases:
 
 **Custom Configs:**
 
-- ✅ `guides/` - Documentation and implementation guides
+- ✅ `guides/` - Language convention guides
 - ✅ `sline/` - Sline code and scripts
-- ✅ `scripts/` - Python membank management scripts
+- ✅ `hooks/` - Hook scripts invoked from settings.json
 
 ### Management Rules
 
@@ -152,15 +152,14 @@ Reference actual files for current aliases:
 ```
 .clauderc/
 ├── settings.json          # Main Claude settings
-├── guides/                # Documentation and guides
-│   ├── membank/           # Membank guides and documentation
-│   ├── implementation.md  # Project guides
+├── guides/                # Language convention guides
+│   ├── react.md           # React conventions
 │   └── typescript.md      # Type conventions
-├── claude-workflow/       # Cluade Desktop and Claude Code Collaborative workflow
+├── claude-workflow/       # Claude Desktop and Claude Code collaborative workflow
 │   ├── CLAUDE.md          # Workflow specification
 │   └── feature-name/      # Per-feature research directories
 ├── commands/              # Command definitions
-├── scripts/               # Python membank management
+├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
 ```
 
@@ -212,37 +211,6 @@ sat idle and spiked in the first seconds.
 
 - **Build sline**: `pnpm sline:build`
 - **Current**: Points to `sline/bin` in settings.json
-
-## Membank System
-
-**Unified knowledge base for RAG-augmented library source code with semantic search.**
-
-- **Location**: `~/.dotfiles/membank/`
-- **Documentation**: See @membank/CLAUDE.md for complete details
-- **Server**: Port 1408 (FastAPI with REST API)
-- **Database**: `membank/db.sqlite` (SQLite with BM25F scoring)
-- **Libraries**: 15 indexed (~3.9M LOC, 19,303 chunks)
-
-### Quick Commands
-
-```bash
-# Server management
-pnpm mem:server:start   # Start server on port 1408
-pnpm mem:server:stop    # Stop server
-pnpm mem:server:status  # Check status
-
-# Library management
-pnpm mem:add <github-url>       # Add new library
-pnpm mem:list                   # List all libraries
-pnpm mem:update [library-name]  # Update/restore library
-pnpm mem:search "query" [lib]   # Search libraries
-
-# Quick API test
-curl http://localhost:1408/health
-```
-
-**Key Feature**: Two-stage library analysis strategy combining RAG search (fast snippets) with full
-source analysis (complete architecture understanding). See `membank/CLAUDE.md` for details.
 
 ## Claude Desktop & Claude Code Collaboration Workflow
 
