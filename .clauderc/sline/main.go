@@ -27,7 +27,9 @@ const (
 	DelColor        = "\033[31m"
 	CleanColor      = "\033[2;37m"
 	StashColor      = "\033[96m"
-	CostColor       = "\033[38;5;214m" // orange for cost info
+	UsageOkColor    = "\033[38;5;214m" // orange for normal quota usage
+	UsageWarnColor  = "\033[38;5;208m" // deeper orange past 75%
+	UsageCritColor  = "\033[38;5;196m" // red past 90%
 	SyncAheadColor  = "\033[32m"       // green for ahead
 	SyncBehindColor = "\033[31m"       // red for behind
 )
@@ -67,13 +69,21 @@ type ClaudeContext struct {
 		CurrentDir string `json:"current_dir"`
 		ProjectDir string `json:"project_dir"`
 	} `json:"workspace"`
-	Cost *struct {
-		TotalCostUSD       float64 `json:"total_cost_usd"`
-		TotalDurationMs    int64   `json:"total_duration_ms"`
-		TotalApiDurationMs int64   `json:"total_api_duration_ms"`
-		TotalLinesAdded    int     `json:"total_lines_added"`
-		TotalLinesRemoved  int     `json:"total_lines_removed"`
-	} `json:"cost"`
+	// Server-provided subscription quota. Pro/Max only, and only after the
+	// first API response of a session — each window may be independently absent.
+	RateLimits *struct {
+		FiveHour *RateLimitWindow `json:"five_hour"`
+		SevenDay *RateLimitWindow `json:"seven_day"`
+	} `json:"rate_limits"`
+	ContextWindow *struct {
+		UsedPercentage *float64 `json:"used_percentage"`
+	} `json:"context_window"`
+}
+
+// One rate limit window, derived from Anthropic's own response — not a local estimate.
+type RateLimitWindow struct {
+	UsedPercentage float64 `json:"used_percentage"`
+	ResetsAt       int64   `json:"resets_at"`
 }
 
 // State management for emoji rotation
@@ -509,32 +519,79 @@ func isTerminal(fd int) bool {
 
 
 // =============================================================================
-// COST INFORMATION FUNCTIONS
+// USAGE INFORMATION FUNCTIONS
 // =============================================================================
 
-func getNativeCostInfo(context *ClaudeContext) string {
-	if context == nil || context.Cost == nil {
+// usageColor grades a 0-100 percentage: calm below half, warning past 75, alarm past 90.
+func usageColor(pct float64) string {
+	switch {
+	case pct >= 90:
+		return UsageCritColor
+	case pct >= 75:
+		return UsageWarnColor
+	default:
+		return UsageOkColor
+	}
+}
+
+// formatResetIn renders seconds until a window resets as "2h14m" or "43m".
+func formatResetIn(seconds int64) string {
+	if seconds <= 0 {
+		return ""
+	}
+	minutes := seconds / 60
+	if minutes < 60 {
+		return fmt.Sprintf("%dm", minutes)
+	}
+	return fmt.Sprintf("%dh%02dm", minutes/60, minutes%60)
+}
+
+func formatWindow(label string, window *RateLimitWindow, withReset bool) string {
+	if window == nil {
 		return ""
 	}
 
-	cost := context.Cost
+	segment := fmt.Sprintf("%s %s%.0f%%%s",
+		label, usageColor(window.UsedPercentage), window.UsedPercentage, Reset)
 
-	// Calculate burn rate ($ per hour)
-	var burnRate float64
-	if cost.TotalDurationMs > 0 {
-		hoursElapsed := float64(cost.TotalDurationMs) / (1000 * 60 * 60) // ms to hours
-		burnRate = cost.TotalCostUSD / hoursElapsed
+	if withReset && window.ResetsAt > 0 {
+		if resetIn := formatResetIn(window.ResetsAt - time.Now().Unix()); resetIn != "" {
+			segment += fmt.Sprintf(" %s⟳%s%s", CleanColor, resetIn, Reset)
+		}
 	}
 
-	// Format native cost info (2 decimal places)
-	sessionCost := fmt.Sprintf("$%.2f", cost.TotalCostUSD)
-	burnRateStr := ""
-	if burnRate > 0 {
-		burnRateStr = fmt.Sprintf(" | $%.2f/hr", burnRate)
+	return segment
+}
+
+// getUsageInfo renders subscription quota and context window usage. Every field is
+// server-provided; when none are present the line is omitted entirely rather than
+// falling back to a client-side estimate.
+func getUsageInfo(context *ClaudeContext) string {
+	if context == nil {
+		return ""
 	}
 
-	result := fmt.Sprintf("📡 %s session%s", sessionCost, burnRateStr)
-	return fmt.Sprintf("%s%s%s", CostColor, result, Reset)
+	var segments []string
+
+	if limits := context.RateLimits; limits != nil {
+		if segment := formatWindow("5h", limits.FiveHour, true); segment != "" {
+			segments = append(segments, segment)
+		}
+		if segment := formatWindow("week", limits.SevenDay, false); segment != "" {
+			segments = append(segments, segment)
+		}
+	}
+
+	if ctxWindow := context.ContextWindow; ctxWindow != nil && ctxWindow.UsedPercentage != nil {
+		pct := *ctxWindow.UsedPercentage
+		segments = append(segments, fmt.Sprintf("🧠 %s%.0f%%%s", usageColor(pct), pct, Reset))
+	}
+
+	if len(segments) == 0 {
+		return ""
+	}
+
+	return "📡 " + strings.Join(segments, " • ")
 }
 
 // =============================================================================
@@ -660,10 +717,10 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset))
 	}
 
-	// Native Claude Code cost information only
-	nativeCostInfo := getNativeCostInfo(claudeContext)
-	if nativeCostInfo != "" {
-		output.WriteString(fmt.Sprintf("\n%s", nativeCostInfo))
+	// Subscription quota + context window, when Claude Code supplies them
+	usageInfo := getUsageInfo(claudeContext)
+	if usageInfo != "" {
+		output.WriteString(fmt.Sprintf("\n%s", usageInfo))
 	}
 
 	return output.String()

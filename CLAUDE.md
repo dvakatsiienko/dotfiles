@@ -178,24 +178,32 @@ Go-based statusline system providing rich terminal display with:
 - Comprehensive git status: branch, sync indicators, file counts, line changes
 - Stash count when present
 - Day/night themed git emojis (🦔/🦦)
-- Claude Code v1.0.85+ native cost API integration
-- Anthropic 5-hour usage reset time windows
+- Subscription quota usage (5-hour and weekly windows) with reset countdown
+- Context window usage
 
 ### Architecture
 
 - **Single Implementation**: Go binary at `sline/bin`
 - **Shared State**: `sline-db.json` tracks emoji rotation
-- **Native API**: Supports Claude Code v1.0.85+ cost data
-- **ccusage Integration**: Fallback for daily/monthly cost totals
+- **Data Source**: statusline JSON on stdin — every displayed number is
+  server-provided, no client-side estimates
 
 ### Features
 
-- **Emoji Rotation**: 64 unique emojis rotate every hour
+- **Emoji Rotation**: 58 unique emojis rotate every hour
 - **Git Sync Status**: Superscript ahead/behind indicators (↑¹ ↓²)
-- **Cost Display**: Session cost, burn rate, and proper reset timers
-- **Reset Time Windows**: 5-hour Anthropic cycles (03:00, 08:00, 13:00, 18:00, 22:00)
-- **Multi-line Output**: ccusage data + native API data when available
-- **Error Handling**: Graceful fallbacks for missing tools
+- **Quota Display**: `rate_limits.five_hour` / `.seven_day` percentages with
+  `resets_at` countdown — Pro/Max only, and only after the session's first API
+  response
+- **Context Display**: `context_window.used_percentage`, colour-graded at 75%/90%
+- **Error Handling**: Each segment is omitted when its field is absent; the whole
+  second line disappears rather than showing a stale or estimated value
+
+Deliberately not shown: `cost.total_cost_usd`. Claude Code documents it as a
+client-side estimate that "may differ from your actual bill", and on a
+subscription it prices tokens that aren't billed per-unit. A burn rate derived
+from it was worse — `total_duration_ms` is wall-clock, so the figure decayed
+while the session sat idle.
 
 ### Usage
 
