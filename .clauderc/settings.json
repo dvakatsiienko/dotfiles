@@ -10,13 +10,8 @@
       "Bash",
       "mcp__next-devtools",
       "mcp__grep-mcp",
-      "mcp__pharaoh",
-      "mcp__claude_ai_Linear",
-      "mcp__plugin_slack_slack",
-      "mcp__claude_ai_Granola",
       "mcp__plugin_Notion_notion",
       "mcp__plugin_vercel_vercel",
-      "mcp__claude_ai_Context7",
       "mcp__plugin_context7_context7"
     ],
     "defaultMode": "auto"
@@ -44,19 +39,13 @@
     "refreshInterval": 60
   },
   "enabledPlugins": {
-    "claude-md-management@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "notion@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
-    "vercel@claude-plugins-official": true,
     "warp@claude-code-warp": true,
-    "slack@claude-plugins-official": false,
-    "plugin-dev@claude-plugins-official": true,
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
-    "skill-creator@claude-plugins-official": true,
     "ralph-loop@claude-plugins-official": true,
     "linear@claude-plugins-official": true
   },
