@@ -1,0 +1,15 @@
+{
+  "name": "x",
+  "owner": {
+    "name": "Dima Vakatsiienko",
+    "email": "imagnum.satellite@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "x",
+      "source": "./",
+      "description": "Dima's own skills — CST session handoff, RL task authoring, prompt review, agentic loops"
+    }
+  ],
+  "description": "Dima's personal skills marketplace"
+}

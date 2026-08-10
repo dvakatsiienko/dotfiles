@@ -1,4 +1,7 @@
 {
+  "env": {
+    "EDITOR": "nvim"
+  },
   "permissions": {
     "allow": [
       "WebFetch",
@@ -16,9 +19,9 @@
       "mcp__claude_ai_Context7",
       "mcp__plugin_context7_context7"
     ],
-    "defaultMode": "plan"
+    "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "sonnet",
   "hooks": {
     "Notification": [
       {
@@ -32,6 +35,7 @@
       }
     ]
   },
+  "disableAgentView": true,
   "enableWorkflows": true,
   "statusLine": {
     "type": "command",
@@ -48,24 +52,45 @@
     "typescript-lsp@claude-plugins-official": true,
     "vercel@claude-plugins-official": true,
     "warp@claude-code-warp": true,
-    "slack@claude-plugins-official": true,
+    "slack@claude-plugins-official": false,
     "plugin-dev@claude-plugins-official": true,
-    "mattpocock-skills@claude-plugins-official": true
+    "mattpocock-skills@claude-plugins-official": true,
+    "x@x": true,
+    "skill-creator@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": true,
+    "linear@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
       "source": {
         "source": "github",
         "repo": "warpdotdev/claude-code-warp"
-      }
+      },
+      "autoUpdate": true
+    },
+    "x": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/dima/.dotfiles/.clauderc/x-plugin"
+      },
+      "autoUpdate": true
     }
   },
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "high",
+  "fastMode": true,
   "tui": "fullscreen",
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
   "autoDreamEnabled": true,
+  "theme": "auto",
+  "editorMode": "vim",
+  "verbose": true,
   "preferredNotifChannel": "notifications_disabled",
+  "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "voiceEnabled": true
 }
