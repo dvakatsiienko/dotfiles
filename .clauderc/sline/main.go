@@ -220,7 +220,7 @@ func generateStatusline() string {
 		output.WriteString(fmt.Sprintf("%s%s🧵 %s%s", Sep, SessionColor, label, Reset))
 		// TEMPORARY ⚠ segment — see peerSocketAlive in session.go (CC issue #85497).
 		if !peerSocketAlive() {
-			output.WriteString(fmt.Sprintf(" %s⚠ unreachable%s", UsageCritColor, Reset))
+			output.WriteString(fmt.Sprintf(" %s⚠ msg2peer unreachable%s", UsageCritColor, Reset))
 		}
 	}
 	line2 := fmt.Sprintf("%s%s", emoji, getModelDisplayName(claudeContext))
