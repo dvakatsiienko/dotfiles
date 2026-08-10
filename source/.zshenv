@@ -68,6 +68,15 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+
+# Claude Code doesn't auto-detect Warp's OSC 8 hyperlink support (only
+# iTerm2/Kitty/WezTerm) — force it so sline's branch link is clickable
+export FORCE_HYPERLINK=1
+
 # LM Studio CLI
 export PATH="$PATH:~/.lmstudio/bin"
 

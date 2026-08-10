@@ -2,9 +2,54 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
+
+// barRamp colors the Nth filled cell of a progress bar: a gruvbox green →
+// yellow → orange → red climb, so the bar's leading edge signals severity
+// (technique borrowed from kcchien/claude-code-statusline).
+var barRamp = [][3]int{
+	{169, 182, 101}, // green  #a9b665
+	{181, 186, 97},
+	{193, 178, 93},
+	{205, 172, 90},
+	{216, 166, 87}, // yellow #d8a657
+	{224, 152, 82},
+	{231, 138, 78}, // orange #e78a4e
+	{232, 127, 71},
+	{233, 116, 84},
+	{234, 105, 98}, // red    #ea6962
+}
+
+// progressBar renders pct as barWidth discrete cells: ▮ (filled) / ▯ (outlined
+// empty) read as separate segments with natural gaps — solid █ blocks fuse into
+// one strip in Warp and lose the segmented look.
+const barWidth = 20
+
+func progressBar(pct float64) string {
+	filled := int(math.Round(pct / 100 * barWidth))
+	if filled > barWidth {
+		filled = barWidth
+	}
+	if filled < 0 {
+		filled = 0
+	}
+	var bar strings.Builder
+	for i := 0; i < barWidth; i++ {
+		if i < filled {
+			c := barRamp[i*len(barRamp)/barWidth]
+			fmt.Fprintf(&bar, "\033[38;2;%d;%d;%dm▮", c[0], c[1], c[2])
+		} else {
+			bar.WriteString("\033[38;2;102;92;84m▯")
+		}
+	}
+	bar.WriteString(Reset)
+	return bar.String()
+}
 
 // usageColor grades a 0-100 percentage: calm below 75, warning past 75, alarm past 90.
 func usageColor(pct float64) string {
@@ -38,18 +83,54 @@ func formatWindow(label string, window *RateLimitWindow) string {
 		return ""
 	}
 
-	segment := fmt.Sprintf("%s %s%.0f%%%s",
-		label, usageColor(window.UsedPercentage), window.UsedPercentage, Reset)
-
+	pct := window.UsedPercentage
+	var resetIn int64
 	if window.ResetsAt > 0 {
-		if resetIn := formatResetIn(window.ResetsAt - time.Now().Unix()); resetIn != "" {
+		resetIn = window.ResetsAt - time.Now().Unix()
+		// Quota data only refreshes on API traffic, so after an idle stretch the
+		// JSON still holds pre-reset numbers. resets_at in the past proves the
+		// window rolled over — show the fresh-window truth instead of stale 101%.
+		if resetIn <= 0 {
+			pct = 0
+		}
+	}
+
+	segment := fmt.Sprintf("%s %s %s%.0f%%%s",
+		label, progressBar(pct), usageColor(pct), pct, Reset)
+
+	if resetIn > 0 {
+		if formatted := formatResetIn(resetIn); formatted != "" {
 			// → (U+2192) has no emoji presentation, so it renders single-width as
 			// plain text — no color-emoji fallback to mis-size, unlike ⏳ (U+23F3).
-			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, resetIn, Reset)
+			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, formatted, Reset)
 		}
 	}
 
 	return segment
+}
+
+// contextTokens renders the absolute token count behind used_percentage ("~14k").
+// Prefers the server's own usage numbers; falls back to pct × window size, with
+// 200k assumed when the JSON omits the size.
+func contextTokens(w *ContextWindowInfo, pct float64) string {
+	tokens := 0
+	if u := w.CurrentUsage; u != nil {
+		tokens = u.InputTokens + u.CacheCreationInputTokens + u.CacheReadInputTokens + u.OutputTokens
+	}
+	if tokens == 0 {
+		size := w.ContextWindowSize
+		if size == 0 {
+			size = 200_000
+		}
+		tokens = int(math.Round(pct / 100 * float64(size)))
+	}
+	if tokens <= 0 {
+		return ""
+	}
+	if tokens < 1000 {
+		return "~1k"
+	}
+	return fmt.Sprintf("~%dk", int(math.Round(float64(tokens)/1000)))
 }
 
 // getUsageInfo renders subscription quota and context window usage. Every field is
@@ -62,9 +143,11 @@ func getUsageInfo(context *ClaudeContext) string {
 
 	var segments []string
 
+	// 📡 belongs to the cost figure — post-/clear CC omits cost (and context)
+	// until the thread's first API response, and a bare 📡 read as an orphan.
 	if cost := context.Cost; cost != nil && cost.TotalCostUSD > 0 {
 		segments = append(segments,
-			fmt.Sprintf("%s~$%.2f%s", UsageOkColor, cost.TotalCostUSD, Reset))
+			fmt.Sprintf("📡 %s~$%.2f%s", UsageOkColor, cost.TotalCostUSD, Reset))
 	}
 
 	if limits := context.RateLimits; limits != nil {
@@ -78,12 +161,21 @@ func getUsageInfo(context *ClaudeContext) string {
 
 	if ctxWindow := context.ContextWindow; ctxWindow != nil && ctxWindow.UsedPercentage != nil {
 		pct := *ctxWindow.UsedPercentage
-		segments = append(segments, fmt.Sprintf("🧠 %s%.0f%%%s", usageColor(pct), pct, Reset))
+		segment := fmt.Sprintf("🧠 %s %s%.0f%%%s", progressBar(pct), usageColor(pct), pct, Reset)
+		if tokens := contextTokens(ctxWindow, pct); tokens != "" {
+			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, tokens, Reset)
+		}
+		segments = append(segments, segment)
+	}
+
+	homeDir, _ := os.UserHomeDir()
+	if pending := handoffPendingCount(filepath.Join(homeDir, ".claude", "handoffs")); pending > 0 {
+		segments = append(segments, fmt.Sprintf("📬 %s%d%s", SessionColor, pending, Reset))
 	}
 
 	if len(segments) == 0 {
 		return ""
 	}
 
-	return "📡 " + strings.Join(segments, " • ")
+	return strings.Join(segments, Sep)
 }

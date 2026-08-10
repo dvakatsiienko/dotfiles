@@ -6,33 +6,44 @@ import (
 	"strings"
 )
 
-// ANSI color codes for terminal styling
+// Gruvbox-material palette (truecolor) — matches the terminal theme, so every
+// supporting segment sits calmly on the warm dark background. The model-name
+// gradient is the one deliberate outsider and stays synthwave.
 const (
-	Reset           = "\033[0m"
-	Bold            = "\033[1m"
-	NodeColor       = "\033[38;5;71m"
-	NodeIconColor   = "\033[38;5;71m"
-	PnpmColor       = "\033[38;5;202m"
-	PnpmIconColor   = "\033[38;5;202m"
-	DirColor        = "\033[38;5;248m"
-	BranchColor     = "\033[32m"
-	AddColor        = "\033[32m"
-	DelColor        = "\033[31m"
-	CleanColor      = "\033[2;37m"
-	StashColor      = "\033[96m"
-	UsageOkColor    = "\033[38;5;214m" // orange for normal quota usage
-	UsageWarnColor  = "\033[38;5;208m" // deeper orange past 75%
-	UsageCritColor  = "\033[38;5;196m" // red past 90%
-	SyncAheadColor  = "\033[32m"
-	SyncBehindColor = "\033[31m"
+	Reset = "\033[0m"
+	Bold  = "\033[1m"
+
+	DirColor        = "\033[38;2;168;153;132m" // gray   #a89984
+	SessionColor    = "\033[38;2;216;166;87m"  // yellow #d8a657
+	VersionColor    = "\033[38;2;189;174;147m" // fg3    #bdae93
+	NodeColor       = "\033[38;2;169;182;101m" // green  #a9b665
+	NodeIconColor   = "\033[38;2;169;182;101m" // green  #a9b665
+	PnpmColor       = "\033[38;2;231;138;78m"  // orange #e78a4e
+	PnpmIconColor   = "\033[38;2;231;138;78m"  // orange #e78a4e
+	BranchColor     = "\033[38;2;212;190;152m" // fg0    #d4be98 — cream "title" tone, unmistakable next to sync green
+	AddColor        = "\033[38;2;169;182;101m" // green  #a9b665
+	DelColor        = "\033[38;2;234;105;98m"  // red    #ea6962
+	CleanColor      = "\033[38;2;146;131;116m" // gray   #928374
+	StashColor      = "\033[38;2;211;134;155m" // purple #d3869b
+	UsageOkColor    = "\033[38;2;216;166;87m"  // yellow #d8a657 — calm
+	UsageWarnColor  = "\033[38;2;231;138;78m"  // orange #e78a4e past 75%
+	UsageCritColor  = "\033[38;2;234;105;98m"  // red    #ea6962 past 90%
+	SyncAheadColor  = "\033[38;2;169;182;101m" // green  #a9b665
+	SyncBehindColor = "\033[38;2;234;105;98m"  // red    #ea6962
+
+	// Sep dims the inter-segment bullet (#7c6f64) so segments read as islands.
+	Sep = " \033[38;2;124;111;100m•\033[0m "
 )
 
 // Truecolor gradient stops for the model name. A glyph can only be one solid
 // color, so smoothness lives in how close neighbouring letters' hues are —
 // two nearby stops read as a sweep; a full rainbow reads as confetti.
+// Gruvbox-native sweep: purple → blue from the same material palette as the
+// rest of the line, so the model name leads without shouting. Both endpoints
+// sit ~5.4:1 on #282828 — evenly matched brightness.
 var gradientStops = [][3]int{
-	{255, 95, 255}, // hot magenta
-	{95, 235, 255}, // cyan
+	{211, 134, 155}, // gruvbox purple #d3869b
+	{125, 174, 163}, // gruvbox blue   #7daea3
 }
 
 func applyGradient(text string) string {

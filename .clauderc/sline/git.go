@@ -71,7 +71,7 @@ func parseGitStatusV2(out string) GitStatus {
 // rare detached-HEAD path.
 func branchLabel(st GitStatus) string {
 	if st.Head != "" {
-		return "🌿 " + st.Head
+		return "🌿 " + hyperlink(branchURL(st.Head), st.Head)
 	}
 	if tag := runCommand("git", "describe", "--exact-match", "HEAD"); tag != "" {
 		return "🏷️  " + tag
@@ -80,6 +80,39 @@ func branchLabel(st GitStatus) string {
 		return "📍 " + hash
 	}
 	return "📍 detached"
+}
+
+// branchURL builds the web URL for the branch on the origin forge, or "" when
+// there is no http-mappable origin.
+func branchURL(branch string) string {
+	if branch == "" {
+		return ""
+	}
+	remote := normalizeRemoteURL(runCommand("git", "remote", "get-url", "origin"))
+	if remote == "" {
+		return ""
+	}
+	return remote + "/tree/" + branch
+}
+
+func normalizeRemoteURL(remote string) string {
+	remote = strings.TrimSuffix(strings.TrimSpace(remote), ".git")
+	if strings.HasPrefix(remote, "git@") {
+		remote = "https://" + strings.Replace(strings.TrimPrefix(remote, "git@"), ":", "/", 1)
+	}
+	if !strings.HasPrefix(remote, "https://") && !strings.HasPrefix(remote, "http://") {
+		return ""
+	}
+	return remote
+}
+
+// hyperlink wraps text in an OSC 8 sequence; terminals without support ignore
+// the escapes and render the bare text.
+func hyperlink(url, text string) string {
+	if url == "" {
+		return text
+	}
+	return "\033]8;;" + url + "\033\\" + text + "\033]8;;\033\\"
 }
 
 func formatSyncIndicator(st GitStatus) string {

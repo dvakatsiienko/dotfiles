@@ -121,7 +121,7 @@ func getModelFromSettings() string {
 }
 
 func getModelDisplayName(claudeContext *ClaudeContext) string {
-	lightGrayColor := "\033[38;5;250m"
+	lightGrayColor := VersionColor
 	enSpace := "\u2002"
 
 	var modelFamily, version string

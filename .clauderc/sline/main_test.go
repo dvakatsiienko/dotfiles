@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -130,6 +133,150 @@ func TestApplyGradient(t *testing.T) {
 	}
 	if applyGradient("x") == "" || applyGradient("") != "" {
 		t.Error("single-rune and empty inputs must not panic or misrender")
+	}
+}
+
+func TestResolveSessionName(t *testing.T) {
+	dir := t.TempDir()
+	write := func(name, content string) {
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(content), 0644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("100.json", `{"sessionId":"aaa-bbb","name":"alpha-thread"}`)
+	write("200.json", `{"sessionId":"ccc-ddd","name":"beta-thread"}`)
+	write("300.json", `broken json`)
+	write("notes.txt", `ignored`)
+
+	if got := resolveSessionName(dir, "ccc-ddd"); got != "beta-thread" {
+		t.Errorf("got %q, want beta-thread", got)
+	}
+	if got := resolveSessionName(dir, "zzz"); got != "" {
+		t.Errorf("unknown id should be empty, got %q", got)
+	}
+	if got := resolveSessionName(dir, ""); got != "" {
+		t.Errorf("empty id should be empty, got %q", got)
+	}
+	if got := resolveSessionName(filepath.Join(dir, "missing"), "aaa-bbb"); got != "" {
+		t.Errorf("missing dir should be empty, got %q", got)
+	}
+}
+
+func TestKebabLabel(t *testing.T) {
+	cases := map[string]string{
+		"Check auto capture enabled status": "check-auto-capture-enabled-status",
+		"already-kebab":                     "already-kebab",
+		"  Spaced   Out  ":                  "spaced-out",
+		"":                                  "",
+	}
+	for in, want := range cases {
+		if got := kebabLabel(in); got != want {
+			t.Errorf("kebabLabel(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
+func TestProgressBarWidth(t *testing.T) {
+	cells := func(bar string) (filled, empty int) {
+		return strings.Count(bar, "▮"), strings.Count(bar, "▯")
+	}
+	f, e := cells(progressBar(0))
+	if f != 0 || e != barWidth {
+		t.Errorf("0%% = %d filled / %d empty, want 0/%d", f, e, barWidth)
+	}
+	f, e = cells(progressBar(50))
+	if want := int(math.Round(0.5 * barWidth)); f != want || f+e != barWidth {
+		t.Errorf("50%% = %d filled / %d empty, want %d/%d", f, e, want, barWidth-want)
+	}
+	f, e = cells(progressBar(100))
+	if f != barWidth || e != 0 {
+		t.Errorf("100%% = %d filled / %d empty, want %d/0", f, e, barWidth)
+	}
+	f, e = cells(progressBar(150))
+	if f != barWidth || e != 0 {
+		t.Errorf("overflow must clamp, got %d/%d", f, e)
+	}
+}
+
+func TestContextTokens(t *testing.T) {
+	// Fallback path: pct × assumed 200k window.
+	if got := contextTokens(&ContextWindowInfo{}, 7); got != "~14k" {
+		t.Errorf("7%% of 200k = %q, want ~14k", got)
+	}
+	// Explicit window size wins over the 200k assumption.
+	if got := contextTokens(&ContextWindowInfo{ContextWindowSize: 1_000_000}, 10); got != "~100k" {
+		t.Errorf("10%% of 1M = %q, want ~100k", got)
+	}
+	// Server usage numbers win over any percentage math.
+	w := &ContextWindowInfo{}
+	w.CurrentUsage = &struct {
+		InputTokens              int `json:"input_tokens"`
+		CacheCreationInputTokens int `json:"cache_creation_input_tokens"`
+		CacheReadInputTokens     int `json:"cache_read_input_tokens"`
+		OutputTokens             int `json:"output_tokens"`
+	}{InputTokens: 20_000, CacheReadInputTokens: 60_400, OutputTokens: 1_000}
+	if got := contextTokens(w, 7); got != "~81k" {
+		t.Errorf("usage sum = %q, want ~81k", got)
+	}
+	if got := contextTokens(&ContextWindowInfo{}, 0); got != "" {
+		t.Errorf("0%% should render nothing, got %q", got)
+	}
+}
+
+func TestTruncateLabel(t *testing.T) {
+	if got := truncateLabel("short", 28); got != "short" {
+		t.Errorf("got %q", got)
+	}
+	if got := truncateLabel("abcdefghij", 5); got != "abcd…" {
+		t.Errorf("got %q, want abcd…", got)
+	}
+}
+
+func TestHandoffPendingCount(t *testing.T) {
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0600)
+	os.WriteFile(filepath.Join(dir, "b.md"), []byte("x"), 0600)
+	os.WriteFile(filepath.Join(dir, "c.txt"), []byte("x"), 0600)
+	if got := handoffPendingCount(dir); got != 2 {
+		t.Errorf("got %d, want 2", got)
+	}
+	if got := handoffPendingCount(filepath.Join(dir, "missing")); got != 0 {
+		t.Errorf("missing dir should be 0, got %d", got)
+	}
+}
+
+func TestFormatWindowRollover(t *testing.T) {
+	// resets_at in the past means the window rolled over while idle: the stale
+	// pre-reset percentage must render as a fresh 0%, with no countdown.
+	stale := &RateLimitWindow{UsedPercentage: 101, ResetsAt: 1000}
+	got := formatWindow("5h", stale)
+	if !strings.Contains(got, "0%") || strings.Contains(got, "101") || strings.Contains(got, "→") {
+		t.Errorf("stale window should render fresh 0%% without countdown, got %q", got)
+	}
+}
+
+func TestNormalizeRemoteURL(t *testing.T) {
+	cases := map[string]string{
+		"git@github.com:dvakatsiienko/.dotfiles.git": "https://github.com/dvakatsiienko/.dotfiles",
+		"https://github.com/user/repo.git":           "https://github.com/user/repo",
+		"https://github.com/user/repo":               "https://github.com/user/repo",
+		"ssh://weird/path":                           "",
+		"":                                           "",
+	}
+	for in, want := range cases {
+		if got := normalizeRemoteURL(in); got != want {
+			t.Errorf("normalizeRemoteURL(%q) = %q, want %q", in, got, want)
+		}
+	}
+}
+
+func TestHyperlink(t *testing.T) {
+	if got := hyperlink("", "main"); got != "main" {
+		t.Errorf("empty url must return bare text, got %q", got)
+	}
+	got := hyperlink("https://x.dev", "main")
+	if !strings.Contains(got, "\033]8;;https://x.dev\033\\main\033]8;;\033\\") {
+		t.Errorf("bad OSC 8 wrapping: %q", got)
 	}
 }
 

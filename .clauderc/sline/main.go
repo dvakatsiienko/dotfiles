@@ -14,6 +14,7 @@ import (
 // Reference: https://docs.anthropic.com/en/docs/claude-code/statusline#json-input-structure
 type ClaudeContext struct {
 	SessionID      string `json:"session_id"`
+	SessionName    string `json:"session_name"`
 	TranscriptPath string `json:"transcript_path"`
 	Cwd            string `json:"cwd"`
 	Version        string `json:"version"`
@@ -37,9 +38,18 @@ type ClaudeContext struct {
 		FiveHour *RateLimitWindow `json:"five_hour"`
 		SevenDay *RateLimitWindow `json:"seven_day"`
 	} `json:"rate_limits"`
-	ContextWindow *struct {
-		UsedPercentage *float64 `json:"used_percentage"`
-	} `json:"context_window"`
+	ContextWindow *ContextWindowInfo `json:"context_window"`
+}
+
+type ContextWindowInfo struct {
+	UsedPercentage    *float64 `json:"used_percentage"`
+	ContextWindowSize int      `json:"context_window_size"`
+	CurrentUsage      *struct {
+		InputTokens              int `json:"input_tokens"`
+		CacheCreationInputTokens int `json:"cache_creation_input_tokens"`
+		CacheReadInputTokens     int `json:"cache_read_input_tokens"`
+		OutputTokens             int `json:"output_tokens"`
+	} `json:"current_usage"`
 }
 
 // One rate limit window, derived from Anthropic's own response — not a local estimate.
@@ -120,16 +130,16 @@ func gitSegment() string {
 	gitEmoji := getGitEmoji()
 
 	if !st.IsRepo {
-		return fmt.Sprintf(" • %s %sno git%s", gitEmoji, CleanColor, Reset)
+		return fmt.Sprintf("%s%s %sno git%s", Sep, gitEmoji, CleanColor, Reset)
 	}
 
 	var out strings.Builder
 
 	branch := branchLabel(st)
 	if sync := formatSyncIndicator(st); sync != "" {
-		out.WriteString(fmt.Sprintf(" • %s%s%s %s", BranchColor, branch, Reset, sync))
+		out.WriteString(fmt.Sprintf("%s%s%s%s %s", Sep, BranchColor, branch, Reset, sync))
 	} else {
-		out.WriteString(fmt.Sprintf(" • %s%s%s", BranchColor, branch, Reset))
+		out.WriteString(fmt.Sprintf("%s%s%s%s", Sep, BranchColor, branch, Reset))
 	}
 
 	stagedStats := runCommand("git", "diff", "--cached", "--shortstat")
@@ -160,27 +170,27 @@ func gitSegment() string {
 
 	switch {
 	case hasStagedChanges && hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s %s+%s%s%s-%s%s",
-			gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset,
+		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s %s✓%s %s+%s%s%s-%s%s",
+			Sep, gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset,
 			DelColor, stagedDeletions, Reset, AddColor, Reset, AddColor, unstagedInsertions,
 			Reset, DelColor, unstagedDeletions, Reset))
 		out.WriteString(netDiffStr)
 	case hasStagedChanges:
-		out.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
-			gitEmoji, CleanColor, st.Staged, Reset, AddColor, stagedInsertions, Reset,
+		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
+			Sep, gitEmoji, CleanColor, st.Staged, Reset, AddColor, stagedInsertions, Reset,
 			DelColor, stagedDeletions, Reset, AddColor, Reset))
 		out.WriteString(netDiffStr)
 	case hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf(" • %s %s(%d)%s %s+%s%s%s-%s%s",
-			gitEmoji, CleanColor, st.Modified+st.Untracked, Reset, AddColor, unstagedInsertions,
+		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s",
+			Sep, gitEmoji, CleanColor, st.Modified+st.Untracked, Reset, AddColor, unstagedInsertions,
 			Reset, DelColor, unstagedDeletions, Reset))
 		out.WriteString(netDiffStr)
 	default:
-		out.WriteString(fmt.Sprintf(" • %s %sclean%s", gitEmoji, CleanColor, Reset))
+		out.WriteString(fmt.Sprintf("%s%s %sclean%s", Sep, gitEmoji, CleanColor, Reset))
 	}
 
 	if st.Stash > 0 {
-		out.WriteString(fmt.Sprintf(" • 💾 %sstash: %d%s", StashColor, st.Stash, Reset))
+		out.WriteString(fmt.Sprintf("%s💾 %sstash: %d%s", Sep, StashColor, st.Stash, Reset))
 	}
 
 	return out.String()
@@ -199,16 +209,25 @@ func generateStatusline() string {
 	var output strings.Builder
 	output.WriteString(Reset)
 
-	output.WriteString(fmt.Sprintf("%s%s%s", DirColor, displayDir(claudeContext), Reset))
-	output.WriteString(fmt.Sprintf(" • %s%s", emoji, getModelDisplayName(claudeContext)))
-	output.WriteString(fmt.Sprintf(" • %s%s󰎙%s %s%s%s • %s📦%s %s%s%s",
-		Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset,
-		PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
+	output.WriteString(fmt.Sprintf("📼 %s%s%s", DirColor, displayDir(claudeContext), Reset))
+	output.WriteString(fmt.Sprintf("%s%s%s󰎙%s %s%s%s%s%s📦%s %s%s%s",
+		Sep, Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset,
+		Sep, PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
 	output.WriteString(gitSegment())
 
-	if usageInfo := getUsageInfo(claudeContext); usageInfo != "" {
-		output.WriteString("\n" + usageInfo)
+	// Session identity closes line 1; the model leads line 2's usage gauges.
+	if label := sessionLabel(claudeContext); label != "" {
+		output.WriteString(fmt.Sprintf("%s%s🧵 %s%s", Sep, SessionColor, label, Reset))
+		// TEMPORARY ⚠ segment — see peerSocketAlive in session.go (CC issue #85497).
+		if !peerSocketAlive() {
+			output.WriteString(fmt.Sprintf(" %s⚠ unreachable%s", UsageCritColor, Reset))
+		}
 	}
+	line2 := fmt.Sprintf("%s%s", emoji, getModelDisplayName(claudeContext))
+	if usageInfo := getUsageInfo(claudeContext); usageInfo != "" {
+		line2 += Sep + usageInfo
+	}
+	output.WriteString("\n" + line2)
 
 	return output.String()
 }
