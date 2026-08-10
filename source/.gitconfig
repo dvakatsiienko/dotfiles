@@ -25,7 +25,7 @@
 
 [alias]
 	# Pretty-print git log in graph mode
-    lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+    lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --exclude=refs/conductor-checkpoints/* --all"
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
@@ -33,8 +33,6 @@
 	clean = git-lfs clean -- %f
 [init]
 	defaultBranch = main
-[pager]
-	log = false
 [coderabbit]
 	machineId = cli/95824464dd714d25a8c79a117fe70a14
 [url "git@github.com:"]

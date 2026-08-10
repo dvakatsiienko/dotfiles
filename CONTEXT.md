@@ -1,7 +1,7 @@
 # .dotfiles
 
 Personal macOS dotfiles: shell/git/terminal configuration plus the Claude Code
-workflow layer (`.clauderc/`) — sline, the x-plugin, and agent docs.
+workflow layer (`.clauderc/`) — sline, the plugin-x, and agent docs.
 
 ## Language
 
@@ -41,7 +41,7 @@ Rendering 0% instead of the pre-reset percentage once a quota window's reset tim
 A disposable cross-render cache (emoji rotation, pnpm version). Deletable at any time without harm; never git-tracked.
 _Avoid_: sline-db, database
 
-### Sessions & handoffs (shared with x-plugin)
+### Sessions & handoffs (shared with plugin-x)
 
 **Session**:
 One Claude Code conversation — a registry entry and a peer-messaging endpoint.
@@ -53,7 +53,14 @@ Sline's rendered form of a session's name — kebab-cased and truncated.
 A session's inbound message endpoint at `/tmp/cc-socks/<pid>.sock`.
 
 **CST (Continuation State Transfer)**:
-The machine-optimized context package one session produces so another session can continue its thread.
+The machine-optimized context package one thread produces so another thread — in any handoff frontend — can continue it. Defined once in `CST-SPEC.md`.
+
+**Handoff frontend**:
+A surface that can produce or ingest CSTs — the Claude Code `handoff*` skills, or Claude Desktop via the `handoff` MCP server.
+_Avoid_: naming one frontend when the statement holds for all
+
+**Handoff store**:
+`~/.claude/handoffs/` — the directory all handoff frontends share. Files are transient: deleted on ingest (`-shared` kept), swept after 24h.
 
 **Pending handoff**:
-A CST file in `~/.claude/handoffs/` awaiting ingest. The pull-handoff skill owns its lifecycle; sline's 📬 only observes.
+A CST file in the handoff store awaiting ingest. The handoff skill family and the Desktop server own its lifecycle; sline's 📬 only observes.

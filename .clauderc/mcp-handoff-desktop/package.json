@@ -1,0 +1,19 @@
+{
+    "name": "mcp-handoff-desktop",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "description": "Local stdio MCP server exposing CST handoffs (save/pull/prune) to Claude Desktop — interop with Claude Code via ~/.claude/handoffs/",
+    "scripts": {
+        "build": "tsc",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "1.30.0",
+        "zod": "4.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "26.2.0",
+        "typescript": "7.0.2"
+    }
+}

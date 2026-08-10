@@ -1,2 +1,5 @@
+packages:
+  - .clauderc/mcp-handoff-desktop
+
 minimumReleaseAgeExclude:
   - biome-config-polished

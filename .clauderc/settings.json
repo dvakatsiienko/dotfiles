@@ -60,7 +60,7 @@
     "x": {
       "source": {
         "source": "directory",
-        "path": "/Users/dima/.dotfiles/.clauderc/x-plugin"
+        "path": "/Users/dima/.dotfiles/.clauderc/plugin-x"
       },
       "autoUpdate": true
     }
@@ -77,7 +77,7 @@
   "autoDreamEnabled": true,
   "theme": "auto",
   "editorMode": "vim",
-  "verbose": true,
+  "verbose": false,
   "preferredNotifChannel": "notifications_disabled",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,

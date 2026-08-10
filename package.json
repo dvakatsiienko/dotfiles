@@ -8,6 +8,7 @@
         "list-symlinks": "zx ./script/list-symlinks.mjs",
         "untrack-dotfile": "zx ./script/untrack-dotfile.mjs",
         "sline:build": "cd ./.clauderc/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
+        "mcp:build": "pnpm --filter mcp-handoff-desktop build",
         "check": "biome check --write",
         "sline:test": "cd ./.clauderc/sline && go test ./..."
     },

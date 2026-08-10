@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "x",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Dima's own skills — RL task authoring, prompt review, agentic loops",
   "author": {
     "name": "Dima Vakatsiienko",

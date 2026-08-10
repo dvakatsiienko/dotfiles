@@ -28,6 +28,10 @@ db.sqlite
 test_results/
 coverage/
 
+# TS build artifacts
+.clauderc/mcp-handoff-desktop/dist
+.clauderc/mcp-handoff-desktop/skills-desk/*.zip
+
 # Go build artifacts
 .clauderc/sline/bin
 .clauderc/statusline/bin

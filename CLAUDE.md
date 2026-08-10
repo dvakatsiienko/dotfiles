@@ -158,7 +158,9 @@ Reference actual files for current aliases:
 ├── commands/              # Command definitions
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
-├── x-plugin/              # Personal plugin (skills: pull-handoff, review-loop, …), registered as marketplace "x"
+├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, handoff-prune, review-loop, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
+├── mcp-handoff-desktop/   # Local stdio MCP server giving Claude Desktop handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build);
+│                          #   skills-desk/ = thin claude.ai skills (/handoff, /handoff-pull, /handoff-prune) uploaded via Desktop Customize → Skills (zip per skill: `zip -r <name>.zip <name>`)
 ```
 
 ## Sline System
