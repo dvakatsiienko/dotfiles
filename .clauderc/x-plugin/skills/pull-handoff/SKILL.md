@@ -1,6 +1,6 @@
 ---
 name: pull-handoff
-description: Transfer live session context between Claude Code sessions via peer messages (Continuation State Transfer). Use when the user asks to grab/pull a handoff from another session, when an incoming HANDOFF REQUEST cross-session message arrives, or when the user types /pull-handoff to hand off the current thread before starting a fresh one.
+description: Transfer live session context between Claude Code sessions via peer messages (Continuation State Transfer). Use when the user asks to grab/pull a handoff from another session, when an incoming HANDOFF REQUEST cross-session message arrives, when the user types /pull-handoff to hand off the current thread before starting a fresh one, or asks to hand off and spawn a background successor.
 ---
 
 # Session Handoff (CST — Continuation State Transfer)
@@ -64,6 +64,14 @@ chmod 600 ~/.claude/handoffs/<file>
 ```
 
 Tell the user: file written; a fresh session picks it up with "grab handoff" (file fallback) and will delete it on ingest. If the user says several sessions will pull it, use the `-shared` filename suffix (ingest keeps it; the 24h sweep retires it).
+
+Trigger C — user asks to hand off AND launch the successor ("hand off and spawn", "/pull-handoff spawn [focus]"): produce the CST per the same spec (a stated focus becomes the TARGET weighting), then seed a background agent with it directly:
+
+```bash
+claude --bg --name "<short descriptive name>" "<CST, prefixed with: You are a continuation of a prior session. Ingest this CST silently per its own rules (persist C→memory lines, honor R/D as user-said), then proceed from S.>"
+```
+
+Always pass `--name` — it labels the job list, session picker, and terminal title. No handoff file is written (the CST rides in the prompt), so REDACT applies with full force. Tell the user in one line: spawned `<name>`; manage via `claude agents`.
 
 ## Etiquette
 
