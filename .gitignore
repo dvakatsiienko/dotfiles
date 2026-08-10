@@ -32,3 +32,4 @@ coverage/
 .clauderc/sline/bin
 .clauderc/statusline/bin
 **/*statusline*/bin
+.clauderc/sline/sline-state.json

@@ -20,7 +20,7 @@ var modelEmojis = []string{
 	"🥋", "🔮", "🧸", "🪵", "🪂", "⛈️", "⚡️", "🌈", "🎹", "🕯️", "💡",
 }
 
-// SlineState persists across renders in sline-db.json: emoji rotation plus a
+// SlineState persists across renders in sline-state.json: emoji rotation plus a
 // pnpm version cache (pnpm --version is a ~200ms node script — too slow to run
 // every render now that refreshInterval re-renders each minute).
 type SlineState struct {
@@ -33,7 +33,7 @@ type SlineState struct {
 
 func stateFilePath() string {
 	homeDir, _ := os.UserHomeDir()
-	return filepath.Join(homeDir, ".claude", "sline", "sline-db.json")
+	return filepath.Join(homeDir, ".claude", "sline", "sline-state.json")
 }
 
 func loadState() SlineState {

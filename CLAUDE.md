@@ -163,68 +163,17 @@ Reference actual files for current aliases:
 
 ## Sline System
 
-### Overview
+Sline is this repo's implementation of the official Claude Code «statusline»
+feature: a stdlib-only Go binary rendering directory, model, versions, git,
+session, quota, and context segments. Vocabulary lives in [CONTEXT.md](CONTEXT.md);
+design invariants in `docs/adr/`.
 
-note: sline — is our local shortcut name for an official claude code «statusline» feature.
-
-Go-based statusline system providing rich terminal display with:
-
-- Directory path with ~ shortening
-- Dynamic model detection with rotating emoji (hourly rotation)
-- Node.js and pnpm version display
-- Comprehensive git status: branch, sync indicators, file counts, line changes
-- Stash count when present
-- Day/night themed git emojis (🦔/🦦)
-- Subscription quota usage (5-hour and weekly windows) with reset countdown
-- Context window usage
-
-### Architecture
-
-- **Single Implementation**: Go binary at `sline/bin`, stdlib only (no deps),
-  source split across `main.go` / `git.go` / `model.go` / `session.go` / `usage.go` / `style.go`
-- **Shared State**: `sline-db.json` tracks emoji rotation and caches the pnpm
-  version (12h TTL, keyed by binary path — `pnpm --version` costs ~200ms)
-- **Data Source**: statusline JSON on stdin — every displayed number is
-  server-provided, no client-side estimates
-- **Hot Path**: one `git status --porcelain=v2 --branch --show-stash` call feeds
-  branch, sync, file counts, untracked list and stash; ~60ms warm render
-
-### Features
-
-- **Emoji Rotation**: 58 unique emojis rotate every hour
-- **Git Sync Status**: Superscript ahead/behind indicators (↑¹ ↓²)
-- **Quota Display**: `rate_limits.five_hour` / `.seven_day` percentages with
-  `resets_at` countdown — Pro/Max only, and only after the session's first API
-  response
-- **Context Display**: `context_window.used_percentage`, colour-graded at 75%/90%
-- **Error Handling**: Each segment is omitted when its field is absent; the whole
-  second line disappears rather than showing a stale or estimated value
-- **Design**: gruvbox-material truecolor palette on #282828; model name wears a
-  purple→blue gradient; quotas/context render as 10-cell ▮▯ severity-ramp bars;
-  `•` separators dimmed
-- **Session segment**: 🧵 session name leads line 2 (from statusline JSON or
-  `~/.claude/sessions/*.json` registry); 📬 counts pending `*.md` handoffs in
-  `~/.claude/handoffs/` — read-only, cleanup belongs to the pull-handoff skill
-- **Branch hyperlink**: OSC 8 link to the origin forge — requires
-  `FORCE_HYPERLINK=1` (exported in `source/.zshenv`; Warp isn't in CC's detect list)
-- **Stale-quota guard**: `resets_at` in the past ⇒ window rolled over while idle
-  ⇒ renders 0% instead of the stale pre-reset percentage
-- **Refresh**: `statusLine.refreshInterval: 60` keeps countdowns ticking while idle
-
-- **Value Gauge**: `cost.total_cost_usd` as `~$4.82`. On a Max subscription
-  nothing is billed per-unit, so this is the API-equivalent value of the
-  session's tokens, not money spent — the leading `~` marks it as such. Resets
-  on `/clear`; omitted while zero.
-
-Deliberately not shown: a burn rate. The old one divided cost by
-`total_duration_ms`, which is wall-clock time, so it decayed while the session
-sat idle and spiked in the first seconds.
-
-### Usage
-
-- **Build sline**: `pnpm sline:build`
-- **Test sline**: `pnpm sline:test`
-- **Current**: Points to `sline/bin` in settings.json
+- **Source**: `.clauderc/sline/` · **Build**: `pnpm sline:build` · **Test**: `pnpm sline:test`
+- **Wired via** `statusLine` in settings.json → `~/.claude/sline/bin`
+- **State**: `sline-state.json` — disposable cache, gitignored
+- **Invariant**: every displayed number is server-provided (ADR 0001)
+- **Gotcha**: branch hyperlinks need `FORCE_HYPERLINK=1` (exported in `source/.zshenv`;
+  Warp isn't in CC's terminal-detect list)
 
 ## Important Notes
 
