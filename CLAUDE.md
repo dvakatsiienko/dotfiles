@@ -158,6 +158,7 @@ Reference actual files for current aliases:
 ├── commands/              # Command definitions
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
+├── x-plugin/              # Personal plugin (skills: pull-handoff, review-loop, …), registered as marketplace "x"
 ```
 
 ## Sline System
@@ -180,7 +181,7 @@ Go-based statusline system providing rich terminal display with:
 ### Architecture
 
 - **Single Implementation**: Go binary at `sline/bin`, stdlib only (no deps),
-  source split across `main.go` / `git.go` / `model.go` / `usage.go` / `style.go`
+  source split across `main.go` / `git.go` / `model.go` / `session.go` / `usage.go` / `style.go`
 - **Shared State**: `sline-db.json` tracks emoji rotation and caches the pnpm
   version (12h TTL, keyed by binary path — `pnpm --version` costs ~200ms)
 - **Data Source**: statusline JSON on stdin — every displayed number is
@@ -198,6 +199,17 @@ Go-based statusline system providing rich terminal display with:
 - **Context Display**: `context_window.used_percentage`, colour-graded at 75%/90%
 - **Error Handling**: Each segment is omitted when its field is absent; the whole
   second line disappears rather than showing a stale or estimated value
+- **Design**: gruvbox-material truecolor palette on #282828; model name wears a
+  purple→blue gradient; quotas/context render as 10-cell ▮▯ severity-ramp bars;
+  `•` separators dimmed
+- **Session segment**: 🧵 session name leads line 2 (from statusline JSON or
+  `~/.claude/sessions/*.json` registry); 📬 counts pending `*.md` handoffs in
+  `~/.claude/handoffs/` — read-only, cleanup belongs to the pull-handoff skill
+- **Branch hyperlink**: OSC 8 link to the origin forge — requires
+  `FORCE_HYPERLINK=1` (exported in `source/.zshenv`; Warp isn't in CC's detect list)
+- **Stale-quota guard**: `resets_at` in the past ⇒ window rolled over while idle
+  ⇒ renders 0% instead of the stale pre-reset percentage
+- **Refresh**: `statusLine.refreshInterval: 60` keeps countdowns ticking while idle
 
 - **Value Gauge**: `cost.total_cost_usd` as `~$4.82`. On a Max subscription
   nothing is billed per-unit, so this is the API-equivalent value of the
@@ -219,3 +231,17 @@ sat idle and spiked in the first seconds.
 - **1Password required** for SSH signing functionality
 - **Vim plugins** require manual `:PlugInstall` after initial setup
 - Repository optimized for Claude Code development workflows
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as GitHub issues on `dvakatsiienko/.dotfiles`, managed via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout — `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
