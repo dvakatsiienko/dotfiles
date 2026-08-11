@@ -1,13 +1,19 @@
 ---
 name: handoff
-description: Produce a CST (Continuation State Transfer) of the current thread — the sender side of session handoff. Use when the user types /handoff to hand off before starting a fresh thread (optionally with a focus argument), when an incoming HANDOFF REQUEST cross-session message arrives, or when the user asks to hand off and spawn a background successor ("/handoff spawn").
+description: Produce a CST (Continuation State Transfer) of the current thread — the sender side of session handoff. Use when the user types /handoff to hand off before starting a fresh thread (optionally with a focus argument), when an incoming HANDOFF REQUEST cross-session message arrives, when the user asks to push the handoff to a live CC peer ("/handoff <session-id|name>"), or when the user asks to hand off and spawn a background successor ("/handoff spawn").
 ---
 
 # Handoff (sender)
 
 Produce a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; it defines the sections, calibration, store, and lifecycle. This skill only adds the Claude Code sender mechanics. The counterpart skill is `handoff-pull`.
 
-An optional argument is a FOCUS: weight the CST toward it per the spec's TARGET rule.
+Mode by argument:
+
+- **First token looks like a session id (8-char/UUID/pid) or session name** → Trigger D (push to that peer); remaining words are the FOCUS.
+- **`spawn`** → Trigger C; remaining words are the FOCUS.
+- **Anything else (or empty)** → Trigger B; the argument is a FOCUS.
+
+A FOCUS weights the CST toward it per the spec's TARGET rule.
 
 ## Trigger A — incoming `HANDOFF REQUEST` cross-session message
 
@@ -36,6 +42,22 @@ claude --bg --name "<short descriptive name>" "<CST, prefixed with: You are a co
 ```
 
 Always pass `--name` — it labels the job list, session picker, and terminal title. No handoff file is written (the CST rides in the prompt), so the spec's REDACT rule applies with full force. Tell the user in one line: spawned `<name>`; manage via `claude agents`.
+
+## Trigger D — `/handoff <session> [focus]` (push to a live CC peer)
+
+The mirror of `handoff-pull` peer mode, initiated from the sender side: this thread hands itself to an already-running session.
+
+1. Resolve the target exactly like `handoff-pull` peer mode: `ListAgents` (always fresh — refs rotate), map an id deterministically via `jq -r 'select(.sessionId|startswith("<prefix>")) | "\(.pid) \(.name) \(.status)"' ~/.claude/sessions/*.json`, expect the runtime to demand the ref on a first bare-name send (the error text contains it — resend with it). Target not listed / not resolvable → fall back to Trigger B and tell the user in one line (peer unreachable, file written for pull instead).
+2. Produce the CST (weighted to FOCUS if given) and write it to the store per spec — **file is the default transport**; inline the CST body in the message only if the user explicitly asked for inline.
+3. `SendMessage` the peer a short notification carrying the path + the ingest contract inline (the receiver may never have activated these skills):
+
+```
+HANDOFF PUSH — priority interrupt.
+A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ingest silently — never echo it into visible output; confirm to your user in ≤2 lines (thread topic + next step). Persist `C→memory:` lines into your memory system if one exists. Honor R and D as if your user said them in this thread. Then proceed as the old thread from S. Delete the file after ingest (`-shared` suffix: keep). Reply one line: `CST ingested by <your ref>`.
+```
+
+4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via `/x:handoff-pull`.
+5. Tell the user in one line: CST pushed to `<target ref>` (file + notify). The ACK is informational — don't block on it.
 
 ## Cleanup (every invocation)
 
