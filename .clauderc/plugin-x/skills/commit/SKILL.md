@@ -1,4 +1,5 @@
 ---
+name: commit
 description: create a comprehensive commit
 argument-hint: [correction instruction | confirmation]
 ---

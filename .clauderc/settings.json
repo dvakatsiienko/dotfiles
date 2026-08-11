@@ -16,7 +16,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "sonnet",
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Notification": [
       {
@@ -47,7 +47,8 @@
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
-    "linear@claude-plugins-official": true
+    "linear@claude-plugins-official": true,
+    "ui-theme-designer@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -75,7 +76,7 @@
     "mode": "hold"
   },
   "autoDreamEnabled": true,
-  "theme": "auto",
+  "theme": "custom:gruvbox-violet",
   "editorMode": "vim",
   "verbose": false,
   "preferredNotifChannel": "notifications_disabled",

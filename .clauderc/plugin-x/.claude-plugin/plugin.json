@@ -1,8 +1,8 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "x",
-  "version": "0.2.0",
-  "description": "Dima's own skills — RL task authoring, prompt review, agentic loops",
+  "version": "0.3.0",
+  "description": "Dima's own skills — CST session handoff, commit workflow, RL task authoring, prompt review, agentic loops",
   "author": {
     "name": "Dima Vakatsiienko",
     "email": "imagnum.satellite@gmail.com"

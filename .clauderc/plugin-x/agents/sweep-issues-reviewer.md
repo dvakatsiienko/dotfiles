@@ -1,6 +1,6 @@
 ---
-name: review-loop-reviewer
-description: Read-only defect finder for one round of the review-loop skill. Spawned by the orchestrator with a target scope; returns candidate findings and nothing else. Not for general-purpose code review outside the review loop.
+name: sweep-issues-reviewer
+description: Read-only defect finder for one round of the sweep-issues skill. Spawned by the orchestrator with a target scope; returns candidate findings and nothing else. Not for general-purpose code review outside the sweep.
 tools: Read, Grep, Glob
 model: opus
 ---

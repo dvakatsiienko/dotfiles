@@ -1,11 +1,11 @@
 ---
-name: review-loop
-description: Run a verified multi-round review loop against a target scope (directory, module, diff, branch, file list) — rounds rotate through six attack angles (project tooling, hostile input, critical reading, different-model review, integration/concurrency, user-facing path), the loop stops itself on two consecutive verified-clean rounds or reports capped/stuck honestly, state persists to a file so an interrupted run resumes where it stopped, and the final ledger accounts for every angle. Use when asked to review code, to review and fix it, to review without changing anything, or to resume an interrupted review run. Default mode fixes verified findings in place; report-only fires only on wording that plainly rejects changes ("review only", "no fixes", "don't touch the code").
+name: sweep-issues
+description: Heavy defect sweep — a multi-round find-prove-fix loop that hunts real bugs in a target scope (directory, module, diff, branch, file list) until two independent passes come back clean, or reports capped/stuck honestly. Rounds rotate through six attack angles (project tooling, hostile input, critical reading, different-model review, integration/concurrency, user-facing path); every finding is adversarially verified before it counts; state persists so an interrupted run resumes. This is an occasional deep-clean (typically 30-60 min, heavy token spend), not an everyday code review — use it when a feature is about to ship, on inherited or vibe-coded work, or before archiving/promoting a codebase; for a quick everyday review, use a lightweight review skill instead. Default mode fixes verified findings in place; report-only fires only on wording that plainly rejects changes ("review only", "no fixes", "don't touch the code").
 ---
 
-# review-loop
+# sweep-issues
 
-A review loop that ends on a stated rule, not a sense of being finished: rounds rotate through an angle catalogue, adversarial verifiers filter what each round finds, a **clean counter** decides when the loop has converged, and the closing report is a **coverage ledger** — every angle accounted for as used, skipped, or never reached, so partial coverage never reads as completeness. You are the orchestrator; the finding history, the counter, every probe, and every edit stay in this session — and the state file mirrors them, so a killed run resumes without paying for any round twice.
+A defect sweep that ends on a stated rule, not a sense of being finished: rounds rotate through an angle catalogue, adversarial verifiers filter what each round finds, a **clean counter** decides when the loop has converged, and the closing report is a **coverage ledger** — every angle accounted for as used, skipped, or never reached, so partial coverage never reads as completeness. You are the orchestrator; the finding history, the counter, every probe, and every edit stay in this session — and the state file mirrors them, so a killed run resumes without paying for any round twice.
 
 **This skill is evergreen.** Its current shape is not fixed — it is the best known shape so far, and every run is also an observation about where it is slow, redundant, or blind. The self-evaluation step (§10) is part of every run.
 
@@ -24,11 +24,11 @@ Mode: fix | report-only — scope: <scope>
 - **Scope** — whatever the invocation names. Nothing named: the uncommitted diff if there is one, else ask.
 - **Emphasis** — "focus on concurrency", "security angle". Emphasis weights angle ranking and reviewer attention; every qualifying defect in scope still counts wherever it sits.
 - **Skips** — the invocation may rule out named angles ("skip hostile input", "no tooling round"). A skipped angle enters the ledger as `skipped (user)` and never runs.
-- **Cap** — the invocation may set the round cap: a bare number as the argument (`/review-loop 10 <scope>`) or wording like "cap at 5 rounds". Default **6**: the distinct angles run once each, plus one re-run round — the first round whose input includes every fix the loop itself made (earlier rounds each land fixes the rounds before them never saw). The cap is a budget, not a verdict — hitting it reports as capped, never as success.
+- **Cap** — the invocation may set the round cap: a bare number as the argument (`/sweep-issues 10 <scope>`) or wording like "cap at 5 rounds". Default **6**: the distinct angles run once each, plus one re-run round — the first round whose input includes every fix the loop itself made (earlier rounds each land fixes the rounds before them never saw). The cap is a budget, not a verdict — hitting it reports as capped, never as success.
 
 ## 3. Open or resume the state file
 
-State lives at `~/.claude/review-loop/runs/<slug>.json`, slug = the scope's absolute path with `/` replaced by `-`. The file mirrors the orchestrator's whole state:
+State lives at `~/.claude/sweep-issues/runs/<slug>.json`, slug = the scope's absolute path with `/` replaced by `-`. The file mirrors the orchestrator's whole state:
 
 ```json
 {
@@ -48,11 +48,11 @@ State lives at `~/.claude/review-loop/runs/<slug>.json`, slug = the scope's abso
 
 **Checkpoint writes** — rewrite the whole file at three moments, never only at the end: after planning (ledger, skips, ranking), after a round's verification (findings recorded before any fix is attempted), and after fixes land and the counter updates (`terminal` is set here when a terminal status fires). A killed session loses at most the round in flight.
 
-**Cleanup** — the state file is scaffolding, not the record: closing the ledger (§9) deletes it, so only interrupted runs leave a file behind. When opening any fresh run, sweep `~/.claude/review-loop/runs/`: delete files whose `terminal` is set (a close that crashed before its delete) and files untouched for 30 days (interrupted runs nobody came back for).
+**Cleanup** — the state file is scaffolding, not the record: closing the ledger (§9) deletes it, so only interrupted runs leave a file behind. When opening any fresh run, sweep `~/.claude/sweep-issues/runs/`: delete files whose `terminal` is set (a close that crashed before its delete) and files untouched for 30 days (interrupted runs nobody came back for).
 
 ## 4. Plan the angles
 
-The catalogue — six angles, two classes. **Probe angles** execute the target: you run them yourself, in this session, and the evidence is execution output. **Judgment angles** read the target: each gets a fresh `x:review-loop-reviewer` subagent that never saw the work produced.
+The catalogue — six angles, two classes. **Probe angles** execute the target: you run them yourself, in this session, and the evidence is execution output. **Judgment angles** read the target: each gets a fresh `x:sweep-issues-reviewer` subagent that never saw the work produced.
 
 | Angle | Class | Applies when | Procedure |
 | --- | --- | --- | --- |
@@ -73,6 +73,8 @@ Open the ledger before round 1:
 
 Each round takes the highest-yield **eligible** angle. Unused angles always outrank re-armed ones (re-arming: §8); an angle never runs twice on the same code state. Re-rank between rounds if findings changed the picture. Announce `Round N — angle: <name>`, or for a re-armed angle `Round N — angle: <name> (re-run: code changed in round M)`.
 
+**Pairing — the wall-clock lever.** While at least two unused judgment angles remain, run the top two concurrently against the same code state: with no fixes between them, two serial rounds would have read identical code anyway, so the evidence is equivalent and the reviewer wall-clock halves. Verify the union of both rounds' findings in one pass, fix once, and update the counter as if the rounds ran back-to-back — two qualifying cleans from a pair count as 2 (independent cleans of the same state on different angles). Known cost, accepted: when the first half of a pair alone would have converged the loop, the second reviewer's tokens are spent anyway — wall-clock is the scarcer budget. Pair judgment with judgment only; probes are near-free and run serially whenever they're up.
+
 Three gates before each round, in order:
 
 1. **Cap** — round N would exceed the cap → terminate `capped`.
@@ -86,7 +88,7 @@ Three gates before each round, in order:
 Then run the angle's procedure:
 
 - **Probe rounds** — probes live in the scratchpad and never modify the target.
-- **Judgment rounds** — spawn one reviewer (Agent tool, `subagent_type: x:review-loop-reviewer`). Its prompt carries the scope (concrete paths or diff ref), emphasis, and the angle's mandate — nothing else. The reviewer never sees the conversation, the work's history, earlier rounds' findings, or who wrote the code: its value is that it never saw the work produced.
+- **Judgment rounds** — spawn one reviewer (Agent tool, `subagent_type: x:sweep-issues-reviewer`). Its prompt carries the scope (concrete paths or diff ref), emphasis, and the angle's mandate — nothing else. The reviewer never sees the conversation, the work's history, earlier rounds' findings, or who wrote the code: its value is that it never saw the work produced.
 
 Both classes return the same currency: findings with file:line, claim, and a concrete failure scenario. Discard anything without one — that bar is the contract, and a finding that misses it is noise, not signal.
 
@@ -97,15 +99,15 @@ Raw LLM review precision is roughly 1-in-5; unverified findings poison the decis
 - **Probe findings** arrive already executed — the failure ran in front of you. Map each to file:line (kill what doesn't map), record the verdict as `reproduced (by execution)`, and skip adversarial verification: a reader cannot refute an observed crash.
 - **Judgment findings** get two tiers, both before anything is reported:
   - **Tier 0 — mechanical.** The cited file and line exist and contain the code the claim is about (shell + grep, free). Kill what fails.
-  - **Tier 1 — adversarial.** For each survivor, spawn one `x:review-loop-verifier` subagent, all in parallel, each given **only** the file, line, and claim — never the reviewer's narrative, severity, or the other findings. Its mandate is to refute.
+  - **Tier 1 — adversarial.** For each survivor, spawn one `x:sweep-issues-verifier` subagent, all in parallel, each given **only** the file, line, and claim — never the reviewer's narrative, severity, or the other findings. Its mandate is to refute, and its output contract requires a `strongest-counter` line (the best argument against the claim, found before deciding) and closes with `claim-holds: yes|no|undecided`.
 
-A finding **survives** only with verdict `reproduced`. `refuted` kills it. `indeterminate` is reported to the human as its own class — neither a survivor nor discarded.
+A finding **survives** only with verdict `reproduced`. `refuted` kills it. `indeterminate` is reported to the human as its own class — neither a survivor nor discarded. A verdict whose label contradicts its own `claim-holds` line or evidence is **malformed**: re-spawn that one verifier once; malformed twice → record the finding `indeterminate`.
 
 Checkpoint the state file: verified findings are recorded before any fix is attempted.
 
 ## 7. Decide: the clean counter
 
-**Clean means zero findings surviving verification — zero `reproduced` and zero `indeterminate` — not zero reported.** An indeterminate verdict is an open question, and the loop does not converge past open questions.
+**Clean means zero findings surviving verification — zero `reproduced` and zero `indeterminate` — not zero reported.** An indeterminate verdict is an open question, and the loop does not converge past open questions. Findings already recorded `surfaced (user decision)` (§8) are the exception: they are open by the user's choice, not the loop's, and do not count against any later round's cleanliness.
 
 A clean round **qualifies** only when its evidence could have found something: probe rounds qualify on their objective output (the gate ran and passed); judgment rounds qualify only at high effort — low/medium-effort cleans under-report by design, consume their angle, and leave the counter unchanged.
 
@@ -137,6 +139,8 @@ Checkpoint the state file: counter, ledger, and — when a terminal status fired
 
 You apply the fixes, in this session, where edits are visible and rewindable — the reviewer and verifiers cannot edit and must stay that way. For each surviving finding, apply the minimal fix that removes the failure scenario. After fixing a probe finding, re-run its probe and show the failure gone. Surface rather than apply anything destructive (deleting files, dropping data, rewriting a public interface) or outside the stated scope.
 
+**Surfaced findings.** A finding you surface instead of fix — destructive, out of scope, or hinging on a product/architecture decision — is recorded as `surfaced (user decision)` (state file: `"surfaced": true`). It stays in the report as open, but stops counting against cleanliness: without this, a deliberately-unfixed finding gets re-found by every later judgment round and blocks convergence forever. Later reviewer prompts list surfaced findings as explicit exclusions ("already recorded, awaiting a decision — do not re-report") — the one sanctioned exception to the reviewer's no-context rule. A re-report of a surfaced finding is discarded as a duplicate, not re-verified.
+
 **Severity gates the reset.** Fixes for high or medium findings mean the code materially changed: the counter resets to 0 and used angles **re-arm** — eligible again against the new code, ranked by how much they bear on what changed, once no unused angle remains. Low-severity fixes change too little to send the loop back to round one: no reset, no re-arm. Report-only mode applies no fixes, so nothing resets or re-arms and the catalogue bounds the loop.
 
 ## 9. Close with the coverage ledger and rounds table
@@ -161,7 +165,7 @@ After the ledger, print the **rounds table** — one row per round, in order, so
 | 2 | critical-reading | reviewer (opus) | 7 | 7 | 1 high, 3 medium, 3 low |
 | 6 | integration-concurrency | reviewer (opus), re-run | 1 | 1 | regression in round-5 fix |
 
-Kind names the class and, for judgment rounds, the reviewer model; re-run rounds say so. Notes carries severity split, refuted/indeterminate counts, or the one-line reason a round mattered. Below the table, print the totals line: `<N> findings raised → <F> fixed, <R> refuted, <I> indeterminate, <U> unfixed` — and, when duration data is available from subagent results, the total reviewer/verifier wall-clock.
+Kind names the class and, for judgment rounds, the reviewer model; re-run rounds say so. Notes carries severity split, refuted/indeterminate counts, or the one-line reason a round mattered. Below the table, print the totals line: `<N> findings raised → <F> fixed, <R> refuted, <I> indeterminate, <S> surfaced (user decision), <U> unfixed` — and, when duration data is available from subagent results, the total reviewer/verifier wall-clock and token spend.
 
 Close by stating any limit that applies — fixes applied in the round before a `capped`, `stuck`, or `exhausted` stop are unreviewed code.
 
@@ -179,6 +183,6 @@ Output at most 2–3 bullets, each either an observation or a concrete proposed 
 
 - **Eligible reviewers:** Opus 5 (default finder — measured high precision and recall), Opus 4.8, Sonnet 5. Haiku and smaller models are ineligible: against a ~20% precision baseline a weak reviewer produces confident noise, worse than no round.
 - **Cost dial is `effort`, never model tier.** A cheap pass is a capable model at low/medium effort.
-- **The `different-model` angle** rotates within the eligible set: its reviewer must differ from every model a judgment round already used this loop — Sonnet 5 when Opus 5 ran the earlier rounds, Opus 4.8 as the alternate. Model rotation is a diversity heuristic, not a proven control: the disjoint-family evidence comes from QA/chat, not code defects.
+- **The `different-model` angle** rotates within the eligible set: its reviewer must differ from every model a judgment round already used this loop — including the model of a concurrently running paired round — Sonnet 5 when Opus 5 ran the earlier rounds, Opus 4.8 as the alternate. Model rotation is a diversity heuristic, not a proven control: the disjoint-family evidence comes from QA/chat, not code defects.
 - **Verifier:** different tier from the finder (Sonnet when the finder is Opus), low effort — the documented bias toward high-confidence-only reporting is exactly right for a filter and wrong for a finder.
 - A clean round at low effort never counts toward the stop rule (see the counter table).

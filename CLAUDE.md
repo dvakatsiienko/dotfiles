@@ -120,7 +120,7 @@ Reference actual files for current aliases:
 **Claude Built-in Configs:**
 
 - ✅ `settings.json` - Permissions, hooks, integrations
-- ✅ `commands/` - Command definitions (.md files)
+- ✅ `commands/` - Legacy slash-command dir, now empty — commands live as plugin-x skills
 
 **Custom Configs:**
 
@@ -155,10 +155,10 @@ Reference actual files for current aliases:
 ├── guides/                # Language convention guides
 │   ├── react.md           # React conventions
 │   └── typescript.md      # Type conventions
-├── commands/              # Command definitions
+├── commands/              # Empty — former slash commands migrated to plugin-x/skills/
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
-├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, handoff-prune, review-loop, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
+├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, handoff-prune, sweep-issues, commit, cct, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
 ├── mcp-handoff-desktop/   # Local stdio MCP server giving Claude Desktop handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build);
 │                          #   skills-desk/ = thin claude.ai skills (/handoff, /handoff-pull, /handoff-prune) uploaded via Desktop Customize → Skills (zip per skill: `zip -r <name>.zip <name>`)
 ```

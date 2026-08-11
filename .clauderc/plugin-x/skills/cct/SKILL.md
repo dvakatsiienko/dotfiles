@@ -1,5 +1,6 @@
 ---
-description: commit (via /commit) then sync the result into this repo's local main branch, optionally pushing to remote main with `remote`
+name: cct
+description: commit (via the commit skill) then sync the result into this repo's local main branch, optionally pushing to remote main with `remote`
 argument-hint: [remote] [correction instruction | confirmation]
 ---
 
@@ -18,14 +19,16 @@ review isn't needed.
 - Scan `$ARGUMENTS` for the standalone word `remote` (case-insensitive). If present, remove it
   from `$ARGUMENTS` before handing the rest to the commit flow in step 1 below — the remaining
   text (correction instructions, `go`, `slay`, issue IDs, etc.) is still handled exactly per
-  @commit.md's own rules, independent of `remote`.
+  the commit skill's own rules ([../commit/SKILL.md](../commit/SKILL.md)), independent of
+  `remote`.
 - `remote` is purely a request to also push local main to `origin main` at the end (step 3 below).
   It does not change commit message formatting or the local-sync step.
 
 ## flow
 
-1. Run the full commit flow exactly as defined in @commit.md (using `$ARGUMENTS` with `remote`
-   stripped out, per above), including staging, commit message format, and the pre-commit sanity
+1. Run the full commit flow exactly as defined in the sibling commit skill
+   ([../commit/SKILL.md](../commit/SKILL.md) — read it) using `$ARGUMENTS` with `remote`
+   stripped out, per above, including staging, commit message format, and the pre-commit sanity
    check.
 2. After the commit lands, sync it into this repository's local main:
    - Determine the repo's default branch name (`main`, falling back to `master` if that's what
