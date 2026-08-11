@@ -76,7 +76,7 @@
     "mode": "hold"
   },
   "autoDreamEnabled": true,
-  "theme": "custom:gruvbox-violet",
+  "theme": "custom:gruvbox-ansi",
   "editorMode": "vim",
   "verbose": false,
   "preferredNotifChannel": "notifications_disabled",
