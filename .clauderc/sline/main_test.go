@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestFormatResetIn(t *testing.T) {
@@ -26,6 +27,33 @@ func TestFormatResetIn(t *testing.T) {
 		if got := formatResetIn(c.seconds); got != c.want {
 			t.Errorf("formatResetIn(%d) = %q, want %q", c.seconds, got, c.want)
 		}
+	}
+}
+
+func TestCacheCold(t *testing.T) {
+	dir := t.TempDir()
+	transcript := filepath.Join(dir, "transcript.jsonl")
+	if err := os.WriteFile(transcript, []byte("{}"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+
+	if cacheCold(transcript) {
+		t.Error("fresh transcript reported cold")
+	}
+
+	old := time.Now().Add(-cacheTTL - time.Minute)
+	if err := os.Chtimes(transcript, old, old); err != nil {
+		t.Fatal(err)
+	}
+	if !cacheCold(transcript) {
+		t.Error("transcript idle past TTL not reported cold")
+	}
+
+	if cacheCold("") {
+		t.Error("empty path reported cold")
+	}
+	if cacheCold(filepath.Join(dir, "missing.jsonl")) {
+		t.Error("missing file reported cold")
 	}
 }
 

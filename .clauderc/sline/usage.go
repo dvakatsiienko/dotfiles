@@ -109,6 +109,25 @@ func formatWindow(label string, window *RateLimitWindow) string {
 	return segment
 }
 
+// cacheTTL mirrors the subscription's extended prompt-cache TTL (1h). CC's own
+// "uncached · /clear to start fresh" note has no statusline-JSON counterpart
+// (verified against the schema, v2.1.x), so coldness is inferred from the one
+// local fact available: transcript mtime = last API activity. See ADR 0001's
+// carve-out — this is a derived boolean off a filesystem fact, not an estimated
+// number.
+const cacheTTL = time.Hour
+
+func cacheCold(transcriptPath string) bool {
+	if transcriptPath == "" {
+		return false
+	}
+	info, err := os.Stat(transcriptPath)
+	if err != nil {
+		return false
+	}
+	return time.Since(info.ModTime()) > cacheTTL
+}
+
 // contextTokens renders the absolute token count behind used_percentage ("~14k").
 // Prefers the server's own usage numbers; falls back to pct × window size, with
 // 200k assumed when the JSON omits the size.
@@ -164,6 +183,9 @@ func getUsageInfo(context *ClaudeContext) string {
 		segment := fmt.Sprintf("🧠 %s %s%.0f%%%s", progressBar(pct), usageColor(pct), pct, Reset)
 		if tokens := contextTokens(ctxWindow, pct); tokens != "" {
 			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, tokens, Reset)
+		}
+		if cacheCold(context.TranscriptPath) {
+			segment += " (❄️)"
 		}
 		segments = append(segments, segment)
 	}
