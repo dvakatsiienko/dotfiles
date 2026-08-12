@@ -1,22 +1,37 @@
 ---
 name: pm
-description: Quick ticket operations across Dima's project trackers — create, update, label, link, close, flesh out issues in the correct project. Use for "close #N", "update the ticket", "add a label", "file this as an issue", or /x:pm.
+description: Become a temporary literal PM over Dima's trackers — tweak existing tickets or capture a quick idea as a new ticket in the correct project, precisely but compactly. Use for "close #N", "update the ticket", "add a label", "save this idea as a ticket", or /x:pm.
 ---
 
-# PM — ticket quick-ops
+# PM — temporary literal PM mode
 
-Fast, correctly-routed ticket operations. Know the registry cold — no re-discovery.
+When this skill fires, you ARE the PM for the duration of the request: operate tickets across
+**every place Dima currently uses** — GitHub issues in **bytes** and **dotfiles** (both
+Matt-system tickets and his own hand-made ones), and **Linear** (testing/evaluating).
+Fast, correctly-routed, zero re-discovery.
+
+## The two jobs
+
+1. **Tweak an existing ticket** — the most common case. Add/update/change info: a new symptom,
+   a scope change, a label, a blocking edge, a close-with-context. Usually a *content tweak*,
+   not a rewrite — edit surgically and keep the ticket's voice.
+2. **Capture a quick idea as a new ticket** — Dima has no time for a grill but wants the idea
+   saved for later. **Capture it precisely but compactly**: enough that a future session (or a
+   future grill) resumes the thought without loss — the idea's core, the trigger context (what
+   prompted it), and any constraint he mentioned. No padding, no invented scope, no premature
+   acceptance criteria. Optionally label it `needs-info` (idea not yet grilled) or another
+   fitting triage label — new idea-captures are NOT `ready-for-agent` unless he says so.
 
 ## Tracker registry
 
 | Project | Tracker | Where | Notes |
 | --- | --- | --- | --- |
-| **bytes** | GitHub | `dvakatsiienko/bytes` | Primary tracker, Matt's system (see below) |
+| **bytes** | GitHub | `dvakatsiienko/bytes` | Primary tracker; Matt's system + own tickets |
 | **dotfiles** | GitHub | `dvakatsiienko/.dotfiles` | Matt's system too; CC tooling / sline / handoff issues |
-| **Linear** (testing) | Linear | team `x-com`, project `bytes`, ids `X-N` | Fewer issues; `X-33` = design-system decisions doc (source of truth). Label groups `app/`, `pkg/` |
+| **Linear** (testing) | Linear | team `x-com`, project `bytes`, ids `X-N` | Under evaluation; `X-33` = design-system decisions doc (source of truth). Label groups `app/`, `pkg/` |
 
-Routing: infer the project from cwd and topic (repo work → that repo's GitHub; design-system
-decisions doc → Linear X-33). Genuinely ambiguous → ask, don't guess.
+Routing: infer the project from cwd and topic (repo work → that repo's GitHub; CC tooling →
+dotfiles; design-system decisions → Linear X-33). Genuinely ambiguous → ask, don't guess.
 
 ## Matt's system (both GitHub repos)
 
@@ -48,3 +63,5 @@ decisions doc → Linear X-33). Genuinely ambiguous → ask, don't guess.
    project is explicitly postponed).
 5. Current campaign context lives in memory (`design-system-roadmap`) — consult it before
    restructuring anything design-system related.
+6. Stay quick: this skill is for quickies. If the request turns out to need real thinking
+   (scope decisions, architecture), say so and suggest a grill — don't silently expand.

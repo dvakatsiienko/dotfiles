@@ -30,7 +30,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "sh ~/.claude/notification.sh"
+            "command": "sh ~/.claude/hooks/notification.sh"
           }
         ]
       }

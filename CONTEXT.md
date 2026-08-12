@@ -41,6 +41,15 @@ Rendering 0% instead of the pre-reset percentage once a quota window's reset tim
 A disposable cross-render cache (emoji rotation, pnpm version). Deletable at any time without harm; never git-tracked.
 _Avoid_: sline-db, database
 
+### Artifact shelf
+
+**Shelf**:
+`~/.claude/shelf/` — the consolidated store for artifacts our skills produce for internal, throwaway-to-mid-term use (not config, not code). One subdirectory per artifact family: `shelf/handoffs/`, `shelf/transcripts/`. Lives outside any git repo.
+_Avoid_: store (collides with redux/app stores mid-project), stash (collides with git stash)
+
+**Transcript**:
+A shelved text extraction of a video — the artifact the `transcript` skill family produces and recalls. Source-agnostic term: YouTube today, possibly other sources later.
+
 ### Sessions & handoffs (shared with plugin-x)
 
 **Session**:

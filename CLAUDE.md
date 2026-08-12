@@ -152,6 +152,7 @@ Reference actual files for current aliases:
 ```
 .clauderc/
 ├── settings.json          # Main Claude settings
+├── keybindings.json       # CC keyboard shortcuts (symlinked from ~/.claude/)
 ├── guides/                # Language convention guides
 │   ├── react.md           # React conventions
 │   └── typescript.md      # Type conventions
