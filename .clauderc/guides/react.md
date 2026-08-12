@@ -1,55 +1,125 @@
-# react guidelines
+# React Guide
 
-- always use named exports for react components unless a framework requires a component to be exported (like pages in next.js app router)
-- prefer arrow functions for react components
-- avoid react props destructuring pattern unless default props are required — use props.propName accessor pattern instead
-- do not reduntantly `import React from 'react'` when modern jsx transform is used
+> **Status: evergreen** 🌲 — actively maintained, promoted, and open for positive contributions.
+> Spot a recurring pattern worth codifying, or drift between this guide and reality? Propose the
+> update (fast path: the `/docs` skill).
+>
+> **To whoever edits this file (usually Claude):** this guide is meant to be *read*, not just parsed.
+> When you update it, keep it pretty — scannable sections, tight prose, working examples,
+> stable emphasis (`code` for entities, **bold** for rules). Leave it better-written than you found it.
 
-#### react component organisation structure
+## Components
 
-Always write this component file organisation pattern for new code.
-And prefer this pattern over other unpatterned react component files. if you work on a big file changes propose me to align entire file with patterned structure. we should have all react components be organized using a temaplate for standartisation purposes.
+- **Named exports, arrow functions.** `export const Button = (props: ButtonProps) => …`.
+  Default exports only where a framework demands them (Next.js pages/layouts).
+- **`props.x` accessor — no destructuring.** The `props.` prefix keeps data origin visible at
+  every use site. Destructure only when applying defaults.
+- **No `import React from 'react'`** — the modern JSX transform makes it noise.
+- **Derived JSX lives in named consts** computed before the return, suffixed `JSX`
+  (`ListJSX` for collections): `const optionListJSX = props.options.map(…)`.
+- **Explicit `return` in map/render callbacks** — prefer a block body over an implicit-return
+  arrow. Slightly bigger shape, but a `console.log`/`debugger` drops in immediately, no
+  fold/unfold restructuring mid-debug.
+- **Body = logic, return = markup.** The component body prepares data (maps, transforms,
+  branches); the return value stays pure JSX presentation. Simple expressions inline are fine —
+  complexity graduates to a named const, case by case.
 
-### typical \*.tsx file structure
+## Imports
 
-- imports
-- component definition
-- helper code: functions, configs, cva, class-variants-authority variant styles, then typescript types: interfaces etc. expots at the all the end if necessary.
+Three groups, in a fixed order — big import blocks stay scannable, and every dependency has
+one obvious home:
+
+1. **Core** — node_modules
+2. **Components** — local React components (composition is the second-highest building block)
+3. **Instruments** — everything else: api, helpers, styles, assets, type imports
+
+`/* Core */` · `/* Components */` · `/* Instruments */` group comments are optional flourish —
+add them in import-heavy files, skip them when the list is short or the formatter already
+keeps the order.
+
+## File anatomy
+
+One template for every component file — imports → component → styles → helpers → types.
+The reader meets things in the order they need them:
 
 ```tsx
-/* imports at the start of a file */
+import { useState } from 'react';
+import { cva } from 'cva';
 
-export const Button: React.FC<ButtonProps> = (props) => {
-  return <button>{trim(props.text)}</button>;
+import { SpinnerSvg } from '@/components/svg/SpinnerIcon';
+
+export const Select = (props: SelectProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const optionListJSX = props.options.map((option) => {
+    return (
+      <SelectItem key={option.value} value={option.value}>
+        {option.label}
+      </SelectItem>
+    );
+  });
+
+  return (
+    <SelectRoot onOpenChange={setIsOpen} open={isOpen} value={props.value}>
+      <SelectTrigger className={triggerCva({ loading: props.isLoading })}>
+        <SelectValue placeholder={props.isLoading ? <SpinnerSvg /> : 'Select…'} />
+      </SelectTrigger>
+      <SelectContent>{optionListJSX}</SelectContent>
+    </SelectRoot>
+  );
 };
 
-/* Helpers — all helper functions, configs and other helper code goes after component body */
-function trim(val: string) {
-  return val.trim();
-}
+/* Styles */
+const triggerCva = cva({
+  base: 'grid min-w-25 grid-flow-col gap-1 px-2 text-sm',
+  variants: {
+    loading: { true: 'justify-center' },
+  },
+});
 
-/* Types — types goes after helpers */
-interface ButtonProps {
-  text: string;
+/* Types */
+interface SelectProps {
+  isLoading?: boolean;
+  onValueChange: (value: string) => void;
+  options: Option[];
+  value: string;
+}
+interface Option {
+  label: string;
+  value: string;
 }
 ```
 
-### special meta-comments
+Section meta-comments, in order (include only the sections the file actually has):
 
-```tsx
-/* Core */ // ← this comment is a «header» comment for a file, meaning an «imports» part.
-import x from y; /* imports all imports */
-import x from y; /* imports all imports */
-import x from y; /* imports all imports */
-import x from y; /* imports all imports */
+- **`/* Styles */`** — cva variant configs, named `xxxCva`
+- **`/* Helpers */`** — pure functions, configs, small non-component code
+- **`/* Types */`** — every TypeScript shape, dead last; `<Component>Props` first
+- Prefer inline `export const X = …`; a trailing `export { … }` block only when regrouping is needed
 
-// component defintion
+When a large edit visits an unpatterned file, propose aligning the whole file to this template.
 
-/* Styles */ // ← optional cva or class-variance-authority variant styles
+## File layout
 
-/* Heplers */ // ← heler functions, config files, and other small parts of code
+- **Flat file by default:** `components/Select.tsx`.
+- **Folder + `index.ts` barrel** only when a component owns satellites — co-located assets,
+  a `resolver.ts`, private SVGs: `LoginForm/{LoginForm.tsx, resolver.ts, img/, index.ts}`.
+- **Route-local compositions** live in the route's `parts/` dir — they serve one page and
+  don't pretend to be shared.
 
-/* Types */ // ← all typescript-related stuff: interfaces, types, unoons etc
+## Vendored code (shadcn `ui/`)
 
-export { x }; // ← exports are in the end but prefer to export const Component = ... right away.
-```
+Generated primitives are owned, not sacred — but **convert-on-touch**: bring a file to house
+style only while editing it for real work. No style-only chore commits; freshly generated files
+may keep upstream shape until first touched.
+
+## Stack idioms
+
+_Bytes-flavoured; apply where the stack matches, skip where it doesn't._
+
+- **cva** — variants under `/* Styles */`; expose to types via `VariantProps<typeof xxxCva>`.
+- **Forms** — react-hook-form + zod, resolver in its own `resolver.ts` beside the form.
+- **Canon specimens** (read these when in doubt):
+  - `apps/x-com-chat/src/components/Select.tsx` — component anatomy
+  - `apps/x-com-chat/src/app/(chat)/chat/[[...chatAddress]]/parts/Chat.tsx` — hooks + data flow
+  - `apps/space-explorer-ui/src/components/LoginForm/LoginForm.tsx` — form + folder/barrel pattern

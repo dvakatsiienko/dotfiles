@@ -1,18 +1,78 @@
-# typescript guidelines
+# TypeScript Guide
 
-# convensions
+> **Status: evergreen** 🌲 — actively maintained, promoted, and open for positive contributions.
+> Spot a recurring pattern worth codifying, or drift between this guide and reality? Propose the
+> update (fast path: the `/docs` skill).
+>
+> **To whoever edits this file (usually Claude):** this guide is meant to be *read*, not just parsed.
+> When you update it, keep it pretty — scannable sections, tight prose, working examples,
+> stable emphasis (`code` for entities, **bold** for rules). Leave it better-written than you found it.
 
-- use type name distinction system:
-  - interfaces: TextareaProps → ITextareaProps, where prefix I stand for interface, which is described by this interface type
-  - types: TextareaProps → TTextareaProps, where prefix T stand for type, which is described by this type
-  - unions: LoadingState → ULoadingState, where prefix U stand for union, which is described by this union type
-  - discriminated unions are prefixe with U too
-- when typing zustand stores prefer typed selectors with proper inference
+## Naming
 
-# biggest problems
+- **Plain names, no Hungarian prefixes.** `SelectProps`, `Payload`, `LoadingState` — the old
+  `I`/`T`/`U` prefix system is retired 🪦. The IDE already tells you what a symbol is; prefixes
+  just re-encode what hover-info shows for free.
+- Component props: an interface named **`<Component>Props`**, e.g. `ButtonProps`.
+- **Rename-on-touch:** legacy prefixed names (`ITool`, `TSvgProps`) get renamed when a real edit
+  visits their file — never in dedicated rename sweeps.
 
-## absense of type coverage «from the top to bottom»
+## Imports & exports
 
-- @types dir contains important type definitions for EN.Event, EN.Tournament etc but rarely or not optimally used across codebase.
-- such important type definition information is required to be used in important type infrastructure app places like zustand stores
-- to resolve this issue type definitions need to be connected to zustand stores, correctly processed preserving type definition in correct shape, and consumed by React Components in appropriate type shape
+- **`import type` for every type-only import**, including the namespace form:
+  `import type * as gql from '@/graphql'`.
+- **Named exports over default exports.** A default-exported identifier can be imported under
+  *any* name (`import Modall from './Modal'` compiles fine), which hides usages and breaks
+  rename-refactors at scale. Named exports pin the identifier project-wide — the only exception
+  is a framework that demands a default (Next.js pages/layouts).
+
+## Inference first
+
+Derive types from the source of truth instead of re-declaring shapes — hand-retyped copies
+drift, derivations can't:
+
+| Source of truth | Derivation |
+| --- | --- |
+| zod schema | `z.infer<typeof schema>` |
+| cva config | `VariantProps<typeof buttonCva>` |
+| Convex table | `Doc<'chats'>`, generated `api` types |
+| `as const` list | `(typeof themeList)[number]` |
+
+## `satisfies` — the habit to build
+
+`satisfies` checks a value against a type **without widening it**: you keep literal inference
+*and* shape safety. A plain annotation (`const x: Config = …`) erases literals; `satisfies` keeps both.
+
+```ts
+type ThemeOption = { label: string; value: 'light' | 'dark' | 'system' };
+
+const themeList = [
+  { label: 'Light', value: 'light' },
+  { label: 'Dark', value: 'dark' },
+] as const satisfies readonly ThemeOption[];
+
+// themeList[0].value is still the literal 'light' (not string) —
+// but a typo'd key or an illegal value fails HERE, not at some distant use site.
+```
+
+Reach for it on anything config-shaped: option lists, route maps, tool registries, theme tables.
+
+## Literals
+
+- **`as const`** for fixed lists and config literals; derive the union from the list
+  (`(typeof list)[number]`) instead of maintaining a parallel union type.
+
+## Placement
+
+- Types live at the **bottom of the file** under `/* Types */` (see the react guide's file anatomy).
+- A shared type earns its own module only when 2+ files import it.
+
+## Stack idioms
+
+_Bytes-flavoured; apply where the stack matches, skip where it doesn't._
+
+- **jotai** — let atoms infer from their initial value; annotate only when inference can't see it:
+  `atom<string | null>(null)`.
+- **Convex** — consume `Doc<'table'>` and the generated `api`; never hand-retype documents.
+- **GraphQL codegen** — `import type * as gql from '@/graphql'`; reference `gql.LoginMutation` etc.
+- **zod + react-hook-form** — the schema is the type: `type FormShape = z.infer<typeof schema>`.
