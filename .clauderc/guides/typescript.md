@@ -2,7 +2,7 @@
 
 > **Status: evergreen** 🌲 — actively maintained, promoted, and open for positive contributions.
 > Spot a recurring pattern worth codifying, or drift between this guide and reality? Propose the
-> update (fast path: the `/docs` skill).
+> update (fast path: the `/x:code-style` skill).
 >
 > **To whoever edits this file (usually Claude):** this guide is meant to be *read*, not just parsed.
 > When you update it, keep it pretty — scannable sections, tight prose, working examples,
