@@ -1,18 +1,16 @@
+---
+name: guide-typescript
+description: Binding TypeScript conventions — load EVERY time you write, edit, or review TypeScript code in any repo (also fires alongside guide-react for .tsx work). Naming, imports, inference-first typing, satisfies, literals, type placement.
+---
+
 # TypeScript Guide
 
-> **Status: evergreen** 🌲 — actively maintained, promoted, and open for positive contributions.
-> Spot a recurring pattern worth codifying, or drift between this guide and reality? Propose the
-> update (fast path: the `/x:code-style` skill).
->
-> **To whoever edits this file (usually Claude):** this guide is meant to be *read*, not just parsed.
-> When you update it, keep it pretty — scannable sections, tight prose, working examples,
-> stable emphasis (`code` for entities, **bold** for rules). Leave it better-written than you found it.
+Binding when printing TypeScript — follow exactly, no freestyle.
 
 ## Naming
 
 - **Plain names, no Hungarian prefixes.** `SelectProps`, `Payload`, `LoadingState` — the old
-  `I`/`T`/`U` prefix system is retired 🪦. The IDE already tells you what a symbol is; prefixes
-  just re-encode what hover-info shows for free.
+  `I`/`T`/`U` prefix system is retired 🪦.
 - Component props: an interface named **`<Component>Props`**, e.g. `ButtonProps`.
 - **Rename-on-touch:** legacy prefixed names (`ITool`, `TSvgProps`) get renamed when a real edit
   visits their file — never in dedicated rename sweeps.
@@ -22,9 +20,8 @@
 - **`import type` for every type-only import**, including the namespace form:
   `import type * as gql from '@/graphql'`.
 - **Named exports over default exports.** A default-exported identifier can be imported under
-  *any* name (`import Modall from './Modal'` compiles fine), which hides usages and breaks
-  rename-refactors at scale. Named exports pin the identifier project-wide — the only exception
-  is a framework that demands a default (Next.js pages/layouts).
+  *any* name, which hides usages and breaks rename-refactors at scale. The only exception is a
+  framework that demands a default (Next.js pages/layouts).
 
 ## Inference first
 
@@ -40,8 +37,8 @@ drift, derivations can't:
 
 ## `satisfies` — the habit to build
 
-`satisfies` checks a value against a type **without widening it**: you keep literal inference
-*and* shape safety. A plain annotation (`const x: Config = …`) erases literals; `satisfies` keeps both.
+`satisfies` checks a value against a type **without widening it**: literal inference *and*
+shape safety. A plain annotation (`const x: Config = …`) erases literals; `satisfies` keeps both.
 
 ```ts
 type ThemeOption = { label: string; value: 'light' | 'dark' | 'system' };
@@ -64,7 +61,7 @@ Reach for it on anything config-shaped: option lists, route maps, tool registrie
 
 ## Placement
 
-- Types live at the **bottom of the file** under `/* Types */` (see the react guide's file anatomy).
+- Types live at the **bottom of the file** under `/* Types */` (see guide-react's file anatomy).
 - A shared type earns its own module only when 2+ files import it.
 
 ## Stack idioms
@@ -76,3 +73,10 @@ _Bytes-flavoured; apply where the stack matches, skip where it doesn't._
 - **Convex** — consume `Doc<'table'>` and the generated `api`; never hand-retype documents.
 - **GraphQL codegen** — `import type * as gql from '@/graphql'`; reference `gql.LoginMutation` etc.
 - **zod + react-hook-form** — the schema is the type: `type FormShape = z.infer<typeof schema>`.
+
+---
+
+🌲 **Evergreen.** Spot a recurring pattern worth codifying, or guide-vs-reality drift? Propose
+the update; to fold it in, load `writing-for-agents` and edit this file (real path:
+`~/.dotfiles/.clauderc/plugin-x/skills/guide-typescript/SKILL.md`). Keep it pretty — scannable
+sections, tight prose, working examples.

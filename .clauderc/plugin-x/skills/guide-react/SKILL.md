@@ -1,12 +1,11 @@
+---
+name: guide-react
+description: Binding React conventions — load EVERY time you write, edit, or review React/JSX components (pair with guide-typescript for the type side). Component shape, props access, import groups, file anatomy, file layout, cva/forms idioms.
+---
+
 # React Guide
 
-> **Status: evergreen** 🌲 — actively maintained, promoted, and open for positive contributions.
-> Spot a recurring pattern worth codifying, or drift between this guide and reality? Propose the
-> update (fast path: the `/x:code-style` skill).
->
-> **To whoever edits this file (usually Claude):** this guide is meant to be *read*, not just parsed.
-> When you update it, keep it pretty — scannable sections, tight prose, working examples,
-> stable emphasis (`code` for entities, **bold** for rules). Leave it better-written than you found it.
+Binding when printing React — follow exactly, no freestyle. Types side: `guide-typescript`.
 
 ## Components
 
@@ -18,29 +17,25 @@
 - **Derived JSX lives in named consts** computed before the return, suffixed `JSX`
   (`ListJSX` for collections): `const optionListJSX = props.options.map(…)`.
 - **Explicit `return` in map/render callbacks** — prefer a block body over an implicit-return
-  arrow. Slightly bigger shape, but a `console.log`/`debugger` drops in immediately, no
-  fold/unfold restructuring mid-debug.
+  arrow: a `console.log`/`debugger` drops in immediately, no restructuring mid-debug.
 - **Body = logic, return = markup.** The component body prepares data (maps, transforms,
   branches); the return value stays pure JSX presentation. Simple expressions inline are fine —
   complexity graduates to a named const, case by case.
 
 ## Imports
 
-Three groups, in a fixed order — big import blocks stay scannable, and every dependency has
-one obvious home:
+Three groups, in a fixed order — every dependency has one obvious home:
 
 1. **Core** — node_modules
-2. **Components** — local React components (composition is the second-highest building block)
+2. **Components** — local React components
 3. **Instruments** — everything else: api, helpers, styles, assets, type imports
 
 `/* Core */` · `/* Components */` · `/* Instruments */` group comments are optional flourish —
-add them in import-heavy files, skip them when the list is short or the formatter already
-keeps the order.
+add them in import-heavy files, skip them when the list is short.
 
 ## File anatomy
 
-One template for every component file — imports → component → styles → helpers → types.
-The reader meets things in the order they need them:
+One template for every component file — imports → component → styles → helpers → types:
 
 ```tsx
 import { useState } from 'react';
@@ -90,7 +85,7 @@ interface Option {
 }
 ```
 
-Section meta-comments, in order (include only the sections the file actually has):
+Section meta-comments, in order (only the sections the file actually has):
 
 - **`/* Styles */`** — cva variant configs, named `xxxCva`
 - **`/* Helpers */`** — pure functions, configs, small non-component code
@@ -119,7 +114,10 @@ _Bytes-flavoured; apply where the stack matches, skip where it doesn't._
 
 - **cva** — variants under `/* Styles */`; expose to types via `VariantProps<typeof xxxCva>`.
 - **Forms** — react-hook-form + zod, resolver in its own `resolver.ts` beside the form.
-- **Canon specimens** (read these when in doubt):
-  - `apps/x-com-chat/src/components/Select.tsx` — component anatomy
-  - `apps/x-com-chat/src/app/(chat)/chat/[[...chatAddress]]/parts/Chat.tsx` — hooks + data flow
-  - `apps/space-explorer-ui/src/components/LoginForm/LoginForm.tsx` — form + folder/barrel pattern
+
+---
+
+🌲 **Evergreen.** Spot a recurring pattern worth codifying, or guide-vs-reality drift? Propose
+the update; to fold it in, load `writing-for-agents` and edit this file (real path:
+`~/.dotfiles/.clauderc/plugin-x/skills/guide-react/SKILL.md`). Keep it pretty — scannable
+sections, tight prose, working examples.

@@ -23,11 +23,12 @@
     ],
     "deny": [
       "NotebookEdit",
-      "DesignSync",
       "CronCreate",
       "CronDelete",
       "CronList",
-      "AskUserQuestion"
+      "AskUserQuestion",
+      "EnterPlanMode",
+      "ExitPlanMode"
     ],
     "defaultMode": "auto"
   },
@@ -134,6 +135,7 @@
       }
     ]
   },
+  "disableClaudeAiConnectors": true,
   "disableAgentView": true,
   "enableWorkflows": true,
   "statusLine": {

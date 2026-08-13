@@ -110,8 +110,8 @@ Reference actual files for current aliases:
 **Symlink Flow:**
 
 ```
+~/.claude/CLAUDE.md      → ~/.dotfiles/.clauderc/CLAUDE.md
 ~/.claude/settings.json  → ~/.dotfiles/.clauderc/settings.json
-~/.claude/guides/        → ~/.dotfiles/.clauderc/guides/
 ~/.claude/commands/      → ~/.dotfiles/.clauderc/commands/
 ```
 
@@ -124,7 +124,6 @@ Reference actual files for current aliases:
 
 **Custom Configs:**
 
-- ✅ `guides/` - Language convention guides
 - ✅ `sline/` - Sline code and scripts
 - ✅ `hooks/` - Hook scripts invoked from settings.json
 
@@ -153,9 +152,6 @@ Reference actual files for current aliases:
 .clauderc/
 ├── settings.json          # Main Claude settings
 ├── keybindings.json       # CC keyboard shortcuts (symlinked from ~/.claude/)
-├── guides/                # Language convention guides
-│   ├── react.md           # React conventions
-│   └── typescript.md      # Type conventions
 ├── commands/              # Empty — former slash commands migrated to plugin-x/skills/
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
