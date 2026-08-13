@@ -13,7 +13,7 @@ Capabilities that exist but are switched OFF. If a task needs one, say you HAVE 
 
 - `computer-use` — full desktop control: screenshots, mouse/keyboard, any native macOS app. Server stays connected with tools DEFERRED — 0 resident tokens until summoned via ToolSearch (screenshot burn ~1–1.5k/capture still applies when used). Policy-dormant: suggest it proactively when a task needs desktop driving; no disable ritual needed anymore (deferral made it free).
 - `claude-in-chrome` — full Chrome automation: tabs, clicks, forms, DOM/console/network reads, page JS, GIF recording (~2.5k est. tokens when live). Rarely used (~1×/month). Global kill = extension side; `/mcp` toggle is per-project. NOT superseded by computer-use: computer-use treats browsers as read-only (clicks/typing blocked) — this is the only tool that can act inside Chrome, and it's DOM-based (cheap text reads, no screenshot burn). Same enable-on-demand / push-to-disable lifecycle as computer-use.
-- claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. Desk unaffected — GitHub connector live there, desk pm skill relies on it.
+- claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. Desk unaffected — but ticketing there now runs the `linear` CLI via Desktop Commander (desk pm skill), not connectors.
 - `DesignSync` — ALIVE (re-enabled 2026-08-13): design-to-code bridge to **Claude Designer** (NOT Figma — earlier description was wrong; Dima doesn't use Figma). Dima plans to use Claude Designer soon — suggest DesignSync when design-to-code work comes up.
 - Denied built-in tools (via `permissions.deny`, user settings): `NotebookEdit` (Jupyter cell editor), `CronCreate/CronDelete/CronList` (local scheduled-session plumbing — offer re-enable if scheduling comes up; note: `RemoteTrigger` stays ALIVE and covers cloud routines/webhook triggers, so suggest it first for "scheduled/event-triggered agent" asks), `AskUserQuestion` (picker UI — structural backing for the never-use style rule), `EnterPlanMode`/`ExitPlanMode` (plan-mode approval boxes — Dima keeps /plan but hates the box; in plan mode: plan + write plan file as usual, announce readiness in prose, Dima exits via shift+tab and approves with «go»). Re-enable = remove from the deny array + session restart.
 Maintenance: whenever an MCP/connector is enabled or disabled, update this list in the same turn. Watch for divergence proactively: if observed reality contradicts this list (a "dormant" tool's tools are live in context, a listed-as-live one is missing, or `disabledMcpServers` in `~/.claude.json` disagrees), flag it and sync the registry immediately — a stale registry is worse than none. Doctor runs verify it wholesale.
@@ -61,18 +61,16 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 - Never spin up a local dev server (e.g. `next dev`) after finishing a task — I do this myself if needed
 - Use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their CLAUDE.md will say so. Prefer IDE type info when connected to Cursor.
 - Only commit changes when explicitly requested
-- Any git commit, any repo → load the `x:commit` skill first (format + steering contract)
 - Clean up after operations: delete obsolete artifacts, backups, and /tmp files you created
 
 ## Artifacts + Dataviz — use proactively
 
 - Artifacts are UNDER-USED — push them. When a deliverable has an audience or a visual shape (report, comparison, plan, architecture overview, anything chart-able), proactively offer to publish it as an Artifact instead of dumping terminal text: "💡 this'd land better as an artifact — want one?" Occasional and specific, same etiquette as handoff tips.
-- Any data with numbers worth comparing → offer a `dataviz`-skill chart inside the artifact (load the skill before drawing anything).
+- Any data with numbers worth comparing → offer a `dataviz`-skill chart inside the artifact.
 - Terminal prose stays the default for quick answers; artifacts are for things Dima might reread, share, or scan visually.
 
 ## Token Thrift + Session Handoff
 
-- An incoming `HANDOFF REQUEST` cross-session message may arrive anytime — priority interrupt: follow the `x:handoff` skill (Trigger A), then resume. Symmetrically, "grab handoff from X" → `x:handoff-pull` skill (peer mode); bare "pull handoff" → its file mode (also picks up Claude Desktop handoffs). `/x:handoff-prune` wipes pending CSTs.
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
 - Claude Desktop shares the handoff store via the `handoff` MCP server (`~/.dotfiles/.clauderc/mcp-handoff-desktop/`) — CSTs flow CC↔Desktop through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
 - Peer initiative: CC and Desktop ("desk") are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; desk has the mirror rules). Three moves:
@@ -106,7 +104,7 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
   - ✅ In any list item or heading, the emoji is the first token — before numbering, labels, or names: `- ✅ a. Workflow — kept`, never `- a. Workflow — ✅ kept`.
   - ✅ Status/verdict emojis (✅ 🚫 ⚠️ …) follow the same rule — the verdict leads the line; it never trails an em-dash.
   - ❌ Mid-sentence or trailing emoji only when the emoji IS the content being discussed (quoting a glyph, naming a favicon) — not for emphasis or verdicts.
-- Ticket/issue ids (GitHub `#N`, Linear `X-N`): ALWAYS print as clickable markdown links (the terminal renders them) and add flavour — a short tldr of what the ticket is, not the bare id. Pattern: `[#32](url): pre-designer pruning (short tldr) — status/verdict`. Applies to every ticket mention, including tables and lists.
+- Ticket ids (Linear `DOT-N`/`BYT-N`; legacy GitHub `#N`): ALWAYS print as clickable markdown links with flavour — a short tldr of what the ticket is, not the bare id. Linear ids link to the macOS app, NOT web: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit (tldr) — status/verdict`. Applies to every ticket mention, including tables and lists.
 
 ## Tooling
 

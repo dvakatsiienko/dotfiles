@@ -33,6 +33,7 @@
     "defaultMode": "auto"
   },
   "model": "claude-fable-5[1m]",
+  "disableClaudeAiConnectors": true,
   "hooks": {
     "Notification": [
       {
@@ -135,7 +136,6 @@
       }
     ]
   },
-  "disableClaudeAiConnectors": true,
   "disableAgentView": true,
   "enableWorkflows": true,
   "statusLine": {
@@ -154,7 +154,8 @@
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
     "linear@claude-plugins-official": true,
-    "ui-theme-designer@claude-plugins-official": true
+    "ui-theme-designer@claude-plugins-official": true,
+    "linear-cli@linear-cli": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -170,6 +171,12 @@
         "path": "/Users/dima/.dotfiles/.clauderc/plugin-x"
       },
       "autoUpdate": true
+    },
+    "linear-cli": {
+      "source": {
+        "source": "github",
+        "repo": "schpet/linear-cli"
+      }
     }
   },
   "spinnerTipsEnabled": false,
