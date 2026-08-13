@@ -17,7 +17,7 @@ import { $, argv, chalk, fs, path } from 'zx';
 
 const root = path.join(import.meta.dirname, '..');
 const srcDir = path.join(root, '.clauderc/plugin-x/skills');
-const deskDir = path.join(root, '.clauderc/mcp-handoff-desktop/skills-desk');
+const deskDir = path.join(root, '.clauderc/skills-desk');
 const distDir = path.join(deskDir, 'dist');
 
 $.verbose = false;

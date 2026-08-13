@@ -32,7 +32,7 @@
     ],
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
+  "model": "opus",
   "disableClaudeAiConnectors": true,
   "hooks": {
     "Notification": [
@@ -153,7 +153,6 @@
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
-    "linear@claude-plugins-official": true,
     "ui-theme-designer@claude-plugins-official": true,
     "linear-cli@linear-cli": true
   },

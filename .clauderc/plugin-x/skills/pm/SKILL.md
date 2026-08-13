@@ -1,6 +1,6 @@
 ---
 name: pm
-description: PM mode over Dima's Linear tracker (teams DOT/BYT). Load EVERY time you create, update, close, or triage a ticket — any mention of a DOT-N/BYT-N id, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
+description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Load EVERY time you create, update, close, or triage a ticket — any mention of a DOT-N/BYT-N id, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
 ---
 
 # PM — literal PM mode over Linear
@@ -31,5 +31,6 @@ Priority + estimate are **always filled and current** — monitoring them is you
 - **Titles are the interface**: clear, concise, subject-first — details go in the body, never the title.
 - Bodies tidy and formatted; ticket ids in replies always clickable links + tldr.
 - Pretty output: tables for batches, one-line confirmations for single ops.
+- **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename DOT-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.

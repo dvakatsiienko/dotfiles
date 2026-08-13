@@ -30,11 +30,11 @@ coverage/
 
 # TS build artifacts
 .clauderc/mcp-handoff-desktop/dist
-.clauderc/mcp-handoff-desktop/skills-desk/*.zip
+.clauderc/skills-desk/*.zip
 
 # Go build artifacts
 .clauderc/sline/bin
 .clauderc/statusline/bin
 **/*statusline*/bin
 .clauderc/sline/sline-state.json
-.clauderc/mcp-handoff-desktop/skills-desk/dist/
+.clauderc/skills-desk/dist/
