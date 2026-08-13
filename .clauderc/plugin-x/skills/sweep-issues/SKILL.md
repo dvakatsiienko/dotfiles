@@ -1,6 +1,6 @@
 ---
 name: sweep-issues
-description: Heavy defect sweep — a multi-round find-prove-fix loop that hunts real bugs in a target scope (directory, module, diff, branch, file list) until two independent passes come back clean, or reports capped/stuck honestly. Rounds rotate through six attack angles (project tooling, hostile input, critical reading, different-model review, integration/concurrency, user-facing path); every finding is adversarially verified before it counts; state persists so an interrupted run resumes. This is an occasional deep-clean (typically 30-60 min, heavy token spend), not an everyday code review — use it when a feature is about to ship, on inherited or vibe-coded work, or before archiving/promoting a codebase; for a quick everyday review, use a lightweight review skill instead. Default mode fixes verified findings in place; report-only fires only on wording that plainly rejects changes ("review only", "no fixes", "don't touch the code").
+description: Heavy multi-round defect sweep over a target scope (dir, module, diff, branch) — find-prove-fix until two independent passes come back clean; findings adversarially verified; state survives interrupts. Occasional deep-clean (30-60 min, heavy tokens) for shipping/inherited/vibe-coded work, NOT everyday review. Fixes in place unless wording plainly rejects changes ("review only", "no fixes").
 ---
 
 # sweep-issues

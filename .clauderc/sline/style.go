@@ -30,6 +30,7 @@ const (
 	UsageCritColor  = "\033[38;2;234;105;98m"  // red    #ea6962 past 90%
 	SyncAheadColor  = "\033[38;2;169;182;101m" // green  #a9b665
 	SyncBehindColor = "\033[38;2;234;105;98m"  // red    #ea6962
+	EffortTrackBg   = "\033[48;2;80;73;69m"    // bg2    #504945 — dial track behind the ramp glyph
 
 	// Sep dims the inter-segment bullet (#7c6f64) so segments read as islands.
 	Sep = " \033[38;2;124;111;100m•\033[0m "
@@ -46,7 +47,18 @@ var gradientStops = [][3]int{
 	{125, 174, 163}, // gruvbox blue   #7daea3
 }
 
+// Complementary warm sweep for the effort word — orange → yellow, the
+// counterpoint to the model name's cool purple → blue.
+var effortGradientStops = [][3]int{
+	{231, 138, 78},  // gruvbox orange #e78a4e
+	{216, 166, 87},  // gruvbox yellow #d8a657
+}
+
 func applyGradient(text string) string {
+	return applyGradientStops(gradientStops, text)
+}
+
+func applyGradientStops(stops [][3]int, text string) string {
 	runes := []rune(text)
 	n := len(runes)
 	if n == 0 {
@@ -58,7 +70,7 @@ func applyGradient(text string) string {
 		if n > 1 {
 			t = float64(i) / float64(n-1)
 		}
-		c := gradientAt(t)
+		c := gradientAt(stops, t)
 		fmt.Fprintf(&result, "\033[38;2;%d;%d;%dm", c[0], c[1], c[2])
 		result.WriteRune(r)
 	}
@@ -67,15 +79,15 @@ func applyGradient(text string) string {
 }
 
 // gradientAt maps t in [0,1] onto the stop sequence with linear interpolation.
-func gradientAt(t float64) [3]int {
-	segments := len(gradientStops) - 1
+func gradientAt(stops [][3]int, t float64) [3]int {
+	segments := len(stops) - 1
 	pos := t * float64(segments)
 	i := int(pos)
 	if i >= segments {
 		i = segments - 1
 	}
 	f := pos - float64(i)
-	from, to := gradientStops[i], gradientStops[i+1]
+	from, to := stops[i], stops[i+1]
 	return [3]int{lerp(from[0], to[0], f), lerp(from[1], to[1], f), lerp(from[2], to[2], f)}
 }
 

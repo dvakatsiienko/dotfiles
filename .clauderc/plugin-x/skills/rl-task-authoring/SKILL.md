@@ -1,6 +1,6 @@
 ---
 name: rl-task-authoring
-description: Authoring benchmark tasks for coding agents — RL environments with a hidden verifier. Use when writing any part of a task package — the instruction.md prompt, solution.patch, verifiers, task.toml, environment Dockerfile; when running oracle/baseline calibration, the eval harness or Harbor; when diagnosing whether a task is hard enough or its verifiers fair; and for any work inside a golden checkout of a target repo.
+description: Authoring RL benchmark tasks for coding agents (hidden verifier). Use for any task-package part (instruction.md, solution.patch, verifiers, task.toml, Dockerfile), oracle/baseline calibration, eval harness/Harbor, task-difficulty/verifier-fairness diagnosis, or work inside a golden checkout.
 version: 1.1.0
 ---
 

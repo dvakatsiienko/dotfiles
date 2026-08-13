@@ -18,7 +18,16 @@
       "mcp__plugin_Notion_notion",
       "mcp__plugin_linear_linear",
       "mcp__plugin_vercel_vercel",
-      "mcp__plugin_context7_context7"
+      "mcp__plugin_context7_context7",
+      "mcp__vibemon"
+    ],
+    "deny": [
+      "NotebookEdit",
+      "DesignSync",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "AskUserQuestion"
     ],
     "defaultMode": "auto"
   },

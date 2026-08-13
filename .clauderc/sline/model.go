@@ -120,6 +120,41 @@ func getModelFromSettings() string {
 	return settings.Model
 }
 
+// getEffortFromSettings reads the persisted /effort default; the statusline
+// stdin JSON doesn't carry effort, so settings.json is the source of truth.
+func getEffortFromSettings() string {
+	homeDir, _ := os.UserHomeDir()
+	data, err := os.ReadFile(filepath.Join(homeDir, ".claude", "settings.json"))
+	if err != nil {
+		return ""
+	}
+	var settings struct {
+		EffortLevel string `json:"effortLevel"`
+	}
+	if json.Unmarshal(data, &settings) != nil {
+		return ""
+	}
+	return settings.EffortLevel
+}
+
+// Effort dial: one ramp glyph per level, colored cold→hot so the throttle
+// position reads at a glance without spelling the word out loud.
+var effortDial = map[string]struct{ glyph, color string }{
+	"low":    {"▂", NodeColor},
+	"medium": {"▄", UsageOkColor},
+	"high":   {"▆", UsageWarnColor},
+	"xhigh":  {"▇", UsageCritColor},
+	"max":    {"█", UsageCritColor},
+}
+
+func effortBadge(level string) string {
+	d, ok := effortDial[level]
+	if !ok {
+		return ""
+	}
+	return EffortTrackBg + d.color + d.glyph + Reset + " " + applyGradientStops(effortGradientStops, level)
+}
+
 func getModelDisplayName(claudeContext *ClaudeContext) string {
 	lightGrayColor := VersionColor
 	enSpace := "\u2002"
@@ -144,10 +179,14 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 		displayName = "opus plan"
 	}
 
-	if version == "" {
-		return enSpace + applyGradient(displayName)
+	rendered := enSpace + applyGradient(displayName)
+	if version != "" {
+		rendered += lightGrayColor + " " + version + Reset
 	}
-	return enSpace + applyGradient(displayName) + lightGrayColor + " " + version + Reset
+	if badge := effortBadge(getEffortFromSettings()); badge != "" {
+		rendered += " " + badge
+	}
+	return rendered
 }
 
 // =============================================================================

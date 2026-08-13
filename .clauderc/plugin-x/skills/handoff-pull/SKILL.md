@@ -1,6 +1,6 @@
 ---
 name: handoff-pull
-description: Ingest a CST (Continuation State Transfer) into this thread — the requester side of session handoff. Use when the user types /handoff-pull, asks to grab/pull a handoff. With a session id/name argument it requests a CST from that live CC peer; with no argument (or a topic keyword, or "desktop") it picks up a pending handoff file from the shared store — including handoffs produced by Claude Desktop.
+description: Requester side of session handoff — ingest a CST. Triggers: /handoff-pull, "grab/pull handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "desktop" → pending file from the shared store (incl. Claude Desktop handoffs).
 ---
 
 # Handoff-pull (requester)

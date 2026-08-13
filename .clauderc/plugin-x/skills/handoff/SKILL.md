@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Produce a CST (Continuation State Transfer) of the current thread — the sender side of session handoff. Use when the user types /handoff to hand off before starting a fresh thread (optionally with a focus argument), when an incoming HANDOFF REQUEST cross-session message arrives, when the user asks to push the handoff to a live CC peer ("/handoff <session-id|name>"), or when the user asks to hand off and spawn a background successor ("/handoff spawn").
+description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor.
 ---
 
 # Handoff (sender)

@@ -309,10 +309,10 @@ func TestHyperlink(t *testing.T) {
 }
 
 func TestGradientAt(t *testing.T) {
-	if gradientAt(0) != gradientStops[0] {
+	if gradientAt(gradientStops, 0) != gradientStops[0] {
 		t.Error("t=0 must return the first stop")
 	}
-	if gradientAt(1) != gradientStops[len(gradientStops)-1] {
+	if gradientAt(gradientStops, 1) != gradientStops[len(gradientStops)-1] {
 		t.Error("t=1 must return the last stop")
 	}
 }
