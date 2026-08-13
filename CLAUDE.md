@@ -166,17 +166,8 @@ Reference actual files for current aliases:
 
 ## Sline System
 
-Sline is this repo's implementation of the official Claude Code «statusline»
-feature: a stdlib-only Go binary rendering directory, model, versions, git,
-session, quota, and context segments. Vocabulary lives in [CONTEXT.md](CONTEXT.md);
-design invariants in `docs/adr/`.
-
-- **Source**: `.clauderc/sline/` · **Build**: `pnpm sline:build` · **Test**: `pnpm sline:test`
-- **Wired via** `statusLine` in settings.json → `~/.claude/sline/bin`
-- **State**: `sline-state.json` — disposable cache, gitignored
-- **Invariant**: every displayed number is server-provided (ADR 0001)
-- **Gotcha**: branch hyperlinks need `FORCE_HYPERLINK=1` (exported in `source/.zshenv`;
-  Warp isn't in CC's terminal-detect list)
+Sline (this repo's Claude Code statusline implementation) is documented in
+`.clauderc/sline/CLAUDE.md`, which loads automatically when working under that directory.
 
 ## Important Notes
 
