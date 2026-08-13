@@ -37,3 +37,4 @@ coverage/
 .clauderc/statusline/bin
 **/*statusline*/bin
 .clauderc/sline/sline-state.json
+.clauderc/mcp-handoff-desktop/skills-desk/dist/
