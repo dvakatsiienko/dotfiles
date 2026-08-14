@@ -61,7 +61,7 @@ sitting at the repo root.
 **lib/manifest.ts** — the engine. Walks `home/` and derives the expected link set. A directory is
 linked wholesale unless the matching path in `~` is already a real directory (meaning it holds
 content this repo doesn't own, like `~/.config` or `~/.claude`) — then it descends and links the
-leaves. `no_link` names the few dirs stored in `home/` but referenced by absolute path instead. Nothing runs
+leaves. `noLink` names the few dirs stored in `home/` but referenced by absolute path instead. Nothing runs
 it directly — it decides, `dotfiles-link.ts` acts.
 
 **dotfiles-link.ts** — status / apply / untrack over that manifest. Idempotent, and it refuses to

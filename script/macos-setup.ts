@@ -13,7 +13,7 @@
 /* Core */
 import * as zx from 'zx';
 
-import { repo_root } from './lib/manifest.ts';
+import { repoRoot } from './lib/manifest.ts';
 /* Instruments */
 import {
     bb,
@@ -28,7 +28,7 @@ import {
     warn,
 } from './lib/print.ts';
 
-const BREWFILE = `${repo_root}/Brewfile`;
+const BREWFILE = `${repoRoot}/Brewfile`;
 
 // ? Every macOS default this repo owns, in one place.
 const DEFAULTS = [
@@ -79,11 +79,11 @@ zx.$.verbose = false;
 
 title('macOS setup', apply ? 'applying' : 'dry run — nothing will change');
 
-await ensure_homebrew();
+await ensureHomebrew();
 await packages();
 await defaults();
-await default_apps();
-await vim_plug();
+await defaultApps();
+await vimPlug();
 
 if (apply) {
     done('Machine matches the baseline.');
@@ -94,7 +94,7 @@ if (apply) {
 }
 
 /* Steps */
-async function ensure_homebrew() {
+async function ensureHomebrew() {
     step('Homebrew');
 
     if (await which('brew')) {
@@ -122,7 +122,7 @@ async function ensure_homebrew() {
 
 async function packages() {
     step('Packages');
-    note(`from ${mb(zx.path.relative(repo_root, BREWFILE))}`);
+    note(`from ${mb(zx.path.relative(repoRoot, BREWFILE))}`);
 
     const check = await zx.$`brew bundle check --verbose --file=${BREWFILE}`
         .quiet()
@@ -166,7 +166,7 @@ async function defaults() {
     }
 }
 
-async function default_apps() {
+async function defaultApps() {
     step('Default apps');
 
     if (!(await which('duti'))) {
@@ -178,7 +178,7 @@ async function default_apps() {
         // ? Skipping what already matches is not just tidiness: macOS raises a
         // ? "keep using X?" dialog per type whenever a handler actually changes,
         // ? and those queue up invisibly behind the terminal.
-        if ((await handler_for(ext)) === app.id) {
+        if ((await handlerFor(ext)) === app.id) {
             ok(`.${ext}`, app.name);
             continue;
         }
@@ -193,7 +193,7 @@ async function default_apps() {
     }
 }
 
-async function vim_plug() {
+async function vimPlug() {
     step('vim-plug');
 
     if (await zx.fs.pathExists(VIM_PLUG)) {
@@ -214,7 +214,7 @@ async function vim_plug() {
 }
 
 /* Helpers */
-async function handler_for(ext: string) {
+async function handlerFor(ext: string) {
     const seen = await zx.$`duti -x ${ext}`.quiet().nothrow();
     return seen.stdout.trim().split('\n').at(-1) ?? '';
 }

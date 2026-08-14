@@ -13,16 +13,16 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 /* Instruments */
-import { build_manifest } from './manifest.ts';
+import { buildManifest } from './manifest.ts';
 
-type Options = Parameters<typeof build_manifest>[0];
+type Options = Parameters<typeof buildManifest>[0];
 
 let root: string;
 let mirror: string;
 let target: string;
 
 const manifest = (options?: Options) =>
-    build_manifest({ mirror, skip: new Set(), target, ...options });
+    buildManifest({ mirror, skip: new Set(), target, ...options });
 
 const rels = async (options?: Options) =>
     (await manifest(options)).map((entry) => entry.rel);
@@ -99,11 +99,11 @@ describe('directory granularity', () => {
     });
 
     test('a symlinked directory in the target is replaced, not descended into', async () => {
-        const linked_target = path.join(root, 'linked');
-        await fs.mkdir(linked_target, { recursive: true });
-        await fs.symlink(`${mirror}/.claude`, `${linked_target}/.claude`);
+        const linkedTarget = path.join(root, 'linked');
+        await fs.mkdir(linkedTarget, { recursive: true });
+        await fs.symlink(`${mirror}/.claude`, `${linkedTarget}/.claude`);
 
-        const found = await rels({ target: linked_target });
+        const found = await rels({ target: linkedTarget });
 
         expect(found).toContain('.claude');
         expect(found.some((rel) => rel.startsWith('.claude/'))).toBe(false);

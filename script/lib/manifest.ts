@@ -18,19 +18,19 @@
 import * as zx from 'zx';
 
 export const homedir = zx.os.homedir();
-export const repo_root = zx.path.resolve(import.meta.dirname, '../..');
-export const mirror_root = `${repo_root}/home`;
+export const repoRoot = zx.path.resolve(import.meta.dirname, '../..');
+export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~: these are referenced by absolute
 // ? path (the plugin marketplace entry in settings.json, the desk sync script)
 // ? rather than found by anything looking inside ~/.claude.
-export const no_link = new Set([
+export const noLink = new Set([
     '.claude/plugin-x',
     '.claude/mcp-handoff-desktop',
     '.claude/skills-desk',
 ]);
 
-const ignored_names = new Set(['.DS_Store']);
+const ignoredNames = new Set(['.DS_Store']);
 
 export type Entry = {
     kind: 'dir' | 'file';
@@ -46,13 +46,13 @@ type WalkConfig = {
     target: string;
 };
 
-export async function build_manifest(
+export async function buildManifest(
     options: Partial<WalkConfig> = {},
 ): Promise<Entry[]> {
     const config: WalkConfig = {
-        ignored: ignored_names,
-        mirror: mirror_root,
-        skip: no_link,
+        ignored: ignoredNames,
+        mirror: mirrorRoot,
+        skip: noLink,
         target: homedir,
         ...options,
     };
@@ -62,18 +62,18 @@ export async function build_manifest(
 
     // ? Group by destination directory so the report reads as one block per place.
     return entries.sort((a, b) => {
-        const by_dir = zx.path
+        const byDir = zx.path
             .dirname(a.rel)
             .localeCompare(zx.path.dirname(b.rel));
-        return by_dir !== 0 ? by_dir : a.rel.localeCompare(b.rel);
+        return byDir !== 0 ? byDir : a.rel.localeCompare(b.rel);
     });
 }
 
-export function to_tilde(path: string) {
+export function toTilde(path: string) {
     return path.replace(homedir, '~');
 }
 
-export async function lstat_or_null(path: string) {
+export async function lstatOrNull(path: string) {
     try {
         return await zx.fs.lstat(path);
     } catch {
@@ -87,22 +87,22 @@ async function walk(rel: string, out: Entry[], config: WalkConfig) {
     for (const entry of await zx.fs.readdir(dir, { withFileTypes: true })) {
         if (config.ignored.has(entry.name)) continue;
 
-        const child_rel = rel ? `${rel}/${entry.name}` : entry.name;
-        if (config.skip.has(child_rel)) continue;
+        const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+        if (config.skip.has(childRel)) continue;
 
         const record: Entry = {
             kind: entry.isDirectory() ? 'dir' : 'file',
-            rel: child_rel,
-            source: `${config.mirror}/${child_rel}`,
-            target: `${config.target}/${child_rel}`,
+            rel: childRel,
+            source: `${config.mirror}/${childRel}`,
+            target: `${config.target}/${childRel}`,
         };
 
         if (entry.isDirectory()) {
-            const stats = await lstat_or_null(record.target);
+            const stats = await lstatOrNull(record.target);
 
             // ? A real directory in ~ holds content we don't own — descend past it.
             if (stats?.isDirectory() && !stats.isSymbolicLink()) {
-                await walk(child_rel, out, config);
+                await walk(childRel, out, config);
                 continue;
             }
         }

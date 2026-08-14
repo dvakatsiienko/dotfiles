@@ -19,10 +19,10 @@ import * as zx from 'zx';
 
 import type { Entry } from './lib/manifest.ts';
 import {
-    build_manifest,
-    lstat_or_null,
-    repo_root,
-    to_tilde,
+    buildManifest,
+    lstatOrNull,
+    repoRoot,
+    toTilde,
 } from './lib/manifest.ts';
 /* Instruments */
 import {
@@ -32,7 +32,7 @@ import {
     gb,
     group,
     mb,
-    new_line,
+    newLine,
     note,
     ok,
     rb,
@@ -68,8 +68,8 @@ const REPORT: Record<State, (name: string, entry: Entry) => void> = {
 
 const [verb = 'status', argument] = zx.argv._;
 
-if (verb === 'status') await reconcile({ dry_run: true });
-else if (verb === 'apply') await reconcile({ dry_run: false });
+if (verb === 'status') await reconcile({ dryRun: true });
+else if (verb === 'apply') await reconcile({ dryRun: false });
 else if (verb === 'untrack') await untrack(argument);
 else {
     zx.echo(rb(`Unknown verb: ${verb}`));
@@ -78,12 +78,12 @@ else {
 }
 
 /* Verbs */
-async function reconcile({ dry_run }: { dry_run: boolean }) {
+async function reconcile({ dryRun }: { dryRun: boolean }) {
     const rows = await inspect();
 
     title(
         'Dotfiles',
-        dry_run ? `${rows.length} entries mirrored into ~` : 'applying',
+        dryRun ? `${rows.length} entries mirrored into ~` : 'applying',
     );
     print(rows);
 
@@ -96,11 +96,11 @@ async function reconcile({ dry_run }: { dry_run: boolean }) {
         step(`${conflicts.length} in the way`);
 
         for (const { entry } of conflicts) {
-            fail(to_tilde(entry.target), 'left untouched');
+            fail(toTilde(entry.target), 'left untouched');
             note(
-                `keep it   mv ${to_tilde(entry.target)} ${to_tilde(entry.source)}`,
+                `keep it   mv ${toTilde(entry.target)} ${toTilde(entry.source)}`,
             );
-            note(`drop it   rm -rf ${to_tilde(entry.target)}`);
+            note(`drop it   rm -rf ${toTilde(entry.target)}`);
         }
     }
 
@@ -109,10 +109,10 @@ async function reconcile({ dry_run }: { dry_run: boolean }) {
         return;
     }
 
-    if (dry_run) {
+    if (dryRun) {
         if (pending.length > 0) {
             step(`${pending.length} to link`);
-            for (const { entry } of pending) skip(to_tilde(entry.target));
+            for (const { entry } of pending) skip(toTilde(entry.target));
         }
 
         done('Dry run. Run `pnpm dotfiles-link apply` to make it so.', {
@@ -129,7 +129,7 @@ async function reconcile({ dry_run }: { dry_run: boolean }) {
             await zx.fs.mkdirp(zx.path.dirname(entry.target));
             await zx.fs.remove(entry.target);
             await zx.fs.symlink(entry.source, entry.target);
-            ok(to_tilde(entry.target), `→ ${to_tilde(entry.source)}`);
+            ok(toTilde(entry.target), `→ ${toTilde(entry.source)}`);
         }
     }
 
@@ -143,31 +143,31 @@ async function reconcile({ dry_run }: { dry_run: boolean }) {
     done(`Linked ${pending.length}.`);
 }
 
-async function untrack(raw_path: string | undefined) {
-    if (!raw_path) {
+async function untrack(rawPath: string | undefined) {
+    if (!rawPath) {
         zx.echo(
             rb('❌ Which file? e.g. pnpm dotfiles-link untrack ~/.gitconfig'),
         );
         process.exit(1);
     }
 
-    const target = zx.path.resolve(raw_path.replace(/^~/, zx.os.homedir()));
-    const entry = (await build_manifest()).find(
+    const target = zx.path.resolve(rawPath.replace(/^~/, zx.os.homedir()));
+    const entry = (await buildManifest()).find(
         (item) => item.target === target,
     );
 
     if (!entry) {
-        zx.echo(rb(`❌ ${to_tilde(target)} isn't part of the mirror.`));
+        zx.echo(rb(`❌ ${toTilde(target)} isn't part of the mirror.`));
         process.exit(1);
     }
 
     zx.echo(
-        bb(`This turns ${mb(to_tilde(target))} into a real file and deletes`),
+        bb(`This turns ${mb(toTilde(target))} into a real file and deletes`),
     );
     zx.echo(
-        bb(`${mb(zx.path.relative(repo_root, entry.source))} from the repo.`),
+        bb(`${mb(zx.path.relative(repoRoot, entry.source))} from the repo.`),
     );
-    new_line();
+    newLine();
 
     const confirm = await zx.question(yb('Continue? (y/N): '));
     if (confirm.toLowerCase() !== 'y') {
@@ -180,30 +180,30 @@ async function untrack(raw_path: string | undefined) {
     await zx.fs.copy(entry.source, staged);
     await zx.fs.remove(target);
     await zx.fs.move(staged, target);
-    await zx.$`git -C ${repo_root} rm -r --quiet --cached ${entry.source}`;
+    await zx.$`git -C ${repoRoot} rm -r --quiet --cached ${entry.source}`;
     await zx.fs.remove(entry.source);
 
-    new_line();
+    newLine();
     zx.echo(
         gb(
-            `✅ ${to_tilde(target)} is yours now. Commit the removal when ready.`,
+            `✅ ${toTilde(target)} is yours now. Commit the removal when ready.`,
         ),
     );
 }
 
 /* Helpers */
 async function inspect() {
-    const manifest = await build_manifest();
+    const manifest = await buildManifest();
     const rows: Row[] = [];
 
     for (const entry of manifest) {
-        const stats = await lstat_or_null(entry.target);
+        const stats = await lstatOrNull(entry.target);
         let state: State = STATE.MISSING;
 
         if (stats?.isSymbolicLink()) {
-            const link_target = await zx.fs.readlink(entry.target);
+            const linkTarget = await zx.fs.readlink(entry.target);
             state =
-                link_target === entry.source ? STATE.LINKED : STATE.ELSEWHERE;
+                linkTarget === entry.source ? STATE.LINKED : STATE.ELSEWHERE;
         } else if (stats !== null) {
             state = STATE.REAL;
         }
@@ -215,14 +215,14 @@ async function inspect() {
 }
 
 function print(rows: Row[]) {
-    let current_group: string | null = null;
+    let currentGroup: string | null = null;
 
     for (const { entry, state } of rows) {
         const dir = zx.path.dirname(entry.target);
 
-        if (dir !== current_group) {
-            group(`${to_tilde(dir)}/`);
-            current_group = dir;
+        if (dir !== currentGroup) {
+            group(`${toTilde(dir)}/`);
+            currentGroup = dir;
         }
 
         const name =

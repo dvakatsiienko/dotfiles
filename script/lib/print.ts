@@ -15,27 +15,27 @@ export const rb: Paint = (...args) => zx.chalk.redBright(...args);
 export const dim: Paint = (...args) => zx.chalk.dim(...args);
 export const bold: Paint = (...args) => zx.chalk.bold(...args);
 
-export const new_line = () => zx.echo('');
+export const newLine = () => zx.echo('');
 
 const RULE = '─';
 const WIDTH = 64;
 
 /** Top-of-script banner. */
 export function title(text: string, subtitle?: string) {
-    new_line();
+    newLine();
     zx.echo(`${bold(gb(text))}${subtitle ? dim(`  ${subtitle}`) : ''}`);
     zx.echo(dim(RULE.repeat(WIDTH)));
 }
 
 /** A named phase. Everything after it is indented under it. */
 export function step(text: string) {
-    new_line();
+    newLine();
     zx.echo(`${bb('▸')} ${bold(text)}`);
 }
 
 /** A group heading inside a listing — quieter than a step. */
 export function group(text: string) {
-    new_line();
+    newLine();
     zx.echo(dim(`  ${text}`));
 }
 
@@ -55,8 +55,8 @@ export const note = (text: string) => zx.echo(`    ${dim(text)}`);
 
 /** Closing line. Green when clean, yellow when something needs a human. */
 export function done(text: string, { clean = true }: { clean?: boolean } = {}) {
-    new_line();
+    newLine();
     zx.echo(dim(RULE.repeat(WIDTH)));
     zx.echo(clean ? gb(`✓ ${text}`) : yb(`! ${text}`));
-    new_line();
+    newLine();
 }

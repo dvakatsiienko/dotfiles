@@ -15,19 +15,19 @@
 
 import * as zx from 'zx';
 
-import { repo_root } from './lib/manifest.ts';
+import { repoRoot } from './lib/manifest.ts';
 /* Instruments */
 import { bb, done, fail, mb, note, ok, step, title } from './lib/print.ts';
 /* Core */
 import type { Dirent } from 'node:fs';
 
-const desk_dir = `${repo_root}/home/.claude/skills-desk`;
-const dist_dir = `${desk_dir}/dist`;
+const deskDir = `${repoRoot}/home/.claude/skills-desk`;
+const distDir = `${deskDir}/dist`;
 
 zx.$.verbose = false;
-zx.$.cwd = repo_root;
+zx.$.cwd = repoRoot;
 
-const skills = (await zx.fs.readdir(desk_dir, { withFileTypes: true }))
+const skills = (await zx.fs.readdir(deskDir, { withFileTypes: true }))
     .filter((entry: Dirent) => entry.isDirectory() && entry.name !== 'dist')
     .map((entry: Dirent) => entry.name);
 
@@ -58,8 +58,8 @@ async function check() {
     let stale = 0;
 
     for (const skill of skills) {
-        const stamped = await read_stamp(skill);
-        if (stamped === (await source_sha(skill))) {
+        const stamped = await readStamp(skill);
+        if (stamped === (await sourceSha(skill))) {
             ok(skill);
             continue;
         }
@@ -79,19 +79,19 @@ async function check() {
 
 async function build() {
     step('Zips');
-    await zx.fs.emptyDir(dist_dir);
+    await zx.fs.emptyDir(distDir);
 
     for (const skill of skills) {
         await zx.$({
-            cwd: desk_dir,
+            cwd: deskDir,
         })`zip -rq dist/${skill}.zip ${skill} -x '*/.source-sha'`;
-        ok(`${skill}.zip`, mb(zx.path.relative(repo_root, dist_dir)));
+        ok(`${skill}.zip`, mb(zx.path.relative(repoRoot, distDir)));
     }
 
     note(
         'upload: Claude Desktop → Settings → Capabilities → Skills → drag zips',
     );
-    await zx.$`open ${dist_dir}`;
+    await zx.$`open ${distDir}`;
     done(`Built ${skills.length}.`);
 }
 
@@ -103,8 +103,8 @@ async function stamp(skill: string) {
     }
 
     await zx.fs.writeFile(
-        `${desk_dir}/${skill}/.source-sha`,
-        `${await source_sha(skill)}\n`,
+        `${deskDir}/${skill}/.source-sha`,
+        `${await sourceSha(skill)}\n`,
     );
 
     step('Stamp');
@@ -113,13 +113,13 @@ async function stamp(skill: string) {
 }
 
 /* Helpers */
-async function source_sha(skill: string) {
+async function sourceSha(skill: string) {
     const rel = `home/.claude/plugin-x/skills/${skill}/SKILL.md`;
     return (await zx.$`git hash-object ${rel}`).stdout.trim();
 }
 
-async function read_stamp(skill: string) {
-    const path = `${desk_dir}/${skill}/.source-sha`;
+async function readStamp(skill: string) {
+    const path = `${deskDir}/${skill}/.source-sha`;
     if (!(await zx.fs.pathExists(path))) return null;
     return (await zx.fs.readFile(path, 'utf8')).trim();
 }
