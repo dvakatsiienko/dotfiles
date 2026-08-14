@@ -28,7 +28,21 @@ Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wi
 | ready-for-human | `human` label + Todo |
 | wontfix | Canceled |
 
-Labels per team: `agent`, `human`, `needs-info` only — essentials, resist new ones.
+## Labels — two vocabularies, one of each per ticket
+
+**Role** (per team): `agent` · `human` · `needs-info`. Answers *who does it*. Exactly one, always
+set. Resist inventing a fourth.
+
+**Kind** (workspace-wide): `bug` · `feature` · `improvement`. Answers *what it is*. Linear's own
+defaults, kept and lowercased. Set one on every create and whenever a ticket is touched, so the
+"fixing or building?" question stays answerable.
+
+- `bug` — something behaves wrong. Restores intended behaviour, adds none.
+- `feature` — capability that does not exist yet.
+- `improvement` — existing thing made better: refactors, renames, docs, tooling, ergonomics.
+
+An epic or a pure decision ticket takes the kind of the work it leads to; `improvement` when
+that is genuinely unclear.
 
 Workspace-wide: `fable-5` — this ticket needs Fable 5, grab it only when Fable quota is free.
 No `opus-5` counterpart on purpose: absence of `fable-5` means Opus by default, and a label

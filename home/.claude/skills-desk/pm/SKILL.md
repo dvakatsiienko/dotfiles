@@ -18,7 +18,8 @@ CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` =
 - **DOT projects**: `revamp` · `shelf` · `handoff` · `claude` · `sline`
 - **BYT projects**: `design-system` · `cv` · `x-com-chat` · `tooling` · `rl`
 - Small one-offs go project-less; a recurring theme → propose an umbrella project.
-- **States**: Triage inbox = needs-triage · `needs-info` label + Todo · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Labels: those three only. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
+- **States**: Triage inbox = needs-triage · `needs-info` label + Todo · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
+- **Labels — two vocabularies, one of each per ticket.** **Role** (per team): `agent` · `human` · `needs-info` — who does it. **Kind** (workspace-wide): `bug` · `feature` · `improvement` — what it is; `bug` restores intended behaviour, `feature` is new capability, `improvement` is an existing thing made better (refactors, renames, docs, tooling). Set both on every create and every touch. Epics and decision tickets take the kind of the work they lead to.
 - **Priority** 1 Urgent–4 Low. Urgent free to use — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
 - **Quota**: free plan, 250 non-archived issues workspace-wide. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); archive resolved work; near ~200 propose a restructure pass.
 
