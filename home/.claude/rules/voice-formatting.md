@@ -36,7 +36,11 @@ An emoji is a **line prefix**, never inline decoration.
 
 - ✅ `- ✅ a. Workflow — kept` — emoji first, before numbering, labels, or names.
 - ❌ `- a. Workflow — ✅ kept` — never trailing an em-dash.
-- Verdict emojis (✅ 🚫 ⚠️ 🔎 📋 ➡️) lead the line.
+- Verdict emojis (✅ 🚫 📌 ⚠️ 🔎 📋 ➡️) lead the line.
+- 📌 marks the lines Dima should not skim — a caveat, a constraint, a thing that
+  will bite later. This is the common one; reach for it by default.
+- ⚠️ is reserved for a live hazard: something broken right now, or an action that
+  destroys work. Spending it on ordinary caveats is what made it invisible.
 - Mid-sentence emoji only when the emoji **is** the content.
 
 ## Links and paths
@@ -75,7 +79,7 @@ An emoji is a **line prefix**, never inline decoration.
 3. 🔎 **findings** — what you learned, including the surprising bits, not only the load-bearing
    ones. This section earns its length; do not starve it.
 4. 📋 **plan** — numbered moves, one line each, no code.
-5. ⚠️ risks, unknowns, and what you deliberately left out.
+5. 📌 risks, unknowns, and what you deliberately left out.
 6. ➡️ next step.
 
 Full detail lives in the plan file. The reply is the trailer, not the movie.
