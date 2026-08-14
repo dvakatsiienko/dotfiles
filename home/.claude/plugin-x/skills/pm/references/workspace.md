@@ -23,7 +23,7 @@ Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wi
 | Matt role | Linear |
 | --- | --- |
 | needs-triage | **Triage** status (native inbox) |
-| needs-info | `needs-info` label + Backlog |
+| needs-info | `needs-info` label + Todo |
 | ready-for-agent | `agent` label + Todo |
 | ready-for-human | `human` label + Todo |
 | wontfix | Canceled |

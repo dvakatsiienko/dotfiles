@@ -29,7 +29,7 @@ full map of teams, projects, states, and labels.
 | Canonical role | Linear |
 | --- | --- |
 | `needs-triage` | **Triage** inbox |
-| `needs-info` | **Backlog** + `needs-info` label |
+| `needs-info` | **Todo** + `needs-info` label |
 | `ready-for-agent` | **Todo** + `agent` label |
 | `ready-for-human` | **Todo** + `human` label |
 | `wontfix` | **Canceled** |
