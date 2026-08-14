@@ -16,8 +16,8 @@ importers:
         specifier: 2.5.5
         version: 2.5.5
       biome-config-polished:
-        specifier: 0.0.7
-        version: 0.0.7(@biomejs/biome@2.5.5)
+        specifier: 0.0.8
+        version: 0.0.8(@biomejs/biome@2.5.5)
       lefthook:
         specifier: 2.1.10
         version: 2.1.10
@@ -427,8 +427,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  biome-config-polished@0.0.7:
-    resolution: {integrity: sha512-tdngWMQsrors2y0VXe0Z3TbD4aWOWsexiyPWBocp/nQq9g/rdp2k2eCx7NqOXi1PvSz+KGiBYORNgbyChaihOQ==}
+  biome-config-polished@0.0.8:
+    resolution: {integrity: sha512-n1y41CEEjxWqrO6NiNSQW1vOkCEFSPaX97jHO/g0hl1r7cJhX5cYIA6uk6Uh0cIpiN7ExMnB4JNqkDvV1spCNg==}
     peerDependencies:
       '@biomejs/biome': '>=2.4.6'
 
@@ -1801,7 +1801,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  biome-config-polished@0.0.7(@biomejs/biome@2.5.5):
+  biome-config-polished@0.0.8(@biomejs/biome@2.5.5):
     dependencies:
       '@biomejs/biome': 2.5.5
       npm-run-all: 4.1.5
