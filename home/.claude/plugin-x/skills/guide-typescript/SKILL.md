@@ -5,6 +5,8 @@ description: Binding TypeScript conventions — load EVERY time you write, edit,
 
 # TypeScript Guide
 
+`guide-code` carries the values that govern this one; these are the language-specific refinements.
+
 Binding when printing TypeScript — follow exactly, no freestyle.
 
 ## Naming

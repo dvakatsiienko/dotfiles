@@ -5,6 +5,8 @@ description: Binding React conventions — load EVERY time you write, edit, or r
 
 # React Guide
 
+`guide-code` carries the values that govern this one; these are the language-specific refinements.
+
 Binding when printing React — follow exactly, no freestyle. Types side: `guide-typescript`.
 
 ## Components
