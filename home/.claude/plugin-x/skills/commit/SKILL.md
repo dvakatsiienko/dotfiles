@@ -52,6 +52,24 @@ RETIRED — never emit: ⚙️ 🧹 ♻️ 🐛 📝 📖 🔥 🚀 🔨 🔼 �
   body bullets (`- riding along: …`). No dominant change, many scopes → 🍱 with an
   umbrella scope (`repo`, `apps`, or `misc`).
 
+### Splitting — several commits are normal
+
+Judge by **concerns**, not by size. A concern is one thing a reader would want to
+read, revert, or bisect on its own.
+
+Split when the working tree holds more than one:
+- unrelated areas touched in one session (a restructure *and* a bugfix found on the way)
+- separate features, each standing alone
+- work that piled up because nobody committed for hours
+
+Keep as one commit when the bulk is a single concern however large it is: a scaffolded
+app, a generated migration, a lockfile refresh, a repo-wide rename. Volume alone never
+forces a split — `🍱` exists for work genuinely inseparable across scopes.
+
+Splitting: `git add <paths>` per commit instead of `-A` (§5), ordered so each commit
+leaves the tree working — foundation first, then what builds on it. Print the whole
+plan as subject lines before the first commit; one confirm covers the set.
+
 ## 3 · Body
 
 - Hyphen bullets, one change per line, `subject: what changed`; `→` for before/after
@@ -81,4 +99,4 @@ vice versa. `mir` = after committing, local main holds the commit no matter wher
 - Sanity check before every commit: leftover debug/test code, accidentally
   commented-out code, stray debuggers → pause, report, resume when resolved.
 - Pre-commit hook failure → never self-fix; summarize and stop.
-- `git add -A` unless told otherwise.
+- `git add -A` unless told otherwise, or when splitting into several commits (§2).
