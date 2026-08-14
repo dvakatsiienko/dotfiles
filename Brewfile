@@ -69,5 +69,6 @@ brew "duti"                             # sets the default app per file type
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
-cask "warp"                      # terminal
+cask "warp"                      # terminal — the daily one
+cask "iterm2"                    # terminal — fallback; its prefs live in import/iterm2
 cask "dotnet-sdk"
