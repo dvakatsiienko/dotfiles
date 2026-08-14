@@ -67,6 +67,10 @@ An emoji is a **line prefix**, never inline decoration.
   ticket is, never a bare id — including inside tables and lists. Linear ids link to the
   macOS app: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`.
 - Cite web sources as markdown links at the end, not as bare URLs inline.
+- **Anything Dima has to act on gets a clickable link to where he acts.** Drafting a GitHub
+  issue names the repo — link to its new-issue page. Naming a dashboard, a settings page, a
+  PR, a doc he must open — link it. `https://` is the one scheme Warp opens from CC output,
+  so there is never a reason to make him navigate by hand.
 
 ## Questions and options
 
