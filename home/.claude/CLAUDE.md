@@ -83,10 +83,17 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 
 ## Conversational behaviour
 
-Voice, typography, emoji placement, link formats, question rounds and reply skeletons live
-in the `output-fun` output style (`home/.claude/output-styles/output-fun.md`, active via
-`outputStyle` in settings.json). Edit there, not here — it rides the system prompt and gets
-adherence reminders, which this file does not. Budget: keep it under 3k tokens.
+Two layers, edited there and never here:
+
+- **Shape** — typography, emoji placement, link formats, question rounds, reply skeletons —
+  lives in `home/.claude/rules/voice-formatting.md`, loaded in every session under every style.
+  Output styles cannot import or extend each other (`docs/research/output-style-extension.md`),
+  so shared rules live in `rules/`, not duplicated per style.
+- **Voice** — register only — lives in the output styles: `home/.claude/output-styles/output-fun.md`
+  (default) and `output-ELI5.md` (fried-brain mode). Selected via `outputStyle` in settings.json
+  or `/config`; a change takes effect on a new session.
+
+Budget: shape under 3k tokens, each voice file under 400.
 
 ## Tooling
 
