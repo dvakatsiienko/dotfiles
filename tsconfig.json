@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "target": "esnext",
+        "types": ["node"],
+
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+
+        // Node runs these files by stripping types, never compiling them — so any
+        // syntax that would need emitted code is banned outright.
+        "allowImportingTsExtensions": true,
+        "erasableSyntaxOnly": true,
+        "verbatimModuleSyntax": true,
+
+        "noEmit": true,
+        "skipLibCheck": true
+    },
+    "include": ["script/**/*.ts"]
+}

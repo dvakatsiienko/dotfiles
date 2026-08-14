@@ -13,16 +13,18 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 /* Instruments */
-import { build_manifest } from './symlink.mjs';
+import { build_manifest } from './symlink.ts';
 
-let root;
-let mirror;
-let target;
+type Options = Parameters<typeof build_manifest>[0];
 
-const manifest = (options) =>
+let root: string;
+let mirror: string;
+let target: string;
+
+const manifest = (options?: Options) =>
     build_manifest({ mirror, skip: new Set(), target, ...options });
 
-const rels = async (options) =>
+const rels = async (options?: Options) =>
     (await manifest(options)).map((entry) => entry.rel);
 
 beforeAll(async () => {
@@ -52,8 +54,8 @@ describe('the mirror rule', () => {
         const entries = await manifest();
         const zshrc = entries.find((entry) => entry.rel === '.zshrc');
 
-        expect(zshrc.source).toBe(`${mirror}/.zshrc`);
-        expect(zshrc.target).toBe(`${target}/.zshrc`);
+        expect(zshrc?.source).toBe(`${mirror}/.zshrc`);
+        expect(zshrc?.target).toBe(`${target}/.zshrc`);
     });
 
     test('top-level files are linked individually', async () => {
@@ -73,7 +75,7 @@ describe('directory granularity', () => {
         const entries = await manifest();
         const claude = entries.find((entry) => entry.rel === '.claude');
 
-        expect(claude.kind).toBe('dir');
+        expect(claude?.kind).toBe('dir');
         // ? Linked as one directory, so its contents are not separate entries.
         expect(entries.some((entry) => entry.rel.startsWith('.claude/'))).toBe(
             false,
@@ -148,7 +150,7 @@ describe('ordering', () => {
 });
 
 /* Helpers */
-async function write(file, contents) {
+async function write(file: string, contents: string) {
     await fs.mkdir(path.dirname(file), { recursive: true });
     await fs.writeFile(file, contents);
 }

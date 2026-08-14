@@ -32,8 +32,24 @@ export const no_link = new Set([
 
 const ignored_names = new Set(['.DS_Store']);
 
-export async function build_manifest(options = {}) {
-    const config = {
+export type Entry = {
+    kind: 'dir' | 'file';
+    rel: string;
+    source: string;
+    target: string;
+};
+
+type WalkConfig = {
+    ignored: Set<string>;
+    mirror: string;
+    skip: Set<string>;
+    target: string;
+};
+
+export async function build_manifest(
+    options: Partial<WalkConfig> = {},
+): Promise<Entry[]> {
+    const config: WalkConfig = {
         ignored: ignored_names,
         mirror: mirror_root,
         skip: no_link,
@@ -41,7 +57,7 @@ export async function build_manifest(options = {}) {
         ...options,
     };
 
-    const entries = [];
+    const entries: Entry[] = [];
     await walk('', entries, config);
 
     // ? Group by destination directory so the report reads as one block per place.
@@ -53,11 +69,11 @@ export async function build_manifest(options = {}) {
     });
 }
 
-export function to_tilde(path) {
+export function to_tilde(path: string) {
     return path.replace(homedir, '~');
 }
 
-export async function lstat_or_null(path) {
+export async function lstat_or_null(path: string) {
     try {
         return await zx.fs.lstat(path);
     } catch {
@@ -65,7 +81,7 @@ export async function lstat_or_null(path) {
     }
 }
 
-async function walk(rel, out, config) {
+async function walk(rel: string, out: Entry[], config: WalkConfig) {
     const dir = rel ? `${config.mirror}/${rel}` : config.mirror;
 
     for (const entry of await zx.fs.readdir(dir, { withFileTypes: true })) {
@@ -74,7 +90,7 @@ async function walk(rel, out, config) {
         const child_rel = rel ? `${rel}/${entry.name}` : entry.name;
         if (config.skip.has(child_rel)) continue;
 
-        const record = {
+        const record: Entry = {
             kind: entry.isDirectory() ? 'dir' : 'file',
             rel: child_rel,
             source: `${config.mirror}/${child_rel}`,

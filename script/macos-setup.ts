@@ -1,9 +1,9 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
 /**
  * ? macos — bring a Mac up to this repo's baseline.
  * ?
- * ?   pnpm macos          # show what's missing, change nothing
- * ?   pnpm macos apply    # install packages, write defaults, fetch vim-plug
+ * ?   pnpm macos-setup          # show what's missing, change nothing
+ * ?   pnpm macos-setup apply    # install packages, write defaults, fetch vim-plug
  * ?
  * ? Packages live in the Brewfile at the repo root, never in this file.
  * ? This script only knows how to run `brew bundle`, set a few defaults, and
@@ -25,8 +25,8 @@ import {
     step,
     title,
     warn,
-} from './lib.mjs';
-import { repo_root } from './symlink.mjs';
+} from './lib.ts';
+import { repo_root } from './symlink.ts';
 
 const BREWFILE = `${repo_root}/Brewfile`;
 
@@ -88,7 +88,9 @@ await vim_plug();
 if (apply) {
     done('Machine matches the baseline.');
 } else {
-    done('Dry run. Run `pnpm macos apply` to make it so.', { clean: false });
+    done('Dry run. Run `pnpm macos-setup apply` to make it so.', {
+        clean: false,
+    });
 }
 
 /* Steps */
@@ -212,12 +214,12 @@ async function vim_plug() {
 }
 
 /* Helpers */
-async function handler_for(ext) {
+async function handler_for(ext: string) {
     const seen = await zx.$`duti -x ${ext}`.quiet().nothrow();
     return seen.stdout.trim().split('\n').at(-1) ?? '';
 }
 
-async function which(binary) {
+async function which(binary: string) {
     try {
         await zx.which(binary);
         return true;

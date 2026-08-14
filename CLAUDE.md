@@ -37,12 +37,12 @@ symlinked lives in `import/`.
 │   ├── terminal/              # Gruvbox and Treehouse Terminal.app themes
 │   └── vscode/                # Gruvbox VSCode themes
 ├── script/
-│   ├── symlink.mjs            # The engine — derives the link set from the tree
-│   ├── symlink.test.mjs       # vitest suite for the engine
-│   ├── dotfiles.mjs           # status / apply / untrack
-│   ├── macos.mjs              # Brewfile install + macOS defaults
-│   ├── skills-desk-sync.mjs   # Desk skill drift check + zip build
-│   └── lib.mjs                # Terminal output vocabulary
+│   ├── symlink.ts            # The engine — derives the link set from the tree
+│   ├── symlink.test.ts       # vitest suite for the engine
+│   ├── dotfiles-link.ts      # status / apply / untrack
+│   ├── macos-setup.ts        # Brewfile install + macOS defaults
+│   ├── skills-desk-sync.ts   # Desk skill drift check + zip build
+│   └── lib.ts                # Terminal output vocabulary
 ├── Brewfile                    # every package this machine is built from
 ├── docs/                       # ADRs, agent docs, research, audit
 └── .claude/                    # THIS repo's project-level Claude config
@@ -57,15 +57,15 @@ sitting at the repo root.
 
 ### What the Scripts Do
 
-**symlink.mjs** — the engine. Walks `home/` and derives the expected link set. A directory is
+**symlink.ts** — the engine. Walks `home/` and derives the expected link set. A directory is
 linked wholesale unless the matching path in `~` is already a real directory (meaning it holds
 content this repo doesn't own, like `~/.config` or `~/.claude`) — then it descends and links the
 leaves. `no_link` names the few dirs stored in `home/` but referenced by absolute path instead.
 
-**dotfiles.mjs** — status / apply / untrack over that manifest. Idempotent, and it refuses to
+**dotfiles-link.ts** — status / apply / untrack over that manifest. Idempotent, and it refuses to
 clobber a real file rather than moving it into a backup directory nobody reads.
 
-**macos.mjs** — runs `brew bundle` against the root `Brewfile`, writes the macOS defaults this
+**macos-setup.ts** — runs `brew bundle` against the root `Brewfile`, writes the macOS defaults this
 repo owns, points a few file types at their editor via `duti`, fetches vim-plug. Packages live in the
 `Brewfile`, never in the script.
 
@@ -74,22 +74,22 @@ repo owns, points a few file types at their editor via `duti`, fetches vim-plug.
 ### Available Commands
 
 ```bash
-pnpm dotfiles                        # status — what's linked, what conflicts
-pnpm dotfiles apply                  # link everything not linked yet
-pnpm dotfiles untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+pnpm dotfiles-link                        # status — what's linked, what conflicts
+pnpm dotfiles-link apply                  # link everything not linked yet
+pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
 
-pnpm macos                           # what this machine is missing vs the Brewfile
-pnpm macos apply                     # install packages, write defaults
+pnpm macos-setup                           # what this machine is missing vs the Brewfile
+pnpm macos-setup apply                     # install packages, write defaults
 
 pnpm test                            # vitest — the mirror rule, against a temp fixture
 pnpm test:watch
 ```
 
-Registering a new dotfile is a move, not a command — `mv ~/.foo home/.foo && pnpm dotfiles apply`.
+Registering a new dotfile is a move, not a command — `mv ~/.foo home/.foo && pnpm dotfiles-link apply`.
 The tree under `home/` is the config; there is nothing else to update.
 
-Git hooks run through **lefthook** (`lefthook.yml`): biome check on staged files at commit,
-tests + `pnpm dotfiles` at push. Nothing in a hook writes to your files.
+Git hooks run through **lefthook** (`lefthook.yml`): biome on staged files, `pnpm typecheck` and
+`pnpm test` at commit; `pnpm dotfiles-link` at push. Nothing in a hook writes to your files.
 
 ### Safety Features
 
@@ -122,8 +122,11 @@ Reference actual files for current aliases:
 
 ## Project Configuration
 
-- **Engine requirements**: Node >=22.17.0, pnpm >=10.14.0
-- **Dependencies**: zx for scripting
+- **Dependencies**: zx for scripting; TypeScript for type checking only. Node/pnpm floors live in
+  `package.json` `engines`, never duplicated here.
+- **Scripts are `.ts`, run by Node directly** — Node 24 strips types natively, so there is no
+  build step and no `tsx`. `tsconfig.json` sets `erasableSyntaxOnly`, which bans any syntax that
+  would need real compilation. `pnpm typecheck` is the checker; it runs on pre-commit.
 - **Code quality**: Biome (`pnpm check`) — the only formatter/linter here
 
 ## Claude Config Management (home/.claude)
@@ -145,7 +148,7 @@ Reference actual files for current aliases:
 ~/.claude/hooks/         → ~/.dotfiles/home/.claude/hooks/
 ```
 
-These are no longer hand-made: the mirror rule covers them, so `pnpm dotfiles` reports and
+These are no longer hand-made: the mirror rule covers them, so `pnpm dotfiles-link` reports and
 repairs them like any other link.
 
 ### Configuration Categories
@@ -170,7 +173,7 @@ repairs them like any other link.
 **Backup Strategy:**
 
 - ✅ Git tracks `home/.claude/` originals
-- ✅ `pnpm dotfiles` manages these links like every other one
+- ✅ `pnpm dotfiles-link` manages these links like every other one
 - ✅ Symlinks preserve real-time sync
 
 **Cache vs Config:**
@@ -188,7 +191,7 @@ home/.claude/
 ├── sline/                 # Go sline implementation
 ├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, handoff-prune, sweep-issues, commit, cct, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
 ├── mcp-handoff-desktop/   # Local stdio MCP server giving Claude Desktop handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build)
-├── skills-desk/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-desk` (drift check + zips + Finder) — not CC-loadable, manual zip upload to Claude Desktop
+├── skills-desk/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-desk-sync` (drift check + zips + Finder) — not CC-loadable, manual zip upload to Claude Desktop
 ```
 
 ## Sline System

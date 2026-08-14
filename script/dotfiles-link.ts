@@ -1,17 +1,17 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
 /**
  * ? dotfiles — reconcile ~ with the mirror.
  * ?
- * ?   pnpm dotfiles                        # status: what's linked, what conflicts
- * ?   pnpm dotfiles apply                  # link everything that isn't linked yet
- * ?   pnpm dotfiles untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+ * ?   pnpm dotfiles-link                        # status: what's linked, what conflicts
+ * ?   pnpm dotfiles-link apply                  # link everything that isn't linked yet
+ * ?   pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
  * ?
  * ? There is no install step and no backup directory. The tree under home/ is
  * ? the whole config — status and apply are one code path, and apply refuses to
  * ? clobber a real file rather than quietly filing it away somewhere.
  * ?
  * ? Registering a new dotfile is a move, not a verb:
- * ?   mv ~/.foo home/.foo && pnpm dotfiles apply
+ * ?   mv ~/.foo home/.foo && pnpm dotfiles-link apply
  */
 
 /* Core */
@@ -34,26 +34,30 @@ import {
     title,
     warn,
     yb,
-} from './lib.mjs';
+} from './lib.ts';
+import type { Entry } from './symlink.ts';
 import {
     build_manifest,
     lstat_or_null,
     repo_root,
     to_tilde,
-} from './symlink.mjs';
+} from './symlink.ts';
 
 const STATE = {
     ELSEWHERE: 'elsewhere',
     LINKED: 'linked',
     MISSING: 'missing',
     REAL: 'real',
-};
+} as const;
 
-const REPORT = {
-    [STATE.ELSEWHERE]: (name) => warn(name, 'points somewhere else'),
-    [STATE.LINKED]: (name) => ok(name),
-    [STATE.MISSING]: (name) => skip(name, 'missing'),
-    [STATE.REAL]: (name, entry) =>
+type State = (typeof STATE)[keyof typeof STATE];
+type Row = { entry: Entry; state: State };
+
+const REPORT: Record<State, (name: string, entry: Entry) => void> = {
+    [STATE.ELSEWHERE]: (name: string) => warn(name, 'points somewhere else'),
+    [STATE.LINKED]: (name: string) => ok(name),
+    [STATE.MISSING]: (name: string) => skip(name, 'missing'),
+    [STATE.REAL]: (name: string, entry: Entry) =>
         fail(
             name,
             entry.kind === 'dir'
@@ -69,12 +73,12 @@ else if (verb === 'apply') await reconcile({ dry_run: false });
 else if (verb === 'untrack') await untrack(argument);
 else {
     zx.echo(rb(`Unknown verb: ${verb}`));
-    zx.echo(bb('Usage: pnpm dotfiles [status|apply|untrack <path>]'));
+    zx.echo(bb('Usage: pnpm dotfiles-link [status|apply|untrack <path>]'));
     process.exit(1);
 }
 
 /* Verbs */
-async function reconcile({ dry_run }) {
+async function reconcile({ dry_run }: { dry_run: boolean }) {
     const rows = await inspect();
 
     title(
@@ -111,7 +115,7 @@ async function reconcile({ dry_run }) {
             for (const { entry } of pending) skip(to_tilde(entry.target));
         }
 
-        done('Dry run. Run `pnpm dotfiles apply` to make it so.', {
+        done('Dry run. Run `pnpm dotfiles-link apply` to make it so.', {
             clean: false,
         });
         process.exit(1);
@@ -139,9 +143,11 @@ async function reconcile({ dry_run }) {
     done(`Linked ${pending.length}.`);
 }
 
-async function untrack(raw_path) {
+async function untrack(raw_path: string | undefined) {
     if (!raw_path) {
-        zx.echo(rb('❌ Which file? e.g. pnpm dotfiles untrack ~/.gitconfig'));
+        zx.echo(
+            rb('❌ Which file? e.g. pnpm dotfiles-link untrack ~/.gitconfig'),
+        );
         process.exit(1);
     }
 
@@ -188,11 +194,11 @@ async function untrack(raw_path) {
 /* Helpers */
 async function inspect() {
     const manifest = await build_manifest();
-    const rows = [];
+    const rows: Row[] = [];
 
     for (const entry of manifest) {
         const stats = await lstat_or_null(entry.target);
-        let state = STATE.MISSING;
+        let state: State = STATE.MISSING;
 
         if (stats?.isSymbolicLink()) {
             const link_target = await zx.fs.readlink(entry.target);
@@ -208,8 +214,8 @@ async function inspect() {
     return rows;
 }
 
-function print(rows) {
-    let current_group = null;
+function print(rows: Row[]) {
+    let current_group: string | null = null;
 
     for (const { entry, state } of rows) {
         const dir = zx.path.dirname(entry.target);
@@ -221,6 +227,6 @@ function print(rows) {
 
         const name =
             zx.path.basename(entry.target) + (entry.kind === 'dir' ? '/' : '');
-        REPORT[state](name, entry);
+        REPORT[state]?.(name, entry);
     }
 }

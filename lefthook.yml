@@ -1,4 +1,5 @@
-# Git hooks. Fast checks on the way in, the suite on the way out.
+# Git hooks. Everything fast enough to gate a commit runs at commit; the slower
+# whole-repo dogfood runs on push.
 #   lefthook install   # (re)write .git/hooks — runs automatically on pnpm install
 #
 # Nothing here writes to your files. A hook that reformats while lefthook is
@@ -9,15 +10,17 @@ pre-commit:
   parallel: true
   commands:
     format:
-      glob: "*.{js,mjs,ts,json,jsonc}"
+      glob: "*.{js,ts,json,jsonc}"
       run: pnpm exec biome check --no-errors-on-unmatched {staged_files}
+    typecheck:
+      run: pnpm typecheck
+    test:
+      run: pnpm test
 
 pre-push:
   parallel: true
   commands:
-    test:
-      run: pnpm test
     mirror:
       # The engine's own dogfood: if the manifest stops deriving, catch it here
       # rather than on the next machine.
-      run: pnpm dotfiles
+      run: pnpm dotfiles-link
