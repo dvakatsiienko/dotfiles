@@ -3,10 +3,10 @@
 /**
  * ? skills-desk — keep the Claude Desktop skills in step with their plugin-x sources.
  * ?
- * ?   pnpm skills-desk-sync                 # check + build
- * ?   pnpm skills-desk-sync check           # drift only
- * ?   pnpm skills-desk-sync build           # zips only
- * ?   pnpm skills-desk-sync stamp <skill>   # after re-adapting a desk SKILL.md
+ * ?   pnpm skills-sync-desk                 # check + build
+ * ?   pnpm skills-sync-desk check           # drift only
+ * ?   pnpm skills-sync-desk build           # zips only
+ * ?   pnpm skills-sync-desk stamp <skill>   # after re-adapting a desk SKILL.md
  * ?
  * ? Desk skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
  * ? this never touches SKILL.md content. Each one carries a .source-sha (the git
@@ -70,7 +70,7 @@ async function check() {
 
     if (stale > 0) {
         note(
-            `re-adapt SKILL.md, then ${bb('pnpm skills-desk-sync stamp <skill>')}`,
+            `re-adapt SKILL.md, then ${bb('pnpm skills-sync-desk stamp <skill>')}`,
         );
     }
 

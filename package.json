@@ -10,7 +10,7 @@
     "scripts": {
         "dotfiles-link": "node ./script/dotfiles-link.ts",
         "macos-setup": "node ./script/macos-setup.ts",
-        "skills-desk-sync": "node ./script/skills-desk-sync.ts",
+        "skills-sync-desk": "node ./script/skills-sync-desk.ts",
         "check": "biome check --write",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
