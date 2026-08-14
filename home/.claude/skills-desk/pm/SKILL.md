@@ -18,14 +18,14 @@ CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` =
 - **DOT projects**: `revamp` · `shelf` · `handoff` · `claude` · `sline`
 - **BYT projects**: `design-system` · `cv` · `x-com-chat` · `tooling` · `rl`
 - Small one-offs go project-less; a recurring theme → propose an umbrella project.
-- **States**: Triage inbox = needs-triage · `needs-info` label + Backlog · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Labels: those three only.
+- **States**: Triage inbox = needs-triage · `needs-info` label + Todo · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Labels: those three only. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
 - **Priority** 1 Urgent–4 Low. Urgent free to use — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
 - **Quota**: free plan, 250 non-archived issues workspace-wide. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); archive resolved work; near ~200 propose a restructure pass.
 
 ## The two jobs
 
 1. **Tweak an existing ticket** — read it first (`linear issue view DOT-N`), edit surgically, keep the ticket's voice.
-2. **Capture an idea as a new ticket** — compact but lossless: idea core, trigger context, stated constraints. Lands in Triage unless told otherwise.
+2. **Capture an idea as a new ticket** — compact but lossless: idea core, trigger context, stated constraints. Assign a role on create; Triage is only for a capture you genuinely cannot place yet, never the landing pad.
 
 ## Field contract (every create AND update)
 
