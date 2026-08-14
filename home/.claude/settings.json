@@ -1,6 +1,7 @@
 {
   "env": {
-    "EDITOR": "nvim"
+    "EDITOR": "nvim",
+    "CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT": "0"
   },
   "permissions": {
     "allow": [
@@ -36,15 +37,6 @@
   "disableClaudeAiConnectors": true,
   "hooks": {
     "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "sh ~/.claude/hooks/notification.sh"
-          }
-        ]
-      },
       {
         "matcher": "permission_prompt",
         "hooks": [
@@ -91,6 +83,10 @@
           {
             "type": "command",
             "command": "bash ~/.vibemon/notify.sh stop claude_code"
+          },
+          {
+            "type": "command",
+            "command": "sh ~/.claude/hooks/notification.sh"
           }
         ]
       }
@@ -178,10 +174,10 @@
       }
     }
   },
+  "outputStyle": "output-fun",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "low",
-  "fastMode": true,
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
@@ -194,5 +190,6 @@
   "preferredNotifChannel": "notifications_disabled",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "fastMode": true
 }
