@@ -66,7 +66,7 @@ leaves. `no_link` names the few dirs stored in `home/` but referenced by absolut
 clobber a real file rather than moving it into a backup directory nobody reads.
 
 **macos.mjs** — runs `brew bundle` against the root `Brewfile`, writes the macOS defaults this
-repo owns, points a few file types at Cursor via `duti`, fetches vim-plug. Packages live in the
+repo owns, points a few file types at their editor via `duti`, fetches vim-plug. Packages live in the
 `Brewfile`, never in the script.
 
 ## Dotfiles Management

@@ -7,7 +7,7 @@
  * ?
  * ? Packages live in the Brewfile at the repo root, never in this file.
  * ? This script only knows how to run `brew bundle`, set a few defaults, and
- * ? point a handful of file types at Cursor.
+ * ? point a handful of file types at their editor.
  */
 
 /* Core */
@@ -46,17 +46,29 @@ const DEFAULTS = [
     },
 ];
 
-// ? Which app opens which kind of file. Keyed by UTI, not by extension: duti
-// ? accepts `-s <id> .md all` and reports success, but macOS resolves .md to
-// ? net.daringfireball.markdown and the extension form writes elsewhere.
-const CURSOR = 'com.todesktop.230313mzl4w4u92';
+// ? Which app opens which kind of file. Keyed by the UTI macOS actually assigns,
+// ? which is per-language and rarely guessable — `.go` is org.golang.go-script,
+// ? not public.source-code. Read one off a real file with
+// ? `mdls -name kMDItemContentType -raw <file>`.
+// ? Each entry also carries an extension, purely so the current handler can be
+// ? read back: duti answers `-x <ext>` and has no `-x <uti>`.
+// ? `.ts` is deliberately absent: macOS maps it to public.mpeg-2-transport-stream,
+// ? so claiming it would send video files to an editor.
+const MACVIM = { id: 'org.vim.MacVim', name: 'MacVim' };
+const NEOVIDE = { id: 'com.neovide.neovide', name: 'Neovide' };
 const DEFAULT_APPS = [
-    { label: 'Markdown', uti: 'net.daringfireball.markdown' },
-    { label: 'Markdown (iA)', uti: 'net.ia.markdown' },
-    { label: 'Plain text', uti: 'public.plain-text' },
-    { label: 'Source code', uti: 'public.source-code' },
-    { label: 'Shell scripts', uti: 'public.shell-script' },
-    { label: 'JSON', uti: 'public.json' },
+    { app: MACVIM, ext: 'md', uti: 'net.daringfireball.markdown' },
+    { app: MACVIM, ext: 'md', uti: 'net.ia.markdown' },
+    { app: MACVIM, ext: 'txt', uti: 'public.plain-text' },
+    { app: MACVIM, ext: 'sh', uti: 'public.shell-script' },
+    { app: MACVIM, ext: 'zsh', uti: 'public.zsh-script' },
+    { app: NEOVIDE, ext: 'go', uti: 'org.golang.go-script' },
+    { app: NEOVIDE, ext: 'tsx', uti: 'com.microsoft.typescript' },
+    { app: NEOVIDE, ext: 'js', uti: 'com.netscape.javascript-source' },
+    { app: NEOVIDE, ext: 'json', uti: 'public.json' },
+    { app: NEOVIDE, ext: 'toml', uti: 'public.toml' },
+    { app: NEOVIDE, ext: 'yml', uti: 'public.yaml' },
+    { app: NEOVIDE, ext: 'css', uti: 'public.css' },
 ];
 
 const VIM_PLUG = `${zx.os.homedir()}/.vim/autoload/plug.vim`;
@@ -160,14 +172,22 @@ async function default_apps() {
         return;
     }
 
-    for (const { uti, label } of DEFAULT_APPS) {
-        if (!apply) {
-            skip(label, 'would open in Cursor');
+    for (const { app, ext, uti } of DEFAULT_APPS) {
+        // ? Skipping what already matches is not just tidiness: macOS raises a
+        // ? "keep using X?" dialog per type whenever a handler actually changes,
+        // ? and those queue up invisibly behind the terminal.
+        if ((await handler_for(ext)) === app.id) {
+            ok(`.${ext}`, app.name);
             continue;
         }
 
-        await zx.$`duti -s ${CURSOR} ${uti} all`;
-        ok(label, 'Cursor');
+        if (!apply) {
+            skip(`.${ext}`, `would open in ${app.name}`);
+            continue;
+        }
+
+        await zx.$`duti -s ${app.id} ${uti} all`;
+        warn(`.${ext}`, `confirm the ${app.name} dialog`);
     }
 }
 
@@ -192,6 +212,11 @@ async function vim_plug() {
 }
 
 /* Helpers */
+async function handler_for(ext) {
+    const seen = await zx.$`duti -x ${ext}`.quiet().nothrow();
+    return seen.stdout.trim().split('\n').at(-1) ?? '';
+}
+
 async function which(binary) {
     try {
         await zx.which(binary);
