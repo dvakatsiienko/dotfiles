@@ -11,6 +11,10 @@ Binding when printing TypeScript — follow exactly, no freestyle.
 
 ## Naming
 
+- **camelCase every identifier** — variables, functions, parameters, properties, object keys.
+  `SCREAMING_SNAKE` is reserved for module-level constants (`BREWFILE`, `DEFAULT_APPS`);
+  `PascalCase` for types, interfaces and components. Scripts and shell-adjacent code obey this
+  too — a file's origins in zx or bash never license snake_case.
 - **Plain names, no Hungarian prefixes.** `SelectProps`, `Payload`, `LoadingState` — the old
   `I`/`T`/`U` prefix system is retired 🪦.
 - Component props: an interface named **`<Component>Props`**, e.g. `ButtonProps`.
