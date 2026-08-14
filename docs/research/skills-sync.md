@@ -29,7 +29,7 @@ Research date: 2026-08-13. Scope: individual Pro/Max user, macOS. Primary source
 
 ## 4. Skills-as-MCP alternative (fit per desk skill)
 
-The local `handoff` MCP server (`~/.dotfiles/.clauderc/mcp-handoff-desktop/`) is already installed in Desktop. MCP offers two carriers: **tool descriptions** (always model-visible once server enabled — de facto auto-trigger) and **prompts** (user-invoked from Desktop's + menu — no auto-trigger).
+The local `handoff` MCP server (`~/.dotfiles/home/.claude/mcp-handoff-desktop/`) is already installed in Desktop. MCP offers two carriers: **tool descriptions** (always model-visible once server enabled — de facto auto-trigger) and **prompts** (user-invoked from Desktop's + menu — no auto-trigger).
 
 - ✅ `handoff` (12 lines) — near-total fit. SKILL.md is "call `save_handoff` per the spec in its tool description". The CST spec ALREADY lives in the tool description; move the remaining 5 lines of procedure into it → skill redundant.
 - ✅ `handoff-pull` (12 lines) — same shape; ingest contract already referenced to the tool description. Fold in.

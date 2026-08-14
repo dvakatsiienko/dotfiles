@@ -4,7 +4,7 @@ Global Claude Code configuration, applies to all projects.
 
 ## Config Layout — symlinks into ~/.dotfiles
 
-- Actual CC config lives in `~/.dotfiles/.clauderc/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
+- Actual CC config lives in `~/.dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
 - Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/.dotfiles`.
 
 ## Dormant tools — disabled but installed
@@ -72,7 +72,7 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 ## Token Thrift + Session Handoff
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
-- Claude Desktop shares the handoff store via the `handoff` MCP server (`~/.dotfiles/.clauderc/mcp-handoff-desktop/`) — CSTs flow CC↔Desktop through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
+- Claude Desktop shares the handoff store via the `handoff` MCP server (`~/.dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow CC↔Desktop through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
 - Peer initiative: CC and Desktop ("desk") are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; desk has the mirror rules). Three moves:
   - ROUTE: task fits desk better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to desk — <one reason>".
   - PUSH: data made here would help desk (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.

@@ -5,7 +5,7 @@ feature: a stdlib-only Go binary rendering directory, model, versions, git,
 session, quota, and context segments. Vocabulary lives in [CONTEXT.md](../../CONTEXT.md);
 design invariants in `docs/adr/` at the repo root.
 
-- **Source**: `.clauderc/sline/` · **Build**: `pnpm sline:build` · **Test**: `pnpm sline:test`
+- **Source**: `home/.claude/sline/` · **Build**: `pnpm sline:build` · **Test**: `pnpm sline:test`
 - **Wired via** `statusLine` in settings.json → `~/.claude/sline/bin`
 - **State**: `sline-state.json` — disposable cache, gitignored
 - **Invariant**: every displayed number is server-provided (ADR 0001)

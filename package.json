@@ -1,29 +1,32 @@
 {
-  "name": "dotfiles",
-  "version": "0.0.1",
-  "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
-  "scripts": {
-    "install-macos": "zx ./script/install-macos.mjs",
-    "install-dotfiles": "zx ./script/install-dotfiles.mjs",
-    "list-symlinks": "zx ./script/list-symlinks.mjs",
-    "untrack-dotfile": "zx ./script/untrack-dotfile.mjs",
-    "sline:build": "cd ./.clauderc/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
-    "mcp:build": "pnpm --filter mcp-handoff-desktop build",
-    "check": "biome check --write",
-    "sline:test": "cd ./.clauderc/sline && go test ./...",
-    "skills-desk": "zx ./script/skills-desk-sync.mjs"
-  },
-  "dependencies": {
-    "zx": "8.8.5"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.5.5",
-    "biome-config-polished": "0.0.7",
-    "prettier": "3.9.6",
-    "prettier-config-polished": "0.0.6"
-  },
-  "engines": {
-    "pnpm": ">=10.14.0",
-    "node": ">=22.17.0"
-  }
+    "name": "dotfiles",
+    "version": "0.0.1",
+    "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
+    "scripts": {
+        "macos": "zx ./script/macos.mjs",
+        "dotfiles": "zx ./script/dotfiles.mjs",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "check": "biome check --write",
+        "prepare": "lefthook install",
+        "sline:build": "cd ./home/.claude/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
+        "sline:test": "cd ./home/.claude/sline && go test ./...",
+        "mcp:build": "pnpm --filter mcp-handoff-desktop build",
+        "skills-desk": "zx ./script/skills-desk-sync.mjs"
+    },
+    "dependencies": {
+        "zx": "8.8.5"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.5.5",
+        "biome-config-polished": "0.0.7",
+        "lefthook": "2.1.10",
+        "prettier": "3.9.6",
+        "prettier-config-polished": "0.0.6",
+        "vitest": "4.1.10"
+    },
+    "engines": {
+        "pnpm": ">=10.14.0",
+        "node": ">=22.17.0"
+    }
 }

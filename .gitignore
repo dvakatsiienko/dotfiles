@@ -1,6 +1,7 @@
 node_modules
+.conductor/
 
-.DS_STORE
+.DS_Store
 
 .users_cache.json
 .channels_cache_v2.json
@@ -29,12 +30,12 @@ test_results/
 coverage/
 
 # TS build artifacts
-.clauderc/mcp-handoff-desktop/dist
-.clauderc/skills-desk/*.zip
+home/.claude/mcp-handoff-desktop/dist
+home/.claude/skills-desk/*.zip
 
 # Go build artifacts
-.clauderc/sline/bin
-.clauderc/statusline/bin
+home/.claude/sline/bin
+home/.claude/statusline/bin
 **/*statusline*/bin
-.clauderc/sline/sline-state.json
-.clauderc/skills-desk/dist/
+home/.claude/sline/sline-state.json
+home/.claude/skills-desk/dist/

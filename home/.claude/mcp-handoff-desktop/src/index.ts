@@ -10,8 +10,8 @@ const HANDOFF_DIR = join(homedir(), '.claude', 'handoffs');
 const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 // source-of-truth candidates: post- and pre-rename locations of the plugin dir
 const SPEC_CANDIDATES = [
-    join(homedir(), '.dotfiles', '.clauderc', 'plugin-x', 'CST-SPEC.md'),
-    join(homedir(), '.dotfiles', '.clauderc', 'x-plugin', 'CST-SPEC.md'),
+    join(homedir(), '.dotfiles', 'home/.claude', 'plugin-x', 'CST-SPEC.md'),
+    join(homedir(), '.dotfiles', 'home/.claude', 'x-plugin', 'CST-SPEC.md'),
 ];
 
 const spec = loadSpec();

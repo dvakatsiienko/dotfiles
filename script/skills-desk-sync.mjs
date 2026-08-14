@@ -16,8 +16,8 @@
 import { $, argv, chalk, fs, path } from 'zx';
 
 const root = path.join(import.meta.dirname, '..');
-const srcDir = path.join(root, '.clauderc/plugin-x/skills');
-const deskDir = path.join(root, '.clauderc/skills-desk');
+const srcDir = path.join(root, 'home/.claude/plugin-x/skills');
+const deskDir = path.join(root, 'home/.claude/skills-desk');
 const distDir = path.join(deskDir, 'dist');
 
 $.verbose = false;
@@ -28,7 +28,7 @@ const mirrored = (await fs.readdir(deskDir, { withFileTypes: true }))
     .map((e) => e.name);
 
 const sourceSha = async (skill) => {
-    const rel = `.clauderc/plugin-x/skills/${skill}/SKILL.md`;
+    const rel = `home/.claude/plugin-x/skills/${skill}/SKILL.md`;
     return (await $`git hash-object ${rel}`).stdout.trim();
 };
 
@@ -44,14 +44,8 @@ const check = async () => {
         if (stale) staleCount += 1;
         const mark = stale ? chalk.red('● stale') : chalk.green('○ fresh');
         const hint = stamped === null ? chalk.dim(' (never stamped)') : '';
-        console.log(`${mark}  ${skill}${hint}`);
     }
     if (staleCount > 0) {
-        console.log(
-            chalk.yellow(
-                `\n${staleCount} desk skill(s) drifted from plugin-x — re-adapt SKILL.md, then: pnpm skills-desk stamp <skill>`,
-            ),
-        );
     }
     return staleCount;
 };
@@ -59,20 +53,21 @@ const check = async () => {
 const build = async () => {
     await fs.emptyDir(distDir);
     for (const skill of mirrored) {
-        await $({ cwd: deskDir })`zip -rq dist/${skill}.zip ${skill} -x '*/.source-sha'`;
-        console.log(chalk.green(`⇡ ${path.relative(root, distDir)}/${skill}.zip`));
+        await $({
+            cwd: deskDir,
+        })`zip -rq dist/${skill}.zip ${skill} -x '*/.source-sha'`;
     }
-    console.log(chalk.dim(`\nupload: Claude Desktop → Settings → Capabilities → Skills → drag zips from dist/`));
     await $`open ${distDir}`;
 };
 
 const stamp = async (skill) => {
     if (!mirrored.includes(skill)) {
-        console.log(chalk.red(`unknown desk skill: ${skill} (have: ${mirrored.join(', ')})`));
         process.exit(1);
     }
-    await fs.writeFile(path.join(deskDir, skill, '.source-sha'), `${await sourceSha(skill)}\n`);
-    console.log(chalk.green(`stamped ${skill}`));
+    await fs.writeFile(
+        path.join(deskDir, skill, '.source-sha'),
+        `${await sourceSha(skill)}\n`,
+    );
 };
 
 const cmd = argv._[0] ?? 'sync';
@@ -81,7 +76,6 @@ else if (cmd === 'build') await build();
 else if (cmd === 'stamp') await stamp(argv._[1]);
 else {
     const staleCount = await check();
-    console.log('');
     await build();
     process.exit(staleCount > 0 ? 1 : 0);
 }

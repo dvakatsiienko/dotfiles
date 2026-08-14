@@ -1,5 +1,8 @@
 packages:
-  - .clauderc/mcp-handoff-desktop
+  - home/.claude/mcp-handoff-desktop
+
+allowBuilds:
+  lefthook: true
 
 minimumReleaseAgeExclude:
   - biome-config-polished

@@ -3,7 +3,7 @@
 Every handoff frontend — the Claude Code `handoff*` skills and Claude Desktop
 via the `handoff` MCP server (`mcp-handoff-desktop`) — reads and writes the same
 store, `~/.claude/handoffs/`, in the same CST format. The format is defined
-once, in `.clauderc/plugin-x/CST-SPEC.md`; frontends inline or load that file,
+once, in `home/.claude/plugin-x/CST-SPEC.md`; frontends inline or load that file,
 never fork its text. Files are transient: deleted on ingest (`-shared` kept for
 multiple pullers), swept after 24h. CSTs therefore flow in every direction
 (CC↔CC, CC↔Desktop) with no per-direction machinery.

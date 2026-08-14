@@ -11,7 +11,7 @@
       "Write",
       "NotebookEdit",
       "Edit(//Users/dima/.claude/**)",
-      "Edit(//Users/dima/.dotfiles/.clauderc/**)",
+      "Edit(//Users/dima/.dotfiles/home/.claude/**)",
       "Bash",
       "mcp__next-devtools",
       "mcp__grep-mcp",
@@ -167,7 +167,7 @@
     "x": {
       "source": {
         "source": "directory",
-        "path": "/Users/dima/.dotfiles/.clauderc/plugin-x"
+        "path": "/Users/dima/.dotfiles/home/.claude/plugin-x"
       },
       "autoUpdate": true
     },

@@ -4,12 +4,26 @@
   "extends": ["biome-config-polished"],
   "files": {
     "ignoreUnknown": false,
-    "includes": ["!**/public/**/*"]
+    "includes": [
+      "!**/public/**/*",
+
+      // Not ours to format — editor/app config consumed verbatim, and themes
+      // whose diffs would be pure noise.
+      "!**/import",
+      "!home/.claude/themes",
+      "!home/.claude/settings.json",
+      "!home/.claude/keybindings.json",
+      "!home/.claude/plugin-x/.claude-plugin",
+
+      // Sub-package with its own tsconfig — linted on its own terms, not the
+      // root config's. Carries a known noNonNullAssertion at src/index.ts:81.
+      "!home/.claude/mcp-handoff-desktop"
+    ]
   },
 
   "vcs": {
     "clientKind": "git",
-    "defaultBranch": "master",
+    "defaultBranch": "main",
     "enabled": true,
     "useIgnoreFile": true
   }

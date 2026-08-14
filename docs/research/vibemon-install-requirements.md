@@ -22,7 +22,7 @@ On success the installer prints `✓ API key saved`. The script installs Claude 
 
 No evidence found of either. Reasoning, from the mechanism observed:
 
-- VibeMon integrates via **Claude Code's hook system** (the same mechanism used for local automations, e.g. this repo's own `.clauderc/hooks/`) — hooks fire on local tool-use events regardless of how Claude Code itself is authenticated (subscription login *or* a pay-per-token Anthropic API key).
+- VibeMon integrates via **Claude Code's hook system** (the same mechanism used for local automations, e.g. this repo's own `home/.claude/hooks/`) — hooks fire on local tool-use events regardless of how Claude Code itself is authenticated (subscription login *or* a pay-per-token Anthropic API key).
 - The `YOUR_API_KEY` in the install command is almost certainly a **VibeMon account token** (obtained by signing up on vibemon.dev), not an Anthropic credential — it authenticates the local hook-event reporter to VibeMon's own backend, separate from whatever Claude Code itself uses to talk to Anthropic.
 - The vibemon.dev page makes **no mention of Claude Pro, Claude Max, or Anthropic API keys anywhere** — it only names "Claude Code" as one of four supported agents, alongside Cursor, Gemini CLI, and Codex (tools with entirely different billing models, which would be nonsensical if VibeMon itself required Anthropic-specific billing).
 

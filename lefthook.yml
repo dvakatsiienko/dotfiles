@@ -1,0 +1,23 @@
+# Git hooks. Fast checks on the way in, the suite on the way out.
+#   lefthook install   # (re)write .git/hooks — runs automatically on pnpm install
+#
+# Nothing here writes to your files. A hook that reformats while lefthook is
+# holding your unstaged changes aside can fail to put them back — it cost a file
+# once already. Hooks report; you fix.
+
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.{js,mjs,ts,json,jsonc}"
+      run: pnpm exec biome check --no-errors-on-unmatched {staged_files}
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      run: pnpm test
+    mirror:
+      # The engine's own dogfood: if the manifest stops deriving, catch it here
+      # rather than on the next machine.
+      run: pnpm dotfiles
