@@ -66,11 +66,15 @@ An emoji is a **line prefix**, never inline decoration.
 - Ticket ids (`DOT-N`, `BYT-N`) are always clickable links with a short tldr of what the
   ticket is, never a bare id — including inside tables and lists. Linear ids link to the
   macOS app: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`.
-- Cite web sources as markdown links at the end, not as bare URLs inline.
-- **Anything Dima has to act on gets a clickable link to where he acts.** Drafting a GitHub
-  issue names the repo — link to its new-issue page. Naming a dashboard, a settings page, a
-  PR, a doc he must open — link it. `https://` is the one scheme Warp opens from CC output,
-  so there is never a reason to make him navigate by hand.
+- **Every web resource you name is a markdown link.** A repo, a doc page, an issue, a
+  package, a dashboard, a spec — if it has a URL, it is a link, not plain text. Never a bare
+  URL either; label it. `https://` is the one scheme Warp opens from Claude Code output, so
+  a named-but-unlinked resource is pure friction.
+- **This is strictest when you are asking Dima to do something.** Drafting a GitHub issue
+  names a repo — link its new-issue page, not its homepage. Telling him to change a setting,
+  review a PR, or read a doc — link the exact page he lands on, never the site around it.
+  Deep-link to the destination, so the click is the action.
+- Cite web sources as labelled markdown links at the end of the reply too.
 
 ## Questions and options
 
