@@ -211,7 +211,8 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 // outputStyleBadge names the active output style, right after the effort dial:
 // both describe how this model is being driven rather than what it is. Always
 // rendered, "default" included — which style is loaded is never not worth
-// knowing. The "output-" prefix is stripped; it is a filing convention.
+// knowing. The "output-" prefix is stripped; it is a filing convention. Casing
+// of what remains is preserved — style names carry abbreviations (ELI5).
 func outputStyleBadge(claudeContext *ClaudeContext) string {
 	if claudeContext == nil || claudeContext.OutputStyle == nil {
 		return ""
@@ -220,7 +221,9 @@ func outputStyleBadge(claudeContext *ClaudeContext) string {
 	if name == "" {
 		return ""
 	}
-	name = strings.TrimPrefix(strings.ToLower(name), "output-")
+	if len(name) >= len("output-") && strings.EqualFold(name[:len("output-")], "output-") {
+		name = name[len("output-"):]
+	}
 	// Bare emoji: no foreground color (it paints its own) and no track background
 	// (the effort dial's background is one cell wide, and ✍️ occupies two — it
 	// would tint only the left half of the glyph).

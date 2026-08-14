@@ -437,6 +437,23 @@ func TestOutputStyleBadge(t *testing.T) {
 		t.Error("custom output style: the output- prefix should be stripped")
 	}
 
+	abbrev := &ClaudeContext{}
+	abbrev.Model.ID = "claude-opus-5"
+	abbrev.Model.DisplayName = "Opus 5"
+	abbrev.OutputStyle = &struct {
+		Name string `json:"name"`
+	}{Name: "output-ELI5"}
+
+	abbrevTail := getModelDisplayName(abbrev)
+	abbrevTail = abbrevTail[strings.Index(abbrevTail, "✍️"):]
+	e, l, i := strings.Index(abbrevTail, "E"), strings.Index(abbrevTail, "L"), strings.Index(abbrevTail, "I")
+	if e < 0 || l < e || i < l {
+		t.Error("abbreviation output style: want the name's casing preserved")
+	}
+	if strings.Contains(abbrevTail, "eli5") {
+		t.Error("abbreviation output style: the name should not be lowercased")
+	}
+
 	plain := &ClaudeContext{}
 	plain.Model.ID = "claude-opus-5"
 	plain.Model.DisplayName = "Opus 5"
