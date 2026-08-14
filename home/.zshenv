@@ -12,6 +12,10 @@ export ZSH=$HOME/.oh-my-zsh
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST-$ZSH_VERSION
 export ZSH_CUSTOM=$HOME/.config/oh-my-zsh-custom
 
+# Generated tool init, cached and version-stamped by zsh_init_cached in .zshrc.
+# Generated data, so it lives outside the dotfiles repo.
+export ZSH_INIT_CACHE_DIR=$HOME/.cache/zsh
+
 # =============================================================================
 # Security & Authentication
 # =============================================================================
