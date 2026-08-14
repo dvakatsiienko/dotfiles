@@ -1,7 +1,7 @@
 ---
 name: commit
 description: Branded commit authoring — format, emoji canon, steering keywords, worktree mirroring. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /commit or just asked to commit mid-conversation.
-argument-hint: "[y] [mir] [push] [correction…]"
+argument-hint: "[y|y+] [mir] [push] [correction…]"
 ---
 
 # Commit
@@ -13,15 +13,25 @@ Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 
 | keyword | meaning |
 | ------- | ------- |
-| `y`     | skip the confirm — the ONLY thing that ever skips it, no exceptions |
+| `y`     | skip the confirm, this invocation only |
+| `y+`    | skip the confirm for the rest of the conversation (§1.1) |
 | `mir`   | after committing, mirror into local main across worktrees (§4) |
 | `push`  | also update the remote: alone → push current branch; with `mir` → push main |
 
-No `y` → draft the message, print it, wait for "y"/correction — THEN run the
+No `y`/`y+` → draft the message, print it, wait for "y"/correction — THEN run the
 full pipeline (commit + mir + push, whatever was requested).
-`y` present → execute everything immediately, zero questions.
-Examples: `/commit` ask · `/commit y` autonomous · `/commit mir` mirror with confirm ·
-`/commit y mir push` sync everywhere, no questions.
+`y` or `y+` present → execute everything immediately, zero questions.
+Examples: `/commit` ask · `/commit y` autonomous once · `/commit y+` autonomous from
+here on · `/commit mir` mirror with confirm · `/commit y mir push` sync everywhere.
+
+### 1.1 · `y+` — standing confirm skip
+
+`y+` grants what `y` grants, and keeps it: every later commit in this conversation
+runs unconfirmed, whether invoked as `/commit` or asked for in passing. It stays on
+until the conversation ends or Dima revokes it.
+
+`y+` covers the confirm only. `mir` and `push` are still per-invocation — a standing
+yes never reaches a remote on its own.
 
 ## 2 · Format — the brand
 
