@@ -24,8 +24,16 @@ type GitStatus struct {
 	Stash          int
 }
 
-func readGitStatus() GitStatus {
-	out := runCommand("git", "status", "--porcelain=v2", "--branch", "--show-stash")
+// readGitStatus reports on repoDir. An empty repoDir falls back to the process
+// cwd, which is only right when nothing told us where the session lives.
+func readGitStatus(repoDir string) GitStatus {
+	args := []string{}
+	if repoDir != "" {
+		args = append(args, "-C", repoDir)
+	}
+	args = append(args, "status", "--porcelain=v2", "--branch", "--show-stash")
+
+	out := runCommand("git", args...)
 	if out == "" {
 		// Distinguish "not a repo" from "clean repo": a repo always emits headers.
 		return GitStatus{}

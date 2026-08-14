@@ -125,8 +125,21 @@ func getGitEmoji() string {
 // STATUSLINE ASSEMBLY
 // =============================================================================
 
-func gitSegment() string {
-	st := readGitStatus()
+// repoDir is the directory sline reports git for: the session's project, not
+// wherever the shell has wandered to. Travelling out of the repo mid-session
+// used to blank the segment.
+func repoDir(claudeContext *ClaudeContext) string {
+	if claudeContext == nil {
+		return ""
+	}
+	if claudeContext.Workspace.ProjectDir != "" {
+		return claudeContext.Workspace.ProjectDir
+	}
+	return claudeContext.Workspace.CurrentDir
+}
+
+func gitSegment(claudeContext *ClaudeContext) string {
+	st := readGitStatus(repoDir(claudeContext))
 	gitEmoji := getGitEmoji()
 
 	if !st.IsRepo {
@@ -213,7 +226,7 @@ func generateStatusline() string {
 	output.WriteString(fmt.Sprintf("%s%s%s󰎙%s %s%s%s%s%s📦%s %s%s%s",
 		Sep, Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset,
 		Sep, PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
-	output.WriteString(gitSegment())
+	output.WriteString(gitSegment(claudeContext))
 
 	// Session identity closes line 1; the model leads line 2's usage gauges.
 	if label := sessionLabel(claudeContext); label != "" {

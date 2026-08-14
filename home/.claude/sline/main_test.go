@@ -316,3 +316,23 @@ func TestGradientAt(t *testing.T) {
 		t.Error("t=1 must return the last stop")
 	}
 }
+
+func TestRepoDirFollowsTheSessionNotTheShell(t *testing.T) {
+	ctx := &ClaudeContext{}
+	ctx.Workspace.ProjectDir = "/repo"
+	ctx.Workspace.CurrentDir = "/tmp"
+
+	// Travelling out of the repo must not blank the git segment.
+	if got := repoDir(ctx); got != "/repo" {
+		t.Errorf("repoDir = %q, want /repo", got)
+	}
+
+	ctx.Workspace.ProjectDir = ""
+	if got := repoDir(ctx); got != "/tmp" {
+		t.Errorf("repoDir without project_dir = %q, want /tmp", got)
+	}
+
+	if got := repoDir(nil); got != "" {
+		t.Errorf("repoDir(nil) = %q, want empty", got)
+	}
+}
