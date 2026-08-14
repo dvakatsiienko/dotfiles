@@ -30,6 +30,11 @@ Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wi
 
 Labels per team: `agent`, `human`, `needs-info` only — essentials, resist new ones.
 
+Workspace-wide: `fable-5` — this ticket needs Fable 5, grab it only when Fable quota is free.
+No `opus-5` counterpart on purpose: absence of `fable-5` means Opus by default, and a label
+that is always true carries no information. When Dima asks what to grab, check this label and
+say which tickets are Fable-only.
+
 ## Fields
 
 - **Priority** (built-in): 1 Urgent · 2 High · 3 Medium · 4 Low. Urgent is free to use — priority says how much a ticket *matters*; when one ticket must land *before* another, add a `blocks` relation instead of inflating priority.
@@ -52,6 +57,11 @@ linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.da
 
 - Team-wide listing = `linear issue query --team DOT` (`issue list` shows only issues assigned to *you*).
 - Multi-line/markdown bodies: write to a file, pass `--description-file file.md` (`issue create`/`issue update`) or `--body-file file.md` (`comment add`/`comment update`) — the shell never touches the content, unlike inline `--description "$(cat …)"` (`$VAR`/backtick expansion silently mangles snippets).
+- `issue update --label` **replaces** the whole label set, it never adds. Passing one label drops
+  every other one, silently and with a success message. Always pass the full intended set
+  (`--label agent --label fable-5`), and verify after:
+  `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
+- `issue view --json` exits 5 — read fields back through `linear api` GraphQL instead.
 - `linear` hanging >15s = likely a hidden Keychain prompt (keyring auth) — check the screen.
 
 ## Links

@@ -12,12 +12,13 @@ Channel: the `linear` CLI (CC: Bash; desk: Desktop Commander). Command mechanics
 ## The two jobs
 
 1. **Tweak an existing ticket** — read it first (`linear issue view`), then edit surgically; keep the ticket's voice.
-2. **Capture an idea as a new ticket** — precise but compact: the idea's core, the trigger context, stated constraints. New captures land in Triage unless Dima says otherwise.
+2. **Capture an idea as a new ticket** — precise but compact: the idea's core, the trigger context, stated constraints.
 
 ## Field contract (every create AND update)
 
-Priority + estimate are **always filled and current** — monitoring them is your job, not Dima's:
+Role, priority and estimate are **always filled and current** — monitoring them is your job, not Dima's:
 
+- **Role first.** Every ticket carries one of the five roles (state ↔ label map in [references/workspace.md](references/workspace.md)), assigned by you on every create and every update, without being asked. Judge it from the ticket's own readiness: fully specified and mechanical enough to hand over → `agent` + Todo; needs Dima's taste or hands → `human` + Todo; a real question blocks it → `needs-info` + Backlog; dead → Canceled. `Triage` is for a capture you genuinely cannot place yet, not the landing pad for new tickets. A ticket blocked on quota, time, or another ticket keeps its real role — a blocker is a relation, never a role.
 - On create: propose priority (1–4) + estimate (1–5) + project.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
