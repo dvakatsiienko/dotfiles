@@ -18,7 +18,24 @@
 import * as zx from 'zx';
 
 export const homedir = zx.os.homedir();
-export const repoRoot = zx.path.resolve(import.meta.dirname, '../..');
+
+// ? Found by searching upward for package.json, never by counting directory
+// ? levels: a hardcoded '../..' silently points at the wrong tree the moment
+// ? this file moves, and no test catches it — the suite passes a fixture root
+// ? in on purpose, so it never touches the real one.
+export function findRepoRoot(from: string) {
+    let dir = from;
+
+    while (!zx.fs.existsSync(`${dir}/package.json`)) {
+        const parent = zx.path.dirname(dir);
+        if (parent === dir) throw new Error(`No package.json above ${from}`);
+        dir = parent;
+    }
+
+    return dir;
+}
+
+export const repoRoot = findRepoRoot(import.meta.dirname);
 export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~, for two different reasons:

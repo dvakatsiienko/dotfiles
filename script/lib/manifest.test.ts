@@ -13,7 +13,7 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 /* Instruments */
-import { buildManifest } from './manifest.ts';
+import { buildManifest, findRepoRoot, repoRoot } from './manifest.ts';
 
 type Options = Parameters<typeof buildManifest>[0];
 
@@ -136,6 +136,25 @@ describe('exclusions', () => {
         expect(found).toContain('.claude/settings.json');
         expect(found).toContain('.claude/hooks');
         expect(found).not.toContain('.claude/plugin-x');
+    });
+});
+
+describe('repo root', () => {
+    test('resolves to the directory holding package.json', async () => {
+        await expect(
+            fs.access(path.join(repoRoot, 'package.json')),
+        ).resolves.toBeUndefined();
+    });
+
+    test('finds the root from any depth, not by counting levels', () => {
+        const deep = path.join(repoRoot, 'script', 'lib');
+
+        expect(findRepoRoot(deep)).toBe(repoRoot);
+        expect(findRepoRoot(repoRoot)).toBe(repoRoot);
+    });
+
+    test('throws rather than returning a wrong tree', () => {
+        expect(() => findRepoRoot(os.tmpdir())).toThrow(/No package.json/);
     });
 });
 
