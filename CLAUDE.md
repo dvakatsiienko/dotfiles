@@ -28,14 +28,14 @@ symlinked lives in `import/`.
 │   ├── .zshrc .zprofile .zshenv  # Shell configuration
 │   ├── .gitconfig             # Git configuration with 1Password
 │   ├── .vimrc                 # Vim configuration
+│   ├── .warp/                 # Warp settings, keybindings, theme
 │   └── .claude/               # Claude Code config — see below
 ├── cc -> home/.claude          # shorthand for the dir edited most
 ├── import/                     # NOT symlinked — imported by hand into each app
 │   ├── iterm2/                # prefs folder, pointed at from iTerm2 preferences
 │   ├── raycast/               # script dir, pointed at from Raycast preferences
 │   ├── terminal/              # Gruvbox and Treehouse Terminal.app themes
-│   ├── vscode/                # Gruvbox VSCode themes
-│   └── warp/                  # Warp theme
+│   └── vscode/                # Gruvbox VSCode themes
 ├── script/
 │   ├── symlink.mjs            # The engine — derives the link set from the tree
 │   ├── symlink.test.mjs       # vitest suite for the engine
@@ -65,8 +65,9 @@ leaves. `no_link` names the few dirs stored in `home/` but referenced by absolut
 **dotfiles.mjs** — status / apply / untrack over that manifest. Idempotent, and it refuses to
 clobber a real file rather than moving it into a backup directory nobody reads.
 
-**macos.mjs** — runs `brew bundle` against the root `Brewfile`, writes the three macOS defaults
-this repo owns, fetches vim-plug. Packages live in the `Brewfile`, never in the script.
+**macos.mjs** — runs `brew bundle` against the root `Brewfile`, writes the macOS defaults this
+repo owns, points a few file types at Cursor via `duti`, fetches vim-plug. Packages live in the
+`Brewfile`, never in the script.
 
 ## Dotfiles Management
 

@@ -6,7 +6,8 @@
  * ?   pnpm macos apply    # install packages, write defaults, fetch vim-plug
  * ?
  * ? Packages live in the Brewfile at the repo root, never in this file.
- * ? This script only knows how to run `brew bundle` and set a few defaults.
+ * ? This script only knows how to run `brew bundle`, set a few defaults, and
+ * ? point a handful of file types at Cursor.
  */
 
 /* Core */
@@ -45,6 +46,19 @@ const DEFAULTS = [
     },
 ];
 
+// ? Which app opens which kind of file. Keyed by UTI, not by extension: duti
+// ? accepts `-s <id> .md all` and reports success, but macOS resolves .md to
+// ? net.daringfireball.markdown and the extension form writes elsewhere.
+const CURSOR = 'com.todesktop.230313mzl4w4u92';
+const DEFAULT_APPS = [
+    { label: 'Markdown', uti: 'net.daringfireball.markdown' },
+    { label: 'Markdown (iA)', uti: 'net.ia.markdown' },
+    { label: 'Plain text', uti: 'public.plain-text' },
+    { label: 'Source code', uti: 'public.source-code' },
+    { label: 'Shell scripts', uti: 'public.shell-script' },
+    { label: 'JSON', uti: 'public.json' },
+];
+
 const VIM_PLUG = `${zx.os.homedir()}/.vim/autoload/plug.vim`;
 
 const apply = zx.argv._[0] === 'apply';
@@ -56,6 +70,7 @@ title('macOS setup', apply ? 'applying' : 'dry run — nothing will change');
 await ensure_homebrew();
 await packages();
 await defaults();
+await default_apps();
 await vim_plug();
 
 if (apply) {
@@ -134,6 +149,25 @@ async function defaults() {
 
         await zx.$`defaults write ${args}`;
         ok(label);
+    }
+}
+
+async function default_apps() {
+    step('Default apps');
+
+    if (!(await which('duti'))) {
+        warn('duti missing', 'brew bundle installs it — rerun after packages');
+        return;
+    }
+
+    for (const { uti, label } of DEFAULT_APPS) {
+        if (!apply) {
+            skip(label, 'would open in Cursor');
+            continue;
+        }
+
+        await zx.$`duti -s ${CURSOR} ${uti} all`;
+        ok(label, 'Cursor');
     }
 }
 

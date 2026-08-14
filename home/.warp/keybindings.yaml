@@ -1,0 +1,4 @@
+---
+"input:open_completion_suggestions": ctrl-space
+"workspace:toggle_command_palette": none
+"editor_view:insert_autosuggestion": tab

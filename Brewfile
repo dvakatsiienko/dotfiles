@@ -65,6 +65,7 @@ brew "poppler"                   # PDF tooling
 brew "charmbracelet/tap/crush"          # terminal AI assistant
 brew "lutzifer/tap/keyboardswitcher"    # drives the Raycast layout switcher
 brew "teamookla/speedtest/speedtest"
+brew "duti"                             # sets the default app per file type
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
