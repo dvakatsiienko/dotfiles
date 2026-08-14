@@ -1,101 +1,121 @@
 #!/usr/bin/env zx
 /**
- * skills-desk-sync — leg 1 of dotfiles#16.
- *
- * Desk skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
- * this script never touches SKILL.md content. It does the deterministic part:
- *   - drift check: each desk skill carries .source-sha (git blob hash of the
- *     plugin-x SKILL.md it was adapted from); a differing live hash = stale
- *   - zip build: fresh zips for every desk skill into skills-desk/dist/
- *   - stamp: record the current source hash after a re-adaptation
- *
- * Usage:
- *   pnpm skills-desk [check|build]   # default: check + build
- *   pnpm skills-desk stamp <skill>   # after re-adapting a desk SKILL.md
+ * ? skills-desk — keep the Claude Desktop skills in step with their plugin-x sources.
+ * ?
+ * ?   pnpm skills-desk                 # check + build
+ * ?   pnpm skills-desk check           # drift only
+ * ?   pnpm skills-desk build           # zips only
+ * ?   pnpm skills-desk stamp <skill>   # after re-adapting a desk SKILL.md
+ * ?
+ * ? Desk skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
+ * ? this never touches SKILL.md content. Each one carries a .source-sha (the git
+ * ? blob hash of the SKILL.md it was adapted from); a differing live hash = stale.
  */
-import { $, argv, chalk, fs, path } from 'zx';
 
-const root = path.join(import.meta.dirname, '..');
-const deskDir = path.join(root, 'home/.claude/skills-desk');
-const distDir = path.join(deskDir, 'dist');
+/* Core */
+import * as zx from 'zx';
 
-$.verbose = false;
-$.cwd = root;
+/* Instruments */
+import { bb, done, fail, mb, note, ok, step, title } from './lib.mjs';
+import { repo_root } from './symlink.mjs';
 
-const mirrored = (await fs.readdir(deskDir, { withFileTypes: true }))
-    .filter((e) => e.isDirectory() && e.name !== 'dist')
-    .map((e) => e.name);
+const desk_dir = `${repo_root}/home/.claude/skills-desk`;
+const dist_dir = `${desk_dir}/dist`;
 
-const sourceSha = async (skill) => {
-    const rel = `home/.claude/plugin-x/skills/${skill}/SKILL.md`;
-    return (await $`git hash-object ${rel}`).stdout.trim();
-};
+zx.$.verbose = false;
+zx.$.cwd = repo_root;
 
-const check = async () => {
-    let staleCount = 0;
-    for (const skill of mirrored) {
-        const stampPath = path.join(deskDir, skill, '.source-sha');
-        const stamped = (await fs.pathExists(stampPath))
-            ? (await fs.readFile(stampPath, 'utf8')).trim()
-            : null;
-        const live = await sourceSha(skill);
-        const stale = stamped !== live;
-        if (stale) staleCount += 1;
-        const mark = stale ? chalk.red('● stale') : chalk.green('○ fresh');
-        const hint = stamped === null ? chalk.dim(' (never stamped)') : '';
-        console.log(`${mark}  ${skill}${hint}`);
+const skills = (await zx.fs.readdir(desk_dir, { withFileTypes: true }))
+    .filter((entry) => entry.isDirectory() && entry.name !== 'dist')
+    .map((entry) => entry.name);
+
+const [verb = 'sync', argument] = zx.argv._;
+
+title('Desk skills', `${skills.length} adapted from plugin-x`);
+
+if (verb === 'check') {
+    const stale = await check();
+    done(stale > 0 ? `${stale} drifted.` : 'All fresh.', {
+        clean: stale === 0,
+    });
+    process.exit(stale > 0 ? 1 : 0);
+}
+
+if (verb === 'build') await build();
+else if (verb === 'stamp') await stamp(argument);
+else {
+    const stale = await check();
+    await build();
+    process.exit(stale > 0 ? 1 : 0);
+}
+
+/* Verbs */
+async function check() {
+    step('Drift');
+
+    let stale = 0;
+
+    for (const skill of skills) {
+        const stamped = await read_stamp(skill);
+        if (stamped === (await source_sha(skill))) {
+            ok(skill);
+            continue;
+        }
+
+        stale += 1;
+        fail(skill, stamped === null ? 'never stamped' : 'drifted');
     }
-    if (staleCount > 0) {
-        console.log(
-            chalk.yellow(
-                `\n${staleCount} desk skill(s) drifted from plugin-x — re-adapt SKILL.md, then: pnpm skills-desk stamp <skill>`,
-            ),
-        );
-    }
-    return staleCount;
-};
 
-const build = async () => {
-    await fs.emptyDir(distDir);
-    for (const skill of mirrored) {
-        await $({
-            cwd: deskDir,
+    if (stale > 0) {
+        note(`re-adapt SKILL.md, then ${bb('pnpm skills-desk stamp <skill>')}`);
+    }
+
+    return stale;
+}
+
+async function build() {
+    step('Zips');
+    await zx.fs.emptyDir(dist_dir);
+
+    for (const skill of skills) {
+        await zx.$({
+            cwd: desk_dir,
         })`zip -rq dist/${skill}.zip ${skill} -x '*/.source-sha'`;
-        console.log(
-            chalk.green(`⇡ ${path.relative(root, distDir)}/${skill}.zip`),
-        );
+        ok(`${skill}.zip`, mb(zx.path.relative(repo_root, dist_dir)));
     }
-    console.log(
-        chalk.dim(
-            `\nupload: Claude Desktop → Settings → Capabilities → Skills → drag zips from dist/`,
-        ),
-    );
-    await $`open ${distDir}`;
-};
 
-const stamp = async (skill) => {
-    if (!mirrored.includes(skill)) {
-        console.log(
-            chalk.red(
-                `unknown desk skill: ${skill} (have: ${mirrored.join(', ')})`,
-            ),
-        );
+    note(
+        'upload: Claude Desktop → Settings → Capabilities → Skills → drag zips',
+    );
+    await zx.$`open ${dist_dir}`;
+    done(`Built ${skills.length}.`);
+}
+
+async function stamp(skill) {
+    if (!skills.includes(skill)) {
+        step('Stamp');
+        fail(`unknown desk skill: ${skill}`, `have: ${skills.join(', ')}`);
         process.exit(1);
     }
-    await fs.writeFile(
-        path.join(deskDir, skill, '.source-sha'),
-        `${await sourceSha(skill)}\n`,
-    );
-    console.log(chalk.green(`stamped ${skill}`));
-};
 
-const cmd = argv._[0] ?? 'sync';
-if (cmd === 'check') process.exit((await check()) > 0 ? 1 : 0);
-else if (cmd === 'build') await build();
-else if (cmd === 'stamp') await stamp(argv._[1]);
-else {
-    const staleCount = await check();
-    console.log('');
-    await build();
-    process.exit(staleCount > 0 ? 1 : 0);
+    await zx.fs.writeFile(
+        `${desk_dir}/${skill}/.source-sha`,
+        `${await source_sha(skill)}\n`,
+    );
+
+    step('Stamp');
+    ok(skill, 'stamped at the current source');
+    done('Stamped.');
+}
+
+/* Helpers */
+async function source_sha(skill) {
+    const rel = `home/.claude/plugin-x/skills/${skill}/SKILL.md`;
+    return (await zx.$`git hash-object ${rel}`).stdout.trim();
+}
+
+async function read_stamp(skill) {
+    const path = `${desk_dir}/${skill}/.source-sha`;
+    if (!(await zx.fs.pathExists(path))) return null;
+    return (await zx.fs.readFile(path, 'utf8')).trim();
 }
