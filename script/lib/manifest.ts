@@ -21,9 +21,12 @@ export const homedir = zx.os.homedir();
 export const repoRoot = zx.path.resolve(import.meta.dirname, '../..');
 export const mirrorRoot = `${repoRoot}/home`;
 
-// ? Stored in home/ but never linked into ~: these are referenced by absolute
-// ? path (the plugin marketplace entry in settings.json, the desk sync script)
-// ? rather than found by anything looking inside ~/.claude.
+// ? Stored in home/ but never linked into ~, for two different reasons:
+// ?   reached by absolute path, so a link would be dead weight — plugin-x
+// ?     (settings.json marketplace entry) and mcp-handoff-desktop (Claude
+// ?     Desktop's own config, which lives outside this repo);
+// ?   not Claude Code config at all — skills-desk holds zip sources for Claude
+// ?     Desktop, and linking it would put non-config into ~/.claude.
 export const noLink = new Set([
     '.claude/plugin-x',
     '.claude/mcp-handoff-desktop',
