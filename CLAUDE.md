@@ -123,7 +123,7 @@ Reference actual files for current aliases:
 
 - **Engine requirements**: Node >=22.17.0, pnpm >=10.14.0
 - **Dependencies**: zx for scripting
-- **Code quality**: Biome (`pnpm check`) + Prettier for the file types Biome doesn't format
+- **Code quality**: Biome (`pnpm check`) — the only formatter/linter here
 
 ## Claude Config Management (home/.claude)
 

@@ -21,8 +21,6 @@
         "@biomejs/biome": "2.5.5",
         "biome-config-polished": "0.0.8",
         "lefthook": "2.1.10",
-        "prettier": "3.9.6",
-        "prettier-config-polished": "0.0.6",
         "vitest": "4.1.10"
     },
     "engines": {

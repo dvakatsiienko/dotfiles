@@ -1,41 +1,10 @@
 node_modules
 .conductor/
-
 .DS_Store
-
-.users_cache.json
-.channels_cache_v2.json
-
-# cute-config.md
 todo.md
 
-# Python cache files
-**/__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Database files (auto-generated)
-db.sqlite
-*.db
-*.sqlite
-
-# Temporary files
-*.tmp
-*.log
-*.swp
-
-# Test outputs
-test_results/
-coverage/
-
-# TS build artifacts
+# Build artifacts
 home/.claude/mcp-handoff-desktop/dist
-home/.claude/skills-desk/*.zip
-
-# Go build artifacts
-home/.claude/sline/bin
-home/.claude/statusline/bin
-**/*statusline*/bin
-home/.claude/sline/sline-state.json
 home/.claude/skills-desk/dist/
+home/.claude/sline/bin
+home/.claude/sline/sline-state.json
