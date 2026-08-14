@@ -44,6 +44,14 @@ type ClaudeContext struct {
 		SevenDaySonnet *RateLimitWindow `json:"seven_day_sonnet"`
 	} `json:"rate_limits"`
 	ContextWindow *ContextWindowInfo `json:"context_window"`
+	// Reasoning effort as CC currently has it. Authoritative over settings.json,
+	// which /effort does not rewrite mid-session.
+	Effort *struct {
+		Level string `json:"level"`
+	} `json:"effort"`
+	// Opus running with faster output — Opus 5/4.8 only, absent elsewhere, so
+	// it marks a state that silently cannot apply on other models.
+	FastMode bool `json:"fast_mode"`
 }
 
 type ContextWindowInfo struct {

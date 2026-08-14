@@ -373,3 +373,42 @@ func TestWeeklyWindowPrefersGenericThenModel(t *testing.T) {
 		t.Errorf("no rate_limits at all: want no window, got %+v", got)
 	}
 }
+
+func TestEffortLevelPrefersPayloadOverSettings(t *testing.T) {
+	context := &ClaudeContext{}
+	context.Effort = &struct {
+		Level string `json:"level"`
+	}{Level: "xhigh"}
+
+	if got := effortLevel(context); got != "xhigh" {
+		t.Errorf("payload effort present: want xhigh, got %q", got)
+	}
+
+	// No payload effort: fall back to settings.json, whatever it holds. The
+	// point is only that the payload wins when present, so assert the branch
+	// rather than the machine's current file contents.
+	if got := effortLevel(&ClaudeContext{}); got != getEffortFromSettings() {
+		t.Errorf("payload effort absent: want the settings fallback, got %q", got)
+	}
+	if got := effortLevel(nil); got != getEffortFromSettings() {
+		t.Errorf("nil context: want the settings fallback, got %q", got)
+	}
+}
+
+func TestFastModeMarksTheModel(t *testing.T) {
+	fast := &ClaudeContext{FastMode: true}
+	fast.Model.ID = "claude-opus-5"
+	fast.Model.DisplayName = "Opus 5"
+
+	if !strings.Contains(getModelDisplayName(fast), "⚡") {
+		t.Error("fast_mode true: want the ⚡ marker on the model")
+	}
+
+	slow := &ClaudeContext{}
+	slow.Model.ID = "claude-opus-5"
+	slow.Model.DisplayName = "Opus 5"
+
+	if strings.Contains(getModelDisplayName(slow), "⚡") {
+		t.Error("fast_mode false: want no ⚡ marker")
+	}
+}

@@ -122,6 +122,16 @@ func getModelFromSettings() string {
 
 // getEffortFromSettings reads the persisted /effort default; the statusline
 // stdin JSON doesn't carry effort, so settings.json is the source of truth.
+// effortLevel prefers what CC reports for this render. settings.json only holds
+// the launch value — /effort changes the dial without rewriting the file — so
+// the file is the fallback for bare-terminal runs, never the primary source.
+func effortLevel(claudeContext *ClaudeContext) string {
+	if claudeContext != nil && claudeContext.Effort != nil && claudeContext.Effort.Level != "" {
+		return claudeContext.Effort.Level
+	}
+	return getEffortFromSettings()
+}
+
 func getEffortFromSettings() string {
 	homeDir, _ := os.UserHomeDir()
 	data, err := os.ReadFile(filepath.Join(homeDir, ".claude", "settings.json"))
@@ -183,7 +193,11 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 	if version != "" {
 		rendered += lightGrayColor + " " + version + Reset
 	}
-	if badge := effortBadge(getEffortFromSettings()); badge != "" {
+	// ⚡ sits with the model, not the gauges: it describes how this model runs.
+	if claudeContext != nil && claudeContext.FastMode {
+		rendered += " ⚡"
+	}
+	if badge := effortBadge(effortLevel(claudeContext)); badge != "" {
 		rendered += " " + badge
 	}
 	return rendered
