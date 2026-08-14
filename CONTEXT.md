@@ -15,6 +15,10 @@ _Avoid_: statusline (that names the official CC feature slot sline plugs into)
 The smallest self-contained unit of the rendered line. A segment renders only when its data source provides its field; otherwise it is omitted entirely.
 _Avoid_: widget, block, part
 
+**Alert**:
+An active fault rendered in the alert segment that closes line 1 — the single place any fault appears, at one of two levels (`warn`, `crit`). The label states the fault in words; colour only reinforces it.
+_Avoid_: error state, badge, marker
+
 **Quota window**:
 A subscription rate-limit period — the 5h window or the weekly window.
 _Avoid_: bare "window" (ambiguous with context window)

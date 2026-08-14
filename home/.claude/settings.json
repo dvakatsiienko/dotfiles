@@ -178,6 +178,7 @@
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
   "effortLevel": "low",
+  "fastModePerSessionOptIn": true,
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
@@ -190,6 +191,5 @@
   "preferredNotifChannel": "notifications_disabled",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true,
-  "fastMode": false
+  "voiceEnabled": true
 }

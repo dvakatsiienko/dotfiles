@@ -193,12 +193,6 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 	if version != "" {
 		rendered += lightGrayColor + " " + version + Reset
 	}
-	// ⚡️ sits with the model, not the gauges: it describes how this model runs.
-	// The variation selector is load-bearing: bare U+26A1 gets one cell from the
-	// width table but two from the font, so it collides with its neighbour.
-	if claudeContext != nil && claudeContext.FastMode {
-		rendered += " ⚡️"
-	}
 	if badge := effortBadge(effortLevel(claudeContext)); badge != "" {
 		rendered += " " + badge
 	}

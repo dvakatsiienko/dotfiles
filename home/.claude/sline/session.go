@@ -76,9 +76,9 @@ func sessionLabel(context *ClaudeContext) string {
 // restart heals it). Errors resolve to true — never cry wolf on a lookup fail.
 //
 // TEMPORARY — compensates for a CC bug (session registers but never binds its
-// socket). Check occasionally; once fixed upstream, delete this func, the
-// ⚠ unreachable segment in main.go, and the KNOWN CC BUG bullet in the
-// pull-handoff skill's Etiquette section. Tracking:
+// socket). Check occasionally; once fixed upstream, delete this func, its
+// alert in alert.go, and the KNOWN CC BUG bullet in the pull-handoff skill's
+// Etiquette section. Tracking:
 //   https://github.com/anthropics/claude-code/issues/85497 (ours)
 //   dupes/related: #85412, #84945, #85160, #84894
 func peerSocketAlive() bool {

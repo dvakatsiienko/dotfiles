@@ -395,21 +395,47 @@ func TestEffortLevelPrefersPayloadOverSettings(t *testing.T) {
 	}
 }
 
-func TestFastModeMarksTheModel(t *testing.T) {
+func TestFastModeAlertsInsteadOfBadgingTheModel(t *testing.T) {
 	fast := &ClaudeContext{FastMode: true}
 	fast.Model.ID = "claude-opus-5"
 	fast.Model.DisplayName = "Opus 5"
 
-	if !strings.Contains(getModelDisplayName(fast), "⚡️") {
-		t.Error("fast_mode true: want the ⚡️ marker on the model")
+	if !strings.Contains(alertSegment(fast), "↯ FAST") {
+		t.Error("fast_mode true: want the ↯ FAST alert")
+	}
+	if !strings.Contains(alertSegment(fast), UsageCritColor) {
+		t.Error("fast_mode true: want the alert rendered at crit level")
+	}
+	if strings.Contains(getModelDisplayName(fast), "⚡️") {
+		t.Error("fast mode must not badge the model cluster any more")
 	}
 
 	slow := &ClaudeContext{}
 	slow.Model.ID = "claude-opus-5"
 	slow.Model.DisplayName = "Opus 5"
 
-	if strings.Contains(getModelDisplayName(slow), "⚡️") {
-		t.Error("fast_mode false: want no ⚡️ marker")
+	if strings.Contains(alertSegment(slow), "↯ FAST") {
+		t.Error("fast_mode false: want no ↯ FAST alert")
+	}
+}
+
+// Crit before warn, whatever the mix. peerSocketAlive depends on the live
+// environment, so the invariant is asserted over whatever it yields rather than
+// against a fixed list.
+func TestAlertsSortCritBeforeWarn(t *testing.T) {
+	fast := &ClaudeContext{FastMode: true}
+	alerts := collectAlerts(fast)
+	for i := 1; i < len(alerts); i++ {
+		if alerts[i-1].level < alerts[i].level {
+			t.Errorf("alert %d (%s) outranks its predecessor (%s)",
+				i, alerts[i].label, alerts[i-1].label)
+		}
+	}
+}
+
+func TestAlertSegmentEmptyWhenNothingIsWrong(t *testing.T) {
+	if len(collectAlerts(&ClaudeContext{})) == 0 && alertSegment(&ClaudeContext{}) != "" {
+		t.Error("no alerts: want the segment omitted entirely")
 	}
 }
 

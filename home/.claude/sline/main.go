@@ -248,11 +248,9 @@ func generateStatusline() string {
 	// Session identity closes line 1; the model leads line 2's usage gauges.
 	if label := sessionLabel(claudeContext); label != "" {
 		output.WriteString(fmt.Sprintf("%s%s🧵 %s%s", Sep, SessionColor, label, Reset))
-		// TEMPORARY ⚠ segment — see peerSocketAlive in session.go (CC issue #85497).
-		if !peerSocketAlive() {
-			output.WriteString(fmt.Sprintf(" %s⚠ msg2peer unreachable%s", UsageCritColor, Reset))
-		}
 	}
+	// Alerts close line 1 — one place for every active fault. See alert.go.
+	output.WriteString(alertSegment(claudeContext))
 	line2 := fmt.Sprintf("%s%s", emoji, getModelDisplayName(claudeContext))
 	if usageInfo := getUsageInfo(claudeContext); usageInfo != "" {
 		line2 += Sep + usageInfo
