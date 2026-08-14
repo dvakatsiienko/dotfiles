@@ -52,6 +52,10 @@ type ClaudeContext struct {
 	// Opus running with faster output — Opus 5/4.8 only, absent elsewhere, so
 	// it marks a state that silently cannot apply on other models.
 	FastMode bool `json:"fast_mode"`
+	// Active output style. "default" when none is selected, which is not news.
+	OutputStyle *struct {
+		Name string `json:"name"`
+	} `json:"output_style"`
 }
 
 type ContextWindowInfo struct {

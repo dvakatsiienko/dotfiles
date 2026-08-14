@@ -400,15 +400,54 @@ func TestFastModeMarksTheModel(t *testing.T) {
 	fast.Model.ID = "claude-opus-5"
 	fast.Model.DisplayName = "Opus 5"
 
-	if !strings.Contains(getModelDisplayName(fast), "⚡") {
-		t.Error("fast_mode true: want the ⚡ marker on the model")
+	if !strings.Contains(getModelDisplayName(fast), "⚡️") {
+		t.Error("fast_mode true: want the ⚡️ marker on the model")
 	}
 
 	slow := &ClaudeContext{}
 	slow.Model.ID = "claude-opus-5"
 	slow.Model.DisplayName = "Opus 5"
 
-	if strings.Contains(getModelDisplayName(slow), "⚡") {
-		t.Error("fast_mode false: want no ⚡ marker")
+	if strings.Contains(getModelDisplayName(slow), "⚡️") {
+		t.Error("fast_mode false: want no ⚡️ marker")
+	}
+}
+
+func TestOutputStyleBadge(t *testing.T) {
+	custom := &ClaudeContext{}
+	custom.Model.ID = "claude-opus-5"
+	custom.Model.DisplayName = "Opus 5"
+	custom.OutputStyle = &struct {
+		Name string `json:"name"`
+	}{Name: "output-fun"}
+
+	rendered := getModelDisplayName(custom)
+	if !strings.Contains(rendered, "✍️") {
+		t.Error("custom output style: want the ✍️ marker")
+	}
+	// The name is rendered per-character through a gradient, so the letters are
+	// separated by escape codes — assert on order, not on a contiguous substring.
+	// Scoped to the tail after ✎, since "opus" upstream also contains a "u".
+	tail := rendered[strings.Index(rendered, "✍️"):]
+	f, u, n := strings.Index(tail, "f"), strings.Index(tail, "u"), strings.LastIndex(tail, "n")
+	if f < 0 || u < f || n < u {
+		t.Error("custom output style: want the style name rendered in order")
+	}
+	if strings.Contains(rendered, "output-") {
+		t.Error("custom output style: the output- prefix should be stripped")
+	}
+
+	plain := &ClaudeContext{}
+	plain.Model.ID = "claude-opus-5"
+	plain.Model.DisplayName = "Opus 5"
+	plain.OutputStyle = &struct {
+		Name string `json:"name"`
+	}{Name: "default"}
+
+	if !strings.Contains(getModelDisplayName(plain), "✍️") {
+		t.Error("default output style: want the badge — it is always shown")
+	}
+	if strings.Contains(getModelDisplayName(&ClaudeContext{}), "✍️") {
+		t.Error("absent output style: want no badge")
 	}
 }

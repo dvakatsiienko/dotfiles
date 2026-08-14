@@ -193,14 +193,38 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 	if version != "" {
 		rendered += lightGrayColor + " " + version + Reset
 	}
-	// ⚡ sits with the model, not the gauges: it describes how this model runs.
+	// ⚡️ sits with the model, not the gauges: it describes how this model runs.
+	// The variation selector is load-bearing: bare U+26A1 gets one cell from the
+	// width table but two from the font, so it collides with its neighbour.
 	if claudeContext != nil && claudeContext.FastMode {
-		rendered += " ⚡"
+		rendered += " ⚡️"
 	}
 	if badge := effortBadge(effortLevel(claudeContext)); badge != "" {
 		rendered += " " + badge
 	}
+	if badge := outputStyleBadge(claudeContext); badge != "" {
+		rendered += " " + badge
+	}
 	return rendered
+}
+
+// outputStyleBadge names the active output style, right after the effort dial:
+// both describe how this model is being driven rather than what it is. Always
+// rendered, "default" included — which style is loaded is never not worth
+// knowing. The "output-" prefix is stripped; it is a filing convention.
+func outputStyleBadge(claudeContext *ClaudeContext) string {
+	if claudeContext == nil || claudeContext.OutputStyle == nil {
+		return ""
+	}
+	name := claudeContext.OutputStyle.Name
+	if name == "" {
+		return ""
+	}
+	name = strings.TrimPrefix(strings.ToLower(name), "output-")
+	// Bare emoji: no foreground color (it paints its own) and no track background
+	// (the effort dial's background is one cell wide, and ✍️ occupies two — it
+	// would tint only the left half of the glyph).
+	return "✍️ " + applyGradientStops(effortGradientStops, name)
 }
 
 // =============================================================================
