@@ -21,6 +21,15 @@
     ]
   },
 
+  // CLI scripts print for a living — the shared rule against console would have
+  // biome's unsafe autofix delete their output. It did, once.
+  "overrides": [
+    {
+      "includes": ["script/**"],
+      "linter": { "rules": { "suspicious": { "noConsole": "off" } } }
+    }
+  ],
+
   "vcs": {
     "clientKind": "git",
     "defaultBranch": "main",
