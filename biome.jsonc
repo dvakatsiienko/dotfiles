@@ -13,11 +13,7 @@
       "!home/.claude/themes",
       "!home/.claude/settings.json",
       "!home/.claude/keybindings.json",
-      "!home/.claude/plugin-x/.claude-plugin",
-
-      // Sub-package with its own tsconfig — linted on its own terms, not the
-      // root config's. Carries a known noNonNullAssertion at src/index.ts:81.
-      "!home/.claude/mcp-handoff-desktop"
+      "!home/.claude/plugin-x/.claude-plugin"
     ]
   },
 
