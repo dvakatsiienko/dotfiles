@@ -18,7 +18,7 @@
 import * as zx from 'zx';
 
 export const homedir = zx.os.homedir();
-export const repo_root = zx.path.resolve(import.meta.dirname, '..');
+export const repo_root = zx.path.resolve(import.meta.dirname, '../..');
 export const mirror_root = `${repo_root}/home`;
 
 // ? Stored in home/ but never linked into ~: these are referenced by absolute

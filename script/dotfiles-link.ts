@@ -17,6 +17,13 @@
 /* Core */
 import * as zx from 'zx';
 
+import type { Entry } from './lib/manifest.ts';
+import {
+    build_manifest,
+    lstat_or_null,
+    repo_root,
+    to_tilde,
+} from './lib/manifest.ts';
 /* Instruments */
 import {
     bb,
@@ -34,14 +41,7 @@ import {
     title,
     warn,
     yb,
-} from './lib.ts';
-import type { Entry } from './symlink.ts';
-import {
-    build_manifest,
-    lstat_or_null,
-    repo_root,
-    to_tilde,
-} from './symlink.ts';
+} from './lib/print.ts';
 
 const STATE = {
     ELSEWHERE: 'elsewhere',

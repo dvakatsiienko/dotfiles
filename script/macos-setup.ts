@@ -13,6 +13,7 @@
 /* Core */
 import * as zx from 'zx';
 
+import { repo_root } from './lib/manifest.ts';
 /* Instruments */
 import {
     bb,
@@ -25,8 +26,7 @@ import {
     step,
     title,
     warn,
-} from './lib.ts';
-import { repo_root } from './symlink.ts';
+} from './lib/print.ts';
 
 const BREWFILE = `${repo_root}/Brewfile`;
 

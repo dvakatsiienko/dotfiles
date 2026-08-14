@@ -36,13 +36,14 @@ symlinked lives in `import/`.
 │   ├── raycast/               # script dir, pointed at from Raycast preferences
 │   ├── terminal/              # Gruvbox and Treehouse Terminal.app themes
 │   └── vscode/                # Gruvbox VSCode themes
-├── script/
-│   ├── symlink.ts            # The engine — derives the link set from the tree
-│   ├── symlink.test.ts       # vitest suite for the engine
-│   ├── dotfiles-link.ts      # status / apply / untrack
-│   ├── macos-setup.ts        # Brewfile install + macOS defaults
-│   ├── skills-sync-desk.ts   # Desk skill drift check + zip build
-│   └── lib.ts                # Terminal output vocabulary
+├── script/                     # top level = runnable; lib/ = never invoked directly
+│   ├── dotfiles-link.ts       # status / apply / untrack
+│   ├── macos-setup.ts         # Brewfile install + macOS defaults
+│   ├── skills-sync-desk.ts    # Desk skill drift check + zip build
+│   └── lib/
+│       ├── manifest.ts        # The engine — derives the link set from the tree
+│       ├── manifest.test.ts   # vitest suite for the engine
+│       └── print.ts           # Terminal output vocabulary
 ├── Brewfile                    # every package this machine is built from
 ├── docs/                       # ADRs, agent docs, research, audit
 └── .claude/                    # THIS repo's project-level Claude config
@@ -57,10 +58,11 @@ sitting at the repo root.
 
 ### What the Scripts Do
 
-**symlink.ts** — the engine. Walks `home/` and derives the expected link set. A directory is
+**lib/manifest.ts** — the engine. Walks `home/` and derives the expected link set. A directory is
 linked wholesale unless the matching path in `~` is already a real directory (meaning it holds
 content this repo doesn't own, like `~/.config` or `~/.claude`) — then it descends and links the
-leaves. `no_link` names the few dirs stored in `home/` but referenced by absolute path instead.
+leaves. `no_link` names the few dirs stored in `home/` but referenced by absolute path instead. Nothing runs
+it directly — it decides, `dotfiles-link.ts` acts.
 
 **dotfiles-link.ts** — status / apply / untrack over that manifest. Idempotent, and it refuses to
 clobber a real file rather than moving it into a backup directory nobody reads.
@@ -127,6 +129,8 @@ Reference actual files for current aliases:
 - **Scripts are `.ts`, run by Node directly** — Node 24 strips types natively, so there is no
   build step and no `tsx`. `tsconfig.json` sets `erasableSyntaxOnly`, which bans any syntax that
   would need real compilation. `pnpm typecheck` is the checker; it runs on pre-commit.
+- **Script layout**: anything directly under `script/` is a runnable entrypoint with a matching
+  `pnpm` script; anything under `script/lib/` is a library and is never invoked directly.
 - **Code quality**: Biome (`pnpm check`) — the only formatter/linter here
 
 ## Claude Config Management (home/.claude)

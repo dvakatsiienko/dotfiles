@@ -15,9 +15,9 @@
 
 import * as zx from 'zx';
 
+import { repo_root } from './lib/manifest.ts';
 /* Instruments */
-import { bb, done, fail, mb, note, ok, step, title } from './lib.ts';
-import { repo_root } from './symlink.ts';
+import { bb, done, fail, mb, note, ok, step, title } from './lib/print.ts';
 /* Core */
 import type { Dirent } from 'node:fs';
 

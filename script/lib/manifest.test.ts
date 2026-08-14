@@ -13,7 +13,7 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 /* Instruments */
-import { build_manifest } from './symlink.ts';
+import { build_manifest } from './manifest.ts';
 
 type Options = Parameters<typeof build_manifest>[0];
 
