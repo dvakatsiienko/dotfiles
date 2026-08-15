@@ -9,5 +9,17 @@
             "mcp__computer-use__screenshot",
             "mcp__computer-use__zoom"
         ]
+    },
+    "hooks": {
+        "SessionStart": [
+            {
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "sh .claude/hooks/session-start.sh"
+                    }
+                ]
+            }
+        ]
     }
 }

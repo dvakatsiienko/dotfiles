@@ -34,6 +34,10 @@
     "defaultMode": "auto"
   },
   "model": "opus",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "disableClaudeAiConnectors": true,
   "hooks": {
     "Notification": [
