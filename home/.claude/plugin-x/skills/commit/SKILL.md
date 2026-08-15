@@ -88,6 +88,35 @@ plan as subject lines before the first commit; one confirm covers the set.
 - 📦 bodies: `pkg old → new` lines + `- regenerate pnpm-lock.yaml`.
 - End: blank line + `Co-Authored-By: Claude <current runtime model> <noreply@anthropic.com>`.
 
+## 3.1 · Linear magic words
+
+Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. **PR/commit linking
+stays on**, and is now the only thread tying a PR back to its ticket. So the words matter.
+
+- **Non-closing** (link only): `ref` `refs` `references` `part of` `contributes to` `toward` `towards`
+- **Closing** (moves the ticket on merge): `close(s|d)` `fix(es|ed)` `resolve(s|d)` `complete(s|d)` `implement(s|ed)`
+- **Relation only** (no transition): `relates to` `related to`
+- Placement: PR **title/description** and **commit messages** work. PR **comments do not**.
+  A branch name needs the bare id, no magic word.
+
+Rules:
+
+- **Commit body: reference, never close.** Add a `- ref DOT-N` line. Every commit on the branch
+  may carry it.
+- **PR description: exactly one closing keyword** — `Closes DOT-N`. One close per PR, never
+  repeated per commit; a multi-commit branch still closes the ticket once.
+- **No ticket → no id.** Most commits have none. Never guess, never grep for a plausible ticket,
+  never write `DOT-?`. Just omit the line.
+- The id must come from the conversation, the branch name, or Dima. Nowhere else.
+- **Cloud-agent branches**: an agent may push a `claude/…` branch that was never checked out
+  here. The PR description is still the place for the closing keyword — write it when opening
+  or editing the PR (`gh pr edit`), not by rewriting the remote commits.
+
+Status transitions are **not** wired: both teams have every PR-automation state unset
+(`draft/start/review/mergeable/merge` all null, checked 2026-08-15). So today a magic word
+links the PR and closes on merge only if Dima configures the merge state — the link itself
+works regardless.
+
 ## 4 · Worktree mirroring (`mir`)
 
 Agentic tools (Conductor, t3code, Cursor agent view, …) run sessions in git worktrees;
