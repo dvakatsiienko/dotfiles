@@ -86,6 +86,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # A `gh workflow run` from a CLI session makes the actor the `claude` bot, and the
+          # action rejects bot actors by default. Scheduled runs can surface the same way.
+          # Safe here: this workflow has no comment-event entry point, so the actor is not
+          # the authorization boundary — the LINEAR_API_KEY and the `/cc` filter are.
+          allowed_bots: "claude"
           # The default tool allowlist blocks git/gh — the first run produced 12 permission
           # denials and no branch. Model stays Sonnet 5 by choice.
           claude_args: |
