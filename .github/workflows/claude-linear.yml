@@ -91,6 +91,7 @@ jobs:
           claude_args: |
             --model claude-sonnet-5
             --allowedTools "Read,Write,Edit,Glob,Grep,Bash(git:*),Bash(gh:*)"
+            --disallowedTools "Bash(gh pr merge:*),Bash(git push:* main),Bash(gh pr close:*)"
           # repository_dispatch/schedule runs have no PR context, so the action will not
           # open a PR on its own — the prompt has to do it.
           prompt: |
@@ -106,4 +107,7 @@ jobs:
 
             Work on a new branch. When done, open a pull request with `gh pr create`, and put
             `Fixes ${{ needs.poll.outputs.issue }}` on its own line in the PR body so Linear
-            links and closes the ticket on merge. Do not push to main.
+            links and closes the ticket on merge.
+
+            Then stop. Leave the PR OPEN. Never merge it, never close it, never push to main.
+            Merging is Dima's decision and his alone.
