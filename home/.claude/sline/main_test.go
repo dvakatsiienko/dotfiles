@@ -285,7 +285,7 @@ func TestFormatWindowRollover(t *testing.T) {
 
 func TestNormalizeRemoteURL(t *testing.T) {
 	cases := map[string]string{
-		"git@github.com:dvakatsiienko/.dotfiles.git": "https://github.com/dvakatsiienko/.dotfiles",
+		"git@github.com:dvakatsiienko/dotfiles.git": "https://github.com/dvakatsiienko/dotfiles",
 		"https://github.com/user/repo.git":           "https://github.com/user/repo",
 		"https://github.com/user/repo":               "https://github.com/user/repo",
 		"ssh://weird/path":                           "",

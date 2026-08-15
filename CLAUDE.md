@@ -8,7 +8,7 @@ Personal macOS dotfiles repository with automated symlink-based configuration ma
 - **Secondary Purpose**: Development and evolution of efficient agentic workflows (primarily in
   `home/.claude/` scope).
 - **Approach**: Symlink-based dotfiles, driven by the mirror rule below.
-- **Git Repository**: `git@github.com:dvakatsiienko/.dotfiles.git`.
+- **Git Repository**: `git@github.com:dvakatsiienko/dotfiles.git`.
 - **Scripting**: zx (Google's shell scripting utility) for automation.
 
 ## Directory Structure
