@@ -1,0 +1,13 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(pnpm test)",
+            "Bash(pnpm typecheck)",
+            "Bash(pnpm dotfiles-link)",
+            "Bash(pnpm skills-sync-desk check)",
+            "Bash(defaults read:*)",
+            "mcp__computer-use__screenshot",
+            "mcp__computer-use__zoom"
+        ]
+    }
+}

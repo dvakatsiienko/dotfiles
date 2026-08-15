@@ -13,6 +13,7 @@
       "NotebookEdit",
       "Edit(//Users/dima/.claude/**)",
       "Edit(//Users/dima/.dotfiles/home/.claude/**)",
+      "Bash(linear:*)",
       "mcp__next-devtools",
       "mcp__grep-mcp",
       "mcp__plugin_Notion_notion",
