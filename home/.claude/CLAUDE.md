@@ -2,10 +2,10 @@
 
 Global Claude Code configuration, applies to all projects.
 
-## Config Layout — symlinks into ~/.dotfiles
+## Config Layout — symlinks into ~/projects/dotfiles
 
-- Actual CC config lives in `~/.dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
-- Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/.dotfiles`.
+- Actual CC config lives in `~/projects/dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
+- Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/projects/dotfiles`.
 
 ## Codenames — the two Claude surfaces
 
@@ -78,7 +78,7 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 ## Token Thrift + Session Handoff
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
-- `cw` shares the handoff store via the `handoff` MCP server (`~/.dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
+- `cw` shares the handoff store via the `handoff` MCP server (`~/projects/dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
 - Peer initiative: `cc` and `cw` are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
   - ROUTE: task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to `cw` — <one reason>".
   - PUSH: data made here would help `cw` (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.

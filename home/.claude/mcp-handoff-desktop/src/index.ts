@@ -19,7 +19,13 @@ import { z } from 'zod';
 const HANDOFF_DIR = join(homedir(), '.claude', 'handoffs');
 const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const SPEC_CANDIDATES = [
-    join(homedir(), '.dotfiles', 'home/.claude', 'plugin-x', 'CST-SPEC.md'),
+    join(
+        homedir(),
+        'projects/dotfiles',
+        'home/.claude',
+        'plugin-x',
+        'CST-SPEC.md',
+    ),
 ];
 
 const spec = loadSpec();

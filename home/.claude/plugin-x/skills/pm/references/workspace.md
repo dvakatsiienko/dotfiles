@@ -6,7 +6,7 @@ Single tracker for everything since 2026-08-13 (GH issues retired; closed GH iss
 
 | Team | Key | Scope |
 | --- | --- | --- |
-| dotfiles | `DOT` | `~/.dotfiles` repo — CC workflow lab, shell, machine setup |
+| dotfiles | `DOT` | `~/projects/dotfiles` repo — CC workflow lab, shell, machine setup |
 | bytes | `BYT` | `bytes` monorepo — apps, kit, tooling, rl |
 
 Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wide**. Archive aggressively (archived issues don't count, stay searchable). Escape hatch: Basic $10/mo.
