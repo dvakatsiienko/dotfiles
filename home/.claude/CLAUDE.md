@@ -7,9 +7,10 @@ Global Claude Code configuration, applies to all projects.
 - Actual CC config lives in `~/projects/dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
 - Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/projects/dotfiles`.
 
-## Codenames — the two Claude surfaces
+## Codenames — the three Claude surfaces
 
 - `cc` — Claude Code, this CLI, running locally on the Mac.
+- `cc cloud` — a Claude Code session running on Anthropic's machines, not the Mac. Started from the Claude Desktop «code» tab, `claude --cloud`, the web, or a GitHub Actions run. Works with the Mac asleep. Thinner than local `cc`: no global `~/.claude` config, no `plugin-x` skills, no Desktop Commander. Neither `cc` nor `cw` can spawn one — a human or a GitHub event starts it (settled 2026-08-15, DOT-48).
 - `cw` — Cowork: the cloud-side session that reaches the Mac over the device bridge. Settled 2026-08-15 (DOT-47); "desk"/"desktop" is RETIRED as a codename — use `cw` in all prose. Rejected: `cd` (shadows the shell builtin), `c` (reads as a `cc` typo, ungreppable), `ca` (collides with Certificate Authority — this repo ships `.ssh/config` + `allowed_signers`).
 - Real product names stay as-is: "Claude Desktop" the app, and the Desktop Commander MCP server.
 
