@@ -4,6 +4,10 @@ Empirically probed 2026-08-15 from a Cowork session in this repo's project. Ever
 **[verified]** was executed, not read. **[docs]** means asserted by Anthropic documentation only.
 This file supersedes the earlier assumption that cw is always a detached cloud sandbox.
 
+Scope note: this file is about **Cowork**. The Claude Code cloud session is a different product
+with a different VM — see [The two VMs](#the-two-vms-do-not-confuse-them). Conflating them was the
+single biggest source of wrong conclusions in this repo's history.
+
 ## The core correction
 
 A Cowork session started from the desktop app runs **locally** — session id prefix `local_…`
@@ -44,8 +48,60 @@ All traffic goes through `HTTP_PROXY` / `ALL_PROXY` on `localhost`. Reachable: `
 `cdn.jsdelivr.net`. So `npm install` works, arbitrary HTTP does not.
 
 Git over **SSH** fails from the sandbox — `Host key verification failed`, no keys, no known_hosts.
-Notably the sandbox git has **no `commit.gpgsign` config**, so the 1Password Touch ID wall that
-blocks Mac-side commits does not exist here — but push is gated by the proxy instead.
+
+### Git from the sandbox: read yes, write no [verified 2026-08-15]
+
+Tested end to end against `dvakatsiienko/dotfiles`:
+
+| Step | Result |
+|---|---|
+| `git clone https://github.com/dvakatsiienko/dotfiles.git` | **OK** — public repo, anonymous, no auth needed |
+| `git commit` | **OK** — the sandbox git has **no `commit.gpgsign`**, so the 1Password Touch ID wall that blocks Mac-side commits does not exist here |
+| `git push` | **fails**: `could not read Username for 'https://github.com'` |
+
+The push failure is **no credentials at all** — not a 403, not a token scope. There is no
+`GH_TOKEN`/`GITHUB_TOKEN` in this session's env and no proxy injecting one. Nothing the user can
+toggle in the Claude Code cloud-environment dialog changes this, because that dialog configures a
+different sandbox (see below). Treat sandbox git as read-only, permanently.
+
+## The two VMs — do not confuse them
+
+Two separate Linux sandboxes exist and they are constantly mixed up. Almost every "why can't you
+just clone and work" question comes from attributing the Code VM's capabilities to the Cowork VM.
+
+| | **Cowork VM** (this doc) | **Claude Code cloud session VM** |
+|---|---|---|
+| OS / arch | Ubuntu 22.04, aarch64 | Ubuntu 24.04, x86_64 |
+| Resources | 4 vCPU, 3.8 GB RAM, ~10 GB disk | 4 vCPU, **16 GB RAM, 30 GB disk** |
+| Toolchains | node 22, npm, python, git, jq, rg | Python, Node 20/21/22 **+ pnpm**, Ruby, PHP, Java, Go, Rust, C/C++, **Docker**, PostgreSQL, Redis |
+| Network | fixed proxy allowlist, **not configurable** | **None / Trusted / Full / Custom**, user-configurable |
+| Git write | impossible — no credentials | works, via a credential proxy that keeps the real token outside the VM |
+| Setup script | none | Bash, runs as root before Claude starts, snapshot-cached |
+| Purpose | scratchpad for a chat assistant | a real coding agent environment |
+
+**Consequence:** route anything that needs to clone-build-commit-push to a Claude Code cloud
+session, never to the Cowork sandbox. The Cowork VM is for parsing a file, running a throwaway
+script, testing a regex.
+
+Two gotchas in the Code VM worth carrying: **`gh` is not preinstalled** there either, and there is
+**no secrets store** — Anthropic's own docs say "cloud environments have no dedicated secrets
+store, so don't add API keys or other credentials" to environment variables.
+
+### The GitHub proxy is a separate gate from the allowlist [docs]
+
+In Code cloud sessions, GitHub traffic bypasses the network allowlist entirely and goes through a
+dedicated credential proxy — which enforces its own rule: "GitHub API and release-asset requests
+reach only repositories attached to the session, so a setup script that downloads release assets
+from an unattached repository gets a **403**."
+
+This is why installing `fnm` there fails with 403 while `nvm` largely works: `fnm` pulls a GitHub
+**release asset** from an unattached repo; `nvm`'s installer is a committed file served from
+`raw.githubusercontent.com`. Raising the network level to Full does **not** fix it — wrong gate.
+
+Diagnostic, from inside a Code cloud session:
+`curl -sS "$HTTPS_PROXY/__agentproxy/status"` returns the proxy config plus recent denials with
+timestamps and hosts. Also: the allowlist **reloads live** — a policy change applies to an
+already-running container, despite the dialog's "applies to new sessions" wording.
 
 ## Artifacts [verified]
 
@@ -64,18 +120,12 @@ exact pinned CDN URLs (Chart.js 4.5.0, Grid.js 5.0.2, Mermaid 11.15.0) — every
 `verify_artifact` returns a debug log with `resultShape` summaries, which is the fastest way to
 learn an MCP tool's real output shape.
 
-## Projects [docs, re-confirmed 2026-08-15]
+## Projects
 
-Cowork projects are **local only by design** — "Projects live on your computer. They aren't synced
-to the cloud or shared with other people." They can hold local folders but cannot be shared.
-claude.ai Chat projects are the inverse: shareable on Team/Enterprise, cannot hold local folders.
-A claude.ai project can be *linked* into a Cowork project for knowledge without merging.
-The `Visibility → Local` radio with one option is scaffolding, not a plan gate.
-
-A project bundles six things: description (Dispatch reads it to route tasks), folders, standing
-instructions, reference links, linked claude.ai projects, and a **project-scoped memory store that
-persists across sessions**. Three creation paths: from scratch, import a claude.ai project, or
-point at an existing folder — this repo's project is the third.
+A Cowork project bundles six things: description (Dispatch reads it to route tasks), folders,
+standing instructions, reference links, linked claude.ai projects, and a **project-scoped memory
+store that persists across sessions**. Three creation paths: from scratch, import a claude.ai
+project, or point at an existing folder — this repo's project is the third.
 
 Quirks worth knowing:
 
@@ -85,7 +135,77 @@ Quirks worth knowing:
   attached folders on disk are untouched. There is no "archive but keep memory".
 - Dispatch can route background work into a project so it inherits the same folders and memory.
 
+### Cowork project vs claude.ai Chat project
+
+They are **not** subset and superset — they overlap partially, and each does something the other
+cannot. Cowork holds local folders and project memory; Chat holds a RAG-backed knowledge base and
+can be shared on Team/Enterprise. A claude.ai project can be *linked* into a Cowork project for
+knowledge without merging.
+
+Practical rule for this setup: **folder-bound work → Cowork project; conversation-and-connector
+work with uploaded reference material → Chat project.**
+
+⚠️ **Docs are wrong about sync.** The docs claim "Projects are desktop-only and stored locally.
+There's no cloud sync for project data at this time." **Dima observes projects syncing across his
+Mac and iOS/iPadOS devices [verified by user, 2026-08-15].** Trust the observation; the page is
+stale. The *attached local folders* are still Mac-only, which is a different claim and does hold —
+"Projects tied to a local folder support Cowork sessions on desktop only."
+
+### Cowork execution mode: local vs cloud [docs, contested]
+
+Cowork cloud execution exists — "Cowork sessions run in the cloud by default… Cloud execution is in
+beta and rolling out gradually across plans." But two Anthropic pages disagree on whether Pro has
+it yet, and this account currently sees **only Local**. Most likely a combination of the staged
+rollout and the project being folder-bound. Not a tier you can buy your way out of.
+
+**Retracted:** an earlier version of this repo's notes described a "Run new tasks in the cloud"
+setting and a per-task "Run this task" picker. Neither could be sourced in any documentation.
+Treat as non-existent until seen in the UI.
+
 Source: <https://claude.com/docs/cowork/guide/projects>
+
+## Dispatch [docs]
+
+A single persistent conversation in the Cowork tab that takes high-level tasks and spawns child
+Cowork or Code sessions for them. It reads each project's **description** to decide where to route
+work, so it is layered *on top of* projects, not a way around them. Child tasks cannot spawn
+further children. Pro/Max only.
+
+⚠️ **Dispatch is not a cloud escape hatch.** "When Claude Desktop is running, your computer
+registers as a Dispatch host" and the docs require "your computer awake and online". An asleep Mac
+or a closed app means no Dispatch — which also explains the frequent connection drops: the
+conversation is bound to a live host process.
+
+There is **no documented beta label, limitations section, or roadmap** for Dispatch anywhere.
+
+## Spawning cloud sessions — nothing agent-side can do it [verified 2026-08-15]
+
+Neither `cw` nor `cc` can start a Claude Code cloud session programmatically. `cc` tested it and
+the CLI refuses outright:
+
+```
+--cloud cannot be combined with --print. Cloud sessions are interactive only.
+```
+
+An agent only has non-interactive shell, so `claude --cloud` is closed to it, and `/tasks` is an
+interactive slash command rather than something callable. The only ways to start a cloud session
+are a human at a terminal, the Desktop **Code** tab, the Claude mobile app, or claude.ai/code.
+
+Related commands, easily confused:
+
+| Command | Direction | Notes |
+|---|---|---|
+| `claude --cloud "<task>"` | local → new cloud session | clones the **GitHub remote at the current branch, not the local checkout** — push first |
+| `claude -p "<msg>" --cloud <id>` | any machine → running cloud session | queues and exits; works where full `--cloud` does not |
+| `claude --teleport <id>` | cloud → local terminal | needs a clean working tree; the local copy does not flow back |
+| `claude remote-control` | local session → viewable from web/phone | runs on the Mac; sleep pauses it, it resumes on wake |
+
+## Session capability varies [verified 2026-08-15]
+
+Two Cowork sessions on the same machine do **not** necessarily expose the same tools. One session
+reported having `start_code_task` (spawns a real local `cc` session with worktree isolation, which
+appears in the Code tab); this session did not have that tool at all. Never assume a capability
+from another session's report — check the current tool list.
 
 ## Scheduled tasks [verified: none currently exist]
 
@@ -96,26 +216,129 @@ fully self-contained. Tasks only run while the desktop app is open; a task due w
 fires on next launch. A fired one-shot still reports a stale future `next_run_at` — `ended_reason`
 is authoritative.
 
-## Power model [verified 2026-08-15]
+## Power model — why the bridge drops [verified 2026-08-15, live sampling]
 
-`pmset -g assertions` shows `pid <n>(Claude): NoIdleSleepAssertion named: "Electron"` — **the Mac
-never idle-sleeps while the Claude desktop app is open**; `displaysleep 20` only turns the monitors
-off. Bridge availability is a function of the app being open, not of power settings. Quitting the
-app drops the assertion and the bridge dies with it.
+An earlier version of this file claimed "the Mac never idle-sleeps while the Claude desktop app is
+open". **That is wrong**, and it is why the bridge-drop question stayed open so long. The Mac sleeps
+constantly. Measured on this machine: **201 sleep events in the log** — 188 `Maintenance Sleep`,
+13 `Software Sleep pid=396`.
 
-Caveat: Claude is one of several assertion holders on this machine (Chrome, coreaudiod, powerd,
-useractivityd, sharingd also appear) **[verified]** — so quitting Claude alone does not guarantee
-the Mac sleeps, and observing "the Mac stayed awake" is not evidence that Claude was running.
+### The five layers, in the order they bite
+
+| # | Layer | This machine | Effect on the bridge |
+|---|---|---|---|
+| 1 | `displaysleep` | 20 min AC / **5 min battery** | Monitors off, machine awake. Bridge fine — but **Touch ID prompts become invisible**, which is the 1Password commit-signing hang. |
+| 2 | `sleep` (system idle) | **1 min, on BOTH AC and battery** | **The root cause.** Once every wake assertion clears, the Mac sleeps in 60 seconds. |
+| 3 | Wake assertions | Claude, Chrome, coreaudiod, powerd, sharingd | The only thing holding the machine up. Load-bearing and accidental. |
+| 4 | `loginwindow` (pid 396) | 13 explicit sleeps | Lid close, Apple menu → Sleep, or lock. Instant, ignores everything above. |
+| 5 | Power Nap + `tcpkeepalive` + `standby`/`hibernatemode 3` | all on | Produces the `Sleep → DarkWake 45s → Maintenance Sleep` churn seen every few minutes overnight. Explains why the bridge sometimes *reappears* on its own. |
+
+### The actual finding: `sleep 1`
+
+```
+AC Power:      sleep 1     displaysleep 20
+Battery Power: sleep 1     displaysleep 5
+```
+
+**A one-minute system sleep timer on AC is the whole problem.** It is not a macOS default. The Mac
+stays up only while something holds an assertion, and the moment the last one drops there is a
+60-second fuse. That is exactly the "bridge goes online and offline randomly" behaviour — it tracks
+assertion churn, not anything Claude does.
+
+Critically, one of the biggest assertion holders is **`powerd — "Prevent sleep while display is
+on"`**. So the machine is really being kept awake *by the display being awake*. When `displaysleep`
+fires at 20 minutes, that assertion drops, and everything then rests on whatever apps happen to be
+holding one. Chrome playing audio counts. That is not a foundation.
+
+### Assertion holders are accidental, not designed
+
+Sampled live: `Google Chrome ("Playing audio")`, `Claude ("Electron")`, `coreaudiod`, `powerd`,
+`sharingd ("Handoff")`, plus transient `caffeinate` processes. **Claude is one of several.**
+
+Two consequences worth stating plainly:
+
+- Observing "the Mac stayed awake" is **not** evidence that Claude was running.
+- Quitting Claude does **not** guarantee sleep, and keeping Claude open does **not** guarantee wake.
+
+### Fix
+
+Set the AC system-sleep timer to never. Display sleep can stay as it is — it does not affect the
+bridge, only Touch ID visibility.
+
+```bash
+sudo pmset -c sleep 0        # AC only; leaves battery behaviour untouched
+```
+
+GUI equivalent: Settings → Lock Screen / Battery → Options → *Prevent automatic sleeping on power
+adapter when the display is off*.
+
+Leave the **battery** profile alone (`sleep 1`, `displaysleep 5`) — on battery, sleeping fast is the
+correct behaviour and the cloud path covers unattended work.
+
+`caffeinate -d -t 1200` remains the ad-hoc escape hatch for a single long task, but it is a
+workaround for a misconfigured timer, not a fix.
+
+### Battery cost of staying awake — near zero, on AC
+
+Current state: **40 cycles, 96% maximum capacity, Condition Normal**, charge limit 80%, and on AC
+the battery reads *"80%; AC attached; not charging"*.
+
+Two mechanisms age a lithium-ion cell: **cycling** (charge/discharge) and **calendar aging**
+(sitting at a given state-of-charge and temperature). Keeping the Mac awake **on AC** touches
+neither meaningfully:
+
+- **Cycle count does not grow.** The battery is held at 80% and not discharging, so staying awake
+  adds no cycles. This is the single biggest lever and it is already handled by the 80% limit.
+- **Calendar aging is dominated by state-of-charge and temperature, not by whether the CPU is
+  idle-awake.** Sitting at 80% rather than 100% is the meaningful mitigation, and that is already
+  in place.
+- **Heat is the remaining variable**, and it is small here: an idle-awake M4 Pro with the display
+  off draws very little. `pmset -g therm` records no thermal or performance warnings on this
+  machine, ever.
+
+So the real costs of `sleep 0` on AC are **electricity and a marginal amount of heat**, not battery
+health. The 80% charge limit is doing the work that actually matters.
+
+⚠️ This applies to **AC only**. On battery, staying awake drains the pack and *does* burn cycles —
+which is why the battery profile should keep its aggressive timers.
+
+Note the diagnostics that matter, for re-checking later:
+
+```bash
+pmset -g custom       # per-power-source settings — the source of truth
+pmset -g assertions   # who is holding the machine awake right now
+pmset -g log | grep "Entering Sleep state due to"   # what actually happened
+system_profiler SPPowerDataType | sed -n '1,40p'    # cycles, max capacity, condition
+```
+
+## What cw does and does not get [verified 2026-08-15]
+
+A Cowork session in a project **does** receive the project's `CLAUDE.md` and standing instructions.
+It does **not** receive `home/.claude/CLAUDE.md` — the global cc memory carrying codenames, the
+dormant-tool registry and global defaults — nor `hooks/`, `output-styles/`, or `rules/`.
+
+Consequence: repo-scoped conventions transfer, machine-global ones do not. Mechanical style drift
+is bounded anyway because `biome.jsonc`, `.editorconfig` and lefthook enforce it at commit; what
+actually drifts is taste-level convention that lives only in the global file.
+
+⚠️ Do **not** generalise this to Claude Code cloud sessions. Whether *those* get the global
+`CLAUDE.md` is unsettled — one cloud session had it injected at start (content present, file
+absent on disk) and another did not. Owned by DOT-55; do not build on either answer yet.
 
 ## Practical routing
 
 - Repo work needing pnpm / node 24 / real git → **Desktop Commander**, or Claude Code.
 - Throwaway compute, parsing, scratch scripts → **sandbox bash**.
-- Anything that must survive a closed laptop → **Claude Code `--cloud`**, not Cowork.
+- Clone-build-commit-push, or anything that must survive a closed laptop → **Claude Code cloud
+  session**, started by a human. Not Cowork, not Dispatch.
 - Recurring reports over connector data → **artifact** + **scheduled task**.
+- Deleting anything in the repo from the sandbox → impossible; use Desktop Commander.
 
 ## Open questions
 
 - Whether a Cowork session started from phone/browser exposes the same `mnt/` bind-mounts (it has
   no Mac to mount) — untested.
 - Whether the mount unlink restriction is configurable.
+- Why `start_code_task` is present in some Cowork sessions and absent in others.
+- Whether dynamic workflows run in the Cowork tab at all — undocumented, and Cowork does not read
+  the CLI's `~/.claude` directory, so probably not. Tracked in DOT-56.
