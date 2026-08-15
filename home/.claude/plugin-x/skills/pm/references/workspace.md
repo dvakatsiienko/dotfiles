@@ -13,7 +13,7 @@ Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wi
 
 ## Projects
 
-- **DOT**: `revamp` (setup audit + restructure) · `shelf` (artifact store + transcript family) · `handoff` (CC↔desk CST) · `claude` (skills, plugins, agent loops, personal CLI) · `sline` (statusline)
+- **DOT**: `revamp` (setup audit + restructure) · `shelf` (artifact store + transcript family) · `handoff` (`cc`↔`cw` CST) · `claude` (skills, plugins, agent loops, personal CLI) · `sline` (statusline)
 - **BYT**: `design-system` (kit-rooted unification) · `cv` · `x-com-chat` · `tooling` · `rl` (benchmark work)
 - Projects are for real feature families. A small one-off goes project-less; when a theme accumulates, propose an umbrella project (e.g. `shell`, `macos`) to Dima.
 - This map is authoritative by convention: pm maintains it — creating/renaming a project and updating this file is one operation.

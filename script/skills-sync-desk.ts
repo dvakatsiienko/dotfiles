@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * ? skills-desk — keep the Claude Desktop skills in step with their plugin-x sources.
+ * ? skills-desk — keep the cw skills in step with their plugin-x sources.
  * ?
  * ?   pnpm skills-sync-desk                 # check + build
  * ?   pnpm skills-sync-desk check           # drift only
  * ?   pnpm skills-sync-desk build           # zips only
- * ?   pnpm skills-sync-desk stamp <skill>   # after re-adapting a desk SKILL.md
+ * ?   pnpm skills-sync-desk stamp <skill>   # after re-adapting a cw SKILL.md
  * ?
- * ? Desk skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
+ * ? cw skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
  * ? this never touches SKILL.md content. Each one carries a .source-sha (the git
  * ? blob hash of the SKILL.md it was adapted from); a differing live hash = stale.
  */
@@ -33,7 +33,7 @@ const skills = (await zx.fs.readdir(deskDir, { withFileTypes: true }))
 
 const [verb = 'sync', argument] = zx.argv._ as string[];
 
-title('Desk skills', `${skills.length} adapted from plugin-x`);
+title('cw skills', `${skills.length} adapted from plugin-x`);
 
 if (verb === 'check') {
     const stale = await check();
@@ -88,9 +88,7 @@ async function build() {
         ok(`${skill}.zip`, mb(zx.path.relative(repoRoot, distDir)));
     }
 
-    note(
-        'upload: Claude Desktop → Settings → Capabilities → Skills → drag zips',
-    );
+    note('upload: cw → Settings → Capabilities → Skills → drag zips');
     await zx.$`open ${distDir}`;
     done(`Built ${skills.length}.`);
 }
@@ -98,7 +96,7 @@ async function build() {
 async function stamp(skill: string) {
     if (!skills.includes(skill)) {
         step('Stamp');
-        fail(`unknown desk skill: ${skill}`, `have: ${skills.join(', ')}`);
+        fail(`unknown cw skill: ${skill}`, `have: ${skills.join(', ')}`);
         process.exit(1);
     }
 

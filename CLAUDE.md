@@ -39,7 +39,7 @@ symlinked lives in `import/`.
 ├── script/                     # top level = runnable; lib/ = never invoked directly
 │   ├── dotfiles-link.ts       # status / apply / untrack
 │   ├── macos-setup.ts         # Brewfile install + macOS defaults
-│   ├── skills-sync-desk.ts    # Desk skill drift check + zip build
+│   ├── skills-sync-desk.ts    # cw skill drift check + zip build
 │   └── lib/
 │       ├── manifest.ts        # The engine — derives the link set from the tree
 │       ├── manifest.test.ts   # vitest suite for the engine
@@ -194,8 +194,8 @@ home/.claude/
 ├── hooks/                 # Hook scripts invoked from settings.json
 ├── sline/                 # Go sline implementation
 ├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, handoff-prune, sweep-issues, commit, cct, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
-├── mcp-handoff-desktop/   # Local stdio MCP server giving Claude Desktop handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build)
-├── skills-desk/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-sync-desk` (drift check + zips + Finder) — not CC-loadable, manual zip upload to Claude Desktop
+├── mcp-handoff-desktop/   # Local stdio MCP server giving `cw` handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build)
+├── skills-desk/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-sync-desk` (drift check + zips + Finder) — not `cc`-loadable, manual zip upload to `cw`
 ```
 
 ## Sline System

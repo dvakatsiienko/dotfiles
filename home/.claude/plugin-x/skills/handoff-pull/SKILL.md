@@ -1,6 +1,6 @@
 ---
 name: handoff-pull
-description: Requester side of session handoff — ingest a CST. Triggers: /handoff-pull, "grab/pull handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "desktop" → pending file from the shared store (incl. Claude Desktop handoffs).
+description: Requester side of session handoff — ingest a CST. Triggers: /handoff-pull, "grab/pull handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "cw" → pending file from the shared store (incl. `cw` handoffs).
 ---
 
 # Handoff-pull (requester)
@@ -10,7 +10,7 @@ Ingest a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; its Ingest 
 Mode by argument:
 
 - **Looks like a session id (8-char/UUID/pid) or session name** → PEER MODE.
-- **Empty, "desktop", "file", or a topic keyword** ("bg2ee", "the sline one") → FILE MODE. This is the default posture and the pickup path for Desktop-produced handoffs.
+- **Empty, "cw", "file", or a topic keyword** ("bg2ee", "the sline one") → FILE MODE. This is the default posture and the pickup path for `cw`-produced handoffs.
 
 If the user stated what THIS thread is for (a focus, "continue only the X part"), that is a TARGET — in peer mode pass it into the request as a `TARGET:` line; in file mode use it only to pick the right file (an already-written CST can't be re-weighted).
 
@@ -19,7 +19,7 @@ If the user stated what THIS thread is for (a focus, "continue only the X part")
 1. Sweep first (Cleanup below). List `~/.claude/handoffs/*.md` by mtime.
 2. Pick: topic keyword → match against filenames/slugs; no keyword → newest. If 2+ files are recent and no keyword disambiguates, list them (filename + age) and ask the user to point — never guess between plausible candidates.
 3. Read the file, ingest per spec. Delete it (`-shared` files: keep). Confirm in ≤2 lines and proceed as the old thread.
-4. Nothing pending → say so in one line; suggest the sender side (`/handoff` in the old thread — CC or Desktop).
+4. Nothing pending → say so in one line; suggest the sender side (`/handoff` in the old thread — `cc` or `cw`).
 
 ## PEER MODE
 

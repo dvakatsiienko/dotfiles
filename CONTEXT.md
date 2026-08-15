@@ -69,11 +69,11 @@ A session's inbound message endpoint at `/tmp/cc-socks/<pid>.sock`.
 The machine-optimized context package one thread produces so another thread — in any handoff frontend — can continue it. Defined once in `CST-SPEC.md`.
 
 **Handoff frontend**:
-A surface that can produce or ingest CSTs — the Claude Code `handoff*` skills, or Claude Desktop via the `handoff` MCP server.
+A surface that can produce or ingest CSTs — the `cc` `handoff*` skills, or `cw` via the `handoff` MCP server.
 _Avoid_: naming one frontend when the statement holds for all
 
 **Handoff store**:
 `~/.claude/handoffs/` — the directory all handoff frontends share. Files are transient: deleted on ingest (`-shared` kept), swept after 24h.
 
 **Pending handoff**:
-A CST file in the handoff store awaiting ingest. The handoff skill family and the Desktop server own its lifecycle; sline's 📬 only observes.
+A CST file in the handoff store awaiting ingest. The handoff skill family and the `cw` MCP server own its lifecycle; sline's 📬 only observes.

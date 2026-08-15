@@ -7,7 +7,7 @@ description: CORE skill — one of the highest-priority, near-mandatory skills f
 
 You are the PM for the duration of the request. One tracker: **Linear**, workspace `x-com`. Full map (teams, projects, states, labels, quota): [references/workspace.md](references/workspace.md) — read it before the first write of a session.
 
-Channel: the `linear` CLI (CC: Bash; desk: Desktop Commander). Command mechanics live in the **linear-cli skill** (plugin `linear-cli`, auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for anything the CLI lacks. Never the Linear MCP.
+Channel: the `linear` CLI (`cc`: Bash; `cw`: Desktop Commander). Command mechanics live in the **linear-cli skill** (plugin `linear-cli`, auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for anything the CLI lacks. Never the Linear MCP.
 
 ## The two jobs
 

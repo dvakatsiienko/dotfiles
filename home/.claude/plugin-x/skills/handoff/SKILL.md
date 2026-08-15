@@ -31,7 +31,7 @@ mkdir -p ~/.claude/handoffs && chmod 700 ~/.claude/handoffs
 chmod 600 ~/.claude/handoffs/<file>
 ```
 
-Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a CC session via `/x:handoff-pull`, a Claude Desktop thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the CC→Desktop path; nothing more is needed.
+Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via `/x:handoff-pull`, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
 
 ## Trigger C — `/handoff spawn [focus]` (hand off AND launch successor)
 

@@ -7,13 +7,19 @@ Global Claude Code configuration, applies to all projects.
 - Actual CC config lives in `~/.dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
 - Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/.dotfiles`.
 
+## Codenames — the two Claude surfaces
+
+- `cc` — Claude Code, this CLI, running locally on the Mac.
+- `cw` — Cowork: the cloud-side session that reaches the Mac over the device bridge. Settled 2026-08-15 (DOT-47); "desk"/"desktop" is RETIRED as a codename — use `cw` in all prose. Rejected: `cd` (shadows the shell builtin), `c` (reads as a `cc` typo, ungreppable), `ca` (collides with Certificate Authority — this repo ships `.ssh/config` + `allowed_signers`).
+- Real product names stay as-is: "Claude Desktop" the app, and the Desktop Commander MCP server.
+
 ## Dormant tools — disabled but installed
 
 Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external replacement of something already installed.
 
 - `computer-use` — full desktop control: screenshots, mouse/keyboard, any native macOS app. Server stays connected with tools DEFERRED — 0 resident tokens until summoned via ToolSearch (screenshot burn ~1–1.5k/capture still applies when used). Policy-dormant: suggest it proactively when a task needs desktop driving; no disable ritual needed anymore (deferral made it free).
 - `claude-in-chrome` — full Chrome automation: tabs, clicks, forms, DOM/console/network reads, page JS, GIF recording (~2.5k est. tokens when live). Rarely used (~1×/month). Global kill = extension side; `/mcp` toggle is per-project. NOT superseded by computer-use: computer-use treats browsers as read-only (clicks/typing blocked) — this is the only tool that can act inside Chrome, and it's DOM-based (cheap text reads, no screenshot burn). Same enable-on-demand / push-to-disable lifecycle as computer-use.
-- claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. Desk unaffected — but ticketing there now runs the `linear` CLI via Desktop Commander (desk pm skill), not connectors.
+- claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. `cw` unaffected — but ticketing there now runs the `linear` CLI via Desktop Commander (`cw` pm skill), not connectors.
 - `DesignSync` — ALIVE (re-enabled 2026-08-13): design-to-code bridge to **Claude Designer** (NOT Figma — earlier description was wrong; Dima doesn't use Figma). Dima plans to use Claude Designer soon — suggest DesignSync when design-to-code work comes up.
 - Denied built-in tools (via `permissions.deny`, user settings): `NotebookEdit` (Jupyter cell editor), `CronCreate/CronDelete/CronList` (local scheduled-session plumbing — offer re-enable if scheduling comes up; note: `RemoteTrigger` stays ALIVE and covers cloud routines/webhook triggers, so suggest it first for "scheduled/event-triggered agent" asks), `AskUserQuestion` (picker UI — structural backing for the never-use style rule), `EnterPlanMode`/`ExitPlanMode` (plan-mode approval boxes — Dima keeps /plan but hates the box; in plan mode: plan + write plan file as usual, announce readiness in prose, Dima exits via shift+tab and approves with «go»). Re-enable = remove from the deny array + session restart.
 Maintenance: whenever an MCP/connector is enabled or disabled, update this list in the same turn. Watch for divergence proactively: if observed reality contradicts this list (a "dormant" tool's tools are live in context, a listed-as-live one is missing, or `disabledMcpServers` in `~/.claude.json` disagrees), flag it and sync the registry immediately — a stale registry is worse than none. Doctor runs verify it wholesale.
@@ -72,11 +78,11 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 ## Token Thrift + Session Handoff
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
-- Claude Desktop shares the handoff store via the `handoff` MCP server (`~/.dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow CC↔Desktop through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
-- Peer initiative: CC and Desktop ("desk") are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; desk has the mirror rules). Three moves:
-  - ROUTE: task fits desk better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to desk — <one reason>".
-  - PUSH: data made here would help desk (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.
-  - REQUEST: desk holds something useful (its memory of the user, a design/spec drafted there — e.g. a design system built in desk gets implemented here) → suggest pulling it, e.g. "💡 ask desk to hand off its memory in file form — I'd refactor it".
+- `cw` shares the handoff store via the `handoff` MCP server (`~/.dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
+- Peer initiative: `cc` and `cw` are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
+  - ROUTE: task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to `cw` — <one reason>".
+  - PUSH: data made here would help `cw` (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.
+  - REQUEST: `cw` holds something useful (its memory of the user, a design/spec drafted there — e.g. a design system built in `cw` gets implemented here) → suggest pulling it, e.g. "💡 ask `cw` to hand off its memory in file form — I'd refactor it".
   - Cross-thread awareness: if the user is clearly working the same topic in both frontends, offer a sync handoff instead of working blind.
 - Before token-heavy ops (reading huge files whole, agent fan-outs, ingesting big pastes/logs), flag the rough cost and offer a cheaper path.
 - Don't print token estimates unprompted — sline shows burn ambiently for free. When I ask "explain cost", break down what the last exchange/session spent and why.

@@ -26,7 +26,7 @@ substitutes for colour, which the terminal cannot render.
 
 - `backticks` — system entities: files, paths, skills, commands, stores, code identifiers.
 - **bold** — key assertions, outcomes, decisions, numbers that matter.
-- _italics_ — peer and agent names (_CC_, _desk_) and soft emphasis.
+- _italics_ — peer and agent names (_cc_, _cw_) and soft emphasis.
 
 Highlight the load-bearing part of a sentence so it scans. Never ship flat prose.
 

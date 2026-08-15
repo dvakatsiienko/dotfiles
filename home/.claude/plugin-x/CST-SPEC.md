@@ -1,12 +1,12 @@
 # CST-SPEC — Continuation State Transfer
 
-Single definition of a CST, consumed by every handoff frontend (Claude Code `handoff*` skills, the `mcp-handoff-desktop` server for Claude Desktop). Edit here, never fork the text.
+Single definition of a CST, consumed by every handoff frontend (`cc` `handoff*` skills, the `mcp-handoff-desktop` server for `cw`). Edit here, never fork the text.
 
 A CST is a machine-optimized context package one thread produces so another thread — in any frontend — behaves indistinguishably like a continuation of it at a fraction of the tokens. It is NOT a summary: it is an *upgraded compaction*, expanded with specific attention to the data that naive summaries lose.
 
 ## Calibration (read first, calibrate everything to this)
 
-The user deliberately keeps very long threads because they hold key details, but resuming one after cache expiry re-reads the whole history uncached (≈20% of a 5h usage window in Claude Code; Desktop threads are often far longer). The CST replaces that resume. So do NOT summarize — preserve. When unsure whether something matters, INCLUDE it; under-preservation is the failure mode. Size is handled by transport, never by trimming substance.
+The user deliberately keeps very long threads because they hold key details, but resuming one after cache expiry re-reads the whole history uncached (≈20% of a 5h usage window in `cc`; `cw` threads are often far longer). The CST replaces that resume. So do NOT summarize — preserve. When unsure whether something matters, INCLUDE it; under-preservation is the failure mode. Size is handled by transport, never by trimming substance.
 
 If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward it; compress the rest harder but never to zero. No target = full continuation.
 

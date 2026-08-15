@@ -30,7 +30,7 @@ server.registerTool(
     {
         description:
             `Persist a CST (Continuation State Transfer) of the current thread to the shared handoff store, ` +
-            `where any Claude Desktop thread or Claude Code session can pull it to continue this thread. ` +
+            `where any cw thread or cc session can pull it to continue this thread. ` +
             `FIRST compose the CST from the current thread per the spec below, THEN call this tool with it. ` +
             `Compose it as machine-optimized telegraphic text — no presentation polish, no human reads it.\n\n${spec}`,
         inputSchema: {
@@ -61,7 +61,7 @@ server.registerTool(
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
         return text(
-            `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new Desktop thread or /x:handoff-pull in Claude Code. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
+            `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
         );
     },
 );
@@ -70,7 +70,7 @@ server.registerTool(
     'pull_handoff',
     {
         description:
-            'Fetch a pending CST (Continuation State Transfer) from the shared handoff store so this thread continues the thread that produced it (in Claude Desktop or Claude Code). ' +
+            'Fetch a pending CST (Continuation State Transfer) from the shared handoff store so this thread continues the thread that produced it (in cw or cc). ' +
             'Optional topic filters by filename when several are pending. ' +
             'INGEST CONTRACT for the returned CST: ingest silently — never echo it into visible output; confirm in ≤2 lines (thread topic + next step); honor its R and D sections as if the user said them in this thread; then proceed exactly as the old thread from its S section.',
         inputSchema: {
@@ -88,7 +88,7 @@ server.registerTool(
         const pending = listPending();
         if (pending.length === 0)
             return text(
-                'Handoff store is clean — nothing pending. The old thread creates one via /handoff (Desktop) or /x:handoff (Claude Code).',
+                'Handoff store is clean — nothing pending. The old thread creates one via /handoff (cw) or /x:handoff (cc).',
             );
 
         const matches = topic
@@ -143,7 +143,7 @@ server.registerPrompt(
             ),
         },
         description:
-            'Compose a CST of this thread and save it for a new thread (Desktop or Claude Code) to continue from',
+            'Compose a CST of this thread and save it for a new thread (cw or cc) to continue from',
         title: 'Hand off this thread',
     },
     ({ focus }) =>
@@ -160,8 +160,7 @@ server.registerPrompt(
                 'Optional keyword picking among multiple pending handoffs',
             ),
         },
-        description:
-            'Continue a thread handed off from Claude Desktop or Claude Code',
+        description: 'Continue a thread handed off from cw or cc',
         title: 'Pull a pending handoff',
     },
     ({ topic }) =>

@@ -40,10 +40,10 @@ export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~, for two different reasons:
 // ?   reached by absolute path, so a link would be dead weight — plugin-x
-// ?     (settings.json marketplace entry) and mcp-handoff-desktop (Claude
-// ?     Desktop's own config, which lives outside this repo);
-// ?   not Claude Code config at all — skills-desk holds zip sources for Claude
-// ?     Desktop, and linking it would put non-config into ~/.claude.
+// ?     (settings.json marketplace entry) and mcp-handoff-desktop (cw's own
+// ?     config, which lives outside this repo);
+// ?   not Claude Code config at all — skills-desk holds zip sources for cw,
+// ?     and linking it would put non-config into ~/.claude.
 export const noLink = new Set([
     '.claude/plugin-x',
     '.claude/mcp-handoff-desktop',
