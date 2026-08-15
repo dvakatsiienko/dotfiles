@@ -81,10 +81,16 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         env:
-          LINEAR_TASK: ${{ needs.poll.outputs.task }}
-          LINEAR_ISSUE: ${{ needs.poll.outputs.issue }}
+          # `gh pr create` inside the agent needs its own token; the action's internal one
+          # is not exported to the shell.
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # The default tool allowlist blocks git/gh — the first run produced 12 permission
+          # denials and no branch. Model stays Sonnet 5 by choice.
+          claude_args: |
+            --model claude-sonnet-5
+            --allowedTools "Read,Write,Edit,Glob,Grep,Bash(git:*),Bash(gh:*)"
           # repository_dispatch/schedule runs have no PR context, so the action will not
           # open a PR on its own — the prompt has to do it.
           prompt: |

@@ -222,3 +222,9 @@ Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-in
 ### Domain docs
 
 Single-context layout — `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+### Research docs
+
+`docs/research/<subject>.md` — subject-first filename, never a ticket-id prefix, so the folder
+groups by topic and a doc survives the ticket that prompted it. When a ticket owns the doc, put
+`Ticket: DOT-N` on its own line at the top; `grep -rl DOT-N docs/` then finds it.
