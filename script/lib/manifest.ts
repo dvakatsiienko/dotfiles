@@ -44,10 +44,17 @@ export const mirrorRoot = `${repoRoot}/home`;
 // ?     config, which lives outside this repo);
 // ?   not Claude Code config at all — skills-cw holds zip sources for cw,
 // ?     and linking it would put non-config into ~/.claude.
+// ?   sourced by a stub instead of linked — Cowork refuses to trust any folder
+// ?     that a protected home path resolves into, and its protected list covers
+// ?     the shell rc files. A real ~/.zshrc that sources this one keeps the
+// ?     resolved path in ~ and leaves the repo grantable.
 export const noLink = new Set([
     '.claude/plugin-x',
     '.claude/mcp-handoff-cw',
     '.claude/skills-cw',
+    '.zshrc',
+    '.zshenv',
+    '.zprofile',
 ]);
 
 const ignoredNames = new Set(['.DS_Store']);
