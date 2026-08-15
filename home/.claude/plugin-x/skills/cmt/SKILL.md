@@ -1,7 +1,7 @@
 ---
-name: commit
-description: Branded commit authoring — format, emoji canon, steering keywords, worktree mirroring. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /commit or just asked to commit mid-conversation.
-argument-hint: "[y|y+] [mir] [push] [correction…]"
+name: cmt
+description: Branded commit authoring — format, emoji canon, steering keywords, worktree mirroring. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /cmt or just asked to commit mid-conversation.
+argument-hint: "[y|y+] [mir] [slay] [correction…]"
 ---
 
 # Commit
@@ -16,21 +16,34 @@ Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 | `y`     | skip the confirm, this invocation only |
 | `y+`    | skip the confirm for the rest of the conversation (§1.1) |
 | `mir`   | after committing, mirror into local main across worktrees (§4) |
-| `push`  | also update the remote: alone → push current branch; with `mir` → push main |
+| `slay`  | also update the remote: alone → push current branch; with `mir` → push main |
 
 No `y`/`y+` → draft the message, print it, wait for "y"/correction — THEN run the
-full pipeline (commit + mir + push, whatever was requested).
+full pipeline (commit + mir + slay, whatever was requested).
 `y` or `y+` present → execute everything immediately, zero questions.
-Examples: `/commit` ask · `/commit y` autonomous once · `/commit y+` autonomous from
-here on · `/commit mir` mirror with confirm · `/commit y mir push` sync everywhere.
+Examples: `/cmt` ask · `/cmt y` autonomous once · `/cmt y+` autonomous from
+here on · `/cmt mir` mirror with confirm · `/cmt y mir slay` sync everywhere.
+
+### 1.0 · Never push mid-session
+
+Commits accumulate locally through a session; the remote is touched once, at the end.
+
+- Without the `slay` keyword: commit only. Never push, never offer to push mid-thread.
+- With `slay`: honour it — an explicit keyword always wins over this default.
+- `y+` never implies `slay`. A standing confirm is not a standing remote.
+- At session end — before a handoff, a `/clear`, or when Dima says he is done — say how
+  many commits are unpushed and ask once whether to push. One ask, not a nag per commit.
+
+Reason: mid-session pushes publish half-finished thinking, and rewriting local history
+afterwards stops being free the moment it is on the remote.
 
 ### 1.1 · `y+` — standing confirm skip
 
 `y+` grants what `y` grants, and keeps it: every later commit in this conversation
-runs unconfirmed, whether invoked as `/commit` or asked for in passing. It stays on
+runs unconfirmed, whether invoked as `/cmt` or asked for in passing. It stays on
 until the conversation ends or Dima revokes it.
 
-`y+` covers the confirm only. `mir` and `push` are still per-invocation — a standing
+`y+` covers the confirm only. `mir` and `slay` are still per-invocation — a standing
 yes never reaches a remote on its own.
 
 ## 2 · Format — the brand
@@ -128,9 +141,9 @@ vice versa. `mir` = after committing, local main holds the commit no matter wher
 3. Already on it → nothing to mirror. Else `git -C <main-checkout> merge <branch>` —
    `-C`, never `cd`.
 4. Fast-forward only. Diverged → STOP and report; never auto-resolve, never force.
-5. `push` alongside `mir` → `git -C <main-checkout> push origin <default-branch>`,
-   ff-only, stop on divergence. Without `push`, never touch a remote.
-6. Single-worktree repo → skip mirroring silently; `push` still applies.
+5. `slay` alongside `mir` → `git -C <main-checkout> push origin <default-branch>`,
+   ff-only, stop on divergence. Without `slay`, never touch a remote.
+6. Single-worktree repo → skip mirroring silently; `slay` still applies.
    Repo-agnostic: always the invoking repo's own main.
 
 ## 5 · Guardrails
