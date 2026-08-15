@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * ? skills-desk — keep the cw skills in step with their plugin-x sources.
+ * ? skills-cw — keep the cw skills in step with their plugin-x sources.
  * ?
- * ?   pnpm skills-sync-desk                 # check + build
- * ?   pnpm skills-sync-desk check           # drift only
- * ?   pnpm skills-sync-desk build           # zips only
- * ?   pnpm skills-sync-desk stamp <skill>   # after re-adapting a cw SKILL.md
+ * ?   pnpm skills-sync-cw                 # check + build
+ * ?   pnpm skills-sync-cw check           # drift only
+ * ?   pnpm skills-sync-cw build           # zips only
+ * ?   pnpm skills-sync-cw stamp <skill>   # after re-adapting a cw SKILL.md
  * ?
  * ? cw skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
  * ? this never touches SKILL.md content. Each one carries a .source-sha (the git
@@ -21,13 +21,13 @@ import { bb, done, fail, mb, note, ok, step, title } from './lib/print.ts';
 /* Core */
 import type { Dirent } from 'node:fs';
 
-const deskDir = `${repoRoot}/home/.claude/skills-desk`;
-const distDir = `${deskDir}/dist`;
+const cwDir = `${repoRoot}/home/.claude/skills-cw`;
+const distDir = `${cwDir}/dist`;
 
 zx.$.verbose = false;
 zx.$.cwd = repoRoot;
 
-const skills = (await zx.fs.readdir(deskDir, { withFileTypes: true }))
+const skills = (await zx.fs.readdir(cwDir, { withFileTypes: true }))
     .filter((entry: Dirent) => entry.isDirectory() && entry.name !== 'dist')
     .map((entry: Dirent) => entry.name);
 
@@ -70,7 +70,7 @@ async function check() {
 
     if (stale > 0) {
         note(
-            `re-adapt SKILL.md, then ${bb('pnpm skills-sync-desk stamp <skill>')}`,
+            `re-adapt SKILL.md, then ${bb('pnpm skills-sync-cw stamp <skill>')}`,
         );
     }
 
@@ -83,7 +83,7 @@ async function build() {
 
     for (const skill of skills) {
         await zx.$({
-            cwd: deskDir,
+            cwd: cwDir,
         })`zip -rq dist/${skill}.zip ${skill} -x '*/.source-sha'`;
         ok(`${skill}.zip`, mb(zx.path.relative(repoRoot, distDir)));
     }
@@ -101,7 +101,7 @@ async function stamp(skill: string) {
     }
 
     await zx.fs.writeFile(
-        `${deskDir}/${skill}/.source-sha`,
+        `${cwDir}/${skill}/.source-sha`,
         `${await sourceSha(skill)}\n`,
     );
 
@@ -117,7 +117,7 @@ async function sourceSha(skill: string) {
 }
 
 async function readStamp(skill: string) {
-    const path = `${deskDir}/${skill}/.source-sha`;
+    const path = `${cwDir}/${skill}/.source-sha`;
     if (!(await zx.fs.pathExists(path))) return null;
     return (await zx.fs.readFile(path, 'utf8')).trim();
 }

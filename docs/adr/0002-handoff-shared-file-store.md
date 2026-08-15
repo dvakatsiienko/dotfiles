@@ -1,7 +1,7 @@
 # Handoffs interop through one shared file store
 
 Every handoff frontend — the `cc` `handoff*` skills and `cw`
-via the `handoff` MCP server (`mcp-handoff-desktop`) — reads and writes the same
+via the `handoff` MCP server (`mcp-handoff-cw`) — reads and writes the same
 store, `~/.claude/handoffs/`, in the same CST format. The format is defined
 once, in `home/.claude/plugin-x/CST-SPEC.md`; frontends inline or load that file,
 never fork its text. Files are transient: deleted on ingest (`-shared` kept for

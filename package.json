@@ -10,14 +10,14 @@
     "scripts": {
         "dotfiles-link": "node ./script/dotfiles-link.ts",
         "macos-setup": "node ./script/macos-setup.ts",
-        "skills-sync-desk": "node ./script/skills-sync-desk.ts",
+        "skills-sync-cw": "node ./script/skills-sync-cw.ts",
         "check": "biome check --write",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
         "test:watch": "vitest",
         "sline:build": "cd ./home/.claude/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
         "sline:test": "cd ./home/.claude/sline && go test ./...",
-        "mcp:build": "pnpm --filter mcp-handoff-desktop build",
+        "mcp:build": "pnpm --filter mcp-handoff-cw build",
         "prepare": "lefthook install"
     },
     "dependencies": {

@@ -59,7 +59,7 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 
 ## Core Principles
 
-- Naming convention, subject-first: `<entity>-<qualifier/verb>`, never verb-first — `handoff-delete`/`handoff-create`/`skills-desk`/`plugin-x`, NOT `delete-handoff`/`create-handoff`/`desk-skills`/`x-plugin`. Applies to everything that can grow into a family: variables, folder names, entity names (skills, commands, tools) — siblings then sort/group by subject.
+- Naming convention, subject-first: `<entity>-<qualifier/verb>`, never verb-first — `handoff-delete`/`handoff-create`/`skills-cw`/`plugin-x`, NOT `delete-handoff`/`create-handoff`/`cw-skills`/`x-plugin`. Applies to everything that can grow into a family: variables, folder names, entity names (skills, commands, tools) — siblings then sort/group by subject.
 
 - NEVER proactively create documentation files (\*.md) or README files unless explicitly requested
 - Never write description comments or docstrings for functions/methods unless genuinely needed
@@ -78,7 +78,7 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 ## Token Thrift + Session Handoff
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
-- `cw` shares the handoff store via the `handoff` MCP server (`~/projects/dotfiles/home/.claude/mcp-handoff-desktop/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
+- `cw` shares the handoff store via the `handoff` MCP server (`~/projects/dotfiles/home/.claude/mcp-handoff-cw/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
 - Peer initiative: `cc` and `cw` are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
   - ROUTE: task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to `cw` — <one reason>".
   - PUSH: data made here would help `cw` (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.

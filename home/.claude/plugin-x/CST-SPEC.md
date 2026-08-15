@@ -1,6 +1,6 @@
 # CST-SPEC — Continuation State Transfer
 
-Single definition of a CST, consumed by every handoff frontend (`cc` `handoff*` skills, the `mcp-handoff-desktop` server for `cw`). Edit here, never fork the text.
+Single definition of a CST, consumed by every handoff frontend (`cc` `handoff*` skills, the `mcp-handoff-cw` server for `cw`). Edit here, never fork the text.
 
 A CST is a machine-optimized context package one thread produces so another thread — in any frontend — behaves indistinguishably like a continuation of it at a fraction of the tokens. It is NOT a summary: it is an *upgraded compaction*, expanded with specific attention to the data that naive summaries lose.
 
