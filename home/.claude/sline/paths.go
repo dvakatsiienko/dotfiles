@@ -37,6 +37,12 @@ func focusPath(sessionID string) string { return claudeHome("focus", sessionID+"
 // handoffsDir is the CST store every handoff frontend shares.
 func handoffsDir() string { return claudeHome("handoffs") }
 
+// outputStylesDir holds every style file — the peers of whichever one is active.
+func outputStylesDir() string { return claudeHome("output-styles") }
+
+// statusCachePath is written by hooks/focus.sh and only ever read here.
+func statusCachePath() string { return claudeHome("focus", "status-cache.json") }
+
 // outputStylePath resolves a style to its markdown source. Callers pass the bare
 // style name as rendered ("ELI5"); "output-" is this repo's filing prefix on
 // disk and is added here, so exactly one place knows the naming convention.

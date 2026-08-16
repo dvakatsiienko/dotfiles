@@ -219,13 +219,17 @@ func outputStyleBadge(claudeContext *ClaudeContext) string {
 	// written is the one thing you want when the badge catches your eye.
 	// "default" is CC's built-in and has no file, so it stays unlinked.
 	label := applyGradientStops(effortGradientStops, name)
+	// Two targets, one click each: the name opens its own file, the 🪶 opens the
+	// folder so the peer styles are visible beside it. A single OSC 8 link can
+	// only carry one URL, so the badge is split rather than made to choose.
+	// "default" is CC's built-in and has no file, so only the folder link applies.
 	if !strings.EqualFold(name, "default") {
 		label = hyperlink(editorURL(source), label)
 	}
 	// Bare emoji: no foreground color (it paints its own) and no track background
 	// (the effort dial's background is one cell wide, and 🪶 occupies two — it
 	// would tint only the left half of the glyph).
-	return "🪶 " + label
+	return hyperlink(editorURL(outputStylesDir()), "🪶") + " " + label
 }
 
 // =============================================================================

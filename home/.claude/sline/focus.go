@@ -41,13 +41,22 @@ func focusSegment(sessionID string) string {
 		return ""
 	}
 
+	status := loadStatuses()
+	// withStatus keeps the id and its state one visual unit.
+	withStatus := func(rendered, id string) string {
+		if badge := statusBadge(status, id); badge != "" {
+			return rendered + " " + badge
+		}
+		return rendered
+	}
+
 	out := ""
 	if st.Pin != "" {
 		color := TicketColor
 		if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {
 			color = CleanColor
 		}
-		out += "🪄 " + paint(color, ticketLink(st.Pin))
+		out += withStatus("🪄 "+paint(color, ticketLink(st.Pin)), st.Pin)
 	}
 	// Touches only earn space where they disagree with the pin — that
 	// disagreement is the whole point: it is the drift the pin is guarding.
@@ -57,11 +66,11 @@ func focusSegment(sessionID string) string {
 			continue
 		}
 		if first {
-			out += paint(CleanColor, ticketLink(id))
+			out += withStatus(paint(CleanColor, ticketLink(id)), id)
 			first = false
 			continue
 		}
-		out += " " + paint(CleanColor, "· "+ticketLink(id))
+		out += " " + withStatus(paint(CleanColor, "· "+ticketLink(id)), id)
 	}
 	return out
 }

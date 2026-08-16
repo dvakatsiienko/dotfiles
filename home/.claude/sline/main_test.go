@@ -532,13 +532,9 @@ func TestOutputStyleBadge(t *testing.T) {
 	if !strings.Contains(rendered, "🪶") {
 		t.Error("custom output style: want the 🪶 marker")
 	}
-	// The badge links its source file, so the full "output-fun" name appears in
-	// the OSC 8 target. Only the visible label is asserted on — everything after
-	// the link target, which is where the rendered name lives.
-	tail := rendered[strings.Index(rendered, "🪶"):]
-	if idx := strings.Index(tail, "\033\\"); idx >= 0 {
-		tail = tail[idx:]
-	}
+	// The badge carries two link targets, both containing the "output-" filing
+	// prefix, so assertions about the label read the visible text only.
+	tail := stripLinks(rendered[strings.Index(rendered, "🪶"):])
 	// The name is rendered per-character through a gradient, so the letters are
 	// separated by escape codes — assert on order, not on a contiguous substring.
 	f, u, n := strings.Index(tail, "f"), strings.Index(tail, "u"), strings.LastIndex(tail, "n")
@@ -651,12 +647,84 @@ func TestOutputStyleBadgeLinksItsSource(t *testing.T) {
 		t.Errorf("the linked style file must actually exist: %v", err)
 	}
 
-	// CC's built-in style has no file behind it, so linking it would 404.
+	// The 🪶 opens the folder instead, so the peer styles are one click away.
+	styled.OutputStyle.Name = "ELI5"
+	if !strings.Contains(outputStyleBadge(styled), "cursor://file"+outputStylesDir()) {
+		t.Error("the marker should link the styles folder")
+	}
+
+	// CC's built-in style has no file behind it, so only the folder link applies.
 	plain := &ClaudeContext{}
 	plain.OutputStyle = &struct {
 		Name string `json:"name"`
 	}{Name: "default"}
-	if strings.Contains(outputStyleBadge(plain), "cursor://") {
-		t.Error("default style has no source file and must stay unlinked")
+	badge := outputStyleBadge(plain)
+	if strings.Contains(badge, "output-default.md") {
+		t.Error("default style has no source file and must not link one")
+	}
+	if !strings.Contains(badge, "cursor://file"+outputStylesDir()) {
+		t.Error("default still gets the folder link")
+	}
+}
+
+// stripLinks removes OSC 8 hyperlink sequences, leaving the text a terminal shows.
+func stripLinks(s string) string {
+	for {
+		start := strings.Index(s, "\033]8;;")
+		if start < 0 {
+			return s
+		}
+		end := strings.Index(s[start:], "\033\\")
+		if end < 0 {
+			return s
+		}
+		s = s[:start] + s[start+end+2:]
+	}
+}
+
+func TestStatusBadgeShortWordsAndStaleness(t *testing.T) {
+	fresh := time.Now().Unix()
+	cache := map[string]ticketStatus{
+		"DOT-1": {Status: "In Progress", Type: "started", At: fresh},
+		"DOT-2": {Status: "In Review", Type: "started", At: fresh},
+		"DOT-3": {Status: "Done", Type: "completed", At: fresh},
+		"DOT-4": {Status: "Todo", Type: "unstarted", At: fresh},
+		"DOT-5": {Status: "Canceled", Type: "canceled", At: fresh},
+		"DOT-6": {Status: "Backlog", Type: "backlog", At: fresh}, // unmapped name
+		"DOT-7": {Status: "Done", Type: "completed",
+			At: time.Now().Add(-statusStaleAfter - time.Minute).Unix()},
+	}
+
+	want := map[string]string{"DOT-1": "wip", "DOT-2": "review", "DOT-3": "done",
+		"DOT-4": "todo", "DOT-5": "cancel", "DOT-6": "backlog"}
+	for id, label := range want {
+		got := statusBadge(cache, id)
+		if !strings.Contains(got, label) {
+			t.Errorf("%s: want %q in %q", id, label, got)
+		}
+	}
+
+	// Colour is a second signal, never the only one — but it must still be right.
+	if !strings.Contains(statusBadge(cache, "DOT-3"), AddColor) {
+		t.Error("done should be green")
+	}
+	if !strings.Contains(statusBadge(cache, "DOT-2"), TicketColor) {
+		t.Error("in review should be blue")
+	}
+
+	// Past the window it stops asserting: the colour drops and a ? goes on.
+	stale := statusBadge(cache, "DOT-7")
+	if !strings.Contains(stale, "done?") {
+		t.Errorf("stale status should carry a ?, got %q", stale)
+	}
+	if strings.Contains(stale, AddColor) {
+		t.Error("a stale status must not keep its confident colour")
+	}
+
+	if statusBadge(cache, "DOT-99") != "" {
+		t.Error("an id with nothing cached renders nothing at all")
+	}
+	if statusBadge(nil, "DOT-1") != "" {
+		t.Error("no cache at all renders nothing")
 	}
 }
