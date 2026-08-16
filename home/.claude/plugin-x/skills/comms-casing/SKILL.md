@@ -89,11 +89,31 @@ costs a debugging session.
 dima may send uppercased text. ios capitalises the first word of each sentence, and
 fighting it is bad ux. his casing is never a signal to change yours.
 
-## OPEN QUESTIONS — resolve with dima before this leaves draft
+## the core rule — settled 2026-08-16
 
-1. proper nouns and brand names in casual prose — lowercase them too (`linear`,
-   `github`), or keep them? full flatness vs. not misspelling other people's names.
-2. acronyms — `ssh`, `api`, `adr` lowercased, or kept upper?
-3. sentence-initial capitals only, or all capitals? i.e. is the rule "no capitals" or
-   "no bumps"?
-4. existing files — rewrite in place on sight, or only what we touch?
+**lowercase sentence-initial capitals.** that is the rule. it is obvious, it has no
+exceptions worth arguing about, and nothing downstream depends on it. everything else
+below is a layer on top, and every layer is an experiment.
+
+## LAB — layers under a/b test, not settled
+
+these are live so we can feel them, not because they are decided. each one may be kept,
+refined, or dropped. **flag anything that reads worse.**
+
+| layer | status | the tension |
+| --- | --- | --- |
+| brand + proper nouns flat (`linear`, `github`) | 🧪 lab, on | flatness reads better in bulk, but a capital is sometimes the only thing separating `Linear` the tracker from linear the adjective |
+| acronyms flat (`ssh`, `api`, `adr`) | 🧪 lab, on | fine from a distance; specific cases may bite |
+
+📌 the honest risk with both: every exception we carve out builds a layer of rules, and
+layers contradict the core idea — that flat text reads better *because* it is uniform.
+start simple, add an exception only when a real collision forces it, never preemptively.
+
+## files — rewrite only when asked
+
+do not re-case a file on sight, ever, at this stage. rewrite only the file dima names.
+
+📌 **reminder to raise, not to act on:** when the lab layers settle and the flaw list goes
+quiet, propose turning on rewrite-on-sight. raise it — do not switch it on. the reason for
+waiting is that a sweep done under unsettled rules bakes bad decisions into every file at
+once.
