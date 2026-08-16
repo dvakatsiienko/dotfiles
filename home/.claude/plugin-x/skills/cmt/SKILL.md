@@ -1,14 +1,14 @@
 ---
 name: cmt
 description: Branded commit authoring — format, emoji canon, steering keywords, worktree mirroring. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /cmt or just asked to commit mid-conversation.
-argument-hint: "[y|y+] [mir] [push] [correction…]"
+argument-hint: "[y|y+] [mir] [push|push+] [correction…]"
 ---
 
 # Commit
 
 ## 1 · Steering — parse $ARGUMENTS first, strict composition
 
-Three keywords: standalone words, case-insensitive, ANY order, composable.
+Five keywords: standalone words, case-insensitive, ANY order, composable.
 Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 
 | keyword | meaning |
@@ -16,13 +16,15 @@ Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 | `y`     | skip the confirm, this invocation only |
 | `y+`    | skip the confirm for the rest of the conversation (§1.1) |
 | `mir`   | after committing, mirror into local main across worktrees (§4) |
-| `push`  | also update the remote: alone → push current branch; with `mir` → push main |
+| `push`  | also update the remote, this invocation only: alone → push current branch; with `mir` → push main |
+| `push+` | do what `push` does, and keep doing it for the rest of the conversation (§1.2) |
 
 No `y`/`y+` → draft the message, print it, wait for "y"/correction — THEN run the
 full pipeline (commit + mir + push, whatever was requested).
 `y` or `y+` present → execute everything immediately, zero questions.
 Examples: `/cmt` ask · `/cmt y` autonomous once · `/cmt y+` autonomous from
-here on · `/cmt mir` mirror with confirm · `/cmt y mir push` sync everywhere.
+here on · `/cmt mir` mirror with confirm · `/cmt y mir push` sync everywhere ·
+`/cmt y+ push+` hands the whole conversation over: commit and push, never ask again.
 
 ### 1.0 · Never push mid-session
 
@@ -44,7 +46,20 @@ runs unconfirmed, whether invoked as `/cmt` or asked for in passing. It stays on
 until the conversation ends or Dima revokes it.
 
 `y+` covers the confirm only. `mir` and `push` are still per-invocation — a standing
-yes never reaches a remote on its own.
+yes never reaches a remote on its own. Standing pushes need `push+`, asked for separately.
+
+### 1.2 · `push+` — standing push
+
+`push+` grants what `push` grants, and keeps it: every later commit in this conversation
+pushes when it lands, whether invoked as `/cmt` or asked for in passing. It stays on until
+the conversation ends or Dima revokes it.
+
+While `push+` is on, §1.0's never-push-mid-session default is suspended — that default
+exists to stop unasked-for remote writes, and `push+` is the ask. The end-of-session
+"how many commits are unpushed" question also goes quiet, because the answer is always zero.
+
+`push+` says nothing about the confirm. Without `y`/`y+` a commit is still drafted and
+shown first; `push+` only decides what happens after Dima approves it.
 
 ## 2 · Format — the brand
 
