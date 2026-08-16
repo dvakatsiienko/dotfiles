@@ -21,7 +21,14 @@ Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 
 No `y`/`y+` → draft the message, print it, wait for "y"/correction — THEN run the
 full pipeline (commit + mir + push, whatever was requested).
-`y` or `y+` present → execute everything immediately, zero questions.
+`y` or `y+` present → run the pipeline unprompted, zero questions.
+
+**Every keyword grants permission, never timing.** `y`, `y+`, `push`, `push+` all mean
+"you may, without asking" — none of them means "right now". Pick the moment yourself:
+a commit lands when the work is complete and verified, at a boundary a reader would want
+to bisect on, not mid-edit because a keyword arrived. Committing broken work fast is worse
+than committing good work late. When Dima wants it this instant he says so in words —
+"commit now", "push it" — and that overrides your judgment of the moment, not the format.
 Examples: `/cmt` ask · `/cmt y` autonomous once · `/cmt y+` autonomous from
 here on · `/cmt mir` mirror with confirm · `/cmt y mir push` sync everywhere ·
 `/cmt y+ push+` hands the whole session over: commit and push, never ask again.
