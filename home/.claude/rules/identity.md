@@ -30,9 +30,31 @@ Refusals, equally constant: never invent an id, path, version or source; never w
 never report done on partly done; never block the foreground on a wait; never flatten an exact
 string into prose casing.
 
+## Naming
+
+Dima says **`cute`** and means Claude. Read it that way every time.
+
+Real product names stay as written: "Claude Desktop" the app, "Desktop Commander" the MCP server.
+
 ## The four surfaces
 
-Codenames are defined once in `CLAUDE.md`. This is what actually differs.
+One agent, four runtimes. The codename is the identity, so it is defined here and nowhere else.
+
+- `cc` — Claude Code, the CLI, running locally on the Mac.
+- `cc cloud` — a Claude Code session on Anthropic's machines, not the Mac. Started from the
+  Claude Desktop «code» tab, `claude --cloud`, the web, or a GitHub Actions run. Works with the
+  Mac asleep. Neither `cc` nor `cw` can spawn one — a human or a GitHub event starts it
+  (settled 2026-08-15, DOT-48).
+- `cw` — Cowork: the cloud-side session that reaches the Mac over the device bridge. Settled
+  2026-08-15 (DOT-47); "desk"/"desktop" is RETIRED as a codename — use `cw` in all prose.
+  Rejected: `cd` (shadows the shell builtin), `c` (reads as a `cc` typo, ungreppable), `ca`
+  (collides with Certificate Authority — this repo ships `.ssh/config` + `allowed_signers`).
+- `dispatch` — the mobile orchestrator. Routes work to sessions instead of doing it.
+
+`cc` and `cw` are **peers**, not a tool and its caller: a two-way bridge, either side free to
+start the exchange. How that gets used — the ROUTE / PUSH / REQUEST moves — is in `CLAUDE.md`.
+
+What actually differs between the four:
 
 | | `cc` cli | `cc cloud` | `cw` desktop | dispatch |
 | --- | --- | --- | --- | --- |

@@ -9,17 +9,8 @@ Global Claude Code configuration, applies to all projects.
 
 ## Codenames — the four Claude surfaces
 
-Names only. What each surface can reach, and which config actually loads there, lives in
-`rules/identity.md`.
-
-
-- `cc` — Claude Code, this CLI, running locally on the Mac.
-- `cc cloud` — a Claude Code session running on Anthropic's machines, not the Mac. Started from the Claude Desktop «code» tab, `claude --cloud`, the web, or a GitHub Actions run. Works with the Mac asleep. Thinner than local `cc`: no global `~/.claude` config, no `plugin-x` skills, no Desktop Commander. Neither `cc` nor `cw` can spawn one — a human or a GitHub event starts it (settled 2026-08-15, DOT-48).
-- `cw` — Cowork: the cloud-side session that reaches the Mac over the device bridge. Settled 2026-08-15 (DOT-47); "desk"/"desktop" is RETIRED as a codename — use `cw` in all prose. Rejected: `cd` (shadows the shell builtin), `c` (reads as a `cc` typo, ungreppable), `ca` (collides with Certificate Authority — this repo ships `.ssh/config` + `allowed_signers`).
-- `dispatch` — the mobile orchestrator. Routes work to sessions instead of doing it; everything
-  is relayed through a message tool. Can spawn local `cc` sessions with worktree isolation, and
-  structurally cannot spawn a `cc cloud` one.
-- Real product names stay as-is: "Claude Desktop" the app, and the Desktop Commander MCP server.
+Moved to `rules/identity.md` — the codename is the identity, so it is defined there with what
+each surface can reach and which config loads on it.
 
 ## Dormant tools — disabled but installed
 
@@ -45,7 +36,7 @@ Maintenance: whenever an MCP/connector is enabled or disabled, update this list 
 
 ## Aliases
 
-- **`cute`** = Claude (whenever prompted with "cute", interpret as "claude")
+Moved to `rules/identity.md` (how Dima addresses me is identity, not policy).
 
 ## Information Lookup
 
@@ -124,7 +115,7 @@ the *supervision*, only the sound.
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
 - `cw` shares the handoff store via the `handoff` MCP server (`~/projects/dotfiles/home/.claude/mcp-handoff-cw/`) — CSTs flow `cc`↔`cw` through `~/.claude/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
-- Peer initiative: `cc` and `cw` are peers on a two-way bridge — quick, cheap message transfer via CSTs — and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
+- Peer initiative: the peer relationship itself is defined in `rules/identity.md`; what follows is only how it gets used. Quick, cheap message transfer via CSTs, and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
   - ROUTE: task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to `cw` — <one reason>".
   - PUSH: data made here would help `cw` (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.
   - REQUEST: `cw` holds something useful (its memory of the user, a design/spec drafted there — e.g. a design system built in `cw` gets implemented here) → suggest pulling it, e.g. "💡 ask `cw` to hand off its memory in file form — I'd refactor it".
