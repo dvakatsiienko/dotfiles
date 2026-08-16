@@ -50,7 +50,7 @@ func focusSegment(claudeContext *ClaudeContext) string {
 		return ""
 	}
 
-	out := Sep
+	out := ""
 	if st.Pin != "" {
 		color := TicketColor
 		if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {

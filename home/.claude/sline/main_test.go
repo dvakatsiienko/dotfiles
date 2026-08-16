@@ -68,16 +68,98 @@ func TestToSuperscript(t *testing.T) {
 
 func TestParseGitStats(t *testing.T) {
 	ins, del := parseGitStats(" 2 files changed, 68 insertions(+), 59 deletions(-)")
-	if ins != "68" || del != "59" {
-		t.Errorf("got %s/%s, want 68/59", ins, del)
+	if ins != 68 || del != 59 {
+		t.Errorf("got %d/%d, want 68/59", ins, del)
 	}
 	ins, del = parseGitStats(" 1 file changed, 1 insertion(+)")
-	if ins != "1" || del != "0" {
-		t.Errorf("got %s/%s, want 1/0", ins, del)
+	if ins != 1 || del != 0 {
+		t.Errorf("got %d/%d, want 1/0", ins, del)
 	}
 	ins, del = parseGitStats("")
-	if ins != "0" || del != "0" {
-		t.Errorf("got %s/%s, want 0/0", ins, del)
+	if ins != 0 || del != 0 {
+		t.Errorf("got %d/%d, want 0/0", ins, del)
+	}
+}
+
+// The four render branches were only reachable through a live repository until
+// reading moved behind readGitStatus.
+func TestRenderGitStatusBranches(t *testing.T) {
+	cases := []struct {
+		name  string
+		st    GitStatus
+		want  []string
+		avoid []string
+	}{
+		{
+			name:  "not a repo",
+			st:    GitStatus{},
+			want:  []string{"no git"},
+			avoid: []string{"clean"},
+		},
+		{
+			name:  "clean repo",
+			st:    GitStatus{IsRepo: true, Head: "main"},
+			want:  []string{"clean", "main"},
+			avoid: []string{"+", "✓"},
+		},
+		{
+			name: "staged only carries the check mark",
+			st: GitStatus{IsRepo: true, Head: "main", Staged: 2, Entries: 2,
+				StagedInsertions: 10, StagedDeletions: 3},
+			want:  []string{"(2)", "+10", "-3", "✓"},
+			avoid: []string{"(0)"},
+		},
+		{
+			name: "unstaged only omits the check mark",
+			st: GitStatus{IsRepo: true, Head: "main", Modified: 1, Entries: 1,
+				UnstagedInsertions: 4, UnstagedDeletions: 1},
+			want:  []string{"(1)", "+4", "-1"},
+			avoid: []string{"✓"},
+		},
+		{
+			name: "both counts every touched path once",
+			st: GitStatus{IsRepo: true, Head: "main", Staged: 1, Modified: 1, Entries: 2,
+				Untracked: 1, StagedInsertions: 10, StagedDeletions: 2,
+				UnstagedInsertions: 5, UnstagedDeletions: 1},
+			// Entries + Untracked = 3, and the net is +12 with both signs present.
+			want: []string{"(3)", "+10", "-2", "✓", "+5", "-1", "+12"},
+		},
+		{
+			name: "stash rides along",
+			st:   GitStatus{IsRepo: true, Head: "main", Stash: 2},
+			want: []string{"stash: 2"},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := joinSegments(renderGitStatus(tc.st)...)
+			for _, want := range tc.want {
+				if !strings.Contains(got, want) {
+					t.Errorf("missing %q in %q", want, got)
+				}
+			}
+			for _, avoid := range tc.avoid {
+				if strings.Contains(got, avoid) {
+					t.Errorf("unexpected %q in %q", avoid, got)
+				}
+			}
+		})
+	}
+}
+
+func TestUntrackedLineCountResolvesAgainstRepoDir(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "new.txt"), []byte("a\nb\nc\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	// git reports untracked paths repo-relative; counting them from the process
+	// cwd found nothing whenever the shell sat outside the session's repo.
+	if got := untrackedLineCount(dir, []string{"new.txt"}); got != 3 {
+		t.Errorf("got %d, want 3", got)
+	}
+	if got := untrackedLineCount(dir, []string{"absent.txt"}); got != 0 {
+		t.Errorf("got %d, want 0", got)
 	}
 }
 
@@ -286,10 +368,10 @@ func TestFormatWindowRollover(t *testing.T) {
 func TestNormalizeRemoteURL(t *testing.T) {
 	cases := map[string]string{
 		"git@github.com:dvakatsiienko/dotfiles.git": "https://github.com/dvakatsiienko/dotfiles",
-		"https://github.com/user/repo.git":           "https://github.com/user/repo",
-		"https://github.com/user/repo":               "https://github.com/user/repo",
-		"ssh://weird/path":                           "",
-		"":                                           "",
+		"https://github.com/user/repo.git":          "https://github.com/user/repo",
+		"https://github.com/user/repo":              "https://github.com/user/repo",
+		"ssh://weird/path":                          "",
+		"":                                          "",
 	}
 	for in, want := range cases {
 		if got := normalizeRemoteURL(in); got != want {
@@ -400,10 +482,10 @@ func TestFastModeAlertsInsteadOfBadgingTheModel(t *testing.T) {
 	fast.Model.ID = "claude-opus-5"
 	fast.Model.DisplayName = "Opus 5"
 
-	if !strings.Contains(alertSegment(fast), "↯ FAST") {
+	if !strings.Contains(joinSegments(alertSegments(fast)...), "↯ FAST") {
 		t.Error("fast_mode true: want the ↯ FAST alert")
 	}
-	if !strings.Contains(alertSegment(fast), UsageCritColor) {
+	if !strings.Contains(joinSegments(alertSegments(fast)...), UsageCritColor) {
 		t.Error("fast_mode true: want the alert rendered at crit level")
 	}
 	if strings.Contains(getModelDisplayName(fast), "⚡️") {
@@ -414,7 +496,7 @@ func TestFastModeAlertsInsteadOfBadgingTheModel(t *testing.T) {
 	slow.Model.ID = "claude-opus-5"
 	slow.Model.DisplayName = "Opus 5"
 
-	if strings.Contains(alertSegment(slow), "↯ FAST") {
+	if strings.Contains(joinSegments(alertSegments(slow)...), "↯ FAST") {
 		t.Error("fast_mode false: want no ↯ FAST alert")
 	}
 }
@@ -434,7 +516,7 @@ func TestAlertsSortCritBeforeWarn(t *testing.T) {
 }
 
 func TestAlertSegmentEmptyWhenNothingIsWrong(t *testing.T) {
-	if len(collectAlerts(&ClaudeContext{})) == 0 && alertSegment(&ClaudeContext{}) != "" {
+	if len(collectAlerts(&ClaudeContext{})) == 0 && joinSegments(alertSegments(&ClaudeContext{})...) != "" {
 		t.Error("no alerts: want the segment omitted entirely")
 	}
 }
@@ -492,5 +574,36 @@ func TestOutputStyleBadge(t *testing.T) {
 	}
 	if strings.Contains(getModelDisplayName(&ClaudeContext{}), "🪶") {
 		t.Error("absent output style: want no badge")
+	}
+}
+
+func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		t.Skip("no home dir")
+	}
+	ctx := &ClaudeContext{}
+	ctx.Workspace.CurrentDir = filepath.Join(home, "projects", "dotfiles")
+
+	// The link needs the absolute path; only the rendered half wears the ~.
+	abs, display := workingDir(ctx)
+	if abs != ctx.Workspace.CurrentDir {
+		t.Errorf("abs = %q, want %q", abs, ctx.Workspace.CurrentDir)
+	}
+	if display != "~/projects/dotfiles" {
+		t.Errorf("display = %q, want ~/projects/dotfiles", display)
+	}
+
+	if !strings.Contains(dirSegment(ctx), "cursor://file"+abs) {
+		t.Error("dir segment should link the absolute path at Cursor")
+	}
+}
+
+func TestEditorURL(t *testing.T) {
+	if got := editorURL("/Users/dima/projects/dotfiles"); got != "cursor://file/Users/dima/projects/dotfiles" {
+		t.Errorf("got %q", got)
+	}
+	if got := editorURL(""); got != "" {
+		t.Errorf("empty path should make no url, got %q", got)
 	}
 }

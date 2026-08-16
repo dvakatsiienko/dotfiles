@@ -43,6 +43,14 @@ func resolveSessionName(sessionsDir, sessionID string) string {
 	return ""
 }
 
+func sessionSegment(claudeContext *ClaudeContext) string {
+	label := sessionLabel(claudeContext)
+	if label == "" {
+		return ""
+	}
+	return fmt.Sprintf("%s🧵 %s%s", SessionColor, label, Reset)
+}
+
 // sessionLabel shows the human-readable session name (CC's session_name, i.e.
 // the thread title) for the user, falling back to the peer-registry codename,
 // then a bare id. The [8-char session id] always rides along — it's the
@@ -79,8 +87,9 @@ func sessionLabel(context *ClaudeContext) string {
 // socket). Check occasionally; once fixed upstream, delete this func, its
 // alert in alert.go, and the KNOWN CC BUG bullet in the pull-handoff skill's
 // Etiquette section. Tracking:
-//   https://github.com/anthropics/claude-code/issues/85497 (ours)
-//   dupes/related: #85412, #84945, #85160, #84894
+//
+//	https://github.com/anthropics/claude-code/issues/85497 (ours)
+//	dupes/related: #85412, #84945, #85160, #84894
 func peerSocketAlive() bool {
 	pid := os.Getppid()
 	for depth := 0; depth < 4 && pid > 1; depth++ {

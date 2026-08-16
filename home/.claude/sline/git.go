@@ -3,13 +3,16 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-// GitStatus is parsed from a single `git status --porcelain=v2` invocation —
-// branch, sync, file counts, untracked paths and stash all come from one process.
+// GitStatus is every git fact sline renders, read through this one seam. Callers
+// never spawn git themselves — a caller that did would report on its own cwd
+// instead of repoDir, which is how the branch and the diff counts once ended up
+// describing two different repositories.
 type GitStatus struct {
 	IsRepo         bool
 	Head           string // branch name; empty when detached
@@ -22,23 +25,41 @@ type GitStatus struct {
 	Entries        int // unique tracked paths with any change
 	UntrackedPaths []string
 	Stash          int
+	// Diff volume. Unstaged insertions include every line of every untracked
+	// file — an untracked file is entirely new work, and reporting it as zero
+	// made a fresh module look like an empty one.
+	StagedInsertions   int
+	StagedDeletions    int
+	UnstagedInsertions int
+	UnstagedDeletions  int
 }
 
-// readGitStatus reports on repoDir. An empty repoDir falls back to the process
-// cwd, which is only right when nothing told us where the session lives.
-func readGitStatus(repoDir string) GitStatus {
-	args := []string{}
-	if repoDir != "" {
-		args = append(args, "-C", repoDir)
+// gitArgs prefixes -C so every git call lands in the session's repo. An empty
+// repoDir falls back to the process cwd, which is only right when nothing told
+// us where the session lives.
+func gitArgs(repoDir string, args ...string) []string {
+	if repoDir == "" {
+		return args
 	}
-	args = append(args, "status", "--porcelain=v2", "--branch", "--show-stash")
+	return append([]string{"-C", repoDir}, args...)
+}
 
-	out := runCommand("git", args...)
+// readGitStatus reports on repoDir: status, diff volume and untracked lines in
+// one call, so the whole segment renders from one consistent snapshot.
+func readGitStatus(repoDir string) GitStatus {
+	out := runCommand("git", gitArgs(repoDir, "status", "--porcelain=v2", "--branch", "--show-stash")...)
 	if out == "" {
 		// Distinguish "not a repo" from "clean repo": a repo always emits headers.
 		return GitStatus{}
 	}
-	return parseGitStatusV2(out)
+
+	st := parseGitStatusV2(out)
+	st.StagedInsertions, st.StagedDeletions = parseGitStats(
+		runCommand("git", gitArgs(repoDir, "diff", "--cached", "--shortstat")...))
+	st.UnstagedInsertions, st.UnstagedDeletions = parseGitStats(
+		runCommand("git", gitArgs(repoDir, "diff", "--shortstat")...))
+	st.UnstagedInsertions += untrackedLineCount(repoDir, st.UntrackedPaths)
+	return st
 }
 
 func parseGitStatusV2(out string) GitStatus {
@@ -114,6 +135,16 @@ func normalizeRemoteURL(remote string) string {
 	return remote
 }
 
+// editorURL opens a path in Cursor, which registers the vscode:// family's
+// cursor:// scheme. Works on files and directories alike (click-tested
+// 2026-08-16), so sline never needs a second scheme for Finder.
+func editorURL(path string) string {
+	if path == "" {
+		return ""
+	}
+	return "cursor://file" + path
+}
+
 // hyperlink wraps text in an OSC 8 sequence; terminals without support ignore
 // the escapes and render the bare text.
 func hyperlink(url, text string) string {
@@ -145,23 +176,26 @@ var (
 	deletionRe  = regexp.MustCompile(`(\d+) deletion`)
 )
 
-func parseGitStats(stats string) (insertions, deletions string) {
-	insertions, deletions = "0", "0"
+func parseGitStats(stats string) (insertions, deletions int) {
 	if m := insertionRe.FindStringSubmatch(stats); len(m) > 1 {
-		insertions = m[1]
+		insertions = parseIntSafe(m[1])
 	}
 	if m := deletionRe.FindStringSubmatch(stats); len(m) > 1 {
-		deletions = m[1]
+		deletions = parseIntSafe(m[1])
 	}
 	return insertions, deletions
 }
 
 // untrackedLineCount counts newlines in untracked files without spawning wc.
+// Paths come from git and are repo-relative, so they only resolve against repoDir.
 // Files over 4MB are skipped — an untracked build artifact must not stall the render.
-func untrackedLineCount(paths []string) int {
+func untrackedLineCount(repoDir string, paths []string) int {
 	const maxSize = 4 << 20
 	total := 0
 	for _, path := range paths {
+		if repoDir != "" {
+			path = filepath.Join(repoDir, path)
+		}
 		info, err := os.Stat(path)
 		if err != nil || info.IsDir() || info.Size() > maxSize {
 			continue

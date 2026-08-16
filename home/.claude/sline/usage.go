@@ -177,12 +177,12 @@ func weeklyWindow(context *ClaudeContext) *RateLimitWindow {
 	return nil
 }
 
-// getUsageInfo renders subscription quota and context window usage. Every field is
-// server-provided; when none are present the line is omitted entirely rather than
+// usageSegments renders subscription quota and context window usage. Every field is
+// server-provided; when none are present nothing is emitted rather than
 // falling back to a client-side estimate.
-func getUsageInfo(context *ClaudeContext) string {
+func usageSegments(context *ClaudeContext) []string {
 	if context == nil {
-		return ""
+		return nil
 	}
 
 	var segments []string
@@ -216,13 +216,11 @@ func getUsageInfo(context *ClaudeContext) string {
 	}
 
 	homeDir, _ := os.UserHomeDir()
-	if pending := handoffPendingCount(filepath.Join(homeDir, ".claude", "handoffs")); pending > 0 {
-		segments = append(segments, fmt.Sprintf("📬 %s%d%s", SessionColor, pending, Reset))
+	handoffDir := filepath.Join(homeDir, ".claude", "handoffs")
+	if pending := handoffPendingCount(handoffDir); pending > 0 {
+		count := hyperlink(editorURL(handoffDir), fmt.Sprintf("%d", pending))
+		segments = append(segments, fmt.Sprintf("📬 %s%s%s", SessionColor, count, Reset))
 	}
 
-	if len(segments) == 0 {
-		return ""
-	}
-
-	return strings.Join(segments, Sep)
+	return segments
 }

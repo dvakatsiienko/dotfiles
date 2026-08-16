@@ -51,8 +51,8 @@ var gradientStops = [][3]int{
 // Complementary warm sweep for the effort word — orange → yellow, the
 // counterpoint to the model name's cool purple → blue.
 var effortGradientStops = [][3]int{
-	{231, 138, 78},  // gruvbox orange #e78a4e
-	{216, 166, 87},  // gruvbox yellow #d8a657
+	{231, 138, 78}, // gruvbox orange #e78a4e
+	{216, 166, 87}, // gruvbox yellow #d8a657
 }
 
 func applyGradient(text string) string {

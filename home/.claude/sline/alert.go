@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sort"
-	"strings"
 )
 
 // Alerts are the one place an active fault renders. Anything that is wrong
@@ -55,14 +54,12 @@ func collectAlerts(claudeContext *ClaudeContext) []alert {
 	return alerts
 }
 
-func alertSegment(claudeContext *ClaudeContext) string {
-	alerts := collectAlerts(claudeContext)
-	if len(alerts) == 0 {
-		return ""
+// alertSegments renders one segment per active fault — each is its own island,
+// so two faults never read as one run-on label.
+func alertSegments(claudeContext *ClaudeContext) []string {
+	var segments []string
+	for _, a := range collectAlerts(claudeContext) {
+		segments = append(segments, fmt.Sprintf("%s%s%s", a.color(), a.label, Reset))
 	}
-	var out strings.Builder
-	for _, a := range alerts {
-		fmt.Fprintf(&out, "%s%s%s%s", Sep, a.color(), a.label, Reset)
-	}
-	return out.String()
+	return segments
 }

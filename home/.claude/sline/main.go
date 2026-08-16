@@ -106,28 +106,31 @@ func readClaudeContext() *ClaudeContext {
 	return &ctx
 }
 
-// displayDir shortens the working directory with ~; prefers the dir Claude Code
-// reports over the process cwd.
-func displayDir(claudeContext *ClaudeContext) string {
-	wd := ""
+// workingDir reports the directory absolutely and as displayed. The absolute
+// form feeds the Finder link; the ~-shortened form is what gets rendered. Prefers
+// the dir Claude Code reports over the process cwd.
+func workingDir(claudeContext *ClaudeContext) (abs, display string) {
 	if claudeContext != nil && claudeContext.Workspace.CurrentDir != "" {
-		wd = claudeContext.Workspace.CurrentDir
+		abs = claudeContext.Workspace.CurrentDir
 	} else if cwd, err := os.Getwd(); err == nil {
-		wd = cwd
+		abs = cwd
 	} else {
-		return "unknown"
+		return "", "unknown"
 	}
 
 	homeDir, _ := os.UserHomeDir()
-	if homeDir != "" {
-		if wd == homeDir {
-			return "~"
-		}
-		if strings.HasPrefix(wd, homeDir+"/") {
-			return "~" + wd[len(homeDir):]
-		}
+	switch {
+	case homeDir != "" && abs == homeDir:
+		return abs, "~"
+	case homeDir != "" && strings.HasPrefix(abs, homeDir+"/"):
+		return abs, "~" + abs[len(homeDir):]
 	}
-	return wd
+	return abs, abs
+}
+
+func dirSegment(claudeContext *ClaudeContext) string {
+	abs, display := workingDir(claudeContext)
+	return fmt.Sprintf("📼 %s%s%s", DirColor, hyperlink(editorURL(abs), display), Reset)
 }
 
 func getGitEmoji() string {
@@ -155,39 +158,35 @@ func repoDir(claudeContext *ClaudeContext) string {
 	return claudeContext.Workspace.CurrentDir
 }
 
-func gitSegment(claudeContext *ClaudeContext) string {
-	st := readGitStatus(repoDir(claudeContext))
+func gitSegments(claudeContext *ClaudeContext) []string {
+	return renderGitStatus(readGitStatus(repoDir(claudeContext)))
+}
+
+// renderGitStatus formats an already-read status as up to three segments —
+// branch, working tree, stash. It reads nothing itself, so every branch below is
+// reachable from a GitStatus literal in a test.
+func renderGitStatus(st GitStatus) []string {
 	gitEmoji := getGitEmoji()
 
 	if !st.IsRepo {
-		return fmt.Sprintf("%s%s %sno git%s", Sep, gitEmoji, CleanColor, Reset)
+		return []string{fmt.Sprintf("%s %sno git%s", gitEmoji, CleanColor, Reset)}
+	}
+
+	branch := branchLabel(st)
+	branchSegment := fmt.Sprintf("%s%s%s", BranchColor, branch, Reset)
+	if sync := formatSyncIndicator(st); sync != "" {
+		branchSegment += " " + sync
 	}
 
 	var out strings.Builder
 
-	branch := branchLabel(st)
-	if sync := formatSyncIndicator(st); sync != "" {
-		out.WriteString(fmt.Sprintf("%s%s%s%s %s", Sep, BranchColor, branch, Reset, sync))
-	} else {
-		out.WriteString(fmt.Sprintf("%s%s%s%s", Sep, BranchColor, branch, Reset))
-	}
-
-	stagedStats := runCommand("git", "diff", "--cached", "--shortstat")
-	unstagedStats := runCommand("git", "diff", "--shortstat")
-	stagedInsertions, stagedDeletions := parseGitStats(stagedStats)
-	unstagedInsertions, unstagedDeletions := parseGitStats(unstagedStats)
-
-	if untrackedLines := untrackedLineCount(st.UntrackedPaths); untrackedLines > 0 {
-		unstagedInsertions = fmt.Sprintf("%d", parseIntSafe(unstagedInsertions)+untrackedLines)
-	}
-
-	hasStagedChanges := stagedStats != ""
-	hasUnstagedChanges := unstagedStats != "" || st.Untracked > 0
+	hasStagedChanges := st.Staged > 0
+	hasUnstagedChanges := st.Modified > 0 || st.Untracked > 0
 	totalFileCount := st.Entries + st.Untracked
 
 	// Net diff metric (only shown when both + and - are present)
-	totalInsertions := parseIntSafe(stagedInsertions) + parseIntSafe(unstagedInsertions)
-	totalDeletions := parseIntSafe(stagedDeletions) + parseIntSafe(unstagedDeletions)
+	totalInsertions := st.StagedInsertions + st.UnstagedInsertions
+	totalDeletions := st.StagedDeletions + st.UnstagedDeletions
 	netDiffStr := ""
 	if totalInsertions > 0 && totalDeletions > 0 {
 		net := totalInsertions - totalDeletions
@@ -200,30 +199,31 @@ func gitSegment(claudeContext *ClaudeContext) string {
 
 	switch {
 	case hasStagedChanges && hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s %s✓%s %s+%s%s%s-%s%s",
-			Sep, gitEmoji, CleanColor, totalFileCount, Reset, AddColor, stagedInsertions, Reset,
-			DelColor, stagedDeletions, Reset, AddColor, Reset, AddColor, unstagedInsertions,
-			Reset, DelColor, unstagedDeletions, Reset))
+		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s %s✓%s %s+%d%s%s-%d%s",
+			gitEmoji, CleanColor, totalFileCount, Reset, AddColor, st.StagedInsertions, Reset,
+			DelColor, st.StagedDeletions, Reset, AddColor, Reset, AddColor, st.UnstagedInsertions,
+			Reset, DelColor, st.UnstagedDeletions, Reset))
 		out.WriteString(netDiffStr)
 	case hasStagedChanges:
-		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s %s✓%s",
-			Sep, gitEmoji, CleanColor, st.Staged, Reset, AddColor, stagedInsertions, Reset,
-			DelColor, stagedDeletions, Reset, AddColor, Reset))
+		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s %s✓%s",
+			gitEmoji, CleanColor, st.Staged, Reset, AddColor, st.StagedInsertions, Reset,
+			DelColor, st.StagedDeletions, Reset, AddColor, Reset))
 		out.WriteString(netDiffStr)
 	case hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf("%s%s %s(%d)%s %s+%s%s%s-%s%s",
-			Sep, gitEmoji, CleanColor, st.Modified+st.Untracked, Reset, AddColor, unstagedInsertions,
-			Reset, DelColor, unstagedDeletions, Reset))
+		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s",
+			gitEmoji, CleanColor, st.Modified+st.Untracked, Reset, AddColor, st.UnstagedInsertions,
+			Reset, DelColor, st.UnstagedDeletions, Reset))
 		out.WriteString(netDiffStr)
 	default:
-		out.WriteString(fmt.Sprintf("%s%s %sclean%s", Sep, gitEmoji, CleanColor, Reset))
+		out.WriteString(fmt.Sprintf("%s %sclean%s", gitEmoji, CleanColor, Reset))
 	}
 
+	segments := []string{branchSegment, out.String()}
 	if st.Stash > 0 {
-		out.WriteString(fmt.Sprintf("%s💾 %sstash: %d%s", Sep, StashColor, st.Stash, Reset))
+		segments = append(segments,
+			fmt.Sprintf("💾 %sstash: %d%s", StashColor, st.Stash, Reset))
 	}
-
-	return out.String()
+	return segments
 }
 
 func generateStatusline() string {
@@ -236,29 +236,31 @@ func generateStatusline() string {
 		saveState(state)
 	}
 
-	var output strings.Builder
-	output.WriteString(Reset)
+	// The line, in order. Anything that renders empty drops out and takes its
+	// separator with it — see segment.go.
+	line1 := joinSegments(flatten(
+		[]string{
+			dirSegment(claudeContext),
+			fmt.Sprintf("%s%s󰎙%s %s%s%s", Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset),
+			fmt.Sprintf("%s📦%s %s%s%s", PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset),
+		},
+		gitSegments(claudeContext),
+		// Session identity, then the ticket in focus.
+		[]string{
+			sessionSegment(claudeContext),
+			focusSegment(claudeContext),
+		},
+		// Alerts close line 1 — one place for every active fault. See alert.go.
+		alertSegments(claudeContext),
+	)...)
 
-	output.WriteString(fmt.Sprintf("📼 %s%s%s", DirColor, displayDir(claudeContext), Reset))
-	output.WriteString(fmt.Sprintf("%s%s%s󰎙%s %s%s%s%s%s📦%s %s%s%s",
-		Sep, Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset,
-		Sep, PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset))
-	output.WriteString(gitSegment(claudeContext))
+	// The model leads line 2's usage gauges.
+	line2 := joinSegments(flatten(
+		[]string{emoji + getModelDisplayName(claudeContext)},
+		usageSegments(claudeContext),
+	)...)
 
-	// Session identity closes line 1; the model leads line 2's usage gauges.
-	if label := sessionLabel(claudeContext); label != "" {
-		output.WriteString(fmt.Sprintf("%s%s🧵 %s%s", Sep, SessionColor, label, Reset))
-	}
-	output.WriteString(focusSegment(claudeContext))
-	// Alerts close line 1 — one place for every active fault. See alert.go.
-	output.WriteString(alertSegment(claudeContext))
-	line2 := fmt.Sprintf("%s%s", emoji, getModelDisplayName(claudeContext))
-	if usageInfo := getUsageInfo(claudeContext); usageInfo != "" {
-		line2 += Sep + usageInfo
-	}
-	output.WriteString("\n" + line2)
-
-	return output.String()
+	return Reset + line1 + "\n" + line2
 }
 
 func main() {
