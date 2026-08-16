@@ -2,7 +2,7 @@
 # UserPromptSubmit hook — maintains the per-session focus file sline renders.
 #
 #   clam DOT-23   -> pin (sticky; survives every later id we mention)
-#   touch DOT-9   -> touch slot (what we poked last)
+#   touch DOT-9   -> touch list (up to 3, newest first)
 #   ticket fly DOT-9 -> unset that id from whichever slot holds it
 #   tickets fly      -> clear both
 #
@@ -46,12 +46,14 @@ while IFS= read -r line; do
 		write --arg p "$arg" --argjson t "$now" '.pin = $p | .pin_at = $t'
 		;;
 	touch)
-		write --arg p "$arg" --argjson t "$now" '.touch = $p | .touch_at = $t'
+		write --arg p "$arg" --argjson t "$now" \
+			'.touch = ([$p] + ((.touch // []) - [$p]))[0:3] | .touch_at = $t'
 		;;
 	ticketfly)
 		write --arg p "$arg" \
 			'(if .pin == $p then del(.pin, .pin_at) else . end)
-			 | (if .touch == $p then del(.touch, .touch_at) else . end)'
+			 | .touch = ((.touch // []) - [$p])
+			 | (if (.touch | length) == 0 then del(.touch, .touch_at) else . end)'
 		;;
 	esac
 done <<<"$prompt"

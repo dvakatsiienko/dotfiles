@@ -8,14 +8,14 @@ import (
 	"time"
 )
 
-// focusState is written by hooks/focus.sh (touch slot, and pin when the user
-// types the literal `focus DOT-N`) and by the x:pm skill (pin, on ticket grab).
-// Keyed per session id so parallel sessions never fight over one file.
+// focusState is written by hooks/focus.sh (Dima's clam/touch/fly keywords) and
+// by the agent on ticket grab and close. Keyed per session id so parallel
+// sessions never fight over one file.
 type focusState struct {
-	Pin     string `json:"pin"`
-	PinAt   int64  `json:"pin_at"`
-	Touch   string `json:"touch"`
-	TouchAt int64  `json:"touch_at"`
+	Pin     string   `json:"pin"`
+	PinAt   int64    `json:"pin_at"`
+	Touch   []string `json:"touch"`
+	TouchAt int64    `json:"touch_at"`
 }
 
 // pinStaleAfter dims a pin nobody refreshed — a forgotten pin must look
@@ -46,7 +46,7 @@ func focusSegment(claudeContext *ClaudeContext) string {
 		return ""
 	}
 	st := loadFocus(claudeContext.SessionID)
-	if st == nil || (st.Pin == "" && st.Touch == "") {
+	if st == nil || (st.Pin == "" && len(st.Touch) == 0) {
 		return ""
 	}
 
@@ -58,14 +58,19 @@ func focusSegment(claudeContext *ClaudeContext) string {
 		}
 		out += fmt.Sprintf("🪄 %s%s%s", color, ticketLink(st.Pin), Reset)
 	}
-	// The touch slot only earns space when it disagrees with the pin — that
+	// Touches only earn space where they disagree with the pin — that
 	// disagreement is the whole point: it is the drift the pin is guarding.
-	if st.Touch != "" && st.Touch != st.Pin {
-		if st.Pin == "" {
-			out += fmt.Sprintf("%s%s%s", CleanColor, ticketLink(st.Touch), Reset)
-		} else {
-			out += fmt.Sprintf(" %s· %s%s", CleanColor, ticketLink(st.Touch), Reset)
+	first := st.Pin == ""
+	for _, id := range st.Touch {
+		if id == "" || id == st.Pin {
+			continue
 		}
+		if first {
+			out += fmt.Sprintf("%s%s%s", CleanColor, ticketLink(id), Reset)
+			first = false
+			continue
+		}
+		out += fmt.Sprintf(" %s· %s%s", CleanColor, ticketLink(id), Reset)
 	}
 	return out
 }

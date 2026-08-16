@@ -103,8 +103,8 @@ rules bakes bad decisions into every file at once.
 # Focus pin — keep sline honest
 
 Sline renders the session's pinned ticket from `~/.claude/focus/<session_id>.json`. Two slots:
-`pin` (the ticket we agreed to resolve — sticky, rendered `🪄 DOT-23`) and `touch` (the last id
-we poked, rendered dim after a `·`).
+`pin` (the ticket we agreed to resolve — sticky, rendered `🪄 DOT-23`) and `touch` (an array of
+up to the last 3 ids we poked, newest first, each rendered dim after a `·`).
 
 Dima's keywords, handled by `hooks/focus.sh`: `clam <id>` pins, `touch <id>` touches,
 `ticket fly <id>` unsets that id, `tickets fly` clears both. The hook only fires on a keyword that
