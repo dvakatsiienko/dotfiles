@@ -18,17 +18,13 @@ import { z } from 'zod';
 
 const HANDOFF_DIR = join(homedir(), '.claude', 'handoffs');
 const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
-const SPEC_CANDIDATES = [
-    join(
-        homedir(),
-        'projects/dotfiles',
-        'home/.claude',
-        'plugin-x',
-        'CST-SPEC.md',
-    ),
-];
-
-const spec = loadSpec();
+const SPEC_PATH = join(
+    homedir(),
+    'projects/dotfiles',
+    'home/.claude',
+    'plugin-x',
+    'CST-SPEC.md',
+);
 const server = new McpServer({ name: 'handoff', version: '0.1.0' });
 
 server.registerTool(
@@ -38,7 +34,7 @@ server.registerTool(
             `Persist a CST (Continuation State Transfer) of the current thread to the shared handoff store, ` +
             `where any cw thread or cc session can pull it to continue this thread. ` +
             `FIRST compose the CST from the current thread per the spec below, THEN call this tool with it. ` +
-            `Compose it as machine-optimized telegraphic text — no presentation polish, no human reads it.\n\n${spec}`,
+            `Compose it as machine-optimized telegraphic text — no presentation polish, no human reads it.\n\n${loadSpec()}`,
         inputSchema: {
             cst: z
                 .string()
@@ -58,6 +54,10 @@ server.registerTool(
         title: 'Save handoff (CST)',
     },
     async ({ cst, slug, shared }) => {
+        // The description above is baked in when the tool registers, so it cannot
+        // report a spec that went missing afterwards. The handler can, and this is
+        // the only place cw would ever hear about it.
+        const specMissing = !existsSync(SPEC_PATH);
         sweep();
         mkdirSync(HANDOFF_DIR, { mode: 0o700, recursive: true });
         const file = join(
@@ -67,7 +67,10 @@ server.registerTool(
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
         return text(
-            `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
+            (specMissing
+                ? `!! CST-SPEC.md is missing at ${SPEC_PATH} — this CST was composed without the authoritative spec. Say so to the user.\n\n`
+                : '') +
+                `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
         );
     },
 );
@@ -176,12 +179,36 @@ server.registerPrompt(
 );
 
 /* Helpers */
+/**
+ * Read per call, never cached at boot: the spec is edited in the repo while this
+ * server keeps running, and a cached copy would serve text that no longer exists
+ * with nothing to say it was doing so.
+ *
+ * The fallback is deliberately LOUD. Silently composing CSTs from a one-paragraph
+ * summary of the spec is the failure nobody would notice — the tool still works,
+ * the output is just quietly worse.
+ */
 function loadSpec(): string {
-    for (const candidate of SPEC_CANDIDATES) {
-        if (existsSync(candidate)) return readFileSync(candidate, 'utf8');
+    if (existsSync(SPEC_PATH)) return readFileSync(SPEC_PATH, 'utf8');
+    return (
+        `!! CST-SPEC.md WAS NOT FOUND at ${SPEC_PATH}. This server is running degraded: ` +
+        'the authoritative spec is missing, so what follows is a summary of it, not the spec. ' +
+        'Say so in your reply — the CST will be weaker than usual and someone should fix the path.\n\n' +
+        'Compose the CST as an upgraded compaction: preserve user requirements and corrections ' +
+        'verbatim, decisions with rationale, exact state and next step, pointers over content ' +
+        'dumps; mark unverified beliefs with `?`; never include secrets.'
+    );
+}
+
+// The store is shared by every frontend, so a file can vanish between the
+// readdir and the stat — another thread pulling, a cc session pruning. That is
+// normal traffic, not an error, and it must never take a tool call down.
+function mtimeOrNull(path: string) {
+    try {
+        return statSync(path).mtimeMs;
+    } catch {
+        return null;
     }
-    // degraded but functional: the prompts/tools still work, composition falls back to model judgment
-    return 'CST-SPEC.md not found on disk — compose the CST as an upgraded compaction: preserve user requirements/corrections verbatim, decisions with rationale, exact state and next step, pointers over content dumps; mark unverified beliefs with `?`; never include secrets.';
 }
 
 function sweep() {
@@ -190,7 +217,14 @@ function sweep() {
     for (const entry of readdirSync(HANDOFF_DIR)) {
         if (!entry.endsWith('.md')) continue;
         const path = join(HANDOFF_DIR, entry);
-        if (now - statSync(path).mtimeMs > SWEEP_MAX_AGE_MS) rmSync(path);
+        const mtimeMs = mtimeOrNull(path);
+        if (mtimeMs !== null && now - mtimeMs > SWEEP_MAX_AGE_MS) {
+            try {
+                rmSync(path);
+            } catch {
+                /* already gone */
+            }
+        }
     }
 }
 
@@ -200,8 +234,12 @@ function listPending() {
         .filter((entry) => entry.endsWith('.md'))
         .map((name) => {
             const path = join(HANDOFF_DIR, name);
-            return { mtimeMs: statSync(path).mtimeMs, name, path };
+            return { mtimeMs: mtimeOrNull(path), name, path };
         })
+        .filter(
+            (f): f is { mtimeMs: number; name: string; path: string } =>
+                f.mtimeMs !== null,
+        )
         .sort((a, b) => b.mtimeMs - a.mtimeMs);
 }
 
