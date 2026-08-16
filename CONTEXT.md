@@ -3,6 +3,21 @@
 Personal macOS dotfiles: shell/git/terminal configuration plus the Claude Code
 workflow layer (`home/.claude/`) — sline, the plugin-x, and agent docs.
 
+## Maturity — read before proposing changes
+
+Areas of this repo are at very different stages, and treating them alike produces bad advice.
+A review that hardens an area still in flux is worse than one that skips it.
+
+| area | state | how to treat it |
+| --- | --- | --- |
+| **sline** | solid | conventions here are settled; match them |
+| **`script/`** | solid | same — the engine and the print vocabulary are load-bearing |
+| **skills, `CLAUDE.md`, rules, output styles** | evolving, not in good shape yet | findings welcome, but do NOT write them into rules or ADRs as doctrine — the shape is still being found |
+| **zsh — aliases, functions, rc files** | acknowledged mess, refactor pending | observations belong on DOT-36 as input, never in a guide. Nothing here is an example to follow |
+
+Stated by Dima 2026-08-16. When an area graduates, move it and say so — a stale maturity map
+misleads more than none.
+
 ## Language
 
 ### Sline
@@ -41,14 +56,33 @@ A quota window resetting while the session sits idle.
 **Stale-quota guard**:
 Rendering 0% instead of the pre-reset percentage once a quota window's reset time is in the past.
 
+**Focus pin**:
+The ticket this session agreed to resolve — one slot, sticky, rendered `🪄 DOT-23`. Written by `hooks/focus.sh` on Dima's keyword and by the agent when work starts or ends.
+_Avoid_: current ticket, active issue
+
+**Touch**:
+The last three ticket ids the session poked, newest first, rendered dim after a `·`. An id lives in exactly one slot — pinning a touched ticket moves it rather than copying it.
+_Avoid_: recent, history
+
+**Status cache** (`focus/status-cache.json`):
+Linear state for the ids in focus, written only by `hooks/status-fetch.sh` and read only by sline. Shared by every session, merged never replaced. Sline never fetches from a render.
+_Avoid_: ticket state (ambiguous with the pin), sync
+
+**Rule** (`~/.claude/rules/*.md`):
+An always-loaded instruction file, auto-loaded into every session with no import and no hook. Distinct from a **skill**, which loads only when its trigger fires. A rule costs resident tokens everywhere, so it holds only what must be true without being asked for.
+_Avoid_: guide (that names the `guide-*` skills), instruction
+
+**Store contract**:
+The normative half of `CST-SPEC.md` — the handoff store's mechanics (perms, naming, `-shared`, the sweep, membership, race tolerance), owned in one place because the implementations cannot share a library across bash, TypeScript and Go.
+
 **Sline state file** (`sline-state.json`):
 A disposable cross-render cache (emoji rotation, pnpm version). Deletable at any time without harm; never git-tracked.
 _Avoid_: sline-db, database
 
 ### Artifact shelf
 
-**Shelf**:
-`~/.claude/shelf/` — the consolidated store for artifacts our skills produce for internal, throwaway-to-mid-term use (not config, not code). One subdirectory per artifact family: `shelf/handoffs/`, `shelf/transcripts/`. Lives outside any git repo.
+**Shelf** (PLANNED, does not exist yet — DOT-10):
+`~/.claude/shelf/` — the intended consolidated store for artifacts our skills produce for internal, throwaway-to-mid-term use (not config, not code). One subdirectory per artifact family: `shelf/handoffs/`, `shelf/transcripts/`. Lives outside any git repo.
 _Avoid_: store (collides with redux/app stores mid-project), stash (collides with git stash)
 
 **Transcript**:
