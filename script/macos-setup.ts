@@ -124,6 +124,8 @@ async function packages() {
     step('Packages');
     note(`from ${mb(zx.path.relative(repoRoot, BREWFILE))}`);
 
+    await taps();
+
     const check = await zx.$`brew bundle check --verbose --file=${BREWFILE}`
         .quiet()
         .nothrow();
@@ -148,8 +150,46 @@ async function packages() {
         return;
     }
 
-    await zx.$({ verbose: true })`brew bundle install --file=${BREWFILE}`;
+    const install = await zx.$({
+        verbose: true,
+    })`brew bundle install --file=${BREWFILE}`.nothrow();
+
+    if (install.exitCode !== 0) {
+        fail('brew bundle install failed', 'see the brew output above');
+        process.exit(1);
+    }
+
     ok(`${pending.length} reconciled`);
+}
+
+// ? Homebrew refuses to read a third-party tap's formula until it is trusted
+// ? once, and an unreadable formula reports as "missing or outdated" forever.
+// ? The Brewfile's own `tap` lines are the list, so a fresh machine needs no
+// ? second inventory.
+async function taps() {
+    const brewfile = await zx.fs.readFile(BREWFILE, 'utf8');
+    const wanted = [...brewfile.matchAll(/^tap "([^"]+)"/gm)].map(
+        (match) => match[1],
+    );
+
+    const listed = await zx.$`brew trust`.quiet().nothrow();
+    const untrusted = wanted.filter((tap) => !listed.stdout.includes(tap));
+
+    if (untrusted.length === 0) return;
+
+    if (!apply) {
+        for (const tap of untrusted) skip(tap, 'would trust');
+        return;
+    }
+
+    const trust = await zx.$`brew trust ${untrusted}`.quiet().nothrow();
+
+    if (trust.exitCode !== 0) {
+        fail(`could not trust ${untrusted.length} taps`, trust.stderr.trim());
+        process.exit(1);
+    }
+
+    for (const tap of untrusted) ok(tap, 'trusted');
 }
 
 async function defaults() {
@@ -175,21 +215,29 @@ async function defaultApps() {
     }
 
     for (const { app, ext, uti } of DEFAULT_APPS) {
+        // ? One extension can carry several UTIs (.md is both Daring Fireball's
+        // ? and iA's), so the extension alone is an ambiguous label — name the UTI
+        // ? whenever it is not the only one for that extension.
+        const twin = DEFAULT_APPS.some(
+            (other) => other.ext === ext && other.uti !== uti,
+        );
+        const label = twin ? `.${ext}  ${uti}` : `.${ext}`;
+
         // ? Skipping what already matches is not just tidiness: macOS raises a
         // ? "keep using X?" dialog per type whenever a handler actually changes,
         // ? and those queue up invisibly behind the terminal.
         if ((await handlerFor(ext)) === app.id) {
-            ok(`.${ext}`, app.name);
+            ok(label, app.name);
             continue;
         }
 
         if (!apply) {
-            skip(`.${ext}`, `would open in ${app.name}`);
+            skip(label, `would open in ${app.name}`);
             continue;
         }
 
         await zx.$`duti -s ${app.id} ${uti} all`;
-        warn(`.${ext}`, `confirm the ${app.name} dialog`);
+        warn(label, `confirm the ${app.name} dialog`);
     }
 }
 
