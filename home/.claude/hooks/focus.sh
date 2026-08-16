@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # UserPromptSubmit hook — maintains the per-session focus file sline renders.
 #
-#   clam DOT-23   -> pin (sticky; survives every later id we mention)
-#   touch DOT-9   -> touch list (up to 3, newest first)
+#   clam DOT-23   -> pin (sticky; survives every later id we mention), promoting
+#                    it out of the touch list if it was there
+#   touch DOT-9   -> touch list (up to 3, newest first); touching the pinned id
+#                    demotes it, giving up the pin
 #   ticket fly DOT-9 -> unset that id from whichever slot holds it
 #   tickets fly      -> clear both
 #
@@ -42,12 +44,19 @@ while IFS= read -r line; do
 	arg=$(printf '%s' "${BASH_REMATCH[2]}" | tr '[:lower:]' '[:upper:]')
 
 	case "$verb" in
+	# An id lives in exactly one slot. Both verbs MOVE it rather than adding a
+	# second copy: a duplicate never showed (sline skips a touch equal to the
+	# pin) but it still ate one of the three touch slots.
 	clam)
-		write --arg p "$arg" --argjson t "$now" '.pin = $p | .pin_at = $t'
+		write --arg p "$arg" --argjson t "$now" \
+			'.pin = $p | .pin_at = $t
+			 | .touch = ((.touch // []) - [$p])
+			 | (if (.touch | length) == 0 then del(.touch, .touch_at) else . end)'
 		;;
 	touch)
 		write --arg p "$arg" --argjson t "$now" \
-			'.touch = ([$p] + ((.touch // []) - [$p]))[0:3] | .touch_at = $t'
+			'(if .pin == $p then del(.pin, .pin_at) else . end)
+			 | .touch = ([$p] + ((.touch // []) - [$p]))[0:3] | .touch_at = $t'
 		;;
 	ticketfly)
 		write --arg p "$arg" \
