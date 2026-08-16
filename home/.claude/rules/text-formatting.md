@@ -103,21 +103,22 @@ rules bakes bad decisions into every file at once.
 # Focus pin — keep sline honest
 
 Sline renders the session's pinned ticket from `~/.claude/focus/<session_id>.json`. Two slots:
-`pin` (the ticket we agreed to resolve — sticky, rendered `🎫 DOT-23`) and `touch` (the last id
+`pin` (the ticket we agreed to resolve — sticky, rendered `🪄 DOT-23`) and `touch` (the last id
 we poked, rendered dim after a `·`).
 
 Dima's keywords, handled by `hooks/focus.sh`: `clam <id>` pins, `touch <id>` touches,
-`fly <id>` unsets that id, `fly all` clears. The hook only fires on a keyword that **starts a
-line** and carries an argument — bare ids never write anything.
+`ticket fly <id>` unsets that id, `tickets fly` clears both. The hook only fires on a keyword that
+**starts a line** and carries its argument — bare ids never write anything.
 
 Moving the pin when *work* moves is yours; a hook cannot see a decision:
 
 - **We start resolving a ticket** → write `pin` + `pin_at` (epoch seconds), same turn, never
   later. Id only — sline renders no title.
-- **We close or drop it** → overwrite the file with `{}`. A pin outliving its ticket is worse
-  than no pin.
+- **We close or drop it** → clear `pin` + `pin_at` in the same turn, without being asked. A pin
+  outliving its ticket is worse than no pin. Closing includes the case where a `Closes DOT-N`
+  commit does the closing — the pin is yours to clear either way. Leave `touch` alone.
 - Merely *reading* a ticket never moves the pin. Only committing to work on it does.
-- Print `🎫 clam DOT-N` in the reply as the receipt, so Dima sees the pin changed without
+- Print `🪄 clam DOT-N` in the reply as the receipt, so Dima sees the pin changed without
   hunting for it in sline.
 
 ---

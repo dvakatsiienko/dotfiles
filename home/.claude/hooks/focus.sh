@@ -3,8 +3,8 @@
 #
 #   clam DOT-23   -> pin (sticky; survives every later id we mention)
 #   touch DOT-9   -> touch slot (what we poked last)
-#   fly DOT-9     -> unset that id from whichever slot holds it
-#   fly all       -> clear both
+#   ticket fly DOT-9 -> unset that id from whichever slot holds it
+#   tickets fly      -> clear both
 #
 # Two rules keep these from firing on ordinary prose: the keyword must START a
 # line, and an argument is mandatory. "don't touch DOT-9" and "let's fly through
@@ -32,27 +32,26 @@ write() {
 }
 
 while IFS= read -r line; do
-	[[ $line =~ ^[[:space:]]*(clam|touch|fly)[[:space:]]+((DOT|BYT)-[0-9]+|all)[[:space:]]*$ ]] || continue
+	if [[ $line =~ ^[[:space:]]*tickets[[:space:]]+fly[[:space:]]*$ ]]; then
+		printf '{}' >"$file"
+		continue
+	fi
+	[[ $line =~ ^[[:space:]]*(clam|touch|ticket[[:space:]]+fly)[[:space:]]+((DOT|BYT)-[0-9]+)[[:space:]]*$ ]] || continue
 	verb=$(printf '%s' "${BASH_REMATCH[1]}" | tr '[:upper:]' '[:lower:]')
+	verb=${verb//[[:space:]]/}
 	arg=$(printf '%s' "${BASH_REMATCH[2]}" | tr '[:lower:]' '[:upper:]')
 
 	case "$verb" in
 	clam)
-		[[ $arg == ALL ]] && continue
 		write --arg p "$arg" --argjson t "$now" '.pin = $p | .pin_at = $t'
 		;;
 	touch)
-		[[ $arg == ALL ]] && continue
 		write --arg p "$arg" --argjson t "$now" '.touch = $p | .touch_at = $t'
 		;;
-	fly)
-		if [[ $arg == ALL ]]; then
-			printf '{}' >"$file"
-		else
-			write --arg p "$arg" \
-				'(if .pin == $p then del(.pin, .pin_at) else . end)
-				 | (if .touch == $p then del(.touch, .touch_at) else . end)'
-		fi
+	ticketfly)
+		write --arg p "$arg" \
+			'(if .pin == $p then del(.pin, .pin_at) else . end)
+			 | (if .touch == $p then del(.touch, .touch_at) else . end)'
 		;;
 	esac
 done <<<"$prompt"

@@ -56,16 +56,26 @@ func focusSegment(claudeContext *ClaudeContext) string {
 		if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {
 			color = CleanColor
 		}
-		out += fmt.Sprintf("🎫 %s%s%s", color, st.Pin, Reset)
+		out += fmt.Sprintf("🪄 %s%s%s", color, ticketLink(st.Pin), Reset)
 	}
 	// The touch slot only earns space when it disagrees with the pin — that
 	// disagreement is the whole point: it is the drift the pin is guarding.
 	if st.Touch != "" && st.Touch != st.Pin {
 		if st.Pin == "" {
-			out += fmt.Sprintf("%s%s%s", CleanColor, st.Touch, Reset)
+			out += fmt.Sprintf("%s%s%s", CleanColor, ticketLink(st.Touch), Reset)
 		} else {
-			out += fmt.Sprintf(" %s· %s%s", CleanColor, st.Touch, Reset)
+			out += fmt.Sprintf(" %s· %s%s", CleanColor, ticketLink(st.Touch), Reset)
 		}
 	}
 	return out
+}
+
+// ticketLink makes the id clickable — the linear:// scheme opens the macOS app
+// directly, and a hover in Warp reveals the target, which is the closest a
+// statusline gets to a tooltip.
+func ticketLink(id string) string {
+	if id == "" {
+		return ""
+	}
+	return hyperlink("linear://linear.app/issue/"+id, id)
 }
