@@ -55,20 +55,24 @@ const DEFAULTS = [
 // ? `.ts` is deliberately absent: macOS maps it to public.mpeg-2-transport-stream,
 // ? so claiming it would send video files to an editor.
 const MACVIM = { id: 'org.vim.MacVim', name: 'MacVim' };
-const NEOVIDE = { id: 'com.neovide.neovide', name: 'Neovide' };
+const CURSOR = { id: 'com.todesktop.230313mzl4w4u92', name: 'Cursor' };
+// ? Prose and shell open in MacVim; everything that is code opens in Cursor,
+// ? which is the editor this repo points at everywhere else — duti, and the
+// ? cursor:// links sline and the reply rules emit. Neovide was installed to be
+// ? tried, never opened, and is gone from here.
 const DEFAULT_APPS = [
     { app: MACVIM, ext: 'md', uti: 'net.daringfireball.markdown' },
     { app: MACVIM, ext: 'md', uti: 'net.ia.markdown' },
     { app: MACVIM, ext: 'txt', uti: 'public.plain-text' },
     { app: MACVIM, ext: 'sh', uti: 'public.shell-script' },
-    { app: MACVIM, ext: 'zsh', uti: 'public.zsh-script' },
-    { app: NEOVIDE, ext: 'go', uti: 'org.golang.go-script' },
-    { app: NEOVIDE, ext: 'tsx', uti: 'com.microsoft.typescript' },
-    { app: NEOVIDE, ext: 'js', uti: 'com.netscape.javascript-source' },
-    { app: NEOVIDE, ext: 'json', uti: 'public.json' },
-    { app: NEOVIDE, ext: 'toml', uti: 'public.toml' },
-    { app: NEOVIDE, ext: 'yml', uti: 'public.yaml' },
-    { app: NEOVIDE, ext: 'css', uti: 'public.css' },
+    { app: CURSOR, ext: 'zsh', uti: 'public.zsh-script' },
+    { app: CURSOR, ext: 'go', uti: 'org.golang.go-script' },
+    { app: CURSOR, ext: 'tsx', uti: 'com.microsoft.typescript' },
+    { app: CURSOR, ext: 'js', uti: 'com.netscape.javascript-source' },
+    { app: CURSOR, ext: 'json', uti: 'public.json' },
+    { app: CURSOR, ext: 'toml', uti: 'public.toml' },
+    { app: CURSOR, ext: 'yml', uti: 'public.yaml' },
+    { app: CURSOR, ext: 'css', uti: 'public.css' },
 ];
 
 const VIM_PLUG = `${zx.os.homedir()}/.vim/autoload/plug.vim`;
@@ -226,18 +230,36 @@ async function defaultApps() {
         // ? Skipping what already matches is not just tidiness: macOS raises a
         // ? "keep using X?" dialog per type whenever a handler actually changes,
         // ? and those queue up invisibly behind the terminal.
-        if ((await handlerFor(ext)) === app.id) {
+        const current = await handlerFor(ext);
+
+        if (current.id === app.id) {
             ok(label, app.name);
             continue;
         }
 
+        // ? A type nobody has claimed and a type currently claimed by a
+        // ? DIFFERENT app are not the same news. The second means apply would
+        // ? take the type away from whatever holds it, which is how a stale row
+        // ? here silently reverted .go and .tsx off Cursor — reported for months
+        // ? as an ordinary "would open in Neovide" line.
+        // ? A type nobody has claimed and a type currently claimed by a
+        // ? DIFFERENT app are not the same news. The second means apply would
+        // ? take the type away from whatever holds it.
+        const heldByOther = current.id !== '' && current.name !== '';
+
         if (!apply) {
-            skip(label, `would open in ${app.name}`);
+            if (heldByOther) warn(label, `${current.name} → ${app.name}`);
+            else skip(label, `would open in ${app.name}`);
             continue;
         }
 
         await zx.$`duti -s ${app.id} ${uti} all`;
-        warn(label, `confirm the ${app.name} dialog`);
+        warn(
+            label,
+            heldByOther
+                ? `${current.name} → ${app.name} — confirm the dialog`
+                : `confirm the ${app.name} dialog`,
+        );
     }
 }
 
@@ -262,9 +284,13 @@ async function vimPlug() {
 }
 
 /* Helpers */
+// ? duti -x prints three lines: app name, app path, bundle id. The id is what
+// ? identifies a handler; the name is what a human recognises in a report, so
+// ? both come back from the one call rather than a second lookup.
 async function handlerFor(ext: string) {
     const seen = await zx.$`duti -x ${ext}`.quiet().nothrow();
-    return seen.stdout.trim().split('\n').at(-1) ?? '';
+    const lines = seen.stdout.trim().split('\n').filter(Boolean);
+    return { id: lines.at(-1) ?? '', name: lines.at(0) ?? '' };
 }
 
 async function which(binary: string) {
