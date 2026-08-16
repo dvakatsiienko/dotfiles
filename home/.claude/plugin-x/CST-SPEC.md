@@ -30,11 +30,31 @@ Omit anything re-derivable from repo/git/files.
 
 **REDACT**: no API keys, tokens, passwords, or PII — reference where a secret lives (env var name, file path), never its value.
 
-## Store (shared across frontends)
+## Store contract (shared across frontends)
 
-- Location: `~/.claude/handoffs/` (dir `chmod 700`, files `chmod 600`).
-- Filename: `<utc-ts>-<slug>.md`; append `-shared` before `.md` when multiple threads are expected to pull it.
-- Lifecycle: a consumer deletes the file on successful ingest, EXCEPT `-shared` files (left for other pullers); every frontend sweeps files older than 24h on any handoff operation. History stays clean by design — pending files are the exception, not the norm.
+Normative. Every frontend re-implements this — the `cc` skills in bash, the `cw` MCP server in
+TypeScript, sline in Go for the read-only count — because they cannot share a library across three
+languages. So the rules live here once and implementations cite them; if an implementation and this
+section disagree, this section is right and the implementation is a bug.
+
+- **Location**: `~/.claude/handoffs/`. Directory `chmod 700`, files `chmod 600`.
+- **Filename**: `<utc-ts>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ` and `<slug>` is
+  kebab-case. Append `-shared` before `.md` when multiple threads are expected to pull it.
+- **Membership**: only `*.md` directly in that directory is a handoff. Anything else — a stray
+  `.DS_Store`, a subdirectory — is not, and is never counted, swept, or deleted.
+- **Ingest**: the consumer deletes the file on successful ingest, EXCEPT `-shared` files, which are
+  left for other pullers.
+- **Sweep**: every frontend deletes files older than **24h** on any handoff operation. History stays
+  clean by design — pending files are the exception, not the norm.
+- **Prune**: an explicit prune deletes every pending file including `-shared` ones.
+- **Races are normal, not errors.** The store is shared, so a file can vanish between listing it and
+  reading it — another thread pulled it, another session pruned. An implementation must tolerate
+  that silently and never fail a whole operation over one missing file.
+
+📌 `DOT-10` plans to move this store to `~/.claude/shelf/handoffs/`. That migration touches every
+implementation at once, which makes it the right moment to replace them with a single
+`handoff-store` executable that all frontends shell out to — the only shape where these rules stop
+being duplicated. Until then, this section is the owner.
 
 ## Ingest (consumer contract)
 
