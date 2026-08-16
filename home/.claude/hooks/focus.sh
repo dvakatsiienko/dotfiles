@@ -80,12 +80,14 @@ ttl=900
 ids=$(jq -r '[.pin, (.touch // [])[]] | map(select(. != null)) | unique[]' "$file" 2>/dev/null || true)
 [[ -n $ids ]] || exit 0
 
-# Fetch when the cache has aged out OR when an id in focus has no entry at all —
-# without the second test, a freshly pinned ticket shows no status until the TTL
-# happens to expire, which reads as the feature being broken.
+# Fetch when the cache has aged out OR when an id in focus has no entry at all.
+# Both tests look ONLY at ids currently in focus: entries for ids that have since
+# left keep their old timestamps, so measuring the whole cache pinned the age in
+# the past forever and every single prompt fetched. Without the second test, a
+# freshly pinned ticket shows no status until the TTL happens to expire.
 stale=$(jq -r --argjson now "$now" --argjson ttl "$ttl" --argjson ids "$(printf '%s\n' "$ids" | jq -R . | jq -s .)" '
 	. as $c | if ($ids | map($c[.] // empty | .at) | length) < ($ids | length) then "yes"
-	elif ([$c[].at // 0] | if length == 0 then 0 else min end) <= ($now - $ttl) then "yes"
+	elif ($ids | map($c[.].at) | min) <= ($now - $ttl) then "yes"
 	else "no" end' "$cache" 2>/dev/null || echo yes)
 [[ $stale == yes ]] || exit 0
 
