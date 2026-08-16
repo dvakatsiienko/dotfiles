@@ -21,8 +21,20 @@ to the page you meant.
   lists. Format: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`.
   The `linear://` scheme opens the macOS app. Fallback if a client will not route the scheme:
   an https link, with `linear`'s "open links in desktop app" preference on.
-- **File paths go in backticks, never links.** Warp cannot open a file from Claude Code output
-  in an editor, so there is nothing to feed a linkifier — paths are read and pasted.
+- **File paths are links too, and still in backticks.** Backticks go *inside* the label, so the
+  path still reads as a system entity, and the target is **absolute** with no `~` — no scheme
+  expands it. Two schemes, both click-tested in Warp on 2026-08-16:
+
+  One scheme covers everything: **`cursor://file/<absolute path>`**, which opens files and
+  directories alike in Cursor. Click-tested 2026-08-16, both kinds.
+
+      [`home/.claude/rules/text-formatting.md`](cursor://file/Users/dima/projects/dotfiles/home/.claude/rules/text-formatting.md)
+
+  📌 `file:///…` (Finder) and `vscode://file/…` (VS Code) also route, if a target ever needs
+  them. Neither is the default — Cursor is the editor here. Sline emits the same `cursor://`
+  scheme for its 📼 directory and 📬 handoff count.
+- Link a path when Dima might want to **open** it — a file we changed, a directory to look in.
+  A path named only in passing stays bare backticks; every path a link is noise.
 - Cite web sources as labelled markdown links at the end of the reply too.
 
 # Casing
@@ -132,6 +144,7 @@ delete the row. This section is meant to shrink. (claude-important)
 
 | layer | status | the tension |
 | --- | --- | --- |
+| file paths as links — `cursor://` for files, `file://` for directories | 🧪 on, opened 2026-08-16, both halves click-tested | routing is settled; what is not is the reading. a linked path stacks two syntaxes (backticks inside a link label) and may read busier than it is worth. watch whether the two-scheme split ever gets picked wrong in practice — a directory linked with `cursor://` fails silently, which is the worst failure shape |
 | brand + proper nouns flat AND backticked (`linear`, `github`, `notion`) | 🧪 on, revised 2026-08-16 | a capital was the only thing separating `Linear` the tracker from linear the adjective; backticks now carry that job instead, so the name stays flat and still stands out. cost: backticks are already the system-entity mark in `voice.md`, so brands now share a mark with paths and commands |
 | acronyms flat (`ssh`, `api`, `adr`) | 🧪 on | fine from a distance; specific cases may bite |
 | phase 1b — Linear text lowercased | 🧪 on, opened 2026-08-16 | internal, ours alone, rewritable in one click — the cheapest place to find flaws before touching real files |
