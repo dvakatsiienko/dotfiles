@@ -208,11 +208,13 @@ func outputStyleBadge(claudeContext *ClaudeContext) string {
 	if name == "" {
 		return ""
 	}
-	// The full name is the filename; only the display form loses the prefix.
-	source := outputStylePath(name)
+	// CC reports the style's own name ("ELI5"), not its filename ("output-ELI5"),
+	// so strip first and let outputStylePath put the filing prefix back. Doing it
+	// the other way round produced a link to a file that does not exist.
 	if len(name) >= len("output-") && strings.EqualFold(name[:len("output-")], "output-") {
 		name = name[len("output-"):]
 	}
+	source := outputStylePath(name)
 	// The name opens its own source — the file defining how this reply will be
 	// written is the one thing you want when the badge catches your eye.
 	// "default" is CC's built-in and has no file, so it stays unlinked.

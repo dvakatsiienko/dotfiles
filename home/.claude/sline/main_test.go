@@ -637,9 +637,18 @@ func TestOutputStyleBadgeLinksItsSource(t *testing.T) {
 		Name string `json:"name"`
 	}{Name: "output-ELI5"}
 
-	badge := outputStyleBadge(styled)
-	if !strings.Contains(badge, "cursor://file"+outputStylePath("output-ELI5")) {
-		t.Errorf("style badge should link its source file, got %q", badge)
+	// CC reports "ELI5"; the file on disk is output-ELI5.md. Both spellings of
+	// the payload must resolve to the same existing file.
+	for _, reported := range []string{"ELI5", "output-ELI5"} {
+		styled.OutputStyle.Name = reported
+		badge := outputStyleBadge(styled)
+		want := "cursor://file" + claudeHome("output-styles", "output-ELI5.md")
+		if !strings.Contains(badge, want) {
+			t.Errorf("style %q: want a link to %q, got %q", reported, want, badge)
+		}
+	}
+	if _, err := os.Stat(claudeHome("output-styles", "output-ELI5.md")); err != nil {
+		t.Errorf("the linked style file must actually exist: %v", err)
 	}
 
 	// CC's built-in style has no file behind it, so linking it would 404.

@@ -37,11 +37,12 @@ func focusPath(sessionID string) string { return claudeHome("focus", sessionID+"
 // handoffsDir is the CST store every handoff frontend shares.
 func handoffsDir() string { return claudeHome("handoffs") }
 
-// outputStylePath resolves a style to its markdown source. The name arrives
-// already carrying the "output-" filing prefix, which is also the filename.
+// outputStylePath resolves a style to its markdown source. Callers pass the bare
+// style name as rendered ("ELI5"); "output-" is this repo's filing prefix on
+// disk and is added here, so exactly one place knows the naming convention.
 func outputStylePath(styleName string) string {
 	if styleName == "" {
 		return ""
 	}
-	return claudeHome("output-styles", styleName+".md")
+	return claudeHome("output-styles", "output-"+styleName+".md")
 }
