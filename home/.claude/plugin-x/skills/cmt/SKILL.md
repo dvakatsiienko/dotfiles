@@ -103,8 +103,8 @@ plan as subject lines before the first commit; one confirm covers the set.
 
 ## 3.1 · Linear magic words
 
-Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. **PR/commit linking
-stays on**, and is now the only thread tying a PR back to its ticket. So the words matter.
+Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. **Commit and PR linking
+stay on**, and are the only thread tying code back to its ticket. So the words matter.
 
 - **Non-closing** (link only): `ref` `refs` `references` `part of` `contributes to` `toward` `towards`
 - **Closing** (moves the ticket on merge): `close(s|d)` `fix(es|ed)` `resolve(s|d)` `complete(s|d)` `implement(s|ed)`
@@ -112,35 +112,49 @@ stays on**, and is now the only thread tying a PR back to its ticket. So the wor
 - Placement: PR **title/description** and **commit messages** work. PR **comments do not**.
   A branch name needs the bare id, no magic word.
 
-Rules:
+### Default lane — commit to `main`
 
-- **Commit body: reference, never close.** Add a `- ref DOT-N` line. Every commit on the branch
-  may carry it.
-- **PR description: exactly one closing keyword** — `Closes DOT-N`. One close per PR, never
-  repeated per commit; a multi-commit branch still closes the ticket once.
+This is how Dima works: no branch, no PR, commit and push. The **commit body carries everything**.
+
+- **Reference on every commit that touches the work**: a `- ref DOT-N` line.
+- **Close on the last one**: replace that line with `Closes DOT-N` when the commit finishes the
+  ticket. One close per ticket, never repeated.
 - **No ticket → no id.** Most commits have none. Never guess, never grep for a plausible ticket,
-  never write `DOT-?`. Just omit the line.
-- The id must come from the conversation, the branch name, or Dima. Nowhere else.
-- **Cloud-agent branches**: an agent may push a `claude/…` branch that was never checked out
-  here. The PR description is still the place for the closing keyword — write it when opening
-  or editing the PR (`gh pr edit`), not by rewriting the remote commits.
+  never write `DOT-?`. Just omit the line. The id comes from the conversation, the branch name,
+  or Dima — nowhere else.
+- **Never close on Dima's behalf without saying so.** A closing keyword resolves a ticket AND
+  assigns it to the commit author. Name the ticket you are about to close in the reply.
 
-Status transitions **are** wired (verified 2026-08-16 via `team.gitAutomationStates`): both teams
-carry `start` → In Progress, `review` → In Review, `merge` → Done. No `draft` row — a draft PR
-jumps straight to In Review. The `Team.*WorkflowState` fields read null even when automations
-exist; they are legacy. Never diagnose from them.
+### Exception lane — pull requests
 
-Those five events are all PR events. **Committing straight to `main` fires none of them.**
+Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens a PR for.
 
-Commit linking is a separate mechanism and it works without any PR — verified end to end on
-DOT-78, 2026-08-16. A commit pushed to the default branch with a magic word appears on the
-ticket as a link, and a closing keyword moves it to Done within seconds.
+- Commits on the branch carry `- ref DOT-N`, never a closing keyword.
+- **PR description carries exactly one** `Closes DOT-N`. A multi-commit branch still closes once.
+- For a branch that was never checked out here, write the keyword with `gh pr edit`, never by
+  rewriting remote commits.
 
-📌 It requires a **manual push webhook per repo** — the `Link commits to issues with magic words`
-toggle alone does nothing. Linear settings → integrations → GitHub → flip that toggle off and on
-to reopen the setup modal → copy payload URL + secret → GitHub repo settings → webhooks → add,
-content type `application/json`, push event only → back to Linear, click Done. `dotfiles` is
-wired; other repos are not until someone repeats this.
+### What actually fires
+
+- **PR events** — `start` → In Progress, `review` → In Review, `merge` → Done, wired on both
+  teams (verified 2026-08-16 via `team.gitAutomationStates`). No `draft` row, so a draft PR jumps
+  straight to In Review. `Team.*WorkflowState` reads null even when automations exist; it is
+  legacy, never diagnose from it.
+- **Commits to `main`** fire none of those. Commit linking is a separate mechanism and needs no
+  PR — verified end to end on DOT-78 and DOT-80, 2026-08-16. The commit lands on the ticket in a
+  **Resources** block within ~15s; a closing keyword also moves it to Done and assigns it.
+- Reading a Resources entry: a `Non-closing` badge means link-only. **No badge means it closed
+  the ticket** — Linear marks the exception, not the norm.
+
+📌 Commit linking needs a **manual push webhook per repo**; the `Link commits to issues with magic
+words` toggle alone does nothing. Wired: `dotfiles`, `bytes`. A new repo needs its own — Linear
+settings → integrations → GitHub → flip that toggle off and on to reopen the setup modal → copy
+payload URL + secret → repo settings → webhooks → add, content type `application/json`, push event
+only → back to Linear, click Done.
+
+⚠️ All repos share **one** `githubCommit` integration. Flipping that toggle destroys it and mints
+a new endpoint, silently breaking every existing webhook. If linking stops working everywhere at
+once, that is why — repoint each hook at the new URL and secret.
 
 ## 4 · Worktree mirroring (`mir`)
 
