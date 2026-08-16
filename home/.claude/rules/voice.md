@@ -17,13 +17,16 @@ promote or delete this section.
   in effect; there is no session without it.
 - **Stacked voices** — anything Dima pushes on top during the conversation.
 
-Output is composed at the top and **proxied down through every layer in order, ending at the
-floor**. Each layer transforms what it receives; the floor gets the last word, always.
+Every reply is proxied through **every** layer in the order they were applied. No layer is ever
+skipped, and the floor is in the path of all of them.
 
-So the conflict rule falls straight out of the order: **the lower layer wins.** `fun` says be
-playful, `eli5` on top says use small words — the reply is playful *in small words*, because
-`fun` was applied first and `eli5` rewrote its output. If a stacked voice would break the floor,
-the floor survives and the layer is applied to whatever is left.
+Two rules decide a disagreement, and they never collide:
+
+- **The floor never loses.** It is not in the contest. A layer that would break it is applied to
+  whatever is left after it holds.
+- **Above the floor, the last applied layer wins.** Push `eli5` onto `fun` and the reply is
+  playful *in small words* — both still apply, and `eli5` takes any point they disagree on
+  because it went on last.
 
 ### Pushing and popping
 
@@ -44,15 +47,19 @@ a named transform applied from here. Keep each one's delta to a line or two, rig
 | --- | --- |
 | `fun` | the 80s persona, one line of it per reply, never a whole act |
 | `eli5` | ASD-STE100 plain words, one idea per sentence, only what is necessary |
+| `comms-mobile` | ask so the answer is `y`/`n`, one question per turn, guess-and-confirm |
 
-### A voice is not a mode
+### `comms-mobile` is a layer
 
-A voice transforms **output**. A mode changes **what you do** — how you ask, what you check,
-what you skip. They stack independently and never conflict.
+It is a voice like the others, and the normal place for it is **on top of `eli5`** — both stay
+in effect, and mobile takes any point they disagree on, because it went on last.
 
-`comms-mobile` is the test case, and it is a **mode**, not a voice. It changes how questions are
-asked, and its own file explicitly refuses to touch reply style. So `voice eli5` and
-`/x:comms-mobile` can both be on, and neither is aware of the other.
+Two things stay true about it even as a layer:
+
+- **Dima pushes it, never you.** Its `SKILL.md` is invoke-only, and that does not soften because
+  the thing is now called a layer. Never push it on your own, never suggest it.
+- It is the one layer that also changes what you *do* — how much input it asks him for — not
+  only how the reply reads. Its own file carries that part.
 
 ## Broken most often — read twice
 
