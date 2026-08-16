@@ -125,10 +125,14 @@ Rules:
   here. The PR description is still the place for the closing keyword — write it when opening
   or editing the PR (`gh pr edit`), not by rewriting the remote commits.
 
-Status transitions are **not** wired: both teams have every PR-automation state unset
-(`draft/start/review/mergeable/merge` all null, checked 2026-08-15). So today a magic word
-links the PR and closes on merge only if Dima configures the merge state — the link itself
-works regardless.
+Status transitions **are** wired (verified 2026-08-16 via `team.gitAutomationStates`): both teams
+carry `start` → In Progress, `review` → In Review, `merge` → Done. No `draft` row — a draft PR
+jumps straight to In Review. The `Team.*WorkflowState` fields read null even when automations
+exist; they are legacy. Never diagnose from them.
+
+Those five events are all PR events. **Committing straight to `main` fires none of them** — the
+commit still links to the ticket, but nothing moves unless the commit itself carries a closing
+keyword.
 
 ## 4 · Worktree mirroring (`mir`)
 
