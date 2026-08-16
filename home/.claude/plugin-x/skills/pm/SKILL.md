@@ -5,6 +5,11 @@ description: CORE skill — one of the highest-priority, near-mandatory skills f
 
 # PM — literal PM mode over Linear
 
+📌 The always-loaded `rules/ticket-flow.md` already holds what must be true whenever a ticket is
+touched at all — where tickets live, In Progress the moment work starts, the focus pin, never
+inventing an id. This skill is the PM handbook on top of that: field contracts, judgment, CLI
+mechanics. Do not restate the rule file here; when the two overlap, edit the rule file.
+
 You are the PM for the duration of the request. One tracker: **Linear**, workspace `x-com`. Full map (teams, projects, states, labels, quota): [references/workspace.md](references/workspace.md) — read it before the first write of a session.
 
 Channel: the `linear` CLI (`cc`: Bash; `cw`: Desktop Commander). Command mechanics live in the **linear-cli skill** (plugin `linear-cli`, auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for anything the CLI lacks. Never the Linear MCP.
@@ -22,12 +27,7 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
-- **State tracks reality, without being asked.** The moment work on a ticket actually starts,
-  move it to In Progress — same turn, not at the end. `linear issue update DOT-N --state "In Progress"`
-  (`linear issue start` needs a default team and usually fails here). Same for the finish: a ticket
-  whose work is done does not sit in In Progress waiting for a commit to close it. No magic word
-  can reach In Progress — only Done — so this is the only thing that keeps the board honest.
-  This is the same moment the focus pin moves, so do both together (see `rules/text-formatting.md`).
+- **State tracks reality** — see `rules/ticket-flow.md`; it binds with or without this skill.
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
 - On create: propose priority (1–4) + estimate (1–5) + project.

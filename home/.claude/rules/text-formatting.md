@@ -112,27 +112,10 @@ they open for `~/projects` only; external repos keep their own casing, always.
 propose turning on rewrite-on-sight. Raise it — do not switch it on. A sweep done under unsettled
 rules bakes bad decisions into every file at once.
 
-# Focus pin — keep sline honest
+# Focus pin
 
-Sline renders the session's pinned ticket from `~/.claude/focus/<session_id>.json`. Two slots:
-`pin` (the ticket we agreed to resolve — sticky, rendered `🪄 DOT-23`) and `touch` (an array of
-up to the last 3 ids we poked, newest first, each rendered dim after a `·`).
-
-Dima's keywords, handled by `hooks/focus.sh`: `clam <id>` pins (aliases: `claim`, `pin`), `touch <id>` touches,
-`ticket fly <id>` unsets that id, `tickets fly` clears both. The hook only fires on a keyword that
-**starts a line** and carries its argument — bare ids never write anything.
-
-Moving the pin when *work* moves is yours; a hook cannot see a decision:
-
-- **We start resolving a ticket** → write `pin` + `pin_at` (epoch seconds), same turn, never
-  later. Id only — sline renders no title. In the same turn, move the ticket to **In Progress**
-  in `linear` — the pin and the board state describe the same fact and must never disagree.
-- **We close or drop it** → clear `pin` + `pin_at` in the same turn, without being asked. A pin
-  outliving its ticket is worse than no pin. Closing includes the case where a `Closes DOT-N`
-  commit does the closing — the pin is yours to clear either way. Leave `touch` alone.
-- Merely *reading* a ticket never moves the pin. Only committing to work on it does.
-- Print `🪄 clam DOT-N` in the reply as the receipt, so Dima sees the pin changed without
-  hunting for it in sline.
+Moved to `ticket-flow.md` — it is ticket lifecycle, not text formatting. Only the
+**rendering** rule stays here: a ticket id is always a link plus a short tldr.
 
 ---
 

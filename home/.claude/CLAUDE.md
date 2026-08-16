@@ -122,7 +122,7 @@ the *supervision*, only the sound.
 
 ## Conversational behaviour
 
-Three layers, edited there and never here:
+Four layers, edited there and never here:
 
 - **Shape** — typography, emoji placement, question rounds, reply skeletons —
   lives in `home/.claude/rules/voice.md`, loaded in every session under every style.
@@ -133,9 +133,18 @@ Three layers, edited there and never here:
   test — lives in `home/.claude/rules/text-formatting.md`, loaded the same way. Was a skill until
   2026-08-16; a skill had to be remembered and got missed, so it became an always-loaded rule.
   Golden prompt (Dima's verbatim intent): `docs/research/comms-casing.md`.
+- **Ticket flow** — how the tracker stays honest while working: where tickets live, In Progress
+  the moment work starts, the sline focus pin, never inventing an id — lives in
+  `home/.claude/rules/ticket-flow.md`, loaded the same way. Deliberately split from the `x:pm`
+  skill: `pm` is the PM handbook and only loads for ticket work, but tickets get touched
+  mid-task with `pm` nowhere in context. Each file points at the other.
 - **Voice** — register only — lives in the output styles: `home/.claude/output-styles/output-fun.md`
   (default) and `output-ELI5.md` (fried-brain mode). Selected via `outputStyle` in settings.json
   or `/config`; a change takes effect on a new session.
+
+Every `.md` in `home/.claude/rules/` is auto-loaded into every session — no import, no hook.
+Adding a file there is the whole wiring, and it costs resident tokens in sessions that never
+need it, so keep each one tight.
 
 Budget: shape under 3k tokens, each voice file under 400.
 
