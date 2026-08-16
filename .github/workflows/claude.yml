@@ -10,6 +10,14 @@ on:
   pull_request_review:
     types: [submitted]
 
+# The GitHub-app lane is FROZEN, not retired — kept deliberately, unused for now.
+# Two facts that make it worth stating rather than assuming:
+#   * this repo is PUBLIC and Issues are enabled, so `issues: [opened]` is reachable
+#     by anyone with a GitHub account;
+#   * the `if:` below only greps for @claude. It is NOT an authorization check.
+# The actual guard is inside claude-code-action, which verifies the triggering actor
+# has write permission. That is a single defence living in a third-party action. If
+# this lane is ever unfrozen, add an actor check here rather than relying on it alone.
 jobs:
   claude:
     if: |

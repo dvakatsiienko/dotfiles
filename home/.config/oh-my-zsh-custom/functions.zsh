@@ -11,8 +11,9 @@ function l() {
 }
 
 # Add to git stage, commit and push
+# Chained on purpose: a zsh function does not stop on error, so an unchained
+# sequence pushed even when the commit was rejected — failing hook, nothing
+# staged, empty message — publishing whatever the branch already held.
 function acp() {
-    git add .
-    git commit -m "$1"
-    git push
+    git add . && git commit -m "$1" && git push
 }
