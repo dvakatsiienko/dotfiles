@@ -95,6 +95,9 @@ run_agents = "always_ask"
 web_search_enabled = true
 write_to_pty = "always_allow"
 
+[agents.third_party]
+should_render_cli_agent_toolbar = false
+
 [terminal]
 use_audible_bell = true
 show_terminal_zero_state_block = false
