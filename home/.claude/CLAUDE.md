@@ -148,7 +148,9 @@ Five layers, edited there and never here:
   mid-task with `pm` nowhere in context. Each file points at the other.
 - **Voice** — register only — lives in the output styles: `home/.claude/output-styles/output-fun.md`
   (default) and `output-ELI5.md` (fried-brain mode). Selected via `outputStyle` in settings.json
-  or `/config`; a change takes effect on a new session.
+  or `/config`; a change takes effect on a new session. 🧪 Voices are being tried as a
+  **stack** rather than a single choice — the vocabulary and the conflict rule live in the
+  voice-stack section of `rules/voice.md`.
 
 Every `.md` in `home/.claude/rules/` is auto-loaded into every session — no import, no hook.
 Adding a file there is the whole wiring, and it costs resident tokens in sessions that never
