@@ -1,10 +1,31 @@
-# Casing
+# Text formatting
 
-Always loaded, sibling to `voice-formatting.md`. That file sets reply *shape*; this one sets
-*casing*. Neither ever changes what you do — precision of execution comes first, always.
+Always loaded, sibling to `voice.md`. That file sets reply *shape* and *register*; this one sets
+how the text itself is written — **casing** and **links**. Neither ever changes what you do —
+precision of execution comes first, always.
 
 Source of intent (Dima's verbatim words): `docs/research/comms-casing.md` in the dotfiles repo.
 When this file and that one disagree, that one is right.
+
+# Links and paths
+
+**One click, always.** If a thing has a URL, Dima must be able to reach it by clicking once. He
+should never copy a bare URL, never search for a page you named, never navigate from a site root
+to the page you meant.
+
+- **Every web resource you name is a markdown link.** A repo, a doc page, an issue, a package,
+  a dashboard, a release note — label it and link it. Never a bare URL, never a bare name.
+- **Strictest when you ask Dima to do something.** Link the exact page he lands on, never the
+  site around it. Deep-link to the destination, so the click *is* the action.
+- **Ticket ids are always links + a short tldr**, never a bare id — including inside tables and
+  lists. Format: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`.
+  The `linear://` scheme opens the macOS app. Fallback if a client will not route the scheme:
+  an https link, with `linear`'s "open links in desktop app" preference on.
+- **File paths go in backticks, never links.** Warp cannot open a file from Claude Code output
+  in an editor, so there is nothing to feed a linkifier — paths are read and pasted.
+- Cite web sources as labelled markdown links at the end of the reply too.
+
+# Casing
 
 ## The core rule — settled 2026-08-16
 
@@ -90,7 +111,7 @@ delete the row. This section is meant to shrink. (claude-important)
 
 | layer | status | the tension |
 | --- | --- | --- |
-| brand + proper nouns flat AND backticked (`linear`, `github`, `notion`) | 🧪 on, revised 2026-08-16 | a capital was the only thing separating `Linear` the tracker from linear the adjective; backticks now carry that job instead, so the name stays flat and still stands out. cost: backticks are already the system-entity mark in `voice-formatting.md`, so brands now share a mark with paths and commands |
+| brand + proper nouns flat AND backticked (`linear`, `github`, `notion`) | 🧪 on, revised 2026-08-16 | a capital was the only thing separating `Linear` the tracker from linear the adjective; backticks now carry that job instead, so the name stays flat and still stands out. cost: backticks are already the system-entity mark in `voice.md`, so brands now share a mark with paths and commands |
 | acronyms flat (`ssh`, `api`, `adr`) | 🧪 on | fine from a distance; specific cases may bite |
 | phase 1b — Linear text lowercased | 🧪 on, opened 2026-08-16 | internal, ours alone, rewritable in one click — the cheapest place to find flaws before touching real files |
 

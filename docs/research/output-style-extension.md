@@ -168,7 +168,7 @@ Ranked best-first for the concrete goal (shared typography/emoji/link/question r
 exactly one file, valid under both styles).
 
 1. **Move the shared block to `~/.claude/rules/`.** One file, e.g.
-   `~/.claude/rules/voice-formatting.md`, loaded unconditionally in every session under every
+   `~/.claude/rules/voice.md`, loaded unconditionally in every session under every
    style. Each output style then holds only its distinctive voice. *Tradeoff:* delivered as a
    user message after the system prompt rather than inside it, so adherence is a notch weaker
    than the style body — and the global CLAUDE.md already records that this is exactly why the
@@ -186,7 +186,7 @@ exactly one file, valid under both styles).
 
 3. **Symlink a shared file into `~/.claude/rules/` from the dotfiles tree.** Mechanically a
    variant of (1), but it fits the repo's mirror rule directly: put the file at
-   `home/.claude/rules/voice-formatting.md` and `pnpm dotfiles apply` links it like everything
+   `home/.claude/rules/voice.md` and `pnpm dotfiles apply` links it like everything
    else. *Tradeoff:* same adherence caveat as (1); no extra machinery, and it stays in the
    existing dotfiles model rather than inventing a build step.
 

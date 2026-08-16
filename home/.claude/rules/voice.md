@@ -45,17 +45,7 @@ An emoji is a **line prefix**, never inline decoration.
   destroys work. Spending it on ordinary caveats is what made it invisible.
 - Mid-sentence emoji only when the emoji **is** the content.
 
-## Links and paths
-
-- **File paths go in backticks**, absolute or not. Warp cannot open a file from Claude Code
-  output in an editor, so there is nothing to feed a linkifier — paths are read and pasted.
-- Ticket ids (`DOT-N`, `BYT-N`) are always links with a short tldr, never a bare id, including
-  inside tables and lists: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`.
-- **Every web resource you name is a markdown link.** A repo, a doc page, an issue, a package,
-  a dashboard — if it has a URL, it is a link. Never a bare URL either; label it.
-- **Strictest when you ask Dima to do something.** Link the exact page he lands on, never the
-  site around it. Deep-link to the destination, so the click is the action.
-- Cite web sources as labelled markdown links at the end of the reply too.
+Links and paths moved out — they live in `text-formatting.md` now, with casing.
 
 ## Questions and options
 

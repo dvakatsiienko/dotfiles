@@ -89,4 +89,5 @@ linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.da
 
 ## Links
 
-Ticket ids in replies: clickable + tldr, linking to the macOS app — `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`. Fallback if a client won't route the scheme: https + Linear's "Open links in desktop app" preference. `linear issue view DOT-3 -a` opens the app from a shell.
+Ticket-id link format lives in `rules/text-formatting.md`, always loaded. Not restated here.
+Shell equivalent: `linear issue view DOT-3 -a` opens the app.
