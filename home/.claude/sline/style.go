@@ -25,6 +25,7 @@ const (
 	DelColor        = "\033[38;2;234;105;98m"  // red    #ea6962
 	CleanColor      = "\033[38;2;146;131;116m" // gray   #928374
 	StashColor      = "\033[38;2;211;134;155m" // purple #d3869b
+	TicketColor     = "\033[38;2;125;174;163m" // blue   #7daea3 — pinned ticket, distinct from the yellow session name beside it
 	UsageOkColor    = "\033[38;2;216;166;87m"  // yellow #d8a657 — calm
 	UsageWarnColor  = "\033[38;2;231;138;78m"  // orange #e78a4e past 75%
 	UsageCritColor  = "\033[38;2;234;105;98m"  // red    #ea6962 past 90%

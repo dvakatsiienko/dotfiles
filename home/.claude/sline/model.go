@@ -219,9 +219,9 @@ func outputStyleBadge(claudeContext *ClaudeContext) string {
 		name = name[len("output-"):]
 	}
 	// Bare emoji: no foreground color (it paints its own) and no track background
-	// (the effort dial's background is one cell wide, and ✍️ occupies two — it
+	// (the effort dial's background is one cell wide, and 🪶 occupies two — it
 	// would tint only the left half of the glyph).
-	return "✍️ " + applyGradientStops(effortGradientStops, name)
+	return "🪶 " + applyGradientStops(effortGradientStops, name)
 }
 
 // =============================================================================

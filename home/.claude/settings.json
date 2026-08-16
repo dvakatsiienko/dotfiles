@@ -79,6 +79,14 @@
             "command": "bash ~/.vibemon/notify.sh prompt claude_code"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/focus.sh"
+          }
+        ]
       }
     ],
     "Stop": [

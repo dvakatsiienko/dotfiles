@@ -448,13 +448,13 @@ func TestOutputStyleBadge(t *testing.T) {
 	}{Name: "output-fun"}
 
 	rendered := getModelDisplayName(custom)
-	if !strings.Contains(rendered, "✍️") {
-		t.Error("custom output style: want the ✍️ marker")
+	if !strings.Contains(rendered, "🪶") {
+		t.Error("custom output style: want the 🪶 marker")
 	}
 	// The name is rendered per-character through a gradient, so the letters are
 	// separated by escape codes — assert on order, not on a contiguous substring.
 	// Scoped to the tail after ✎, since "opus" upstream also contains a "u".
-	tail := rendered[strings.Index(rendered, "✍️"):]
+	tail := rendered[strings.Index(rendered, "🪶"):]
 	f, u, n := strings.Index(tail, "f"), strings.Index(tail, "u"), strings.LastIndex(tail, "n")
 	if f < 0 || u < f || n < u {
 		t.Error("custom output style: want the style name rendered in order")
@@ -471,7 +471,7 @@ func TestOutputStyleBadge(t *testing.T) {
 	}{Name: "output-ELI5"}
 
 	abbrevTail := getModelDisplayName(abbrev)
-	abbrevTail = abbrevTail[strings.Index(abbrevTail, "✍️"):]
+	abbrevTail = abbrevTail[strings.Index(abbrevTail, "🪶"):]
 	e, l, i := strings.Index(abbrevTail, "E"), strings.Index(abbrevTail, "L"), strings.Index(abbrevTail, "I")
 	if e < 0 || l < e || i < l {
 		t.Error("abbreviation output style: want the name's casing preserved")
@@ -487,10 +487,10 @@ func TestOutputStyleBadge(t *testing.T) {
 		Name string `json:"name"`
 	}{Name: "default"}
 
-	if !strings.Contains(getModelDisplayName(plain), "✍️") {
+	if !strings.Contains(getModelDisplayName(plain), "🪶") {
 		t.Error("default output style: want the badge — it is always shown")
 	}
-	if strings.Contains(getModelDisplayName(&ClaudeContext{}), "✍️") {
+	if strings.Contains(getModelDisplayName(&ClaudeContext{}), "🪶") {
 		t.Error("absent output style: want no badge")
 	}
 }

@@ -249,6 +249,7 @@ func generateStatusline() string {
 	if label := sessionLabel(claudeContext); label != "" {
 		output.WriteString(fmt.Sprintf("%s%s🧵 %s%s", Sep, SessionColor, label, Reset))
 	}
+	output.WriteString(focusSegment(claudeContext))
 	// Alerts close line 1 — one place for every active fault. See alert.go.
 	output.WriteString(alertSegment(claudeContext))
 	line2 := fmt.Sprintf("%s%s", emoji, getModelDisplayName(claudeContext))
