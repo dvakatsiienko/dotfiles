@@ -70,48 +70,10 @@ while IFS= read -r line; do
 	esac
 done <<<"$prompt"
 
-# --- DOT-81: refresh the Linear status cache -------------------------------
-# Fetched here and never at render: sline runs on every prompt and every minute,
-# and a linear call costs ~325ms. One query covers every id at once. Backgrounded
-# so it cannot slow the prompt down, and TTL-gated so idle typing costs nothing.
-cache="$HOME/.claude/focus/status-cache.json"
-ttl=300
-
-ids=$(jq -r '[.pin, (.touch // [])[]] | map(select(. != null)) | unique[]' "$file" 2>/dev/null || true)
-[[ -n $ids ]] || exit 0
-
-# Fetch when the cache has aged out OR when an id in focus has no entry at all.
-# Both tests look ONLY at ids currently in focus: entries for ids that have since
-# left keep their old timestamps, so measuring the whole cache pinned the age in
-# the past forever and every single prompt fetched. Without the second test, a
-# freshly pinned ticket shows no status until the TTL happens to expire.
-stale=$(jq -r --argjson now "$now" --argjson ttl "$ttl" --argjson ids "$(printf '%s\n' "$ids" | jq -R . | jq -s .)" '
-	. as $c | if ($ids | map($c[.] // empty | .at) | length) < ($ids | length) then "yes"
-	elif ($ids | map($c[.].at) | min) <= ($now - $ttl) then "yes"
-	else "no" end' "$cache" 2>/dev/null || echo yes)
-[[ $stale == yes ]] || exit 0
-
-(
-	filters=""
-	for team in DOT BYT; do
-		nums=$(printf '%s\n' "$ids" | sed -n "s/^$team-//p" | paste -sd, -)
-		[[ -n $nums ]] || continue
-		filters="$filters{and:[{team:{key:{eq:\"$team\"}}},{number:{in:[$nums]}}]},"
-	done
-	[[ -n $filters ]] || exit 0
-	q="query { issues(filter: { or: [${filters%,}] }) { nodes { identifier state { name type } } } }"
-	# Merge, never replace: the cache is shared by every session, and each one
-	# only knows its own ids. Replacing would have parallel sessions wiping each
-	# other. Entries unseen for a day fall out, so it cannot grow without bound.
-	fresh=$(linear api "$q" 2>/dev/null |
-		jq --argjson t "$now" '[.data.issues.nodes[]
-			| {key: .identifier, value: {status: .state.name, type: .state.type, at: $t}}]
-			| from_entries')
-	[[ -n $fresh ]] || exit 0
-	printf '%s' "${fresh}" | jq --argjson now "$now" --slurpfile old \
-		<(cat "$cache" 2>/dev/null || printf '{}') \
-		'($old[0] // {}) * . | with_entries(select(.value.at > ($now - 86400)))' \
-		>"$cache.tmp" 2>/dev/null && mv "$cache.tmp" "$cache"
-) >/dev/null 2>&1 &
+# --- DOT-81 -----------------------------------------------------------------
+# The fetch lives in status-fetch.sh so sline can fire the same code on render.
+# Backgrounded: it must never slow the prompt down. The script's own TTL gate
+# decides whether anything actually goes over the network.
+"$(dirname "${BASH_SOURCE[0]}")/status-fetch.sh" "$file" >/dev/null 2>&1 &
 
 exit 0

@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"os"
+	"os/exec"
 	"strings"
+	"syscall"
 	"time"
 )
 
@@ -88,4 +90,51 @@ func statusBadge(cache map[string]ticketStatus, id string) string {
 		return paint(CleanColor, label+"?")
 	}
 	return paint(color, label)
+}
+
+// statusFetchTTL mirrors the ttl in hooks/status-fetch.sh. The script is the
+// authority — it re-checks before spending a request. This copy exists only so
+// sline does not spawn a process on every single render to be told "not yet".
+const statusFetchTTL = 60 * time.Second
+
+// refreshDue reports whether any id in focus is missing from the cache or has
+// aged past the TTL. Only ids in focus are considered: entries left behind by
+// ids that have moved on keep old timestamps forever.
+func refreshDue(cache map[string]ticketStatus, ids []string) bool {
+	if len(ids) == 0 {
+		return false
+	}
+	cutoff := time.Now().Add(-statusFetchTTL).Unix()
+	due := false
+	for _, id := range ids {
+		if id == "" {
+			continue // an empty pin slot is not a missing status
+		}
+		st, ok := cache[id]
+		if !ok || st.At <= cutoff {
+			due = true
+		}
+	}
+	return due
+}
+
+// triggerRefresh fires the fetch and walks away. sline redraws every minute, so
+// this render shows the cache as it stands and the next one picks up the result.
+// Waiting was never an option: a linear call is ~325ms in a path that runs on
+// every prompt.
+//
+// Setpgid detaches the child from sline's process group, so it survives sline
+// exiting a few milliseconds later. Nothing is waited on and nothing is read —
+// the script's only output is the cache file.
+func triggerRefresh(sessionID string) {
+	if sessionID == "" {
+		return
+	}
+	script := claudeHome("hooks", "status-fetch.sh")
+	if _, err := os.Stat(script); err != nil {
+		return
+	}
+	cmd := exec.Command("bash", script, focusPath(sessionID))
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	_ = cmd.Start()
 }

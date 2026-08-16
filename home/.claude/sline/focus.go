@@ -42,6 +42,13 @@ func focusSegment(sessionID string) string {
 	}
 
 	status := loadStatuses()
+	// Fire-and-forget when something has aged out: the hook only runs when Dima
+	// types, and sline redraws every minute regardless — so this is what keeps
+	// the line fresh while a session sits idle. This render uses the cache as it
+	// stands; the next one picks up whatever comes back.
+	if refreshDue(status, append([]string{st.Pin}, st.Touch...)) {
+		triggerRefresh(sessionID)
+	}
 	// withStatus keeps the id and its state one visual unit.
 	withStatus := func(rendered, id string) string {
 		if badge := statusBadge(status, id); badge != "" {

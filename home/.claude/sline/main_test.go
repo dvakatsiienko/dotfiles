@@ -728,3 +728,27 @@ func TestStatusBadgeShortWordsAndStaleness(t *testing.T) {
 		t.Error("no cache at all renders nothing")
 	}
 }
+
+func TestRefreshDueIgnoresEmptySlots(t *testing.T) {
+	fresh := map[string]ticketStatus{"DOT-1": {Status: "Todo", At: time.Now().Unix()}}
+
+	// An unpinned session passes "" for the pin slot. Treating that as a missing
+	// status made sline spawn a fetch on every single render, forever.
+	if refreshDue(fresh, []string{"", "DOT-1"}) {
+		t.Error("an empty slot beside a fresh id must not be due")
+	}
+	if refreshDue(fresh, []string{""}) {
+		t.Error("nothing but empty slots is never due")
+	}
+	if refreshDue(fresh, nil) {
+		t.Error("no ids at all is never due")
+	}
+	if !refreshDue(fresh, []string{"", "DOT-2"}) {
+		t.Error("an uncached id is due whatever sits beside it")
+	}
+	old := map[string]ticketStatus{"DOT-1": {Status: "Todo",
+		At: time.Now().Add(-statusFetchTTL - time.Second).Unix()}}
+	if !refreshDue(old, []string{"DOT-1"}) {
+		t.Error("past the TTL is due")
+	}
+}
