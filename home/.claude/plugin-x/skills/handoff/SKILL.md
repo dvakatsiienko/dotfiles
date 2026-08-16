@@ -1,6 +1,7 @@
 ---
 name: handoff
-description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor.
+argument-hint: "[focus] | spawn [focus] | <session-id|name> [focus] | prune|clear|delete"
+description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor, "/handoff prune|clear|delete" to wipe the pending store.
 ---
 
 # Handoff (sender)
@@ -11,6 +12,7 @@ Mode by argument:
 
 - **First token looks like a session id (8-char/UUID/pid) or session name** → Trigger D (push to that peer); remaining words are the FOCUS.
 - **`spawn`** → Trigger C; remaining words are the FOCUS.
+- **`prune` / `clear` / `delete`** → Trigger E (wipe the store). Any of the three, alone or with trailing words. A bare verb like these is never a FOCUS — writing a CST "about pruning" is the wrong read of an obvious intent.
 - **Anything else (or empty)** → Trigger B; the argument is a FOCUS.
 
 A FOCUS weights the CST toward it per the spec's TARGET rule.
@@ -58,6 +60,16 @@ A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ing
 
 4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via `/x:handoff-pull`.
 5. Tell the user in one line: CST pushed to `<target ref>` (file + notify). The ACK is informational — don't block on it.
+
+## Trigger E — `/handoff prune|clear|delete` (wipe the pending store)
+
+Pending handoffs are transient by design (see CST-SPEC.md — Store); this clears the store outright.
+
+1. List `~/.claude/handoffs/*.md` (filename + age). Nothing there → say "store already clean", done.
+2. Delete them all, including `-shared`.
+3. Report in one line: `pruned N handoff(s): <slugs>`.
+
+No confirmation dance — the user invoked a deliberately destructive verb on disposable files. Do NOT touch anything but `*.md` inside `~/.claude/handoffs/`. Produce no CST on this path.
 
 ## Cleanup (every invocation)
 
