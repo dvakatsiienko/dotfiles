@@ -1,8 +1,13 @@
-# prompt-golden — comms-casing
+# comms-casing — golden prompt
+
+Ticket: DOT-66
 
 dima's own words, stitched from DOT-66 and the thread that followed on 2026-08-16.
-verbatim, typos kept. this is the source of intent for the skill; when the skill and this
-file disagree, this file is right and the skill is wrong.
+verbatim, typos kept. this is the source of intent for `home/.claude/rules/comms-casing.md`;
+when the rule and this file disagree, this file is right and the rule is wrong.
+
+the skill this describes was retired on 2026-08-16 — a skill had to be remembered and loaded,
+so it was missed. it is now an always-loaded rule file instead.
 
 ## from DOT-66 (ticket body)
 

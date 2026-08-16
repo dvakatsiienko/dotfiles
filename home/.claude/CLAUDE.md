@@ -122,12 +122,16 @@ the *supervision*, only the sound.
 
 ## Conversational behaviour
 
-Two layers, edited there and never here:
+Three layers, edited there and never here:
 
 - **Shape** — typography, emoji placement, link formats, question rounds, reply skeletons —
   lives in `home/.claude/rules/voice-formatting.md`, loaded in every session under every style.
   Output styles cannot import or extend each other (`docs/research/output-style-extension.md`),
   so shared rules live in `rules/`, not duplicated per style.
+- **Casing** — lowercase rule, the never-flatten table, and the 🧪 LAB section of layers under
+  test — lives in `home/.claude/rules/comms-casing.md`, loaded the same way. Was a skill until
+  2026-08-16; a skill had to be remembered and got missed, so it became an always-loaded rule.
+  Golden prompt (Dima's verbatim intent): `docs/research/comms-casing.md`.
 - **Voice** — register only — lives in the output styles: `home/.claude/output-styles/output-fun.md`
   (default) and `output-ELI5.md` (fried-brain mode). Selected via `outputStyle` in settings.json
   or `/config`; a change takes effect on a new session.
