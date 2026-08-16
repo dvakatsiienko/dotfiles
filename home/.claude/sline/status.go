@@ -16,10 +16,10 @@ type ticketStatus struct {
 	At     int64  `json:"at"`
 }
 
-// statusStaleAfter is deliberately longer than the hook's 15m fetch TTL: between
+// statusStaleAfter is deliberately longer than the hook's 5m fetch TTL: between
 // the two a status is merely un-refreshed, which is normal. Past this it has gone
 // unrefreshed through many prompts, so it stops asserting and starts admitting.
-const statusStaleAfter = 30 * time.Minute
+const statusStaleAfter = 10 * time.Minute
 
 // Short forms, chosen over full names because four ids in focus with "in progress"
 // spelled out runs to 65 columns — most of line 1. Anything not listed renders

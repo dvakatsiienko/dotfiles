@@ -75,7 +75,7 @@ done <<<"$prompt"
 # and a linear call costs ~325ms. One query covers every id at once. Backgrounded
 # so it cannot slow the prompt down, and TTL-gated so idle typing costs nothing.
 cache="$HOME/.claude/focus/status-cache.json"
-ttl=900
+ttl=300
 
 ids=$(jq -r '[.pin, (.touch // [])[]] | map(select(. != null)) | unique[]' "$file" 2>/dev/null || true)
 [[ -n $ids ]] || exit 0
