@@ -130,7 +130,7 @@ func workingDir(claudeContext *ClaudeContext) (abs, display string) {
 
 func dirSegment(claudeContext *ClaudeContext) string {
 	abs, display := workingDir(claudeContext)
-	return fmt.Sprintf("📼 %s%s%s", DirColor, hyperlink(editorURL(abs), display), Reset)
+	return "📼 " + paint(DirColor, hyperlink(editorURL(abs), display))
 }
 
 func getGitEmoji() string {
@@ -169,59 +169,55 @@ func renderGitStatus(st GitStatus) []string {
 	gitEmoji := getGitEmoji()
 
 	if !st.IsRepo {
-		return []string{fmt.Sprintf("%s %sno git%s", gitEmoji, CleanColor, Reset)}
+		return []string{gitEmoji + " " + paint(CleanColor, "no git")}
 	}
 
-	branch := branchLabel(st)
-	branchSegment := fmt.Sprintf("%s%s%s", BranchColor, branch, Reset)
+	branchSegment := paint(BranchColor, branchLabel(st))
 	if sync := formatSyncIndicator(st); sync != "" {
 		branchSegment += " " + sync
 	}
 
-	var out strings.Builder
-
 	hasStagedChanges := st.Staged > 0
 	hasUnstagedChanges := st.Modified > 0 || st.Untracked > 0
-	totalFileCount := st.Entries + st.Untracked
 
-	// Net diff metric (only shown when both + and - are present)
-	totalInsertions := st.StagedInsertions + st.UnstagedInsertions
-	totalDeletions := st.StagedDeletions + st.UnstagedDeletions
-	netDiffStr := ""
-	if totalInsertions > 0 && totalDeletions > 0 {
-		net := totalInsertions - totalDeletions
-		if net > 0 {
-			netDiffStr = fmt.Sprintf(" %s+%d%s", CleanColor, net, Reset)
-		} else {
-			netDiffStr = fmt.Sprintf(" %s%d%s", CleanColor, net, Reset)
-		}
+	// diffPair reads as one unit: green insertions immediately followed by red
+	// deletions, no space between them.
+	diffPair := func(insertions, deletions int) string {
+		return paintf(AddColor, "+%d", insertions) + paintf(DelColor, "-%d", deletions)
 	}
+	// fileCount is the (n) prefix every non-clean branch opens with.
+	fileCount := func(n int) string {
+		return gitEmoji + " " + paintf(CleanColor, "(%d)", n) + " "
+	}
+	stagedMark := " " + paint(AddColor, "✓")
 
+	var tree string
 	switch {
 	case hasStagedChanges && hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s %s✓%s %s+%d%s%s-%d%s",
-			gitEmoji, CleanColor, totalFileCount, Reset, AddColor, st.StagedInsertions, Reset,
-			DelColor, st.StagedDeletions, Reset, AddColor, Reset, AddColor, st.UnstagedInsertions,
-			Reset, DelColor, st.UnstagedDeletions, Reset))
-		out.WriteString(netDiffStr)
+		tree = fileCount(st.Entries+st.Untracked) +
+			diffPair(st.StagedInsertions, st.StagedDeletions) + stagedMark + " " +
+			diffPair(st.UnstagedInsertions, st.UnstagedDeletions)
 	case hasStagedChanges:
-		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s %s✓%s",
-			gitEmoji, CleanColor, st.Staged, Reset, AddColor, st.StagedInsertions, Reset,
-			DelColor, st.StagedDeletions, Reset, AddColor, Reset))
-		out.WriteString(netDiffStr)
+		tree = fileCount(st.Staged) +
+			diffPair(st.StagedInsertions, st.StagedDeletions) + stagedMark
 	case hasUnstagedChanges:
-		out.WriteString(fmt.Sprintf("%s %s(%d)%s %s+%d%s%s-%d%s",
-			gitEmoji, CleanColor, st.Modified+st.Untracked, Reset, AddColor, st.UnstagedInsertions,
-			Reset, DelColor, st.UnstagedDeletions, Reset))
-		out.WriteString(netDiffStr)
+		tree = fileCount(st.Modified+st.Untracked) +
+			diffPair(st.UnstagedInsertions, st.UnstagedDeletions)
 	default:
-		out.WriteString(fmt.Sprintf("%s %sclean%s", gitEmoji, CleanColor, Reset))
+		tree = gitEmoji + " " + paint(CleanColor, "clean")
 	}
 
-	segments := []string{branchSegment, out.String()}
+	// Net diff only earns space when both signs are present — otherwise it just
+	// restates the one number already on screen.
+	totalInsertions := st.StagedInsertions + st.UnstagedInsertions
+	totalDeletions := st.StagedDeletions + st.UnstagedDeletions
+	if totalInsertions > 0 && totalDeletions > 0 {
+		tree += " " + paintf(CleanColor, "%+d", totalInsertions-totalDeletions)
+	}
+
+	segments := []string{branchSegment, tree}
 	if st.Stash > 0 {
-		segments = append(segments,
-			fmt.Sprintf("💾 %sstash: %d%s", StashColor, st.Stash, Reset))
+		segments = append(segments, "💾 "+paintf(StashColor, "stash: %d", st.Stash))
 	}
 	return segments
 }
@@ -241,8 +237,8 @@ func generateStatusline() string {
 	line1 := joinSegments(flatten(
 		[]string{
 			dirSegment(claudeContext),
-			fmt.Sprintf("%s%s󰎙%s %s%s%s", Bold, NodeIconColor, Reset, NodeColor, getNodeVersion(), Reset),
-			fmt.Sprintf("%s📦%s %s%s%s", PnpmIconColor, Reset, PnpmColor, pnpmVersion, Reset),
+			paint(Bold+NodeIconColor, "󰎙") + " " + paint(NodeColor, getNodeVersion()),
+			paint(PnpmIconColor, "📦") + " " + paint(PnpmColor, pnpmVersion),
 		},
 		gitSegments(claudeContext),
 		// Session identity, then the ticket in focus.

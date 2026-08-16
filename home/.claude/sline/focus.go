@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"time"
@@ -56,7 +55,7 @@ func focusSegment(claudeContext *ClaudeContext) string {
 		if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {
 			color = CleanColor
 		}
-		out += fmt.Sprintf("🪄 %s%s%s", color, ticketLink(st.Pin), Reset)
+		out += "🪄 " + paint(color, ticketLink(st.Pin))
 	}
 	// Touches only earn space where they disagree with the pin — that
 	// disagreement is the whole point: it is the drift the pin is guarding.
@@ -66,11 +65,11 @@ func focusSegment(claudeContext *ClaudeContext) string {
 			continue
 		}
 		if first {
-			out += fmt.Sprintf("%s%s%s", CleanColor, ticketLink(id), Reset)
+			out += paint(CleanColor, ticketLink(id))
 			first = false
 			continue
 		}
-		out += fmt.Sprintf(" %s· %s%s", CleanColor, ticketLink(id), Reset)
+		out += " " + paint(CleanColor, "· "+ticketLink(id))
 	}
 	return out
 }

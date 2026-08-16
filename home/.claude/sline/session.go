@@ -48,7 +48,7 @@ func sessionSegment(claudeContext *ClaudeContext) string {
 	if label == "" {
 		return ""
 	}
-	return fmt.Sprintf("%s🧵 %s%s", SessionColor, label, Reset)
+	return paint(SessionColor, "🧵 "+label)
 }
 
 // sessionLabel shows the human-readable session name (CC's session_name, i.e.
@@ -73,7 +73,7 @@ func sessionLabel(context *ClaudeContext) string {
 	}
 	label := truncateLabel(kebabLabel(name), 52)
 	if len(context.SessionID) >= 8 {
-		label += fmt.Sprintf(" %s[%s]%s", CleanColor, context.SessionID[:8], Reset)
+		label += " " + paintf(CleanColor, "[%s]", context.SessionID[:8])
 	}
 	return label
 }

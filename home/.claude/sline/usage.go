@@ -95,14 +95,13 @@ func formatWindow(label string, window *RateLimitWindow) string {
 		}
 	}
 
-	segment := fmt.Sprintf("%s %s %s%.0f%%%s",
-		label, progressBar(pct), usageColor(pct), pct, Reset)
+	segment := label + " " + progressBar(pct) + " " + paintf(usageColor(pct), "%.0f%%", pct)
 
 	if resetIn > 0 {
 		if formatted := formatResetIn(resetIn); formatted != "" {
 			// → (U+2192) has no emoji presentation, so it renders single-width as
 			// plain text — no color-emoji fallback to mis-size, unlike ⏳ (U+23F3).
-			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, formatted, Reset)
+			segment += " " + paint(CleanColor, "→ "+formatted)
 		}
 	}
 
@@ -191,7 +190,7 @@ func usageSegments(context *ClaudeContext) []string {
 	// until the thread's first API response, and a bare 📡 read as an orphan.
 	if cost := context.Cost; cost != nil && cost.TotalCostUSD > 0 {
 		segments = append(segments,
-			fmt.Sprintf("📡 %s~$%.2f%s", UsageOkColor, cost.TotalCostUSD, Reset))
+			"📡 "+paintf(UsageOkColor, "~$%.2f", cost.TotalCostUSD))
 	}
 
 	if limits := context.RateLimits; limits != nil {
@@ -205,9 +204,9 @@ func usageSegments(context *ClaudeContext) []string {
 
 	if ctxWindow := context.ContextWindow; ctxWindow != nil && ctxWindow.UsedPercentage != nil {
 		pct := *ctxWindow.UsedPercentage
-		segment := fmt.Sprintf("🧠 %s %s%.0f%%%s", progressBar(pct), usageColor(pct), pct, Reset)
+		segment := "🧠 " + progressBar(pct) + " " + paintf(usageColor(pct), "%.0f%%", pct)
 		if tokens := contextTokens(ctxWindow, pct); tokens != "" {
-			segment += fmt.Sprintf(" %s→ %s%s", CleanColor, tokens, Reset)
+			segment += " " + paint(CleanColor, "→ "+tokens)
 		}
 		if cacheCold(context.TranscriptPath) {
 			segment += " (❄️)"
@@ -219,7 +218,7 @@ func usageSegments(context *ClaudeContext) []string {
 	handoffDir := filepath.Join(homeDir, ".claude", "handoffs")
 	if pending := handoffPendingCount(handoffDir); pending > 0 {
 		count := hyperlink(editorURL(handoffDir), fmt.Sprintf("%d", pending))
-		segments = append(segments, fmt.Sprintf("📬 %s%s%s", SessionColor, count, Reset))
+		segments = append(segments, "📬 "+paint(SessionColor, count))
 	}
 
 	return segments

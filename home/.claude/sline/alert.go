@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"sort"
-)
+import "sort"
 
 // Alerts are the one place an active fault renders. Anything that is wrong
 // right now lands here instead of squatting in whichever cluster sits nearest —
@@ -59,7 +56,7 @@ func collectAlerts(claudeContext *ClaudeContext) []alert {
 func alertSegments(claudeContext *ClaudeContext) []string {
 	var segments []string
 	for _, a := range collectAlerts(claudeContext) {
-		segments = append(segments, fmt.Sprintf("%s%s%s", a.color(), a.label, Reset))
+		segments = append(segments, paint(a.color(), a.label))
 	}
 	return segments
 }

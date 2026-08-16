@@ -55,6 +55,18 @@ var effortGradientStops = [][3]int{
 	{216, 166, 87}, // gruvbox yellow #d8a657
 }
 
+// paint colors text and closes the sequence. Every call site used to spell
+// colour + text + Reset by hand, which made a forgotten Reset — a leak that
+// tints the rest of the line — an invisible one-token mistake.
+func paint(color, text string) string {
+	return color + text + Reset
+}
+
+// paintf is paint over a format string, for the common count-and-label case.
+func paintf(color, format string, args ...any) string {
+	return paint(color, fmt.Sprintf(format, args...))
+}
+
 func applyGradient(text string) string {
 	return applyGradientStops(gradientStops, text)
 }
