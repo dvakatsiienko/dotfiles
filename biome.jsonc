@@ -13,7 +13,12 @@
       "!home/.claude/themes",
       "!home/.claude/settings.json",
       "!home/.claude/keybindings.json",
-      "!home/.claude/plugin-x/.claude-plugin"
+      "!home/.claude/plugin-x/.claude-plugin",
+
+      // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
+      // sync, so formatting it just starts a fight. The lua there has its own
+      // stylua.toml.
+      "!home/.config/nvim"
     ]
   },
 

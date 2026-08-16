@@ -22,6 +22,7 @@ symlinked lives in `import/`.
 dotfiles/
 ├── home/                       # mirrors ~ exactly — everything here gets symlinked
 │   ├── .config/
+│   │   ├── nvim/              # LazyVim config — was a standalone repo, folded in 2026-08-16
 │   │   ├── oh-my-zsh-custom/  # Custom zsh aliases and functions
 │   │   └── starship.toml      # Starship prompt configuration
 │   ├── .ssh/                  # SSH configuration (config, allowed_signers)
