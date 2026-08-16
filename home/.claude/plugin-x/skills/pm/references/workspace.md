@@ -84,6 +84,9 @@ linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.da
   every other one, silently and with a success message. Always pass the full intended set
   (`--label agent --label fable-5`), and verify after:
   `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
+- `issue create` with no `--state` drops the issue into **Triage**, not Todo — the team default
+  wins and the CLI says nothing. The skill forbids Triage as a landing pad, so always pass
+  `--state Todo` (or the state the role calls for) on every create.
 - `issue view --json` exits 5 — read fields back through `linear api` GraphQL instead.
 - `linear` hanging >15s = likely a hidden Keychain prompt (keyring auth) — check the screen.
 
