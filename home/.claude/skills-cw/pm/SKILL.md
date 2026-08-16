@@ -13,6 +13,23 @@ Channel: the `linear` CLI via **Desktop Commander** (`linear --version` to check
 
 CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` = only assigned-to-you). Multi-line bodies: write a temp file, pass `--description-file file.md` (create/update) or `--body-file file.md` (comments) — never inline `$(cat …)`, it lets the shell mangle `$VAR`/backticks in the content. `linear` hanging >15s = hidden Keychain prompt — tell Dima to check the screen. Archive (quota valve) is GraphQL-only: `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`.
 
+## Ticket flow — inlined, because `cw` has no rules layer
+
+On `cc` these live in the always-loaded `rules/ticket-flow.md`. `cw` has no such mechanism, so they
+are carried here by hand. If they are edited there, edit them here too — nothing detects the drift.
+
+- **State tracks reality.** The moment work on a ticket actually starts, move it to In Progress —
+  same turn, not retroactively, not when the work lands. No magic word can reach In Progress: commit
+  keywords only reach Done, and the default lane (commit straight to `main`, no PR) fires no PR
+  automation at all. If you do not move it, nothing does. Same at the other end — finished work does
+  not sit in In Progress.
+- **Ids are never invented.** An id comes from Dima or from the conversation, nowhere else. Never
+  guess one, never write `DOT-?`. Most work has no ticket, and saying so is always correct.
+- **A closing keyword assigns as well as closes**, so name the ticket you are about to close rather
+  than closing it silently.
+- **The focus pin is `cc`-only** — sline renders it from a local file this side cannot reach. Do not
+  reason about it here, and do not tell Dima a ticket is pinned.
+
 ## Workspace map
 
 - **DOT projects**: `revamp` · `shelf` · `handoff` · `claude` · `sline`

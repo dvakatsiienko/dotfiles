@@ -8,6 +8,16 @@ projects, quota, CLI mechanics — and it is only loaded when ticket work is the
 get touched in the middle of doing something else, with `pm` nowhere in context. Everything here
 is what must hold in that case. Anything past it: load `x:pm`.
 
+⚠️ **`cw` cannot read this file.** It has no `rules/` mechanism — one skill, uploaded as a zip,
+and no always-loaded layer. So anything moved here becomes unreachable on that side, and a `cc`
+skill that defers to this file is, from `cw`'s view, a skill that lost a rule.
+
+The obligation runs one way and must be honoured by hand: **whatever `plugin-x/skills/<x>` defers
+to this file, `skills-cw/<x>` inlines.** Duplication is correct here — two runtimes, no shared
+loader — and pretending otherwise is what silently degraded `cw` on 2026-08-16. `.source-sha`
+cannot catch it: it detects that a source moved, never what should have been carried across.
+Problem recorded on DOT-62; no mechanism yet.
+
 ## Where tickets live
 
 - **Linear**, workspace `x-com`. Two teams: **`DOT`** = tooling, approaches, how-we-work.
