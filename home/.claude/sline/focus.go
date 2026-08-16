@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"os"
-	"path/filepath"
 	"time"
 )
 
@@ -25,11 +24,7 @@ func loadFocus(sessionID string) *focusState {
 	if sessionID == "" {
 		return nil
 	}
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return nil
-	}
-	data, err := os.ReadFile(filepath.Join(homeDir, ".claude", "focus", sessionID+".json"))
+	data, err := os.ReadFile(focusPath(sessionID))
 	if err != nil {
 		return nil
 	}

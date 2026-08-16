@@ -607,3 +607,23 @@ func TestEditorURL(t *testing.T) {
 		t.Errorf("empty path should make no url, got %q", got)
 	}
 }
+
+func TestClaudeHomePathsAgree(t *testing.T) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		t.Skip("no home dir")
+	}
+	base := filepath.Join(home, ".claude")
+	cases := map[string]string{
+		slineStatePath():   filepath.Join(base, "sline", "sline-state.json"),
+		settingsPath():     filepath.Join(base, "settings.json"),
+		sessionsDir():      filepath.Join(base, "sessions"),
+		handoffsDir():      filepath.Join(base, "handoffs"),
+		focusPath("abc12"): filepath.Join(base, "focus", "abc12.json"),
+	}
+	for got, want := range cases {
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	}
+}

@@ -31,14 +31,9 @@ type SlineState struct {
 	PnpmCheckedAt  int64  `json:"pnpm_checked_at,omitempty"`
 }
 
-func stateFilePath() string {
-	homeDir, _ := os.UserHomeDir()
-	return filepath.Join(homeDir, ".claude", "sline", "sline-state.json")
-}
-
 func loadState() SlineState {
 	var state SlineState
-	if data, err := os.ReadFile(stateFilePath()); err == nil {
+	if data, err := os.ReadFile(slineStatePath()); err == nil {
 		json.Unmarshal(data, &state)
 	}
 	return state
@@ -47,7 +42,7 @@ func loadState() SlineState {
 // saveState writes via temp file + rename so concurrent renders (multiple CC
 // sessions share this file) can't interleave into a torn JSON.
 func saveState(state SlineState) {
-	path := stateFilePath()
+	path := slineStatePath()
 	os.MkdirAll(filepath.Dir(path), 0755)
 	data, err := json.Marshal(state)
 	if err != nil {
@@ -106,8 +101,7 @@ func extractModelFamily(displayName string) string {
 
 // getModelFromSettings is the bare-terminal fallback when no stdin JSON exists.
 func getModelFromSettings() string {
-	homeDir, _ := os.UserHomeDir()
-	data, err := os.ReadFile(filepath.Join(homeDir, ".claude", "settings.json"))
+	data, err := os.ReadFile(settingsPath())
 	if err != nil {
 		return "sonnet"
 	}
@@ -133,8 +127,7 @@ func effortLevel(claudeContext *ClaudeContext) string {
 }
 
 func getEffortFromSettings() string {
-	homeDir, _ := os.UserHomeDir()
-	data, err := os.ReadFile(filepath.Join(homeDir, ".claude", "settings.json"))
+	data, err := os.ReadFile(settingsPath())
 	if err != nil {
 		return ""
 	}

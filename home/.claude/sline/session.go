@@ -62,8 +62,7 @@ func sessionLabel(context *ClaudeContext) string {
 	}
 	name := context.SessionName
 	if name == "" && context.SessionID != "" {
-		homeDir, _ := os.UserHomeDir()
-		name = resolveSessionName(filepath.Join(homeDir, ".claude", "sessions"), context.SessionID)
+		name = resolveSessionName(sessionsDir(), context.SessionID)
 	}
 	if name == "" {
 		if len(context.SessionID) >= 8 {

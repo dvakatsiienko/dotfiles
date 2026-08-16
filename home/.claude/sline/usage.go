@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"os"
-	"path/filepath"
 	"strings"
 	"time"
 )
@@ -214,8 +213,7 @@ func usageSegments(context *ClaudeContext) []string {
 		segments = append(segments, segment)
 	}
 
-	homeDir, _ := os.UserHomeDir()
-	handoffDir := filepath.Join(homeDir, ".claude", "handoffs")
+	handoffDir := handoffsDir()
 	if pending := handoffPendingCount(handoffDir); pending > 0 {
 		count := hyperlink(editorURL(handoffDir), fmt.Sprintf("%d", pending))
 		segments = append(segments, "📬 "+paint(SessionColor, count))
