@@ -70,6 +70,10 @@ alias gprune='git fetch --prune && git for-each-ref --format='\''%(refname:short
 alias gpruned='git fetch --prune && echo "Branches to delete:" && git branch --merged | grep -v "^\*" | grep -Ev "(^|\s+)(main|master|dev|develop)$"'
 
 # Github CLI
+# PROBLEM (DOT-68): this wants to be `go`, and muscle memory types `go`. It cannot be —
+# `go` is the Go toolchain at /opt/homebrew/bin/go, installed via the Brewfile because
+# sline is written in Go. Aliasing over it would break every `go build`/`go test`.
+# `goo` is the workaround, and it is the wrong shape. Fix is open.
 alias goo='gh browse' # TODO: connect GITHUB_TOKEN
 
 # pnpm: core
