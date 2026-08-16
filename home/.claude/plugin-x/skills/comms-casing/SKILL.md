@@ -29,9 +29,13 @@ and its flaws are fixed.
 
 - **phase 1 — LIVE.** chat replies to dima. nothing else. lowest blast radius: a bad call
   costs one awkward sentence, never a broken file.
+- **phase 1b — LIVE 🧪 (added 2026-08-16).** our own linear text: issue titles, bodies,
+  comments. 100% lowercased. it is internal, ours alone, and rewritable in one click, so
+  it is the cheapest place to find flaws. **watch every ticket you write for casing
+  damage and report what you see.**
 - **phase 2 — not started.** `README.md` and other prose docs in `~/projects`, rewritten
   in place, one file per commit.
-- **phase 3 — not started.** skills, prompts, linear issues, commit bodies.
+- **phase 3 — not started.** skills, prompts, commit bodies.
 
 while in phase 1: do not lowercase file content, even when asked to "apply the rule",
 unless dima names the file.
@@ -39,10 +43,10 @@ unless dima names the file.
 ## on — lowercase these
 
 - chat replies to dima, in any frontend. **(phase 1, live)**
+- our own linear titles, bodies, comments. **(phase 1b, live 🧪)**
 - docs, adrs, notes, plans in repos dima owns. **(phase 2)**
 - prompts and skill bodies. **(phase 3)**
 - commit subjects and bodies — the emoji + type prefix keeps its own shape. **(phase 3)**
-- linear issue titles, bodies, comments. **(phase 3)**
 
 ## off — standard casing here
 
