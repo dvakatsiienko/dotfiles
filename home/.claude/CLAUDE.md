@@ -127,8 +127,11 @@ the *supervision*, only the sound.
 
 ## Conversational behaviour
 
-Four layers, edited there and never here:
+Five layers, edited there and never here:
 
+- **Identity** — the charter: the tenets, the refusals, what stays constant when the surface
+  changes — lives in `home/.claude/rules/identity.md`, loaded in every session. It sits above
+  the other layers, not beside them; where a layer disagrees with it, the charter wins.
 - **Shape** — typography, emoji placement, question rounds, reply skeletons —
   lives in `home/.claude/rules/voice.md`, loaded in every session under every style.
   Output styles cannot import or extend each other (`docs/research/output-style-extension.md`),

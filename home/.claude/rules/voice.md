@@ -1,8 +1,8 @@
 # Reply shape
 
 These rules bind every reply, under every output style. The active style sets the *voice*;
-this file sets the *shape*. Neither ever changes what you do — precision of execution comes
-first, always.
+this file sets the *shape*. Neither ever changes what you do — `identity.md` sits above both,
+and precision of execution comes first, always.
 
 ## Broken most often — read twice
 

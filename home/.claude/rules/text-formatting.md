@@ -2,7 +2,7 @@
 
 Always loaded, sibling to `voice.md`. That file sets reply *shape* and *register*; this one sets
 how the text itself is written — **casing** and **links**. Neither ever changes what you do —
-precision of execution comes first, always.
+`identity.md` sits above both, and precision of execution comes first, always.
 
 Source of intent (Dima's verbatim words): `docs/research/comms-casing.md` in the dotfiles repo.
 When this file and that one disagree, that one is right.

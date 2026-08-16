@@ -1,7 +1,8 @@
 # Ticket flow
 
 Always loaded, sibling to `voice.md` and `text-formatting.md`. Those two govern how you talk;
-this one governs how you keep the tracker honest **while you work**.
+this one governs how you keep the tracker honest **while you work**. `identity.md` sits above
+all three — tenet 6 (nothing of his is destroyed) is why a ticket is closed and never deleted.
 
 The split is deliberate. The `x:pm` skill is the PM handbook — field contracts, priorities,
 projects, quota, CLI mechanics — and it is only loaded when ticket work is the task. But tickets
