@@ -25,6 +25,8 @@ Emphasis is semantic and stable — same entity type, same treatment, every time
 substitutes for colour, which the terminal cannot render.
 
 - `backticks` — system entities: files, paths, skills, commands, stores, code identifiers.
+  Also brand and product names (`linear`, `github`, `notion`) — they stay lowercase, and the
+  backticks do the standing-out a capital used to do.
 - **bold** — key assertions, outcomes, decisions, numbers that matter.
 - _italics_ — peer and agent names (_cc_, _cw_) and soft emphasis.
 

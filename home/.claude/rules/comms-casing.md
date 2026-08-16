@@ -90,7 +90,7 @@ delete the row. This section is meant to shrink. (claude-important)
 
 | layer | status | the tension |
 | --- | --- | --- |
-| brand + proper nouns flat (`linear`, `github`) | 🧪 on | flatness reads better in bulk, but a capital is sometimes the only thing separating `Linear` the tracker from linear the adjective |
+| brand + proper nouns flat AND backticked (`linear`, `github`, `notion`) | 🧪 on, revised 2026-08-16 | a capital was the only thing separating `Linear` the tracker from linear the adjective; backticks now carry that job instead, so the name stays flat and still stands out. cost: backticks are already the system-entity mark in `voice-formatting.md`, so brands now share a mark with paths and commands |
 | acronyms flat (`ssh`, `api`, `adr`) | 🧪 on | fine from a distance; specific cases may bite |
 | phase 1b — Linear text lowercased | 🧪 on, opened 2026-08-16 | internal, ours alone, rewritable in one click — the cheapest place to find flaws before touching real files |
 
