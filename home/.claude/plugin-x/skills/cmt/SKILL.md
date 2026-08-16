@@ -14,17 +14,17 @@ Strip them; ALL remaining text = correction instruction (reword, rescope, …).
 | keyword | meaning |
 | ------- | ------- |
 | `y`     | skip the confirm, this invocation only |
-| `y+`    | skip the confirm for the rest of the conversation (§1.1) |
+| `y+`    | skip the confirm for the rest of the session (§1.1) |
 | `mir`   | after committing, mirror into local main across worktrees (§4) |
 | `push`  | also update the remote, this invocation only: alone → push current branch; with `mir` → push main |
-| `push+` | do what `push` does, and keep doing it for the rest of the conversation (§1.2) |
+| `push+` | do what `push` does, and keep doing it for the rest of the session (§1.2) |
 
 No `y`/`y+` → draft the message, print it, wait for "y"/correction — THEN run the
 full pipeline (commit + mir + push, whatever was requested).
 `y` or `y+` present → execute everything immediately, zero questions.
 Examples: `/cmt` ask · `/cmt y` autonomous once · `/cmt y+` autonomous from
 here on · `/cmt mir` mirror with confirm · `/cmt y mir push` sync everywhere ·
-`/cmt y+ push+` hands the whole conversation over: commit and push, never ask again.
+`/cmt y+ push+` hands the whole session over: commit and push, never ask again.
 
 ### 1.0 · Never push mid-session
 
@@ -41,18 +41,20 @@ afterwards stops being free the moment it is on the remote.
 
 ### 1.1 · `y+` — standing confirm skip
 
-`y+` grants what `y` grants, and keeps it: every later commit in this conversation
-runs unconfirmed, whether invoked as `/cmt` or asked for in passing. It stays on
-until the conversation ends or Dima revokes it.
+`y+` grants what `y` grants, and keeps it: every later commit in this session runs
+unconfirmed, whether invoked as `/cmt` or asked for in passing. It stays on until the
+session ends or Dima revokes it — a `/clear` or a fresh session drops it, and it is
+never carried across a handoff.
 
 `y+` covers the confirm only. `mir` and `push` are still per-invocation — a standing
 yes never reaches a remote on its own. Standing pushes need `push+`, asked for separately.
 
 ### 1.2 · `push+` — standing push
 
-`push+` grants what `push` grants, and keeps it: every later commit in this conversation
-pushes when it lands, whether invoked as `/cmt` or asked for in passing. It stays on until
-the conversation ends or Dima revokes it.
+`push+` grants what `push` grants, and keeps it: every later commit in this session pushes
+when it lands, whether invoked as `/cmt` or asked for in passing. It stays on until the
+session ends or Dima revokes it — same lifetime as `y+`, and equally never inherited by a
+successor thread. A standing remote is granted by the person in the room, not by a file.
 
 While `push+` is on, §1.0's never-push-mid-session default is suspended — that default
 exists to stop unasked-for remote writes, and `push+` is the ask. The end-of-session
