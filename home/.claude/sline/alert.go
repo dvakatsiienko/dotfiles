@@ -36,7 +36,7 @@ func collectAlerts(claudeContext *ClaudeContext) []alert {
 	// enable in a conversation re-bills the whole context uncached. Read per
 	// render and held nowhere, so it clears on toggle-off and on a switch to a
 	// model that cannot run it.
-	if claudeContext != nil && claudeContext.FastMode {
+	if claudeContext.FastMode {
 		alerts = append(alerts, alert{label: "↯ FAST", level: alertCrit})
 	}
 

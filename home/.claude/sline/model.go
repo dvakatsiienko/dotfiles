@@ -120,7 +120,7 @@ func getModelFromSettings() string {
 // the launch value — /effort changes the dial without rewriting the file — so
 // the file is the fallback for bare-terminal runs, never the primary source.
 func effortLevel(claudeContext *ClaudeContext) string {
-	if claudeContext != nil && claudeContext.Effort != nil && claudeContext.Effort.Level != "" {
+	if claudeContext.Effort != nil && claudeContext.Effort.Level != "" {
 		return claudeContext.Effort.Level
 	}
 	return getEffortFromSettings()
@@ -164,7 +164,7 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 
 	var modelFamily, version string
 
-	if claudeContext != nil && claudeContext.Model.ID != "" {
+	if claudeContext.Model.ID != "" {
 		modelFamily = strings.ToLower(extractModelFamily(claudeContext.Model.DisplayName))
 		version = extractVersionFromDisplayName(claudeContext.Model.DisplayName)
 		if version == "" {
@@ -201,20 +201,29 @@ func getModelDisplayName(claudeContext *ClaudeContext) string {
 // knowing. The "output-" prefix is stripped; it is a filing convention. Casing
 // of what remains is preserved — style names carry abbreviations (ELI5).
 func outputStyleBadge(claudeContext *ClaudeContext) string {
-	if claudeContext == nil || claudeContext.OutputStyle == nil {
+	if claudeContext.OutputStyle == nil {
 		return ""
 	}
 	name := claudeContext.OutputStyle.Name
 	if name == "" {
 		return ""
 	}
+	// The full name is the filename; only the display form loses the prefix.
+	source := outputStylePath(name)
 	if len(name) >= len("output-") && strings.EqualFold(name[:len("output-")], "output-") {
 		name = name[len("output-"):]
+	}
+	// The name opens its own source — the file defining how this reply will be
+	// written is the one thing you want when the badge catches your eye.
+	// "default" is CC's built-in and has no file, so it stays unlinked.
+	label := applyGradientStops(effortGradientStops, name)
+	if !strings.EqualFold(name, "default") {
+		label = hyperlink(editorURL(source), label)
 	}
 	// Bare emoji: no foreground color (it paints its own) and no track background
 	// (the effort dial's background is one cell wide, and 🪶 occupies two — it
 	// would tint only the left half of the glyph).
-	return "🪶 " + applyGradientStops(effortGradientStops, name)
+	return "🪶 " + label
 }
 
 // =============================================================================

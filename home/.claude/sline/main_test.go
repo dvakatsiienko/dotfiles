@@ -414,8 +414,10 @@ func TestRepoDirFollowsTheSessionNotTheShell(t *testing.T) {
 		t.Errorf("repoDir without project_dir = %q, want /tmp", got)
 	}
 
-	if got := repoDir(nil); got != "" {
-		t.Errorf("repoDir(nil) = %q, want empty", got)
+	// Nil is absorbed at the boundary now, so the bare-terminal case reaches
+	// here as a zero-value context rather than a nil pointer.
+	if got := repoDir(&ClaudeContext{}); got != "" {
+		t.Errorf("repoDir on an empty context = %q, want empty", got)
 	}
 }
 
@@ -471,9 +473,6 @@ func TestEffortLevelPrefersPayloadOverSettings(t *testing.T) {
 	// rather than the machine's current file contents.
 	if got := effortLevel(&ClaudeContext{}); got != getEffortFromSettings() {
 		t.Errorf("payload effort absent: want the settings fallback, got %q", got)
-	}
-	if got := effortLevel(nil); got != getEffortFromSettings() {
-		t.Errorf("nil context: want the settings fallback, got %q", got)
 	}
 }
 
@@ -533,16 +532,21 @@ func TestOutputStyleBadge(t *testing.T) {
 	if !strings.Contains(rendered, "🪶") {
 		t.Error("custom output style: want the 🪶 marker")
 	}
+	// The badge links its source file, so the full "output-fun" name appears in
+	// the OSC 8 target. Only the visible label is asserted on — everything after
+	// the link target, which is where the rendered name lives.
+	tail := rendered[strings.Index(rendered, "🪶"):]
+	if idx := strings.Index(tail, "\033\\"); idx >= 0 {
+		tail = tail[idx:]
+	}
 	// The name is rendered per-character through a gradient, so the letters are
 	// separated by escape codes — assert on order, not on a contiguous substring.
-	// Scoped to the tail after ✎, since "opus" upstream also contains a "u".
-	tail := rendered[strings.Index(rendered, "🪶"):]
 	f, u, n := strings.Index(tail, "f"), strings.Index(tail, "u"), strings.LastIndex(tail, "n")
 	if f < 0 || u < f || n < u {
 		t.Error("custom output style: want the style name rendered in order")
 	}
-	if strings.Contains(rendered, "output-") {
-		t.Error("custom output style: the output- prefix should be stripped")
+	if strings.Contains(tail, "output-") {
+		t.Error("custom output style: the output- prefix should be stripped from the label")
 	}
 
 	abbrev := &ClaudeContext{}
@@ -582,19 +586,18 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 	if err != nil {
 		t.Skip("no home dir")
 	}
-	ctx := &ClaudeContext{}
-	ctx.Workspace.CurrentDir = filepath.Join(home, "projects", "dotfiles")
+	currentDir := filepath.Join(home, "projects", "dotfiles")
 
 	// The link needs the absolute path; only the rendered half wears the ~.
-	abs, display := workingDir(ctx)
-	if abs != ctx.Workspace.CurrentDir {
-		t.Errorf("abs = %q, want %q", abs, ctx.Workspace.CurrentDir)
+	abs, display := workingDir(currentDir)
+	if abs != currentDir {
+		t.Errorf("abs = %q, want %q", abs, currentDir)
 	}
 	if display != "~/projects/dotfiles" {
 		t.Errorf("display = %q, want ~/projects/dotfiles", display)
 	}
 
-	if !strings.Contains(dirSegment(ctx), "cursor://file"+abs) {
+	if !strings.Contains(dirSegment(currentDir), "cursor://file"+abs) {
 		t.Error("dir segment should link the absolute path at Cursor")
 	}
 }
@@ -625,5 +628,26 @@ func TestClaudeHomePathsAgree(t *testing.T) {
 		if got != want {
 			t.Errorf("got %q, want %q", got, want)
 		}
+	}
+}
+
+func TestOutputStyleBadgeLinksItsSource(t *testing.T) {
+	styled := &ClaudeContext{}
+	styled.OutputStyle = &struct {
+		Name string `json:"name"`
+	}{Name: "output-ELI5"}
+
+	badge := outputStyleBadge(styled)
+	if !strings.Contains(badge, "cursor://file"+outputStylePath("output-ELI5")) {
+		t.Errorf("style badge should link its source file, got %q", badge)
+	}
+
+	// CC's built-in style has no file behind it, so linking it would 404.
+	plain := &ClaudeContext{}
+	plain.OutputStyle = &struct {
+		Name string `json:"name"`
+	}{Name: "default"}
+	if strings.Contains(outputStyleBadge(plain), "cursor://") {
+		t.Error("default style has no source file and must stay unlinked")
 	}
 }

@@ -179,10 +179,6 @@ func weeklyWindow(context *ClaudeContext) *RateLimitWindow {
 // server-provided; when none are present nothing is emitted rather than
 // falling back to a client-side estimate.
 func usageSegments(context *ClaudeContext) []string {
-	if context == nil {
-		return nil
-	}
-
 	var segments []string
 
 	// 📡 belongs to the cost figure — post-/clear CC omits cost (and context)

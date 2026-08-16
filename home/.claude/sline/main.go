@@ -106,12 +106,23 @@ func readClaudeContext() *ClaudeContext {
 	return &ctx
 }
 
+// claudeContextOrEmpty absorbs the bare-terminal case once, here at the
+// boundary, so no segment downstream carries a nil guard for it. Every field
+// then reads as its zero value, which is exactly what "Claude Code told us
+// nothing" means.
+func claudeContextOrEmpty() *ClaudeContext {
+	if ctx := readClaudeContext(); ctx != nil {
+		return ctx
+	}
+	return &ClaudeContext{}
+}
+
 // workingDir reports the directory absolutely and as displayed. The absolute
 // form feeds the Finder link; the ~-shortened form is what gets rendered. Prefers
 // the dir Claude Code reports over the process cwd.
-func workingDir(claudeContext *ClaudeContext) (abs, display string) {
-	if claudeContext != nil && claudeContext.Workspace.CurrentDir != "" {
-		abs = claudeContext.Workspace.CurrentDir
+func workingDir(currentDir string) (abs, display string) {
+	if currentDir != "" {
+		abs = currentDir
 	} else if cwd, err := os.Getwd(); err == nil {
 		abs = cwd
 	} else {
@@ -128,8 +139,8 @@ func workingDir(claudeContext *ClaudeContext) (abs, display string) {
 	return abs, abs
 }
 
-func dirSegment(claudeContext *ClaudeContext) string {
-	abs, display := workingDir(claudeContext)
+func dirSegment(currentDir string) string {
+	abs, display := workingDir(currentDir)
 	return "📼 " + paint(DirColor, hyperlink(editorURL(abs), display))
 }
 
@@ -149,9 +160,6 @@ func getGitEmoji() string {
 // wherever the shell has wandered to. Travelling out of the repo mid-session
 // used to blank the segment.
 func repoDir(claudeContext *ClaudeContext) string {
-	if claudeContext == nil {
-		return ""
-	}
 	if claudeContext.Workspace.ProjectDir != "" {
 		return claudeContext.Workspace.ProjectDir
 	}
@@ -223,7 +231,7 @@ func renderGitStatus(st GitStatus) []string {
 }
 
 func generateStatusline() string {
-	claudeContext := readClaudeContext()
+	claudeContext := claudeContextOrEmpty()
 
 	state := loadState()
 	emoji, emojiChanged := modelEmoji(&state)
@@ -236,7 +244,7 @@ func generateStatusline() string {
 	// separator with it — see segment.go.
 	line1 := joinSegments(flatten(
 		[]string{
-			dirSegment(claudeContext),
+			dirSegment(claudeContext.Workspace.CurrentDir),
 			paint(Bold+NodeIconColor, "󰎙") + " " + paint(NodeColor, getNodeVersion()),
 			paint(PnpmIconColor, "📦") + " " + paint(PnpmColor, pnpmVersion),
 		},
@@ -244,7 +252,7 @@ func generateStatusline() string {
 		// Session identity, then the ticket in focus.
 		[]string{
 			sessionSegment(claudeContext),
-			focusSegment(claudeContext),
+			focusSegment(claudeContext.SessionID),
 		},
 		// Alerts close line 1 — one place for every active fault. See alert.go.
 		alertSegments(claudeContext),

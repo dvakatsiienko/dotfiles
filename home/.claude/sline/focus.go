@@ -35,11 +35,8 @@ func loadFocus(sessionID string) *focusState {
 	return &st
 }
 
-func focusSegment(claudeContext *ClaudeContext) string {
-	if claudeContext == nil {
-		return ""
-	}
-	st := loadFocus(claudeContext.SessionID)
+func focusSegment(sessionID string) string {
+	st := loadFocus(sessionID)
 	if st == nil || (st.Pin == "" && len(st.Touch) == 0) {
 		return ""
 	}

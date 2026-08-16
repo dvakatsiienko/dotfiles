@@ -57,9 +57,6 @@ func sessionSegment(claudeContext *ClaudeContext) string {
 // machine-resolvable identifier: a cst pull maps it to the registry/transcript
 // deterministically, no name guessing.
 func sessionLabel(context *ClaudeContext) string {
-	if context == nil {
-		return ""
-	}
 	name := context.SessionName
 	if name == "" && context.SessionID != "" {
 		name = resolveSessionName(sessionsDir(), context.SessionID)

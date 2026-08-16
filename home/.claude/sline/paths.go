@@ -36,3 +36,12 @@ func focusPath(sessionID string) string { return claudeHome("focus", sessionID+"
 
 // handoffsDir is the CST store every handoff frontend shares.
 func handoffsDir() string { return claudeHome("handoffs") }
+
+// outputStylePath resolves a style to its markdown source. The name arrives
+// already carrying the "output-" filing prefix, which is also the filename.
+func outputStylePath(styleName string) string {
+	if styleName == "" {
+		return ""
+	}
+	return claudeHome("output-styles", styleName+".md")
+}
