@@ -113,11 +113,40 @@ async function stamp(skill: string) {
 }
 
 /* Helpers */
+// ? Digested from the files' own bytes, not from git's index. `git ls-files`
+// ? sees only TRACKED files, so a reference doc added to a source skill and not
+// ? yet committed left the hash unmoved — the check reported the cw adaptation
+// ? fresh while it was already stale. A drift detector that under-reports is
+// ? worse than none, because it is believed.
+// ? Path goes into the digest alongside content, so a rename counts as drift.
 async function sourceSha(skill: string) {
-    const rel = `home/.claude/plugin-x/skills/${skill}`;
-    const files = (await zx.$`git ls-files ${rel}`).stdout.trim().split('\n');
-    const hashes = (await zx.$`git hash-object ${files}`).stdout.trim();
-    return createHash('sha1').update(hashes).digest('hex');
+    const dir = `${repoRoot}/home/.claude/plugin-x/skills/${skill}`;
+    const digest = createHash('sha1');
+
+    for (const rel of await sourceFiles(dir)) {
+        digest.update(rel);
+        digest.update(await zx.fs.readFile(`${dir}/${rel}`));
+    }
+
+    return digest.digest('hex');
+}
+
+// ? Sorted, so the digest does not depend on directory order.
+async function sourceFiles(dir: string, prefix = ''): Promise<string[]> {
+    const entries = await zx.fs.readdir(dir, { withFileTypes: true });
+    const found: string[] = [];
+
+    for (const entry of entries.sort((a: Dirent, b: Dirent) =>
+        a.name.localeCompare(b.name),
+    )) {
+        if (entry.name === '.DS_Store') continue;
+        const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+        if (entry.isDirectory())
+            found.push(...(await sourceFiles(`${dir}/${rel}`, rel)));
+        else found.push(rel);
+    }
+
+    return found;
 }
 
 async function readStamp(skill: string) {
