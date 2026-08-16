@@ -130,9 +130,17 @@ carry `start` → In Progress, `review` → In Review, `merge` → Done. No `dra
 jumps straight to In Review. The `Team.*WorkflowState` fields read null even when automations
 exist; they are legacy. Never diagnose from them.
 
-Those five events are all PR events. **Committing straight to `main` fires none of them** — the
-commit still links to the ticket, but nothing moves unless the commit itself carries a closing
-keyword.
+Those five events are all PR events. **Committing straight to `main` fires none of them.**
+
+Commit linking is a separate mechanism and it works without any PR — verified end to end on
+DOT-78, 2026-08-16. A commit pushed to the default branch with a magic word appears on the
+ticket as a link, and a closing keyword moves it to Done within seconds.
+
+📌 It requires a **manual push webhook per repo** — the `Link commits to issues with magic words`
+toggle alone does nothing. Linear settings → integrations → GitHub → flip that toggle off and on
+to reopen the setup modal → copy payload URL + secret → GitHub repo settings → webhooks → add,
+content type `application/json`, push event only → back to Linear, click Done. `dotfiles` is
+wired; other repos are not until someone repeats this.
 
 ## 4 · Worktree mirroring (`mir`)
 
