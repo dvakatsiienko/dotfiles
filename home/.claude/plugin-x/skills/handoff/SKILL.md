@@ -1,6 +1,6 @@
 ---
 name: handoff
-argument-hint: "[focus] | spawn [focus] | <session-id|name> [focus] | prune|clear|delete"
+argument-hint: "[focus on] | spawn [focus on] | <session-id|name> [focus on] | prune|clear|delete"
 description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor, "/handoff prune|clear|delete" to wipe the pending store.
 ---
 
