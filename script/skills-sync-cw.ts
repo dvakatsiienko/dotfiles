@@ -9,16 +9,18 @@
  * ?   pnpm skills-sync-cw stamp <skill>   # after re-adapting a cw SKILL.md
  * ?
  * ? cw skills are thin ADAPTATIONS of their plugin-x sources, not copies, so
- * ? this never touches SKILL.md content. Each one carries a .source-sha (the git
- * ? blob hash of the SKILL.md it was adapted from); a differing live hash = stale.
+ * ? this never touches SKILL.md content. Each one carries a .source-sha, digested
+ * ? over every tracked file of the source skill dir (SKILL.md + references/);
+ * ? a differing live hash = stale.
  */
 
+/* Core */
+import { createHash } from 'node:crypto';
 import * as zx from 'zx';
 
 import { repoRoot } from './lib/manifest.ts';
 /* Instruments */
 import { bb, done, fail, mb, note, ok, step, title } from './lib/print.ts';
-/* Core */
 import type { Dirent } from 'node:fs';
 
 const cwDir = `${repoRoot}/home/.claude/skills-cw`;
@@ -112,8 +114,10 @@ async function stamp(skill: string) {
 
 /* Helpers */
 async function sourceSha(skill: string) {
-    const rel = `home/.claude/plugin-x/skills/${skill}/SKILL.md`;
-    return (await zx.$`git hash-object ${rel}`).stdout.trim();
+    const rel = `home/.claude/plugin-x/skills/${skill}`;
+    const files = (await zx.$`git ls-files ${rel}`).stdout.trim().split('\n');
+    const hashes = (await zx.$`git hash-object ${files}`).stdout.trim();
+    return createHash('sha1').update(hashes).digest('hex');
 }
 
 async function readStamp(skill: string) {
