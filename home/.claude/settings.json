@@ -20,7 +20,6 @@
       "Bash(tail:*)",
       "Bash(rg:*)",
       "Bash(grep:*)",
-      "Bash(find:*)",
       "Bash(which:*)",
       "Bash(echo:*)",
       "Bash(pwd:*)",
