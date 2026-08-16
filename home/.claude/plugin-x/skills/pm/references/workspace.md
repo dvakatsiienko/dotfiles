@@ -79,7 +79,7 @@ linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.da
 ## CLI gotchas
 
 - Team-wide listing = `linear issue query --team DOT` (`issue list` shows only issues assigned to *you*).
-- Multi-line/markdown bodies: write to a file, pass `--description-file file.md` (`issue create`/`issue update`) or `--body-file file.md` (`comment add`/`comment update`) — the shell never touches the content, unlike inline `--description "$(cat …)"` (`$VAR`/backtick expansion silently mangles snippets).
+- Multi-line/markdown bodies: write to a file, pass `--description-file file.md` (`issue create`/`issue update`) or `--body-file file.md` (`issue comment add`/`issue comment update` — there is no top-level `comment` command) — the shell never touches the content, unlike inline `--description "$(cat …)"` (`$VAR`/backtick expansion silently mangles snippets).
 - `issue update --label` **replaces** the whole label set, it never adds. Passing one label drops
   every other one, silently and with a success message. Always pass the full intended set
   (`--label agent --label fable-5`), and verify after:
