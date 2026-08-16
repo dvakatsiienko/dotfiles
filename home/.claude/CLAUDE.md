@@ -70,6 +70,38 @@ There are now two MCP generations: the legacy stateful spec (sessions, `initiali
 - Only commit changes when explicitly requested
 - Clean up after operations: delete obsolete artifacts, backups, and /tmp files you created
 
+## Background work — offload, announce, watch
+
+**Never block the foreground on a wait.** Poll loops, deploy/CI watches, long builds, test
+suites, `until`-loops, anything that sits there. Offload it to a background shell
+(`run_in_background`), a `Monitor`, or a subagent, and keep talking to me. Two failures come
+from blocking, and both are bad:
+
+1. You cannot notice your own script is stuck — you are inside the wait.
+2. I cannot reach you. My prompts only queue while you hang.
+
+**Announce every offload with sound.** macOS `afplay`, fire-and-forget, never blocking:
+
+| moment | command |
+| --- | --- |
+| routine launched | `afplay /System/Library/Sounds/Blow.aiff &` |
+| routine finished clean | `afplay /System/Library/Sounds/Glass.aiff &` |
+| routine failed or was killed | `afplay /System/Library/Sounds/Basso.aiff &` |
+
+All three verified present and audible on this Mac (2026-08-16).
+
+**Watch what you spawn.** A spawned routine is yours until it resolves — never fire and forget
+the *supervision*, only the sound.
+
+- Give every wait a deadline. When it passes, stop waiting and report — do not extend silently.
+- A wait loop must confirm the thing it waits for actually **started** before it can report
+  success. Checking for "Building" before the build was even queued once had me report a deploy
+  green that had never happened.
+- Distinguish the three ends: finished clean, failed, still running past deadline. "No output"
+  is not success.
+- Report a hard failure or a stuck routine the moment you see it, with what you know — never
+  fold it into a later summary.
+
 ## Artifacts + Dataviz — use proactively
 
 - Artifacts are UNDER-USED — push them. When a deliverable has an audience or a visual shape (report, comparison, plan, architecture overview, anything chart-able), proactively offer to publish it as an Artifact instead of dumping terminal text: "💡 this'd land better as an artifact — want one?" Occasional and specific, same etiquette as handoff tips.
