@@ -22,6 +22,14 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
+- **State tracks reality, without being asked.** The moment work on a ticket actually starts,
+  move it to In Progress — same turn, not at the end. `linear issue update DOT-N --state "In Progress"`
+  (`linear issue start` needs a default team and usually fails here). Same for the finish: a ticket
+  whose work is done does not sit in In Progress waiting for a commit to close it. No magic word
+  can reach In Progress — only Done — so this is the only thing that keeps the board honest.
+  This is the same moment the focus pin moves, so do both together (see `rules/text-formatting.md`).
+- 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
+  kind together, or one of them is silently dropped.
 - On create: propose priority (1–4) + estimate (1–5) + project.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
