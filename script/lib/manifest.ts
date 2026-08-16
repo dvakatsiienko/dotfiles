@@ -38,23 +38,29 @@ export function findRepoRoot(from: string) {
 export const repoRoot = findRepoRoot(import.meta.dirname);
 export const mirrorRoot = `${repoRoot}/home`;
 
-// ? Stored in home/ but never linked into ~, for two different reasons:
-// ?   reached by absolute path, so a link would be dead weight — plugin-x
-// ?     (settings.json marketplace entry) and mcp-handoff-cw (cw's own
-// ?     config, which lives outside this repo);
-// ?   not Claude Code config at all — skills-cw holds zip sources for cw,
-// ?     and linking it would put non-config into ~/.claude.
-// ?   sourced by a stub instead of linked — Cowork refuses to trust any folder
-// ?     that a protected home path resolves into, and its protected list covers
-// ?     the shell rc files. A real ~/.zshrc that sources this one keeps the
-// ?     resolved path in ~ and leaves the repo grantable.
-export const noLink = new Set([
-    '.claude/plugin-x',
-    '.claude/mcp-handoff-cw',
-    '.claude/skills-cw',
-    '.zshrc',
-    '.zshenv',
-    '.zprofile',
+// ? Stored in home/ but never linked into ~. The reason is the interesting part
+// ? and there are three of them, so it is data rather than a comment above a
+// ? flat list — `pnpm dotfiles-link` prints it, and a new entry has to declare
+// ? which rule it belongs to instead of joining an undifferentiated set.
+export const noLinkReasons = {
+    absolutePath: 'reached by absolute path, so a link would be dead weight',
+    notClaudeConfig:
+        'not Claude Code config — linking it would put non-config into ~/.claude',
+    // ? Cowork refuses to trust any folder that a protected home path resolves
+    // ? into, and its protected list covers the shell rc files. A real ~/.zshrc
+    // ? that sources this one keeps the resolved path in ~ and leaves the repo
+    // ? grantable.
+    sourcedByStub:
+        'sourced by a stub instead of linked, so cowork can trust the repo',
+} as const;
+
+export const noLink = new Map<string, keyof typeof noLinkReasons>([
+    ['.claude/plugin-x', 'absolutePath'],
+    ['.claude/mcp-handoff-cw', 'absolutePath'],
+    ['.claude/skills-cw', 'notClaudeConfig'],
+    ['.zshrc', 'sourcedByStub'],
+    ['.zshenv', 'sourcedByStub'],
+    ['.zprofile', 'sourcedByStub'],
 ]);
 
 const ignoredNames = new Set(['.DS_Store']);
@@ -69,7 +75,7 @@ export type Entry = {
 type WalkConfig = {
     ignored: Set<string>;
     mirror: string;
-    skip: Set<string>;
+    skip: Map<string, keyof typeof noLinkReasons> | Set<string>;
     target: string;
 };
 

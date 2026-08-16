@@ -21,6 +21,8 @@ import type { Entry } from './lib/manifest.ts';
 import {
     buildManifest,
     lstatOrNull,
+    noLink,
+    noLinkReasons,
     repoRoot,
     toTilde,
 } from './lib/manifest.ts';
@@ -86,6 +88,14 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
         dryRun ? `${rows.length} entries mirrored into ~` : 'applying',
     );
     print(rows);
+
+    // ? Held back on purpose, and for three different reasons. Printing the
+    // ? reason is why noLink carries one — otherwise these six paths just look
+    // ? like an oversight every time someone reads the report.
+    if (dryRun) {
+        step(`${noLink.size} not linked, by design`);
+        for (const [path, reason] of noLink) skip(path, noLinkReasons[reason]);
+    }
 
     const conflicts = rows.filter((row) => row.state === STATE.REAL);
     const pending = rows.filter(
