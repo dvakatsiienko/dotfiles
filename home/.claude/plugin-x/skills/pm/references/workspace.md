@@ -6,15 +6,24 @@ Single tracker for everything since 2026-08-13 (GH issues retired; closed GH iss
 
 | Team | Key | Scope |
 | --- | --- | --- |
-| dotfiles | `DOT` | `~/projects/dotfiles` repo — CC workflow lab, shell, machine setup |
-| bytes | `BYT` | `bytes` monorepo — apps, kit, tooling, rl |
+| dotfiles | `DOT` | **tooling, approaches, problem-solving** — CC workflow lab, shell, machine setup, and how-we-work questions wherever they surface |
+| bytes | `BYT` | **building apps** — the `bytes` monorepo's product work |
+
+**Split by nature of the work, not by which repo the files live in.** A build-infra or
+deploy-quota problem is a DOT ticket even when every file it touches is under `bytes` — it is a
+tooling problem. A feature in an app is BYT even though the same session may edit shared config.
+When in doubt: "am I solving how we work, or building the thing?" (stated 2026-08-16).
 
 Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wide**. Archive aggressively (archived issues don't count, stay searchable). Escape hatch: Basic $10/mo.
+
+📌 The project structure under each team is **mid-restructure** and Dima owns it — Linear went
+live 2026-08-14 and the shape is still being formed. Propose a project for a new ticket, but do
+not reorganise projects unprompted.
 
 ## Projects
 
 - **DOT**: `revamp` (setup audit + restructure) · `shelf` (artifact store + transcript family) · `handoff` (`cc`↔`cw` CST) · `claude` (skills, plugins, agent loops, personal CLI) · `sline` (statusline)
-- **BYT**: `design-system` (kit-rooted unification) · `cv` · `x-com-chat` · `tooling` · `rl` (benchmark work)
+- **BYT**: `design-system` (kit-rooted unification) · `cv` · `x-com-chat` · `tooling` (app-local build config inside `bytes` only — cross-cutting tooling is DOT) · `rl` (benchmark work)
 - Projects are for real feature families. A small one-off goes project-less; when a theme accumulates, propose an umbrella project (e.g. `shell`, `macos`) to Dima.
 - This map is authoritative by convention: pm maintains it — creating/renaming a project and updating this file is one operation.
 

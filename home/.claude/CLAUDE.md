@@ -84,9 +84,9 @@ from blocking, and both are bad:
 
 | moment | command |
 | --- | --- |
-| routine launched | `afplay /System/Library/Sounds/Blow.aiff &` |
-| routine finished clean | `afplay /System/Library/Sounds/Glass.aiff &` |
-| routine failed or was killed | `afplay /System/Library/Sounds/Basso.aiff &` |
+| routine launched | `afplay /System/Library/Sounds/Blow.aiff >/dev/null 2>&1 &` |
+| routine finished clean | `afplay /System/Library/Sounds/Glass.aiff >/dev/null 2>&1 &` |
+| routine failed or was killed | `afplay /System/Library/Sounds/Basso.aiff >/dev/null 2>&1 &` |
 
 All three verified present and audible on this Mac (2026-08-16).
 

@@ -30,6 +30,22 @@ Role, priority and estimate are **always filled and current** — monitoring the
 
 250 non-archived issues workspace-wide. Resolve faster than create. Prefer one fuller ticket covering an area over strands of small ones — but no monster tickets; balance. Archive resolved work aggressively. Quota nearing (~200): propose a restructure pass.
 
+## Compression budget — DEV PREVIEW (live, unapproved)
+
+(claude-important) dev preview, live since 2026-08-16, not yet approved by Dima —
+DOT-71 grills it. Follow it now; flag friction the moment you feel it. (claude-important)
+
+**Ticket body: ≤10 lines.** Specs excepted.
+
+- Keep: the decision to make, the hard constraint, the non-obvious fact, the exact command or path.
+- Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
+- Options: give one recommendation; the runner-up gets a clause, never a section.
+- Dima's verbatim words are never cut — they are evidence, not prose.
+- The title carries the subject. Never restate it in the first line.
+
+Reason: tickets are read by Dima, who already holds the context, and by an agent that
+re-reads the repo anyway. Padding buries the signal.
+
 ## Output discipline
 
 - **Titles are the interface**: clear, concise, subject-first — details go in the body, never the title.

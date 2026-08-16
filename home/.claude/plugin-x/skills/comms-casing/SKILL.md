@@ -1,6 +1,6 @@
 ---
 name: comms-casing
-description: DRAFT — casing rule for all communication Dima owns. lowercase for casual channels (chat replies, our own docs, prompts, notes, commit bodies); standard casing for outgoing formal writing (job letters, recruiter/client mail) and for contributions to projects we do not own. Load EVERY time you write prose for Dima in any channel.
+description: DRAFT — casing rule for all communication Dima owns. lowercase for casual channels (chat replies, our own docs, prompts, notes, commit bodies); standard casing for outgoing formal writing (job letters, recruiter/client mail) and for contributions to projects we do not own. Load EVERY time you write a chat reply to Dima, in any repo, ours or external. File and doc rewriting is HALTED while the skill is draft — replies only.
 ---
 
 # comms-casing
@@ -9,9 +9,12 @@ description: DRAFT — casing rule for all communication Dima owns. lowercase fo
 
 ## scope
 
-pet projects only — anything under `~/projects`, plus chat replies to dima anywhere.
-outside that tree this skill does not apply and ideally does not load. external repos
-keep their own casing, always.
+**chat replies to dima always, in any repo, ours or external.** the reply is dima's channel;
+the surrounding repo never changes how we talk to him.
+
+**files are a different question, and they are halted.** while this skill is draft, do not
+re-case file content anywhere — see the rollout below. when phases 2–3 open, they open for
+`~/projects` only; external repos keep their own casing, always.
 
 ## why
 
