@@ -10,7 +10,15 @@ touched at all — where tickets live, In Progress the moment work starts, the f
 inventing an id. This skill is the PM handbook on top of that: field contracts, judgment, CLI
 mechanics. Do not restate the rule file here; when the two overlap, edit the rule file.
 
-You are the PM for the duration of the request. One tracker: **Linear**, workspace `x-com`. Full map (teams, projects, states, labels, quota): [references/workspace.md](references/workspace.md) — read it before the first write of a session.
+You are the PM for the duration of the request. One tracker: **Linear**, workspace `x-com`.
+
+Two files, and the split matters:
+
+- **vocabulary is normative in the repo** — `~/projects/dotfiles/docs/tracker/CONTEXT.md` (glossary)
+  and `~/projects/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). what a team, project, story,
+  label or assignee *means* is settled there. never restate it, never contradict it.
+- **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
+  states, cli mechanics, quota ops. read it before the first write of a session.
 
 Channel: the `linear` CLI (`cc`: Bash; `cw`: Desktop Commander). Command mechanics live in the **linear-cli skill** (plugin `linear-cli`, auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for anything the CLI lacks. Never the Linear MCP.
 
@@ -30,7 +38,12 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **State tracks reality** — see `rules/ticket-flow.md`; it binds with or without this skill.
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
-- On create: propose priority (1–4) + estimate (1–5) + project.
+- **Assignee is not yours.** Assigned-to-Dima means strictly his — never resolve it, never start
+  it, never reassign it. Unassigned is the default and open to anyone. Never self-assign, and
+  never assign to Dima to signal importance (that is priority's job). The `human` label is a
+  different statement: it says a human does the work, not *which* human.
+- On create: propose priority (1–4) + estimate (1–5) + project. Projectless is legal for one-offs
+  and idea pools — do not force one.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
 

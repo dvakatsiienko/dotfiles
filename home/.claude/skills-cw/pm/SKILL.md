@@ -30,15 +30,38 @@ are carried here by hand. If they are edited there, edit them here too — nothi
 - **The focus pin is `cc`-only** — sline renders it from a local file this side cannot reach. Do not
   reason about it here, and do not tell Dima a ticket is pinned.
 
-## Workspace map
+## Workspace map — inlined, because `cw` cannot read the repo's tracker context
 
-- **DOT projects**: `revamp` · `shelf` · `handoff` · `claude` · `sline`
-- **BYT projects**: `design-system` · `cv` · `x-com-chat` · `tooling` · `rl`
-- Small one-offs go project-less; a recurring theme → propose an umbrella project.
+On `cc` the vocabulary below is normative in `~/projects/dotfiles/docs/tracker/CONTEXT.md` +
+`docs/tracker/adr/`. `cw` cannot load those, so they are carried here by hand. Restructured
+2026-08-17 (DOT-72 / TRK-0001); if the repo files move on, this block must be re-adapted — nothing
+detects the drift.
+
+- **Team** — top split by nature of the work, never by repo. `DOT` = tooling/approaches/how-we-work,
+  `BYT` = building apps. A build-infra problem is `DOT` even when every file lives under `bytes`.
+  `BYT/tooling` is app-local build config **inside `bytes` only**; cross-cutting tooling is `DOT`.
+- **DOT projects**: `pm` (tracker + pm skill) · `mind` (memory, skills, rules, writing) · `fleet`
+  (surfaces and bridges: dispatch, `cc cloud`, ipad, handoff) · `cli` (interface layer) · `shelf` ·
+  `revamp` · `sline` · `numi`
+- **BYT projects**: `rl` · `design-system` · `cv` · `x-com-chat` · `tooling`
+- A project is a long-lived area and never closes. Dissolved 2026-08-17: `claude` (→ pm/mind/fleet/cli)
+  and `handoff` (→ fleet). **Projectless is legal** for one-offs and idea pools — don't force one.
+- **Story, never epic.** «epic» is retired (TRK-0001) — not in titles, not in speech. A **story** is
+  just a ticket with sub-tickets; no marker, no label, the hierarchy is what makes it one. The parent
+  doubles as the batch id. Ordering = native `blocks` relations, never title prefixes. Meet «epic» in
+  an old title while editing → rewrite it to «story» in passing.
+- **Assignee ≠ role label.** Assigned-to-Dima = strictly his: never resolve it, never start it, never
+  reassign it. Unassigned = the default, open to anyone. Never self-assign, and never assign to Dima
+  to signal importance. The `human` label says a human does the work, not *which* human.
 - **States**: Triage inbox = needs-triage · `needs-info` label + Todo · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
-- **Labels — two vocabularies, one of each per ticket.** **Role** (per team): `agent` · `human` · `needs-info` — who does it. **Kind** (workspace-wide): `bug` · `feature` · `improvement` — what it is; `bug` restores intended behaviour, `feature` is new capability, `improvement` is an existing thing made better (refactors, renames, docs, tooling). Set both on every create and every touch. Epics and decision tickets take the kind of the work they lead to.
-- **Priority** 1 Urgent–4 Low. Urgent free to use — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
-- **Quota**: free plan, 250 non-archived issues workspace-wide. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); archive resolved work; near ~200 propose a restructure pass.
+- **Labels — all workspace-level** since 2026-08-17; no per-team sets remain. One **role** (`agent` ·
+  `human` · `needs-info` — who does it) and one **kind** (`bug` restores intended behaviour · `feature`
+  is new capability · `improvement` is an existing thing made better — refactors, renames, docs,
+  tooling) on every create and every touch. A story parent or decision ticket takes the kind of the
+  work it leads to. **Model routing** labels — `fable-5` (magenta) · `opus-5` (blue) · `sonnet-5`
+  (emerald) — are Dima's notation for future label→model routing; set one only on a real preference.
+- **Priority** 1 Urgent–4 Low, p1 **rare** — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
+- **Quota**: free plan, 250 non-archived issues workspace-wide, auto-archive on. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); near ~200 propose a restructure pass.
 
 ## The two jobs
 
@@ -58,6 +81,6 @@ Priority + estimate **always filled and current** — monitoring them is your jo
 - **Titles are the interface**: clear, concise, subject-first — details in the body, never the title.
 - Ticket ids in replies: clickable links + short tldr, never bare numbers.
 - Closing with context: one paragraph, what landed + where — never bare-close.
-- Heavy restructuring (epics, dependency graphs, bulk edits) belongs to CC — offer a handoff.
+- Heavy restructuring (stories, dependency graphs, bulk edits) belongs to CC — offer a handoff.
 - Stay quick: real scope/architecture thinking → suggest a grill, don't silently expand.
 - **No session-rename suggestion here** — `/rename` is a `cc`-only slash command, `cw` has no equivalent. Don't print `/rename` lines in `cw` output.

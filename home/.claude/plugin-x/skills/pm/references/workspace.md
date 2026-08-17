@@ -1,96 +1,134 @@
-# Linear workspace map — x-com
+# linear workspace — x-com — operating map
 
-Single tracker for everything since 2026-08-13 (GH issues retired; closed GH issues = read-only history with pointer comments).
+recipes only. **vocabulary is normative elsewhere**: `~/projects/dotfiles/docs/tracker/CONTEXT.md`
+(glossary) + `~/projects/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). read the glossary
+before the first write of a session — team, project, story, ticket, label, assignee, priority,
+estimate are all defined there and are never restated here.
 
-## Teams
+📌 the split is deliberate (`CONTEXT-MAP.md`): if a definition here disagrees with the tracker
+context, the tracker context wins and this file is the bug.
 
-| Team | Key | Scope |
+single tracker since 2026-08-13; gh issues retired (closed history with pointer comments).
+
+## teams
+
+| team | key | scope |
 | --- | --- | --- |
-| dotfiles | `DOT` | **tooling, approaches, problem-solving** — CC workflow lab, shell, machine setup, and how-we-work questions wherever they surface |
-| bytes | `BYT` | **building apps** — the `bytes` monorepo's product work |
+| dotfiles | `DOT` | tooling, approaches, how-we-work |
+| bytes | `BYT` | building apps — the `bytes` monorepo's product work |
 
-**Split by nature of the work, not by which repo the files live in.** A build-infra or
-deploy-quota problem is a DOT ticket even when every file it touches is under `bytes` — it is a
-tooling problem. A feature in an app is BYT even though the same session may edit shared config.
-When in doubt: "am I solving how we work, or building the thing?" (stated 2026-08-16).
+**split by nature of the work, never by which repo the files live in.** a build-infra or
+deploy-quota problem is `DOT` even when every file it touches is under `bytes`. a feature in an
+app is `BYT` even when the session edits shared config. the test: "am i solving how we work, or
+building the thing?"
 
-Free plan: **2 teams max (both slots used), 250 non-archived issues workspace-wide**. Archive aggressively (archived issues don't count, stay searchable). Escape hatch: Basic $10/mo.
+📌 `BYT/tooling` is the one trap — it is app-local build config **inside `bytes` only**.
+cross-cutting tooling is `DOT`, always.
 
-📌 The project structure under each team is **mid-restructure** and Dima owns it — Linear went
-live 2026-08-14 and the shape is still being formed. Propose a project for a new ticket, but do
-not reorganise projects unprompted.
+free plan: **2 teams max** (both used), **250 non-archived issues** workspace-wide.
 
-## Projects
+## projects — current (restructured 2026-08-17, DOT-72 / TRK-0001)
 
-- **DOT**: `revamp` (setup audit + restructure) · `shelf` (artifact store + transcript family) · `handoff` (`cc`↔`cw` CST) · `claude` (skills, plugins, agent loops, personal CLI) · `sline` (statusline)
-- **BYT**: `design-system` (kit-rooted unification) · `cv` · `x-com-chat` · `tooling` (app-local build config inside `bytes` only — cross-cutting tooling is DOT) · `rl` (benchmark work)
-- Projects are for real feature families. A small one-off goes project-less; when a theme accumulates, propose an umbrella project (e.g. `shell`, `macos`) to Dima.
-- This map is authoritative by convention: pm maintains it — creating/renaming a project and updating this file is one operation.
+- **DOT**: `pm` (tracker + pm skill) · `mind` (memory, skills, rules, writing) · `fleet` (surfaces
+  and bridges: dispatch, `cc cloud`, ipad, handoff) · `cli` (the interface layer over the rest) ·
+  `shelf` (artifact store + transcript family) · `revamp` (setup audit + restructure) · `sline` ·
+  `numi`
+- **BYT**: `rl` (benchmark work) · `design-system` · `cv` · `x-com-chat` · `tooling`
 
-## States ↔ triage roles (Matt's five-role machine, kept)
+- a project is a long-lived area and never closes. propose one for every create.
+- **projectless is legal** for one-offs and idea pools — do not force a project.
+- dissolved 2026-08-17: `claude` → split into pm/mind/fleet/cli · `handoff` → into `fleet`.
+- this map is authoritative by convention: pm maintains it. creating or renaming a project and
+  updating this file is **one operation** — and if the change is a decision, it wants a `TRK`
+  adr too.
 
-| Matt role | Linear |
+## stories, not epics
+
+**«epic» is retired** — not in titles, not in speech, not in ticket bodies (TRK-0001). a **story**
+is simply a ticket with sub-tickets. there is no title marker and no label: the sub-issue
+hierarchy is what makes it a story.
+
+- group a batch by making a parent ticket and hanging sub-issues off it — the parent doubles as
+  the batch id (DOT-104 precedent).
+- ordering and dependencies = native `blocks` / `blocked by` relations. never title prefixes,
+  never body text, never inflated priority.
+- if you meet «epic» in an old title or body while editing, rewrite it to «story» in passing.
+
+```bash
+linear issue update DOT-N --parent DOT-M     # hang a ticket under a story parent
+```
+
+## assignee ≠ role label
+
+- **assigned to dima = strictly his.** agents never resolve it, never move it to In Progress,
+  never pick it up. leave it alone and say so.
+- **unassigned = the default** and open to anyone, agents included.
+- the `human` label is a *different* statement: it says a human must do the work. a `human`
+  ticket that is unassigned is still up for grabs by whichever human gets there.
+- never self-assign, and never assign to dima to signal importance — that is what priority is for.
+
+## states ↔ roles
+
+| role | linear |
 | --- | --- |
 | needs-triage | **Triage** status (native inbox) |
 | needs-info | `needs-info` label + Todo |
 | ready-for-agent | `agent` label + Todo |
 | ready-for-human | `human` label + Todo |
-| wontfix | Canceled |
+| wontfix | **Canceled** |
 
-## Labels — two vocabularies, one of each per ticket
+Backlog is deliberately unused — a blocked ticket keeps its real role and stays visible in Todo.
 
-**Role** (per team): `agent` · `human` · `needs-info`. Answers *who does it*. Exactly one, always
-set. Resist inventing a fourth.
+## labels — all workspace-level
 
-**Kind** (workspace-wide): `bug` · `feature` · `improvement`. Answers *what it is*. Linear's own
-defaults, kept and lowercased. Set one on every create and whenever a ticket is touched, so the
-"fixing or building?" question stays answerable.
+since 2026-08-17 every label is **workspace-wide**; there are no per-team label sets left. one
+**role** and one **kind** on every ticket, always.
 
-- `bug` — something behaves wrong. Restores intended behaviour, adds none.
-- `feature` — capability that does not exist yet.
-- `improvement` — existing thing made better: refactors, renames, docs, tooling, ergonomics.
+- **role** — `agent` · `human` · `needs-info`. who does it. resist inventing a fourth.
+- **kind** — `bug` (behaves wrong, restores intended behaviour) · `feature` (capability that does
+  not exist yet) · `improvement` (existing thing made better — refactors, renames, docs, tooling,
+  ergonomics). a story parent or a pure decision ticket takes the kind of the work it leads to;
+  `improvement` when genuinely unclear.
+- **model routing** — `fable-5` (magenta) · `opus-5` (blue) · `sonnet-5` (emerald). dima's
+  notation for which model a ticket wants, aimed at future label→model routing. set one only when
+  the ticket has a real model preference; absence means "no preference". when dima asks what to
+  grab, read these and say which tickets want which model.
 
-An epic or a pure decision ticket takes the kind of the work it leads to; `improvement` when
-that is genuinely unclear.
+## fields
 
-Workspace-wide: `fable-5` — this ticket needs Fable 5, grab it only when Fable quota is free.
-No `opus-5` counterpart on purpose: absence of `fable-5` means Opus by default, and a label
-that is always true carries no information. When Dima asks what to grab, check this label and
-say which tickets are Fable-only.
+- **priority** 1 Urgent · 2 High · 3 Medium · 4 Low. p1 is **rare** — priority says how much a
+  ticket matters. must-land-before-another is a `blocks` relation, never a priority bump.
+- **estimate** 1–5 = complexity and uncertainty, **not** wall-clock. 5 = design-heavy, 1 = mechanical.
 
-## Fields
+## quota ops (250 non-archived, workspace-wide)
 
-- **Priority** (built-in): 1 Urgent · 2 High · 3 Medium · 4 Low. Urgent is free to use — priority says how much a ticket *matters*; when one ticket must land *before* another, add a `blocks` relation instead of inflating priority.
-- **Estimate** (built-in, 1–5) = complexity/uncertainty, NOT wall-clock. 5 = design-heavy/gnarly, 1 = mechanical.
-- **Relations**: `blocks`/`blocked by` native — use for phases instead of title prefixes.
-- Epics = parent issue + sub-issues (e.g. DOT-4 shelf epic).
-
-## Quota ops (free plan: 250 non-archived, workspace-wide)
-
-Teams auto-archive completed/canceled issues after **6 months** — too slow to be the valve alone. The CLI has no archive verb; use GraphQL:
+auto-archive is **on**, and teams also auto-archive completed/canceled after 6 months. still keep
+resolving faster than creating; near ~200 propose a restructure pass. the cli has no archive verb:
 
 ```bash
 # archive one issue (uuid via: linear api 'query { issue(id: "DOT-3") { id } }')
 linear api 'mutation { issueArchive(id: "<uuid>") { success } }'
-# quota check — non-archived issue count across the workspace
+# quota check — non-archived count across the workspace
 linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.data.issues.nodes | length'
 ```
 
-## CLI gotchas
+## cli gotchas
 
-- Team-wide listing = `linear issue query --team DOT` (`issue list` shows only issues assigned to *you*).
-- Multi-line/markdown bodies: write to a file, pass `--description-file file.md` (`issue create`/`issue update`) or `--body-file file.md` (`issue comment add`/`issue comment update` — there is no top-level `comment` command) — the shell never touches the content, unlike inline `--description "$(cat …)"` (`$VAR`/backtick expansion silently mangles snippets).
-- `issue update --label` **replaces** the whole label set, it never adds. Passing one label drops
-  every other one, silently and with a success message. Always pass the full intended set
-  (`--label agent --label fable-5`), and verify after:
+- team-wide listing = `linear issue query --team DOT` (`issue list` shows only issues assigned to *you*).
+- multi-line/markdown bodies: write a file, pass `--description-file file.md`
+  (`issue create`/`issue update`) or `--body-file file.md` (`issue comment add`/`issue comment
+  update` — there is no top-level `comment` command). inline `--description "$(cat …)"` lets the
+  shell mangle `$VAR`/backticks silently.
+- `issue update --label` **replaces** the whole label set, never adds. passing one label drops
+  every other one, silently, with a success message. always pass the full intended set
+  (`--label agent --label improvement --label opus-5`) and verify after:
   `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
-- `issue create` with no `--state` drops the issue into **Triage**, not Todo — the team default
-  wins and the CLI says nothing. The skill forbids Triage as a landing pad, so always pass
-  `--state Todo` (or the state the role calls for) on every create.
-- `issue view --json` exits 5 — read fields back through `linear api` GraphQL instead.
-- `linear` hanging >15s = likely a hidden Keychain prompt (keyring auth) — check the screen.
+- `issue create` with no `--state` lands in **Triage**, not Todo — the team default wins and the
+  cli says nothing. always pass `--state Todo` (or the state the role calls for).
+- `issue view --json` exits 5 — read fields back through `linear api` graphql instead.
+- `linear` hanging >15s = likely a hidden keychain prompt. tell dima to check the screen.
 
-## Links
+## links
 
-Ticket-id link format lives in `rules/text-formatting.md`, always loaded. Not restated here.
-Shell equivalent: `linear issue view DOT-3 -a` opens the app.
+ticket-id link format lives in `rules/text-formatting.md`, always loaded. not restated here.
+shell equivalent: `linear issue view DOT-3 -a` opens the app.

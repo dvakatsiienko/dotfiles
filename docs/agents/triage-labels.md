@@ -1,19 +1,22 @@
-# Triage Labels
+# triage labels
 
-The skills speak in terms of five canonical triage roles. This file maps those roles to
-Linear (team `DOT`), where a role is a status, a label, or a status+label pair.
+📌 **pointer, not truth.** label vocabulary is defined in `docs/tracker/CONTEXT.md`; the
+state↔role map and the full label contract live in the `x:pm` skill
+(`references/workspace.md`). when this file disagrees with either, they win.
 
-| Role in mattpocock/skills | In Linear                    | Meaning                                  |
-| ------------------------- | ---------------------------- | ---------------------------------------- |
-| `needs-triage`            | **Triage** status (inbox)    | Maintainer needs to evaluate this issue  |
-| `needs-info`              | Todo + `needs-info` label    | Blocked on an answer, but still in play  |
-| `ready-for-agent`         | Todo + `agent` label         | Fully specified, ready for an AFK agent  |
-| `ready-for-human`         | Todo + `human` label         | Requires human implementation            |
-| `wontfix`                 | **Canceled** status          | Will not be actioned                     |
+the only thing here is the bridge: the mattpocock skills speak five canonical triage roles, and
+this is how those names land in linear.
 
-Backlog is deliberately unused by the role map: a blocked ticket keeps a real role and stays in
-Todo, so it remains visible. Blocking is expressed by the `needs-info` label and by issue
-relations, never by burying the ticket in Backlog.
+| role in mattpocock/skills | in linear                 | meaning                                 |
+| ------------------------- | ------------------------- | --------------------------------------- |
+| `needs-triage`            | **Triage** status (inbox) | maintainer needs to evaluate this issue |
+| `needs-info`              | Todo + `needs-info` label | blocked on an answer, but still in play |
+| `ready-for-agent`         | Todo + `agent` label      | fully specified, ready for an afk agent |
+| `ready-for-human`         | Todo + `human` label      | requires human implementation           |
+| `wontfix`                 | **Canceled** status       | will not be actioned                    |
 
-When a skill mentions a role (e.g. "apply the AFK-ready triage label"), apply the
-corresponding status/label via `linear issue update`.
+when a skill mentions a role (e.g. "apply the afk-ready triage label"), apply the corresponding
+status and label via `linear issue update`.
+
+📌 `human` is about *who does the work*, never about *whose ticket it is*. that second thing is
+the assignee, and assigned-to-dima is strictly his — agents never resolve it.
