@@ -66,6 +66,11 @@ Moving the pin when *work* moves is yours; a hook cannot see a decision:
 Sline also renders each id's Linear state, cached by the same hook (`status-cache.json`). It only
 ever reads that cache — never fetch Linear from the render path.
 
+## Titles
+
+Pretty, short, descriptive — subject-first, details in the body, never the title. No
+scientific-paper prose. Full shape contract lives in `x:pm`.
+
 ## Ids are never invented
 
 An id comes from Dima, from the conversation, or from the branch name. **Nowhere else.** Never
