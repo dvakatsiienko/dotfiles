@@ -19,8 +19,13 @@ While Dima is on mobile, **run nothing that can throw a permission dialog.**
 
 ## Why it is written down and not left to judgment
 
-iPadOS offers only "allow once" / "deny". There is no "always allow". The virtual keyboard shifts
-as the dialog appears, so he hits deny by accident and loses an operation mid-flight.
+The dialog offers only "allow" / "deny" — **a dispatch limitation on every platform, not an
+iPadOS one** (verified on macOS, DOT-91). Where an "always allow" exists it does not persist. The
+iPad-specific part: the virtual keyboard shifts as the dialog appears, so he hits deny by accident
+and loses an operation mid-flight.
+
+Root cause underneath all of it: dispatch-spawned sessions never read `~/.claude/settings.json`,
+so no allow rule reaches them at all.
 
 📌 On 2026-08-17 he answered roughly **40 dialogs** in one session. **No agent saw a single one** —
 every call returns instantly from our side, so there is no feedback signal and no instinct to

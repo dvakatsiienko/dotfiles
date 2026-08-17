@@ -1,5 +1,8 @@
 # Cowork (cw): execution model and capabilities
 
+📌 **Do not delete — core coordinator knowledge.** Referenced from `home/.claude/rules/identity.md`
+as the detailed `cw` capability reference. Empirically probed; expensive to rebuild.
+
 Empirically probed 2026-08-15 from a Cowork session in this repo's project. Every claim marked
 **[verified]** was executed, not read. **[docs]** means asserted by Anthropic documentation only.
 This file supersedes the earlier assumption that cw is always a detached cloud sandbox.
