@@ -17,12 +17,17 @@ each surface can reach and which config loads on it.
 Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external replacement of something already installed.
 
 - `computer-use` — full desktop control: screenshots, mouse/keyboard, any native macOS app. Server stays connected with tools DEFERRED — 0 resident tokens until summoned via ToolSearch (screenshot burn ~1–1.5k/capture still applies when used). Policy-dormant: suggest it proactively when a task needs desktop driving; no disable ritual needed anymore (deferral made it free).
-- `claude-in-chrome` — full Chrome automation: tabs, clicks, forms, DOM/console/network reads, page JS, GIF recording (~2.5k est. tokens when live). Rarely used (~1×/month). Global kill = extension side; `/mcp` toggle is per-project. NOT superseded by computer-use: computer-use treats browsers as read-only (clicks/typing blocked) — this is the only tool that can act inside Chrome, and it's DOM-based (cheap text reads, no screenshot burn). Same enable-on-demand / push-to-disable lifecycle as computer-use.
-  📌 **Enable it project-local, never global.** off globally on purpose. when a session needs
-  browser control, add the server to **that project's** `.claude` config yourself, no asking —
-  needing a browser reliably means the project is a web app, so scoping it there keeps every
-  other session clean and web projects get it with no round-trip. never flip the global switch
-  back on.
+- `claude-in-chrome` — full Chrome automation: tabs, clicks, forms, DOM/console/network reads, page JS, GIF recording (~2.5k est. tokens when live). Rarely used (~1×/month). Global kill = extension side; `/mcp` toggle is per-project. NOT superseded by computer-use: computer-use treats browsers as read-only (clicks/typing blocked) — this is the only tool that can act inside Chrome, and it's DOM-based (cheap text reads, no screenshot burn). 
+  📌 **The whole rule, no lifecycle to remember.** It stays disabled globally — always, everywhere,
+  it is token-heavy. **One legitimate need exists:** `cc` is building an app and wants to test it
+  (~98% of the time reaching for browser tools means app work). In that case add the server to
+  **that app project's own local `cc` settings** yourself, no asking, and leave it there. Never
+  enable it globally, and never "enable then remember to disable" — there is no disable step,
+  because the enablement was project-scoped from the start.
+  ⚠️ Global disable is **not** currently config-enforced: `~/.claude.json` has no top-level
+  `disabledMcpServers`, and `claude-in-chrome` is absent from `bytes`'s disabled list — which is how
+  a `bytes` session used browser tools despite the belief it was off. The kill has been extension-side
+  only. Verified 2026-08-17.
 - claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. `cw` unaffected — but ticketing there now runs the `linear` CLI via Desktop Commander (`cw` pm skill), not connectors.
 - `DesignSync` — ALIVE (re-enabled 2026-08-13): design-to-code bridge to **Claude Designer** (NOT Figma — earlier description was wrong; Dima doesn't use Figma). Dima plans to use Claude Designer soon — suggest DesignSync when design-to-code work comes up.
 - Denied built-in tools (via `permissions.deny`, user settings): `NotebookEdit` (Jupyter cell editor), `CronCreate/CronDelete/CronList` (local scheduled-session plumbing — offer re-enable if scheduling comes up; note: `RemoteTrigger` stays ALIVE and covers cloud routines/webhook triggers, so suggest it first for "scheduled/event-triggered agent" asks), `AskUserQuestion` (picker UI — structural backing for the never-use style rule), `EnterPlanMode`/`ExitPlanMode` (plan-mode approval boxes — Dima keeps /plan but hates the box; in plan mode: plan + write plan file as usual, announce readiness in prose, Dima exits via shift+tab and approves with «go»). Re-enable = remove from the deny array + session restart.
@@ -125,7 +130,7 @@ the *supervision*, only the sound.
 
 ## Conversational behaviour
 
-Five layers, edited there and never here:
+Six layers, edited there and never here:
 
 - **Identity** — the charter: the tenets, the refusals, what stays constant when the surface
   changes — lives in `home/.claude/rules/identity.md`, loaded in every session. It sits above
@@ -142,6 +147,8 @@ Five layers, edited there and never here:
 - **Mobile** — what may be *run* while Dima writes from a phone or iPad: nothing that throws a
   permission dialog — lives in `home/.claude/rules/mobile.md`, loaded the same way. Distinct from
   the `comms-mobile` skill, which covers how you *ask* and must be pushed by hand.
+- **Models** — which model to reach for and what each is weak at — lives in
+  `home/.claude/rules/models.md`, loaded the same way. Full research: `docs/research/claude-model-strengths.md`.
 - **Ticket flow** — how the tracker stays honest while working: where tickets live, In Progress
   the moment work starts, the sline focus pin, never inventing an id — lives in
   `home/.claude/rules/ticket-flow.md`, loaded the same way. Deliberately split from the `x:pm`

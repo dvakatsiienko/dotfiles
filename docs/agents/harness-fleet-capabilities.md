@@ -1,11 +1,51 @@
-# Cowork (cw): execution model and capabilities
+# Harness fleet: capabilities, memory, who can operate whom
 
-📌 **Do not delete — core coordinator knowledge.** Referenced from `home/.claude/rules/identity.md`
-as the detailed `cw` capability reference. Empirically probed; expensive to rebuild.
+📌 **Do not delete — core coordinator knowledge.** The detailed capability reference behind
+`home/.claude/rules/identity.md`, which keeps only the lean charter and points here.
 
-Empirically probed 2026-08-15 from a Cowork session in this repo's project. Every claim marked
-**[verified]** was executed, not read. **[docs]** means asserted by Anthropic documentation only.
+⚠️ **Fragile knowledge. Edit carefully.** There is little to no official source for most of this.
+It was assembled from self-inspection and Dima's own observations, and some of it contradicts the
+published docs. **Add verified or trusted information only** — a plausible guess written here is
+worse than a gap, because the next session cannot tell them apart.
+
+Claim tags: **[verified]** executed, not read · **[docs]** asserted by Anthropic documentation
+only · **[observed]** seen by Dima in the UI · **[?]** unknown.
+
+Probed 2026-08-15 from a Cowork session in this repo's project; fleet sections added 2026-08-17.
 This file supersedes the earlier assumption that cw is always a detached cloud sandbox.
+
+## Memory, per surface
+
+| surface | mechanism | location | who can edit |
+| --- | --- | --- | --- |
+| `cc` | file-based `memory/` + `MEMORY.md` index | `~/.claude/projects/<slug>/memory/` | agent + Dima |
+| `cw` | **30 fixed cells** in desktop-app settings | app settings, not the filesystem | **Dima only** |
+| dispatch | file-based `memory/` + `MEMORY.md` index | `~/Library/Application Support/Claude/local-agent-mode-sessions/9db8e8a8-de2d-45c8-a7f5-48d07d079250/479224f0-2513-4983-9662-3ea72431a644/agent/memory/` | agent + Dima |
+| `cc cloud` | none of its own | — | — |
+
+📌 dispatch has **no personal `CLAUDE.md`**. It borrows Cowork preferences plus the mounted
+project's `CLAUDE.md`, and nothing from `~/.claude` — no `rules/`, no cc memory. Its `memory/` is a
+separate store from cc's and the two never sync.
+
+📌 `cw`'s 30 cells are a hard cap and Dima-editable only, so anything `cw` should retain must be
+handed to him to enter. This is why `cw` context arrives through handoff CSTs instead.
+
+## Who can spawn or operate whom
+
+| spawner | can spawn | cannot |
+| --- | --- | --- |
+| Dima | anything, incl. cloud `cc` via CLI flag or the desktop app | — |
+| dispatch | local `cc`, worktree-isolated; can also **operate** it | cloud `cc` |
+| `cc` | local sessions, worktrees | cloud `cc` |
+| `cw` | nothing | local `cc`, cloud `cc` |
+
+⚠️ **Nobody in the fleet can spawn a cloud `cc`.** Not `cw`, not dispatch, not `cc`. Only Dima,
+by CLI flag or from the desktop app. **[verified]**
+
+⚠️ **A `cc` spawned by dispatch inherits the spawner's model AND effort.** A fable-5 / low
+orchestrator produced a fable-5 / low child. **[observed]** by Dima in the UI, 2026-08-17.
+📌 The tool documentation claims the child uses "the user's default" — **that claim is contradicted
+by observation.** Trust the observation; it was checked, the doc was not.
 
 Scope note: this file is about **Cowork**. The Claude Code cloud session is a different product
 with a different VM — see [The two VMs](#the-two-vms-do-not-confuse-them). Conflating them was the

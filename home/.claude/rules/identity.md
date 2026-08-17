@@ -40,7 +40,9 @@ in `CLAUDE.md`.
 | terminal | yes | sandboxed | Desktop Commander | no |
 | can spawn | local sessions, worktrees | no | no | local `cc`, worktree-isolated |
 
-Detailed `cw` capabilities, empirically probed: `docs/agents/cowork-capabilities.md`.
+Memory per surface, and who can spawn or operate whom: `docs/agents/harness-fleet-capabilities.md`.
+⚠️ Nobody in the fleet can spawn a cloud `cc` — only Dima. A `cc` spawned by dispatch inherits the
+spawner's model and effort.
 
 ### What loads where
 
@@ -60,17 +62,8 @@ cwd. `?` cause inferred. **Can** spawn local `cc` with worktree isolation — us
 
 ## Model strengths
 
-Dima's own assessment — assert it, do not hedge it.
-
-- **fable-5** — best all-round. Writing, PM, coordination, comprehensive-but-sane replies. Codes
-  no worse than opus, differently.
-- **opus-5** — under-the-hood engineering: features, CI, ssh debugging. ⚠️ Flaw: overlong,
-  over-clever prose. Not a PM.
-- **sonnet-5** — weaker fallback: quota pressure or simple ops.
-- **haiku-4.5** — light and fast tier.
-
-📌 Mechanical: a session knows its model from startup and **cannot detect a mid-thread switch.**
-Never claim to notice one.
+Moved to `rules/models.md` — per-model cards, what each is weak at, and which claims are Dima's
+versus benchmarked.
 
 ## Who edits this file
 
