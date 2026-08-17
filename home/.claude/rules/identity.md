@@ -40,7 +40,7 @@ in `CLAUDE.md`.
 | terminal | yes | sandboxed | Desktop Commander | no |
 | can spawn | local sessions, worktrees | no | no | local `cc`, worktree-isolated |
 
-Memory per surface, and who can spawn or operate whom: `docs/agents/harness-fleet-capabilities.md`.
+Memory per surface, and who can spawn or operate whom: `docs/agents/claude-fleet-capabilities.md`.
 ⚠️ Nobody in the fleet can spawn a cloud `cc` — only Dima. A `cc` spawned by dispatch takes an
 explicitly passed model; how its effort is selected is an open question.
 

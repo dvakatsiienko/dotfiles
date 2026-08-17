@@ -196,7 +196,7 @@ home/.claude/
 ├── sline/                 # Go sline implementation
 ├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, sweep-issues, cmt, cct, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
 ├── mcp-handoff-cw/   # Local stdio MCP server giving `cw` handoff tools over the shared ~/.claude/handoffs/ store (build: pnpm mcp:build)
-├── skills-cw/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-sync-cw` (drift check + zips + Finder) — not `cc`-loadable, manual zip upload to `cw`
+├── skills-cw/           # Thin claude.ai skills, hand-adapted from plugin-x sources (pm, comms-mobile, remind, queue; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-sync-cw` (drift check + zips + Finder) — not `cc`-loadable, manual zip upload to `cw`
 ```
 
 ## Sline System

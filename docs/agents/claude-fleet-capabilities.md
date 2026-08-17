@@ -1,4 +1,7 @@
-# Harness fleet: capabilities, memory, who can operate whom
+# Claude fleet: capabilities, memory, who can operate whom
+
+📌 Naming: **"harness" is reserved** for the home-baked-harness thread (DOT-43). Never use it for
+the fleet, or the three-way term collision that was just cleaned up comes back.
 
 📌 **Do not delete — core coordinator knowledge.** The detailed capability reference behind
 `home/.claude/rules/identity.md`, which keeps only the lean charter and points here.

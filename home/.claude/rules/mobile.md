@@ -37,6 +37,6 @@ tracks it.
 - **Default to deferring.** Queue anything needing approval into the handoff for the next Mac
   session, and tell him plainly that it is queued.
 - If something genuinely cannot wait, **state the dialog cost before starting**, then bundle it
-  into one edit and one commit.
+  into one edit and one commit. The counting protocol lives in the `comms-mobile` skill (DOT-94).
 - The evening's shape is the guide: ticket work ran freely all night because it went through an
   allowed CLI; file work prompted every single time.
