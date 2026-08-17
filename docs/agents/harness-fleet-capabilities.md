@@ -42,10 +42,16 @@ handed to him to enter. This is why `cw` context arrives through handoff CSTs in
 ⚠️ **Nobody in the fleet can spawn a cloud `cc`.** Not `cw`, not dispatch, not `cc`. Only Dima,
 by CLI flag or from the desktop app. **[verified]**
 
-⚠️ **A `cc` spawned by dispatch inherits the spawner's model AND effort.** A fable-5 / low
-orchestrator produced a fable-5 / low child. **[observed]** by Dima in the UI, 2026-08-17.
-📌 The tool documentation claims the child uses "the user's default" — **that claim is contradicted
-by observation.** Trust the observation; it was checked, the doc was not.
+**Spawn model and effort — half verified, 2026-08-17.**
+
+- **Model is forced when passed.** A dispatch spawn with an explicit `model` param got that model —
+  confirmed with a haiku test. **[verified]**
+- **Effort appears inherited from the spawner**: a fable-5 / low orchestrator produced a low child.
+  **[observed]** by Dima in the UI. ⚠️ **The selection mechanic is unverified** — whether effort is
+  inherited, defaulted, or set some other way is an **open question**, and Dima flagged it as
+  important. Do not build on it.
+- 📌 The tool documentation claims the child uses "the user's default" — contradicted by the model
+  test at least. Trust the test over the doc.
 
 Scope note: this file is about **Cowork**. The Claude Code cloud session is a different product
 with a different VM — see [The two VMs](#the-two-vms-do-not-confuse-them). Conflating them was the
