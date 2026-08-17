@@ -27,6 +27,9 @@ Confirm with `📱 mobile mode on` and one line: what you need from him next.
 - Reading a one-word answer literally is correct. `y` means go. Silence on an option
   means your ➡️ recommendation, same as always.
 
+📌 This skill covers how you *ask*. What you may *run* on mobile is `rules/mobile.md`, which is
+always loaded and binds whether or not this skill was pushed.
+
 ## Where it sits
 
 This is a **voice layer**, pushed on top of whatever is already applied — normally `eli5`.

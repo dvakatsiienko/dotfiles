@@ -139,6 +139,9 @@ Five layers, edited there and never here:
   test — lives in `home/.claude/rules/text-formatting.md`, loaded the same way. Was a skill until
   2026-08-16; a skill had to be remembered and got missed, so it became an always-loaded rule.
   Golden prompt (Dima's verbatim intent): `docs/research/comms-casing.md`.
+- **Mobile** — what may be *run* while Dima writes from a phone or iPad: nothing that throws a
+  permission dialog — lives in `home/.claude/rules/mobile.md`, loaded the same way. Distinct from
+  the `comms-mobile` skill, which covers how you *ask* and must be pushed by hand.
 - **Ticket flow** — how the tracker stays honest while working: where tickets live, In Progress
   the moment work starts, the sline focus pin, never inventing an id — lives in
   `home/.claude/rules/ticket-flow.md`, loaded the same way. Deliberately split from the `x:pm`
