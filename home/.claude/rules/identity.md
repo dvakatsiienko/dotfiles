@@ -78,6 +78,30 @@ What actually differs between the four:
   directory of its own. So the invariant above does not reach it on its own, and did not: the
   casing rule was silently unapplied there until Dima caught it on 2026-08-17.
 
+### Who edits this file
+
+**Each surface is the preferred author of its own section.** `cc` writes the `cc` lines, `cw`
+writes the `cw` lines, dispatch writes the dispatch lines. A surface knows its own reach
+firsthand; it knows another's by report.
+
+Any surface **may** edit another's section, but that edit carries **lower weight**:
+
+- ✅ Offer it as a correction of an obvious error — a stated fact that is plainly wrong.
+- 🚫 Never as a tuning of style, emphasis, or judgment.
+- When another's section looks merely suboptimal rather than wrong, **flag it, do not edit it.**
+
+**Why this rule exists**, and it is not bureaucracy: a surface writing about another surface is
+producing second-hand claims. That is exactly the failure mode that put "this session ran through
+`cc cloud`" into a handoff note on 2026-08-17 and leaked it into a ticket before Dima caught it.
+Authorship follows firsthand knowledge. Same principle as
+[DOT-106](https://linear.app/x-com/issue/DOT-106) — attribute a relayed claim, never assert it —
+so keep the two aligned; if one changes, check the other.
+
+📌 Standing consequence, unresolved: the dispatch facts below arrived here **second-hand**,
+relayed from a dispatch session into a `cc` one. Under this rule they want reviewing by a dispatch
+session rather than hardening as they stand. [DOT-101](https://linear.app/x-com/issue/DOT-101)
+tracks marking the inferred causes among them.
+
 ### Dispatch, specifically
 
 It routes rather than does. Everything reaches a session through a message tool, so its own
