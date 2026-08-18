@@ -34,7 +34,7 @@ server.registerTool(
             `Persist a CST (Continuation State Transfer) of the current thread to the shared handoff store, ` +
             `where any cw thread or cc session can pull it to continue this thread. ` +
             `FIRST compose the CST from the current thread per the spec below, THEN call this tool with it. ` +
-            `Compose it as machine-optimized telegraphic text — no presentation polish, no human reads it.\n\n${loadSpec()}`,
+            `Compose it as machine-optimized telegraphic text with light markdown structure, per the compression contract below. The META section is the exception: it is formatted for a human and goes first.\n\n${loadSpec()}`,
         inputSchema: {
             cst: z
                 .string()
@@ -157,7 +157,7 @@ server.registerPrompt(
     },
     ({ focus }) =>
         promptMessage(
-            `Hand off this thread. Compose a CST (Continuation State Transfer) covering this ENTIRE thread per the spec in the save_handoff tool description${focus ? `, weighted toward this focus (its TARGET rule): ${focus}` : ''}. Then call save_handoff with the CST and a short kebab-case slug naming the thread's topic. Do not print the CST in your reply — the tool result tells you what to say.`,
+            `Hand off this thread. FIRST ask the user for the numbers META's compare-anchors need (his /context output, plus anything else the next thread must diff against) — one line, and proceed without them if he declines. Then compose a CST (Continuation State Transfer) covering this ENTIRE thread per the spec in the save_handoff tool description${focus ? `, weighted toward this focus (its TARGET rule): ${focus}` : ''}. Then call save_handoff with the CST and a short kebab-case slug naming the thread's topic. Do not print the CST in your reply — the tool result tells you what to say.`,
         ),
 );
 
@@ -174,7 +174,7 @@ server.registerPrompt(
     },
     ({ topic }) =>
         promptMessage(
-            `Call pull_handoff${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
+            `Call pull_handoff${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), run its META first-acts before anything else, honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
         ),
 );
 
