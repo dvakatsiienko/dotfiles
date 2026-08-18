@@ -98,6 +98,27 @@ not say.
 - 📌 The gate blocks the **estimate**, never the capture. Still create the ticket with role, kind,
   priority and project filled.
 
+## Compression budget — DEV PREVIEW (live, unapproved)
+
+Dev preview, live since 2026-08-16, not yet approved by Dima (DOT-70). Follow it now; flag friction.
+
+**Structured by default, prose by exception. Ticket body ≤10 lines.** Specs excepted.
+
+- Keep: the decision, the hard constraint, the non-obvious fact, the exact command or path.
+- Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
+- Options: one recommendation; the runner-up gets a clause, never a section.
+- Dima's verbatim words are never cut — they are evidence, not prose.
+- The title carries the subject; never restate it in the first line.
+
+**The vents stay open (Dima, 2026-08-18).** Prose is legitimate the moment it carries information a
+list cannot — a decision ticket whose rationale only works as a paragraph, a grill summary where
+the back-and-forth is the finding, anywhere the connective tissue between facts *is* the fact. The
+test is load, not length: does this paragraph carry something a list would drop? If yes it stays
+and ≤10 lines bends. If it only restates, it goes.
+
+📌 **Flag, never auto-strip.** A sweep over existing bodies reports suspected prose and leaves the
+text alone. The call is Dima's, every time.
+
 ## Output discipline
 
 - **Titles are the interface**: clear, concise, subject-first — details in the body, never the title.

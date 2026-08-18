@@ -75,9 +75,10 @@ How to run it, on every create and every estimate:
 ## Compression budget — DEV PREVIEW (live, unapproved)
 
 (claude-important) dev preview, live since 2026-08-16, not yet approved by Dima —
-DOT-71 grills it. Follow it now; flag friction the moment you feel it. (claude-important)
+DOT-70 carries the rule and its approval. Follow it now; flag friction the moment you feel it.
+(claude-important)
 
-**Ticket body: ≤10 lines.** Specs excepted.
+**Structured by default, prose by exception. Ticket body ≤10 lines.** Specs excepted.
 
 - Keep: the decision to make, the hard constraint, the non-obvious fact, the exact command or path.
 - Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
@@ -85,8 +86,21 @@ DOT-71 grills it. Follow it now; flag friction the moment you feel it. (claude-i
 - Dima's verbatim words are never cut — they are evidence, not prose.
 - The title carries the subject. Never restate it in the first line.
 
-Reason: tickets are read by Dima, who already holds the context, and by an agent that
-re-reads the repo anyway. Padding buries the signal.
+**The vents stay open (Dima, 2026-08-18).** The default is a list, not a paragraph — but a budget
+that closes every vent is the wrong budget. Prose is legitimate the moment it carries information
+a list cannot:
+
+- a decision ticket whose rationale only makes sense as a paragraph — the reasoning is the content,
+  and chopping it into bullets destroys the argument;
+- a grill summary, where the back-and-forth is the finding;
+- any place where the connective tissue between facts *is* the fact.
+
+The test is not length, it is load: **does this paragraph carry something a list would drop?** If
+yes it stays and the ≤10 lines bends. If it only restates, it goes.
+
+📌 **Flag, never auto-strip.** A sweeper pass over existing bodies reports prose it suspects and
+leaves the text alone. Rewriting someone's ticket body on a heuristic is how real reasoning gets
+deleted — the call is Dima's, every time.
 
 ## Output discipline
 
