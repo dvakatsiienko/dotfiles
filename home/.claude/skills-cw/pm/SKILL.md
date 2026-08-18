@@ -1,6 +1,6 @@
 ---
 name: x-pm
-description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Use EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "capture this idea", scope changes to tracked work. Runs the linear CLI via Desktop Commander.
+description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Use EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "capture this idea", scope changes to tracked work. Runs the linear CLI through whichever shell tool is present; Linear MCP where no shell exists.
 intended-models: fable, opus
 ---
 
@@ -8,9 +8,25 @@ intended-models: fable, opus
 
 You ARE the PM for this request. One tracker: **Linear**, workspace `x-com`, teams `DOT` (dotfiles) + `BYT` (bytes monorepo). GitHub issues are retired (closed history only — never operate them).
 
-Channel: the `linear` CLI via **Desktop Commander** (`linear --version` to check; auth already configured). Command recipes: `linear <cmd> --help`; GraphQL fallback `linear api '<query>'`.
+Channel: the `linear` CLI. Command recipes: `linear <cmd> --help`; GraphQL fallback `linear api '<query>'`.
 
-**Platform note — this skill runs on both `cw` on macOS and Claude iOS.** Detect which by checking whether **Desktop Commander is present in your tool list at all**: present → macOS, use the `linear` CLI. Absent → iOS (the tools simply aren't exposed there, so there's no failed call to catch) → route all tracker ops through the **Linear MCP connector** instead. Don't attempt a probe call to detect this; the manifest tells you up front.
+**Pick the channel by probing your own tool list, never by guessing the platform.** This skill runs
+on `cw` on macOS and on Claude iOS, and an environment cannot always be identified from inside — a
+platform check guesses wrong where a capability check cannot. Read the manifest; don't make a
+failing call to find out. First match wins:
+
+1. a shell tool present (Desktop Commander on `cw`) → run the `linear` CLI through it. Auth is
+   already configured; `linear --version` confirms.
+2. no shell tool at all (iOS — the tools simply aren't exposed, so there's no failed call to catch)
+   → the **Linear MCP connector**, the only channel that exists there.
+3. a shell tool but no `linear` binary or no auth → say so and stop. Don't reach for the MCP to
+   route around a broken CLI.
+
+📌 The MCP is a **no-shell** fallback, not a preference. Wherever a shell exists the CLI is the only
+correct channel.
+
+Everything below is transport-independent: field contract, gates, vocabulary and ticket shape are
+the same in every environment. Only the call layer differs.
 
 CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` = only assigned-to-you). Multi-line bodies: write a temp file, pass `--description-file file.md` (create/update) or `--body-file file.md` (comments) — never inline `$(cat …)`, it lets the shell mangle `$VAR`/backticks in the content. `linear` hanging >15s = hidden Keychain prompt — tell Dima to check the screen. Archive (quota valve) is GraphQL-only: `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`.
 

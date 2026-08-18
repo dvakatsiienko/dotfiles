@@ -21,7 +21,24 @@ Two files, and the split matters:
 - **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
   states, cli mechanics, quota ops. read it before the first write of a session.
 
-Channel: the `linear` CLI (`cc`: Bash; `cw`: Desktop Commander). Command mechanics live in the **linear-cli skill** (plugin `linear-cli`, auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for anything the CLI lacks. Never the Linear MCP.
+Channel: the `linear` CLI. Command mechanics live in the **linear-cli skill** (plugin `linear-cli`,
+auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for
+anything the CLI lacks.
+
+**Pick the channel by probing your own tool list, never by guessing the platform.** Some
+environments cannot be identified from inside, so a platform check guesses wrong where a capability
+check cannot. Read the manifest — do not make a failing call to find out. First match wins:
+
+1. a shell tool (`Bash` on `cc`, Desktop Commander on `cw`) → run the `linear` CLI through it.
+2. no shell tool at all (Claude iOS) → the Linear MCP connector, the only channel that exists there.
+3. a shell tool but no `linear` binary or no auth → say so and stop. Do not reach for the MCP to
+   route around a broken CLI.
+
+📌 The MCP is a **no-shell** fallback, not a preference. Wherever a shell exists the CLI is the only
+correct channel — this is the one exception to «never the Linear MCP», and it is narrow.
+
+Everything below this line is transport-independent: the field contract, the gates, the vocabulary
+and the ticket shape are the same in every environment. Only the call layer differs.
 
 ## The two jobs
 
