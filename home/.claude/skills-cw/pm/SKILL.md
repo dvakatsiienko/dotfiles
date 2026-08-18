@@ -77,9 +77,9 @@ detects the drift.
   research) and one **kind** (`bug` restores intended behaviour · `feature`
   is new capability · `improvement` is an existing thing made better — refactors, renames, docs,
   tooling) on every create and every touch. A story parent or decision ticket takes the kind of the
-  work it leads to. **State** labels — `standing` (long-running by
-  nature, stays open while active; never park it in a fake perpetual In Progress) and `vet` 🧪
-  (examine an idea before committing) — sit beside role and kind, never replace them. **Model routing** labels — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5`
+  work it leads to. **State** labels — `standing` (recurring work with no
+  last round — a rolling review, a periodic sweep; it legitimately stays In Progress between
+  rounds, the one exception to state-tracks-reality) and `vet` 🧪 (examine an idea before committing) — sit beside role and kind, never replace them. **Model routing** labels — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5`
   (emerald) · `haiku 4.5` — are Dima's notation for future label→model routing; set one only on a real preference.
 - **Priority** 1 Urgent–4 Low, p1 **rare** — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
 - **Quota**: free plan, 250 non-archived issues workspace-wide, auto-archive on. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); near ~200 propose a restructure pass.

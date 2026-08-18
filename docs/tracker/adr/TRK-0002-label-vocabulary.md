@@ -8,7 +8,13 @@ decision — one entity per id:
 - **L1 `needs human`** — the agent is blocked on dima's information or decision. replaces the blocked-on-dima half of `needs-info`.
 - **L2 `needs agent`** — dima is blocked on agent knowledge or research. new; the direction that had no name.
 - **L3 `needs-info`** — retired. every use migrates to L1 or L2; nothing keeps the old name.
-- **L4 `standing`** — the ticket is long-running by nature and stays open while active. replaces parking such tickets in a perpetual In Progress; state now tracks reality (`rules/ticket-flow.md`) even for these. example: DOT-82.
+- **L4 `standing`** — the ticket is long-running by nature and stays open while active. example: DOT-82.
+  - ⚠️ **amended 2026-08-19 (dima ✓), and this reverses the original reading.** L4 first said the
+    label *replaced* parking such tickets in a perpetual In Progress. it does not — a `standing`
+    ticket legitimately sits In Progress between rounds, and the label is precisely what marks that
+    state as honest rather than stale. the exception is written into `rules/ticket-flow.md`. this
+    line is amended rather than rewritten so the earlier reading stays visible; if dispatch wants
+    the reversal recorded as a decision of its own, it wants a `TRK` of its own.
 - **L5 `vet`** — 🧪 trial. examine an idea before committing to it. mutates into `investigate` if the shorter name does not survive use; delete the label rather than keep a dead one.
 - **L6 label language** — no hyphens in label names, ever. workspace-level labels only, never team-level: one vocabulary across DOT and BYT.
 

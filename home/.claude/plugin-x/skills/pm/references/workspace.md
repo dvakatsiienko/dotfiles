@@ -91,8 +91,9 @@ since 2026-08-17 every label is **workspace-wide**; there are no per-team label 
   not exist yet) · `improvement` (existing thing made better — refactors, renames, docs, tooling,
   ergonomics). a story parent or a pure decision ticket takes the kind of the work it leads to;
   `improvement` when genuinely unclear.
-- **state** — `standing` (long-running by nature, stays open while active — never park such a
-  ticket in a fake perpetual In Progress) · `vet` 🧪 (examine an idea before committing to it).
+- **state** — `standing` (recurring work with no last round — a rolling review, a periodic sweep;
+  it legitimately stays In Progress between rounds, the one exception to state-tracks-reality) ·
+  `vet` 🧪 (examine an idea before committing to it).
   these sit beside role and kind, never replace them (TRK-0002).
 - **model routing** — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5` (emerald) · `haiku 4.5`. dima's
   notation for which model a ticket wants, aimed at future label→model routing. set one only when

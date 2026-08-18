@@ -40,6 +40,11 @@ nothing does.
 The same applies at the other end — a ticket whose work is finished does not sit in In Progress
 waiting for someone to notice.
 
+**One exception: the `standing` label.** A standing ticket is recurring work with no last round —
+a rolling review, a periodic sweep (DOT-82 is the case). It legitimately stays In Progress between
+rounds, because «open by nature» is what its state honestly says. The label is what makes it an
+exception; an In Progress ticket without it is stale, not standing.
+
 ## The focus pin — sline's ambient indicator
 
 Sline renders the session's pinned ticket from `~/.claude/focus/<session_id>.json`. Two slots:
