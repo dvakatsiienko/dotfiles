@@ -26,7 +26,7 @@ Mode by argument:
 - **`prune` / `clear` / `delete`** → Trigger E (wipe the store). Any of the three, alone or with trailing words. A bare verb like these is never a FOCUS — writing a CST "about pruning" is the wrong read of an obvious intent.
 - **Anything else (or empty)** → Trigger B; the argument is a FOCUS.
 
-A FOCUS weights the CST toward it per the spec's TARGET rule.
+A FOCUS weights the CST toward it per the spec's TARGET rule. A FOCUS still carries the whole thread. If Dima instead asked for *only* a part of it, that is a SCOPED handoff — restrict the content and set META's `scope` field per spec.
 
 ## Trigger A — incoming `HANDOFF REQUEST` cross-session message
 

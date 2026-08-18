@@ -12,11 +12,14 @@ The user deliberately keeps very long threads because they hold key details, but
 
 If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward it; compress the rest harder but never to zero. No target = full continuation.
 
+**Scope is not focus.** Default mode is the full session carried across unfluffed. When the user asks for part of it ("hand off only the linear work"), the CST covers **only that scope**: same section skeleton, content restricted, everything outside it left out rather than compressed. Mark it in META's `scope` field. Size follows scope — never print whole history for a partial ask.
+
 ## Sections (priority order)
 
 **META goes first, and it is the one section a human reads.** Format it prettily — headings, short lists, whitespace — because Dima peeks at it to manage several pending handoffs at once. Everything below META is for the model.
 
-- **META**: four fields, omit any that is empty.
+- **META**: five fields, omit any that is empty.
+  - **scope** — omit entirely when the CST is full (the default). On a scoped handoff write `scope: partial — <what>`, so the ingesting session knows it is NOT a full continuation and does not act as if it holds the rest of the thread.
   - **queues** — cross-session `/queue` items still owed, one line each.
   - **first-acts** — ordered actions the ingesting session performs before anything else. Numbered; the order is the content.
   - **fleet roster** — living sessions worth reattaching to, one line each: session title, role, what it holds (e.g. `🔬 research: proto lab — proto owner — the running prototype + its findings`). Titles follow the spawn naming convention, so the title IS the address. Purpose: a dispatch session that cleared its conversation reconnects to the persistent `cc`s listed here instead of spawning new ones. Only sessions actually worth resuming — a roster of everything is a roster of nothing.
