@@ -53,7 +53,7 @@
       "EnterPlanMode",
       "ExitPlanMode"
     ],
-    "defaultMode": "auto"
+    "defaultMode": "bypassPermissions"
   },
   "model": "opus",
   "attribution": {

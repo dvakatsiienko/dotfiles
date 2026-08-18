@@ -1,7 +1,6 @@
 ---
 name: guide-code
 description: Core values binding on ALL code — load EVERY time you write, edit, or review code in any language, before the language-specific guides. Less is better.
-intended-models: sonnet
 ---
 
 # Code Guide

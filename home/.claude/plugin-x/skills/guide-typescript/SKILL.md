@@ -1,7 +1,6 @@
 ---
 name: guide-typescript
 description: Binding TypeScript conventions — load EVERY time you write, edit, or review TypeScript code in any repo (also fires alongside guide-react for .tsx work). Naming, imports, inference-first typing, satisfies, literals, type placement.
-intended-models: sonnet
 ---
 
 # TypeScript Guide
