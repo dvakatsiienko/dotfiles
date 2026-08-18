@@ -17,6 +17,8 @@ He declines or does not answer → write the CST anyway and say in compare-ancho
 
 Applies to every producing trigger (B, C, D) and to Trigger A when the request is not urgent.
 
+Same pass: build META's fleet roster from `ListAgents` (fresh — refs rotate), keeping only sessions worth reattaching to and naming what each holds.
+
 Mode by argument:
 
 - **First token looks like a session id (8-char/UUID/pid) or session name** → Trigger D (push to that peer); remaining words are the FOCUS.
