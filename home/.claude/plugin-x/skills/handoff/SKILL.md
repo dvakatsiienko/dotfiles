@@ -9,6 +9,14 @@ intended-models: fable, opus
 
 Produce a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; it defines the sections, calibration, store, and lifecycle. This skill only adds the Claude Code sender mechanics. The counterpart skill is `handoff-pull`.
 
+## Before writing any CST — ask for the anchors
+
+META's compare-anchors need numbers this session cannot read. Ask Dima for his `/context` output (and any other number the next session must diff against) BEFORE composing, in one line. He answers with the figures; they go into compare-anchors labelled and dated.
+
+He declines or does not answer → write the CST anyway and say in compare-anchors that the numbers are missing. Never guess a number, and never silently omit the field.
+
+Applies to every producing trigger (B, C, D) and to Trigger A when the request is not urgent.
+
 Mode by argument:
 
 - **First token looks like a session id (8-char/UUID/pid) or session name** → Trigger D (push to that peer); remaining words are the FOCUS.
@@ -41,7 +49,7 @@ Use the `-shared` filename suffix if the user says several threads will pull it.
 Produce the CST, then seed a background agent with it directly:
 
 ```bash
-claude --bg --name "<short descriptive name>" "<CST, prefixed with: You are a continuation of a prior session. Ingest this CST silently per its own rules (persist C→memory lines, honor R/D as user-said), then proceed from S.>"
+claude --bg --name "<short descriptive name>" "<CST, prefixed with: You are a continuation of a prior session. Ingest this CST silently per its own rules (run META's first-acts first, persist C→memory lines, honor R/D as user-said), then proceed from S.>"
 ```
 
 Always pass `--name` — it labels the job list, session picker, and terminal title. No handoff file is written (the CST rides in the prompt), so the spec's REDACT rule applies with full force. Tell the user in one line: spawned `<name>`; manage via `claude agents`.
@@ -56,7 +64,7 @@ The mirror of `handoff-pull` peer mode, initiated from the sender side: this thr
 
 ```
 HANDOFF PUSH — priority interrupt.
-A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ingest silently — never echo it into visible output; confirm to your user in ≤2 lines (thread topic + next step). Persist `C→memory:` lines into your memory system if one exists. Honor R and D as if your user said them in this thread. Then proceed as the old thread from S. Delete the file after ingest (`-shared` suffix: keep). Reply one line: `CST ingested by <your ref>`.
+A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ingest silently — never echo it into visible output; confirm to your user in ≤2 lines (thread topic + next step). Run its META first-acts before anything else. Persist `C→memory:` lines into your memory system if one exists. Honor R and D as if your user said them in this thread. Then proceed as the old thread from S. Delete the file after ingest (`-shared` suffix: keep). Reply one line: `CST ingested by <your ref>`.
 ```
 
 4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via `/x:handoff-pull`.

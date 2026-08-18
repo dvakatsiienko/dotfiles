@@ -7,7 +7,7 @@ intended-models: haiku, sonnet
 
 # Handoff-pull (requester)
 
-Ingest a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; its Ingest section is the consumer contract (silent ingest, ≤2-line confirmation, persist `C→memory:` lines, honor R/D, delete-on-ingest unless `-shared`). This skill adds the Claude Code acquisition mechanics. The counterpart skill is `handoff`.
+Ingest a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; its Ingest section is the consumer contract (silent ingest, ≤2-line confirmation, META's first-acts before anything else, persist `C→memory:` lines, honor R/D, delete-on-ingest unless `-shared`). This skill adds the Claude Code acquisition mechanics. The counterpart skill is `handoff`.
 
 Mode by argument:
 

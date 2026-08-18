@@ -4,6 +4,8 @@ Single definition of a CST, consumed by every handoff frontend (`cc` `handoff*` 
 
 A CST is a machine-optimized context package one thread produces so another thread — in any frontend — behaves indistinguishably like a continuation of it at a fraction of the tokens. It is NOT a summary: it is an *upgraded compaction*, expanded with specific attention to the data that naive summaries lose.
 
+**Core principle: a handoff is `/compact` on steroids.** The ingesting session behaves as a near-continuation of the source thread, not as a reader of a report about it. The name stays `/handoff` and the flow stays manual — nothing here fires on its own.
+
 ## Calibration (read first, calibrate everything to this)
 
 The user deliberately keeps very long threads because they hold key details, but resuming one after cache expiry re-reads the whole history uncached (≈20% of a 5h usage window in `cc`; `cw` threads are often far longer). The CST replaces that resume. So do NOT summarize — preserve. When unsure whether something matters, INCLUDE it; under-preservation is the failure mode. Size is handled by transport, never by trimming substance.
@@ -12,6 +14,12 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
 
 ## Sections (priority order)
 
+**META goes first, and it is the one section a human reads.** Format it prettily — headings, short lists, whitespace — because Dima peeks at it to manage several pending handoffs at once. Everything below META is for the model.
+
+- **META**: three fields, omit any that is empty.
+  - **queues** — cross-session `/queue` items still owed, one line each.
+  - **first-acts** — ordered actions the ingesting session performs before anything else. Numbered; the order is the content.
+  - **compare-anchors** — numbers the next session must diff against, each labelled and dated (e.g. `/context` sizes at save time). An anchor without its number is not an anchor — see the save-time step in the sender skill.
 - **G**: goal + current mental model of the problem.
 - **R**: user-stated requirements/preferences/corrections, verbatim or near-verbatim (highest-loss items in naive summaries — be generous here).
 - **D**: decisions made + one-line rationale each (so the continuation doesn't re-litigate).
@@ -25,6 +33,16 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
 - **K**: suggested skills/agents/tools the continuation should reach for (only non-obvious ones). Omit in frontends without tooling context.
 
 Omit anything re-derivable from repo/git/files.
+
+## Compression contract
+
+Per section, and it is not negotiable per section:
+
+- **R, S, META — lossless in meaning.** Wording may shrink; content may not. A dropped requirement or a half-stated next step is the failure this format exists to prevent.
+- **D, C — lossy-terse.** Deltas and dated facts only. No narrative, no how-we-got-here.
+- **Conversational fluff never crosses, from either side.** Pleasantries, restated questions, thinking-out-loud, apologies — none of it is state.
+
+Compress the **language**, never the substance. Telegraphic fragments are fine. Keep light markdown structure — headings, bullets, line breaks. Decoration costs ~5–10% of the tokens and buys back readability for the model reading it, so it stays: readable-first, no losses.
 
 **TRUTH RULE**: mark unverified beliefs as such (prefix `?`) — "X isn't built", "tests pass" written as fact when only assumed becomes a false premise the continuation will never re-check. Facts and assumptions must be distinguishable.
 
@@ -58,4 +76,4 @@ being duplicated. Until then, this section is the owner.
 
 ## Ingest (consumer contract)
 
-Ingest silently — never echo the CST into visible output; confirm in ≤2 lines (thread topic + next step). Persist `C→memory:` lines into the memory system if one exists (else keep them in C when re-handing-off). Honor R and D as if the user said them in this thread. Then proceed exactly as the old thread from S.
+Ingest silently — never echo the CST into visible output; confirm in ≤2 lines (thread topic + next step). Run META's first-acts before anything else, in their given order, and carry its queues and compare-anchors into this thread. Persist `C→memory:` lines into the memory system if one exists (else keep them in C when re-handing-off). Honor R and D as if the user said them in this thread. Then proceed exactly as the old thread from S.
