@@ -41,6 +41,27 @@ Load the core skills at boot, not reactively. `x:pm` above all — dispatch is t
 session that loads it only once a ticket is mentioned has already written the first ticket
 wrong. Read this file and `ticket-flow.md` in the same pass (no `rules/` layer here).
 
+## Sync everywhere — walk this before calling a system change done
+
+A system change is one to labels, states, vocabulary, conventions, or a skill contract. It is not
+done when one home has it — it is done when every home that holds it has it, in the same session.
+Silent drift between surfaces is the failure this prevents.
+
+| home | holds | channel |
+| --- | --- | --- |
+| `docs/tracker/` — adr + `CONTEXT.md` glossary | tracker vocabulary, decisions | `cc` errand |
+| `rules/` + `x:pm` skill | binding behaviour | `cc` errand |
+| `cw` `x-pm` mirror | the same, `cw` side | `pnpm skills-sync-cw stamp` (drift expected until DOT-73) |
+| `bytes` `CLAUDE.md` | BYT-side conventions | proto/bytes `cc` |
+| proto board `tickets-today` | visibility | dispatch stream |
+| handoff META | next-session carry | dispatch, at save |
+
+- **Trigger** — flag «system change» at flush time, walk the map, route what is stale as **one
+  batched errand per repo**. Never a separate session per home.
+- **Not every row fires every time.** Walking the map means checking each row, not editing each one.
+- 📌 The v1 map and the seed case (the 2026-08-19 label evolution, which needed the tracker adr,
+  bytes context, and the `cw` mirror at once) live on DOT-133.
+
 ## Spawning
 
 - Model cards live in `rules/models.md`. Short form: haiku = large-but-simple; sonnet-5 = good
