@@ -1,0 +1,34 @@
+---
+name: conventions
+description: Binding cross-repo conventions Dima enforces by hand today — url and routing shape (paths vs query strings), and more as they are written down. Load BEFORE designing a route, a url, an api surface, a file layout, or any other shape that is expensive to change later, and whenever a review comment sounds like "we don't do it that way here".
+---
+
+# Conventions — the umbrella
+
+One skill, many rules. The rules live in [`conventions/`](conventions/) as separate files and are
+**read on demand**, never up front.
+
+📌 Why the shape is this and not one skill per rule: a skill's `description` is resident in every
+session from boot (~80–100 tokens), and on `cc` the whole skill listing shares a character budget —
+overflow truncates descriptions and then drops them, quietest-first. A library of narrow convention
+skills therefore taxes every session and eventually silences itself. One umbrella pays that toll
+once; the rule files cost nothing until Read.
+
+## How to use it
+
+1. Run `ls` on the `conventions/` directory next to this file. Filenames are the index — there is
+   no catalogue to maintain and nothing to keep in sync.
+2. Read **only** the files matching the work in hand.
+3. Apply them as binding. These are rules Dima already enforces by correcting mid-task; the file
+   exists so the correction is not needed.
+
+Do not read the whole directory "to be safe". That defeats the point of the split.
+
+## Adding a convention
+
+One file per rule, named for its subject (`routing-url-shape.md`, not `rule-1.md`). Each file
+states the rule, shows ✅/🚫, and says what the correction cost when it was learned — the cost is
+what makes a rule stick. No frontmatter; these are read by path, not resolved as skills.
+
+A rule that belongs to exactly one repo goes in that repo's `CLAUDE.md` instead — it fires only
+where the code is and costs nothing everywhere else. This skill is for rules spanning repos.
