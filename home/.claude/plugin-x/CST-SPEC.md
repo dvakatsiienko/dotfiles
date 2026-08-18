@@ -27,16 +27,35 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
 - **G**: goal + current mental model of the problem.
 - **R**: user-stated requirements/preferences/corrections, verbatim or near-verbatim (highest-loss items in naive summaries — be generous here).
 - **D**: decisions made + one-line rationale each (so the continuation doesn't re-litigate).
-- **S**: state — done / in-flight / exact next step.
+- **S**: state — in-flight work and the exact next step. **Open items only** — finished work is not state, and a done-list carried across hops is the commonest source of CST bloat. A completed thing survives only as a D entry (if it settled a decision) or a C entry (if it is a fact the next session needs).
 - **C**: carry-forward — long-lived facts not yet persisted anywhere, each dated `[YYYY-MM-DD]` (added or last re-confirmed). If the producing thread holds a prior CST's C-section, do NOT copy it forward blindly — give every inherited entry one of three fates:
   - **PROMOTE** (durable preference / stable fact): emit as a `C→memory:` line — a consumer with a memory system persists it on ingest — and drop it from C forever;
   - **KEEP** (still true AND relevant, or user re-confirmed): refresh its date;
-  - **DROP** (transient, superseded, or untouched >14 days / 2 generations): list dropped items in one `C-dropped:` line so the consumer and the user can veto.
+  - **DROP** (transient, superseded, or aged out by the decay rule below): list dropped items in one `C-dropped:` line so the consumer and the user can veto.
   - Cap C at ~12 entries; over cap evict oldest-dated first. C is a transfer buffer, not a database — monotonic growth is its failure mode.
 - **P**: pointers — paths, branches, commands, URLs, session refs, doc names. Pointers only, NEVER file/log/diff contents; the consumer re-reads from source. Specs/plans/ADRs/issues/commits live where they live — reference, don't copy. A CST ballooning past ~8k tokens is a content-dump smell — audit it and convert dumps to pointers; conversation-derived substance stays.
 - **K**: suggested skills/agents/tools the continuation should reach for (only non-obvious ones). Omit in frontends without tooling context.
 
 Omit anything re-derivable from repo/git/files.
+
+## Decay (TTL)
+
+Info-needed survives, clutter dies. A CST is a relay baton, not an archive — every hop it is carried
+without being used is evidence it was never needed.
+
+- **D and C entries carry a max of 2 hops.** A hop is one produce→ingest. An entry re-touched in the
+  producing thread on the day it is written — used, acted on, re-confirmed by the user — resets its
+  counter to zero and its date to today.
+- **Untouched two pulls in a row → gone.** Either drop it, or demote it to a single one-line C entry
+  if the bare fact still has value. A demoted entry starts a fresh 2-hop count; it does not get a
+  third life after that.
+- **S never decays — it empties.** An S item that is no longer in flight is not aged out, it is
+  removed the moment it closes.
+- The C cap (~12) and the PROMOTE path are unchanged and run first: promote to memory before
+  considering decay, so a durable fact is never lost to a counter.
+
+📌 Decay is a floor, not a ceiling. Anything the user re-stated, or that the stated TARGET depends
+on, stays regardless of hop count — R is lossless and outranks this section.
 
 ## Compression contract
 
