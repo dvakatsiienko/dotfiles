@@ -35,6 +35,12 @@ address" yields the app page url). In dispatch replies use
 `https://linear.app/x-com/issue/DOT-N`. Everywhere else `linear://` stays correct per
 `text-formatting.md`.
 
+## Session start — boot checklist
+
+Load the core skills at boot, not reactively. `x:pm` above all — dispatch is the PM, and a
+session that loads it only once a ticket is mentioned has already written the first ticket
+wrong. Read this file and `ticket-flow.md` in the same pass (no `rules/` layer here).
+
 ## Spawning
 
 - Model cards live in `rules/models.md`. Short form: haiku = large-but-simple; sonnet-5 = good
@@ -43,6 +49,23 @@ address" yields the app page url). In dispatch replies use
 - Prefer reusing a warm session over a fresh spawn for small follow-ups — every fresh spawn costs
   ~50k context.
 - Effort is not settable on spawns and appears inherited — mechanic unverified, do not build on it.
+
+## Naming a spawned session
+
+`[emoji][activity]: topic` — the emoji and the word are one unit, then the topic.
+
+- 🔬 research — reading, gathering, comparing
+- 🔧 code — writing or changing code
+- 🧪 probe — checking whether a thing works at all
+
+Example: `🔧 code: focus hook status cache`. Durable copy of dispatch's memory — the memory is
+per-session, this file is not.
+
+## Domain model stays evergreen
+
+Any structural tracker change — project born/dissolved, term decided, label vocabulary shift —
+updates `docs/tracker/CONTEXT.md` / `TRK` adrs in the same batch. The model has no auto-refresh;
+this rule is the refresh.
 
 ## Artifacts are ephemeral
 
