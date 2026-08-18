@@ -108,30 +108,17 @@ since 2026-08-17 every label is **workspace-wide**; there are no per-team label 
 ## quota ops (250 non-archived, workspace-wide)
 
 auto-archive is **on**, and teams also auto-archive completed/canceled after 6 months. still keep
-resolving faster than creating; near ~200 propose a restructure pass. the cli has no archive verb:
+resolving faster than creating; near ~200 propose a restructure pass. the cli has no archive verb (recipe in `SKILL.md`):
 
 ```bash
-# archive one issue (uuid via: linear api 'query { issue(id: "DOT-3") { id } }')
-linear api 'mutation { issueArchive(id: "<uuid>") { success } }'
 # quota check — non-archived count across the workspace
 linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.data.issues.nodes | length'
 ```
 
 ## cli gotchas
 
-- team-wide listing = `linear issue query --team DOT` (`issue list` shows only issues assigned to *you*).
-- multi-line/markdown bodies: write a file, pass `--description-file file.md`
-  (`issue create`/`issue update`) or `--body-file file.md` (`issue comment add`/`issue comment
-  update` — there is no top-level `comment` command). inline `--description "$(cat …)"` lets the
-  shell mangle `$VAR`/backticks silently.
-- `issue update --label` **replaces** the whole label set, never adds. passing one label drops
-  every other one, silently, with a success message. always pass the full intended set
-  (`--label agent --label improvement --label opus-5`) and verify after:
-  `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
-- `issue create` with no `--state` lands in **Triage**, not Todo — the team default wins and the
-  cli says nothing. always pass `--state Todo` (or the state the role calls for).
-- `issue view --json` exits 5 — read fields back through `linear api` graphql instead.
-- `linear` hanging >15s = likely a hidden keychain prompt. tell dima to check the screen.
+moved into `SKILL.md` — the calls that get guessed wrong must sit in the file the agent is already
+reading, not one indirection away (DOT-89). nothing to duplicate here.
 
 ## links
 

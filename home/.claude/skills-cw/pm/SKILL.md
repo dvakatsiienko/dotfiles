@@ -28,7 +28,7 @@ correct channel.
 Everything below is transport-independent: field contract, gates, vocabulary and ticket shape are
 the same in every environment. Only the call layer differs.
 
-CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` = only assigned-to-you). Multi-line bodies: write a temp file, pass `--description-file file.md` (create/update) or `--body-file file.md` (comments) — never inline `$(cat …)`, it lets the shell mangle `$VAR`/backticks in the content. `linear` hanging >15s = hidden Keychain prompt — tell Dima to check the screen. Archive (quota valve) is GraphQL-only: `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`.
+CLI gotchas: team-wide listing = `linear issue query --team DOT` (`issue list` = only assigned-to-you). Multi-line bodies: write a temp file, pass `--description-file file.md` (create/update) or `--body-file file.md` (comments) — never inline `$(cat …)`, it lets the shell mangle `$VAR`/backticks in the content. `linear` hanging >15s = hidden Keychain prompt — tell Dima to check the screen. Archive (quota valve) is GraphQL-only: `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`. No `issue search` subcommand exists — search via `linear api` with `searchIssues`. `issue update --label` **replaces** the whole set and silently drops what you omit — always pass role AND kind together, then verify. `issue create` with no `--state` lands in **Triage**, not Todo. `issue view --json` exits 5 — read fields back through `linear api`.
 
 ## Ticket flow — inlined, because `cw` has no rules layer
 

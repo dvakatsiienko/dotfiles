@@ -21,9 +21,7 @@ Two files, and the split matters:
 - **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
   states, cli mechanics, quota ops. read it before the first write of a session.
 
-Channel: the `linear` CLI. Command mechanics live in the **linear-cli skill** (plugin `linear-cli`,
-auto-updating) — route there for flags and recipes; `linear api` GraphQL is the fallback for
-anything the CLI lacks.
+Channel: the `linear` CLI. `linear api '<graphql>'` is the fallback for anything the CLI lacks.
 
 **Pick the channel by probing your own tool list, never by guessing the platform.** Some
 environments cannot be identified from inside, so a platform check guesses wrong where a capability
@@ -39,6 +37,32 @@ correct channel — this is the one exception to «never the Linear MCP», and i
 
 Everything below this line is transport-independent: the field contract, the gates, the vocabulary
 and the ticket shape are the same in every environment. Only the call layer differs.
+
+## CLI cheatsheet — inlined on purpose
+
+📌 **A pointer to another skill is a citation, never a load.** Naming the `linear-cli` skill in
+prose here is what produced invented flags (`issue list --query`, `issue search` — neither exists)
+while the right calls sat in that skill's first screen. So the calls that get guessed wrong live
+here, in the file you are already reading. **Before any call not on this list, run
+`Skill(linear-cli:linear-cli)`** — an explicit load, not a mention. `linear <cmd> --help` confirms
+a flag in one call and is always cheaper than a wrong guess.
+
+- **listing** — `linear issue query --team DOT`. `issue list` shows only issues assigned to *you*,
+  and there is no `--query` flag on it.
+- **searching** — no `issue search` subcommand exists. Use `linear api` with `searchIssues`.
+- **multi-line bodies** — write a file, pass `--description-file f.md` (`issue create` /
+  `issue update`) or `--body-file f.md` (`issue comment add` / `issue comment update` — there is no
+  top-level `comment` command). Inline `--description "$(cat …)"` lets the shell mangle `$VAR` and
+  backticks silently.
+- **labels replace, never add** — `issue update --label` drops every label you omit, silently, with
+  a success message. Pass the full intended set (`--label agent --label improvement --label 'opus
+  5'`) and verify: `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
+- **state on create** — `issue create` with no `--state` lands in **Triage**, not Todo. The team
+  default wins and the CLI says nothing. Always pass `--state Todo`, or the state the role calls for.
+- **reading fields back** — `issue view --json` exits 5. Use `linear api` GraphQL.
+- **archiving** — no CLI verb. `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`,
+  uuid from `linear api 'query { issue(id: "DOT-3") { id } }'`.
+- **hanging >15s** — likely a hidden keychain prompt. Tell Dima to check the screen.
 
 ## The two jobs
 
