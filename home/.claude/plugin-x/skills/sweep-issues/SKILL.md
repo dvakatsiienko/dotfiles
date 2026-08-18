@@ -2,6 +2,7 @@
 name: sweep-issues
 argument-hint: "[scope] [cap] [review only] [focus on <angle>] [skip <angle>]"
 description: Heavy multi-round defect sweep over a target scope (dir, module, diff, branch) — find-prove-fix until two independent passes come back clean; findings adversarially verified; state survives interrupts. Occasional deep-clean (30-60 min, heavy tokens) for shipping/inherited/vibe-coded work, NOT everyday review. Fixes in place unless wording plainly rejects changes ("review only", "no fixes").
+intended-models: opus
 ---
 
 # sweep-issues

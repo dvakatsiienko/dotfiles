@@ -1,6 +1,7 @@
 ---
 name: x-pm
 description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Use EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "capture this idea", scope changes to tracked work. Runs the linear CLI via Desktop Commander.
+intended-models: fable, opus
 ---
 
 # PM (cw) — literal PM mode over Linear

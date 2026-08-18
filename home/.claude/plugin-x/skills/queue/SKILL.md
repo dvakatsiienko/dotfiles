@@ -1,6 +1,7 @@
 ---
 name: queue
 description: Defer work to later in this conversation and resurface it. Load when Dima types /queue, or says to do something after the current thing / later in the session.
+intended-models: haiku, sonnet
 argument-hint: "<thing to do later>"
 ---
 

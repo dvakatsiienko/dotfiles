@@ -1,6 +1,7 @@
 ---
 name: pm
 description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Load EVERY time you create, update, close, or triage a ticket — any mention of a DOT-N/BYT-N id, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
+intended-models: fable, opus
 ---
 
 # PM — literal PM mode over Linear

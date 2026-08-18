@@ -1,6 +1,7 @@
 ---
 name: guide-react
 description: Binding React conventions — load EVERY time you write, edit, or review React/JSX components (pair with guide-typescript for the type side). Component shape, props access, import groups, file anatomy, file layout, cva/forms idioms.
+intended-models: sonnet
 ---
 
 # React Guide

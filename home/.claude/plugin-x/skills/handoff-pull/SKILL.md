@@ -2,6 +2,7 @@
 name: handoff-pull
 argument-hint: "[<session-id|name>] | [topic] | cw"
 description: Requester side of session handoff — ingest a CST. Triggers: /handoff-pull, "grab/pull handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "cw" → pending file from the shared store (incl. `cw` handoffs).
+intended-models: haiku, sonnet
 ---
 
 # Handoff-pull (requester)

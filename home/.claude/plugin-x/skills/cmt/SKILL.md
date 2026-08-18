@@ -1,6 +1,7 @@
 ---
 name: cmt
 description: Branded commit authoring — format, emoji canon, steering keywords, worktree mirroring. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /cmt or just asked to commit mid-conversation.
+intended-models: sonnet
 argument-hint: "[y|y+] [mir] [push|push+] [correction…]"
 ---
 

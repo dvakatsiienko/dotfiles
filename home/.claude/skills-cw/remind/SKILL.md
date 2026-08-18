@@ -1,6 +1,7 @@
 ---
 name: remind
 description: Persistent reminders that survive across sessions. Load when Dima types /remind, or asks to be reminded of something / to drop or list a reminder.
+intended-models: haiku, sonnet
 argument-hint: "[forget|clear]"
 ---
 

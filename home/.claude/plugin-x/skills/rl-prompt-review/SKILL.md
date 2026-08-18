@@ -1,6 +1,7 @@
 ---
 name: rl-prompt-review
 description: Reviewing a benchmark-task prompt (instruction.md) — before the Task + Prompt Review gate, when checking a draft for over- or under-specification, and when calibrating one against the measured corpus of merged prompts.
+intended-models: opus, fable
 version: 1.1.0
 ---
 

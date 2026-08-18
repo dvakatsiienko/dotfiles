@@ -1,6 +1,7 @@
 ---
 name: rl-task-authoring
 description: Authoring RL benchmark tasks for coding agents (hidden verifier). Use for any task-package part (instruction.md, solution.patch, verifiers, task.toml, Dockerfile), oracle/baseline calibration, eval harness/Harbor, task-difficulty/verifier-fairness diagnosis, or work inside a golden checkout.
+intended-models: opus
 version: 1.1.0
 ---
 
