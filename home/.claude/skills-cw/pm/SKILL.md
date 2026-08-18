@@ -72,14 +72,17 @@ detects the drift.
   to signal importance. The `human` label says a human does the work, not *which* human.
 - **States**: Triage inbox = needs-triage · `needs human` / `needs agent` label + Todo (blocked, split by who is waiting) · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
 - **Labels — all workspace-level** since 2026-08-17; no per-team sets remain. One **role** (`agent` ·
-  `human` · `needs human` · `needs agent` — who does it; the `needs *` pair is one role split by block
-  direction per TRK-0002: `needs human` = an agent waits on Dima, `needs agent` = Dima waits on agent
-  research) and one **kind** (`bug` restores intended behaviour · `feature`
+  `human` · the `needs *` family — who does it, or what it waits on; split by block direction and
+  closed at three per TRK-0002/TRK-0004: `needs human` = an agent waits on Dima · `needs agent` =
+  Dima waits on agent research · `needs data` = no data pool exists yet, gather before deciding) and one **kind** (`bug` restores intended behaviour · `feature`
   is new capability · `improvement` is an existing thing made better — refactors, renames, docs,
   tooling) on every create and every touch. A story parent or decision ticket takes the kind of the
   work it leads to. **State** labels — `standing` (recurring work with no
   last round — a rolling review, a periodic sweep; it legitimately stays In Progress between
-  rounds, the one exception to state-tracks-reality) and `vet` 🧪 (examine an idea before committing) — sit beside role and kind, never replace them. **Model routing** labels — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5`
+  rounds, the one exception to state-tracks-reality) and `vet` 🧪 (examine an idea before committing) — sit beside role and kind, never replace them. `walkthrough` is
+  Dima's own mark: he wants to be walked through the work as a learning session, never a delegation —
+  apply it only when he says so. **A label never names a project** (TRK-0004); the area of work
+  belongs in the project field. **Model routing** labels — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5`
   (emerald) · `haiku 4.5` — are Dima's notation for future label→model routing; set one only on a real preference.
 - **Priority** 1 Urgent–4 Low, p1 **rare** — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
 - **Quota**: free plan, 250 non-archived issues workspace-wide, auto-archive on. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); near ~200 propose a restructure pass.

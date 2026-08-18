@@ -72,7 +72,7 @@ linear issue update DOT-N --parent DOT-M     # hang a ticket under a story paren
 | role | linear |
 | --- | --- |
 | needs-triage | **Triage** status (native inbox) |
-| needs-info | `needs human` label + Todo (agent waiting on dima) or `needs agent` + Todo (dima waiting on agent research) |
+| needs-info | Todo + one of the `needs *` family: `needs human` (agent waiting on dima) · `needs agent` (dima waiting on agent research) · `needs data` (no data pool yet — gather before deciding) |
 | ready-for-agent | `agent` label + Todo |
 | ready-for-human | `human` label + Todo |
 | wontfix | **Canceled** |
@@ -84,16 +84,20 @@ Backlog is deliberately unused — a blocked ticket keeps its real role and stay
 since 2026-08-17 every label is **workspace-wide**; there are no per-team label sets left. one
 **role** and one **kind** on every ticket, always.
 
-- **role** — `agent` · `human` · `needs human` · `needs agent`. who does it. the `needs *` pair is one
-  role split by **block direction** (TRK-0002): `needs human` = an agent is waiting on dima, `needs
-  agent` = dima is waiting on agent research. resist inventing more.
+- **role** — `agent` · `human` · the `needs *` family. who does it, or what it waits on. the family
+  is split by **block direction** and closed at three (TRK-0002, TRK-0004): `needs human` = an agent
+  waits on dima · `needs agent` = dima waits on agent research · `needs data` = no data pool exists
+  yet, gather before deciding. resist a fourth.
 - **kind** — `bug` (behaves wrong, restores intended behaviour) · `feature` (capability that does
   not exist yet) · `improvement` (existing thing made better — refactors, renames, docs, tooling,
   ergonomics). a story parent or a pure decision ticket takes the kind of the work it leads to;
   `improvement` when genuinely unclear.
 - **state** — `standing` (recurring work with no last round — a rolling review, a periodic sweep;
   it legitimately stays In Progress between rounds, the one exception to state-tracks-reality) ·
-  `vet` 🧪 (examine an idea before committing to it).
+  `vet` 🧪 (examine an idea before committing to it). `walkthrough` is dima's own mark — he wants to
+  be walked through the work as a learning session, never a delegation; apply it only when he says so.
+- 📌 **a label never names a project.** `harness: home baked` was deleted for exactly that
+  (TRK-0004) — the area of work belongs in the project field.
   these sit beside role and kind, never replace them (TRK-0002).
 - **model routing** — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5` (emerald) · `haiku 4.5`. dima's
   notation for which model a ticket wants, aimed at future label→model routing. set one only when

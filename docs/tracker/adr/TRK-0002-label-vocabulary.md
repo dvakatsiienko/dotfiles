@@ -13,8 +13,9 @@ decision — one entity per id:
     label *replaced* parking such tickets in a perpetual In Progress. it does not — a `standing`
     ticket legitimately sits In Progress between rounds, and the label is precisely what marks that
     state as honest rather than stale. the exception is written into `rules/ticket-flow.md`. this
-    line is amended rather than rewritten so the earlier reading stays visible; if dispatch wants
-    the reversal recorded as a decision of its own, it wants a `TRK` of its own.
+    line is amended rather than rewritten so the earlier reading stays visible. the reversal is
+    recorded as a decision in [TRK-0004](TRK-0004-label-system-evolution.md), which also closes the
+    `needs *` family at three and bans project-meaning labels.
 - **L5 `vet`** — 🧪 trial. examine an idea before committing to it. mutates into `investigate` if the shorter name does not survive use; delete the label rather than keep a dead one.
 - **L6 label language** — no hyphens in label names, ever. workspace-level labels only, never team-level: one vocabulary across DOT and BYT.
 
