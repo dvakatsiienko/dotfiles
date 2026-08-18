@@ -220,6 +220,10 @@ Issues live in **Linear** (workspace `x-com`, team `DOT`), managed via the `line
 
 Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-info`, `agent`, `human`, Canceled). See `docs/agents/triage-labels.md`.
 
+### Skill conventions
+
+Skill frontmatter conventions, incl. `intended-models:`, live in `docs/agents/skills.md`.
+
 ### Domain docs
 
 Multi-context layout — see `CONTEXT-MAP.md` at root. Repo context: `CONTEXT.md` + `docs/adr/` (ADR-nnnn). Tracker context: `docs/tracker/CONTEXT.md` + `docs/tracker/adr/` (TRK-nnnn). See `docs/agents/domain.md`.
