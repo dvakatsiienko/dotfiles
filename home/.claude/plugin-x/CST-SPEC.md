@@ -18,11 +18,14 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
 
 **META goes first, and it is the one section a human reads.** Format it prettily — headings, short lists, whitespace — because Dima peeks at it to manage several pending handoffs at once. Everything below META is for the model.
 
-- **META**: five fields, omit any that is empty.
+- **META**: six fields, omit any that is empty.
   - **scope** — omit entirely when the CST is full (the default). On a scoped handoff write `scope: partial — <what>`, so the ingesting session knows it is NOT a full continuation and does not act as if it holds the rest of the thread.
   - **queues** — cross-session `/queue` items still owed, one line each.
   - **first-acts** — ordered actions the ingesting session performs before anything else. Numbered; the order is the content.
   - **fleet roster** — living sessions worth reattaching to, one line each: session title, role, what it holds (e.g. `🔬 research: proto lab — proto owner — the running prototype + its findings`). Titles follow the spawn naming convention, so the title IS the address. Purpose: a dispatch session that cleared its conversation reconnects to the persistent `cc`s listed here instead of spawning new ones. Only sessions actually worth resuming — a roster of everything is a roster of nothing.
+  - **run marker** — the active tracker run id (`cc·20260819·batch1`), if one was minted. The
+    ingesting session continues that run instead of minting a new one, so a batch spanning two
+    sessions still reverts as one. Format and stamping rules: the `pm` skill.
   - **compare-anchors** — numbers the next session must diff against, each labelled and dated (e.g. `/context` sizes at save time). An anchor without its number is not an anchor — see the save-time step in the sender skill.
 - **G**: goal + current mental model of the problem.
 - **R**: user-stated requirements/preferences/corrections, verbatim or near-verbatim (highest-loss items in naive summaries — be generous here).

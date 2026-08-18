@@ -12,7 +12,7 @@ the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. opera
 - **assignee** — assigned-to-dima = strictly his, agents never resolve it (≠ `human` label, which only says a human does the work). unassigned = open to anyone.
 - **priority** — how much a ticket matters, p1 rare. sequencing = `blocks` relation, never inflated priority. **estimate** — complexity 1–5, not wall-clock.
 - **sweep** — a read-only analysis pass over the tracker producing proposals, flushed only after approval.
-- **run marker** — per-run identifier stamped on agent-created tickets (DOT-107, planned).
+- **run marker** — per-run identifier stamped as the last line of agent-created ticket bodies and agent comments: `⸻ 🪪 cc·20260819·batch1 · agent run stamp — please keep 🙏`. minted once per session, `<surface>·<date>·<slug>`. buys one-pass revert of a bad batch and cross-session idempotency. never on a dima-authored ticket. contract in `x:pm` (DOT-107).
 - **doc** — research/deliverable attached to a ticket or project the moment it is born (task outputs are ephemeral). title is the interface: topic — kind — date.
 - **project overview** — a project's content field, the standing description of what it is and where it stands. a tracked surface: dispatch maintains it for dima, it is never left to rot.
 - **health update** — a linear project update. cadence is weekly per active project plus event-driven on real state changes (TRK-0003). ticket ids do not auto-link there, so every id is a markdown link — mandatory, not style.

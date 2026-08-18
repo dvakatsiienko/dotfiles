@@ -109,6 +109,39 @@ How to run it, on every create and every estimate:
 - 📌 The gate blocks the **estimate**, never the capture. Still create the ticket, still fill role,
   kind, priority and project — an idea is never lost to a missing answer.
 
+## Run markers — stamp every agent tracker write
+
+Provenance and undo. A bad batch reverts in one pass, and a later session can tell it already filed
+a ticket instead of filing it twice. No tracker vendor ships this; the marker is ours.
+
+**Mint once per working session**, at the first tracker write, then reuse it for every write in that
+session: `<surface>·<YYYYMMDD>·<slug>` — surface ∈ `dp` · `cc` · `cw` · `ios`, slug short and
+kebab (`cc·20260819·batch1`). Never mint a second one mid-session.
+
+**Stamp** as the **last line** of a created ticket body and of any comment you author:
+
+```
+⸻ 🪪 cc·20260819·batch1 · agent run stamp — please keep 🙏
+```
+
+It is a footer, not a label — labels sprawl against the 250 quota, and bodies are searchable. The
+middot triple is the grep token; the human-readable tail exists so nobody mistakes it for junk.
+
+**Before creating, check you have not already filed it.** Search the marker plus the title stem; a
+hit means update that ticket instead of creating a second one:
+
+```bash
+linear api 'query { searchIssues(term: "cc·20260819·batch1") { nodes { identifier title } } }'
+```
+
+**Edges, and they matter:**
+
+- 🚫 **Never stamp a Dima-authored ticket.** The marker says an agent wrote this. Putting it on his
+  ticket is a lie about who did.
+- On an **existing** ticket, stamp the **comment only** — never rewrite the body to add a footer.
+- The active run id rides in the handoff **META**, so a pulled session continues the run rather
+  than minting a new one.
+
 ## Ticket economy (quota-aware)
 
 250 non-archived issues workspace-wide. Resolve faster than create. Prefer one fuller ticket covering an area over strands of small ones — but no monster tickets; balance. Archive resolved work aggressively. Quota nearing (~200): propose a restructure pass.

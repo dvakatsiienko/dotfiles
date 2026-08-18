@@ -138,6 +138,35 @@ and ≤10 lines bends. If it only restates, it goes.
 📌 **Flag, never auto-strip.** A sweep over existing bodies reports suspected prose and leaves the
 text alone. The call is Dima's, every time.
 
+## Run markers — stamp every agent tracker write
+
+Provenance and undo: a bad batch reverts in one pass, and a later session can tell it already filed
+a ticket instead of filing it twice.
+
+**Mint once per working session** at the first tracker write, then reuse it for every write that
+session: `<surface>·<YYYYMMDD>·<slug>`, surface ∈ `dp` · `cc` · `cw` · `ios` (`cw·20260819·batch1`).
+Never mint a second mid-session.
+
+**Stamp** as the **last line** of a created ticket body and of any comment you author:
+
+```
+⸻ 🪪 cw·20260819·batch1 · agent run stamp — please keep 🙏
+```
+
+A footer, not a label — labels sprawl against the 250 quota and bodies are searchable. The middot
+triple is the grep token; the readable tail stops it looking like junk.
+
+**Before creating, check you have not already filed it** — search the marker plus the title stem;
+a hit means update, not create:
+
+```
+linear api 'query { searchIssues(term: "cw·20260819·batch1") { nodes { identifier title } } }'
+```
+
+**Edges:** 🚫 never stamp a Dima-authored ticket — the marker says an agent wrote it. On an
+existing ticket stamp the **comment only**, never rewrite the body. The active run id rides in the
+handoff META, so a pulled session continues the run instead of minting a new one.
+
 ## Output discipline
 
 - **Titles are the interface**: clear, concise, subject-first — details in the body, never the title.
