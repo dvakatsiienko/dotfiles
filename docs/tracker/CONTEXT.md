@@ -8,7 +8,7 @@ the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. opera
 - **ticket** — unit of work. pretty title (short, descriptive, subject-first), body = key data only.
 - **standing ticket** — a recurring home that never finishes (DOT-82). carries the `standing` label and stays open while active; never parked in a perpetual In Progress (TRK-0002).
 - **loose ticket** — projectless is legal for one-offs and idea pools (DOT-86).
-- **label** — exactly one **role** (`agent` · `human` · `needs human` = agent blocked on dima · `needs agent` = dima blocked on agent research) + one **kind** (`bug` · `feature` · `improvement`) per ticket; **state** labels (`standing`, `vet` 🧪) sit beside them; **model routing** labels (`fable-5` · `opus-5` · `sonnet-5`) are dima's notation, future label→model routing. no hyphens in names, workspace-level only (TRK-0002).
+- **label** — exactly one **role** (`agent` · `human` · `needs human` = agent blocked on dima · `needs agent` = dima blocked on agent research) + one **kind** (`bug` · `feature` · `improvement`) per ticket; **state** labels (`standing`, `vet` 🧪) sit beside them; **model routing** labels (`fable 5` · `opus 5` · `sonnet 5` · `haiku 4.5`) are dima's notation, future label→model routing. no hyphens in names, workspace-level only (TRK-0002).
 - **assignee** — assigned-to-dima = strictly his, agents never resolve it (≠ `human` label, which only says a human does the work). unassigned = open to anyone.
 - **priority** — how much a ticket matters, p1 rare. sequencing = `blocks` relation, never inflated priority. **estimate** — complexity 1–5, not wall-clock.
 - **sweep** — a read-only analysis pass over the tracker producing proposals, flushed only after approval.

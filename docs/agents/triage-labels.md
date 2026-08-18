@@ -11,7 +11,7 @@ direction (TRK-0002), so pick the half that matches who is waiting.
 | role in mattpocock/skills | in linear                 | meaning                                 |
 | ------------------------- | ------------------------- | --------------------------------------- |
 | `needs-triage`            | **Triage** status (inbox) | maintainer needs to evaluate this issue |
-| `needs-info`              | Todo + `needs human` label (agent blocked on dima) or `needs agent` (dima blocked on agent research) | blocked on an answer, but still in play |
+| `needs-info`              | Todo + `needs human` label (agent blocked on dima) or `needs agent` (dima blocked on agent research) — there is no `needs-info` label in linear | blocked on an answer, but still in play |
 | `ready-for-agent`         | Todo + `agent` label      | fully specified, ready for an afk agent |
 | `ready-for-human`         | Todo + `human` label      | requires human implementation           |
 | `wontfix`                 | **Canceled** status       | will not be actioned                    |

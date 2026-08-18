@@ -32,7 +32,7 @@ Channel: the `linear` CLI (`cc`: Bash; `cw`: Desktop Commander). Command mechani
 
 Role, priority and estimate are **always filled and current** — monitoring them is your job, not Dima's:
 
-- **Role first.** Every ticket carries one of the five roles (state ↔ label map in [references/workspace.md](references/workspace.md)), assigned by you on every create and every update, without being asked. Judge it from the ticket's own readiness: fully specified and mechanical enough to hand over → `agent` + Todo; needs Dima's taste or hands → `human` + Todo; a real question blocks it → `needs-info` + Todo; dead → Canceled. `Triage` is for a capture you genuinely cannot place yet, not the landing pad for new tickets. A ticket blocked on quota, time, or another ticket keeps its real role — a blocker is a relation, never a role.
+- **Role first.** Every ticket carries one role (state ↔ label map in [references/workspace.md](references/workspace.md)), assigned by you on every create and every update, without being asked. Judge it from the ticket's own readiness: fully specified and mechanical enough to hand over → `agent` + Todo; needs Dima's taste or hands → `human` + Todo; a real question blocks it → `needs human` (an agent waiting on Dima) or `needs agent` (Dima waiting on agent research) + Todo — pick by **who is waiting**; dead → Canceled. `Triage` is for a capture you genuinely cannot place yet, not the landing pad for new tickets. A ticket blocked on quota, time, or another ticket keeps its real role — a blocker is a relation, never a role.
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
@@ -47,6 +47,26 @@ Role, priority and estimate are **always filled and current** — monitoring the
   and idea pools — do not force one.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
+
+## The assumption gate — run before every estimate
+
+**If you cannot estimate a ticket without inventing a fact, it is not estimable — it is blocked.**
+Label it `needs human` (or `needs agent`, by who is waiting), and write the invented fact into the
+body as an open question instead of quietly assuming it.
+
+Why this gate and not another: agent-written tickets do not fail on format. They score at or above
+hand-written ones on structure. They fail on **unstated assumptions** — so the leverage is in
+probing what a ticket does not say, never in polishing how it says it.
+
+How to run it, on every create and every estimate:
+
+- Write the estimate first, then ask what you had to believe to land on that number. Anything on
+  that list Dima never said is an unstated assumption.
+- One open question is enough to block. Do not average it away into a bigger estimate — a number
+  covering an unknown reads as certainty the ticket does not have.
+- Put the questions in the body as questions, not as decisions. `?` prefix, one line each.
+- 📌 The gate blocks the **estimate**, never the capture. Still create the ticket, still fill role,
+  kind, priority and project — an idea is never lost to a missing answer.
 
 ## Ticket economy (quota-aware)
 

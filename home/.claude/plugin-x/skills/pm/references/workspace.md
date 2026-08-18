@@ -72,7 +72,7 @@ linear issue update DOT-N --parent DOT-M     # hang a ticket under a story paren
 | role | linear |
 | --- | --- |
 | needs-triage | **Triage** status (native inbox) |
-| needs-info | `needs-info` label + Todo |
+| needs-info | `needs human` label + Todo (agent waiting on dima) or `needs agent` + Todo (dima waiting on agent research) |
 | ready-for-agent | `agent` label + Todo |
 | ready-for-human | `human` label + Todo |
 | wontfix | **Canceled** |
@@ -84,12 +84,17 @@ Backlog is deliberately unused — a blocked ticket keeps its real role and stay
 since 2026-08-17 every label is **workspace-wide**; there are no per-team label sets left. one
 **role** and one **kind** on every ticket, always.
 
-- **role** — `agent` · `human` · `needs-info`. who does it. resist inventing a fourth.
+- **role** — `agent` · `human` · `needs human` · `needs agent`. who does it. the `needs *` pair is one
+  role split by **block direction** (TRK-0002): `needs human` = an agent is waiting on dima, `needs
+  agent` = dima is waiting on agent research. resist inventing more.
 - **kind** — `bug` (behaves wrong, restores intended behaviour) · `feature` (capability that does
   not exist yet) · `improvement` (existing thing made better — refactors, renames, docs, tooling,
   ergonomics). a story parent or a pure decision ticket takes the kind of the work it leads to;
   `improvement` when genuinely unclear.
-- **model routing** — `fable-5` (magenta) · `opus-5` (blue) · `sonnet-5` (emerald). dima's
+- **state** — `standing` (long-running by nature, stays open while active — never park such a
+  ticket in a fake perpetual In Progress) · `vet` 🧪 (examine an idea before committing to it).
+  these sit beside role and kind, never replace them (TRK-0002).
+- **model routing** — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5` (emerald) · `haiku 4.5`. dima's
   notation for which model a ticket wants, aimed at future label→model routing. set one only when
   the ticket has a real model preference; absence means "no preference". when dima asks what to
   grab, read these and say which tickets want which model.

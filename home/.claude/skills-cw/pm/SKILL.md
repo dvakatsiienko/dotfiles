@@ -54,13 +54,17 @@ detects the drift.
 - **Assignee ≠ role label.** Assigned-to-Dima = strictly his: never resolve it, never start it, never
   reassign it. Unassigned = the default, open to anyone. Never self-assign, and never assign to Dima
   to signal importance. The `human` label says a human does the work, not *which* human.
-- **States**: Triage inbox = needs-triage · `needs-info` label + Todo · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
+- **States**: Triage inbox = needs-triage · `needs human` / `needs agent` label + Todo (blocked, split by who is waiting) · `agent` label + Todo (ready-for-agent) · `human` label + Todo · Canceled = wontfix. Backlog is unused — a blocked ticket stays visible in Todo; blocking is the label plus relations, never position.
 - **Labels — all workspace-level** since 2026-08-17; no per-team sets remain. One **role** (`agent` ·
-  `human` · `needs-info` — who does it) and one **kind** (`bug` restores intended behaviour · `feature`
+  `human` · `needs human` · `needs agent` — who does it; the `needs *` pair is one role split by block
+  direction per TRK-0002: `needs human` = an agent waits on Dima, `needs agent` = Dima waits on agent
+  research) and one **kind** (`bug` restores intended behaviour · `feature`
   is new capability · `improvement` is an existing thing made better — refactors, renames, docs,
   tooling) on every create and every touch. A story parent or decision ticket takes the kind of the
-  work it leads to. **Model routing** labels — `fable-5` (magenta) · `opus-5` (blue) · `sonnet-5`
-  (emerald) — are Dima's notation for future label→model routing; set one only on a real preference.
+  work it leads to. **State** labels — `standing` (long-running by
+  nature, stays open while active; never park it in a fake perpetual In Progress) and `vet` 🧪
+  (examine an idea before committing) — sit beside role and kind, never replace them. **Model routing** labels — `fable 5` (magenta) · `opus 5` (blue) · `sonnet 5`
+  (emerald) · `haiku 4.5` — are Dima's notation for future label→model routing; set one only on a real preference.
 - **Priority** 1 Urgent–4 Low, p1 **rare** — priority says how much a ticket *matters*; must-land-before-another = `blocks` relation, never inflated priority. **Estimate** 1–5 = complexity, not wall-clock.
 - **Quota**: free plan, 250 non-archived issues workspace-wide, auto-archive on. Resolve faster than create; prefer one fuller area-ticket over strands (no monsters); near ~200 propose a restructure pass.
 
@@ -76,6 +80,23 @@ Priority + estimate **always filled and current** — monitoring them is your jo
 - On create: propose priority + estimate + project.
 - On any scope change: re-eval both, propose the delta.
 - Approval batched and diff-shaped: one pretty table per batch (`field: old → new`), single approve — never sequential confirms.
+
+## The assumption gate — run before every estimate
+
+**If you cannot estimate a ticket without inventing a fact, it is not estimable — it is blocked.**
+Label it `needs human` (or `needs agent`, by who is waiting) and write the invented fact into the
+body as an open question rather than quietly assuming it.
+
+Agent-written tickets do not fail on format — they score at or above hand-written ones on
+structure. They fail on **unstated assumptions**, so the leverage is in probing what a ticket does
+not say.
+
+- Write the estimate, then ask what you had to believe to reach that number. Anything on that list
+  Dima never said is an unstated assumption.
+- One open question is enough to block. Never average it away into a bigger estimate.
+- Put the questions in the body as questions, `?` prefix, one line each.
+- 📌 The gate blocks the **estimate**, never the capture. Still create the ticket with role, kind,
+  priority and project filled.
 
 ## Output discipline
 
