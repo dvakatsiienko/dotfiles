@@ -4,7 +4,9 @@ Ticket: DOT-165
 
 Researched 2026-08-19 (sonnet subagent; docs.claude.com / code.claude.com + repo inspection).
 
-## Verdict: NO — MCP has no channel that behaves like a Skill on any surface.
+## Verdict: NO as a sync mechanism — though MCP tool descriptions DO behave skill-like on cowork.
+
+Correction (2026-08-19, Dima's counter-evidence): the handoff MCP proves cowork does NOT ignore mcp-as-skills — its tool descriptions are always-loaded context pointers that fire on the plain keyword «handoff», exactly like a model-invoked skill description (see `mcp-handoff-cw/src/index.ts`: rich per-tool descriptions + MCP prompts wrapping the UX contract). What kills MCP as THE sync channel is scale, not mechanism: every skill served this way = one more permanently-loaded tool description (context cost grows linearly with skill count, vs skills that page in on demand), ccli natively prefers files (autonomous skills, zero extra server), and mobile still has no MCP. Tool-description skills stay the right pattern for tool-shaped workflows (handoff); wrong as a bulk skill store.
 
 ## Mechanism check
 
