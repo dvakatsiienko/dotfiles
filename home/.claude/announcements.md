@@ -18,3 +18,6 @@ Changelog lives in changelog.md — orientation, accretes, never expires.
   lands; don't file drift as bugs. Expires: DOT-77 done.
 - opus = fable's vikar Thu–Sun; skill-parity work has right of way until Mon 2026-08-24.
   Expires: Monday.
+- ticket contract updated: body = current state (mutate freely), comments = trail; every
+  close adds a «closing word» body section. In rules/ticket-flow.md + pm skill; cwrk copies
+  stale until next skills-sync. Expires: DOT-77 sync lands.

@@ -90,3 +90,11 @@ your reply rather than closing it silently.
 ## Rendering an id back to Dima
 
 Always a link plus a short tldr, never a bare id — format lives in `text-formatting.md`.
+
+## Body vs comments — the state contract (2026-08-19)
+
+- Comments = the trail: progress logs, run stamps, provenance. Fine to keep logging there.
+- The body = current state: keep it sanitized and updated as scope moves — never afraid to
+  mutate it. A closed ticket must read true from the body alone.
+- **Every close adds a «closing word» section to the body**: brief outcome — what became
+  better, what we have now. Never bare-close.

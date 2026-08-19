@@ -184,3 +184,10 @@ deleted — the call is Dima's, every time.
 - **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename DOT-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.
+
+## Body vs comments — the state contract (2026-08-19)
+
+Comments = trail (logs, stamps, provenance — keep using them). Body = current state: keep it
+sanitized and updated, mutate without fear; a closed ticket reads true from the body alone.
+Every close appends a «closing word» body section: brief outcome — what became better, what we
+have now. Never bare-close.
