@@ -1,0 +1,3 @@
+[submodule "home/.claude/memory-dispatch"]
+	path = home/.claude/memory-dispatch
+	url = https://github.com/dvakatsiienko/dotfiles-memory.git
