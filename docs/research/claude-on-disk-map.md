@@ -178,3 +178,76 @@ why it can reach `~/projects` at all, and why the cowork tree can hold real work
 ⚠️ the practical rule this whole map serves: **`Caches` is disposable, `Application Support` is
 not.** the 2026-08-19 sweep freed 131 gib without touching a single thing an app could not rebuild —
 by only ever deleting from the first column, and asking before the second.
+
+## 5 · walkthrough answers — dima's questions, 2026-08-19
+
+things asked while walking the tree. kept here so they are not re-derived.
+
+| name | what it is | act on it? |
+| --- | --- | --- |
+| `config/` | **not claude's** — `claude-monitor`'s cost-alert state | keep |
+| `daemon/` | attach machinery. `roster.json` = live sessions, `control.key` authorises attach, `dispatch` = socket. **this is what makes reattaching from a terminal work** | keep, live |
+| `ide/<pid>.lock` | editor integration, one per attached cursor/vscode | keep, self-cleans |
+| `focus/` | **ours.** sline's ticket pin. written by `hooks/focus.sh`, cached by `hooks/status-fetch.sh`, read by four sline files | keep, live |
+| `plans/` | plan-mode output. **unversioned** — decided 2026-08-19 not to track it | keep |
+| `plugins/` | 226m, installed plugin cache | keep, rebuildable |
+| `history.jsonl` | 3.4m — every prompt ever typed, with project and timestamp | keep |
+| `.claude/.claude.json` | symlink to `~/.claude.json`. **state, not settings** | keep |
+| `.anthropic`, `vercel-plugin-*` | empty husks / disabled plugin leftovers | 🗑️ removed |
+
+📌 **"is it worth a sweep?" — for almost all of these, no.** everything in `~/.claude` except
+`plugins/` and `projects/` totals ~12 mib. sweeping buys nothing and can break a live thing like
+`daemon/`.
+
+📌 **`projects/` is safe to delete but permanent.** removing a `.jsonl` removes that conversation
+forever and `--resume` can never find it. nothing else breaks.
+
+### why `~/.claude` is cherry-picked, not linked whole
+
+the mirror engine sees `~/.claude` is a real directory, descends into it, and links only the leaves
+that exist in the repo. that is deliberate and must stay: the same directory holds `projects/`
+(223m of transcripts), `history.jsonl`, and — until 2026-08-19 — a plaintext credential. linking it
+whole would put all of that in git.
+
+### 🚨 security finding, 2026-08-19
+
+`~/.claude-mcp.json` held a **github personal access token in plaintext**, world-readable
+(`-rw-r--r--`), in a stray `mcpServers` block for a dockerised `github-mcp` no longer in use.
+
+verified **not** present in git, any branch, any history. token reported dead by dima; file deleted.
+
+📌 the lesson is the file mode, not the token. anything under `~/.claude` written by a tool can be
+world-readable. `grep -rn "ghp_\|sk-\|AKIA" ~/.claude` is worth running occasionally.
+
+### permissions, as configured
+
+- `permissions.defaultMode` is **`bypassPermissions`** — running without re-asking is already on.
+  to go manual for one session: **shift+tab** cycles modes, or `claude --permission-mode default`.
+- `permissions.additionalDirectories` set to `["/Users/dima"]` on 2026-08-19, which ends the
+  per-session `--add-dir` spam. ⚠️ deliberately **not** `"/"` — that would put keychains, ssh keys
+  and all of `Library` in every session's default reach.
+
+## 6 · `com.apple.*` folders — not your problem (DOT-158)
+
+22 of them in `Caches`, 20 in `Application Support`. they are **background services** shipped with
+macos, not apps. the trailing `d` means daemon — a program with no window.
+
+**they self-clean.** measured proof from one day: on 2026-08-19 morning
+`Caches/com.apple.callintelligenced` was 301m and `com.apple.textunderstandingd` was 301m. by the
+afternoon **both had been removed by macos**, with no action from us.
+
+all 22 apple cache folders together total **37 mib**, out of ~1.5 gib of `Caches`.
+
+⚠️ two look like junk and are not:
+
+- `Application Support/com.apple.TCC` (42m) — **privacy permissions**. delete it and every app
+  re-asks for camera, mic and disk access from scratch.
+- `Application Support/com.apple.wallpaper` (440m) — absurd for wallpapers, but it holds the actual
+  desktop pictures including the animated ones.
+
+what the common names do: `helpd` help index (30m, the biggest) · `mediaanalysisd` photo face and
+object scanning · `duetexpertd` app and shortcut prediction · `callintelligenced` call screening ·
+`textunderstandingd` the on-device text model behind writing tools · `geod` maps data.
+
+📌 **rule: a `com.apple.*` folder is the system's business.** the disposable-`Caches` habit still
+holds, but with apple's own folders you almost never need to act, because the system already does.
