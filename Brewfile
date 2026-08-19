@@ -58,6 +58,7 @@ brew "docker-compose"
 brew "jq"                        # JSON on the command line
 brew "ffmpeg"
 brew "yt-dlp"
+brew "gitingest"                  # repo→text for LLM context; was a broken uv tool
 brew "whisper-cpp"               # local speech-to-text
 brew "poppler"                   # PDF tooling
 
