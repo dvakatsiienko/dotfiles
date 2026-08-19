@@ -66,6 +66,7 @@ brew "charmbracelet/tap/crush"          # terminal AI assistant
 brew "lutzifer/tap/keyboardswitcher"    # drives the Raycast layout switcher
 brew "teamookla/speedtest/speedtest"
 brew "duti"                             # sets the default app per file type
+brew "tree-sitter-cli"                  # was an npm global; brew owns it now
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
