@@ -73,3 +73,4 @@ cask "warp"                      # terminal — the daily one
 cask "iterm2"                    # terminal — fallback; its prefs live in import/iterm2
 cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, glyphs render as boxes
 cask "dotnet-sdk"
+cask "pearcleaner"               # app uninstall + leftover hunting; open source, has a CLI
