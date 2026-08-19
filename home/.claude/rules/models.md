@@ -54,3 +54,12 @@ Launched 2025-10. The light and fast tier. **[dima]**
   comparable to the numbers above.
 
 Full research with sources: `docs/research/claude-model-strengths.md`.
+
+## conv picks 2026-08-19 — task→model data (Dima's live calls, keep growing)
+
+- overhaul-audits with taste (git, zsh configs): **fable** — «opus picks pragmatically, fable = flavour; i want best picks»
+- public-facing pretty output (gh profile opener): **fable** — «opus prints pretty, fable prettier; must be even prettier»
+- server/scripting builds with locked specs (mcp mvp, sync script): **opus** — self-descriptive lane
+- research rounds + debugging investigations (skill-maintenance research, cloud-spawn bug): **opus** — bull food
+- verdict-shaped deliverables (harness one-pager): opus researches upfront, **fable verdicts** — split the ticket's phases across models
+- marker on the board: model labels (`fable 5`/`opus 5`) ARE the assignment mechanism — self-descriptive, no extra vocab (vikar label idea dropped)
