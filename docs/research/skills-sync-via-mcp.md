@@ -83,3 +83,39 @@ description trigger, deterministic.** Nothing MCP offers reaches skill parity on
 - https://github.com/modelcontextprotocol/modelcontextprotocol/issues/2808
 - https://github.com/anthropics/skills
 - https://code.claude.com/docs/en/plugin-marketplaces
+
+---
+
+# Round 2 — CORRECTION (verdict withdrawn)
+
+The round-2 verdict above is **wrong as stated** and is kept only as a record of the reasoning error.
+
+**Counter-evidence that breaks it:** the handoff MCP already delivers skill-like behaviour on cwrk.
+Plain keyword «handoff» in conversation fires the tool description; the agent loads and follows it.
+Model-triggered, not user-selected. Proven in daily use, not theory.
+
+**What round 2 actually evaluated:** one MCP tool or prompt *per skill*. That version does fail —
+~550–1400 tokens of permanently-resident schema per tool, prompts user-selected by spec. Real
+findings, wrong question.
+
+**The design that survives:** one server, one meta-tool (`get_skill(name)`), skill index in its
+description, bodies returned on demand — name+description resident, body paged in. The native skill
+model reproduced, at roughly native cost.
+
+**Cost assumption to A/B at build time:** cwrk loads all installed skills eagerly (unlike ccli,
+which defers), so MCP-served skills are not a regression — same resident cost, plus automation.
+
+## Slash commands — the two claims reconciled
+
+Round 1: MCP prompts surface as `/mcp__server__prompt` — doable but ugly (the mangled name is the
+ugliness). Round 2: cwrk has no slash UI, only attach-from-MCP. **Both can be true — they describe
+different surfaces.** ccli has the slash commands; cwrk is the open question, and round 2's claim
+came from secondary sources rather than spec or test.
+
+**Decisive test:** the handoff server already exposes prompts. Type `/` in cwrk and look. Present →
+round 2 wrong. Absent → confirmed by observation.
+
+## Method lesson
+
+When research contradicts something the user observes daily, the research is answering a different
+question. Find which one before reporting. Subagent conclusions need adversarial review, not relay.
