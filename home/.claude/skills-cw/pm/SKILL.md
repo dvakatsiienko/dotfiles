@@ -150,7 +150,7 @@ Never mint a second mid-session.
 **Stamp** as the **last line** of a created ticket body and of any comment you author:
 
 ```
-⸻ 🪪 cw·20260819·batch1 · agent run stamp — please keep 🙏
+⸻ 🪪 cw·20260819·batch1 · <model name> · agent run stamp — please keep 🙏
 ```
 
 A footer, not a label — labels sprawl against the 250 quota and bodies are searchable. The middot

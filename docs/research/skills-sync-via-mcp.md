@@ -28,3 +28,58 @@ The solid sync path is the file/account-based one (DOT-168): plugin-x files as s
 
 - https://code.claude.com/docs — skills loading locations, "Skills in Cowork and cloud sessions", MCP prompts as slash commands
 - repo: home/.claude/mcp-handoff-cw/, home/.claude/plugin-x/, script/skills-sync-cw.ts
+
+---
+
+# Round 2 — 2026-08-20 (reopen verdict: original NO holds, MVP dropped)
+
+Researched by a sonnet subagent against primary sources after Dima reopened the ticket with an
+MVP-to-a/b plan. The reopen rested on one assumption — that MCP prompts give cwrk slash-command
+delivery with autocomplete. **That assumption is false for the target surface.**
+
+## Findings
+
+**1. MCP prompts are user-controlled by spec.** `modelcontextprotocol.io/specification/2026-07-28/server/prompts`:
+"Prompts are designed to be user-controlled... with the intention of the user being able to
+explicitly select them." There is no description-matching auto-trigger equivalent to a skill.
+
+**2. cwrk has no slash UI for MCP prompts.** Claude Desktop surfaces server prompts through the
+«+ / Attach from MCP» flow — the prompt arrives as an attachment, not as inserted steering text.
+The slash-autocomplete the MVP was designed around exists in **ccli**, which already reads skills
+from disk and does not need the server.
+
+**3. Tools-as-skills confirms the round-1 scale argument.** ~550–1400 tokens of schema+description
+per tool, permanently in context (upstream modelcontextprotocol#2808). Skills page in on demand;
+tools do not.
+
+**4. MCP has no skills primitive.** Agent Skills is a separate standard (SKILL.md + YAML
+frontmatter). Official cwrk delivery paths: manual zip upload, or the `save_skill` tool.
+
+**5. The primitive comparison.** prompts = user-selected, attachment UX · resources = data framing,
+same UX ceiling · tools = model-invoked but token-costly · **native skill = platform-injected
+description trigger, deterministic.** Nothing MCP offers reaches skill parity on cwrk.
+
+## Consequence
+
+- The sync path is **DOT-168** as designed: plugin-x SKILL.md files → script → `save_skill(overwrite)`.
+  Externally validated, not merely convenient.
+- **The rebrand is void.** `mcp-handoff-cw` was to be renamed (candidate `mcp-skills-cw`) because it
+  would grow into a skill server. It will not. It stays handoff-shaped; the only rename still owed is
+  the `x-` prefix sweep already scoped in DOT-11 (→ `x:handoff`).
+- Nuance preserved from round 1: **tool descriptions do behave skill-like** and remain the right
+  choice for tool-shaped workflows such as handoff. The finding is about bulk skill storage, not
+  about the mechanism being fake.
+
+## Unverified
+
+- Whether cwrk acts on `listChanged` notifications without a reconnect.
+- Whether cwrk has ccli's progressive tool-search (context-saving) behaviour.
+
+## Sources (round 2)
+
+- https://modelcontextprotocol.io/specification/2026-07-28/server/prompts
+- https://modelcontextprotocol.io/specification/2025-06-18/changelog
+- https://modelcontextprotocol.io/docs/tools/debugging
+- https://github.com/modelcontextprotocol/modelcontextprotocol/issues/2808
+- https://github.com/anthropics/skills
+- https://code.claude.com/docs/en/plugin-marketplaces

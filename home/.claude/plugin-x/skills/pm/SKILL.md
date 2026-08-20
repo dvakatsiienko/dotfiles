@@ -121,7 +121,7 @@ kebab (`cc·20260819·batch1`). Never mint a second one mid-session.
 **Stamp** as the **last line** of a created ticket body and of any comment you author:
 
 ```
-⸻ 🪪 cc·20260819·batch1 · agent run stamp — please keep 🙏
+⸻ 🪪 cc·20260819·batch1 · <model name> · agent run stamp — please keep 🙏
 ```
 
 It is a footer, not a label — labels sprawl against the 250 quota, and bodies are searchable. The
