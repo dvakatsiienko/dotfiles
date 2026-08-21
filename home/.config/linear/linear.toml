@@ -1,0 +1,4 @@
+# no auto-assign, ever. dima becomes assignee only when he assigns himself.
+# the cli would otherwise self-assign on interactive `issue create`.
+# the matching rule for agents lives in home/.claude/rules/ticket-flow.md.
+issue_create_assign_self = "never"
