@@ -59,11 +59,13 @@ re-reads and never obviously terminates.
 
 - **always** pull hop-1 relations with `identifier · title · state` only. ~20 tokens each, so it is
   effectively free and it is already in the GET contract above.
-- **read a hop-1 body only when its title says it decides something about the task in hand.** a
-  research ticket with a closing word is the high-value case; a scheduling `blocks` edge almost
-  never is.
-- 🚫 **never recurse past hop 1 unhinted.** go deeper only when a hop-1 body explicitly points at
-  the next one as the thing that holds the answer.
+- **read a hop-1 body when its title says it decides something about the task in hand.** a research
+  ticket with a closing word is the high-value case; a scheduling `blocks` edge rarely is.
+- **hop 2 is a consideration, not a ban.** having read hop 1, look at its relation titles and ask
+  whether any would change the work. if yes, dig. Dima's steer, and it is the right one: *«we truly
+  have useful info in linear»* — a hard stop at hop 1 would leave it there.
+- what recursion must never become is **automatic**. the cost is unbounded and the graph has
+  cycles; the defence is deciding each hop on merit, not a depth limit.
 
 🚨 **never filter relations by state, and never skip a closed one.** The instinct is backwards: a
 **closed** ticket is usually the *most* valuable edge on the graph, because closing it is what
@@ -71,6 +73,10 @@ produced the closing word. [DOT-165](linear://linear.app/issue/DOT-165) is exact
 skipping it because it is Done means walking into the handoff-mcp work blind to research already
 paid for. Open/closed says whether work remains; it says nothing about whether the ticket holds
 knowledge. Filter open-vs-closed on **boards and counts**, never on relation reads.
+
+📌 **but Done is not the same as Canceled.** the payload is the closing word, and a canceled or
+archived ticket has none — it was abandoned, not concluded. so: **Done ⇒ read it. Canceled or
+archived ⇒ skip it.** the split is by state *type*, not by "is it open".
 
 **Setting them, with the same restraint:** the test is *«would this change how I do the other
 one?»* — not «are these topically similar». `blocks`/`blocked by` for real ordering, `related` for

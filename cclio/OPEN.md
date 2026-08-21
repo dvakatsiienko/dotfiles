@@ -5,6 +5,9 @@ here instead. surfaced by `/cclio-init` step 5.
 
 two sections, never merged: `## queue
 
+- 🎫 **DOT-197 — the cclio post-checklist.** `needs human`: hand-test what the surface actually does.
+- ⚠️ **DOT-202 — relocate dotfiles to `~/dotfiles`.** blocks DOT-195, so it is on the clock.
+
 - 🎫 **DOT-194 — the proof loop.** dima's call: next session. one full coordinator→coder run with a
   leak check. it is the `the proof loop closes` milestone and the first real visibility primitive.
 
