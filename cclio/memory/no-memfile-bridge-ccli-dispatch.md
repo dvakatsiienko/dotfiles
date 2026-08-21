@@ -8,19 +8,21 @@ metadata:
   modified: 2026-08-21T00:30:24.379Z
 ---
 
-Dima's own diagnosis, and it is the high-level pattern under most of the flowlog catches:
-**there is no memfile bridge between ccli and the desktop app. It does not exist.** What looks like
-a bridge is a set of hand-made copies — dispatch memory, `memory-dispatch` submodule, `skills-cw`
-zips, the handoff store — each maintained by a different ritual, none of them a mechanism.
+📌 **RESOLVED 2026-08-21 — kept as the lesson, not as a live problem.**
 
-**Why it matters:** every recurring friction traces here. Skill drift across surfaces. Rules that
-must be re-read at boot because nothing auto-loads them. `dpatch-init` existing at all. The
-"sync everywhere" rule that had to be retired because it was unmaintainable. Each was treated as
-its own bug; they are one missing layer.
+Dima's diagnosis: **there was never a memfile bridge between ccli and the desktop app.** What
+looked like a bridge was a set of hand-made copies — dispatch memory, the `memory-dispatch`
+submodule, `skills-cw` zips, the handoff store — each maintained by a different ritual, none of
+them a mechanism. Every recurring friction traced back here: skill drift, rules that had to be
+re-read at boot, `dpatch-init` existing at all, «sync everywhere» being unmaintainable.
 
-**How to apply:** do not propose another sync mechanism — that is building a fifth copy. The
-resolution is [[ccli-coordinator-migration]]: one config root, layered by directory, so the bridge
-is unnecessary rather than automated. When a new "surfaces are out of sync" symptom appears, name it
-as this pattern instead of filing it fresh.
+**How it was resolved:** not by automating the bridge — by making it unnecessary. cclio is a ccli
+session, so it loads the same config root every other ccli session does, and on 2026-08-21 it
+adopted dpatch's memory outright. There is nothing left on the far side to sync with.
 
-Related: [[memory-divergence-store]], [[expect-skill-sync-drift]], [[pm-fold-or-drop]].
+**The lesson that outlives it, and the reason this leaf still exists:** when a new
+"surfaces are out of sync" symptom appears, **do not propose another sync mechanism** — that is
+building a fifth copy. Ask instead whether the two sides need to be two sides at all. Collapsing
+the surfaces beat every sync design considered.
+
+Related: [[ccli-coordinator-migration]], [[memory-divergence-store]]

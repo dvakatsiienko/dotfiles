@@ -22,4 +22,4 @@ when orchestrating, verification happens at dpatch's level, so closing authority
 DOT-112 sat open after its work shipped precisely because this contract didn't exist.
 
 Scope: orchestrated sessions only. When Dima drives ccli directly from the terminal, ccli follows
-`cmt` fully as written, closing keywords included. See [[model-picking-for-spawns]].
+`cmt` fully as written, closing keywords included. See [[spawn-types]].

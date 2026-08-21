@@ -19,7 +19,7 @@ is not.
 **Why:** iPadOS offers only "allow once" / "deny", with no "always allow", and the virtual
 keyboard shifts as the dialog appears — so he hits deny by accident and loses the session
 mid-operation. On 2026-08-17 he answered roughly 40 dialogs in one night. The agents never saw
-them; every call returned instantly from their side. See [[dispatch-loads-no-cc-rules]].
+them; every call returned instantly from their side. See.
 
 **How to apply:** queue anything that needs approval into the handoff for the next Mac session,
 and tell him it's queued. If something genuinely cannot wait, say what it will cost him in

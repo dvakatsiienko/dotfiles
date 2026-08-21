@@ -20,4 +20,4 @@ is functionally missing, and he is the only one who can grant it.
 - Hitting a wall → say which wall, whether it's a grant or a real limit, and what unlocks it.
 - Be proactive about patching the setup rather than routing around a gap.
 - On a new surface, state plainly what it has and lacks vs the others (dpatch vs ccli vs cwrk).
-- See [[dpatch-can-mount-dirs]].
+- See.

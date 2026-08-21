@@ -12,4 +12,4 @@ Every ticket id (DOT-N/BYT-N) or linkable resource in any dpatch message must be
 
 **Why:** Dima flagged repeated forgetting (2026-08-19, report v2). linear:// schemes are sanitized by the chat ui; only https opens. Bare ids force manual lookup.
 
-**How to apply:** default message habit everywhere — replies, reports, wrap tables. Baked into [[dispatch-detailed-view-trick]]-adjacent ui reality and the dpatch-report skill format rules.
+**How to apply:** default message habit everywhere — replies, reports, wrap tables. Baked into-adjacent ui reality and the dpatch-report skill format rules.

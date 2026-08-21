@@ -31,4 +31,4 @@ with a marker line before building on it.
 Deletes the surface-sync problem: DOT-165 / DOT-168 / DOT-186 become on-hold candidates once
 [DOT-194](https://linear.app/x-com/issue/DOT-194) (the proof loop) passes. Do not flip them early.
 
-Related: [[research-vs-lived-evidence]], [[memory-divergence-store]], [[dpatch-spawn-types]].
+Related: [[research-vs-lived-evidence]], [[memory-divergence-store]], [[spawn-types]].

@@ -25,7 +25,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - 📖 [dima's stories](dima-stories.md) — what he actually does and lives through; the narrative under the rules. append, never rewrite into a rule
 
 ## identity & session ritual
-- [announce model at open](announce-model-at-open.md) — MUST open every session with «hey opus 5 here» / «hey fable 5 here»
+- [announce model at open](announce-model-at-open.md) — MUST open with «hey <model> here», read from env; a session cannot detect a mid-thread switch, so this is the only honest label
 - [obsidian inbox protocol](obsidian-inbox-protocol.md) — 📬 inbox.md must end empty; worklog.md = processing copy; protected.md = dima's drops, read-only
 - [handoff ask here-or-fresh](handoff-ask-here-or-fresh.md) — ask before saving a CST, not after
 
@@ -46,7 +46,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - ⭐ [ccli coordinator migration](ccli-coordinator-migration.md) — dpatch moves onto ccli; four-layer memfile stack; CLAUDE_CONFIG_DIR REJECTED; deletes the surface-sync problem
 - ⭐ [pm fold or drop](pm-fold-or-drop.md) — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
 - [doc freshness frontmatter](doc-freshness-frontmatter.md) — research docs carry researched/refresh-when; freshness is a date that IS the fact
-- ⭐ [no memfile bridge ccli↔dispatch](no-memfile-bridge-ccli-dispatch.md) — THE root pattern: the bridge never existed, only hand-made copies; don't build a fifth one
+- ⭐ [no memfile bridge ccli↔dispatch](no-memfile-bridge-ccli-dispatch.md) — 📌 RESOLVED by collapsing the surfaces, kept as the lesson: a sync symptom means ask whether they need to be two sides, never build a fifth copy
 - [halt rituals pair](halt-rituals-pair.md) — wrap retired; graceful-halt plans the finish, halt-now leaves fast without breaking
 
 ## pm / linear
@@ -62,11 +62,11 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - [run stamp model name](run-stamp-model-name.md) — stamp footer = `run-id · model name`, adopted 2026-08-20
 
 ## skills & sync
-- ⭐ [memory divergence store](memory-divergence-store.md) — «sync everywhere» RETIRED; mutate own mem only, queue fleet-bound facts on DOT-186
+- ⭐ [memory divergence store](memory-divergence-store.md) — mutate own memory only; the adoption was a hand-over, not a sync; guards the open colocation question (DOT-73 step 3)
 - ⭐ [skill edits are file edits](skill-edits-are-file-edits.md) — a skill change is an ordinary file edit; never hand dima a package to install by hand
 - [skill namespaces](skill-namespaces.md) — `x:*` runs in any ccli session, `cclio-*` is coordinator-only; the test is WHERE it runs, not who wrote it; dropped skills listed inside
 - [matt skills mirrored](matt-skills-mirrored.md) — 14/25 mirrored 2026-08-19; ⏰ WILL drift (ccli plugin auto-updates, mirror doesn't); THE framework — proactively suggest grilling/domain-modeling/wayfinder at ripe moments; opus-filled ADRs exist in dotfiles+bytes, respect them
-- [expect skill-sync drift](expect-skill-sync-drift.md) — drift across surfaces is normal until DOT-168 lands
+- [expect skill-sync drift](expect-skill-sync-drift.md) — narrowed: `skills-cw` is the only surface that still drifts; note it, never block on it
 - [domain modeling fleet](domain-modeling-fleet.md) — apply to workflow vocab AND linear; multi-domain (repo/tracker/fleet contexts never merged); glossary → CONTEXT.md-shaped file (DOT-73); lazy growth, ADRs sparingly
 
 ## method

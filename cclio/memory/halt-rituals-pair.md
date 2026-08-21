@@ -26,4 +26,4 @@ session pays for. Also: a park that exists only in a chat message is a strand.
 **How to apply:** never suggest a halt unless he asks or the session is genuinely at a boundary.
 When he does ask, run phase 0 and wait — do not start closing.
 
-Related: [[wrap-protocol]] (superseded — delete once confirmed), [[pm-fold-or-drop]].
+Related: [[halt-rituals-pair]] (superseded — delete once confirmed), [[pm-fold-or-drop]].

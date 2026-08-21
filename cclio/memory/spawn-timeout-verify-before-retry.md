@@ -11,4 +11,4 @@ metadata:
 A start_code_task timeout is not proof of failure.
 
 **Why:** on 2026-08-19 a spawn "timed out" but the session was alive; a blind retry would have double-spawned.
-**How to apply:** on timeout, call list_sessions first; only respawn if the session truly isn't there. Related: [[dispatch-spawn-types]].
+**How to apply:** on timeout, call list_sessions first; only respawn if the session truly isn't there. Related: [[spawn-types]].

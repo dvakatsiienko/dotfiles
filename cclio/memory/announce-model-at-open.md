@@ -8,12 +8,16 @@ metadata:
   modified: 2026-08-19T05:14:44.211Z
 ---
 
-Dispatch gives Dima no visibility into which model is currently active. I DO know it upfront — the session env block contains `Model: <id>` before any tool call.
+**Rule (must):** state the active model in the first message of a session — «hey opus 5 here».
+Verify it from the session env block; **never inherit the claim from a handoff or a memfile.**
 
-**Rule (must):** state the active model in my first message of a session — e.g. «hey fable 5 here» / «hey opus 5 here». Never wait for /context to reveal it.
+**Why, restated for cclio:** the original reason was that dispatch showed Dima no model at all.
+That is gone — sline renders the model ambiently now. The rule survives for a stronger reason:
+a session **cannot detect a mid-thread model switch**, so the announcement is the only honest
+timestamp on which model did which work. Dima routes by model (`rules/models.md`), and a wrong
+label at the top corrupts every judgment downstream.
 
-**Why:** Dima's primary dispatch/PM role is tied to fable; a non-fable model changes what he expects and how he routes. Silent drift wastes his turns.
+**How to apply:** first message, before anything else. Non-obvious model → flag it as a heads-up,
+not just a label. Never state it from memory — read it.
 
-**How to apply:** first SendUserMessage of any session leads with the model name. If it's non-fable, flag it explicitly as a heads-up, not just a label.
-
-Related: [[dispatch-spawn-types]], [[model-picking-for-spawns]], [[tell-dima-all-capabilities]]
+Related: [[spawn-types]], [[tell-dima-all-capabilities]]

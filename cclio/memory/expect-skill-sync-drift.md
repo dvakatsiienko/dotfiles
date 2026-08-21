@@ -8,4 +8,12 @@ metadata:
   modified: 2026-08-19T15:28:57.463Z
 ---
 
-Until skill sync is automated (DOT-168 owns it now; DOT-165 mcp-proxy a/b running beside; DOT-73 is the parent story), drift between ccli's skills, cwrk mirrors, and dpatch's copies happens often — incl. the matt mirror ([[matt-skills-mirrored]]). Treat as normal, don't alarm; note drift and move on. (Lowercase agreement moved out — it lives in DOT-66 + user prefs, was off-topic here.) Related: [[tickets-must-be-pretty]].
+**Narrowed 2026-08-21.** Drift used to span ccli, cwrk mirrors and dpatch copies. Two of those
+three are gone — cclio edits `plugin-x` directly, and dpatch no longer keeps its own set.
+
+**What still drifts:** `skills-cw` only. It has no channel but a manual zip upload, so its copies
+fall behind whenever a `plugin-x` skill changes. DOT-77 owns the sync; the matt mirror
+([[matt-skills-mirrored]]) drifts the same way because the ccli plugin auto-updates and the
+mirror does not.
+
+**How to apply:** note the drift, do not alarm, do not file it as a bug. Never block on it.

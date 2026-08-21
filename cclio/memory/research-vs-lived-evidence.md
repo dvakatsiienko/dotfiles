@@ -16,7 +16,7 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
 - Dima's lived observation outranks a literature result. If they conflict, the question differs — locate the difference before writing a verdict.
 - Restate the design in one sentence and get it confirmed BEFORE commissioning research on it.
 - Subagent conclusions get adversarial review, never relay. Ask «what would make this wrong» before reporting it.
-- Load the `cmt` skill before the FIRST commit of a session, not the second ([[skills-update-yourself-no-dnd]]).
+- Load the `cmt` skill before the FIRST commit of a session, not the second ([[skill-edits-are-file-edits]]).
 - Story size is a health metric — flag a parent at ~15 subs and propose a split.
 - Run `dotfiles-link` status at boot, not only when a push hook forces it.
 
