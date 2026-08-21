@@ -8,13 +8,18 @@ removed when popped. `## parks` below is long-lived — items that outlive many 
 
 ## queue
 
-*(empty)*
+- 🔥 **the obsidian `worklog.md` is 1st priority next session, ahead of new work.** dima unfroze it
+  and the inbox was emptied into it. four buckets in order: the linear colocation job (fold under
+  DOT-28 + trace why DOT-184 escaped it + guardrail first), project sanity (`mind` vs `fleet`,
+  shelf dissolve, cloud story), four small do-and-close tickets, four questions of his awaiting
+  answers. path:
+  `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/worklog.md`
 
 ## parks
 
-- **frozen obsidian worklog.md + inbox.md** — frozen by dima during run `cw·20260819·batch1`,
-  not yet unfrozen or processed. still needs resolving. path:
-  `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
+- ~~frozen obsidian worklog.md + inbox.md~~ — **UNFROZEN by dima 2026-08-21.** inbox emptied into
+  worklog the same evening; the work itself is queued above, not parked. `protected.md` in that
+  folder stays read-only — it is dima's, never ours.
 
 - **historical flowlogs stay put** — the pre-migration logs at
   `~/projects/dotfiles/home/.claude/flowlog/` are NOT being migrated. they remain an archive.
