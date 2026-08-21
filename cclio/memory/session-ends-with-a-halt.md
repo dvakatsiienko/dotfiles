@@ -22,7 +22,11 @@ then **running it is yours, unprompted.** Do not wait for the slash command.
 
 **The pair, and the difference is planned vs immediate — never careful vs careless:**
 - `/cclio-graceful-halt` — there is time to talk. Plan the finish, agree an order, land the leaves.
-- `/cclio-graceful-stop` — he has to go NOW. One pass, no conversation.
+- `/cclio-graceful-halt stop` — he has to go NOW. Same ritual, one pass, no conversation.
+
+📌 **`stop` is an ARGUMENT, not a second command.** They merged; a separate `/cclio-graceful-stop`
+no longer exists. Two files drifted apart while describing one ritual, which is the same failure
+they were written to prevent.
 
 📌 **Never open the halt plan unprompted mid-task.** The trigger is his signal or a genuine natural
 boundary. A halt that arrives early strands the work it was meant to protect, and a halt that grows

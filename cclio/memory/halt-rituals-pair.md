@@ -16,7 +16,7 @@ mean is «let's plan finishing», not «finish immediately».»
 - **`/cclio-graceful-halt`** — phase 0 comes before any closing: name every live thread, sort each
   into land-now / must-park / already-done, propose an order, wait for one go. Then land, sweep,
   flowlog flush, report, CST, boot prompt, joke. Never opens unprompted mid-task.
-- **`/cclio-graceful-stop`** — he has to leave the mac immediately. One pass, no ceremony: freeze
+- **`/cclio-graceful-halt stop`** — he has to leave the mac immediately. One pass, no ceremony: freeze
   anything in flight, land only what is one step from done, push only if hooks pass, write park
   notes where the work lives, save a terse CST. No sweep, no flush, no joke.
 
@@ -30,3 +30,9 @@ Related: [[session-ends-with-a-halt]], [[pm-fold-or-drop]].
 
 ⚠️ The dpatch original named these `dpatch-graceful-halt` / `dpatch-halt-now` and linked itself
 as superseded. Both were wrong: the real commands are `cclio-*`, and the self-link was a loop.
+
+📌 **the pair became one command.** Dima spotted the drift himself — two files describing one
+ritual had already started disagreeing, which is exactly what they existed to prevent. `stop` is
+now an argument on the halt. His reasoning, and it is the right frame: *«if halt means calm halt,
+halt with stop arg is also halt — non-destructive, don't drop things out of your hands, but
+prefers the quickest start.»* **`stop` is a speed, not a lower standard.**

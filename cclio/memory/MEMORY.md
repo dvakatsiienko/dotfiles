@@ -65,7 +65,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → worklog/inbox → frozen handoffs → cleanup
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
-- @halt-rituals-pair.md — wrap retired; `/cclio-graceful-halt` plans the finish, `/cclio-graceful-stop` leaves fast without breaking
+- @halt-rituals-pair.md — wrap retired; ONE ritual `/cclio-graceful-halt`, two speeds — bare plans the finish, `stop` arg leaves fast without breaking
 
 ## pm / linear
 - @pm-label-proactively.md — label AND project AND parent at create time, board stays labeled evergreen

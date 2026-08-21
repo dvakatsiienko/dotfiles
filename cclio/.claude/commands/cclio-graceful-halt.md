@@ -1,26 +1,60 @@
 ---
-description: the PLANNED finish — name the live threads, get one go, land the leaves, close with a CST
+description: the graceful finish — plan it, land the leaves, close with a CST. add `stop` when dima leaves NOW
 ---
 
 # /cclio-graceful-halt
 
-**the PLANNED finish. use this when there is time to talk.** the pair:
+**one ritual, two speeds.** `stop` is an argument, not a sibling command.
 
-- `/cclio-graceful-halt` — *this one.* dima is finishing up. a conversation: plan it, agree an
+- `/cclio-graceful-halt` — dima is finishing up and there is time to talk. plan it, agree an
   order, land what lands, wrap properly.
-- `/cclio-graceful-stop` — dima has to go NOW. one pass, no conversation.
+- `/cclio-graceful-halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
+  conversation, under a minute.
 
-both are graceful; both break nothing. the difference is **planned vs immediate**, never
-careful vs careless.
+**both are graceful, and `stop` is not the careless one.** it is still a halt: nothing is dropped
+out of your hands, nothing is left half-applied, nothing is forced. it just prefers the quickest
+safe finish over the best one. never trade safety for speed — a rushed exit leaving a half-written
+file or a half-applied migration costs far more than the minute it saved.
 
 loads on `/cclio-graceful-halt`, `/halt`, `/wrap`, or when dima says to finish the day.
-
-dima's actual ask is «let's plan finishing», not «finish now». halting mid-flow strands task
-leaves, and stranded leaves are what the next session pays for.
+`stop` also fires on `/halt stop`, `/bail`, or «i have to go».
 
 📌 **never open the halt plan unprompted mid-task.** if dima has not asked to finish, do not
-suggest it unless the session is genuinely at a natural boundary. reading the room beats
-running the ritual.
+suggest it unless the session is genuinely at a natural boundary. reading the room beats running
+the ritual.
+
+## the stop lane — read this first when `stop` is passed
+
+skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
+
+1. **freeze the dangerous things first.** any write in flight — finish it or revert it, never
+   leave it half-applied. any spawned session — let it run, note its id. never kill a running job
+   to save time; an interrupted agent is worse than an unattended one.
+2. **land only what is already one step from done.** one command, one file save, one commit.
+   needs a decision → it does not qualify. do not start anything.
+3. **push if commits are clean and hooks pass.** hooks fail → force NOTHING. leave the commits
+   local and say so.
+4. **park notes where the work lives** — ticket comment, worklog line, `OPEN.md`. not in chat.
+   one line each: what state it is in, and the single next action. **this is the part that must
+   not be skipped**, because it is the part that pays for itself tomorrow.
+5. **phase 3.5 still runs** — a stale milestone misinforms the next boot, and refreshing it is
+   seconds.
+6. **CST, slug `<runid-topic>-stop`.** terse is fine; state beats prose.
+
+then report in under 10 lines: what landed · what is parked and where the note is · anything left
+genuinely unsafe, named plainly and never softened · the boot line to resume.
+
+🚫 **in the stop lane, do not:** start work however small it looks · refactor or clean up on the
+way out · batch a decision to dima and act on the assumed answer · spend the minute writing a
+pretty summary instead of park notes.
+
+**the tell:** «this is quick, i will just finish it» — that thought IS the failure mode. park it
+and go.
+
+📌 a later full halt on the same run **picks up the stop lane's debt** — the sweep and the flowlog
+flush it skipped.
+
+## the full lane — phases below
 
 ## phase 0 — the halt plan, and it comes FIRST
 do not start closing. one short message:

@@ -24,6 +24,12 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
   read as «nested imports are unsupported» when the real cause was a path resolved against the wrong
   base. «Feature missing» is a much bigger claim than «i called it wrong», so it needs much more
   evidence.
+- 📌 **the sharpest case is your OWN inference, not someone else's report.** The no-assign fix was
+  reasoned, plausible, and written into a binding rule — `x:cmt` §2.5 and `ticket-flow.md` — that
+  every agent would follow, **before anyone pushed a single commit to test it.** One push falsified
+  it. It was labelled «inferred, not documented» the whole time, and the label did not help: a rule
+  reads as a rule regardless of its caveat. So an inferred mechanism must be **tested before it
+  becomes a rule**, not merely marked. Writing the caveat is not the same as running the test.
 - Load the `cmt` skill before the FIRST commit of a session, not the second ([[skill-edits-are-file-edits]]).
 - Story size is a health metric — flag a parent at ~15 subs and propose a split.
 - Run `dotfiles-link` status at boot, not only when a push hook forces it.
