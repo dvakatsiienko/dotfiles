@@ -65,24 +65,30 @@ I wanted to share some of my preferences here so we can be more aligned as we wo
 
 ## Dormant tools — disabled but installed
 
-Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external replacement of something already installed.
+Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and
+offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external
+replacement of something already installed.
 
-- `computer-use` — full desktop control: screenshots, mouse/keyboard, any native macOS app. Server stays connected with tools DEFERRED — 0 resident tokens until summoned via ToolSearch (screenshot burn ~1–1.5k/capture still applies when used). Policy-dormant: suggest it proactively when a task needs desktop driving; no disable ritual needed anymore (deferral made it free).
-- `claude-in-chrome` — full Chrome automation: tabs, clicks, forms, DOM/console/network reads, page JS, GIF recording (~2.5k est. tokens when live). Rarely used (~1×/month). Global kill = extension side; `/mcp` toggle is per-project. NOT superseded by computer-use: computer-use treats browsers as read-only (clicks/typing blocked) — this is the only tool that can act inside Chrome, and it's DOM-based (cheap text reads, no screenshot burn).
-  📌 **The whole rule, no lifecycle to remember.** It stays disabled globally — always, everywhere,
-  it is token-heavy. **One legitimate need exists:** `cc` is building an app and wants to test it
-  (~98% of the time reaching for browser tools means app work). In that case add the server to
-  **that app project's own local `cc` settings** yourself, no asking, and leave it there. Never
-  enable it globally, and never "enable then remember to disable" — there is no disable step,
-  because the enablement was project-scoped from the start.
-  ⚠️ Global disable is **not** currently config-enforced: `~/.claude.json` has no top-level
-  `disabledMcpServers`, and `claude-in-chrome` is absent from `bytes`'s disabled list — which is how
-  a `bytes` session used browser tools despite the belief it was off. The kill has been extension-side
-  only. Verified 2026-08-17.
-- claude.ai connectors (Gmail, Google Calendar, Google Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs and Careers) — HARD-DISABLED in CC via `disableClaudeAiConnectors: true` (settings.json, 2026-08-13); Dima evaluating standalone Vercel/Linear installs vs re-enabling. `cw` unaffected — but ticketing there now runs the `linear` CLI via Desktop Commander (`cw` pm skill), not connectors.
-- `DesignSync` — ALIVE (re-enabled 2026-08-13): design-to-code bridge to **Claude Designer** (NOT Figma — earlier description was wrong; Dima doesn't use Figma). Dima plans to use Claude Designer soon — suggest DesignSync when design-to-code work comes up.
-- Denied built-in tools (via `permissions.deny`, user settings): `NotebookEdit` (Jupyter cell editor), `CronCreate/CronDelete/CronList` (local scheduled-session plumbing — offer re-enable if scheduling comes up; note: `RemoteTrigger` stays ALIVE and covers cloud routines/webhook triggers, so suggest it first for "scheduled/event-triggered agent" asks), `AskUserQuestion` (picker UI — structural backing for the never-use style rule), `EnterPlanMode`/`ExitPlanMode` (plan-mode approval boxes — Dima keeps /plan but hates the box; in plan mode: plan + write plan file as usual, announce readiness in prose, Dima exits via shift+tab and approves with «go»). Re-enable = remove from the deny array + session restart.
-Maintenance: whenever an MCP/connector is enabled or disabled, update this list in the same turn. Watch for divergence proactively: if observed reality contradicts this list (a "dormant" tool's tools are live in context, a listed-as-live one is missing, or `disabledMcpServers` in `~/.claude.json` disagrees), flag it and sync the registry immediately — a stale registry is worse than none. Doctor runs verify it wholesale.
+| tool | state | the rule |
+| --- | --- | --- |
+| `claude-in-chrome` | off | the only tool that can ACT inside Chrome (computer-use treats browsers as read-only). Token-heavy, ~1×/month. Stays off globally, always. One legitimate need: `cc` is building an app and wants to test it — then add it to **that project's own local settings** yourself, no asking, and leave it. Never global, never enable-then-disable. |
+| claude.ai connectors | hard off | `disableClaudeAiConnectors: true` in `settings.json`. Gmail, Calendar, Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs. `cw` unaffected, but its ticketing runs the `linear` CLI now, not connectors. |
+| `DesignSync` | **alive** | design-to-code bridge to Claude Designer, NOT Figma — Dima does not use Figma. Suggest it when design-to-code work comes up. |
+| `NotebookEdit` | denied | Jupyter cell editor. |
+| `CronCreate` / `CronDelete` / `CronList` | denied | local scheduled sessions. Offer re-enable if scheduling comes up — but `RemoteTrigger` is ALIVE and covers cloud routines and webhooks, so suggest that first. |
+| `AskUserQuestion` | denied | picker UI. Structural backing for the never-use style rule. |
+| `EnterPlanMode` / `ExitPlanMode` | denied | Dima keeps `/plan`, hates the approval box. In plan mode: plan, write the plan file, announce readiness in prose. He exits with shift+tab and approves with «go». |
+
+Denials live in `permissions.deny` (user settings); re-enable = remove the string + restart the session.
+
+⚠️ `claude-in-chrome` has **no global kill in config** — `~/.claude.json` has no top-level
+`disabledMcpServers`, and the per-project lists only cover `bytes`. The kill is extension-side only.
+That is how a `bytes` session once used browser tools while everyone believed they were off.
+
+Maintenance: whenever an MCP or connector is enabled or disabled, update this table in the same
+turn. If observed reality contradicts it — a listed-dormant tool is live in context, a listed-alive
+one is missing, or `~/.claude.json` disagrees — flag it and fix the table immediately. A stale
+registry is worse than none.
 
 ## Global Defaults
 
