@@ -65,6 +65,13 @@ re-reads and never obviously terminates.
 - 🚫 **never recurse past hop 1 unhinted.** go deeper only when a hop-1 body explicitly points at
   the next one as the thing that holds the answer.
 
+🚨 **never filter relations by state, and never skip a closed one.** The instinct is backwards: a
+**closed** ticket is usually the *most* valuable edge on the graph, because closing it is what
+produced the closing word. [DOT-165](linear://linear.app/issue/DOT-165) is exactly this — the mcp verdict lives in a Done ticket, and
+skipping it because it is Done means walking into the handoff-mcp work blind to research already
+paid for. Open/closed says whether work remains; it says nothing about whether the ticket holds
+knowledge. Filter open-vs-closed on **boards and counts**, never on relation reads.
+
 **Setting them, with the same restraint:** the test is *«would this change how I do the other
 one?»* — not «are these topically similar». `blocks`/`blocked by` for real ordering, `related` for
 knowledge worth finding later. Everything else is noise that makes the graph unreadable, which is
