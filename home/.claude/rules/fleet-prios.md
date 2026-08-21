@@ -3,7 +3,7 @@
 Set 2026-08-19 by Dima. This file is the fleet's priority compass; it beats local convenience.
 
 - **Fable quota is the scarce resource.** Dima codes with opus Thu–Sun (fable usage budget);
-  opus is fable's **vikar** (deputy) during those days.
+  opus deputises for fable during those days.
 - **Primary aim until Monday 2026-08-24: skill parity.** Everything dpatch/cwrk can do —
   rituals, pm flow, handoffs, memory discipline — opus must be able to do on ccli. Close the
   gap via shared rules/skills, not via re-explaining per session.

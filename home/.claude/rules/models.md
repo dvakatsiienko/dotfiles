@@ -62,4 +62,4 @@ Full research with sources: `docs/research/claude-model-strengths.md`.
 - server/scripting builds with locked specs (mcp mvp, sync script): **opus** — self-descriptive lane
 - research rounds + debugging investigations (skill-maintenance research, cloud-spawn bug): **opus** — bull food
 - verdict-shaped deliverables (harness one-pager): opus researches upfront, **fable verdicts** — split the ticket's phases across models
-- marker on the board: model labels (`fable 5`/`opus 5`) ARE the assignment mechanism — self-descriptive, no extra vocab (vikar label idea dropped)
+- marker on the board: model labels (`fable 5`/`opus 5`) ARE the assignment mechanism — self-descriptive, no extra vocab
