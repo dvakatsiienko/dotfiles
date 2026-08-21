@@ -1,6 +1,6 @@
 ---
 name: dpatch-refresh-cclio-sysprompt
-description: Re-scan the CURRENT dpatch system prompt, diff it against the last saved scan, and propose which newly-appeared entries are worth folding into ~/cclio/CLAUDE.md. Load when Dima types /dpatch-refresh-cclio-sysprompt, or asks to re-harvest the dispatch prompt after a desktop app update.
+description: Re-scan the CURRENT dpatch system prompt, diff it against the last saved scan, and propose which newly-appeared entries are worth folding into ~/projects/dotfiles/cclio/CLAUDE.md. Load when Dima types /dpatch-refresh-cclio-sysprompt, or asks to re-harvest the dispatch prompt after a desktop app update.
 intended-models: opus, fable
 argument-hint: ""
 ---
@@ -17,7 +17,7 @@ this skill harvests the good parts instead of re-deriving them.
 
 - **the saved scan** — `~/projects/dotfiles/docs/agents/system-prompt-dpatch.md`. the last known
   shape, in load order, with per-block notes.
-- **the target** — `~/cclio/CLAUDE.md`. what we may propose changing.
+- **the target** — `~/projects/dotfiles/cclio/CLAUDE.md`. what we may propose changing.
 - **the ticket** — DOT-181.
 
 ## run
@@ -39,7 +39,7 @@ this skill harvests the good parts instead of re-deriving them.
    skills manifest.
 5. **update the saved scan in place.** never write a second dated scan file — one file, current.
    refresh `researched:` and `sources-current-as-of:` in its frontmatter.
-6. **propose, never apply.** print the exact diff you would make to `~/cclio/CLAUDE.md` and stop.
+6. **propose, never apply.** print the exact diff you would make to `~/projects/dotfiles/cclio/CLAUDE.md` and stop.
    that file changes only with Dima's explicit yes.
 
 ## report shape
@@ -47,7 +47,7 @@ this skill harvests the good parts instead of re-deriving them.
 - **verdict line** — how many blocks changed, how many are worth porting. if zero, say
   «nothing worth porting» and stop there. no filler.
 - 🔎 what changed in the dpatch prompt
-- 📋 the proposed `~/cclio/CLAUDE.md` diff, as a fenced block
+- 📋 the proposed `~/projects/dotfiles/cclio/CLAUDE.md` diff, as a fenced block
 - 📌 what you deliberately rejected and why, one line each
 - ➡️ next step
 
@@ -55,5 +55,5 @@ this skill harvests the good parts instead of re-deriving them.
 
 - **noop is the expected outcome.** never propose an edit just to have proposed one.
 - never invent a block that is not in the prompt this session.
-- never widen scope into rewriting `~/cclio/CLAUDE.md` — port a rule, do not restructure the file.
+- never widen scope into rewriting `~/projects/dotfiles/cclio/CLAUDE.md` — port a rule, do not restructure the file.
 - the saved scan is the only durable artifact. everything else lives in the reply.

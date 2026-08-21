@@ -409,7 +409,7 @@ absent on disk) and another did not. Owned by DOT-55; do not build on either ans
 
 Added 2026-08-21 under DOT-188 / DOT-190. Two candidate homes for the coordinator role. `dpatch`
 is the cowork/dispatch desktop surface; `cclio` is a plain claude code cli session booted in
-`~/cclio`. **Never mix the names.**
+`~/projects/dotfiles/cclio`. **Never mix the names.**
 
 ⚠️ Living section. Every session that learns something new about either side edits this in place
 rather than writing a fresh note. Tag claims like the rest of the file.
@@ -419,7 +419,7 @@ rather than writing a fresh note. Tag claims like the rest of the file.
 | capability | `dpatch` | `cclio` |
 | --- | --- | --- |
 | runtime | Agent SDK, inside the desktop app **[verified]** | claude code cli **[verified]** |
-| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/cclio/CLAUDE.md` says **[verified]** |
+| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/projects/dotfiles/cclio/CLAUDE.md` says **[verified]** |
 | rendering to Dima | `SendUserMessage` only **[verified]** | plain stdout **[verified]** |
 | config stack | cowork prefs + mounted project `CLAUDE.md`. **no `rules/`, no `~/.claude`** **[verified]** | four-layer `CLAUDE.md` stack loads automatically, incl. ancestor dirs **[verified 2026-08-21]** |
 | filesystem | mounts, re-established each init **[verified]** | the real Mac fs, no ceremony **[verified]** |
