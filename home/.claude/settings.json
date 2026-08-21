@@ -261,5 +261,6 @@
       "routine under ~/projects/dotfiles/ prefix: dotfiles-link, macos-setup, skills-sync-cw, pnpm test/typecheck/check scripts"
     ]
   },
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "remoteControlAtStartup": true
 }
