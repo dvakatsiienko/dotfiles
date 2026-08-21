@@ -121,6 +121,10 @@
           {
             "type": "command",
             "command": "bash ~/.vibemon/notify.sh stop claude_code"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/notification.sh"
           }
         ]
       }
