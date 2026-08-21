@@ -8,27 +8,32 @@ metadata:
   modified: 2026-08-21T00:07:37.179Z
 ---
 
-Direction change: **dpatch stops being a dispatch-desktop brain and becomes a Claude Code
-coordinator session.** Dispatch degrades to a remote window holding no memory of its own. Story
-[DOT-188](https://linear.app/x-com/issue/DOT-188), spec `docs/spec/ccli-coordinator-mvp.md`.
+🧪 **cclio is an A/B of dpatch, NOT an immediate replacement.** Dima's correction, 2026-08-21:
+*"the replace decision was rushed by dispatch because of overconfidence. we have to build an mvp at
+least, before deleting someone. everyone is on board, dpatch is active fully but vet."*
 
-Drivers: dispatch has no model knob (kebab→ghost is undocumented UI that can vanish), no auto-load
-layer (dpatch-init hand-simulates one), and is the only surface holding a second memory store.
+📌 Read that cause, not just the outcome. **The plan to retire dpatch was written by dpatch**, and
+it was wrong in the confident direction. An agent proposing to retire a surface — including itself,
+including a peer — is exactly where to slow down and ask for an MVP first. Story
+[DOT-188](https://linear.app/x-com/issue/DOT-188) is `standing` + `vet`, **assigned to Dima, not
+closable by an agent.** The metric is his own tests of activity: living with both and seeing which
+he reaches for.
 
-**`CLAUDE_CONFIG_DIR` is REJECTED** — undocumented, and leaks four ways: CLAUDE.md loads from both
-the custom dir and real `~/.claude/` at once, plugin state stays pinned to `~/.claude/plugins/`, a
-`.claude/` at-or-above cwd overrides the profile, credential paths are inconsistent. Never propose
-it as the isolation mechanism.
+**Current state, both live:**
+- `dpatch` — desktop dispatch, **fully active**, keeps its own memory (`~/.claude/memory-dispatch`).
+- `cclio` — a ccli session at `~/projects/dotfiles/cclio`, holding a **snapshot** of that memory
+  taken 2026-08-21. The two drift from the moment either writes; that cost is accepted.
 
-**Four-layer memfile stack instead** (Dima's design, [DOT-195](https://linear.app/x-com/issue/DOT-195)):
-`~/.claude/CLAUDE.md` shared → `~/projects/CLAUDE.md` coder-global → project CLAUDE.md →
-`~/dpatch/CLAUDE.md` coordinator-only. The coordinator lives at `~/dpatch`, NOT under `~/projects/`,
-or it inherits the coder-global.
+**What the migration settled regardless of the verdict:**
+- **`CLAUDE_CONFIG_DIR` is REJECTED** — undocumented, leaks four ways: `CLAUDE.md` loads from both
+  the custom dir and real `~/.claude/` at once, plugin state stays pinned to `~/.claude/plugins/`,
+  a `.claude/` at-or-above cwd overrides the profile, credential paths are inconsistent. Never
+  propose it as the isolation mechanism.
+- **ccli DOES walk arbitrary ancestor dirs** — tested with a marker, no longer an assumption.
+- **The four-layer memfile stack** ([DOT-195](https://linear.app/x-com/issue/DOT-195)):
+  `~/.claude/CLAUDE.md` shared → `~/projects/CLAUDE.md` coder-global → project `CLAUDE.md` →
+  coordinator-only. ⚠️ cclio currently sits INSIDE `~/projects/`, which is safe **only while
+  `~/projects/CLAUDE.md` does not exist.** dotfiles must relocate to `~/dotfiles` BEFORE DOT-195
+  creates it, or the coordinator starts inheriting coding conventions. Ordering is blocking.
 
-UNVERIFIED and blocking: whether ccli walks up to an arbitrary ancestor like `~/projects/`. Test
-with a marker line before building on it.
-
-Deletes the surface-sync problem: DOT-165 / DOT-168 / DOT-186 become on-hold candidates once
-[DOT-194](https://linear.app/x-com/issue/DOT-194) (the proof loop) passes. Do not flip them early.
-
-Related: [[research-vs-lived-evidence]], [[memory-divergence-store]], [[spawn-types]].
+Related: [[no-memfile-bridge-ccli-dispatch]], [[memory-divergence-store]], [[session-ends-with-a-halt]]

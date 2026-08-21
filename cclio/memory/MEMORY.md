@@ -27,6 +27,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 ## identity & session ritual
 - [announce model at open](announce-model-at-open.md) — MUST open with «hey <model> here», read from env; a session cannot detect a mid-thread switch, so this is the only honest label
 - [obsidian inbox protocol](obsidian-inbox-protocol.md) — 📬 inbox.md must end empty; worklog.md = processing copy; protected.md = dima's drops, read-only
+- ⭐ [session ends with a halt](session-ends-with-a-halt.md) — run `/cclio-graceful-halt` when dima signals the end, unprompted; it yields a short wrap, the interesting facts, and a copy-paste boot prompt
 - [handoff ask here-or-fresh](handoff-ask-here-or-fresh.md) — ask before saving a CST, not after
 
 ## safety
@@ -43,7 +44,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - [ticket refs when dispatching ccli](ticket-refs-when-dispatching-cc.md) — always pass ticket ID + require `- ref DOT-N`; closing stays with dpatch
 
 ## direction
-- ⭐ [ccli coordinator migration](ccli-coordinator-migration.md) — dpatch moves onto ccli; four-layer memfile stack; CLAUDE_CONFIG_DIR REJECTED; deletes the surface-sync problem
+- ⭐ [ccli coordinator migration](ccli-coordinator-migration.md) — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
 - ⭐ [pm fold or drop](pm-fold-or-drop.md) — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
 - [doc freshness frontmatter](doc-freshness-frontmatter.md) — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ [no memfile bridge ccli↔dispatch](no-memfile-bridge-ccli-dispatch.md) — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
