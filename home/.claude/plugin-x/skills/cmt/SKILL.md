@@ -149,6 +149,11 @@ This is how Dima works: no branch, no PR, commit and push. The **commit body car
   or Dima — nowhere else.
 - **Never close on Dima's behalf without saying so.** A closing keyword resolves a ticket AND
   assigns it to the commit author. Name the ticket you are about to close in the reply.
+- ⚠️ **That assign is a real cost, not a footnote.** Commits here are authored by Dima, so
+  `Closes DOT-N` silently makes him the assignee — which `rules/ticket-flow.md` otherwise forbids
+  outright. The keyword is not banned; the choice just has to be deliberate. Ticket should stay
+  unassigned? Use `- ref DOT-N` and close it by hand with
+  `linear issue update DOT-N --state Done`.
 
 ### Exception lane — pull requests
 

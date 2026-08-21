@@ -92,6 +92,12 @@ skill, which loads on every commit. One thing holds even without it: **a closing
 the ticket and assigns it to the commit author**, so name the ticket you are about to close in
 your reply rather than closing it silently.
 
+⚠️ **that assign is the one auto-assign nothing above can stop.** every commit here is authored by
+Dima, so `Closes DOT-N` makes him the assignee of a ticket he never claimed — the exact outcome the
+In Progress rule forbids. Not banned; it is still the cheapest close. Just know the cost and pick
+deliberately: `Closes DOT-N` when the assignee does not matter, or `- ref DOT-N` plus a manual
+`linear issue update DOT-N --state Done` when the ticket should stay unassigned.
+
 ## Rendering an id back to Dima
 
 Always a link plus a short tldr, never a bare id — format lives in `text-formatting.md`.
