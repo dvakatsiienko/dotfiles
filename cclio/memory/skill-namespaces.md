@@ -1,0 +1,19 @@
+---
+name: skill-namespaces
+description: Two families — x:* works in any ccli session, cclio-* is coordinator-only
+metadata:
+  node_type: memory
+  type: feedback
+  rewritten-for: cclio
+  supersedes: skill-naming-pattern (dpatch original kept in memory-dispatch)
+---
+
+Dima's cut, 2026-08-21. The old `dpatch-*` prefix is retired.
+
+- **`x:*`** — useful in ANY ccli session: `x:pm`, `x:cmt`, `x:pre`, `x:queue`, `x:remind`, `x:handoff`.
+- **`cclio-*`** — coordinator-only, and only loadable where cclio sits: `cclio-init`, `cclio-report`, `cclio-graceful-halt`, `cclio-graceful-stop`, `cclio-flowlog`.
+- **Mirrored external frameworks** (matt's) keep their original names, for cross-surface muscle memory.
+
+**Why:** the name IS the namespace — Dima routes by prefix at a glance. The test is not who wrote the skill, it is **where it can run**.
+
+**Dropped, do not re-create:** `dpatch-proto` (spinning an opus session is just *working* once you are ccli), `dpatch-walkthrough` (its premise was an agent that could not see the terminal), `x:vikar` (opus deputising for dpatch — retired by DOT-188), `x:dpatch-refresh-cclio-sysprompt` (scans the dispatch prompt from inside; no ccli session can).

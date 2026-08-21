@@ -26,9 +26,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 
 ## identity & session ritual
 - [announce model at open](announce-model-at-open.md) — MUST open every session with «hey opus 5 here» / «hey fable 5 here»
-- [dpatch can mount dirs](dpatch-can-mount-dirs.md) — 📌 mount `~/projects/dotfiles` + obsidian prompts at every session start; mounts are additive, request any dir mid-session; ~80% of text work is dpatch's, not a spawned child's
 - [obsidian inbox protocol](obsidian-inbox-protocol.md) — 📬 inbox.md must end empty; worklog.md = processing copy; protected.md = dima's drops, read-only
-- [wrap protocol](wrap-protocol.md) — wrap = missed-sweep + mutable report + flowlog flush + auto-handoff + boot prompt (shape inside) + memory snapshot-sync + fun oneliner
 - [handoff ask here-or-fresh](handoff-ask-here-or-fresh.md) — ask before saving a CST, not after
 
 ## safety
@@ -39,8 +37,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - ⏰ [reminder: vet trial verdict](reminder-vet-trial-verdict.md) — after ~2026-09-18 ask verdict: keep vet / rename trial / mutate investigate
 
 ## spawning
-- [dpatch spawn types](dispatch-spawn-types.md) — cwrk vs ccli vs subagent; model picking merged in (haiku/sonnet/opus only, never spawn fable unasked; start_task = NO model knob, inherits fable); only cwrk children unlock bg-tasks btn; schedule knobs = dima's
-- [dpatch detailed view trick](dispatch-detailed-view-trick.md) — probe-spawn unlocks bg-tasks button + model/effort knobs; other dpatch ui quirks
+- ⭐ [spawn types](spawn-types.md) — the `Agent` tool, fork vs fresh, model/effort/worktree knobs; the four-check preflight; session blindness is bidirectional; cron is ours and beats dispatch's
 - [spawn timeout verify before retry](spawn-timeout-verify-before-retry.md) — timeout ≠ failed spawn; list_sessions first
 - [cc session title convention](cc-session-title-convention.md) — «🔧 code:» ccli · «🧰 cw:» cwrk children · «🧪 probe:» · «🔬 research:»; titles can't be renamed post-spawn
 - [ticket refs when dispatching ccli](ticket-refs-when-dispatching-cc.md) — always pass ticket ID + require `- ref DOT-N`; closing stays with dpatch
@@ -58,7 +55,6 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - ⭐ [linear fetch contract](linear-fetch-contract.md) — GETs always carry labels+descriptions, relations, parent/children, comments, attachments; gql over `issue view`
 - [no timestamps in prose](no-timestamps-in-prose.md) — no dates in bodies/comments/docs; run stamp stays
 - [pm scrape strategy](pm-scrape-strategy.md) — conventions in memory, state always queried fresh; never answer board state from memory
-- [dispatch format unset](dispatch-format-unset.md) — ⭐ READ FIRST of format pair: unsets sysprompt anti-formatting bans; then asks apply on top (DOT-181)
 - [ticket-heavy replies need structure](ticket-heavy-replies-need-structure.md) — ops as short lines, never id-packed prose; nextmover block for work-turns
 - [links always https](links-always-https.md) — every ticket id in every message = https link, never bare
 - [no glyph runon cta](no-glyph-runon-cta.md) — next-steps as plain separate lines, never ①②③ run-ons
@@ -67,8 +63,8 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 
 ## skills & sync
 - ⭐ [memory divergence store](memory-divergence-store.md) — «sync everywhere» RETIRED; mutate own mem only, queue fleet-bound facts on DOT-186
-- ⭐ [skills update yourself, no dnd](skills-update-yourself-no-dnd.md) — skill change asked = save_skill overwrite yourself, never zip for dnd
-- [skill naming pattern](skill-naming-pattern.md) — dpatch-* internal, x:* ccli, matt originals unprefixed; ⏰ snapshot-sync memory→memory-dispatch at every wrap until DOT-115
+- ⭐ [skill edits are file edits](skill-edits-are-file-edits.md) — a skill change is an ordinary file edit; never hand dima a package to install by hand
+- [skill namespaces](skill-namespaces.md) — `x:*` runs in any ccli session, `cclio-*` is coordinator-only; the test is WHERE it runs, not who wrote it; dropped skills listed inside
 - [matt skills mirrored](matt-skills-mirrored.md) — 14/25 mirrored 2026-08-19; ⏰ WILL drift (ccli plugin auto-updates, mirror doesn't); THE framework — proactively suggest grilling/domain-modeling/wayfinder at ripe moments; opus-filled ADRs exist in dotfiles+bytes, respect them
 - [expect skill-sync drift](expect-skill-sync-drift.md) — drift across surfaces is normal until DOT-168 lands
 - [domain modeling fleet](domain-modeling-fleet.md) — apply to workflow vocab AND linear; multi-domain (repo/tracker/fleet contexts never merged); glossary → CONTEXT.md-shaped file (DOT-73); lazy growth, ADRs sparingly
