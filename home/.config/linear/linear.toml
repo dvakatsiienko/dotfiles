@@ -1,0 +1,15 @@
+# no auto-assign, ever: dima becomes assignee only when he assigns himself.
+# the cli would otherwise self-assign on interactive `issue create`.
+#
+# this is the GLOBAL floor, and global is safe here for two reasons:
+#   1. the cli authenticates to exactly one workspace — x-com. "everywhere"
+#      and "dima's own tracker" are the same set, so nothing else can be hit.
+#   2. it is the LOWEST-priority config layer. precedence is
+#      ./linear.toml > <repo-root>/linear.toml > <repo-root>/.config/ > here.
+#      any repo needing different behaviour overrides it with its own file.
+#
+# if a second workspace is ever added (oss, client), revisit — the conventions
+# there belong to that project, not to this file.
+#
+# the matching rule for agents lives in home/.claude/rules/ticket-flow.md.
+issue_create_assign_self = "never"

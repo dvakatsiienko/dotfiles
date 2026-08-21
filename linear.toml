@@ -1,6 +1,11 @@
-# scoped to this repo only — dima's own tracker (x-com, team DOT).
-# no auto-assign, ever: he becomes assignee only when he assigns himself.
-# deliberately NOT in ~/.config/linear/ — a global setting would leak this
-# convention into oss and client workspaces, which own their own rules.
+# no auto-assign, ever: dima becomes assignee only when he assigns himself.
+#
+# this DUPLICATES the global default in ~/.config/linear/linear.toml on
+# purpose. it is kept for two reasons:
+#   1. intent is visible at the repo root, where someone reads it.
+#   2. repo-root config OUTRANKS the global file, so if this repo ever needs
+#      different behaviour, this is already the place to change it.
+# precedence: ./linear.toml > <repo-root>/linear.toml > ~/.config/linear/.
+#
 # the matching rule for agents lives in home/.claude/rules/ticket-flow.md.
 issue_create_assign_self = "never"
