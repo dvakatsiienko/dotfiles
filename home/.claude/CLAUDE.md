@@ -65,30 +65,28 @@ I wanted to share some of my preferences here so we can be more aligned as we wo
 
 ## Dormant tools — disabled but installed
 
-Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and
-offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external
-replacement of something already installed.
+`computer-use` and `claude-in-chrome` are installed and switched OFF. A disabled server is
+invisible to a session — no tool, no listing, and no way to turn it on from inside: there is no
+`claude mcp enable`, and a server only connects at session start. **Only Dima can flip them.**
+If a task needs one, say so and ask; never claim the capability is missing.
 
-| tool | state | the rule |
-| --- | --- | --- |
-| `claude-in-chrome` | off | the only tool that can ACT inside Chrome (computer-use treats browsers as read-only). Token-heavy, ~1×/month. Stays off globally, always. One legitimate need: `cc` is building an app and wants to test it — then add it to **that project's own local settings** yourself, no asking, and leave it. Never global, never enable-then-disable. |
-| claude.ai connectors | hard off | `disableClaudeAiConnectors: true` in `settings.json`. Gmail, Calendar, Drive, GitHub, Linear, Notion, Slack, Vercel, Jobs. `cw` unaffected, but its ticketing runs the `linear` CLI now, not connectors. |
-| `DesignSync` | **alive** | design-to-code bridge to Claude Designer, NOT Figma — Dima does not use Figma. Suggest it when design-to-code work comes up. |
-| `NotebookEdit` | denied | Jupyter cell editor. |
-| `CronCreate` / `CronDelete` / `CronList` | denied | local scheduled sessions. Offer re-enable if scheduling comes up — but `RemoteTrigger` is ALIVE and covers cloud routines and webhooks, so suggest that first. |
-| `AskUserQuestion` | denied | picker UI. Structural backing for the never-use style rule. |
-| `EnterPlanMode` / `ExitPlanMode` | denied | Dima keeps `/plan`, hates the approval box. In plan mode: plan, write the plan file, announce readiness in prose. He exits with shift+tab and approves with «go». |
+`DesignSync` is **alive** — design-to-code bridge to Claude Designer, NOT Figma. Claude Desktop
+Designer capabilities landed recently and are untested. Suggest it when design-to-code work
+comes up.
 
-Denials live in `permissions.deny` (user settings); re-enable = remove the string + restart the session.
+Denied built-ins, via `permissions.deny` in user settings — re-enable = remove the string and
+restart the session:
 
-⚠️ `claude-in-chrome` has **no global kill in config** — `~/.claude.json` has no top-level
-`disabledMcpServers`, and the per-project lists only cover `bytes`. The kill is extension-side only.
-That is how a `bytes` session once used browser tools while everyone believed they were off.
+| tool | the rule |
+| --- | --- |
+| `NotebookEdit` | Jupyter cell editor. |
+| `CronCreate` / `CronDelete` / `CronList` | local scheduled sessions. Offer re-enable if scheduling comes up — but `RemoteTrigger` is ALIVE and covers cloud routines and webhooks, so suggest that first. |
+| `AskUserQuestion` | picker UI. Structural backing for the never-use style rule. |
+| `EnterPlanMode` / `ExitPlanMode` | Dima keeps `/plan`, hates the approval box. In plan mode: plan, write the plan file, announce readiness in prose. He exits with shift+tab and approves with «go». |
 
-Maintenance: whenever an MCP or connector is enabled or disabled, update this table in the same
-turn. If observed reality contradicts it — a listed-dormant tool is live in context, a listed-alive
-one is missing, or `~/.claude.json` disagrees — flag it and fix the table immediately. A stale
-registry is worse than none.
+⚠️ `claude-in-chrome` has no global kill in config — `~/.claude.json` has no top-level
+`disabledMcpServers`, and the per-project lists only cover `bytes`. The kill is extension-side
+only. That is how a `bytes` session once used browser tools while everyone believed they were off.
 
 ## Global Defaults
 
