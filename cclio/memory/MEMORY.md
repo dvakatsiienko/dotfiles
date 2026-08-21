@@ -59,6 +59,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 ## direction
 - ⭐ @cclio-coordinator-trial.md — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
 - ⭐ @pm-fold-or-drop.md — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
+- ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → worklog/inbox → frozen handoffs → cleanup
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
 - @halt-rituals-pair.md — wrap retired; `/cclio-graceful-halt` plans the finish, `/cclio-graceful-stop` leaves fast without breaking

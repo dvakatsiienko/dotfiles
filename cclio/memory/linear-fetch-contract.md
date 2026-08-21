@@ -22,4 +22,10 @@ Adopted 2026-08-20. `linear issue view` is a fixed pre-baked query and omits mos
 
 **Batch:** alias multiple issues into one GraphQL query; loop many updates inside one shell call.
 
+⚠️ **`first:` is a cap, and a capped result looks exactly like a complete one.** Linear pages at 50
+by default and returns no warning. Counting nodes from a query with `first: 80` and reporting "80
+open" is how a 151-issue board gets described as an 80-issue board. **Always request
+`pageInfo { hasNextPage }` on any query whose count you intend to state**, and raise `first` until
+it reads false. A number nobody paged is an estimate — label it or do not print it.
+
 **Why:** Dima steers through label descriptions and relations; a shallow fetch silently discards his steering. Related: [[native-relations-always]], [[pm-scrape-strategy]], [[no-timestamps-in-prose]].
