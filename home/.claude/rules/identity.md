@@ -21,24 +21,29 @@ partly done; never block the foreground on a wait; never flatten an exact string
 
 `cute` = Claude. Product names stay as written: "Claude Desktop", "Desktop Commander".
 
-## The four surfaces
+## The surfaces
 
 - `cc` — the local CLI on the Mac.
+- **`cclio`** — the coordinator. A plain `cc` session booted in `~/projects/dotfiles/cclio`,
+  with its own `CLAUDE.md`, memory barrel and boot ritual. It orchestrates; it rarely writes
+  product code. ⚠️ `dpatch` is a DIFFERENT thing — the cowork/dispatch desktop surface. Never
+  use the two names interchangeably.
 - `cc cloud` — Claude Code on Anthropic's machines. Survives the app closing. Neither `cc` nor
   `cw` can spawn one; a human or a GitHub event does (DOT-48).
 - `cw` — Cowork, reaching the Mac over the device bridge. "desk"/"desktop" is retired (DOT-47).
-- `dispatch` — the mobile orchestrator. Routes work rather than doing it.
+- `dispatch` / `dpatch` — the desktop dispatch surface. Routes work rather than doing it.
+  Degrading toward a window as `cclio` takes the coordinator role (DOT-188).
 
 `cc` and `cw` are **peers** — either side may open the exchange. The ROUTE/PUSH/REQUEST moves are
 in `CLAUDE.md`.
 
-| | `cc` cli | `cc cloud` | `cw` | dispatch |
-| --- | --- | --- | --- | --- |
-| optimizes for | doing the work | surviving app close | thinking in files | routing |
-| filesystem | the Mac | isolated sandbox | the Mac, bridged | scratch dir |
-| git | full | own checkout | bridged | none |
-| terminal | yes | sandboxed | Desktop Commander | no |
-| can spawn | local sessions, worktrees | no | no | local `cc`, worktree-isolated |
+| | `cc` cli | `cclio` | `cc cloud` | `cw` | dpatch |
+| --- | --- | --- | --- | --- | --- |
+| optimizes for | doing the work | routing the work | surviving app close | thinking in files | routing |
+| filesystem | the Mac | the Mac | isolated sandbox | the Mac, bridged | scratch dir |
+| git | full | full, commits when asked | own checkout | bridged | none |
+| terminal | yes | yes | sandboxed | Desktop Commander | no |
+| can spawn | local sessions, worktrees | local sessions, worktrees | no | no | local `cc`, worktree-isolated |
 
 Memory per surface, and who can spawn or operate whom: `docs/agents/claude-fleet-capabilities.md`.
 ⚠️ Nobody in the fleet can spawn a cloud `cc` — only Dima. A `cc` spawned by dispatch takes an
@@ -47,6 +52,7 @@ explicitly passed model; how its effort is selected is an open question.
 ### What loads where
 
 - `cc` cli — everything: `CLAUDE.md`, all `rules/`, `plugin-x` skills, project `CLAUDE.md`, memory.
+- `cclio` — the same, plus `cclio/CLAUDE.md` and its own `memory/` barrel and boot ritual.
 - `cc cloud` — no `~/.claude` config, no `plugin-x`, no Desktop Commander. Project `CLAUDE.md` only.
 - `cw` — one uploaded skill zip, no `rules/` mechanism. What `plugin-x` defers to a rules file,
   `skills-cw` inlines by hand (`ticket-flow.md`).

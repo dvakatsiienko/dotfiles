@@ -24,3 +24,6 @@ Changelog lives in changelog.md — orientation, accretes, never expires.
 - Write/Edit tools blocked on home/.claude paths (protected) — use DC write_file or bash via mnt instead. Expires: protection lifted or line moves to changelog.
 - opus on dispatch duties → run /x:vikar (dpatch deputy contract; facts at ~/.claude/memory-dispatch).
   Expires: Monday 2026-08-24 quota refresh — fable back from vacation 🏖️.
+- `cclio` is the official name of the coordinator — a `cc` session in `~/projects/dotfiles/cclio`,
+  NOT the dispatch desktop surface. `dpatch` still means dispatch; never mix them. In
+  rules/identity.md; DOT-188. Expires: naming holds fleet-wide for a week with no slips.
