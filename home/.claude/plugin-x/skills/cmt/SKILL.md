@@ -118,11 +118,11 @@ Splitting: `git add <paths>` per commit instead of `-A` (§5), ordered so each c
 leaves the tree working — foundation first, then what builds on it. Print the whole
 plan as subject lines before the first commit; one confirm covers the set.
 
-## 2.5 · Author identity — every agent commit
+## 2.5 · Author identity, and the assign that survives it
 
-**Every commit an agent authors, on every surface, runs under the shared fleet identity.**
-Per-commit flags only — never `git config`, never repo-level, never global. Dima's own commits
-stay his.
+**The shared fleet identity is still the standing convention** — every agent commit, on every
+surface, per-commit flags only. Never `git config`, never repo-level, never global. Dima's own
+commits stay his.
 
 ```sh
 git -c user.name="dima's fleet" -c user.email=fleet@x-com.local commit -m "..."
@@ -130,22 +130,47 @@ git -c user.name="dima's fleet" -c user.email=fleet@x-com.local commit -m "..."
 
 The apostrophe is why the name is in **double** quotes. Do not switch them to single quotes.
 
-- **why:** linear's github integration assigns a referenced ticket to the commit author, mapped
-  through that author's github account → linear user. an author no github account can claim maps
-  to no linear user, so the `ref` link survives and the assign cannot fire. `.local` is reserved
-  and unregistrable, which is the whole point of the address.
-- **there is no toggle for this.** the github integration panel offers only `Link commits to
-  issues with magic words`, which Dima keeps. author identity is the only lever left.
-- ⚠️ **inferred, not documented.** linear documents the magic words and the status moves; it
-  documents the assign nowhere. this is a measured behaviour and a reasoned fix, not a
-  vendor-stated contract.
-- **all agents share one identity, deliberately** — not per-surface, not per-model. one address
-  means no bookkeeping and no way for a new surface to leak Dima's identity by default. the model
-  still gets its own line in the `Co-Authored-By` trailer, which is where per-agent attribution
-  belongs.
-- **the test:** the first agent commit after this lands is the check. push it with a `- ref DOT-N`
-  and look at the ticket — **link present, assignee still empty = confirmed.** if it assigns
-  anyway, the mapping theory is wrong and the cause is elsewhere.
+It is worth keeping for honest authorship: the history shows which commits an agent wrote.
+
+🚨 **but it does NOT stop the linear assign. that was tested and falsified.**
+
+The theory was that `fleet@x-com.local` maps to no github account, therefore to no linear user,
+therefore nobody to assign. The experiment: one commit carrying `- ref DOT-182`, authored under
+that identity, pushed. Measured on the ticket seconds later:
+
+- ✅ the `githubCommit` attachment landed — magic words work, parsed from the **commit message**
+- ❌ **Dima was assigned anyway**, and the history records the actor as Dima himself
+
+So linear resolves the actor from the **pusher** — the github account that pushed — not from the
+commit author. The author field was never in play.
+
+**Three candidate knobs were checked and none of them is the lever:**
+
+- the github integration panel — branch format, linkbacks, external review tool, and
+  `Link commits to issues with magic words`. No assignee option exists.
+- `userSettings.autoAssignToSelf` — already `false`, and the assign fires regardless.
+- `~/.config/linear/linear.toml` `issue_create_assign_self = "never"` — a **client-side** guard on
+  the cli's `issue create`. The push assign happens server-side; no cli config reaches it.
+
+### the working fix: reverse it, do not prevent it
+
+Dima wants the magic words. So keep them and undo the side effect.
+
+**After any push whose commits carried `- ref DOT-N` or a closing keyword, unassign those
+tickets** — unless Dima assigned himself deliberately, in which case leave it alone.
+
+```sh
+linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'
+```
+
+- do it in the same turn as the push, never "later"
+- name it in the reply, so the unassign is visible rather than silent
+- 📌 a closing keyword (`Closes DOT-N`) assigns too. The unassign applies there as well; a Done
+  ticket assigned to Dima is the same false signal as an open one.
+
+⚠️ **inferred, not documented.** Linear documents the magic words and the status moves; it
+documents the assign nowhere. The pusher-not-author conclusion is measured behaviour, not a
+vendor-stated contract.
 
 ## 3 · Body
 
@@ -182,9 +207,12 @@ This is how Dima works: no branch, no PR, commit and push. The **commit body car
   2026-08-21: two tickets took an assignee-only write **one second after a push**, from commits
   carrying `ref` and no closing word. So swapping `Closes` for `ref` was never an escape hatch,
   and any advice that said otherwise was wrong.
-- **§2.5's fleet author identity is what actually stops it.** With that identity in place the
-  choice of keyword is back to being about the ticket's state and nothing else. Scoped to Dima's
-  tracker (`DOT`/`BYT`); an oss repo's closing conventions belong to that project.
+- 🚨 **§2.5's fleet author identity does NOT stop it — tested and falsified.** Linear reads the
+  pusher, not the commit author. The working fix is to **unassign after the push**, in the same
+  turn, and say so in the reply. See §2.5 for the mutation and the three knobs already ruled out.
+- So the keyword choice is about the ticket's **state** and nothing else: `Closes DOT-N` to finish
+  it, `- ref DOT-N` to link only. Scoped to Dima's tracker (`DOT`/`BYT`); an oss repo's closing
+  conventions belong to that project.
 
 ### Exception lane — pull requests
 
@@ -204,7 +232,7 @@ Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens 
 - **Commits to `main`** fire none of those. Commit linking is a separate mechanism and needs no
   PR — verified end to end on DOT-78 and DOT-80, 2026-08-16. The commit lands on the ticket in a
   **Resources** block within ~15s; a closing keyword also moves it to Done. **The assignee write
-  fires on any magic word, closing or not** — see §2.5 for the identity that prevents it.
+  fires on any magic word, closing or not** — see §2.5 for the post-push unassign that reverses it.
 - Reading a Resources entry: a `Non-closing` badge means link-only. **No badge means it closed
   the ticket** — Linear marks the exception, not the norm.
 

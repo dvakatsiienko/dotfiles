@@ -119,12 +119,21 @@ play. do not re-propose it, and do not report it as working.
 github integration, and no cli config can reach it. both guards are wanted; they cover different
 doors.
 
-📌 **the real lever is a linear-side setting, not a git one.** it is not reachable through the
-graphql api (`Integration` exposes no `settings` field), so it is a UI toggle in
-**settings → integrations → github**, and only dima can flip it. until he does, the honest
-operating advice is: `- ref DOT-N` links the commit AND assigns him. if a ticket must stay
-unassigned, unassign it explicitly after the push —
-`linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'`.
+📌 **there is no knob. three candidates were checked and ruled out:**
+
+- the github integration panel — branch format, linkbacks, external review tool and
+  `Link commits to issues with magic words`. no assignee option exists.
+- `userSettings.autoAssignToSelf` — already `false`, and the assign fires anyway.
+- `~/.config/linear/linear.toml` `issue_create_assign_self = "never"` — client-side, guards the
+  **cli's** `issue create`. the push assign is server-side; no cli config reaches it.
+
+✅ **the working fix is to reverse it, not prevent it.** dima wants the magic words, so keep them
+and undo the side effect: after any push whose commits carried `ref` or a closing keyword,
+unassign those tickets in the **same turn**, and name it in the reply so it is visible.
+
+    linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'
+
+the one exception is a ticket dima assigned to himself on purpose — leave that alone.
 
 ## Rendering an id back to Dima
 
