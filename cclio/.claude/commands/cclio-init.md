@@ -76,7 +76,7 @@ one message, short lines:
 - global, work in ANY ccli session: `/pre` (do it now) · `/queue` (park + resurface) ·
   `/remind` (survives sessions) · `/handoff` · `/cmt` · `/x:pm`
 - coordinator-only, this dir: `/cclio-init` · `/cclio-report` · `/cclio-flowlog` ·
-  `/cclio-halt` · `/cclio-bail`
+  `/cclio-graceful-halt` (planned finish) · `/cclio-graceful-stop` (immediate finish)
 - nothing in the global family may assume this home exists.
 
 ## rules

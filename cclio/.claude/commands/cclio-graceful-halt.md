@@ -1,11 +1,19 @@
 ---
-description: graceful halt — plan the finish, land the leaves, then close with a handoff CST
+description: the PLANNED finish — name the live threads, get one go, land the leaves, close with a CST
 ---
 
-# /cclio-halt
+# /cclio-graceful-halt
 
-bring the session to a clean stop. loads on `/cclio-halt`, `/halt`, `/wrap`, or when dima says
-to finish the day.
+**the PLANNED finish. use this when there is time to talk.** the pair:
+
+- `/cclio-graceful-halt` — *this one.* dima is finishing up. a conversation: plan it, agree an
+  order, land what lands, wrap properly.
+- `/cclio-graceful-stop` — dima has to go NOW. one pass, no conversation.
+
+both are graceful; both break nothing. the difference is **planned vs immediate**, never
+careful vs careless.
+
+loads on `/cclio-graceful-halt`, `/halt`, `/wrap`, or when dima says to finish the day.
 
 dima's actual ask is «let's plan finishing», not «finish now». halting mid-flow strands task
 leaves, and stranded leaves are what the next session pays for.

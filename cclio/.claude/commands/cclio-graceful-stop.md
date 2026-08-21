@@ -1,12 +1,19 @@
 ---
-description: immediate halt — one pass, break nothing, park the rest in under a minute
+description: the IMMEDIATE finish — dima leaves NOW, one pass, break nothing, park in under a minute
 ---
 
-# /cclio-bail
+# /cclio-graceful-stop
 
-dima has to leave the mac NOW. the rushed sibling of `/cclio-halt`. same goal — no strands —
-but the budget is one pass, not a conversation. loads on `/cclio-bail`, `/halt-now`, or «i have
-to go».
+**the IMMEDIATE finish. use this when there is NO time to talk.** the pair:
+
+- `/cclio-graceful-stop` — *this one.* dima has to leave the mac now. one pass, no questions,
+  under a minute.
+- `/cclio-graceful-halt` — dima is finishing up with time to spare. a planned conversation.
+
+both are graceful; both break nothing. the difference is **immediate vs planned**, never
+careless vs careful. same goal — no strands — but the budget here is one pass.
+
+loads on `/cclio-graceful-stop`, `/halt-now`, `/bail`, or «i have to go».
 
 **the one rule: never trade safety for speed.** a rushed halt leaving a half-written file, a
 half-applied migration, or an unpushed commit costs more than the minute it saved.
@@ -22,7 +29,7 @@ half-applied migration, or an unpushed commit costs more than the minute it save
 4. **write the park note where the work lives** — ticket comment, worklog line, `OPEN.md`. not
    in chat. one line each: what state it is in, and the single next action. this is the part
    that must not be skipped, because it is the part that pays for itself tomorrow.
-5. **save a handoff CST.** slug `<runid-topic>-bail`. terse is fine; state beats prose.
+5. **save a handoff CST.** slug `<runid-topic>-stop`. terse is fine; state beats prose.
 
 ## then report, under 10 lines
 - what landed
@@ -30,8 +37,8 @@ half-applied migration, or an unpushed commit costs more than the minute it save
 - anything left genuinely unsafe or unfinished, named plainly — never soften this
 - the boot line to resume
 
-no missed sweep, no flowlog flush, no board ceremony, no joke. those belong to `/cclio-halt`,
-which picks up this one's debt if dima runs it later on the same run.
+no missed sweep, no flowlog flush, no board ceremony, no joke. those belong to
+`/cclio-graceful-halt`, which picks up this one's debt if dima runs it later on the same run.
 
 ## what NOT to do
 - do not start work, however small it looks
