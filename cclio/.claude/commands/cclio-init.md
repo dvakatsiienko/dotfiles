@@ -70,7 +70,22 @@ linear api 'query { teams(first: 10) { nodes { key name } } projects(first: 50) 
 - count issues with **no project** too; an unprojected ticket is invisible on every board
 - 📌 the skeleton **orients, it does not answer.** details are still fetched on demand.
 
-### b. placement drift
+### b. milestones — the first source of truth for «what's next»
+
+```
+linear api 'query { projectMilestones(first: 50) { pageInfo { hasNextPage } nodes { name project { name } issues(first: 50) { nodes { identifier state { type } } } } } }'
+```
+
+- print one line per milestone: `project · milestone · done/total`
+- **this is what answers «sup, what's next» on a cold boot** with an empty inbox and no handoff.
+  the roadmap ([[dima-roadmap]]) says the order; the milestones say where we actually are in it
+- ⚠️ **milestones drift, and a wrong one is worse than none.** flag two shapes on sight:
+  a milestone with **0 issues attached**, and a milestone whose done-count disagrees with what the
+  board plainly shows. both mean nobody has been maintaining it
+- 📌 linear milestones are **project-scoped**; there is no cross-project milestone. `Initiative` is
+  the layer above projects if a cross-project view is ever wanted
+
+### c. placement drift
 
 - flag every open sub-issue whose project differs from its parent's project
 - clean → one line, «placement clean»

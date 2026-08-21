@@ -5,6 +5,9 @@ here instead. surfaced by `/cclio-init` step 5.
 
 two sections, never merged: `## queue
 
+- 🎫 **DOT-194 — the proof loop.** dima's call: next session. one full coordinator→coder run with a
+  leak check. it is the `the proof loop closes` milestone and the first real visibility primitive.
+
 - 🔬 **evaluate `basic-memory` properly, then decide DOT-177's shape.** dima's ask: learn
   [basic-memory](https://github.com/basicmachines-co/basic-memory) rather than home-bake a half-working membank.
   📌 dpatch already reported it «won't work» and that verdict was folded into

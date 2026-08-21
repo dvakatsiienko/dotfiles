@@ -47,6 +47,18 @@ those specifically.
 read the session's flowlog, cluster the catches, ONE batched proposal (memory / rules /
 announcements / tickets / drop), ONE approval, then execute and commit. see `/cclio-flowlog`.
 
+## phase 3.5 — milestones, before the board
+
+the boot ritual reads milestones as the first answer to «what's next», so a stale one misinforms
+the next session directly. before writing the CST:
+
+- attach anything finished this session to its milestone, and anything newly started
+- if a milestone is complete, say so to dima — completing it is his call, not an agent's
+- if the work drifted away from every milestone, that is the signal the **roadmap** moved. update
+  [[dima-roadmap]] in the same pass rather than bending the milestones to fit
+- one line in the wrap: `milestone · done/total · what moved`
+
+
 ## phase 4 — the board
 the `/cclio-report` shape, mutated to fold in whatever the sweep and the park list surfaced.
 ticket ids as full https links.
