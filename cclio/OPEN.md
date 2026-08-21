@@ -38,6 +38,12 @@ two sections, never merged: `## queue
 
 ## parks
 
+- 📊 **sline lags on «what were we doing at this time».** dima's observation, parked by him for
+  later. the pin and status cache work — `DOT-182 done` rendered correctly the moment it closed.
+  what is weak is the *temporal* read: reconstructing what was in flight at a given moment. likely
+  wants the flowlog or session history as a source, not the focus file, which only ever holds
+  current state. not scoped, not ticketed yet — deliberately.
+
 - ~~frozen obsidian worklog.md + inbox.md~~ — **UNFROZEN by dima 2026-08-21.** inbox emptied into
   worklog the same evening; the work itself is queued above, not parked. `protected.md` in that
   folder stays read-only — it is dima's, never ours.
