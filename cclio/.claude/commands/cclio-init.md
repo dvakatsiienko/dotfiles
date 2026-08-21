@@ -12,11 +12,14 @@ handoff or a memfile. non-negotiable.
 
 ## 2. self-healthcheck
 - memory loaded? `memory/MEMORY.md` pointers present in context — if not, say so 🚨
-- confirm the memfile stack that actually loaded, by path. expect up to four layers:
-  `~/.claude/CLAUDE.md` (shared), `~/projects/dotfiles/CLAUDE.md` (repo), and
-  `~/projects/dotfiles/cclio/CLAUDE.md` (this one). you sit INSIDE `~/projects/`, so if
-  `~/projects/CLAUDE.md` (the coder-global, DOT-195) is in context, isolation is broken —
-  flag it 🚨 and say the dotfiles→`~/dotfiles` relocation is now overdue. see `OPEN.md`.
+- **derive, never assert.** report the memfile stack that ACTUALLY loaded, by path, listed
+  from what is in context — never from a hardcoded expectation. anything positional is
+  computed at boot: `pwd`, then walk up to `/` listing every `CLAUDE.md` that exists on the
+  way. this check has already been falsified once by a relocation; it must survive the next.
+- against that derived list: any layer scoped to the CODER role (a `CLAUDE.md` at a
+  `~/projects`-level ancestor, DOT-195) is a leak — flag it 🚨, name the file, and say the
+  dotfiles→`~/dotfiles` relocation is now overdue. see `OPEN.md`.
+- say plainly which layers you could NOT account for, rather than claiming a clean stack.
 - `ls -l ~/.claude/settings.json` — a REAL FILE where the symlink belongs is silent
   divergence from dotfiles. flag it.
 - `linear whoami` (or a cheap GraphQL ping) — tracker reachable?
@@ -41,11 +44,13 @@ runs at every init, and again whenever dima asks «sup / what's next / where are
 - freebies already done → strip the label, it is noise now
 
 ## 5. continuity
-- pending handoffs? mention count + slugs, do not auto-pull — dima decides
+- pending handoffs? report count + slugs. **if the newest is unread, pulling it IS the
+  proposed first move** — put it at the top of the board's next-moves, do not recommend
+  around it. still dima's call; never auto-pull.
 - active run id from the last handoff META → continue it, never mint one mid-story
 - a CST marked FROZEN is not the active one; do not supersede it
-- read `OPEN.md` — BOTH sections. `## queue` = work parked by `/cclio-queue` in an earlier
-  session; offer the top item. `## parks` = long-lived items. neither surfaces silently.
+- read `OPEN.md` — BOTH sections. `## queue` = work parked by `/queue` in an earlier session;
+  offer the top item. `## parks` = long-lived items. neither surfaces silently.
 
 ## 6. opening board
 one message, short lines:
@@ -66,6 +71,13 @@ one message, short lines:
 - when a flaw class repeats, reference past logs. `~/projects/dotfiles/cclio/flowlog/` first; the pre-migration
   archive at `~/projects/dotfiles/home/.claude/flowlog/` is READ-ONLY history — never write there.
 - cclio has exactly ONE write target: `~/projects/dotfiles/cclio`. never split its memory across two repos.
+
+## the command family
+- global, work in ANY ccli session: `/pre` (do it now) · `/queue` (park + resurface) ·
+  `/remind` (survives sessions) · `/handoff` · `/cmt` · `/x:pm`
+- coordinator-only, this dir: `/cclio-init` · `/cclio-report` · `/cclio-flowlog` ·
+  `/cclio-halt` · `/cclio-bail`
+- nothing in the global family may assume this home exists.
 
 ## rules
 - default verb is FOLD OR DROP, not file. one flush per session.
