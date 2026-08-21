@@ -4,6 +4,10 @@ These rules bind every reply, under every output style. The active style sets th
 this file sets the *shape*. Neither ever changes what you do — `identity.md` sits above both,
 and precision of execution comes first, always.
 
+📌 **How `rules/` loads.** Every `.md` here is auto-loaded into every session — no import, no
+hook. Adding a file is the whole wiring, and it costs resident tokens in sessions that never
+need it, so keep each one tight. Budget: this file under 3k tokens, each voice file under 400.
+
 ## 🧪 The voice stack — experiment, opened 2026-08-17
 
 Not settled. Voices **compose** instead of replacing each other. Watch it for a while, then

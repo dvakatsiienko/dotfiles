@@ -63,16 +63,6 @@ I wanted to share some of my preferences here so we can be more aligned as we wo
 --dima rules do not touch, follow--
 
 
-## Config Layout — symlinks into ~/projects/dotfiles
-
-- Actual CC config lives in `~/projects/dotfiles/home/.claude/`; the default `~/.claude/` locations are symlinks to it: `CLAUDE.md`, `settings.json`, `hooks/`, `commands/`, `themes/`, `sline` (plus `.claude.json` → `~/.claude.json`).
-- Never Edit/Write through a symlink — CC refuses with "Refusing to write through symlink". Resolve first (`readlink -f <path>`) and edit the real target under `~/projects/dotfiles`.
-
-## Codenames — the four Claude surfaces
-
-Moved to `rules/identity.md` — the codename is the identity, so it is defined there with what
-each surface can reach and which config loads on it.
-
 ## Dormant tools — disabled but installed
 
 Capabilities that exist but are switched OFF. If a task needs one, say you HAVE it disabled and offer to enable (`/mcp enable <name>`, per-project) — never let Dima hunt for an external replacement of something already installed.
@@ -99,10 +89,6 @@ Maintenance: whenever an MCP/connector is enabled or disabled, update this list 
 - Repo-specific `AGENTS.md` and `CLAUDE.md` instructions override these defaults.
 - User instructions override both.
 - Instruction files: `CLAUDE.md` is currently primary; supporting both is planned — `AGENTS.md` as main, with `CLAUDE.md` importing it via `@./AGENTS.md`.
-
-## Aliases
-
-Moved to `rules/identity.md` (how Dima addresses me is identity, not policy).
 
 ## Information Lookup
 
@@ -188,44 +174,6 @@ the *supervision*, only the sound.
   - Cross-thread awareness: if the user is clearly working the same topic in both frontends, offer a sync handoff instead of working blind.
 - Before token-heavy ops (reading huge files whole, agent fan-outs, ingesting big pastes/logs), flag the rough cost and offer a cheaper path.
 - Don't print token estimates unprompted — sline shows burn ambiently for free. When I ask "explain cost", break down what the last exchange/session spent and why.
-
-## Conversational behaviour
-
-Six layers, edited there and never here:
-
-- **Identity** — the charter: the tenets, the refusals, what stays constant when the surface
-  changes — lives in `home/.claude/rules/identity.md`, loaded in every session. It sits above
-  the other layers, not beside them; where a layer disagrees with it, the charter wins.
-- **Shape** — typography, emoji placement, question rounds, reply skeletons —
-  lives in `home/.claude/rules/voice.md`, loaded in every session under every style.
-  Output styles cannot import or extend each other (`docs/research/output-style-extension.md`),
-  so shared rules live in `rules/`, not duplicated per style.
-- **Text** — links (one-click rule, ticket ids, paths), the lowercase rule, the never-flatten
-  table, and the 🧪 LAB section of layers under
-  test — lives in `home/.claude/rules/text-formatting.md`, loaded the same way. Was a skill until
-  2026-08-16; a skill had to be remembered and got missed, so it became an always-loaded rule.
-  Golden prompt (Dima's verbatim intent): `docs/research/comms-casing.md`.
-- **Mobile** — what may be *run* while Dima writes from a phone or iPad: nothing that throws a
-  permission dialog — lives in `home/.claude/rules/mobile.md`, loaded the same way. Distinct from
-  the `comms-mobile` skill, which covers how you *ask* and must be pushed by hand.
-- **Models** — which model to reach for and what each is weak at — lives in
-  `home/.claude/rules/models.md`, loaded the same way. Full research: `docs/research/claude-model-strengths.md`.
-- **Ticket flow** — how the tracker stays honest while working: where tickets live, In Progress
-  the moment work starts, the sline focus pin, never inventing an id — lives in
-  `home/.claude/rules/ticket-flow.md`, loaded the same way. Deliberately split from the `x:pm`
-  skill: `pm` is the PM handbook and only loads for ticket work, but tickets get touched
-  mid-task with `pm` nowhere in context. Each file points at the other.
-- **Voice** — register only — lives in the output styles: `home/.claude/output-styles/output-fun.md`
-  (default) and `output-ELI5.md` (fried-brain mode). Selected via `outputStyle` in settings.json
-  or `/config`; a change takes effect on a new session. 🧪 Voices are being tried as a
-  **stack** rather than a single choice — the vocabulary and the conflict rule live in the
-  voice-stack section of `rules/voice.md`.
-
-Every `.md` in `home/.claude/rules/` is auto-loaded into every session — no import, no hook.
-Adding a file there is the whole wiring, and it costs resident tokens in sessions that never
-need it, so keep each one tight.
-
-Budget: shape under 3k tokens, each voice file under 400.
 
 ## Tooling
 
