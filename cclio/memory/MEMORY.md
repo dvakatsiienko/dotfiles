@@ -22,7 +22,8 @@ format: `- @slug.md — one line, what it decides, imperative present tense`
 relative to THIS file, never to the cwd. verified by probe 2026-08-21; `@memory/slug.md` silently
 loads nothing.
 rules: a leaf is one decision, not a topic dump · stale pointer = delete both line and file,
-no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), never decoration.
+no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫), never decoration.
+❗ = a silent failure: something that breaks without telling anyone. read these before trusting the store.
 
 ## dima's strategies — READ BEFORE ANY PM DECISION
 - 🧭 @dima-strategies.md — the branch map. six branches, EQUALLY weighted, none is the main one
@@ -59,6 +60,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 ## direction
 - ⭐ @cclio-coordinator-trial.md — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
 - ⭐ @pm-fold-or-drop.md — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
+- ❗ @memfile-import-fails-silently.md — a broken `@import` loads nothing and SAYS nothing; on-disk presence is not evidence of being loaded — probe a leaf-only fact
 - ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → worklog/inbox → frozen handoffs → cleanup
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
