@@ -22,6 +22,6 @@ Changelog lives in changelog.md — orientation, accretes, never expires.
   close adds a «closing word» body section. In rules/ticket-flow.md + pm skill; cwrk copies
   stale until next skills-sync. Expires: DOT-77 sync lands.
 - Write/Edit tools blocked on home/.claude paths (protected) — use DC write_file or bash via mnt instead. Expires: protection lifted or line moves to changelog.
-- `cclio` is the official name of the coordinator — a `cc` session in `~/projects/dotfiles/cclio`,
-  NOT the dispatch desktop surface. `dpatch` still means dispatch; never mix them. In
-  rules/identity.md; DOT-188. Expires: naming holds fleet-wide for a week with no slips.
+- 🧪 **two coordinators run in parallel** — `dpatch` (desktop) and `cclio` (a `cc` session in
+  `~/projects/dotfiles/cclio`). DOT-188 is `vet`: dima is a/bing them, dpatch is being EXTENDED
+  not retired. Never write dpatch off, never mix the names. Expires: dima's verdict on DOT-188.

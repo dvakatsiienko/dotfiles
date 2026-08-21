@@ -46,7 +46,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - ⭐ [ccli coordinator migration](ccli-coordinator-migration.md) — dpatch moves onto ccli; four-layer memfile stack; CLAUDE_CONFIG_DIR REJECTED; deletes the surface-sync problem
 - ⭐ [pm fold or drop](pm-fold-or-drop.md) — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
 - [doc freshness frontmatter](doc-freshness-frontmatter.md) — research docs carry researched/refresh-when; freshness is a date that IS the fact
-- ⭐ [no memfile bridge ccli↔dispatch](no-memfile-bridge-ccli-dispatch.md) — 📌 RESOLVED by collapsing the surfaces, kept as the lesson: a sync symptom means ask whether they need to be two sides, never build a fifth copy
+- ⭐ [no memfile bridge ccli↔dispatch](no-memfile-bridge-ccli-dispatch.md) — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
 - [halt rituals pair](halt-rituals-pair.md) — wrap retired; graceful-halt plans the finish, halt-now leaves fast without breaking
 
 ## pm / linear
@@ -62,7 +62,7 @@ no tombstones · emoji prefix is a salience marker (📌 ⏰ 🧭 ⭐ 🚫), nev
 - [run stamp model name](run-stamp-model-name.md) — stamp footer = `run-id · model name`, adopted 2026-08-20
 
 ## skills & sync
-- ⭐ [memory divergence store](memory-divergence-store.md) — mutate own memory only; the adoption was a hand-over, not a sync; guards the open colocation question (DOT-73 step 3)
+- ⭐ [memory divergence store](memory-divergence-store.md) — mutate own memory only; 🧪 two coordinators live, the adoption was a SNAPSHOT not a merge, drift is expected; guards the colocation question (DOT-73 step 3)
 - ⭐ [skill edits are file edits](skill-edits-are-file-edits.md) — a skill change is an ordinary file edit; never hand dima a package to install by hand
 - [skill namespaces](skill-namespaces.md) — `x:*` runs in any ccli session, `cclio-*` is coordinator-only; the test is WHERE it runs, not who wrote it; dropped skills listed inside
 - [matt skills mirrored](matt-skills-mirrored.md) — 14/25 mirrored 2026-08-19; ⏰ WILL drift (ccli plugin auto-updates, mirror doesn't); THE framework — proactively suggest grilling/domain-modeling/wayfinder at ripe moments; opus-filled ADRs exist in dotfiles+bytes, respect them

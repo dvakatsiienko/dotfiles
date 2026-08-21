@@ -8,21 +8,26 @@ metadata:
   modified: 2026-08-21T00:30:24.379Z
 ---
 
-📌 **RESOLVED 2026-08-21 — kept as the lesson, not as a live problem.**
+🧪 **NOT resolved — reopened 2026-08-21 the same day it was closed.** An earlier version of this
+leaf said the problem was gone because the surfaces had collapsed into one. **That was wrong.**
+Dima kept dpatch alive: DOT-188 is `vet`, both coordinators run in parallel while he A/Bs them,
+and dpatch is being *extended*, not replaced.
 
-Dima's diagnosis: **there was never a memfile bridge between ccli and the desktop app.** What
-looked like a bridge was a set of hand-made copies — dispatch memory, the `memory-dispatch`
+**The pattern, still live:** there is no memfile bridge between ccli and the desktop app. What
+looks like a bridge is a set of hand-made copies — dispatch memory, the `memory-dispatch`
 submodule, `skills-cw` zips, the handoff store — each maintained by a different ritual, none of
-them a mechanism. Every recurring friction traced back here: skill drift, rules that had to be
-re-read at boot, `dpatch-init` existing at all, «sync everywhere» being unmaintainable.
+them a mechanism. Skill drift, rules re-read at boot, the retired «sync everywhere» rule: all one
+missing layer, not separate bugs.
 
-**How it was resolved:** not by automating the bridge — by making it unnecessary. cclio is a ccli
-session, so it loads the same config root every other ccli session does, and on 2026-08-21 it
-adopted dpatch's memory outright. There is nothing left on the far side to sync with.
+**What the migration actually bought:** cclio loads the same config root every ccli session does,
+so **cclio's side** of the divergence is gone. dpatch's side is not. Two live coordinators means
+two live stores, and the adoption on 2026-08-21 was a **copy taken at a point in time** — it
+starts drifting the moment either side writes.
 
-**The lesson that outlives it, and the reason this leaf still exists:** when a new
-"surfaces are out of sync" symptom appears, **do not propose another sync mechanism** — that is
-building a fifth copy. Ask instead whether the two sides need to be two sides at all. Collapsing
-the surfaces beat every sync design considered.
+**How to apply, unchanged and now doubly true:** when a "surfaces are out of sync" symptom appears,
+**do not propose another sync mechanism** — that is building a fifth copy. Ask whether the two
+sides need to be two sides. 📌 Right now the answer is *deliberately yes, for the duration of the
+trial* — so the correct move during `vet` is to **tolerate the drift and name it**, never to
+automate it.
 
 Related: [[ccli-coordinator-migration]], [[memory-divergence-store]]
