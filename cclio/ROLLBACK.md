@@ -33,8 +33,10 @@ cclio/
 ## what was touched outside cclio/
 
 path references only, in files that pointed at the old standalone location: `docs/spec/ccli-coordinator-mvp.md`,
-`docs/spec/ccli-coordinator-boot-prompt.md`, `docs/agents/claude-fleet-capabilities.md`, and the
-`dpatch-refresh-cclio-sysprompt` skill. no behaviour changed.
+`docs/spec/ccli-coordinator-boot-prompt.md` and `docs/agents/claude-fleet-capabilities.md`. no
+behaviour changed. (the `dpatch-refresh-cclio-sysprompt` skill was retargeted in the same pass,
+then removed from `plugin-x` entirely — it runs on dispatch only and now lives on Dima's account
+there.)
 
 still untouched, as before:
 

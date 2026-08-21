@@ -5,7 +5,9 @@ researched: 2026-08-21
 sources-current-as-of: 2026-08-21 (read from inside a live dpatch session)
 model-at-capture: opus 5
 refresh-when: the claude desktop app updates, dpatch gains or loses an mcp server, or a
-  `dpatch-refresh-cclio-sysprompt` run reports a diff against this file
+  `dpatch-refresh-cclio-sysprompt` run reports a diff against this file. that skill runs on
+  DISPATCH ONLY and is saved to Dima's account there — it is deliberately not in `plugin-x`,
+  because no ccli session can read the dispatch prompt from the inside.
 ---
 
 # dpatch system prompt — structural map
