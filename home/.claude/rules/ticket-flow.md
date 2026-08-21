@@ -99,14 +99,32 @@ your reply rather than closing it silently.
 `ref` and no closing word. so the old advice here — use `ref` plus a manual state update to keep a
 ticket unassigned — **did not work and has been removed.**
 
-📌 **the fix is the commit author, and it lives in the `x:cmt` skill (§2.5).** every agent commit,
-on every surface, runs under one shared identity: `git -c user.name="dima's fleet" -c
-user.email=fleet@x-com.local commit`. that address maps to no github account, so it maps to no
-linear user, so there is nobody to assign — while the `ref` link still lands. one identity for all
-agents, not per-surface. **inferred, not documented:** linear documents the magic words, never the
-assign. with the identity in place the keyword choice is about the ticket's state again:
-`Closes DOT-N` to finish it, `- ref DOT-N` to link only. (`DOT`/`BYT` only, like the rule above;
-an oss tracker's closing conventions are its own.)
+🚨 **the commit-author fix was TESTED AND FALSIFIED.** the theory was: commit under a shared
+identity (`git -c user.name="dima's fleet" -c user.email=fleet@x-com.local commit`), that address
+maps to no github account, so it maps to no linear user, so there is nobody to assign.
+
+the experiment: one commit carrying `- ref DOT-182`, authored under that identity, pushed. result
+measured on the ticket seconds later:
+
+- ✅ the `githubCommit` attachment landed — magic words work, they are parsed from the **commit message**
+- ❌ **dima was assigned anyway**
+
+so linear does not read the commit **author**. it reads the **pusher** — the github actor of the
+push event, which is dima's account and dima's ssh key. the author email was never the field in
+play. do not re-propose it, and do not report it as working.
+
+📌 **`~/.config/linear/linear.toml` is NOT this lever, though it looks like it.** it carries
+`issue_create_assign_self = "never"`, which stops the **cli** self-assigning on interactive
+`issue create`. that is a client-side path. the push assign happens server-side inside linear's
+github integration, and no cli config can reach it. both guards are wanted; they cover different
+doors.
+
+📌 **the real lever is a linear-side setting, not a git one.** it is not reachable through the
+graphql api (`Integration` exposes no `settings` field), so it is a UI toggle in
+**settings → integrations → github**, and only dima can flip it. until he does, the honest
+operating advice is: `- ref DOT-N` links the commit AND assigns him. if a ticket must stay
+unassigned, unassign it explicitly after the push —
+`linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'`.
 
 ## Rendering an id back to Dima
 
