@@ -94,12 +94,19 @@ skill, which loads on every commit. One thing holds even without it: **a closing
 the ticket and assigns it to the commit author**, so name the ticket you are about to close in
 your reply rather than closing it silently.
 
-⚠️ **that assign is the one auto-assign nothing above can stop.** every commit to `dotfiles` and
-`bytes` is authored by Dima, so `Closes DOT-N` makes him the assignee of a ticket he never
-claimed — the exact outcome the In Progress rule forbids. (`DOT`/`BYT` only, like that rule; an
-oss tracker's closing conventions are its own.) Not banned; it is still the cheapest close. Just know the cost and pick
-deliberately: `Closes DOT-N` when the assignee does not matter, or `- ref DOT-N` plus a manual
-`linear issue update DOT-N --state Done` when the ticket should stay unassigned.
+⚠️ **and it is not only the closing keyword — plain `- ref DOT-N` assigns too.** measured
+2026-08-21: two tickets took an assignee-only write one second after a push, from commits carrying
+`ref` and no closing word. so the old advice here — use `ref` plus a manual state update to keep a
+ticket unassigned — **did not work and has been removed.**
+
+📌 **the fix is the commit author, and it lives in the `x:cmt` skill (§2.5).** every agent commit,
+on every surface, runs under one shared identity: `git -c user.name="dima's fleet" -c
+user.email=fleet@x-com.local commit`. that address maps to no github account, so it maps to no
+linear user, so there is nobody to assign — while the `ref` link still lands. one identity for all
+agents, not per-surface. **inferred, not documented:** linear documents the magic words, never the
+assign. with the identity in place the keyword choice is about the ticket's state again:
+`Closes DOT-N` to finish it, `- ref DOT-N` to link only. (`DOT`/`BYT` only, like the rule above;
+an oss tracker's closing conventions are its own.)
 
 ## Rendering an id back to Dima
 
