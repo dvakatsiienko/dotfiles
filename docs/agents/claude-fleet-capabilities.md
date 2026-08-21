@@ -394,3 +394,75 @@ absent on disk) and another did not. Owned by DOT-55; do not build on either ans
 - Why `start_code_task` is present in some Cowork sessions and absent in others.
 - Whether dynamic workflows run in the Cowork tab at all — undocumented, and Cowork does not read
   the CLI's `~/.claude` directory, so probably not. Tracked in DOT-56.
+
+---
+
+# dpatch vs cclio — 🧪 LIVING, keep an eye as we go
+
+Added 2026-08-21 under DOT-188 / DOT-190. Two candidate homes for the coordinator role. `dpatch`
+is the cowork/dispatch desktop surface; `cclio` is a plain claude code cli session booted in
+`~/cclio`. **Never mix the names.**
+
+⚠️ Living section. Every session that learns something new about either side edits this in place
+rather than writing a fresh note. Tag claims like the rest of the file.
+
+## what each can do
+
+| capability | `dpatch` | `cclio` |
+| --- | --- | --- |
+| runtime | Agent SDK, inside the desktop app **[verified]** | claude code cli **[verified]** |
+| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/cclio/CLAUDE.md` says **[verified]** |
+| rendering to Dima | `SendUserMessage` only **[verified]** | plain stdout **[verified]** |
+| config stack | cowork prefs + mounted project `CLAUDE.md`. **no `rules/`, no `~/.claude`** **[verified]** | four-layer `CLAUDE.md` stack loads automatically, incl. ancestor dirs **[verified 2026-08-21]** |
+| filesystem | mounts, re-established each init **[verified]** | the real Mac fs, no ceremony **[verified]** |
+| git | through Desktop Commander **[verified]** | native, incl. signing **[verified]** |
+| spawn cowork children | yes — `start_task` **[verified]** | no **[verified]** — Dima has accepted this |
+| spawn ccli children | yes — `start_code_task`, worktree-isolated **[verified]**, but see the session-capability caveat above | yes — `Agent` tool, subagents, worktree isolation **[verified]** |
+| scheduled tasks | scheduled-tasks MCP **[verified]** | **yes, three ways** — see below **[verified]** |
+| computer use / chrome | both MCPs present **[verified]** | chrome MCP present; computer-use present but policy-dormant **[verified]** |
+| 1Password autofill | yes, ~600 words of prompt **[verified]**, inert in practice **[observed]** | present, same **[verified]** |
+| Desktop Commander | yes **[verified]** | not needed — it has a real shell **[verified]** |
+| system prompt weight | ~84k incl. ~44.5k of deferred tool names **[verified]** | far smaller, and **editable** **[verified]** |
+
+## scheduling on cclio — NOT lost
+
+The open question was whether moving to `cclio` costs the scheduled-tasks MCP. It does not.
+Three routes exist, in order of preference:
+
+1. **built-in `CronCreate` / `CronList` / `CronDelete`** — local scheduled sessions, first-class
+   cli tools. They are currently listed in `permissions.deny` in
+   `home/.claude/settings.json` **by Dima's own choice** — removing three strings from that array
+   turns them back on. **[verified]**
+2. **`RemoteTrigger` + the `schedule` skill** — cloud routines on a cron schedule, and webhook
+   triggers. Never disabled. Survives a closed laptop, which the desktop MCP does not. **[verified]**
+3. **plain `cron` + `claude -p "<prompt>"`** — the fallback. Viable, and the most transparent of
+   the three, but each run starts with no session context, so the prompt must be fully
+   self-contained. Same constraint the desktop scheduled tasks already carry. **[verified]**
+
+📌 Route 2 is strictly better than the dpatch MCP for anything unattended: dpatch scheduled tasks
+only fire while the desktop app is open.
+
+## pluses and minuses
+
+**`dpatch` plus** — mobile reach, cowork-child spawning, one persistent conversation, mounts of
+non-repo folders (obsidian) without extra config.
+**`dpatch` minus** — ~84k of unopenable prompt, a duplicated and self-contradicting orchestrator
+block, three dead instruction blocks, no `rules/` layer so every fleet rule must be inlined by
+hand, mounts that do not persist, and a formatting ban that has to be overridden every session.
+
+**`cclio` plus** — the whole prompt is ours, `rules/` and skills load for free, real fs and git,
+no mount ceremony, cheap subagents, and scheduling is better rather than worse.
+**`cclio` minus** — no cowork children, no persistent phone-side conversation, and Dima has to be
+at a terminal to open it.
+
+## the env gripe — "User selected a folder: no"
+
+dpatch reports no selected folder and re-mounts `~/projects/dotfiles` plus the obsidian prompts
+folder at every init. Dima wants a persistent selection so init stops re-mounting.
+
+- **Likely configurable, not a hard limit.** A cowork **project** carries attached folders that
+  persist across sessions, and dispatch can route work into a project so it inherits those
+  folders and that memory. Attaching both folders to one project is the shape of the fix.
+  **[docs]** — see the Projects section above; **not yet tried**.
+- ⚠️ Caveat: a folder-bound cowork project is desktop-only, which is already true here.
+- On `cclio` the gripe does not exist. There is nothing to mount.
