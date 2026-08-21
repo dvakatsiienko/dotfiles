@@ -3,6 +3,15 @@
 things deliberately not-done. a park that lives only in a chat message is a strand; it lives
 here instead. surfaced by `/cclio-init` step 5.
 
+two sections, never merged: `## queue` is session-scoped work parked by `/cclio-queue` and
+removed when popped. `## parks` below is long-lived — items that outlive many sessions.
+
+## queue
+
+*(empty)*
+
+## parks
+
 - **frozen obsidian worklog.md + inbox.md** — frozen by dima during run `cw·20260819·batch1`,
   not yet unfrozen or processed. still needs resolving. path:
   `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`

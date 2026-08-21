@@ -44,7 +44,8 @@ runs at every init, and again whenever dima asks «sup / what's next / where are
 - pending handoffs? mention count + slugs, do not auto-pull — dima decides
 - active run id from the last handoff META → continue it, never mint one mid-story
 - a CST marked FROZEN is not the active one; do not supersede it
-- read `OPEN.md` — parked items surface on the board, not silently
+- read `OPEN.md` — BOTH sections. `## queue` = work parked by `/cclio-queue` in an earlier
+  session; offer the top item. `## parks` = long-lived items. neither surfaces silently.
 
 ## 6. opening board
 one message, short lines:
@@ -53,6 +54,7 @@ one message, short lines:
 - inbox status
 - freebies (count + the 1-2 juiciest)
 - handoffs pending
+- queue depth + top item from `OPEN.md` (if non-empty)
 - open parks from `OPEN.md`
 - 1-2 proposed next moves — specific, not generic
 
