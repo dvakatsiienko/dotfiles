@@ -30,3 +30,10 @@ DOT-73 placement call; do not resolve it here.
 
 📌 The dpatch original asserted https everywhere and gave the chat-ui sanitizer as the reason. That
 reason does not hold on cclio, and following it here would contradict an always-loaded rule.
+
+🚨 **relapse, and it is the most-repeated failure on this surface.** In one reply I printed
+~20 bare ids — in prose, in bullets, in a recommendation, in a table. The rule was in context
+the whole time. **Knowing it is not the hard part; the hard part is that an id feels like a word
+while writing.** So the check is mechanical, not attentional: before sending any reply, scan for
+`DOT-` / `BYT-` and confirm every hit sits inside `](linear://`. A bare id in the draft is a bug
+to fix, never a judgment call about whether that one mattered.

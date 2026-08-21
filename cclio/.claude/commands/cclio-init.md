@@ -47,6 +47,29 @@ runs at every init, and again whenever dima asks «sup / what's next / where are
 - offer to run the cheap ones unattended this session; never batch-run without saying which
 - freebies already done → strip the label, it is noise now
 
+## 4.5 placement drift 🧭 — standing check
+
+a sub-issue whose project differs from its parent's project is a placement defect. it is
+mechanically detectable, so it is a CHECK, never a habit — habits cost attention on every
+create and fail silently exactly when attention is elsewhere.
+
+```
+linear api 'query { issues(filter: { state: { type: { nin: ["completed","canceled"] } } }, first: 250) { pageInfo { hasNextPage } nodes { identifier title project { name } parent { identifier project { name } } } } }'
+```
+
+- filter for `project != parent.project`, report the count and the ids
+- clean → one line, «placement clean»
+- non-zero → list them; do NOT fix unasked, a re-project is dima's call
+- ⚠️ `first:` is a cap and a capped page looks exactly like a complete one — always read
+  `pageInfo.hasNextPage` before stating any count
+
+📌 the deeper class this cannot catch: **two stories cutting the same domain on different
+dimensions.** DOT-184 (cuts by artifact: «the deliverable IS a skill») and DOT-28 (cuts by
+channel: «things crossing the cc↔cw bridge») covered the same tickets and neither was a dupe of
+the other. before creating or splitting a story, name the dimension it cuts on and compare it
+against the stories already covering that domain. different dimensions over one domain will
+fight over children forever.
+
 ## 5. continuity
 - pending handoffs? report count + slugs. **if the newest is unread, pulling it IS the
   proposed first move** — put it at the top of the board's next-moves, do not recommend

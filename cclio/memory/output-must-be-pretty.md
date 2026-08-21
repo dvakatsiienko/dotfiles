@@ -22,6 +22,10 @@ always have been: the taste, on top of rules that already work.
 - **operations get list shape, never prose.** One op per line — `DOT-N → what happened` — grouped by
   kind. Dima sent a screenshot of a reply packed with ids mid-sentence: *"so ugly… lots of ticket ids
   written as prose, hard to read."* Reasoning stays prose; operations never do.
+- **a bullet is one sentence. more than that, and it nests.** Dima sent a screenshot of a
+  healthcheck line that ran four wrapped lines as a single bullet — the substance was fine, the
+  shape was a paragraph wearing a dash. When a bullet needs several facts, the bullet becomes a
+  label and each fact becomes a sub-bullet under it. Never let a bullet wrap into a block.
 - **next-steps are plain separate lines.** Never ①②③ glyph run-ons crammed into one paragraph. He
   flagged this across several sessions (🤢 on 2026-08-18) and it kept slipping.
 - **plain is not the goal.** He also said flat output is *"a bit boring"*. Structure **plus** colour —
