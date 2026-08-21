@@ -30,6 +30,14 @@ This file supersedes the earlier assumption that cw is always a detached cloud s
 project's `CLAUDE.md`, and nothing from `~/.claude` — no `rules/`, no cc memory. Its `memory/` is a
 separate store from cc's and the two never sync.
 
+⚠️ **dispatch's memory layout is reverse-engineered, not a documented interface.** Anthropic
+documents Cowork/Dispatch memory only at product level ("Claude remembers what you've worked on");
+there is no official scope taxonomy, no endpoint, no CLI, and no supported way to read or write it
+from outside a session. The per-session `memory/` dir above is an observed implementation detail
+and can change on any app update. Chat memory is a separate system again — do not conflate either
+with Claude Code's documented `CLAUDE.md` / `MEMORY.md`, despite the shared naming.
+*(DOT-115, researched 2026-08-19.)*
+
 📌 `cw`'s 30 cells are a hard cap and Dima-editable only, so anything `cw` should retain must be
 handed to him to enter. This is why `cw` context arrives through handoff CSTs instead.
 

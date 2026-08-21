@@ -214,11 +214,11 @@ Sline (this repo's Claude Code statusline implementation) is documented in
 
 ### Issue tracker
 
-Issues live in **Linear** (workspace `x-com`, team `DOT`), managed via the `linear` CLI — never the Linear MCP. GitHub issues are retired (closed history). See `docs/agents/issue-tracker.md`; the `x:pm` skill owns the operating contract.
+Issues live in **Linear** (workspace `x-com`, team `DOT`), managed via the `linear` CLI — never the Linear MCP. GitHub issues are retired (closed history). See `docs/tracker/CONTEXT.md`; the `x:pm` skill owns the operating contract.
 
 ### Triage labels
 
-Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-info`, `agent`, `human`, Canceled). See `docs/agents/triage-labels.md`.
+Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-info`, `agent`, `human`, Canceled). See the triage role bridge in `docs/tracker/CONTEXT.md`.
 
 ### Skill conventions
 

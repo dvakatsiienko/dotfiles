@@ -1,5 +1,12 @@
 # root CLAUDE.md trim — RFC round 1 (parked)
 
+⚠️ **STALE — do not act on the content below.** Re-checked 2026-08-21. What has drifted since it
+was written on 2026-08-19: `rules/` gained files and the global `CLAUDE.md` grew with them, the
+coordinator story moved from `~/dpatch` to `~/cclio` (DOT-188 / DOT-195), and the trim's premise
+now overlaps the membank work on
+[DOT-177](https://linear.app/x-com/issue/DOT-177). Still parked by Dima — this banner marks it
+unsafe to read as current, it does not restart it.
+
 Ticket: DOT-73
 
 Status: PARKED 2026-08-19 by Dima — resume when the mem revamp story actually executes.

@@ -10,8 +10,8 @@ drafted: 2026-08-21
 
 ## the change in one line
 
-dpatch stops being a dispatch-desktop brain and becomes a **Claude Code session sitting in
-`~/dpatch`**. dispatch-desktop degrades to a remote window with no memory of its own.
+dpatch stops being a dispatch-desktop brain. the coordinator becomes **cclio**, a Claude Code
+session sitting in `~/cclio`. dispatch-desktop degrades to a remote window with no memory of its own.
 
 ## why (evidence, not taste)
 
@@ -30,9 +30,9 @@ dpatch stops being a dispatch-desktop brain and becomes a **Claude Code session 
 
 | | **ccli-coord** (this agent) | **ccli-code** (spawned) |
 |---|---|---|
-| sits in | `~/dpatch` | the target project dir |
+| sits in | `~/cclio` | the target project dir |
 | model | opus (or fable when quota allows) | opus, chosen per task |
-| loads | global CLAUDE.md + dpatch project scope | global CLAUDE.md + that project's scope |
+| loads | global CLAUDE.md + cclio project scope | global CLAUDE.md + that project's scope |
 | memory | coordinator memory: routing, tracker conventions, fleet facts | none of the coordinator's |
 | owns | linear, planning, spec, review, memory | edits, tests, commits |
 | context budget | small and flat, must survive a long day | large and disposable |
@@ -51,7 +51,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
 ~/.claude/CLAUDE.md          shared-by-both only. shrinks hard.
 ~/.claude/rules/*.md         shared always-loaded layers. audited for coder-only content.
 
-~/dpatch/           ccli-coord's home. git-tracked in dotfiles.
+~/cclio/            ccli-coord's home. git-tracked in dotfiles.
   CLAUDE.md                  coordinator charter. auto-loads ONLY here.
   .claude/
     commands/                coordinator rituals as slash commands
@@ -59,7 +59,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
   memory/                    coordinator memory: MEMORY.md index + leaf files
 ```
 
-ccli-code never cds into `~/dpatch`, so it never sees any of it. No env var, no bleed.
+ccli-code never cds into `~/cclio`, so it never sees any of it. No env var, no bleed.
 
 ## the delegate-vs-do-it-yourself rule
 
@@ -77,11 +77,11 @@ the project — the same peek that lets it review what ccli-code is doing. Codif
 
 ## mvp scope — what "done" means
 
-1. `~/dpatch/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
+1. `~/cclio/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
 2. coordinator memory written fresh — **not copied** from dispatch memory. Ported by hand, one
    pass, with the diet plan from `docs/research/context-engineering-memory.md` applied.
 3. global `~/.claude/CLAUDE.md` trimmed to shared-only; coder-specific content pushed down.
-4. five rituals exist as slash commands in dpatch scope: `/init`, `/graceful-halt`, `/report`,
+4. five rituals exist as slash commands in cclio scope: `/init`, `/graceful-halt`, `/report`,
    `/queue`, `/remind`.
 5. one real spawn proven: coordinator dispatches an opus ccli-code session, watches it, reads the
    result, comments on the ticket.
@@ -106,9 +106,9 @@ harness is a shim, not a project.
 
 ## open questions for Dima
 
-1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/dpatch/`? obsidian gives
+1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/cclio/`? obsidian gives
    phone access; the repo gives git history and one-mount simplicity.
-2. `~/dpatch` — new repo, or a directory inside dotfiles symlinked out? Recommendation: a
+2. `~/cclio` — new repo, or a directory inside dotfiles symlinked out? Recommendation: a
    directory in dotfiles under the mirror rule. Zero new repos.
 3. does dispatch-desktop keep any memory at all, or hard-zero?
 
@@ -120,16 +120,22 @@ harness is a shim, not a project.
 
 ## amendment — the four-layer memfile stack (DOT-195)
 
-The coordinator lives at **`~/dpatch`**, NOT under `~/projects/`. Reason: the layer stack is
+The coordinator lives at **`~/cclio`**, NOT under `~/projects/`. Reason: the layer stack is
 
 ```
 ~/.claude/CLAUDE.md          shared by both roles. tiny.
 ~/projects/CLAUDE.md         ccli-code global — the layer that was missing
 ~/projects/<proj>/CLAUDE.md  project specific
-~/dpatch/CLAUDE.md           coordinator only
+~/cclio/CLAUDE.md           coordinator only
 ```
 
 A coordinator sitting under `~/projects/` would inherit the coder-global, defeating the split.
 
 UNVERIFIED and blocking: that ccli walks up to an arbitrary ancestor such as `~/projects/`. Test
 with a marker line before building on it. Fallback: a symlinked stub per project, or `@import`.
+
+📌 **amended 2026-08-21 (verified).** `~/projects/CLAUDE.md` does not exist — the coder-global
+layer in the stack above is planned, not real. So `~/projects/` contaminates nothing today, and
+the isolation argument for `~/cclio` rests on a layer that has yet to be written. Note also that
+`~/.claude/CLAUDE.md` is user-scope and loads in **every** session regardless of cwd, so cclio
+already inherits it; location cannot buy isolation from that one.

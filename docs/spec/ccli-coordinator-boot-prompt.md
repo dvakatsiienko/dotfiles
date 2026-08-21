@@ -13,7 +13,7 @@ noise.
 ---
 
 ```
-we are building DOT-188 — dpatch moves off dispatch-desktop and becomes a Claude Code
+we are building DOT-188 — the coordinator moves off dispatch-desktop and becomes cclio, a Claude Code
 coordinator session. read these three, in order, and nothing else yet:
 
   docs/spec/ccli-coordinator-mvp.md          the plan. this is the contract.
@@ -24,7 +24,7 @@ then confirm back to me, in under 10 lines: the two roles, where each sits, and 
 CLAUDE_CONFIG_DIR is rejected. if any of that is unclear from the docs, say so instead of
 guessing — the spec is wrong if it needs explaining.
 
-then do DOT-190 only: scaffold ~/dpatch as a coordinator scope.
+then do DOT-190 only: scaffold ~/cclio as a coordinator scope.
   - it lives in dotfiles under the mirror rule, symlinked out. no new repo.
   - CLAUDE.md, .claude/commands/, .claude/agents/, memory/
   - CLAUDE.md is a charter, not a manual: who the coordinator is, the delegate-vs-do-it-

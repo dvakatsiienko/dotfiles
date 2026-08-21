@@ -16,3 +16,32 @@ the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. opera
 - **doc** — research/deliverable attached to a ticket or project the moment it is born (task outputs are ephemeral). title is the interface: topic — kind — date.
 - **project overview** — a project's content field, the standing description of what it is and where it stands. a tracked surface: dispatch maintains it for dima, it is never left to rot.
 - **health update** — a linear project update. cadence is weekly per active project plus event-driven on real state changes (TRK-0003). ticket ids do not auto-link there, so every id is a markdown link — mandatory, not style.
+
+## channel
+
+issues live in **linear**, workspace `x-com`, teams `DOT` / `BYT`, since the 2026-08-13 migration.
+github issues are retired — closed history only, each carrying a pointer comment to its linear
+successor. never create or reopen a gh issue.
+
+all operations go through the `linear` cli (schpet/linear-cli, on PATH, keyring-authed);
+`linear api '<graphql>'` covers anything without a dedicated command. **the linear mcp is not
+used.** command mechanics live in the `linear-cli` plugin skill; the field contract in `x:pm`.
+
+commit linking is live: the linear push webhook is configured on `dvakatsiienko/dotfiles` and
+`dvakatsiienko/bytes` (verified 2026-08-21), so `ref DOT-N` / `Closes DOT-N` in a commit reaches
+the ticket without a pull request. a new repo needs the webhook added by hand — the toggle in the
+linear github app is only half the setup.
+
+## triage role bridge
+
+the mattpocock skills speak five canonical triage roles. this is how they land in linear:
+
+| role in mattpocock/skills | in linear |
+| --- | --- |
+| `needs-triage` | **Triage** status (inbox) |
+| `needs-info` | Todo + one of the `needs *` family — pick by what the ticket waits on. there is no `needs-info` label in linear |
+| `ready-for-agent` | Todo + `agent` label |
+| `ready-for-human` | Todo + `human` label |
+| `wontfix` | **Canceled** status |
+
+when a skill mentions a role, apply the corresponding status and label via `linear issue update`.

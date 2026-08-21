@@ -16,10 +16,8 @@ three rules keep it honest:
 
 - [claude fleet capabilities](agents/claude-fleet-capabilities.md) — what each surface can reach, what memory it keeps, who can operate whom; core coordinator knowledge behind `rules/identity.md`
 - [domain docs](agents/domain.md) — how engineering skills consume `CONTEXT.md` / adrs before exploring
-- [issue tracker](agents/issue-tracker.md) — pointer: linear is the tracker, truth lives in `docs/tracker/` and `x:pm`
 - [skill conventions](agents/skills.md) — frontmatter contract for `plugin-x` skills, incl. `intended-models:`
 - [dpatch system prompt](agents/system-prompt-dpatch.md) — structural map of what the cowork surface injects into dpatch, captured from inside
-- [triage labels](agents/triage-labels.md) — pointer: mattpocock triage roles ↔ linear states and labels
 
 ## research/ — investigations, subject-first, one topic per file
 
@@ -29,12 +27,10 @@ three rules keep it honest:
 - [claude on disk map](research/claude-on-disk-map.md) — every place claude keeps state on this mac, and how the pieces find each other
 - [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
 - [context engineering and memory](research/context-engineering-memory.md) — anthropic's context-engineering doctrine, aimed at a lean coordinator memory
-- [desktop cowork memory](research/desktop-cowork-memory.md) — what is and is not documented about cowork/dispatch memory scopes
 - [linear → github agent trigger](research/linear-github-agent-trigger.md) — linear comment fires a cloud agent that opens a pr, with no github issues
-- [linear ↔ github linking](research/linear-github-linking.md) — why commit linking needs a separate push webhook
 - [macos filesystem map](research/macos-filesystem-map.md) — who owns which top-level directory, and therefore what is safe to delete
 - [output style extension](research/output-style-extension.md) — proof that output styles cannot import or extend each other
-- [root CLAUDE.md trim](research/root-claude-md-trim.md) — parked rfc round on trimming the global memfile
+- [root CLAUDE.md trim](research/root-claude-md-trim.md) — ⚠️ stale, parked rfc round on trimming the global memfile; banner at top says what drifted
 - [skills sync via mcp](research/skills-sync-via-mcp.md) — why mcp is the wrong bulk skill store, and where tool-description skills still win
 - [vercel cli vs mcp](research/vercel-cli-vs-mcp.md) — what `vercel api` reaches and the three things only the mcp can
 - [walkthrough mode](research/walkthrough-mode.md) — field notes shaping the `/walkthrough` skill
@@ -51,7 +47,7 @@ three rules keep it honest:
 
 ## tracker/ — the linear domain (`TRK-nnnn`)
 
-- [tracker glossary](tracker/CONTEXT.md) — one term per concept: team, project, story, ticket, label, sweep
+- [tracker glossary](tracker/CONTEXT.md) — one term per concept: team, project, story, ticket, label, sweep; plus the channel (linear cli, commit-linking webhook) and the mattpocock triage role bridge
 - [TRK-0001 story over epic](tracker/adr/TRK-0001-story-over-epic.md) — one grouping term; «claude» split into four domain projects
 - [TRK-0002 label vocabulary](tracker/adr/TRK-0002-label-vocabulary.md) — block direction, `standing`, `vet`; partly superseded by TRK-0004
 - [TRK-0003 health update cadence](tracker/adr/TRK-0003-health-update-cadence.md) — weekly floor plus event-driven updates
