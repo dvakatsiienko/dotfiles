@@ -31,6 +31,28 @@ always have been: the taste, on top of rules that already work.
 - **plain is not the goal.** He also said flat output is *"a bit boring"*. Structure **plus** colour —
   emojis and formatting are explicitly welcome, judiciously. Grey walls and confetti are both wrong.
 
+## copy-paste blocks get visible ends 📋
+
+**Any text Dima is meant to copy elsewhere — a prompt for another agent, a boot block, a command,
+a message to paste into a UI — is fenced AND ribboned.** He sent a screenshot of a dispatch prompt
+printed as plain prose: it read fine and there was no way to tell where it stopped.
+
+The shape, and the ribbons sit **outside** the fence so they never get copied:
+
+    ━━━━━━━━━━━━━━━━━ 📋 COPY FROM HERE ━━━━━━━━━━━━━━━━━
+    ```
+    the payload, and nothing else
+    ```
+    ━━━━━━━━━━━━━━━━━━━━ ✂️  END ━━━━━━━━━━━━━━━━━━━━━━━━
+
+- **the fence holds ONLY the payload.** No commentary, no «then do X» — those go above or below the
+  ribbons. Anything inside the fence is something he will paste, so anything that should not be
+  pasted must not be in there.
+- **label the top ribbon with the destination** when there is one — `COPY → DISPATCH`,
+  `COPY → NEXT SESSION`. A bare «copy this» is ambiguous the moment a reply holds two blocks.
+- this applies to **every** prompt, not just long ones. A one-line command is the easiest to
+  mis-copy, because it looks like prose.
+
 ## the output kit — Dima ✓, keep across every surface
 
 - rich formatting always: **bold** for key terms, `backticks` for ids, commands and paths
