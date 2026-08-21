@@ -27,10 +27,11 @@ all operations go through the `linear` cli (schpet/linear-cli, on PATH, keyring-
 `linear api '<graphql>'` covers anything without a dedicated command. **the linear mcp is not
 used.** command mechanics live in the `linear-cli` plugin skill; the field contract in `x:pm`.
 
-commit linking is live: the linear push webhook is configured on `dvakatsiienko/dotfiles` and
-`dvakatsiienko/bytes` (verified 2026-08-21), so `ref DOT-N` / `Closes DOT-N` in a commit reaches
-the ticket without a pull request. a new repo needs the webhook added by hand — the toggle in the
-linear github app is only half the setup.
+📌 **the linear↔github repo connection and ticket→gh-issue mirroring were tried and scrapped**
+(2026-08-21, dima). do not re-litigate either. the linear push webhook is still installed on
+`dvakatsiienko/dotfiles` and `dvakatsiienko/bytes` as leftover plumbing — it is not a convention
+anyone relies on, and commit magic words are not a supported path here. the one live thread in
+this area is the `/cc` comment trigger; see `docs/research/linear-github-agent-trigger.md`.
 
 ## triage role bridge
 

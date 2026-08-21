@@ -27,7 +27,7 @@ three rules keep it honest:
 - [claude on disk map](research/claude-on-disk-map.md) — every place claude keeps state on this mac, and how the pieces find each other
 - [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
 - [context engineering and memory](research/context-engineering-memory.md) — anthropic's context-engineering doctrine, aimed at a lean coordinator memory
-- [linear → github agent trigger](research/linear-github-agent-trigger.md) — linear comment fires a cloud agent that opens a pr, with no github issues
+- [linear → github agent trigger](research/linear-github-agent-trigger.md) — the `/cc` comment trigger fires a cloud agent that opens a pr; 📌 postponed, non-prio, nothing built
 - [macos filesystem map](research/macos-filesystem-map.md) — who owns which top-level directory, and therefore what is safe to delete
 - [output style extension](research/output-style-extension.md) — proof that output styles cannot import or extend each other
 - [root CLAUDE.md trim](research/root-claude-md-trim.md) — ⚠️ stale, parked rfc round on trimming the global memfile; banner at top says what drifted

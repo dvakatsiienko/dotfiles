@@ -2,6 +2,15 @@
 
 Ticket: DOT-61
 
+📌 **status 2026-08-21: postponed, non-priority. review / upgrade / drop — undecided.** the `/cc`
+magic-string trigger below is the one surviving item in this area and nothing has been built.
+
+⚠️ **tried and scrapped, do not re-litigate:** the linear↔github repo connection and
+ticket→gh-issue mirroring were both tested and abandoned. `docs/research/linear-github-linking.md`
+covered the push-webhook setup for them and was deleted with them; its only durable line lives in
+`docs/tracker/CONTEXT.md`. nothing below depends on either approach — the relay design here is
+webhook-to-Actions and never involves a github issue.
+
 Researched 2026-08-15 against primary sources only: Linear's docs + developer reference, GitHub's
 REST/Actions docs, the `anthropics/claude-code-action` repository read through `gh api` (not the
 rendered site), and Cloudflare Workers docs. No blog posts, no Stack Overflow.
