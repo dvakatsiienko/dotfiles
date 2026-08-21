@@ -32,6 +32,11 @@ Problem recorded on DOT-62; no mechanism yet.
 retroactively, not when the commit lands. `linear issue update DOT-N --state "In Progress"`
 (`linear issue start` needs a default team and usually fails here).
 
+📌 **moving a ticket never assigns it.** In Progress says the work is happening; the assignee says
+the ticket is Dima's. never pass `--assignee`, never `--assignee self`. unassigned is the default
+and stays that way until Dima assigns himself — he is the only one who ever sets it. this is
+absolute: no auto-assign, ever, on any surface.
+
 📌 Why this is yours and cannot be automated away: **no magic word reaches In Progress.** Commit
 keywords only reach Done. And the default lane here is commit straight to `main` with no PR, so
 the PR automations that would fire `start → In Progress` never run at all. If you do not move it,
