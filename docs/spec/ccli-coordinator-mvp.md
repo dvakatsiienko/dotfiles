@@ -11,7 +11,7 @@ drafted: 2026-08-21
 ## the change in one line
 
 dpatch stops being a dispatch-desktop brain and becomes a **Claude Code session sitting in
-`~/projects/dpatch`**. dispatch-desktop degrades to a remote window with no memory of its own.
+`~/dpatch`**. dispatch-desktop degrades to a remote window with no memory of its own.
 
 ## why (evidence, not taste)
 
@@ -30,7 +30,7 @@ dpatch stops being a dispatch-desktop brain and becomes a **Claude Code session 
 
 | | **ccli-coord** (this agent) | **ccli-code** (spawned) |
 |---|---|---|
-| sits in | `~/projects/dpatch` | the target project dir |
+| sits in | `~/dpatch` | the target project dir |
 | model | opus (or fable when quota allows) | opus, chosen per task |
 | loads | global CLAUDE.md + dpatch project scope | global CLAUDE.md + that project's scope |
 | memory | coordinator memory: routing, tracker conventions, fleet facts | none of the coordinator's |
@@ -51,7 +51,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
 ~/.claude/CLAUDE.md          shared-by-both only. shrinks hard.
 ~/.claude/rules/*.md         shared always-loaded layers. audited for coder-only content.
 
-~/projects/dpatch/           ccli-coord's home. git-tracked in dotfiles.
+~/dpatch/           ccli-coord's home. git-tracked in dotfiles.
   CLAUDE.md                  coordinator charter. auto-loads ONLY here.
   .claude/
     commands/                coordinator rituals as slash commands
@@ -59,7 +59,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
   memory/                    coordinator memory: MEMORY.md index + leaf files
 ```
 
-ccli-code never cds into `~/projects/dpatch`, so it never sees any of it. No env var, no bleed.
+ccli-code never cds into `~/dpatch`, so it never sees any of it. No env var, no bleed.
 
 ## the delegate-vs-do-it-yourself rule
 
@@ -77,7 +77,7 @@ the project — the same peek that lets it review what ccli-code is doing. Codif
 
 ## mvp scope — what "done" means
 
-1. `~/projects/dpatch/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
+1. `~/dpatch/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
 2. coordinator memory written fresh — **not copied** from dispatch memory. Ported by hand, one
    pass, with the diet plan from `docs/research/context-engineering-memory.md` applied.
 3. global `~/.claude/CLAUDE.md` trimmed to shared-only; coder-specific content pushed down.
@@ -106,9 +106,9 @@ harness is a shim, not a project.
 
 ## open questions for Dima
 
-1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/projects/dpatch/`? obsidian gives
+1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/dpatch/`? obsidian gives
    phone access; the repo gives git history and one-mount simplicity.
-2. `~/projects/dpatch` — new repo, or a directory inside dotfiles symlinked out? Recommendation: a
+2. `~/dpatch` — new repo, or a directory inside dotfiles symlinked out? Recommendation: a
    directory in dotfiles under the mirror rule. Zero new repos.
 3. does dispatch-desktop keep any memory at all, or hard-zero?
 
@@ -117,3 +117,19 @@ harness is a shim, not a project.
 - boot ccli-coord cold, measure resident context. target **under 25k**. record the number.
 - boot ccli-code in `~/projects/bytes` cold, confirm zero coordinator content leaked.
 - run one full loop: ticket, spec, spawn, review, close.
+
+## amendment — the four-layer memfile stack (DOT-195)
+
+The coordinator lives at **`~/dpatch`**, NOT under `~/projects/`. Reason: the layer stack is
+
+```
+~/.claude/CLAUDE.md          shared by both roles. tiny.
+~/projects/CLAUDE.md         ccli-code global — the layer that was missing
+~/projects/<proj>/CLAUDE.md  project specific
+~/dpatch/CLAUDE.md           coordinator only
+```
+
+A coordinator sitting under `~/projects/` would inherit the coder-global, defeating the split.
+
+UNVERIFIED and blocking: that ccli walks up to an arbitrary ancestor such as `~/projects/`. Test
+with a marker line before building on it. Fallback: a symlinked stub per project, or `@import`.
