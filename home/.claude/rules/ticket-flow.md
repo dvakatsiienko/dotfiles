@@ -34,8 +34,10 @@ retroactively, not when the commit lands. `linear issue update DOT-N --state "In
 
 📌 **moving a ticket never assigns it.** In Progress says the work is happening; the assignee says
 the ticket is Dima's. never pass `--assignee`, never `--assignee self`. unassigned is the default
-and stays that way until Dima assigns himself — he is the only one who ever sets it. this is
-absolute: no auto-assign, ever, on any surface.
+and stays that way until Dima assigns himself — he is the only one who ever sets it. absolute on
+every surface, and it applies to **the tracker named above and nothing else**: workspace `x-com`,
+teams `DOT` and `BYT`. an agent working an oss repo, a client tracker, or any board Dima does not
+own follows that project's conventions, not this line.
 
 📌 Why this is yours and cannot be automated away: **no magic word reaches In Progress.** Commit
 keywords only reach Done. And the default lane here is commit straight to `main` with no PR, so
@@ -92,9 +94,10 @@ skill, which loads on every commit. One thing holds even without it: **a closing
 the ticket and assigns it to the commit author**, so name the ticket you are about to close in
 your reply rather than closing it silently.
 
-⚠️ **that assign is the one auto-assign nothing above can stop.** every commit here is authored by
-Dima, so `Closes DOT-N` makes him the assignee of a ticket he never claimed — the exact outcome the
-In Progress rule forbids. Not banned; it is still the cheapest close. Just know the cost and pick
+⚠️ **that assign is the one auto-assign nothing above can stop.** every commit to `dotfiles` and
+`bytes` is authored by Dima, so `Closes DOT-N` makes him the assignee of a ticket he never
+claimed — the exact outcome the In Progress rule forbids. (`DOT`/`BYT` only, like that rule; an
+oss tracker's closing conventions are its own.) Not banned; it is still the cheapest close. Just know the cost and pick
 deliberately: `Closes DOT-N` when the assignee does not matter, or `- ref DOT-N` plus a manual
 `linear issue update DOT-N --state Done` when the ticket should stay unassigned.
 

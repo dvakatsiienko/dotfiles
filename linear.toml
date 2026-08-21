@@ -1,0 +1,6 @@
+# scoped to this repo only — dima's own tracker (x-com, team DOT).
+# no auto-assign, ever: he becomes assignee only when he assigns himself.
+# deliberately NOT in ~/.config/linear/ — a global setting would leak this
+# convention into oss and client workspaces, which own their own rules.
+# the matching rule for agents lives in home/.claude/rules/ticket-flow.md.
+issue_create_assign_self = "never"
