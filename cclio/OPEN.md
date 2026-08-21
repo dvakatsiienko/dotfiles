@@ -3,10 +3,19 @@
 things deliberately not-done. a park that lives only in a chat message is a strand; it lives
 here instead. surfaced by `/cclio-init` step 5.
 
-two sections, never merged: `## queue` is session-scoped work parked by `/cclio-queue` and
-removed when popped. `## parks` below is long-lived — items that outlive many sessions.
+two sections, never merged: `## queue
+
+_(empty — the shelf remix was popped and landed under DOT-4)_
+
+## parks` below is long-lived — items that outlive many sessions.
 
 ## queue
+
+- 🧩 **shelf colocation — the story remix, quick.** the `shelf` PROJECT is dissolved (archived, 8
+  issues moved into `fleet`). what is NOT done is the colocation dima wants: those 8 sit loose in
+  `fleet` instead of under one story. read them, remix into ONE story, parent them to it.
+  [DOT-145](linear://linear.app/issue/DOT-145) is a candidate to join. the 8:
+  DOT-161 · DOT-10 · DOT-9 · DOT-8 · DOT-7 · DOT-6 · DOT-5 · DOT-4
 
 - 🔥 **the obsidian `worklog.md` is 1st priority next session, ahead of new work.** dima unfroze it
   and the inbox was emptied into it. four buckets in order: the linear colocation job (fold under
