@@ -8,7 +8,8 @@ metadata:
   supersedes: skills-update-yourself-no-dnd (dpatch original kept in memory-dispatch)
 ---
 
-A skill asked for → **edit the file**. `plugin-x/skills/<name>/SKILL.md` for the `x:*` family, `cclio/.claude/skills/` for `cclio-*`. Commit it like any other change.
+A skill asked for → **edit the file**. `plugin-x/skills/<name>/SKILL.md` for the `x:*` family, `cclio/.claude/commands/<name>.md` for the
+`cclio-*` family — they are slash **commands**, not skills, and there is no `cclio/.claude/skills/`. Commit it like any other change.
 
 **Why this leaf still exists after the tool changed:** the underlying habit is what Dima flagged as one of the most important — *never hand him a package to install by hand when you can make the change yourself*. Dispatch honoured that with `save_skill`; cclio honours it with an ordinary edit. The tool was the accident, the habit is the rule.
 

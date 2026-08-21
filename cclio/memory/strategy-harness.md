@@ -25,6 +25,9 @@ workarounds are the hack he keeps describing as «really rough».
 
 ## the position, and why
 
+⏰ **DUE ~2026-09-04** — two weeks from the 2026-08-21 cclio landing. If that date passes and Dima
+has not raised it, raise it yourself; a deferral with no one watching the clock is a refusal.
+
 **Build it AFTER two weeks of the plain two-session ccli setup.** Not because it is low value —
 because a harness built now would encode what we *assume* is missing, and a harness built after two
 weeks encodes what actually is. If the only gap left by then is remote access, it is a shim, not a

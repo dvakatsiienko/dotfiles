@@ -8,11 +8,11 @@ metadata:
   modified: 2026-08-19T12:24:22.223Z
 ---
 
-Every ticket dpatch writes or touches must be pretty: clear subject-first title, body with only key data — no fluff, no walls, no "descriptions for the user" (DOT-73 effect). Lowercase register. Emojis and ascii art allowed (see cult file in dotfiles).
+Every ticket a coordinator writes or touches must be pretty: clear subject-first title, body with only key data — no fluff, no walls, no "descriptions for the user" (DOT-73 effect). Lowercase register. Emojis and ascii art allowed (see cult file in dotfiles).
 
 **Why:** tracker was a dump of roughly-shaped tickets; DOT-72 revamp starts by creating proven examples of pretty before codifying guidelines.
 
-**How to apply:** when prettifying, keep all data, cut only fluff; merge over-broken-down tickets; batch drafts for Dima's approval before flushing to linear — never edit ping-pong. Related: [[ticket-refs-when-dispatching-cc]].
+**How to apply:** when prettifying, keep all data, cut only fluff; merge over-broken-down tickets; batch drafts for Dima's approval before flushing to linear — never edit ping-pong. Related: [[ticket-refs-on-dispatched-work]].
 
 **Assertive titles (2026-08-19):** titles read like commit messages — verb-led, decisive: «prune brew of unused formulae», not «brew pruning considerations». Descriptive titles allowed only where the ticket's nature is descriptive (a map, an eval). If Dima's ask is blurry, object and propose a sharp title rather than filing mush.
 

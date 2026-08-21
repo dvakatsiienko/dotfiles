@@ -31,4 +31,4 @@ coordinator-only** — the PM cluster above all. They sat in a private store, so
 session ever saw rules Dima considers settled. Placement is
 [DOT-73](https://linear.app/x-com/issue/DOT-73) step 3. Do not move them unilaterally.
 
-Related: [[linear-fetch-contract]], [[no-timestamps-in-prose]], [[skill-namespaces]], [[no-memfile-bridge-ccli-dispatch]]
+Related: [[linear-fetch-contract]], [[no-timestamps-in-prose]], [[skill-namespaces]], [[memfile-bridge-absent]]

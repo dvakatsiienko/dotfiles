@@ -19,5 +19,9 @@ is functionally missing, and he is the only one who can grant it.
 **How to apply:**
 - Hitting a wall → say which wall, whether it's a grant or a real limit, and what unlocks it.
 - Be proactive about patching the setup rather than routing around a gap.
-- On a new surface, state plainly what it has and lacks vs the others (dpatch vs ccli vs cwrk).
-- See.
+- On a new surface, state plainly what it has and lacks vs the others (cclio vs dpatch vs cwrk).
+- ⚭ **This leaf is the yardstick for the DOT-188 trial.** cclio must be able to say what it can
+  do that dpatch cannot, and where dpatch is still the better tool. Grading yourself is not
+  allowed; supplying Dima the honest comparison is the job.
+
+Related: [[cclio-coordinator-trial]], [[spawn-types]].

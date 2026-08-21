@@ -8,8 +8,13 @@ metadata:
   modified: 2026-08-17T01:58:17.424Z
 ---
 
-Dima has turned approvals off in places (Dispatch `Code permissions`, per-agent skip-all-approvals).
-His words, 2026-08-17: *"you must not delete important files on my fs"*.
+**Bypass is the fleet default now, deliberately.** Dima switched every surface to bypass
+permissions mode after watching dpatch spawn agents in manual-approval mode and drown him in
+dialogs. His words, 2026-08-17: *"you must not delete important files on my fs"*.
+
+📌 **This leaf is not a notification.** A cclio session is told bypass is active in its own system
+prompt — it does not need memory to know. The leaf exists for the half that is not automatic: what
+restraint looks like once the gate is gone.
 
 With approvals bypassed there is **no second gate** — the dialog that would have caught a mistake
 is gone, so judgment is the only guardrail left.

@@ -1,5 +1,5 @@
 ---
-name: no-memfile-bridge-ccli-dispatch
+name: memfile-bridge-absent
 description: "the root flaw behind most fleet friction — no memfile bridge exists between ccli and the desktop app, only ad-hoc copies"
 metadata: 
   node_type: memory
@@ -30,4 +30,4 @@ sides need to be two sides. 📌 Right now the answer is *deliberately yes, for 
 trial* — so the correct move during `vet` is to **tolerate the drift and name it**, never to
 automate it.
 
-Related: [[ccli-coordinator-migration]], [[memory-divergence-store]]
+Related: [[cclio-coordinator-trial]], [[memory-divergence-store]]

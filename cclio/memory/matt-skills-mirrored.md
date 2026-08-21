@@ -14,7 +14,13 @@ Mirrored (14): grilling, grill-me, wait-what, to-questionnaire, writing-for-agen
 
 Skipped (code-execution-bound, ccli's job): tdd, implement, prototype, grill-with-docs, diagnosing-bugs, improve-codebase-architecture, codebase-design, resolving-merge-conflicts, wizard, setup-matt-pocock-skills; skipped handoff (collides with the CST [[handoff-ask-here-or-fresh]] system).
 
-⏰ DRIFT REMINDER (active until a solid sync solution lands, then remove): the ccli plugin auto-updates; this mirror does NOT. It WILL drift — treat mirrored content as possibly stale, check the plugin cache version when fidelity matters. Not critical, just fyi-grade.
+📌 DRIFT NOTE — **not cclio's obligation.** The mirror this guards is the `cwrk` copy, which only
+dpatch and cwrk read. cclio reads matt's skills straight from the plugin cache, so no drift exists
+on this surface. Kept so cclio can name the hazard when it comes up; the ⏰ was dropped because the
+clock is not ours to watch. See [[expect-skill-sync-drift]], which already narrows drift to
+`skills-cw` alone.
+
+The hazard itself: the ccli plugin auto-updates; the mirror does NOT. It WILL drift — treat mirrored content as possibly stale, check the plugin cache version when fidelity matters. Not critical, just fyi-grade.
 
 Opus has initted and filled ADRs for BOTH dotfiles and bytes via matt's flows (domain-modeling/grill-with-docs), and was actively working Linear with matt's skills before this mirror existed. Respect those ADRs; don't re-litigate decided things.
 

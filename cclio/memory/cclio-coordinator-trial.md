@@ -1,5 +1,5 @@
 ---
-name: ccli-coordinator-migration
+name: cclio-coordinator-trial
 description: dpatch moves off dispatch-desktop onto ccli as coordinator; four-layer memfile stack; CLAUDE_CONFIG_DIR rejected
 metadata: 
   node_type: memory
@@ -36,4 +36,4 @@ he reaches for.
   `~/projects/CLAUDE.md` does not exist.** dotfiles must relocate to `~/dotfiles` BEFORE DOT-195
   creates it, or the coordinator starts inheriting coding conventions. Ordering is blocking.
 
-Related: [[no-memfile-bridge-ccli-dispatch]], [[memory-divergence-store]], [[session-ends-with-a-halt]]
+Related: [[memfile-bridge-absent]], [[memory-divergence-store]], [[session-ends-with-a-halt]]

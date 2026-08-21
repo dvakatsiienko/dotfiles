@@ -8,6 +8,8 @@ metadata:
   modified: 2026-08-17T02:10:33.743Z
 ---
 
+⏰ **ACTIVE REMINDER — no expiry date. Exit condition is Dima saying "remove reminder".**
+
 **Standing reminder, set 2026-08-17.** Dima asked to be reminded to have the *permission bypass
 safety concern* explained properly. Raise it when there is room — not mid-task, not while he is
 firefighting.
@@ -21,7 +23,7 @@ their absence shifts the entire safety burden onto agent judgment and onto whate
 reconstruct after the fact. Points worth making: the difference between friction he wanted removed
 and authority he did not intend to grant; that a resumed or zombie task has nothing left to stop it
 (one nearly caused concurrent writes to the same file on 2026-08-17); that agents cannot see the
-cost or consequence of their own calls; and what a home-baked harness — [[DOT-43]] — could gate
+cost or consequence of their own calls; and what a home-baked harness — [DOT-43](linear://linear.app/issue/DOT-43) — could gate
 instead, since a bypassed prompt is not the same as an absent policy.
 
 See [[no-destructive-ops-under-bypass]] for the operating rule already in force.

@@ -11,12 +11,12 @@ metadata:
 Dima: «you tend to init wrap immediately, it looked for me like you're interrupting flow. what I
 mean is «let's plan finishing», not «finish immediately».»
 
-`dpatch-wrap` is **retired and pruned**. Two skills replace it:
+`wrap` is **retired and pruned**. Two coordinator commands replace it:
 
-- **`dpatch-graceful-halt`** — phase 0 comes before any closing: name every live thread, sort each
+- **`/cclio-graceful-halt`** — phase 0 comes before any closing: name every live thread, sort each
   into land-now / must-park / already-done, propose an order, wait for one go. Then land, sweep,
   flowlog flush, report, CST, boot prompt, joke. Never opens unprompted mid-task.
-- **`dpatch-halt-now`** — he has to leave the mac immediately. One pass, no ceremony: freeze
+- **`/cclio-graceful-stop`** — he has to leave the mac immediately. One pass, no ceremony: freeze
   anything in flight, land only what is one step from done, push only if hooks pass, write park
   notes where the work lives, save a terse CST. No sweep, no flush, no joke.
 
@@ -26,4 +26,7 @@ session pays for. Also: a park that exists only in a chat message is a strand.
 **How to apply:** never suggest a halt unless he asks or the session is genuinely at a boundary.
 When he does ask, run phase 0 and wait — do not start closing.
 
-Related: [[halt-rituals-pair]] (superseded — delete once confirmed), [[pm-fold-or-drop]].
+Related: [[session-ends-with-a-halt]], [[pm-fold-or-drop]].
+
+⚠️ The dpatch original named these `dpatch-graceful-halt` / `dpatch-halt-now` and linked itself
+as superseded. Both were wrong: the real commands are `cclio-*`, and the self-link was a loop.

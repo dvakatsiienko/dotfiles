@@ -20,12 +20,13 @@ happening.
 
 The fleet grew surface-first — ccli, cwrk, dpatch, cchrome, ccloud — and each grew its own memory,
 its own skills, its own boot ritual. The bridge between them was never built; hand-made copies stood
-in for it and each copy needed its own maintenance ritual. → [[no-memfile-bridge-ccli-dispatch]]
+in for it and each copy needed its own maintenance ritual. → [[memfile-bridge-absent]]
 
 ## the current move
 
-The coordinator migration to ccli → [[ccli-coordinator-migration]], story DOT-188. It resolves the
-problem by deletion rather than automation: one config root, layered by directory, so no bridge is
+🧪 The coordinator migration to ccli → [[cclio-coordinator-trial]], story DOT-188 — **under
+trial, not concluded.** dpatch stays live as the fallback until Dima calls it. The design resolves
+the problem by deletion rather than automation: one config root, layered by directory, so no bridge is
 needed. The four-layer memfile stack is the mechanism.
 
 Two roles emerge from it and should be kept distinct in all thinking: **ccli-coord** (small flat

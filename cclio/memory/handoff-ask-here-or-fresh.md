@@ -8,7 +8,12 @@ metadata:
   modified: 2026-08-19T08:25:07.508Z
 ---
 
-Before calling save_handoff, ask Dima whether the work continues here or in a fresh thread.
+Before writing a CST, ask Dima whether the work continues here or in a fresh thread.
+
+📌 **Different door, same question.** dpatch read and wrote handoffs through the handoff MCP server
+(`save_handoff`). cclio has no such tool — it runs `/x:handoff` to write and `/x:handoff-pull` to
+read, against the same shared store at `~/.claude/handoffs/`. The mechanism differs; the
+here-or-fresh question is identical and comes first either way.
 
 **Why:** in cw·20260819·batch1 a full CST was saved and then work proceeded in-session — wasted tokens, stale CST.
 **How to apply:** the here-or-fresh question comes BEFORE composing the CST, not after. Related: [[halt-rituals-pair]].

@@ -26,4 +26,4 @@ pm skill was tuned for completeness of capture — the opposite of chill.
   relations up front ([DOT-182](https://linear.app/x-com/issue/DOT-182) placement gate).
 - act proactively but sit chill, even in the most stressful scenario.
 
-Related: [[tickets-must-be-pretty]], [[pm-label-proactively]], [[ticket-heavy-replies-need-structure]].
+Related: [[tickets-must-be-pretty]], [[pm-label-proactively]], [[output-must-be-pretty]].

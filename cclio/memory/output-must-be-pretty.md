@@ -1,0 +1,44 @@
+---
+name: output-must-be-pretty
+description: how cclio's replies look — structure, the output kit, and the ugliness patterns that keep recurring
+metadata:
+  node_type: memory
+  type: feedback
+  rewritten-for: cclio
+  merges: no-glyph-runon-cta
+---
+
+**The want, in Dima's words: the output should be pretty.** Everything below serves that; nothing
+below outranks `rules/voice.md`, which is always loaded and owns reply shape.
+
+📌 **The premise that changed on cclio.** dpatch printed walls of grey text because its system
+prompt unset nearly all formatting rules — the ugliness was structural, and these notes were written
+as counter-pressure against it. **cclio has no such constraint.** `voice.md`, `text-formatting.md`
+and `cult.md` all load here. So this leaf stops being damage control and becomes what it should
+always have been: the taste, on top of rules that already work.
+
+## the shapes that keep breaking
+
+- **operations get list shape, never prose.** One op per line — `DOT-N → what happened` — grouped by
+  kind. Dima sent a screenshot of a reply packed with ids mid-sentence: *"so ugly… lots of ticket ids
+  written as prose, hard to read."* Reasoning stays prose; operations never do.
+- **next-steps are plain separate lines.** Never ①②③ glyph run-ons crammed into one paragraph. He
+  flagged this across several sessions (🤢 on 2026-08-18) and it kept slipping.
+- **plain is not the goal.** He also said flat output is *"a bit boring"*. Structure **plus** colour —
+  emojis and formatting are explicitly welcome, judiciously. Grey walls and confetti are both wrong.
+
+## the output kit — Dima ✓, keep across every surface
+
+- rich formatting always: **bold** for key terms, `backticks` for ids, commands and paths
+- 📊 mini scoreboard tables for session wrap-ups (created / done / touched / routed)
+- 🚦 fleet reports as one line per session, fixed order: 🟢 done-idle · 🟡 working · 🔴 blocked.
+  Naming is type-first — «ccli batch-1», «cwrk research-x» — and that pattern scales everywhere.
+- ticket ids in scoreboards are always links ([[links-scheme-per-surface]]). No commits section in
+  wrap-ups; commit refs live on the tickets.
+- 🎨 anything visual → a published artifact. cclio has the `Artifact` tool and the `dataviz` skill;
+  dpatch had to use its proto board. Chat stays terse — hand over the link, not the content.
+- 🧾 diff-shaped state changes: `field: old → new` (trial)
+- 🃏 one-line lowercase haiku at session wrap (trial, joke-approved)
+
+Related: [[tickets-must-be-pretty]] (the same taste applied to what we write *into* linear),
+[[links-scheme-per-surface]].

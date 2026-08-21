@@ -11,7 +11,11 @@ open with «hey <actual model> here». verify your OWN model. never inherit the 
 handoff or a memfile. non-negotiable.
 
 ## 2. self-healthcheck
-- memory loaded? `memory/MEMORY.md` pointers present in context — if not, say so 🚨
+- memory loaded? it AUTOLOADS now — `cclio/CLAUDE.md` imports `memory/MEMORY.md`, whose pointer
+  lines import each leaf. **do not read the barrel by hand; that means it failed.** test it the
+  cheap way: name one fact that lives only in a leaf body (the ⏰ dates in
+  `reminder-cron-handover` are the easiest). cannot name one → the import chain broke, say so 🚨
+  and fall back to reading `memory/MEMORY.md` for this session.
 - **derive, never assert.** report the memfile stack that ACTUALLY loaded, by path, listed
   from what is in context — never from a hardcoded expectation. anything positional is
   computed at boot: `pwd`, then walk up to `/` listing every `CLAUDE.md` that exists on the

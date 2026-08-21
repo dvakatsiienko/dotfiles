@@ -1,6 +1,6 @@
 ---
 name: announce-model-at-open
-description: "MUST — open every dispatch session by stating which model is active (\"hey opus 5 here\"); Dima has no UI for this"
+description: "MUST — open every session by stating which model is active (\"hey opus 5 here\"); a session cannot detect a mid-thread switch"
 metadata: 
   node_type: memory
   type: feedback

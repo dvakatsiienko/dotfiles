@@ -17,7 +17,7 @@ cclio spawns through the **`Agent` tool**. There is no `start_task` / `start_cod
 
 **Cannot:** spawn a cloud `cc` (only Dima), and cannot see or ping dispatch-spawned sessions — **session blindness is bidirectional**, measured 2026-08-21: dispatch's list of 9 did not contain cclio, and cclio cannot list dispatch's.
 
-**Scheduling:** ccli has built-in `CronCreate`/`CronList`/`CronDelete`, disabled only by three strings in `permissions.deny`. It beats dispatch's, which fires only while the desktop app is open. ⏰ Two dispatch schedules fire 2026-09-01 — settle cron before then.
+**Scheduling:** ccli has built-in `CronCreate`/`CronList`/`CronDelete`, disabled only by three strings in `permissions.deny`. It beats dispatch's, which fires only while the desktop app is open. ⏰ Two dpatch schedules fire 2026-09-01 — the decision has its own leaf now, [[reminder-cron-handover]].
 
 ## preflight, four checks, every spawn
 0. **reuse before spawn** — an idle child is not a finished child; a message revives it with context intact.

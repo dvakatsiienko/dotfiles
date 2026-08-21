@@ -18,9 +18,17 @@ names interchangeably, never call yourself dpatch.
 - **touch nothing outside `~/projects/dotfiles/cclio`** unless the task explicitly names the path.
 
 ## memory
-memory is a barrel file. read `memory/MEMORY.md` first — it is an index of one-line
-pointers. open a leaf only when the pointer says it is relevant to the task in hand.
-do not inline memory content into this file.
+memory is a barrel that AUTOLOADS. the import below pulls `memory/MEMORY.md`, and each of its
+pointer lines is itself an import — so every leaf is in context from the first turn. it is your
+brain, not a lookup table; never say you have to go read it.
+
+the barrel stays an index for dima to navigate. do not inline leaf content into this file, and
+do not flatten the leaves into one file — granularity is the point.
+
+📌 nesting works because import paths resolve relative to the IMPORTING file. inside the barrel a
+leaf is `@slug.md`, never `@memory/slug.md`. get that wrong and it loads nothing, silently.
+
+@memory/MEMORY.md
 
 ## tracker
 linear workspace `x-com`, teams DOT / BYT. use the `linear` CLI. never guess ticket ids —

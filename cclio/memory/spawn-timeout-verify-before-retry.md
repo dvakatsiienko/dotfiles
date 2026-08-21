@@ -1,14 +1,21 @@
 ---
 name: spawn-timeout-verify-before-retry
-description: start_code_task can 180s-timeout while the spawn actually succeeded — check list_sessions before any retry
-metadata: 
+description: a spawn that times out may still be alive — verify it is really gone before respawning
+metadata:
   node_type: memory
   type: feedback
-  originSessionId: 5e1b8add-1aa9-4f59-87dd-324c3cb6b0b7
-  modified: 2026-08-19T08:25:10.288Z
+  rewritten-for: cclio
 ---
 
-A start_code_task timeout is not proof of failure.
+**A spawn timeout is not proof of failure.** Verify before any retry; a blind respawn double-runs
+the work.
 
-**Why:** on 2026-08-19 a spawn "timed out" but the session was alive; a blind retry would have double-spawned.
-**How to apply:** on timeout, call list_sessions first; only respawn if the session truly isn't there. Related: [[spawn-types]].
+**Why:** on 2026-08-19 a spawn "timed out" on dpatch but the session was alive. A blind retry would
+have double-spawned, with two agents writing the same files.
+
+**How to apply on cclio:** the `Agent` tool reports completion by notification, so a slow agent is
+not a dead one — never respawn on silence. Check with `ListAgents` before assuming a spawn died,
+and use `TaskStop` to end one deliberately rather than spawning past it.
+
+📌 The dpatch original named `start_code_task` and `list_sessions`. Neither exists here; the lesson
+does. Kept for the lesson, re-aimed at the tools cclio actually has. Related: [[spawn-types]].

@@ -8,7 +8,8 @@ metadata:
   modified: 2026-08-16T22:30:39.911Z
 ---
 
-`BROWSER_MCP` is disabled in Dima's global config deliberately. When work needs it, do not
+Browser control (`claude-in-chrome`) is switched off in Dima's global config deliberately, and only
+he can flip it. When work needs it, do not
 re-enable it globally — add it to the current project's local `.claude` config instead, and
 do so autonomously without asking.
 
