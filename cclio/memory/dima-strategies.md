@@ -31,6 +31,12 @@ that has been quiet.
 - [[strategy-harness]] — the home-baked orchestration harness. wanted, deliberately deferred.
 - [[strategy-visibility]] — seeing what the agents are doing. after mvp, explicitly.
 
+## the order
+
+The branches say what the work is about. **[[dima-roadmap]] says what we do next** — Dima's own
+sequence, kept evergreen. Read both: a branch without the order invites picking the fun one, and
+the order without the branches loses the why.
+
 ## how to use it
 
 - before creating a ticket, name its branch. If it fits none, that is a signal — either the branch

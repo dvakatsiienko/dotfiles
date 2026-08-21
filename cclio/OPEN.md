@@ -5,7 +5,13 @@ here instead. surfaced by `/cclio-init` step 5.
 
 two sections, never merged: `## queue
 
-_(empty — the shelf remix was popped and landed under DOT-4)_
+- 🔬 **evaluate `basic-memory` properly, then decide DOT-177's shape.** dima's ask: learn
+  [basic-memory](https://github.com/basicmachines-co/basic-memory) rather than home-bake a half-working membank.
+  📌 dpatch already reported it «won't work» and that verdict was folded into
+  [DOT-177](linear://linear.app/issue/DOT-177) — **treat that as a relayed claim, not a finding**
+  ([[research-vs-lived-evidence]]). DOT-177's body already carries requirements extracted from a
+  basic-memory trial, so read the ticket BEFORE the repo. the real question underneath: does the
+  roadmap live in memory leaves, or in a membank?
 
 ## parks` below is long-lived — items that outlive many sessions.
 

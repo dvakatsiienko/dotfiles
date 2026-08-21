@@ -26,6 +26,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 ❗ = a silent failure: something that breaks without telling anyone. read these before trusting the store.
 
 ## dima's strategies — READ BEFORE ANY PM DECISION
+- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. adjust it the same session he changes his mind
 - 🧭 @dima-strategies.md — the branch map. six branches, EQUALLY weighted, none is the main one
 - @strategy-pm.md — a chiller loop, not a fuller board
 - @strategy-fleet.md — one mind, many surfaces; single source of truth
@@ -86,6 +87,9 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - @matt-skills-mirrored.md — 14/25 mirrored 2026-08-19; ⏰ WILL drift (ccli plugin auto-updates, mirror doesn't); THE framework — proactively suggest grilling/domain-modeling/wayfinder at ripe moments; opus-filled ADRs exist in dotfiles+bytes, respect them
 - @expect-skill-sync-drift.md — narrowed: `skills-cw` is the only surface that still drifts; note it, never block on it
 - @domain-modeling-fleet.md — apply to workflow vocab AND linear; multi-domain (repo/tracker/fleet contexts never merged); glossary → CONTEXT.md-shaped file (DOT-73); lazy growth, ADRs sparingly
+
+## channels
+- ⭐ @mcp-earns-its-place-on-desktop.md — 🚫 never say «mcp lost»; cli-first is for surfaces WITH a shell, desktop has none so mcp is its only channel
 
 ## method
 - ⭐ @research-vs-lived-evidence.md — dima's daily observation outranks a report; confirm the design before researching it; never relay a subagent verdict unreviewed
