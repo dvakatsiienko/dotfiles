@@ -83,17 +83,29 @@ languages. So the rules live here once and implementations cite them; if an impl
 section disagree, this section is right and the implementation is a bug.
 
 - **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
-- **Filename**: `<utc-ts>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ` and `<slug>` is
-  kebab-case. Append `-shared` before `.md` when multiple threads are expected to pull it.
+- **Filename**: `<utc-ts>-<audience>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ`, `<audience>`
+  is the agent the CST is written FOR, and `<slug>` is kebab-case. Append `-shared` before `.md` when
+  multiple threads are expected to pull it.
+- **Audience** is one lowercase token: `cclio`, `dpatch`, `cw`, `ccli`, or **`any`** when the CST is
+  written for whoever picks it up next. A session knows its own audience token; `any` matches every
+  reader.
+  - 🚨 **`pull` NEVER ingests a file addressed to another agent.** It reports what it found and whose
+    it is, and stops. Forcing one is possible by naming its slug explicitly — that is the user saying
+    so out loud, which is the whole point.
+  - **Why this exists:** two pending CSTs, one per coordinator, meant the user had to type which file
+    to take every single time or risk a wrong ingest that also deleted the file. The audience was
+    already sitting in the slug and nothing read it. Now bare `pull` is safe.
+  - Legacy files with no audience segment are treated as `any` — the segment is positional, so a
+    two-segment name is simply an old one. No migration.
 - **Membership**: only `*.md` directly in that directory is a handoff. Anything else — a stray
   `.DS_Store`, a subdirectory — is not, and is never counted, swept, or deleted.
 - **Ingest**: the consumer deletes the file on successful ingest, EXCEPT `-shared` files, which are
   left for other pullers.
 - **Sweep**: every frontend deletes files older than **24h** on any handoff operation. History stays
   clean by design — pending files are the exception, not the norm.
-- **Prune**: an explicit prune deletes every pending file including `-shared` ones.
+- **Delete**: an explicit delete removes every pending file including `-shared` ones. It is a deletion, not a trim — no implementation may name it `prune`.
 - **Races are normal, not errors.** The store is shared, so a file can vanish between listing it and
-  reading it — another thread pulled it, another session pruned. An implementation must tolerate
+  reading it — another thread pulled it, another session deleted it. An implementation must tolerate
   that silently and never fail a whole operation over one missing file.
 
 📌 `DOT-10` plans to move this store to `~/.claude/shelf/handoffs/`. That migration touches every
@@ -102,5 +114,15 @@ implementation at once, which makes it the right moment to replace them with a s
 being duplicated. Until then, this section is the owner.
 
 ## Ingest (consumer contract)
+
+🚨 **A CST's claims about LIVE STATE are candidates, not measurements — verify before acting on
+them.** Tickets by query, sessions by pid, files by `ls`. A CST is written at one moment and read at
+another; between those the board moved, the user acted, a process died. Two wrong states shipped in
+one handoff before this rule existed: a ticket described as unblocked that the user had commented on,
+and a coder described as stoppable that was already believed dead and was in fact alive. Cost of the
+check is a few shell calls; cost of skipping it is work done against a fiction.
+
+📌 This applies to S and META only. R and D are the user's words and decisions — those are honoured,
+not re-verified.
 
 Ingest silently — never echo the CST into visible output; confirm in ≤2 lines (thread topic + next step). Run META's first-acts before anything else, in their given order, and carry its queues and compare-anchors into this thread. Persist `C→memory:` lines into the memory system if one exists (else keep them in C when re-handing-off). Honor R and D as if the user said them in this thread. Then proceed exactly as the old thread from S.

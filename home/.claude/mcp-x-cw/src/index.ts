@@ -30,7 +30,7 @@ const SPEC_PATH = join(
 const server = new McpServer({ name: 'x-cw', version: '0.1.0' });
 
 server.registerTool(
-    'save_handoff',
+    'handoff_save',
     {
         description:
             `Persist a CST (Continuation State Transfer) of the current thread to the shared handoff store, ` +
@@ -38,6 +38,12 @@ server.registerTool(
             `FIRST compose the CST from the current thread per the spec below, THEN call this tool with it. ` +
             `Compose it as machine-optimized telegraphic text with light markdown structure, per the compression contract below. The META section is the exception: it is formatted for a human and goes first.\n\n${loadSpec()}`,
         inputSchema: {
+            audience: z
+                .enum(['any', 'cw', 'cclio', 'dpatch', 'ccli'])
+                .optional()
+                .describe(
+                    'Which agent this CST is FOR. Omit (or "any") when it is for whoever picks it up next. Naming one means only that agent pulls it — every other agent leaves it alone instead of ingesting and deleting it by mistake.',
+                ),
             cst: z
                 .string()
                 .describe('The complete CST document composed per the spec'),
@@ -55,7 +61,7 @@ server.registerTool(
         },
         title: 'Save handoff (CST)',
     },
-    async ({ cst, slug, shared }) => {
+    async ({ cst, slug, shared, audience }) => {
         // The description above is baked in when the tool registers, so it cannot
         // report a spec that went missing afterwards. The handler can, and this is
         // the only place cw would ever hear about it.
@@ -64,7 +70,7 @@ server.registerTool(
         mkdirSync(HANDOFF_DIR, { mode: 0o700, recursive: true });
         const file = join(
             HANDOFF_DIR,
-            `${utcTs()}-${sanitizeSlug(slug)}${shared ? '-shared' : ''}.md`,
+            `${utcTs()}-${audience ?? 'any'}-${sanitizeSlug(slug)}${shared ? '-shared' : ''}.md`,
         );
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
@@ -78,17 +84,23 @@ server.registerTool(
 );
 
 server.registerTool(
-    'supersede_handoff',
+    'handoff_supersede',
     {
         description:
             'Save a CST that REPLACES a pending one instead of adding a second: the old file moves to handoffs/superseded/ and the new one takes its place, so a session keeps exactly one live handoff. ' +
-            'Use for a re-handoff of a thread that already saved one — "update my handoff", "replace it", "hand off again". Use save_handoff for a thread\'s first. ' +
-            "Compose the CST exactly as save_handoff's description specifies; the spec lives there and is not repeated here.",
+            'Use for a re-handoff of a thread that already saved one — "update my handoff", "replace it", "hand off again". Use handoff_save for a thread\'s first. ' +
+            "Compose the CST exactly as handoff_save's description specifies; the spec lives there and is not repeated here.",
         inputSchema: {
+            audience: z
+                .enum(['any', 'cw', 'cclio', 'dpatch', 'ccli'])
+                .optional()
+                .describe(
+                    'Which agent this CST is FOR. Omit (or "any") when it is for whoever picks it up next. Naming one means only that agent pulls it — every other agent leaves it alone instead of ingesting and deleting it by mistake.',
+                ),
             cst: z
                 .string()
                 .describe(
-                    "The complete CST document, composed per the spec in save_handoff's description",
+                    "The complete CST document, composed per the spec in handoff_save's description",
                 ),
             shared: z
                 .boolean()
@@ -104,13 +116,13 @@ server.registerTool(
         },
         title: 'Supersede handoff (CST)',
     },
-    async ({ cst, slug, shared }) => {
+    async ({ cst, slug, shared, audience }) => {
         const specMissing = !existsSync(SPEC_PATH);
         sweep();
         const { error, file: old } = pickBySlug(slug, listPending());
         if (!old)
             return text(
-                `${error}\nNothing was superseded. If this thread has no pending handoff yet, use save_handoff instead.`,
+                `${error}\nNothing was superseded. If this thread has no pending handoff yet, use handoff_save instead.`,
             );
 
         const keepShared = shared ?? old.name.endsWith('-shared.md');
@@ -120,7 +132,7 @@ server.registerTool(
         renameSync(old.path, join(SUPERSEDED_DIR, old.name));
         const file = join(
             HANDOFF_DIR,
-            `${utcTs()}-${sanitizeSlug(slug)}${keepShared ? '-shared' : ''}.md`,
+            `${utcTs()}-${audience ?? audienceOf(old.name)}-${sanitizeSlug(slug)}${keepShared ? '-shared' : ''}.md`,
         );
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
@@ -134,12 +146,12 @@ server.registerTool(
 );
 
 server.registerTool(
-    'list_handoffs',
+    'handoff_list',
     {
         description:
             'List the pending CSTs in the shared handoff store — slug, age, size, and tracker run id per entry — WITHOUT ingesting or deleting any of them. ' +
-            'Use when the user asks what handoffs are pending, what is in the store, or whether anything is waiting. ' +
-            "Read-only: no file is consumed and no CST content enters this thread. peek_handoff shows one entry's META; pull_handoff is the one that ingests.",
+            'Use when the user asks what handoffs are pending, what is in the store, or whether anything is waiting. Each row names the agent it is FOR; rows marked NOT ours belong to another agent and must not be pulled. ' +
+            "Read-only: no file is consumed and no CST content enters this thread. handoff_peek shows one entry's META; handoff_pull is the one that ingests.",
         inputSchema: {},
         title: 'List pending handoffs',
     },
@@ -154,6 +166,7 @@ server.registerTool(
             const runId = parseRunId(metaBlock(readOrNull(f.path)));
             return (
                 `- ${slugOf(f.name)}${f.name.endsWith('-shared.md') ? ' (shared)' : ''} — ` +
+                `for ${audienceOf(f.name)}${readableHere(f.name) ? '' : ' (NOT ours — do not pull)'} · ` +
                 `${ageLabel(f.mtimeMs)} old · ${sizeLabel(f.size)} · run ${runId ?? 'unknown'}\n  file: ${f.name}`
             );
         });
@@ -164,11 +177,11 @@ server.registerTool(
 );
 
 server.registerTool(
-    'peek_handoff',
+    'handoff_peek',
     {
         description:
             'Show ONLY the META block — the human-readable head — of one pending CST, picked by slug. Never deletes and never ingests the rest. ' +
-            'Use to check what a handoff is about before committing to it: pull_handoff reads the whole CST and consumes the file, peek does neither. ' +
+            'Use to check what a handoff is about before committing to it: handoff_pull reads the whole CST and consumes the file, peek does neither. ' +
             'Omit the slug when exactly one handoff is pending.',
         inputSchema: {
             slug: z
@@ -187,16 +200,16 @@ server.registerTool(
         const meta = metaBlock(readOrNull(file.path));
         if (meta === null)
             return text(
-                `${file.name} has no META block to peek at — an unusual CST. pull_handoff would still ingest it whole.`,
+                `${file.name} has no META block to peek at — an unusual CST. handoff_pull would still ingest it whole.`,
             );
         return text(
-            `META of ${file.name} (${ageLabel(file.mtimeMs)} old, ${sizeLabel(file.size)}). Not ingested, file untouched — call pull_handoff to actually continue this thread.\n\n${meta}`,
+            `META of ${file.name} (${ageLabel(file.mtimeMs)} old, ${sizeLabel(file.size)}). Not ingested, file untouched — call handoff_pull to actually continue this thread.\n\n${meta}`,
         );
     },
 );
 
 server.registerTool(
-    'pull_handoff',
+    'handoff_pull',
     {
         description:
             'Fetch a pending CST (Continuation State Transfer) from the shared handoff store so this thread continues the thread that produced it (in cw or cc). ' +
@@ -214,21 +227,41 @@ server.registerTool(
     },
     async ({ topic }) => {
         sweep();
-        const pending = listPending();
-        if (pending.length === 0)
+        const all = listPending();
+        if (all.length === 0)
             return text(
                 'Handoff store is clean — nothing pending. The old thread creates one via /handoff (cw) or /x:handoff (cc).',
             );
 
-        const matches = topic
-            ? pending.filter((p) =>
+        // A CST addressed to another agent is never ingested silently: pulling it
+        // would feed this thread the wrong context AND delete the file its real
+        // reader is waiting for. Naming its slug outright still forces it.
+        const pending = all.filter((p) => readableHere(p.name));
+        const forOthers = all.filter((p) => !readableHere(p.name));
+        const forcedByTopic = topic
+            ? forOthers.filter((p) =>
                   p.name.toLowerCase().includes(topic.toLowerCase()),
               )
-            : pending;
+            : [];
+        if (pending.length === 0 && forcedByTopic.length === 0)
+            return text(
+                `Nothing pending for ${READER}. ${forOthers.length} handoff(s) are addressed to another agent and were left untouched:\n${forOthers
+                    .map((f) => `- ${slugOf(f.name)} → ${audienceOf(f.name)}`)
+                    .join(
+                        '\n',
+                    )}\nTell the user rather than ingesting one; they can force it by naming its slug.`,
+            );
+
+        const candidates = [...pending, ...forcedByTopic];
+        const matches = topic
+            ? candidates.filter((p) =>
+                  p.name.toLowerCase().includes(topic.toLowerCase()),
+              )
+            : candidates;
         const [picked, ...rest] = matches;
         if (!picked)
             return text(
-                `No pending handoff matches "${topic}". Pending:\n${describe(pending)}\nAsk the user to point at one.`,
+                `No pending handoff matches "${topic}". Readable here:\n${describe(pending)}\nAsk the user to point at one.`,
             );
         if (rest.length > 0)
             return text(
@@ -245,31 +278,31 @@ server.registerTool(
 );
 
 server.registerTool(
-    'prune_handoffs',
+    'handoff_delete_all',
     {
         description:
-            'Delete ALL pending CST files from the shared handoff store, including -shared ones. Pending handoffs are transient by design; use when the user asks to clear/prune them.',
+            'Delete ALL pending CST files from the shared handoff store, including -shared ones. Pending handoffs are transient by design; use when the user asks to clear/delete them.',
         inputSchema: {},
-        title: 'Prune handoff store',
+        title: 'Delete all handoffs',
     },
     async () => {
         const pending = listPending();
         for (const p of pending) rmSync(p.path);
         return text(
             pending.length === 0
-                ? 'Handoff store already clean.'
-                : `Pruned ${pending.length} handoff(s): ${pending.map((p) => p.name).join(', ')}`,
+                ? 'Handoff store already empty.'
+                : `Deleted ${pending.length} handoff(s): ${pending.map((p) => p.name).join(', ')}`,
         );
     },
 );
 
 server.registerTool(
-    'prune_handoff_one',
+    'handoff_delete',
     {
         description:
             'Delete ONE pending CST from the shared handoff store, picked by slug, leaving the rest alone. ' +
-            'Use when the user wants a specific handoff dropped — stale, wrong thread, no longer needed. prune_handoffs is the one that clears everything. ' +
-            'An explicit delete also removes a -shared file: that suffix means the file survives being pulled, not that it survives being pruned.',
+            'Use when the user wants a specific handoff dropped — stale, wrong thread, no longer needed. handoff_delete_all is the one that clears everything. ' +
+            'An explicit delete also removes a -shared file: that suffix means the file survives being pulled, not that it survives an explicit delete.',
         inputSchema: {
             slug: z
                 .string()
@@ -277,7 +310,7 @@ server.registerTool(
                     'Slug of the handoff to delete, matched against filenames',
                 ),
         },
-        title: 'Prune one handoff',
+        title: 'Delete one handoff',
     },
     async ({ slug }) => {
         const { error, file } = pickBySlug(slug, listPending());
@@ -304,7 +337,7 @@ server.registerPrompt(
     },
     ({ focus }) =>
         promptMessage(
-            `Hand off this thread. FIRST ask the user for the numbers META's compare-anchors need (his /context output, plus anything else the next thread must diff against) — one line, and proceed without them if he declines. Then compose a CST (Continuation State Transfer) covering this ENTIRE thread per the spec in the save_handoff tool description${focus ? `, weighted toward this focus (its TARGET rule): ${focus}` : ''}. Then call save_handoff with the CST and a short kebab-case slug naming the thread's topic. Do not print the CST in your reply — the tool result tells you what to say.`,
+            `Hand off this thread. FIRST ask the user for the numbers META's compare-anchors need (his /context output, plus anything else the next thread must diff against) — one line, and proceed without them if he declines. Then compose a CST (Continuation State Transfer) covering this ENTIRE thread per the spec in the handoff_save tool description${focus ? `, weighted toward this focus (its TARGET rule): ${focus}` : ''}. Then call handoff_save with the CST and a short kebab-case slug naming the thread's topic. Do not print the CST in your reply — the tool result tells you what to say.`,
         ),
 );
 
@@ -321,7 +354,7 @@ server.registerPrompt(
     },
     ({ topic }) =>
         promptMessage(
-            `Call pull_handoff${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), run its META first-acts before anything else, honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
+            `Call handoff_pull${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), run its META first-acts before anything else, honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
         ),
 );
 
@@ -463,8 +496,31 @@ function parseRunId(meta: string | null) {
     return match ? match[1].trim() : null;
 }
 
+const AUDIENCES = ['any', 'cw', 'cclio', 'dpatch', 'ccli'] as const;
+type Audience = (typeof AUDIENCES)[number];
+
+/** Which agent THIS server reads for. The x-cw server is the desktop (`cw`) door. */
+const READER: Audience = 'cw';
+
+/** A legacy two-segment name has no audience token and counts as `any` (CST-SPEC store contract). */
+function audienceOf(name: string): Audience {
+    const match = name.match(/^\d{8}T\d{6}Z-([a-z0-9]+)-/);
+    const token = match?.[1];
+    return token && (AUDIENCES as readonly string[]).includes(token)
+        ? (token as Audience)
+        : 'any';
+}
+
+function readableHere(name: string) {
+    const audience = audienceOf(name);
+    return audience === 'any' || audience === READER;
+}
+
 function slugOf(name: string) {
-    return name.replace(/^\d{8}T\d{6}Z-/, '').replace(/(?:-shared)?\.md$/, '');
+    return name
+        .replace(/^\d{8}T\d{6}Z-/, '')
+        .replace(new RegExp(`^(${AUDIENCES.join('|')})-`), '')
+        .replace(/(?:-shared)?\.md$/, '');
 }
 
 function ageLabel(mtimeMs: number) {

@@ -19,9 +19,20 @@ If the user stated what THIS thread is for (a focus, "continue only the X part")
 ## FILE MODE
 
 1. Sweep first (Cleanup below). List `~/.claude/shelf/handoffs/*.md` by mtime.
-2. Pick: topic keyword → match against filenames/slugs; no keyword → newest. If 2+ files are recent and no keyword disambiguates, list them (filename + age) and ask the user to point — never guess between plausible candidates.
-3. Read the file, ingest per spec. Delete it (`-shared` files: keep). Confirm in ≤2 lines and proceed as the old thread.
-4. Nothing pending → say so in one line; suggest the sender side (`/handoff` in the old thread — `cc` or `cw`).
+2. **Filter by audience BEFORE picking.** The filename is `<utc-ts>-<audience>-<slug>.md` — the
+   audience is who the CST was written FOR. Keep only files whose audience is `any` or **this
+   session's own token** (a `cclio` session takes `cclio`; a plain `ccli` session takes `ccli`); a
+   two-segment legacy name with no audience counts as `any`.
+   - 🚨 **Never ingest a file addressed to another agent.** Pulling one both feeds this thread the
+     wrong context AND deletes the file the other agent was waiting for — two failures from one
+     mistake. Report what is there and whose it is, and stop.
+   - The user can still force one by naming its slug outright. That is them saying so on purpose,
+     which is exactly the case this rule leaves open.
+3. Pick from what survived the filter: topic keyword → match against filenames/slugs; no keyword →
+   newest. If 2+ survivors are recent and no keyword disambiguates, list them (filename + age) and
+   ask the user to point — never guess between plausible candidates.
+4. Read the file, ingest per spec. **Verify its live-state claims before acting on them** (spec: Ingest) — tickets by query, sessions by pid. Delete it (`-shared` files: keep). Confirm in ≤2 lines and proceed as the old thread.
+5. Nothing pending → say so in one line; suggest the sender side (`/handoff` in the old thread — `cc` or `cw`).
 
 ## PEER MODE
 
