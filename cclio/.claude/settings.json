@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "cclio": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/dima/projects/dotfiles/cclio/plugin-cclio"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "cclio@cclio": true
+  }
+}

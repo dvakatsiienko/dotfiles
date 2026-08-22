@@ -1,5 +1,6 @@
 ---
 description: boot ritual for cclio — healthcheck, inbox sweep, freebie sweep, opening board
+disable-model-invocation: true
 ---
 
 # /cclio-init

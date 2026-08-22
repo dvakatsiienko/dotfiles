@@ -15,6 +15,7 @@
       "!home/.claude/keybindings.json",
       "!home/.claude/plugin-x/.claude-plugin",
       "!cclio/plugin-cclio/.claude-plugin",
+      "!cclio/.claude/settings.json",
 
       // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
       // sync, so formatting it just starts a fight. The lua there has its own

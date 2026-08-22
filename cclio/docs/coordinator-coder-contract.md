@@ -167,6 +167,38 @@ or two messages per assignment, which is signal rather than chatter. the coordin
 
 ---
 
+## 5b · sharing a working tree
+
+Two agents in one repo is the normal case here, because parallelism across repos is where the work
+actually splits. It is safe under four rules, all of which were learned by nearly losing work:
+
+1. **Ownership is declared at spawn.** Which paths are the coder's, which are the coordinator's.
+   Anything unclaimed belongs to nobody and is left alone.
+2. **Explicit paths only.** `git add -A` and `git add .` are banned while a peer is live. This is
+   the single vector for a silent sweep.
+3. **`index.lock` means a peer is mid-commit.** Wait and retry; it clears in seconds. Deleting a
+   lock is destructive and never the fix.
+4. 🚨 **Verify the hash after every commit.** `git log -1`. A conflict is loud; the two real
+   failures here are silent — a commit that vanishes under a peer's, and a bare commit that sweeps
+   a peer's staged files. Both happened in one session.
+
+**Escalation ladder, with named triggers, so this is never redesigned — only climbed:**
+
+| rung | shape | climb when |
+| --- | --- | --- |
+| 1 | one agent per repo, rules above | two jobs genuinely need one repo at once |
+| 2 | coordinator is the sole committer | ownership-by-agreement starts slipping |
+| 3 | a worktree per agent | ~5+ agents, or genuinely concurrent edits |
+
+📌 Rung 3 is correct and unloved. Dima dislikes worktrees, and at current scale he is right — they
+buy isolation that is not yet being paid for in collisions. At 64 agents that inverts completely.
+
+⭐ The cheap mechanical upgrade, if rung 1 ever fails: this repo runs **lefthook**, so a `pre-commit`
+hook can refuse any commit whose staged paths fall outside a declared ownership file. That turns an
+agreement into a guard for about fifteen lines, and is removed by deleting one hook entry.
+
+---
+
 ## 6 · closing it
 
 - collect findings from every live spawn **before** halting

@@ -21,9 +21,22 @@ message. Doneness is a **written marker** — a final commit plus a report file 
 archaeology. Subscribe with `notify_when_idle`, never poll. Budget: three round trips; exceeding it
 means the brief was wrong.
 
-⚠️ **Shared working tree.** A coder in the same repo stages into the same tree. **Never `git add -A`
-while a coder is live** — state file ownership up front, stage explicit paths, and leave anything
-modified that is not yours.
+⚠️ **Shared working tree — the standing tactic, deliberately simple.**
+
+**One agent per repo where possible; parallelism goes ACROSS repos, not inside one.** When two do
+share a tree:
+
+- **state file ownership at spawn**, and stage **explicit paths only**. Never `git add -A`, never
+  `git add .`, while any peer is live.
+- **`git status` before staging.** Anything modified that is not yours is left exactly as it is.
+- **index.lock means a peer is committing.** Wait and retry — it clears in seconds. **Never delete
+  a lock.**
+- 🚨 **verify the hash after every commit.** The failure here is not a conflict — conflicts are
+  loud. It is a **silent no-op** (your commit vanishes under theirs) and a **silent sweep** (a bare
+  `git commit` takes their staged files). Both were observed. `git log -1` is the whole check.
+- Upgrade only if this fails: coordinator-as-sole-committer, then worktrees. **Worktrees are the
+  answer at ~5+ agents or genuine concurrent edits, not before** — Dima dislikes them and at this
+  scale they buy isolation nobody is paying for in collisions.
 
 **cclio closes the ticket, the coder never does.** And a coder's report is a candidate, not a
 finding: check its claims before relaying them.
