@@ -11,13 +11,13 @@ whole dotfiles repo to `~/dotfiles`, not moving cclio back out. see `OPEN.md`.
 ## boot
 ```
 cd ~/projects/dotfiles/cclio && claude
-/cclio-init
+/cclio:init
 ```
 
 ## layout
 - `CLAUDE.md` — the coordinator memfile
 - `memory/MEMORY.md` — barrel index; leaves hold content
-- `.claude/commands/cclio-init.md` — the `/cclio-init` boot ritual
+- `.claude/commands/cclio:init.md` — the `/cclio:init` boot ritual
 - `OPEN.md` — parked items · `ROLLBACK.md` — how to undo this
 
 ## reverse

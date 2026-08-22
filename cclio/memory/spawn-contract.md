@@ -47,3 +47,20 @@ finding: check its claims before relaying them.
 
 Related: [[spawn-types]], [[spawn-title-convention]], [[ticket-refs-on-dispatched-work]],
 [[research-vs-lived-evidence]]
+
+**Coder lifetime is a per-case judgment, not a rule — dima's call.** A background session
+**survives a cclio restart** (measured: probe `46cc8bac` outlived a full coordinator halt). So
+halting cclio does NOT oblige halting its coders. Decide on **context preservation**:
+
+- **keep the coder warm across a cclio halt** when its loaded context is expensive and the next
+  assignment is in the same area — a warm session already holds the repo, the ticket and the
+  prior diff, and a respawn pays ~50k to rebuild that.
+- **stop it and respawn** when the next work is unrelated, when its context is polluted by a
+  failed approach, or when it has drifted from the brief. A fresh session is cheaper than
+  arguing with a stale one.
+- **always stop probes.** They exist to answer one question; a probe that outlives its answer is
+  clutter, not a resource.
+
+📌 **stopping is not `TaskStop`.** That tool only reaches subagents *this* session spawned. A
+background session inherited from a previous coordinator is stopped by pid, read from
+`~/.claude/sessions/<pid>.json`. `ListAgents` shows it; it does not stop it.

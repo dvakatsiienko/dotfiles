@@ -13,10 +13,10 @@ mean is «let's plan finishing», not «finish immediately».»
 
 `wrap` is **retired and pruned**. Two coordinator commands replace it:
 
-- **`/cclio-graceful-halt`** — phase 0 comes before any closing: name every live thread, sort each
+- **`/cclio:graceful-halt`** — phase 0 comes before any closing: name every live thread, sort each
   into land-now / must-park / already-done, propose an order, wait for one go. Then land, sweep,
-  flowlog flush, report, CST, boot prompt, joke. Never opens unprompted mid-task.
-- **`/cclio-graceful-halt stop`** — he has to leave the mac immediately. One pass, no ceremony: freeze
+  flawlog flush, report, CST, boot prompt, joke. Never opens unprompted mid-task.
+- **`/cclio:graceful-halt stop`** — he has to leave the mac immediately. One pass, no ceremony: freeze
   anything in flight, land only what is one step from done, push only if hooks pass, write park
   notes where the work lives, save a terse CST. No sweep, no flush, no joke.
 

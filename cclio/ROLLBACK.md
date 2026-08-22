@@ -24,10 +24,13 @@ cclio/
 ├── OPEN.md                          parked items
 ├── memory/
 │   └── MEMORY.md                    empty barrel index, format documented
-├── flowlog/                         per-session flaw logs — cclio's only write target
+├── flawlog/                         per-session flaw logs — cclio's only write target
+├── docs/                            contracts + reports
+├── plugin-cclio/                    the `cclio` plugin — source of the four rituals
+│   ├── .claude-plugin/              marketplace.json + plugin.json
+│   └── commands/                    init · report · flawlog · graceful-halt
 └── .claude/
-    └── commands/
-        └── cclio-init.md            /cclio-init slash command
+    └── settings.json                registers plugin-cclio at project scope
 ```
 
 ## what was touched outside cclio/
@@ -61,4 +64,4 @@ retired; its files were carried across without graft. the shas above are dotfile
 ## what this scaffold does NOT do
 
 it does not switch dima's coordinator over. it is inert until he boots a cli session in
-`~/projects/dotfiles/cclio` and types `/cclio-init`. leaving the dir unused costs nothing.
+`~/projects/dotfiles/cclio` and types `/cclio:init`. leaving the dir unused costs nothing.

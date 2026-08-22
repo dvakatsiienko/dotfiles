@@ -45,7 +45,7 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
 - 📌 **a shortcut past a skill also skips its side effects.** reading a handoff with `cat` instead
   of running `handoff-pull` left it pending and re-offerable — reading is not consuming. when a
   skill owns state, invoking it IS the operation.
-- 📌 **«exhausted» describes a moment, not a standing fact.** a handoff said the obsidian worklog
+- 📌 **«exhausted» describes a moment, not a standing fact.** a handoff said the obsidian flowlog
   was exhausted and it was — but the inbox beside it had a 28k drop written the same day. a status
   inherited from a document is always stale; the check is unconditional.
 

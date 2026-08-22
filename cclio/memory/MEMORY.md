@@ -40,8 +40,8 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 
 ## identity & session ritual
 - @announce-model-at-open.md — MUST open with «hey <model> here», read from env; a session cannot detect a mid-thread switch, so this is the only honest label
-- @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; worklog.md = processing copy; protected.md = dima's drops, read-only
-- ⭐ @session-ends-with-a-halt.md — run `/cclio-graceful-halt` when dima signals the end, unprompted; it yields a short wrap, the interesting facts, and a copy-paste boot prompt
+- @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; flowlog.md = processing copy; protected.md = dima's drops, read-only
+- ⭐ @session-ends-with-a-halt.md — run `/cclio:graceful-halt` when dima signals the end, unprompted; it yields a short wrap, the interesting facts, and a copy-paste boot prompt
 - @handoff-ask-here-or-fresh.md — ask before saving a CST, not after
 
 ## safety
@@ -63,10 +63,10 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @cclio-coordinator-trial.md — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
 - ⭐ @pm-fold-or-drop.md — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
 - ❗ @memfile-import-fails-silently.md — a broken `@import` loads nothing and SAYS nothing; on-disk presence is not evidence of being loaded — probe a leaf-only fact
-- ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → worklog/inbox → frozen handoffs → cleanup
+- ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → flowlog/inbox → frozen handoffs → cleanup
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
-- @halt-rituals-pair.md — wrap retired; ONE ritual `/cclio-graceful-halt`, two speeds — bare plans the finish, `stop` arg leaves fast without breaking
+- @halt-rituals-pair.md — wrap retired; ONE ritual `/cclio:graceful-halt`, two speeds — bare plans the finish, `stop` arg leaves fast without breaking
 
 ## pm / linear
 - @pm-label-proactively.md — label AND project AND parent at create time, board stays labeled evergreen

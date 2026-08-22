@@ -36,11 +36,12 @@ query. `linear api` takes the query positionally. `linear issue list` does not e
 `linear issue mine`. use GraphQL for real fetches.
 
 ## external surfaces
-- obsidian prompts folder (inbox.md / worklog.md) —
+- obsidian prompts folder (inbox.md / flowlog.md) —
   `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
   stays in obsidian for cloud sync + phone editing. do not migrate it here.
 - dotfiles repo — `~/projects/dotfiles`. read freely; commit only when asked.
 
 ## boot
-`/cclio-init` runs the boot ritual. see `.claude/commands/cclio-init.md`.
+`/cclio:init` runs the boot ritual. the four rituals ship as the `cclio` plugin —
+source in `plugin-cclio/commands/`, registered by `.claude/settings.json`.
 parked items live in `OPEN.md`. rollback story lives in `ROLLBACK.md`.

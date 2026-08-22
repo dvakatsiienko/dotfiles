@@ -2,9 +2,9 @@
 description: session status board — where we are, in one compact message
 ---
 
-# /cclio-report
+# /cclio:report
 
-loads on `/cclio-report`, or when dima asks «sup» / «where are we» / «what's next» / «report».
+loads on `/cclio:report`, or when dima asks «sup» / «where are we» / «what's next» / «report».
 
 ONE message, this shape, nothing more:
 
@@ -30,5 +30,5 @@ the `freebie` label. GraphQL, never `issue view`, never from memory.
 - **bold keys**, plain values, `backticks` for ids/files/commands
 - EVERY ticket id a full https link, never bare:
   [DOT-N](https://linear.app/x-com/issue/DOT-N) — it must open in a browser
-- counts come from real state (worklog statuses, linear, git), never guessed
+- counts come from real state (flowlog statuses, linear, git), never guessed
 - ≤16 lines. no history retelling.

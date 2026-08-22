@@ -1,13 +1,13 @@
 ---
-description: flowlog habit — fix the flaw in place first, log only what survives the attempt
+description: flawlog habit — fix the flaw in place first, log only what survives the attempt
 ---
 
-# /cclio-flowlog
+# /cclio:flawlog
 
 **a flaw just happened → try to fix it NOW. log only what survives the attempt.**
 
-loads at boot alongside `/cclio-init`, whenever a mistake/friction/retry just happened, or when
-dima asks «do you keep an eye on flowlog». coordinator-only, on purpose — do not generalise it
+loads at boot alongside `/cclio:init`, whenever a mistake/friction/retry just happened, or when
+dima asks «do you keep an eye on flawlog». coordinator-only, on purpose — do not generalise it
 into an `x:*` skill yet.
 
 ## 1. flag on the spot, same turn
@@ -33,8 +33,8 @@ only what could NOT be closed on the spot:
 - a pattern needing several occurrences before it is even diagnosable
 - environment facts worth carrying but not actionable yet
 
-file: `cclio/flowlog/<YYYY-MM-DD>-<runid>.md`, created on first entry. never dotfiles' own
-`home/.claude/flowlog/` — that is READ-ONLY pre-migration history.
+file: `cclio/flawlog/<YYYY-MM-DD>-<runid>.md`, created on first entry. never dotfiles' own
+`home/.claude/flawlog/` — that is READ-ONLY pre-migration history.
 line shape: `what broke · cost · lesson`. one line, no essay.
 
 also log the GOOD finds — a transferable idea worth keeping. this is system-improvement data in

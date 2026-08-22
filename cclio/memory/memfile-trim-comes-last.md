@@ -19,7 +19,7 @@ settled, that scaffolding has done its job and becomes the clutter DOT-73 descri
 **The sequence before any trim, in his order — do not reorder it:**
 
 1. cclio's own story finishes (the DOT-188 trial reaches a verdict Dima gives).
-2. the postponed obsidian `worklog.md` and `inbox.md` are exhausted — see
+2. the postponed obsidian `flowlog.md` and `inbox.md` are exhausted — see
    [[obsidian-inbox-protocol]]; both are frozen by him today.
 3. frozen handoffs are reviewed, resolved and taken care of.
 4. **then** the memory is freed from clutter.

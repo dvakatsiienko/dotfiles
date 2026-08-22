@@ -11,7 +11,7 @@ metadata:
 Dima's cut, 2026-08-21. The old `dpatch-*` prefix is retired.
 
 - **`x:*`** — useful in ANY ccli session: `x:pm`, `x:cmt`, `x:pre`, `x:queue`, `x:remind`, `x:handoff`.
-- **`cclio-*`** — coordinator-only, and only loadable where cclio sits: `cclio-init`, `cclio-report`, `cclio-graceful-halt` (takes a `stop` arg), `cclio-flowlog`.
+- **`cclio:*`** — coordinator-only, delivered by the `cclio` plugin registered at project scope: `cclio:init`, `cclio:report`, `cclio:graceful-halt` (takes a `stop` arg), `cclio:flawlog`. the old bare `cclio-*` copies are deleted.
 - **Mirrored external frameworks** (matt's) keep their original names, for cross-surface muscle memory.
 
 **Why:** the name IS the namespace — Dima routes by prefix at a glance. The test is not who wrote the skill, it is **where it can run**.

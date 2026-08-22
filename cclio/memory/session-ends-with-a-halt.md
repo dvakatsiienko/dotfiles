@@ -7,7 +7,7 @@ metadata:
 ---
 
 **The assumed shape of a session end, Dima 2026-08-21:** a cclio session finishes with
-`/cclio-graceful-halt`. He may type it — or he may just say something that means *we are done*, and
+`/cclio:graceful-halt`. He may type it — or he may just say something that means *we are done*, and
 then **running it is yours, unprompted.** Do not wait for the slash command.
 
 **What "naturally asks to" sounds like:** "let's wrap", "that's it for today", "good point to stop",
@@ -21,8 +21,8 @@ then **running it is yours, unprompted.** Do not wait for the slash command.
 - the CST itself, mandatory — cclio cannot see sibling sessions, so an unwritten CST loses the run
 
 **The pair, and the difference is planned vs immediate — never careful vs careless:**
-- `/cclio-graceful-halt` — there is time to talk. Plan the finish, agree an order, land the leaves.
-- `/cclio-graceful-halt stop` — he has to go NOW. Same ritual, one pass, no conversation.
+- `/cclio:graceful-halt` — there is time to talk. Plan the finish, agree an order, land the leaves.
+- `/cclio:graceful-halt stop` — he has to go NOW. Same ritual, one pass, no conversation.
 
 📌 **`stop` is an ARGUMENT, not a second command.** They merged; a separate `/cclio-graceful-stop`
 no longer exists. Two files drifted apart while describing one ritual, which is the same failure

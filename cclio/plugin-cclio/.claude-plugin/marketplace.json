@@ -9,7 +9,7 @@
     {
       "name": "cclio",
       "source": "./",
-      "description": "cclio's coordinator rituals — boot, status board, flowlog habit, graceful halt"
+      "description": "cclio's coordinator rituals — boot, status board, flawlog habit, graceful halt"
     }
   ]
 }

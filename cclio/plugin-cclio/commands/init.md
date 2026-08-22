@@ -3,7 +3,7 @@ description: boot ritual for cclio — healthcheck, inbox sweep, freebie sweep, 
 disable-model-invocation: true
 ---
 
-# /cclio-init
+# /cclio:init
 
 run the steps in order, silently where possible. report as ONE opening message at the end.
 
@@ -34,10 +34,10 @@ handoff or a memfile. non-negotiable.
 ## 3. inbox sweep 📬
 prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
 - read `inbox.md` — it is cclio's personal email
-- items found → copy into `worklog.md` with statuses (✅🚧❓⏸️🎫), propose a processing
+- items found → copy into `flowlog.md` with statuses (✅🚧❓⏸️🎫), propose a processing
   order, wipe inbox ONLY after dima approves
 - empty → say «inbox clean»
-- if `inbox.md` / `worklog.md` are marked FROZEN by dima, do not touch them. report frozen
+- if `inbox.md` / `flowlog.md` are marked FROZEN by dima, do not touch them. report frozen
   and move on.
 
 ## 4. freebie sweep 🟩 — standing habit
@@ -142,19 +142,19 @@ one message, short lines:
 - 1-2 proposed next moves — specific, not generic
 
 ## 7. flaw capture 📝 — standing habit
-- open a per-session log at `~/projects/dotfiles/cclio/flowlog/<YYYY-MM-DD>-<runid>.md`
+- open a per-session log at `~/projects/dotfiles/cclio/flawlog/<YYYY-MM-DD>-<runid>.md`
 - log process flaws AS THEY HAPPEN, one line each: what broke, cost, lesson
 - no ticketifying mid-session — too many moves. at halt, one batched analysis over the log,
   ONE decision/flush with dima.
-- when a flaw class repeats, reference past logs. `~/projects/dotfiles/cclio/flowlog/` first; the pre-migration
-  archive at `~/projects/dotfiles/home/.claude/flowlog/` is READ-ONLY history — never write there.
+- when a flaw class repeats, reference past logs. `~/projects/dotfiles/cclio/flawlog/` first; the pre-migration
+  archive at `~/projects/dotfiles/home/.claude/flawlog/` is READ-ONLY history — never write there.
 - cclio has exactly ONE write target: `~/projects/dotfiles/cclio`. never split its memory across two repos.
 
 ## the command family
 - global, work in ANY ccli session: `/pre` (do it now) · `/queue` (park + resurface) ·
   `/remind` (survives sessions) · `/handoff` · `/cmt` · `/x:pm`
-- coordinator-only, this dir: `/cclio-init` · `/cclio-report` · `/cclio-flowlog` ·
-  `/cclio-graceful-halt` — bare = planned finish, `stop` arg = immediate finish
+- coordinator-only, this dir: `/cclio:init` · `/cclio:report` · `/cclio:flawlog` ·
+  `/cclio:graceful-halt` — bare = planned finish, `stop` arg = immediate finish
 - nothing in the global family may assume this home exists.
 
 ## rules

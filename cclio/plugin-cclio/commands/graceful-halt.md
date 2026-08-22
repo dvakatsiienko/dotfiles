@@ -2,13 +2,13 @@
 description: the graceful finish — plan it, land the leaves, close with a CST. add `stop` when dima leaves NOW
 ---
 
-# /cclio-graceful-halt
+# /cclio:graceful-halt
 
 **one ritual, two speeds.** `stop` is an argument, not a sibling command.
 
-- `/cclio-graceful-halt` — dima is finishing up and there is time to talk. plan it, agree an
+- `/cclio:graceful-halt` — dima is finishing up and there is time to talk. plan it, agree an
   order, land what lands, wrap properly.
-- `/cclio-graceful-halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
+- `/cclio:graceful-halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
   conversation, under a minute.
 
 **both are graceful, and `stop` is not the careless one.** it is still a halt: nothing is dropped
@@ -16,7 +16,7 @@ out of your hands, nothing is left half-applied, nothing is forced. it just pref
 safe finish over the best one. never trade safety for speed — a rushed exit leaving a half-written
 file or a half-applied migration costs far more than the minute it saved.
 
-loads on `/cclio-graceful-halt`, `/halt`, `/wrap`, or when dima says to finish the day.
+loads on `/cclio:graceful-halt`, `/halt`, `/wrap`, or when dima says to finish the day.
 `stop` also fires on `/halt stop`, `/bail`, or «i have to go».
 
 📌 **never open the halt plan unprompted mid-task.** if dima has not asked to finish, do not
@@ -34,7 +34,7 @@ skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
    needs a decision → it does not qualify. do not start anything.
 3. **push if commits are clean and hooks pass.** hooks fail → force NOTHING. leave the commits
    local and say so.
-4. **park notes where the work lives** — ticket comment, worklog line, `OPEN.md`. not in chat.
+4. **park notes where the work lives** — ticket comment, flowlog line, `OPEN.md`. not in chat.
    one line each: what state it is in, and the single next action. **this is the part that must
    not be skipped**, because it is the part that pays for itself tomorrow.
 5. **phase 3.5 still runs** — a stale milestone misinforms the next boot, and refreshing it is
@@ -51,7 +51,7 @@ pretty summary instead of park notes.
 **the tell:** «this is quick, i will just finish it» — that thought IS the failure mode. park it
 and go.
 
-📌 a later full halt on the same run **picks up the stop lane's debt** — the sweep and the flowlog
+📌 a later full halt on the same run **picks up the stop lane's debt** — the sweep and the flawlog
 flush it skipped.
 
 ## the full lane — phases below
@@ -69,17 +69,17 @@ only after his go do you proceed. «just halt» → skip to phase 1 and park eve
 ## phase 1 — land the leaves
 execute the «can land now» list. small only — a halt is not the time to start work. bigger than
 it looked → stop, park it, say so.
-each park gets its resume note **where the work lives** (ticket comment, worklog line, `OPEN.md`),
+each park gets its resume note **where the work lives** (ticket comment, flowlog line, `OPEN.md`),
 not in the report. a park that only exists in a chat message is a strand.
 
 ## phase 2 — missed sweep
-re-read the worklog, `OPEN.md`'s `## queue`, and this thread for dropped asks and unanswered
+re-read the flowlog, `OPEN.md`'s `## queue`, and this thread for dropped asks and unanswered
 questions. queued items FIRE now. mid-turn messages from dima are the usual casualty — check
 those specifically.
 
-## phase 3 — flowlog flush
-read the session's flowlog, cluster the catches, ONE batched proposal (memory / rules /
-announcements / tickets / drop), ONE approval, then execute and commit. see `/cclio-flowlog`.
+## phase 3 — flawlog flush
+read the session's flawlog, cluster the catches, ONE batched proposal (memory / rules /
+announcements / tickets / drop), ONE approval, then execute and commit. see `/cclio:flawlog`.
 
 ## phase 3.5 — milestones, before the board
 
@@ -94,7 +94,7 @@ the next session directly. before writing the CST:
 
 
 ## phase 4 — the board
-the `/cclio-report` shape, mutated to fold in whatever the sweep and the park list surfaced.
+the `/cclio:report` shape, mutated to fold in whatever the sweep and the park list surfaced.
 ticket ids as full https links.
 
 ## phase 5 — handoff CST 📬

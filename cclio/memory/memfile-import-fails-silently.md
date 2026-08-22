@@ -24,7 +24,7 @@ sides. It was found only because a probe asked for a leaf-only fact and got noth
 - ❗ **Never claim memory is loaded from the barrel's contents.** Name a fact that lives ONLY in a
   leaf body. `reminder-cron-handover`'s dates are the standard probe. Cannot name one → the chain
   is broken; say so 🚨 and read `memory/MEMORY.md` by hand for that session.
-- `/cclio-init` step 2 carries this check. It is not ceremony; it is the only detector that exists.
+- `/cclio:init` step 2 carries this check. It is not ceremony; it is the only detector that exists.
 - After ANY rename, move, or barrel edit: re-probe. A rename that misses one pointer disconnects
   exactly one leaf, which is the hardest case to notice.
 - Auditing the store on disk (`ls`, counting files, matching pointers to filenames) proves the
