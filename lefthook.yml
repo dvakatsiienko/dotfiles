@@ -28,3 +28,16 @@ pre-push:
       # The engine's own dogfood: if the manifest stops deriving, catch it here
       # rather than on the next machine.
       run: pnpm dotfiles-link
+    linear-revert:
+      # Linear's github integration answers a pushed magic word with TWO writes:
+      # the state move the keyword asked for, and an assignee nobody asked for.
+      # There is no setting for it, so this undoes it afterwards, detached.
+      #
+      # {1} and {2} are git's own pre-push argv — remote name and remote url —
+      # and the url is the guard that keeps this off repos we do not own.
+      # use_stdin hands the command git's ref lines; lefthook gives them to this
+      # command alone, so `mirror` beside it is unaffected.
+      #
+      # It must never fail a push: the script swallows everything and exits 0.
+      use_stdin: true
+      run: node ./script/linear-push-revert.ts hook {1} {2}
