@@ -26,7 +26,7 @@ Requires `yt-dlp`, `jq`, `python3` on `PATH` (all present on this Mac).
 ## The store
 
 ```
-~/.claude/shelf/yt-transcripts/{kebab-slug}-{video_id}/
+~/.claude/shelf/yt-transcripts/{channel}-{title}-{video_id}/
 ├── transcript.txt    # clean readable text — the thing you read
 ├── metadata.json     # url, video_id, title, channel, duration, source
 └── captions.vtt      # the raw download, kept as the audit trail
@@ -36,11 +36,20 @@ Requires `yt-dlp`, `jq`, `python3` on `PATH` (all present on this Mac).
 so **always write metadata.json**, and when you quote a transcript back, name the video and its
 url from that file.
 
-📌 **The trailing `-{video_id}` is the dedupe key and the recall key, not decoration.**
+📌 **The channel leads and the id trails, and both positions carry weight.**
+
+- **Channel first** because the store sorts alphabetically, so every video from one creator lands
+  in one contiguous block. Same reason as the entity-first naming rule everywhere else: the thing
+  that groups goes first.
+- **`-{video_id}` last** because it is the dedupe key and the recall key. Nothing goes after it.
 
 The whole name is lowercase kebab-case with nothing in it that needs shell quoting — a path from
-this store can be pasted anywhere unquoted. The slug is capped at 70 characters, cut at a word
-boundary; the id keeps its original case, because YouTube ids are case-sensitive.
+this store pastes anywhere unquoted. Channel is capped at 24 characters and title at 50, each cut
+at a word boundary, so a long title shortens instead of the name growing. The id keeps its original
+case, because YouTube ids are case-sensitive.
+
+📌 **A video with no channel simply loses that segment** and becomes `{title}-{video_id}`. Still a
+valid, still-dedupable name — better than padding every such directory with the word `unknown`.
 
 ## Three modes
 
@@ -115,7 +124,8 @@ tracks and YouTube answers **429 Too Many Requests**, which then blocks the whol
 
 ```bash
 TITLE=$(jq -r .title "$WORK/meta.json")
-DIR="$SHELF/$(python3 "$SCRIPTS/sanitize_title.py" "$TITLE" "$VID")"
+CHANNEL=$(jq -r '.channel // .uploader // ""' "$WORK/meta.json")
+DIR="$SHELF/$(python3 "$SCRIPTS/sanitize_title.py" "$CHANNEL" "$TITLE" "$VID")"
 mkdir -p "$DIR" && cd "$DIR"
 
 yt-dlp --skip-download --write-subs --write-auto-subs \
