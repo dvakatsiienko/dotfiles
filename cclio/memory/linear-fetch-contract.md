@@ -74,9 +74,16 @@ skipping it because it is Done means walking into the handoff-mcp work blind to 
 paid for. Open/closed says whether work remains; it says nothing about whether the ticket holds
 knowledge. Filter open-vs-closed on **boards and counts**, never on relation reads.
 
-📌 **but Done is not the same as Canceled.** the payload is the closing word, and a canceled or
-archived ticket has none — it was abandoned, not concluded. so: **Done ⇒ read it. Canceled or
-archived ⇒ skip it.** the split is by state *type*, not by "is it open".
+📌 **the test is the CLOSING WORD, not the state.** an earlier version of this rule said «Done ⇒
+read it, Canceled ⇒ skip it», on the theory that a canceled ticket was abandoned and therefore
+holds nothing. that is wrong often enough to matter: a ticket **deliberately dropped after a
+decision** is canceled *and* carries the reasoning for the drop — which is exactly the knowledge
+that stops someone re-proposing it. DOT-12 (pinned handoffs) is the case: canceled, with a closing
+word explaining why pin would fight the store's self-emptying design.
+
+so: **read any closed ticket whose body has a closing-word section, Done or Canceled alike.** skip
+only the genuinely empty ones — canceled with no closing word, and archived. cheap to check, since
+the body comes back with the fetch anyway.
 
 **Setting them, with the same restraint:** the test is *«would this change how I do the other
 one?»* — not «are these topically similar». `blocks`/`blocked by` for real ordering, `related` for
