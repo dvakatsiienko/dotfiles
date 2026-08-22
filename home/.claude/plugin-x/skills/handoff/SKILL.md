@@ -1,7 +1,7 @@
 ---
 name: handoff
-argument-hint: "[focus on] | spawn [focus on] | <session-id|name> [focus on] | prune|clear|delete"
-description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor, "/handoff prune|clear|delete" to wipe the pending store.
+argument-hint: "[focus on] | spawn [focus on] | <session-id|name> [focus on] | list | peek <slug> | delete"
+description: Sender side of session handoff — produce a CST of this thread. Triggers: /handoff (optional focus arg), incoming HANDOFF REQUEST message, "/handoff <session-id|name>" push to a live CC peer, "/handoff spawn" for a background successor, "/handoff list" and "/handoff peek <slug>" to inspect the store read-only, "/handoff delete" (aliases: clear, prune) to wipe it.
 intended-models: fable, opus
 ---
 
@@ -23,7 +23,8 @@ Mode by argument:
 
 - **First token looks like a session id (8-char/UUID/pid) or session name** → Trigger D (push to that peer); remaining words are the FOCUS.
 - **`spawn`** → Trigger C; remaining words are the FOCUS.
-- **`prune` / `clear` / `delete`** → Trigger E (wipe the store). Any of the three, alone or with trailing words. A bare verb like these is never a FOCUS — writing a CST "about pruning" is the wrong read of an obvious intent.
+- **`list`** → Trigger F (show what is pending). **`peek <slug>`** → Trigger G (read one META, consume nothing).
+- **`delete` / `clear` / `prune`** → Trigger E (wipe the store). `delete` is the canonical verb; the other two are accepted aliases only because Dima may type them. Any of the three, alone or with trailing words. A bare verb like these is never a FOCUS — writing a CST "about deleting" is the wrong read of an obvious intent.
 - **Anything else (or empty)** → Trigger B; the argument is a FOCUS.
 
 A FOCUS weights the CST toward it per the spec's TARGET rule. A FOCUS still carries the whole thread. If Dima instead asked for *only* a part of it, that is a SCOPED handoff — restrict the content and set META's `scope` field per spec.
@@ -40,9 +41,19 @@ Produce the CST and write it to the store per spec:
 
 ```bash
 mkdir -p ~/.claude/shelf/handoffs && chmod 700 ~/.claude/shelf/handoffs
-# write ~/.claude/shelf/handoffs/<utc-ts>-<slug>.md, then:
+# write ~/.claude/shelf/handoffs/<utc-ts>-<audience>-<slug>.md, then:
 chmod 600 ~/.claude/shelf/handoffs/<file>
 ```
+
+🚨 **SUPERSEDE, never duplicate.** Before writing, list the store for a pending file whose audience
+and thread match this one. Found → **overwrite that file in place** (same name if the slug still
+fits, otherwise write the new one and delete the old in the same step). A thread that hands off
+twice must leave ONE pending file. Two files from one thread is the duplicate-pending mess the
+audience segment exists to prevent, arriving from the other direction.
+
+`<audience>` is who the CST is FOR — the spec's store contract has the token list. Writing for
+nobody in particular → `any`. Handing to a specific agent → that agent's token, so its bare `pull`
+finds it and every other agent leaves it alone.
 
 Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via `/x:handoff-pull`, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
 
@@ -72,15 +83,35 @@ A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ing
 4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via `/x:handoff-pull`.
 5. Tell the user in one line: CST pushed to `<target ref>` (file + notify). The ACK is informational — don't block on it.
 
-## Trigger E — `/handoff prune|clear|delete` (wipe the pending store)
+## Trigger E — `/handoff delete` (wipe the pending store)
 
 Pending handoffs are transient by design (see CST-SPEC.md — Store); this clears the store outright.
 
-1. List `~/.claude/shelf/handoffs/*.md` (filename + age). Nothing there → say "store already clean", done.
+1. List `~/.claude/shelf/handoffs/*.md` (filename + age). Nothing there → say "store already empty", done.
 2. Delete them all, including `-shared`.
-3. Report in one line: `pruned N handoff(s): <slugs>`.
+3. Report in one line: `deleted N handoff(s): <slugs>`.
 
 No confirmation dance — the user invoked a deliberately destructive verb on disposable files. Do NOT touch anything but `*.md` inside `~/.claude/shelf/handoffs/`. Produce no CST on this path.
+
+## Trigger F — `/handoff list` (what is pending)
+
+Read-only. Nothing is consumed and no CST content enters the thread.
+
+```bash
+ls -lt ~/.claude/shelf/handoffs/*.md 2>/dev/null
+```
+
+Report one line per file: **audience · slug · age · size**, newest first. Mark which ones this
+session may pull (audience `any` or its own) and which belong to another agent. Empty → one line.
+
+## Trigger G — `/handoff peek <slug>` (read one META, consume nothing)
+
+Read-only, and it is the safe way to decide before committing. Match the slug against filenames;
+ambiguous → list the candidates and ask rather than guessing. Print **only the META block** — the
+part written for a human — never the body. The file is not deleted, not moved, not marked.
+
+Say plainly that nothing was ingested and that `/x:handoff-pull` is the verb that actually continues
+the thread.
 
 ## Cleanup (every invocation)
 
