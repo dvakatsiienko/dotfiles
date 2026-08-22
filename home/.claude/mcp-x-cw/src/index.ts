@@ -598,12 +598,13 @@ function completableString(description: string) {
  */
 
 server.registerTool(
-    'transcript_fetch',
+    'yt_transcript_fetch',
     {
         description:
-            'Download the video transcript from a YouTube url and return its text. ' +
-            'Use whenever the user shares a YouTube link and wants what was said in it — summarising a talk, quoting it, answering questions about it, or pulling it into the conversation. ' +
-            'Keeps the transcript on the shelf for later recall. transcript_transit is the same but leaves nothing behind.',
+            'YOUTUBE VIDEOS. Download the spoken words of a YouTube video and return them as text. ' +
+            'Use whenever the user shares a youtube.com or youtu.be link and wants what was said in it — summarising a talk, quoting it, answering questions about it, or pulling it into the conversation. ' +
+            'Prefer this over running yt-dlp yourself: it writes to the shared shelf on the mac, so cc and cw see the same transcripts, and it dedupes against what is already there. ' +
+            'Nothing to do with session handoffs or CSTs. Keeps the transcript for later recall; yt_transcript_transit is the same but leaves nothing behind.',
         inputSchema: {
             url: z.string().describe('The YouTube video url'),
         },
@@ -613,12 +614,12 @@ server.registerTool(
 );
 
 server.registerTool(
-    'transcript_transit',
+    'yt_transcript_transit',
     {
         description:
-            'Download the video transcript from a YouTube url, return its text, and delete the files immediately. ' +
-            'Use for a one-off video the user will not come back to — it keeps the shelf searchable. Safe: captions re-download in seconds, so nothing is lost. ' +
-            'transcript_fetch is the one that keeps the transcript.',
+            'YOUTUBE VIDEOS. Download the spoken words of a YouTube video, return them as text, then delete the files immediately. ' +
+            'Use for a one-off video the user will not come back to — it keeps the store searchable. Safe: captions re-download in seconds, so nothing is lost. ' +
+            'Nothing to do with session handoffs or CSTs. yt_transcript_fetch is the one that keeps the transcript.',
         inputSchema: {
             url: z.string().describe('The YouTube video url'),
         },
@@ -628,11 +629,12 @@ server.registerTool(
 );
 
 server.registerTool(
-    'transcript_recall',
+    'yt_transcript_recall',
     {
         description:
-            'Read a transcript already on the shelf, found by a word from its title, its channel, or its YouTube video id. ' +
-            'Read-only: downloads nothing and deletes nothing. Use when the user refers back to a video already fetched.',
+            'YOUTUBE VIDEOS. Read the words of a YouTube video already downloaded, found by a word from its title, its channel name, or its YouTube video id. ' +
+            'Read-only: downloads nothing and deletes nothing. Use when the user refers back to a video fetched earlier, in this conversation or another one. ' +
+            'Nothing to do with session handoffs or CSTs.',
         inputSchema: {
             query: z
                 .string()
@@ -648,7 +650,7 @@ server.registerTool(
         );
         if (hits.length === 0)
             return text(
-                `Nothing on the shelf matches "${query}". ${transcriptDirs().length} transcript(s) stored; call transcript_list to see them, or transcript_fetch to download a new one.`,
+                `Nothing on the shelf matches "${query}". ${transcriptDirs().length} transcript(s) stored; call yt_transcript_list to see them, or yt_transcript_fetch to download a new one.`,
             );
         if (hits.length > 1)
             return text(
@@ -659,7 +661,7 @@ server.registerTool(
         const body = readOrNull(join(dir, 'transcript.txt'));
         if (body === null)
             return text(
-                `${hits[0]} exists but has no transcript.txt — an incomplete fetch. Re-run transcript_fetch on its url.`,
+                `${hits[0]} exists but has no transcript.txt — an incomplete fetch. Re-run yt_transcript_fetch on its url.`,
             );
         return text(
             `${transcriptHeader(dir, hits[0])}\nRead only — nothing was downloaded or deleted.\n\n${body}`,
@@ -668,11 +670,12 @@ server.registerTool(
 );
 
 server.registerTool(
-    'transcript_list',
+    'yt_transcript_list',
     {
         description:
-            'List the YouTube transcripts already on the shelf — channel, title and size per entry. ' +
-            'Read-only. Use when the user asks what videos have been transcribed, or before fetching one that may already be stored.',
+            'YOUTUBE VIDEOS. List the YouTube videos already downloaded as text — channel, title and size per entry. ' +
+            'Read-only. Use when the user asks which videos have been transcribed, or before fetching one that may already be stored. ' +
+            'Nothing to do with session handoffs or CSTs.',
         inputSchema: {},
         title: 'List stored transcripts',
     },
@@ -680,7 +683,7 @@ server.registerTool(
         const dirs = transcriptDirs();
         if (dirs.length === 0)
             return text(
-                'No transcripts on the shelf yet. transcript_fetch downloads one from a YouTube url.',
+                'No transcripts on the shelf yet. yt_transcript_fetch downloads one from a YouTube url.',
             );
         const rows = dirs.map((name) => {
             const meta = transcriptMeta(join(TRANSCRIPT_DIR, name));

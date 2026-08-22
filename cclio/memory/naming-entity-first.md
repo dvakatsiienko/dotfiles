@@ -43,6 +43,25 @@ it once, delete the others. `entity-first` won because it names the half that le
   contiguous `handoff_*` block is one region of attention instead of seven lookups.
   📌 reasoned, not benchmarked. Say so if it is ever load-bearing.
 - **precedent:** `git remote add`, `git branch delete`, `aws s3 ls`.
+
+🚨 **MEASURED, and it is the strongest evidence this rule has.** Four mcp tools shipped as
+`transcript_fetch` / `transcript_list` / `transcript_recall` / `transcript_transit`. A `cw` thread
+listed all four, then refused to use them:
+
+> «x-cw's `transcript_*` tools wouldn't have helped anyway: those are your session/handoff
+> transcript store (agent-fleet CSTs), not YouTube captions. Different meaning of "transcript".»
+
+📌 **the description said «Download the video transcript from a YouTube url».** It never got that
+far. It decided from the **name** and stopped reading. Renamed to `yt_transcript_*` and the
+ambiguity is gone.
+
+**Two lessons, both load-bearing:**
+
+- **a wrong entity is not recoverable by a good description.** The name is read first and often
+  read alone. This is no longer reasoned — an agent demonstrated it.
+- **the entity must be as specific as the namespace it claims.** Dima's own framing, and it is the
+  better one: *«we may have more things for transcripting»*. `transcript_*` claimed a whole
+  namespace that youtube only occupies a corner of.
 - the only cost is english prose reading less like a sentence, in places nobody reads sentences.
 
 ## what still needs the pass
