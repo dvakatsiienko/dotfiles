@@ -15,7 +15,31 @@ cclio spawns through the **`Agent` tool**. There is no `start_task` / `start_cod
 - **`model`** IS settable per call (ignored for forks, which always inherit). **`effort`** is settable in workflows, not on a plain `Agent` call.
 - **`isolation: "worktree"`** — a real git worktree, for agents that mutate files in parallel. Expensive; only when they would otherwise collide.
 
-**Cannot:** spawn a cloud `cc` (only Dima), and cannot see or ping dispatch-spawned sessions — **session blindness is bidirectional**, measured 2026-08-21: dispatch's list of 9 did not contain cclio, and cclio cannot list dispatch's.
+🚨 **session blindness is OVER — the old claim here is falsified.** it was measured before
+`"remoteControlAtStartup": true` was switched on. with RC on, `ListAgents` shows peers cclio never
+spawned: another interactive session, a dispatch conversation, a cloud session. cclio can message
+them, and messaging a session **Dima** started himself works both ways.
+
+**Still cannot:** spawn a cloud `cc` — only Dima. And ⚠️ **cloud is receive-only**: it accepts a
+message and cannot answer. Its reply lands in its own transcript. cli → cloud delivery is itself
+**unverified** — a send returned success while the cloud reported nothing arrived. Treat cloud as a
+one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
+
+## measured, not read from a schema
+- **`--effort` is HONOURED.** a `--effort medium` probe from a `high` coordinator rendered
+  `Opus 5 with medium effort`. it is the flag, not inheritance.
+- **remote control is inherited from settings** — no flag needed on the spawn.
+- **background sessions survive a coordinator reset** — detached daemon, registered in
+  `~/.claude/sessions/<pid>.json`, re-attachable by name.
+- ⚠️ **`claude --bg <prompt>` does NOT run the prompt.** the session comes up **idle**; deliver the
+  brief afterwards with `SendMessage`, which also lets you attach `notify_when_idle: true`.
+- ⚠️ **a subagent does NOT start in the parent's cwd** — it gets the **git repo root**, and the
+  parent cannot choose. **every path in a brief must be absolute.**
+- ⚠️ **a peer answering in plain prose reaches nobody.** only a `SendMessage` call travels. every
+  brief expecting an answer must say so.
+- ⭐ **`SendMessage` takes `notify_when_idle: true`** — a one-shot completion event, no polling.
+- `ListAgents` and `Workflow` are **absent from subagent toolsets** — only the coordinator surveys
+  the fleet.
 
 **Scheduling:** ccli has built-in `CronCreate`/`CronList`/`CronDelete`, disabled only by three strings in `permissions.deny`. It beats dispatch's, which fires only while the desktop app is open. ⏰ Two dpatch schedules fire 2026-09-01 — the decision has its own leaf now, [[reminder-cron-handover]].
 

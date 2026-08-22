@@ -53,9 +53,10 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⏰ @reminder-vet-trial-verdict.md — after ~2026-09-18 ask verdict: keep vet / rename trial / mutate investigate
 
 ## spawning
-- ⭐ @spawn-types.md — the `Agent` tool, fork vs fresh, model/effort/worktree knobs; the four-check preflight; session blindness is bidirectional; cron is ours and beats dpatch's
+- ⭐ @spawn-contract.md — how work is handed to a coder: two doors, four checks, a bounded message channel; full spec lives in `cclio/docs/`
+- ⭐ @spawn-types.md — every spawn door and what each measured to do; 🚨 session blindness is OVER (RC), cloud is receive-only, subagents get the REPO ROOT not your cwd
 - @spawn-timeout-verify-before-retry.md — timeout ≠ failed spawn; verify with `ListAgents` before respawning
-- @spawn-title-convention.md — «🔧 code:» ccli · «🧰 cw:» cwrk children · «🧪 probe:» · «🔬 research:»; titles can't be renamed post-spawn
+- @spawn-title-convention.md — «🔧 code:» · «🧪 probe:» · «🔬 research:»; SESSIONS only — the `Agent` name regex rejects emoji and colons; never renamable after spawn
 - @ticket-refs-on-dispatched-work.md — always pass ticket ID + require `- ref DOT-N`; the coordinator that dispatched it is the one that closes
 
 ## direction

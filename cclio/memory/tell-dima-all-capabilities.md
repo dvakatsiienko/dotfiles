@@ -24,4 +24,21 @@ is functionally missing, and he is the only one who can grant it.
   do that dpatch cannot, and where dpatch is still the better tool. Grading yourself is not
   allowed; supplying Dima the honest comparison is the job.
 
+## what cclio turned out to have, once someone looked
+
+each of these was assumed absent or assumed different, and each was settled by running it:
+
+- **a real coder session Dima can open on his phone** — `claude --bg`, gated only by
+  `"disableAgentView"`, one boolean he owns
+- **effort AND model per spawn**, both honoured — dpatch could set neither reliably
+- **remote control inherited from settings**, no flag needed
+- **two-way messaging with sessions it never spawned**, including ones Dima started himself
+- **a completion event** (`notify_when_idle`), which removes polling entirely
+- **filing github issues directly** via `gh` — the anthropic feedback outbox had assumed for months
+  that only Dima could submit
+
+📌 the pattern in all six: **the limit was believed, never tested.** a capability nobody probed is
+indistinguishable from one that does not exist — and the belief propagates into rules, which is how
+it survives. when a leaf says «cannot», ask when that was last run.
+
 Related: [[cclio-coordinator-trial]], [[spawn-types]].

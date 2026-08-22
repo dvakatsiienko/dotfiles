@@ -17,3 +17,12 @@ first time. On cclio the spawn is the `Agent` tool's `name`; on dpatch it was `s
 Same convention, different door.
 
 Extension (2026-08-19, after unstandardized «probe: save_skill in child»): the convention covers ALL spawns, not just ccli — cwrk task children: `🧰 cw: <slug>` · quick probes: `🧪 probe: <slug>` · research spawns: `🔬 research: <slug>`. Type-first pretty prefix, always.
+
+🚨 **the convention applies to SESSIONS only.** the `Agent` tool's `name` field rejects it outright —
+its regex bans emoji, colons and spaces, so `🔧 code: foo` is a hard validation error. `claude --bg -n`
+names are free-form and that is where the convention lives. an earlier version of this leaf said it
+covered ALL spawns; it cannot.
+
+📌 **and session names matter more than subagent labels ever did.** Dima peeks at running sessions
+in the desktop Code tab and steers them himself — a name is how he tells one from another. keep
+them clear enough to read at a glance.
