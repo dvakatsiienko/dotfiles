@@ -13,11 +13,6 @@ at the next boot. `- 🧪 **survivability probe `46cc8bac` — «🧪 probe: sur
 
 ## queue
 
-- 🔥 **wipe `inbox.md`, or say what stays.** the 2026-08-22 drop is fully bucketed into
-  `worklog.md` (7 buckets, statuses, the agenda). the inbox itself is **still 28k and unwiped**,
-  because wiping needs dima's word. path:
-  `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/inbox.md`
-
 - ⏰📌 **verify `/cclio:*` in a FRESH session, then delete the four originals.** the plugin is
   registered at project scope (`cclio/.claude/settings.json`), but a plugin only binds at session
   start, so it could not be tested by the session that built it. the originals in

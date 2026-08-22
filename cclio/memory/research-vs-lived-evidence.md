@@ -34,4 +34,19 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
 - Story size is a health metric — flag a parent at ~15 subs and propose a split.
 - Run `dotfiles-link` status at boot, not only when a push hook forces it.
 
+- 📌 **a probe run while a human edits the system is not a controlled experiment.** a research pass
+  claimed a setting never gated a command, because its early probe saw the gate and its later ones
+  did not — Dima had flipped it 40 seconds in. it reconciled its own contradictory observations by
+  **inventing a cause for a failure it had never witnessed.** when two of your own measurements
+  disagree, suspect the environment moved *before* reaching for a story that unifies them.
+- 📌 **a table reads as measured whether or not it is.** a six-row capability table was published
+  from a mix of tool schemas, `--help` output and inference, presented uniformly. one question
+  exposed it. **tag provenance per cell, or do not print the table.**
+- 📌 **a shortcut past a skill also skips its side effects.** reading a handoff with `cat` instead
+  of running `handoff-pull` left it pending and re-offerable — reading is not consuming. when a
+  skill owns state, invoking it IS the operation.
+- 📌 **«exhausted» describes a moment, not a standing fact.** a handoff said the obsidian worklog
+  was exhausted and it was — but the inbox beside it had a 28k drop written the same day. a status
+  inherited from a document is always stale; the check is unconditional.
+
 Related: [[linear-fetch-contract]], [[tell-dima-all-capabilities]].

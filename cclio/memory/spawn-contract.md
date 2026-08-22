@@ -38,6 +38,10 @@ share a tree:
   answer at ~5+ agents or genuine concurrent edits, not before** — Dima dislikes them and at this
   scale they buy isolation nobody is paying for in collisions.
 
+**Before closing a spawn, ask what it is still evidence for.** «finished its work» and «finished
+being useful» are different states — a coder left idle answers questions about session lifetime
+that a stopped one cannot. Closing at halt is right; closing without that question is not.
+
 **cclio closes the ticket, the coder never does.** And a coder's report is a candidate, not a
 finding: check its claims before relaying them.
 
