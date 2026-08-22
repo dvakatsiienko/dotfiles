@@ -182,20 +182,39 @@ the only exception is dima explicitly asking to keep a spawn alive.
 
 **measured:**
 
-- ✅ `--effort` exists on `claude agents`
-- ✅ RC on at startup makes peer sessions visible to `ListAgents`
-- ✅ **isolation holds.** a cold ccli boot in `~/projects/bytes` loads zero cclio memory files
+- ✅ **`--effort` is HONOURED, not merely accepted.** a session spawned with `--effort high`
+  renders `Opus 5 with high effort` in its own header. this was the open question dpatch could
+  never answer about its own spawns.
+- ✅ **remote control is INHERITED from settings.** `"remoteControlAtStartup": true` reaches a
+  spawned session with no `--remote-control` flag passed; the child prints a live `claude.ai/code`
+  url. so dima can open any coder from his phone without the coordinator arranging it.
+- ✅ **subagents do not block the coordinator.** a research subagent ran while this session kept
+  talking to dima.
+- ✅ **peer messaging is two-way between local sessions**, and **inbound messages arrive MID-TURN**,
+  not at a turn boundary. this is why §5 bounds the channel rather than opening it.
+- ⚠️ **cloud sessions are RECEIVE-ONLY.** they accept a message and cannot answer; the reply lands
+  in their own transcript. the fleet-capabilities doc says nobody can *spawn* one — it does not say
+  they cannot be *messaged*, and they can.
+- ⚠️ **`claude --bg <prompt>` creates the session but does NOT run the prompt.** the session comes
+  up idle. the brief must be delivered afterwards with `SendMessage`. a spawn that looks successful
+  and did nothing is exactly the silent-failure shape to watch for — always confirm the child left
+  idle.
+- ✅ **isolation holds.** a cold boot in `~/projects/bytes` loads zero cclio memory files.
 - ⚠️ **but the shared `rules/` layer leaks the coordinator by name.** `identity.md` (~2k) carries
-  the surface table and `dispatch.md` (~2.1k) is entirely about a coordinator a bytes coder will
-  never be. ~4k tokens of coordinator-describing text on every coder boot, in every repo. this is
-  a clean bucketing win for DOT-73, not an isolation failure
+  the surface table and `dispatch.md` (~2.1k) describes a coordinator a bytes coder will never be.
+  ~4k tokens on every coder boot, in every repo. a bucketing win for DOT-73, not an isolation
+  failure.
 
-**assumed, to be proven by the first loop:**
+**still assumed:**
 
-- ❓ door B reconnect across a coordinator session reset
-- ❓ whether dima can attach to a cclio-spawned session and drive it
+- ❓ door B reconnect across a **coordinator** session reset
+- ❓ whether dima can attach to a cclio-spawned session and drive it *while cclio also drives it*
 - ❓ whether cclio can adopt a session **dima** started
-- ❓ whether `--effort` is actually honoured by the dispatched session, or merely accepted
+
+📌 the six-row spawn table this document rests on was first published from a mix of tool schemas,
+`--help` output and inference, presented as if uniformly verified. dima caught it with one
+question. **tag provenance per cell, or do not print the table.** a dedicated research pass is
+under way; its findings land in `cclio/docs/spawn-mechanics-research.md`.
 
 ---
 
