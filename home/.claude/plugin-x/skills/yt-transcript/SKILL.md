@@ -68,15 +68,29 @@ a transit delete can never lose anything.
 
 ## Fetch — the procedure
 
-Set up once per run:
+⚠️ **Shell variables do not survive between tool calls.** Whatever runs the shell here starts a
+fresh process each time, so `URL`, `SHELF`, `WORK` and `DIR` are gone by the next call and a `cd`
+does not carry either. Two consequences, both load-bearing:
+
+- **Repeat this preamble at the top of every batch.** It is cheap and idempotent.
+- **`WORK` is a fixed path, not `mktemp -d`.** A random temp directory cannot be found again from
+  the next call. It is a dotfile inside the store, so it never shows up in an `ls` listing or in a
+  dedupe match.
 
 ```bash
 URL='<the youtube url>'
 SHELF="$HOME/.claude/shelf/yt-transcripts"
 SCRIPTS="$HOME/projects/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts"
-WORK="$(mktemp -d)"
-mkdir -p "$SHELF"
+WORK="$SHELF/.work"
+mkdir -p "$SHELF" "$WORK"
+
+# after step 1 has written meta.json, this line belongs in the preamble too
+VID=$(jq -r .id "$WORK/meta.json")
 ```
+
+📌 **Run the whole download as one batch.** Steps 1–2 end with a decision only you can make (which
+language), so they are one call. Steps 3–5 need no further judgement, so make them the second call
+and keep the whole thing to two round trips.
 
 ### 1. One metadata call — never `--list-subs`
 
@@ -94,7 +108,6 @@ title and channel you need anyway, in one call, in about two seconds.
 ### 2. Dedupe before downloading anything
 
 ```bash
-VID=$(jq -r .id "$WORK/meta.json")
 ls "$SHELF" 2>/dev/null | grep -E -- "-${VID}$"
 ```
 
@@ -125,7 +138,8 @@ tracks and YouTube answers **429 Too Many Requests**, which then blocks the whol
 ```bash
 TITLE=$(jq -r .title "$WORK/meta.json")
 CHANNEL=$(jq -r '.channel // .uploader // ""' "$WORK/meta.json")
-DIR="$SHELF/$(python3 "$SCRIPTS/sanitize_title.py" "$CHANNEL" "$TITLE" "$VID")"
+NAME=$(python3 "$SCRIPTS/sanitize_title.py" "$CHANNEL" "$TITLE" "$VID") || exit 1
+DIR="$SHELF/$NAME"
 mkdir -p "$DIR" && cd "$DIR"
 
 yt-dlp --skip-download --write-subs --write-auto-subs \
@@ -144,6 +158,10 @@ ls captions.*.vtt && mv captions.*.vtt captions.vtt
   captions; auto-only flags fetch nothing and the step fails for no good reason.
 
 yt-dlp appends the language code to the filename (`captions.en-orig.vtt`), hence the rename.
+
+⚠️ **Build the name into `NAME` and bail on failure — never inline it into `DIR`.** If the script
+rejects the id, an inlined `$(...)` still leaves `DIR="$SHELF/"`, and the next two lines then
+download into the root of the store. The `|| exit 1` is what stops that.
 
 ### 5. Clean and record
 
