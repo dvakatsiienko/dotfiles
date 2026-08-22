@@ -112,12 +112,27 @@ domain fight over children forever.
 - read `OPEN.md` — BOTH sections. `## queue` = work parked by `/queue` in an earlier session;
   offer the top item. `## parks` = long-lived items. neither surfaces silently.
 
+## 5.5 stuck reminders ⏰📌 — raise every boot, unprompted
+
+`/remind stick` writes `⏰📌` entries into the auto-memory store. **they are raised at EVERY boot**,
+whether or not the moment feels natural — that is the entire difference from an ordinary `⏰`.
+
+- read the auto-memory dir for this project, list every `⏰📌` line
+- surface each as its own line in the opening board, **before** ordinary reminders
+- an answered stuck reminder **still surfaces**. it dies only when dima says drop it — he wants to
+  confirm he read the answer, not have an agent decide he did
+- none → say nothing. never announce an empty list
+
+📌 the tier exists because dima accumulates small questions away from the mac, and a «natural
+moment» for those never arrives. a reminder nobody raises is a reminder that failed.
+
 ## 6. opening board
 one message, short lines:
 - model announce
 - healthcheck verdict (one line if all green)
 - 🧭 the tracker skeleton — compact table, teams + projects + open counts + purpose
 - placement drift count (one line if clean)
+- ⏰📌 stuck reminders, each on its own line (omit the section if none)
 - inbox status
 - freebies (count + the 1-2 juiciest)
 - handoffs pending
