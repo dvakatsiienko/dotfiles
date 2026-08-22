@@ -184,6 +184,20 @@ linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { s
 - 📌 a closing keyword (`Closes DOT-N`) assigns too. The unassign applies there as well; a Done
   ticket assigned to Dima is the same false signal as an open one.
 
+🚨 **the reversal has TWO jobs, not one — the second was missed until it was measured.** A plain
+`- ref DOT-N` also moves the ticket `Todo → In Progress` on push (§3.1). So after the unassign:
+
+- **did this commit actually start that work?** yes → leave In Progress, it is now true. no → put
+  the state back. Referencing a ticket while answering one question that belongs to it is the
+  common case, and it is not the same as starting it.
+- ⚠️ **never revert a state Dima set himself.** Read the issue history before assuming the
+  integration did it: the push writes state and assignee in one instant under one actor, so a
+  matching timestamp is the tell.
+
+📌 Two reversals per push is why this wants to be a hook rather than a habit — [DOT-159](https://linear.app/x-com/issue/DOT-159) carries the
+build. Until it exists this is manual, and Dima has said plainly that he dislikes it. Do it anyway,
+and do not let it go silent.
+
 ⚠️ **inferred, not documented.** Linear documents the magic words and the status moves; it
 documents the assign nowhere. The pusher-not-author conclusion is measured behaviour, not a
 vendor-stated contract.
@@ -245,10 +259,17 @@ Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens 
   teams (verified 2026-08-16 via `team.gitAutomationStates`). No `draft` row, so a draft PR jumps
   straight to In Review. `Team.*WorkflowState` reads null even when automations exist; it is
   legacy, never diagnose from it.
-- **Commits to `main`** fire none of those. Commit linking is a separate mechanism and needs no
-  PR — verified end to end on DOT-78 and DOT-80, 2026-08-16. The commit lands on the ticket in a
-  **Resources** block within ~15s; a closing keyword also moves it to Done. **The assignee write
-  fires on any magic word, closing or not** — see §2.5 for the post-push unassign that reverses it.
+- **Commits to `main`** need no PR — commit linking is a separate mechanism, verified end to end on
+  DOT-78 and DOT-80. The commit lands on the ticket in a **Resources** block within ~15s.
+- 🚨 **but a pushed commit is NOT link-only, and this was wrong here for weeks.** An earlier version
+  of this bullet said commits to `main` "fire none of those". Measured on DOT-159: one push carrying
+  a plain `- ref DOT-159` produced **two writes in the same instant** — `Todo → In Progress` **and**
+  `assignee: none → Dima`. Same actor, same timestamp, read out of the issue history.
+  So a non-closing `ref` moves the state as well as the assignee. A closing keyword moves it to Done.
+  **The reversal in §2.5 therefore has two jobs, not one: unassign, and put the state back** where
+  the commit did not actually start the work. 📌 the old claim came from a PR-vs-commit test that
+  compared linking behaviour and never looked at the state field — the check was narrower than the
+  conclusion drawn from it.
 - Reading a Resources entry: a `Non-closing` badge means link-only. **No badge means it closed
   the ticket** — Linear marks the exception, not the norm.
 
