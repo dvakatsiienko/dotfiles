@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-import sys, re
+import sys, re, html
 TIMESTAMP_LINE = re.compile(r"^\s*\d{2}:\d{2}:\d{2}[.,]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[.,]\d{3}")
 INLINE_TAG = re.compile(r"<[^>]+>")
 CUE_NUMBER = re.compile(r"^\d+$")
 def clean_line(line):
-    return INLINE_TAG.sub('', line).strip()
+    stripped = INLINE_TAG.sub('', line)
+    return html.unescape(stripped).replace('\xa0', ' ').strip()
 def main():
     src, dst = sys.argv[1], sys.argv[2]
     with open(src, 'r', encoding='utf-8', errors='replace') as f:
