@@ -26,7 +26,8 @@ handoff or a memfile. non-negotiable.
 - say plainly which layers you could NOT account for, rather than claiming a clean stack.
 - `ls -l ~/.claude/settings.json` — a REAL FILE where the symlink belongs is silent
   divergence from dotfiles. flag it.
-- `linear whoami` (or a cheap GraphQL ping) — tracker reachable?
+- tracker reachable? `linear api 'query { viewer { name } }'`. 📌 **there is no `linear whoami`** —
+  the cli prints usage and exits 1.
 - any check fails → report the failure FIRST, before any work.
 
 ## 3. inbox sweep 📬
