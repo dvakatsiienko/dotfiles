@@ -205,3 +205,11 @@ one line per flaw: what broke, cost, lesson.
   after every commit** — the summary line is not the outcome. the fix was a biome exclusion for
   the shelf as a class, which the config's own comment had already predicted for exactly this
   failure shape.
+
+- **linear rewrites markdown on save, so a round-trip string replace silently misses.** sent
+  `~~source-agnostic ~~` + `**bold**` around backticks; linear stored a re-normalised form
+  (`~~source-agnostic ~~`~~transcript~~`` and `**write ... header into**` with the code span
+  outside the bold). two exact-match replacements reported success while changing nothing — the
+  script had no assert, so it wrote the body back unchanged and printed ✓. cost: one silent no-op
+  round. lesson: **never exact-match against text you sent to linear — match what it stored**, or
+  replace by line/bounds. and a rewrite script must assert the match, not trust it.

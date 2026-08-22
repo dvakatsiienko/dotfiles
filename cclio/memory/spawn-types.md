@@ -29,6 +29,10 @@ one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
 - **`--effort` is HONOURED.** a `--effort medium` probe from a `high` coordinator rendered
   `Opus 5 with medium effort`. it is the flag, not inheritance.
 - **remote control is inherited from settings** — no flag needed on the spawn.
+- 🚨 **remote control has ONE owner per session, and the loser prints code 4090** («another
+  connection took over»). Dima's rule, adopted: **start in the terminal, and treat the desktop code
+  tab as join-only** — never enable RC from both. 📌 why terminal→tab worked and tab→terminal did
+  not is unexplained; the handover direction was never tested, so do not assert a cause.
 - **background sessions survive a coordinator reset** — detached daemon, registered in
   `~/.claude/sessions/<pid>.json`, re-attachable by name.
 - ⚠️ **`claude --bg <prompt>` does NOT run the prompt.** the session comes up **idle**; deliver the

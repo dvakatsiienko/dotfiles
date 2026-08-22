@@ -6,7 +6,7 @@ ticket: DOT-73
 
 # memory authoring — where a fact goes, decided BEFORE it is written
 
-sibling to `skill-authoring.md`: that one is how to write a skill, this one is where anything
+sibling to `authoring-skill.md`: that one is how to write a skill, this one is where anything
 written belongs. the sanitization pass in [DOT-73] exists because facts were written wherever the agent happened to
 be standing. this file exists so the next one is not needed: **placement is decided before the
 write, not repaired after it.**

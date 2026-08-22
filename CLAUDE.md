@@ -222,8 +222,8 @@ Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-in
 
 ### Authoring guides — skills and memory
 
-The reference pair — the reference pair: `docs/agents/skill-authoring.md` (frontmatter, invocation
-control, the listing budget) and `docs/agents/memory-authoring.md` (where a fact goes, decided
+The reference pair: `docs/agents/authoring-skill.md` (frontmatter, invocation
+control, the listing budget) and `docs/agents/authoring-memory.md` (where a fact goes, decided
 before it is written).
 
 ### Domain docs

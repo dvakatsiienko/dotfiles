@@ -21,3 +21,18 @@ fall behind whenever a `plugin-x` skill changes. DOT-77 owns the sync; the matt 
 mirror does not.
 
 **How to apply:** note the drift, do not alarm, do not file it as a bug. Never block on it.
+
+📌 **`save_skill` is dpatch's tool, not a fleet capability — do not read repo docs as if it were.**
+`docs/research/skills-sync-via-mcp.md` and dpatch's own memory say `save_skill` «replaces the manual
+zip drag», and that is true **on dpatch**. cclio has no such tool; neither does a plain ccli session.
+So on this surface the zip path is still the only channel to `cw`, and a doc written from dpatch's
+viewpoint will read like the problem is solved when it is not.
+
+⚠️ **The desktop skill store is a MANAGED CACHE, so writing files cannot automate the upload.**
+Located at
+`~/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/<uuid>/<uuid>/skills/`,
+manifest `{"name": "anthropic-skills", "description": "Anthropic-managed skills for Claude Desktop"}`.
+It is uuid-keyed per install and its mtime moves when the app runs — so it is materialised from the
+account side, not the source of truth. 📌 that «regenerated» read is **inferred from the mtime and
+the manifest name**, not from an overwrite test. Dima drags and drops by hand until an account-side
+channel exists.
