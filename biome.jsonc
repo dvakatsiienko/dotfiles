@@ -9,13 +9,17 @@
 
       // Not ours to format — editor/app config consumed verbatim, and themes
       // whose diffs would be pure noise.
+      //
+      // The Claude Code entries are a CLASS, not a list: anything under a
+      // `.claude/` or `.claude-plugin/` directory is written by the CLI itself
+      // (plugin install, skill overrides, runtime settings). Formatting one
+      // starts a churn loop between two owners, and the loser is the pre-commit
+      // hook, which fails without printing an error. Globbed rather than
+      // enumerated so the next such file needs no edit here.
       "!**/import",
       "!home/.claude/themes",
-      "!home/.claude/settings.json",
-      "!home/.claude/keybindings.json",
-      "!home/.claude/plugin-x/.claude-plugin",
-      "!cclio/plugin-cclio/.claude-plugin",
-      "!cclio/.claude/settings.json",
+      "!**/.claude/*.json",
+      "!**/.claude-plugin",
 
       // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
       // sync, so formatting it just starts a fight. The lua there has its own
