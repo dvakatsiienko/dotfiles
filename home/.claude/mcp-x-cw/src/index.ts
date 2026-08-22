@@ -25,7 +25,7 @@ const SPEC_PATH = join(
     'plugin-x',
     'CST-SPEC.md',
 );
-const server = new McpServer({ name: 'handoff', version: '0.1.0' });
+const server = new McpServer({ name: 'x-cw', version: '0.1.0' });
 
 server.registerTool(
     'save_handoff',

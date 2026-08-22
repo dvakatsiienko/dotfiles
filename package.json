@@ -17,7 +17,7 @@
         "test:watch": "vitest",
         "sline:build": "cd ./home/.claude/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
         "sline:test": "cd ./home/.claude/sline && go test ./...",
-        "mcp:build": "pnpm --filter mcp-handoff-cw build",
+        "mcp:build": "pnpm --filter mcp-x-cw build",
         "prepare": "lefthook install"
     },
     "dependencies": {

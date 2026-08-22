@@ -103,7 +103,7 @@ A session's inbound message endpoint at `/tmp/cc-socks/<pid>.sock`.
 The machine-optimized context package one thread produces so another thread — in any handoff frontend — can continue it. Defined once in `CST-SPEC.md`.
 
 **Handoff frontend**:
-A surface that can produce or ingest CSTs — the `cc` `handoff*` skills, or `cw` via the `handoff` MCP server.
+A surface that can produce or ingest CSTs — the `cc` `handoff*` skills, or `cw` via the `x-cw` MCP server.
 _Avoid_: naming one frontend when the statement holds for all
 
 **Handoff store**:

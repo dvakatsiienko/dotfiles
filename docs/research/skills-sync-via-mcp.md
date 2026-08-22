@@ -1,4 +1,4 @@
-# Skills sync via MCP — can mcp-handoff-cw serve skills to all surfaces?
+# Skills sync via MCP — can mcp-x-cw serve skills to all surfaces?
 
 Ticket: DOT-165
 
@@ -6,7 +6,7 @@ Researched 2026-08-19 (sonnet subagent; docs.claude.com / code.claude.com + repo
 
 ## Verdict: NO as a sync mechanism — though MCP tool descriptions DO behave skill-like on cowork.
 
-Correction (2026-08-19, Dima's counter-evidence): the handoff MCP proves cowork does NOT ignore mcp-as-skills — its tool descriptions are always-loaded context pointers that fire on the plain keyword «handoff», exactly like a model-invoked skill description (see `mcp-handoff-cw/src/index.ts`: rich per-tool descriptions + MCP prompts wrapping the UX contract). What kills MCP as THE sync channel is scale, not mechanism: every skill served this way = one more permanently-loaded tool description (context cost grows linearly with skill count, vs skills that page in on demand), ccli natively prefers files (autonomous skills, zero extra server), and mobile still has no MCP. Tool-description skills stay the right pattern for tool-shaped workflows (handoff); wrong as a bulk skill store.
+Correction (2026-08-19, Dima's counter-evidence): the handoff MCP proves cowork does NOT ignore mcp-as-skills — its tool descriptions are always-loaded context pointers that fire on the plain keyword «handoff», exactly like a model-invoked skill description (see `mcp-x-cw/src/index.ts`: rich per-tool descriptions + MCP prompts wrapping the UX contract). What kills MCP as THE sync channel is scale, not mechanism: every skill served this way = one more permanently-loaded tool description (context cost grows linearly with skill count, vs skills that page in on demand), ccli natively prefers files (autonomous skills, zero extra server), and mobile still has no MCP. Tool-description skills stay the right pattern for tool-shaped workflows (handoff); wrong as a bulk skill store.
 
 ## Mechanism check
 
@@ -27,7 +27,7 @@ The solid sync path is the file/account-based one (DOT-168): plugin-x files as s
 ## Sources
 
 - https://code.claude.com/docs — skills loading locations, "Skills in Cowork and cloud sessions", MCP prompts as slash commands
-- repo: home/.claude/mcp-handoff-cw/, home/.claude/plugin-x/, script/skills-sync-cw.ts
+- repo: home/.claude/mcp-x-cw/, home/.claude/plugin-x/, script/skills-sync-cw.ts
 
 ---
 
@@ -65,7 +65,8 @@ description trigger, deterministic.** Nothing MCP offers reaches skill parity on
   Externally validated, not merely convenient.
 - **The rebrand is void.** `mcp-handoff-cw` was to be renamed (candidate `mcp-skills-cw`) because it
   would grow into a skill server. It will not. It stays handoff-shaped; the only rename still owed is
-  the `x-` prefix sweep already scoped in DOT-11 (→ `x:handoff`).
+  the `x-` prefix sweep already scoped in DOT-11 (→ `x:handoff`). That sweep landed 2026-08-22: the
+  directory is `mcp-x-cw` and the server name is `x-cw`.
 - Nuance preserved from round 1: **tool descriptions do behave skill-like** and remain the right
   choice for tool-shaped workflows such as handoff. The finding is about bulk skill storage, not
   about the mechanism being fake.

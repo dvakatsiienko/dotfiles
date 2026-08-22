@@ -1,5 +1,5 @@
 packages:
-  - home/.claude/mcp-handoff-cw
+  - home/.claude/mcp-x-cw
 
 allowBuilds:
   lefthook: true
