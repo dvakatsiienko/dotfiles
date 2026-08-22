@@ -170,7 +170,7 @@
       }
     ]
   },
-  "disableAgentView": true,
+  "disableAgentView": false,
   "enableWorkflows": true,
   "statusLine": {
     "type": "command",
@@ -214,7 +214,7 @@
   "outputStyle": "output-fun",
   "spinnerTipsEnabled": false,
   "alwaysThinkingEnabled": true,
-  "effortLevel": "low",
+  "effortLevel": "high",
   "fastModePerSessionOptIn": true,
   "tui": "fullscreen",
   "voice": {
@@ -227,6 +227,7 @@
   "editorMode": "vim",
   "verbose": false,
   "preferredNotifChannel": "notifications_disabled",
+  "remoteControlAtStartup": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
   "autoMode": {
@@ -261,6 +262,5 @@
       "routine under ~/projects/dotfiles/ prefix: dotfiles-link, macos-setup, skills-sync-cw, pnpm test/typecheck/check scripts"
     ]
   },
-  "voiceEnabled": true,
-  "remoteControlAtStartup": true
+  "voiceEnabled": true
 }
