@@ -213,3 +213,28 @@ one line per flaw: what broke, cost, lesson.
   script had no assert, so it wrote the body back unchanged and printed ✓. cost: one silent no-op
   round. lesson: **never exact-match against text you sent to linear — match what it stored**, or
   replace by line/bounds. and a rewrite script must assert the match, not trust it.
+
+- 🚨 **told dima "no stop verb exists" — it does: `claude stop <id>`.** i searched `claude agents
+  --help`, found no stop, and reported the capability as absent. the verb lives on `claude` itself,
+  and the spawn output prints it unprompted: `claude stop 11510c80 — stop this session`. cost: a
+  wrong capability claim, plus two pid-kill attempts that fought the daemon's respawn for no reason.
+  lesson: **`<cmd> --help` for ONE subcommand is not a search of the cli.** check the parent
+  command's help too, and read the tool's own output — the answer was printed on screen the moment
+  a session was created. this is the exact shape `tell-dima-all-capabilities` warns about: a limit
+  that was believed, never tested.
+
+- **my survey brief tracked ONE of the three names through the docs.** the rename had three names
+  (directory, protocol server name, tools). the inventory i handed the coder chased the *directory*
+  everywhere but only spot-checked the *server name* — so three live sites were missing, including
+  `CONTEXT.md:106`, the repo glossary. the coder found them and said so. cost: none, because it
+  checked; would have been silent staleness in the glossary otherwise. lesson: **when a thing has
+  several names, the survey question is per-name.** «where does X appear» asked once answers about
+  whichever name you had in mind.
+
+- **`git add` with one dead path stages NOTHING, silently.** the coder's first add bundled a live
+  path with the now-renamed `home/.claude/mcp-handoff-cw`; git failed the whole pathspec and left
+  the index empty, so two real code edits were simply not staged. caught only by
+  `git status --short`. lesson: this is the third distinct way a commit can silently not contain
+  what you think today — vanishing under a peer, sweeping a peer's files, and now a failed pathspec
+  discarding the whole add. **`git diff --cached --name-status` before every commit** is the single
+  check that catches all three.
