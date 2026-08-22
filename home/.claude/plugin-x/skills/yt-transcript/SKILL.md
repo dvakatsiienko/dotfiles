@@ -80,7 +80,7 @@ does not carry either. Two consequences, both load-bearing:
 ```bash
 URL='<the youtube url>'
 SHELF="$HOME/.claude/shelf/yt-transcripts"
-SCRIPTS="$HOME/projects/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts"
+SCRIPTS="$HOME/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts"
 WORK="$SHELF/.work"
 mkdir -p "$SHELF" "$WORK"
 

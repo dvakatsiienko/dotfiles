@@ -27,7 +27,7 @@ these are not real files here; the mirror rule owns them (`pnpm dotfiles-link`):
 `sline/`, `flowlog/`, `memory-dispatch/`, `announcements.md`, `changelog.md`.
 
 ⚠️ never edit through the link — cc refuses with *"Refusing to write through symlink"*. resolve with
-`readlink -f` and edit the real file under `~/projects/dotfiles/home/.claude/`.
+`readlink -f` and edit the real file under `~/dotfiles/home/.claude/`.
 
 ### transcripts and session state
 
@@ -51,14 +51,14 @@ these are not real files here; the mirror rule owns them (`pnpm dotfiles-link`):
 
 a project directory name is its absolute path with every `/` **and every `.`** replaced by `-`:
 
-    /Users/dima/projects/dotfiles   →  -Users-dima-projects-dotfiles
+    /Users/dima/dotfiles   →  -Users-dima-projects-dotfiles
     /Users/dima/.dotfiles           →  -Users-dima--dotfiles      ← double dash from the dot
 
 so **resume is cwd-sensitive**. `claude --resume <uuid>` only finds a session when the shell's
 working directory slugifies to the directory holding that `.jsonl`. resuming from the wrong place
 silently shows nothing.
 
-    cd ~/projects/dotfiles && claude --resume 4ce15f13-f672-420f-98c1-79562a6a2bed
+    cd ~/dotfiles && claude --resume 4ce15f13-f672-420f-98c1-79562a6a2bed
 
 📌 **the transcript is on disk before the process ends** — appended per turn, not flushed at exit.
 killing the app never loses the conversation; that is what makes the quit-and-reattach move safe.

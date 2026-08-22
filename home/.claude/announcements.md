@@ -23,5 +23,5 @@ Changelog lives in changelog.md — orientation, accretes, never expires.
   stale until next skills-sync. Expires: DOT-77 sync lands.
 - Write/Edit tools blocked on home/.claude paths (protected) — use DC write_file or bash via mnt instead. Expires: protection lifted or line moves to changelog.
 - 🧪 **two coordinators run in parallel** — `dpatch` (desktop) and `cclio` (a `cc` session in
-  `~/projects/dotfiles/cclio`). DOT-188 is `vet`: dima is a/bing them, dpatch is being EXTENDED
+  `~/dotfiles/cclio`). DOT-188 is `vet`: dima is a/bing them, dpatch is being EXTENDED
   not retired. Never write dpatch off, never mix the names. Expires: dima's verdict on DOT-188.

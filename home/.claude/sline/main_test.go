@@ -589,8 +589,8 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 	if abs != currentDir {
 		t.Errorf("abs = %q, want %q", abs, currentDir)
 	}
-	if display != "~/projects/dotfiles" {
-		t.Errorf("display = %q, want ~/projects/dotfiles", display)
+	if display != "~/dotfiles" {
+		t.Errorf("display = %q, want ~/dotfiles", display)
 	}
 
 	if !strings.Contains(dirSegment(currentDir), "cursor://file"+abs) {
@@ -599,7 +599,7 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 }
 
 func TestEditorURL(t *testing.T) {
-	if got := editorURL("/Users/dima/projects/dotfiles"); got != "cursor://file/Users/dima/projects/dotfiles" {
+	if got := editorURL("/Users/dima/dotfiles"); got != "cursor://file/Users/dima/dotfiles" {
 		t.Errorf("got %q", got)
 	}
 	if got := editorURL(""); got != "" {

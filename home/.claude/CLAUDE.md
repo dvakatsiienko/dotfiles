@@ -170,7 +170,7 @@ the *supervision*, only the sound.
 ## Token Thrift + Session Handoff
 
 - On long threads, proactively suggest `/x:handoff` + fresh session when continuing/resuming would burn more window than transferring (resuming a long thread re-reads its whole history uncached ≈ up to ~20% of a 5h window). Orientir: clear at ~80k tokens when active; hand off at any size before going idle >1h (cache TTL).
-- `cw` shares the handoff store via the `x-cw` MCP server (`~/projects/dotfiles/home/.claude/mcp-x-cw/`) — CSTs flow `cc`↔`cw` through `~/.claude/shelf/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
+- `cw` shares the handoff store via the `x-cw` MCP server (`~/dotfiles/home/.claude/mcp-x-cw/`) — CSTs flow `cc`↔`cw` through `~/.claude/shelf/handoffs/`; the format is defined once in `CST-SPEC.md` next to the skills.
 - Peer initiative: the peer relationship itself is defined in `rules/identity.md`; what follows is only how it gets used. Quick, cheap message transfer via CSTs, and both sides proactively suggest using it with 💡 tips (occasional and specific, not spammy; `cw` has the mirror rules). Three moves:
   - ROUTE: task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation not touching a repo) → "💡 handoff this to `cw` — <one reason>".
   - PUSH: data made here would help `cw` (project context, findings, specs it lacks) → offer to send it via `/x:handoff`.

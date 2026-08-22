@@ -86,7 +86,7 @@ this is an observation, not a calculation.
 | cwd | before | after |
 | --- | --- | --- |
 | `~` | all 4 | **NONE** |
-| `~/projects/dotfiles` | all 4 | **NONE** |
+| `~/dotfiles` | all 4 | **NONE** |
 | `~/projects/chatbot` | all 4 | **NONE** |
 | `~/projects/bytes` | all 4 | the 4 fitting ones |
 

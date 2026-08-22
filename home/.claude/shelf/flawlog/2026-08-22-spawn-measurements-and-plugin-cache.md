@@ -101,7 +101,7 @@ one line per flaw: what broke, cost, lesson.
   lesson: **always `<<'PYEOF'`, never `<<PYEOF`**, whenever the payload contains backticks or `$`.
   the failure is silent in the good case — the mutation returns success either way.
 - 🚨 **two agents committing in ONE working tree.** dima spotted it: the coder's cwd is
-  `~/projects/dotfiles`, the same repo cclio commits in. `git add -A` from either side would sweep
+  `~/dotfiles`, the same repo cclio commits in. `git add -A` from either side would sweep
   the other's half-finished edits into a commit nobody reviewed. **no damage this time** — its
   commit touched only its own paths, and the contested file (`cclio-init.md`, mid-edit by cclio)
   was copied AFTER the edit, verified byte-identical.

@@ -1,6 +1,6 @@
 # flawlog — 2026-08-21 · run cclio·20260821·boot1
 
-first cclio boot from `~/projects/dotfiles/cclio`.
+first cclio boot from `~/dotfiles/cclio`.
 
 ## reference point
 - boot context cost: **67.9k / 1m (7%)** at `/context`, opus 5.

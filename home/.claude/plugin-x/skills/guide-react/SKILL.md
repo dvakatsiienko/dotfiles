@@ -121,5 +121,5 @@ _Bytes-flavoured; apply where the stack matches, skip where it doesn't._
 
 🌲 **Evergreen.** Spot a recurring pattern worth codifying, or guide-vs-reality drift? Propose
 the update; to fold it in, load `writing-for-agents` and edit this file (real path:
-`~/projects/dotfiles/home/.claude/plugin-x/skills/guide-react/SKILL.md`). Keep it pretty — scannable
+`~/dotfiles/home/.claude/plugin-x/skills/guide-react/SKILL.md`). Keep it pretty — scannable
 sections, tight prose, working examples.

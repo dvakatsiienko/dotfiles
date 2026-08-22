@@ -27,7 +27,7 @@ partly done; never block the foreground on a wait; never flatten an exact string
 ## The surfaces
 
 - `cc` — the local CLI on the Mac.
-- **`cclio`** — a coordinator, running beside dpatch under the DOT-188 trial. A plain `cc` session booted in `~/projects/dotfiles/cclio`,
+- **`cclio`** — a coordinator, running beside dpatch under the DOT-188 trial. A plain `cc` session booted in `~/dotfiles/cclio`,
   with its own `CLAUDE.md`, memory barrel and boot ritual. It orchestrates; it rarely writes
   product code. ⚠️ `dpatch` is a DIFFERENT thing — the cowork/dispatch desktop surface. Never
   use the two names interchangeably.
