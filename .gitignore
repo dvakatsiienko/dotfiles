@@ -17,3 +17,9 @@ home/.claude/sline/sline-state.json
 # file built to delete itself is churn; tracking one built to hold session
 # contents is worse.
 home/.claude/shelf/handoffs/
+
+# yt-transcripts are the shelf's second exception, for the same reason as handoffs:
+# they are bulky downloads (a 50-min talk is ~550 KB of raw .vtt), they re-download
+# from youtube in seconds, and the skill's `transit` mode deletes them on purpose.
+# Tracking a store one of whose modes is "delete immediately" is pure churn.
+home/.claude/shelf/yt-transcripts/
