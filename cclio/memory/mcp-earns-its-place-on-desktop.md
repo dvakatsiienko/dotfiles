@@ -16,10 +16,29 @@ has no mcp at all. That is a narrow verdict about *storing all skills in tool de
 - ✅ **one tool that delivers skills** — alive, and the only automation desktop has. A `save_skill`
   shaped tool is a single resident description, not one per skill.
 
-**Why this matters more than it looks:** desktop and cwrk **cannot run a shell.** For them mcp is
-not the fancy option, it is the *only* channel. The cli-first verdict in [DOT-185](linear://linear.app/issue/DOT-185) is about
-surfaces that have a shell — cclio has one, so cclio should prefer the cli. Desktop does not, so
-the choice was never offered there. **A default is not a universal.**
+🚨 **CORRECTED: `cw` DOES have a shell.** Measured — a `cw` thread ran `yt-dlp` itself and said so:
+*«I ran `yt-dlp` via the cloud container's `Bash` tool»*. It is not shell-less and it does not need
+Desktop Commander to run commands.
+
+📌 **But the shell is in a CLOUD CONTAINER, not on the mac.** That is the distinction that keeps
+mcp valuable rather than killing the argument: whatever `cw`'s Bash writes lands in a container and
+is gone. The mcp server runs **locally**, spawned by the desktop app, so a tool call touches Dima's
+real filesystem — the shelf, the handoff store, the repo.
+
+**So the reason mcp earns its place changed, and the conclusion did not:**
+
+- ❌ old reason: «desktop has no shell, so mcp is its only channel» — **false.**
+- ✅ real reason: **mcp is `cw`'s only route to the mac's filesystem.** Its own shell reaches a
+  container that shares nothing with `cc`.
+- 📌 practical consequence for tool descriptions: say so. A `cw` thread will happily run the
+  command itself unless the tool states what it gets by not doing that — shared state with `cc`,
+  dedupe against what is already stored, files that still exist tomorrow.
+
+**The cli-first verdict in [DOT-185](linear://linear.app/issue/DOT-185) survives this, re-stated
+correctly.** It is not about *having* a shell — both surfaces do. It is about **which machine the
+shell reaches.** cclio's shell is Dima's mac, so cclio prefers the cli. `cw`'s shell is a throwaway
+container, so for anything that must persist or be shared, mcp is its only door.
+**A default is not a universal.**
 
 📌 [[strategy-fleet]]'s membank ([DOT-177](linear://linear.app/issue/DOT-177)) is also decided as an **mcp server**, precisely because
 an mcp tool is deferred until called — zero resting context. So the fleet's two live mcp bets
