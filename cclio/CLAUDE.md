@@ -44,4 +44,4 @@ query. `linear api` takes the query positionally. `linear issue list` does not e
 ## boot
 `/cclio:init` runs the boot ritual. the four rituals ship as the `cclio` plugin —
 source in `plugin-cclio/commands/`, registered by `.claude/settings.json`.
-parked items live in `OPEN.md`. rollback story lives in `ROLLBACK.md`.
+`/queue` parks work in `.claude/x-queue.md`. rollback story lives in `ROLLBACK.md`.

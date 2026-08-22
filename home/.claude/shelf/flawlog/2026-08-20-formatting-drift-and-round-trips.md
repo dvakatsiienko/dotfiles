@@ -1,4 +1,4 @@
-# flowlog — 2026-08-20 · run cw·20260819·batch1 · thread d (vikar days)
+# flawlog — 2026-08-20 · run cw·20260819·batch1 · thread d (vikar days)
 one line per catch: what broke · cost · lesson
 
 - boot: handoff+args expected opus-as-vikar, actual session model is fable 5 · cost: announce mismatch risk · lesson: vikar contract keyed to model name, verify at boot not assume

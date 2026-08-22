@@ -21,6 +21,12 @@
       "!**/.claude/*.json",
       "!**/.claude-plugin",
 
+      // The shelf holds what the agents PRODUCE, not source: transcript
+      // metadata, flaw logs. Written by tools, read by tools, and reformatting
+      // them would rewrite a store nobody edits by hand — the same two-owner
+      // churn as above.
+      "!home/.claude/shelf",
+
       // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
       // sync, so formatting it just starts a fight. The lua there has its own
       // stylua.toml.

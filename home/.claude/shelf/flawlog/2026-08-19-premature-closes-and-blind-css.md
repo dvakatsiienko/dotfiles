@@ -1,4 +1,4 @@
-# flowlog — cw·20260819·batch1 (dpatch, thread b)
+# flawlog — cw·20260819·batch1 (dpatch, thread b)
 
 - proto spawn prompt omitted explicit dev-server auto-start → maintainer built without server; skill fixed same turn (auto-start section added, dpatch verifies in first report)
 - wrong date written into DOT-39 body (2026-08-26 vs actual 08-19) → fixed same turn; date facts come from env, not vibes

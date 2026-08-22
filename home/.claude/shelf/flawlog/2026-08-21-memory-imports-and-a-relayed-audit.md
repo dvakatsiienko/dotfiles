@@ -1,4 +1,4 @@
-# flowlog — 2026-08-21 · run cw·20260819·batch1
+# flawlog — 2026-08-21 · run cw·20260819·batch1
 
 - boot: `cclio/memory/` did not enter context on its own; dima had to point it out.
   cost: one turn. lesson: the barrel is ritual-read, never harness-loaded — step 2 of

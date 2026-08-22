@@ -1,4 +1,4 @@
-# flowlog — 2026-08-21 · run cclio·20260821·boot1
+# flawlog — 2026-08-21 · run cclio·20260821·boot1
 
 first cclio boot from `~/projects/dotfiles/cclio`.
 

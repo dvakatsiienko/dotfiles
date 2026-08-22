@@ -1,0 +1,475 @@
+1
+00:00:00,000 --> 00:00:02,230
+
+Most harnesses, but especially Claude
+
+2
+00:00:02,230 --> 00:00:02,240
+Most harnesses, but especially Claude
+ 
+
+3
+00:00:02,240 --> 00:00:05,070
+Most harnesses, but especially Claude
+Code, ship with a ton of bloat in the
+
+4
+00:00:05,070 --> 00:00:05,080
+Code, ship with a ton of bloat in the
+ 
+
+5
+00:00:05,080 --> 00:00:07,230
+Code, ship with a ton of bloat in the
+system prompt. There is very likely
+
+6
+00:00:07,230 --> 00:00:07,240
+system prompt. There is very likely
+ 
+
+7
+00:00:07,240 --> 00:00:08,990
+system prompt. There is very likely
+thousands and thousands of tokens of
+
+8
+00:00:08,990 --> 00:00:09,000
+thousands and thousands of tokens of
+ 
+
+9
+00:00:09,000 --> 00:00:11,110
+thousands and thousands of tokens of
+stuff you're not using in your system
+
+10
+00:00:11,110 --> 00:00:11,120
+stuff you're not using in your system
+ 
+
+11
+00:00:11,120 --> 00:00:13,190
+stuff you're not using in your system
+prompt. So, when I did mine, I found
+
+12
+00:00:13,190 --> 00:00:13,200
+prompt. So, when I did mine, I found
+ 
+
+13
+00:00:13,200 --> 00:00:15,390
+prompt. So, when I did mine, I found
+that I had an whole stuff with workflow,
+
+14
+00:00:15,390 --> 00:00:15,400
+that I had an whole stuff with workflow,
+ 
+
+15
+00:00:15,400 --> 00:00:17,750
+that I had an whole stuff with workflow,
+with design sync, with monitor, that I
+
+16
+00:00:17,750 --> 00:00:17,760
+with design sync, with monitor, that I
+ 
+
+17
+00:00:17,760 --> 00:00:19,990
+with design sync, with monitor, that I
+simply wasn't using. And that is about,
+
+18
+00:00:19,990 --> 00:00:20,000
+simply wasn't using. And that is about,
+ 
+
+19
+00:00:20,000 --> 00:00:21,990
+simply wasn't using. And that is about,
+you know, 8,000, 10,000 tokens per
+
+20
+00:00:21,990 --> 00:00:22,000
+you know, 8,000, 10,000 tokens per
+ 
+
+21
+00:00:22,000 --> 00:00:24,390
+you know, 8,000, 10,000 tokens per
+request. Fortunately, Claude Code allows
+
+22
+00:00:24,390 --> 00:00:24,400
+request. Fortunately, Claude Code allows
+ 
+
+23
+00:00:24,400 --> 00:00:26,710
+request. Fortunately, Claude Code allows
+you to customize this stuff, so you can
+
+24
+00:00:26,710 --> 00:00:26,720
+you to customize this stuff, so you can
+ 
+
+25
+00:00:26,720 --> 00:00:28,670
+you to customize this stuff, so you can
+actually put this in your global
+
+26
+00:00:28,670 --> 00:00:28,680
+actually put this in your global
+ 
+
+27
+00:00:28,680 --> 00:00:31,150
+actually put this in your global
+settings.json file, and you can disable
+
+28
+00:00:31,150 --> 00:00:31,160
+settings.json file, and you can disable
+ 
+
+29
+00:00:31,160 --> 00:00:33,230
+settings.json file, and you can disable
+all sorts of useless stuff. So, I didn't
+
+30
+00:00:33,230 --> 00:00:33,240
+all sorts of useless stuff. So, I didn't
+ 
+
+31
+00:00:33,240 --> 00:00:35,030
+all sorts of useless stuff. So, I didn't
+want it to control when I entered and
+
+32
+00:00:35,030 --> 00:00:35,040
+want it to control when I entered and
+ 
+
+33
+00:00:35,040 --> 00:00:37,350
+want it to control when I entered and
+exited plan mode. So, I just disabled
+
+34
+00:00:37,350 --> 00:00:37,360
+exited plan mode. So, I just disabled
+ 
+
+35
+00:00:37,360 --> 00:00:39,310
+exited plan mode. So, I just disabled
+those tools, and the tool definitions
+
+36
+00:00:39,310 --> 00:00:39,320
+those tools, and the tool definitions
+ 
+
+37
+00:00:39,320 --> 00:00:40,830
+those tools, and the tool definitions
+get removed from the system prompt. I
+
+38
+00:00:40,830 --> 00:00:40,840
+get removed from the system prompt. I
+ 
+
+39
+00:00:40,840 --> 00:00:42,830
+get removed from the system prompt. I
+personally really hate the ask user
+
+40
+00:00:42,830 --> 00:00:42,840
+personally really hate the ask user
+ 
+
+41
+00:00:42,840 --> 00:00:45,310
+personally really hate the ask user
+question tool, so I never use it, or I
+
+42
+00:00:45,310 --> 00:00:45,320
+question tool, so I never use it, or I
+ 
+
+43
+00:00:45,320 --> 00:00:47,070
+question tool, so I never use it, or I
+never want to see it, and so I just
+
+44
+00:00:47,070 --> 00:00:47,080
+never want to see it, and so I just
+ 
+
+45
+00:00:47,080 --> 00:00:49,110
+never want to see it, and so I just
+removed the tool definition from Claude
+
+46
+00:00:49,110 --> 00:00:49,120
+removed the tool definition from Claude
+ 
+
+47
+00:00:49,120 --> 00:00:50,630
+removed the tool definition from Claude
+system prompt. Equally, I don't want it
+
+48
+00:00:50,630 --> 00:00:50,640
+system prompt. Equally, I don't want it
+ 
+
+49
+00:00:50,640 --> 00:00:52,510
+system prompt. Equally, I don't want it
+to schedule crons for me, so I just
+
+50
+00:00:52,510 --> 00:00:52,520
+to schedule crons for me, so I just
+ 
+
+51
+00:00:52,520 --> 00:00:54,830
+to schedule crons for me, so I just
+deleted those as well. I don't use the
+
+52
+00:00:54,830 --> 00:00:54,840
+deleted those as well. I don't use the
+ 
+
+53
+00:00:54,840 --> 00:00:56,990
+deleted those as well. I don't use the
+custom code review skill that ships with
+
+54
+00:00:56,990 --> 00:00:57,000
+custom code review skill that ships with
+ 
+
+55
+00:00:57,000 --> 00:00:59,110
+custom code review skill that ships with
+it, so I disabled the bundled skills. I
+
+56
+00:00:59,110 --> 00:00:59,120
+it, so I disabled the bundled skills. I
+ 
+
+57
+00:00:59,120 --> 00:01:00,950
+it, so I disabled the bundled skills. I
+disabled everything to do with dynamic
+
+58
+00:01:00,950 --> 00:01:00,960
+disabled everything to do with dynamic
+ 
+
+59
+00:01:00,960 --> 00:01:02,750
+disabled everything to do with dynamic
+workflows. I don't use those either. I
+
+60
+00:01:02,750 --> 00:01:02,760
+workflows. I don't use those either. I
+ 
+
+61
+00:01:02,760 --> 00:01:04,350
+workflows. I don't use those either. I
+even disabled remote control, because
+
+62
+00:01:04,350 --> 00:01:04,360
+even disabled remote control, because
+ 
+
+63
+00:01:04,360 --> 00:01:05,830
+even disabled remote control, because
+there was a lot actually in the system
+
+64
+00:01:05,830 --> 00:01:05,840
+there was a lot actually in the system
+ 
+
+65
+00:01:05,840 --> 00:01:08,030
+there was a lot actually in the system
+prompt for that. Disabled Claude AI
+
+66
+00:01:08,030 --> 00:01:08,040
+prompt for that. Disabled Claude AI
+ 
+
+67
+00:01:08,040 --> 00:01:09,710
+prompt for that. Disabled Claude AI
+connectors, which were burning a ton of
+
+68
+00:01:09,710 --> 00:01:09,720
+connectors, which were burning a ton of
+ 
+
+69
+00:01:09,720 --> 00:01:11,790
+connectors, which were burning a ton of
+tokens I didn't even realize. And I
+
+70
+00:01:11,790 --> 00:01:11,800
+tokens I didn't even realize. And I
+ 
+
+71
+00:01:11,800 --> 00:01:13,590
+tokens I didn't even realize. And I
+disabled the artifacts feature. All of
+
+72
+00:01:13,590 --> 00:01:13,600
+disabled the artifacts feature. All of
+ 
+
+73
+00:01:13,600 --> 00:01:15,670
+disabled the artifacts feature. All of
+that means that I dropped my initial
+
+74
+00:01:15,670 --> 00:01:15,680
+that means that I dropped my initial
+ 
+
+75
+00:01:15,680 --> 00:01:17,990
+that means that I dropped my initial
+starting system prompt, or the system
+
+76
+00:01:17,990 --> 00:01:18,000
+starting system prompt, or the system
+ 
+
+77
+00:01:18,000 --> 00:01:21,310
+starting system prompt, or the system
+tools, from 25K down to around 8K. I put
+
+78
+00:01:21,310 --> 00:01:21,320
+tools, from 25K down to around 8K. I put
+ 
+
+79
+00:01:21,320 --> 00:01:23,070
+tools, from 25K down to around 8K. I put
+this in an article so that you can use a
+
+80
+00:01:23,070 --> 00:01:23,080
+this in an article so that you can use a
+ 
+
+81
+00:01:23,080 --> 00:01:25,350
+this in an article so that you can use a
+proxy to see what you're actually
+
+82
+00:01:25,350 --> 00:01:25,360
+proxy to see what you're actually
+ 
+
+83
+00:01:25,360 --> 00:01:26,710
+proxy to see what you're actually
+shipping, which is really, really
+
+84
+00:01:26,710 --> 00:01:26,720
+shipping, which is really, really
+ 
+
+85
+00:01:26,720 --> 00:01:29,230
+shipping, which is really, really
+useful. Then, you can tune the settings
+
+86
+00:01:29,230 --> 00:01:29,240
+useful. Then, you can tune the settings
+ 
+
+87
+00:01:29,240 --> 00:01:31,390
+useful. Then, you can tune the settings
+to choose just the bits of the system
+
+88
+00:01:31,390 --> 00:01:31,400
+to choose just the bits of the system
+ 
+
+89
+00:01:31,400 --> 00:01:32,830
+to choose just the bits of the system
+prompt that you need. The less you send
+
+90
+00:01:32,830 --> 00:01:32,840
+prompt that you need. The less you send
+ 
+
+91
+00:01:32,840 --> 00:01:34,710
+prompt that you need. The less you send
+over the wire, the better your outputs
+
+92
+00:01:34,710 --> 00:01:34,720
+over the wire, the better your outputs
+ 
+
+93
+00:01:34,720 --> 00:01:36,310
+over the wire, the better your outputs
+are going to be, because the agent has
+
+94
+00:01:36,310 --> 00:01:36,320
+are going to be, because the agent has
+ 
+
+95
+00:01:36,320 --> 00:01:39,680
+are going to be, because the agent has
+less stuff distracting it.
+

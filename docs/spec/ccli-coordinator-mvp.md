@@ -144,4 +144,4 @@ already inherits it; location cannot buy isolation from that one.
 📌 **superseded 2026-08-21.** the coordinator now sits at `~/projects/dotfiles/cclio` — inside
 `~/projects/`. safe only while the coder-global does not exist. **before DOT-195 creates it, the
 dotfiles repo relocates to `~/dotfiles` with cclio aboard.** blocking ordering constraint, not a
-preference; recorded in `cclio/OPEN.md`.
+preference; recorded on [DOT-202](linear://linear.app/issue/DOT-202).

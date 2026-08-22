@@ -1,0 +1,365 @@
+1
+00:00:00,000 --> 00:00:01,429
+ 
+For the last few days, I've been using
+
+2
+00:00:01,429 --> 00:00:01,439
+For the last few days, I've been using
+ 
+
+3
+00:00:01,439 --> 00:00:03,669
+For the last few days, I've been using
+background agents to do most of my work,
+
+4
+00:00:03,669 --> 00:00:03,679
+background agents to do most of my work,
+ 
+
+5
+00:00:03,679 --> 00:00:05,670
+background agents to do most of my work,
+and I've been extremely impressed by
+
+6
+00:00:05,670 --> 00:00:05,680
+and I've been extremely impressed by
+ 
+
+7
+00:00:05,680 --> 00:00:08,070
+and I've been extremely impressed by
+them, but also kind of concerned that
+
+8
+00:00:08,070 --> 00:00:08,080
+them, but also kind of concerned that
+ 
+
+9
+00:00:08,080 --> 00:00:09,669
+them, but also kind of concerned that
+most companies are not in the position
+
+10
+00:00:09,669 --> 00:00:09,679
+most companies are not in the position
+ 
+
+11
+00:00:09,679 --> 00:00:11,110
+most companies are not in the position
+to take advantage of them. I've been
+
+12
+00:00:11,110 --> 00:00:11,120
+to take advantage of them. I've been
+ 
+
+13
+00:00:11,120 --> 00:00:13,509
+to take advantage of them. I've been
+using Curser's Slack integration to spin
+
+14
+00:00:13,509 --> 00:00:13,519
+using Curser's Slack integration to spin
+ 
+
+15
+00:00:13,519 --> 00:00:15,430
+using Curser's Slack integration to spin
+up cursor agents, doing my prompting
+
+16
+00:00:15,430 --> 00:00:15,440
+up cursor agents, doing my prompting
+ 
+
+17
+00:00:15,440 --> 00:00:17,750
+up cursor agents, doing my prompting
+within this nice UI here, which then
+
+18
+00:00:17,750 --> 00:00:17,760
+within this nice UI here, which then
+ 
+
+19
+00:00:17,760 --> 00:00:19,670
+within this nice UI here, which then
+spins up a background agent in its own
+
+20
+00:00:19,670 --> 00:00:19,680
+spins up a background agent in its own
+ 
+
+21
+00:00:19,680 --> 00:00:21,590
+spins up a background agent in its own
+remote environment to complete the work
+
+22
+00:00:21,590 --> 00:00:21,600
+remote environment to complete the work
+ 
+
+23
+00:00:21,600 --> 00:00:23,750
+remote environment to complete the work
+and actually do all of the coding, etc.
+
+24
+00:00:23,750 --> 00:00:23,760
+and actually do all of the coding, etc.
+ 
+
+25
+00:00:23,760 --> 00:00:25,990
+and actually do all of the coding, etc.
+Crucially, it then creates a PR. And
+
+26
+00:00:25,990 --> 00:00:26,000
+Crucially, it then creates a PR. And
+ 
+
+27
+00:00:26,000 --> 00:00:28,070
+Crucially, it then creates a PR. And
+here's the important bit, which is that
+
+28
+00:00:28,070 --> 00:00:28,080
+here's the important bit, which is that
+ 
+
+29
+00:00:28,080 --> 00:00:30,070
+here's the important bit, which is that
+on my work monor repo, I have a really
+
+30
+00:00:30,070 --> 00:00:30,080
+on my work monor repo, I have a really
+ 
+
+31
+00:00:30,080 --> 00:00:32,950
+on my work monor repo, I have a really
+welltuned CI here which runs in about a
+
+32
+00:00:32,950 --> 00:00:32,960
+welltuned CI here which runs in about a
+ 
+
+33
+00:00:32,960 --> 00:00:34,549
+welltuned CI here which runs in about a
+minute and does type checking, does
+
+34
+00:00:34,549 --> 00:00:34,559
+minute and does type checking, does
+ 
+
+35
+00:00:34,559 --> 00:00:36,229
+minute and does type checking, does
+tests, does linting. As you can see from
+
+36
+00:00:36,229 --> 00:00:36,239
+tests, does linting. As you can see from
+ 
+
+37
+00:00:36,239 --> 00:00:37,830
+tests, does linting. As you can see from
+the output, I'm using Turbo Repo,
+
+38
+00:00:37,830 --> 00:00:37,840
+the output, I'm using Turbo Repo,
+ 
+
+39
+00:00:37,840 --> 00:00:39,750
+the output, I'm using Turbo Repo,
+running tests in all of the packages and
+
+40
+00:00:39,750 --> 00:00:39,760
+running tests in all of the packages and
+ 
+
+41
+00:00:39,760 --> 00:00:41,430
+running tests in all of the packages and
+apps in my big monor repo. And when it
+
+42
+00:00:41,430 --> 00:00:41,440
+apps in my big monor repo. And when it
+ 
+
+43
+00:00:41,440 --> 00:00:43,190
+apps in my big monor repo. And when it
+goes wrong, it provides really detailed
+
+44
+00:00:43,190 --> 00:00:43,200
+goes wrong, it provides really detailed
+ 
+
+45
+00:00:43,200 --> 00:00:46,150
+goes wrong, it provides really detailed
+feedback to the AI. Now, I'm a CI nerd.
+
+46
+00:00:46,150 --> 00:00:46,160
+feedback to the AI. Now, I'm a CI nerd.
+ 
+
+47
+00:00:46,160 --> 00:00:48,069
+feedback to the AI. Now, I'm a CI nerd.
+I used to work at Versel as the Devril
+
+48
+00:00:48,069 --> 00:00:48,079
+I used to work at Versel as the Devril
+ 
+
+49
+00:00:48,079 --> 00:00:50,150
+I used to work at Versel as the Devril
+for Turbo Repo. I can already see a
+
+50
+00:00:50,150 --> 00:00:50,160
+for Turbo Repo. I can already see a
+ 
+
+51
+00:00:50,160 --> 00:00:52,229
+for Turbo Repo. I can already see a
+massive opportunity for plumbing nerds
+
+52
+00:00:52,229 --> 00:00:52,239
+massive opportunity for plumbing nerds
+ 
+
+53
+00:00:52,239 --> 00:00:54,950
+massive opportunity for plumbing nerds
+like me to improve their repos ready for
+
+54
+00:00:54,950 --> 00:00:54,960
+like me to improve their repos ready for
+ 
+
+55
+00:00:54,960 --> 00:00:56,709
+like me to improve their repos ready for
+background agents. Because I'm confident
+
+56
+00:00:56,709 --> 00:00:56,719
+background agents. Because I'm confident
+ 
+
+57
+00:00:56,719 --> 00:00:58,630
+background agents. Because I'm confident
+in my CI, I can look at the code the
+
+58
+00:00:58,630 --> 00:00:58,640
+in my CI, I can look at the code the
+ 
+
+59
+00:00:58,640 --> 00:01:00,229
+in my CI, I can look at the code the
+agent has produced and go, "Yeah, that
+
+60
+00:01:00,229 --> 00:01:00,239
+agent has produced and go, "Yeah, that
+ 
+
+61
+00:01:00,239 --> 00:01:02,069
+agent has produced and go, "Yeah, that
+seems pretty good. Let's merge it and
+
+62
+00:01:02,069 --> 00:01:02,079
+seems pretty good. Let's merge it and
+ 
+
+63
+00:01:02,079 --> 00:01:03,670
+seems pretty good. Let's merge it and
+test it locally." And having a laser
+
+64
+00:01:03,670 --> 00:01:03,680
+test it locally." And having a laser
+ 
+
+65
+00:01:03,680 --> 00:01:05,830
+test it locally." And having a laser
+focus on TypeScript rules, on ESLint
+
+66
+00:01:05,830 --> 00:01:05,840
+focus on TypeScript rules, on ESLint
+ 
+
+67
+00:01:05,840 --> 00:01:07,830
+focus on TypeScript rules, on ESLint
+rules, on unit tests as well means I can
+
+68
+00:01:07,830 --> 00:01:07,840
+rules, on unit tests as well means I can
+ 
+
+69
+00:01:07,840 --> 00:01:10,070
+rules, on unit tests as well means I can
+lock down the AI to exactly what I want
+
+70
+00:01:10,070 --> 00:01:10,080
+lock down the AI to exactly what I want
+ 
+
+71
+00:01:10,080 --> 00:01:12,310
+lock down the AI to exactly what I want
+and massively improve the output of the
+
+72
+00:01:12,310 --> 00:01:12,320
+and massively improve the output of the
+ 
+
+73
+00:01:12,320 --> 00:01:15,920
+and massively improve the output of the
+code I get from the AI. Bye.
+

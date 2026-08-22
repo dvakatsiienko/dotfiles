@@ -21,16 +21,15 @@ cclio/
 ├── CLAUDE.md                        coordinator memfile
 ├── README.md                        what/how/undo
 ├── ROLLBACK.md                      this file
-├── OPEN.md                          parked items
 ├── memory/
 │   └── MEMORY.md                    empty barrel index, format documented
-├── flawlog/                         per-session flaw logs — cclio's only write target
 ├── docs/                            contracts + reports
 ├── plugin-cclio/                    the `cclio` plugin — source of the four rituals
 │   ├── .claude-plugin/              marketplace.json + plugin.json
 │   └── commands/                    init · report · flawlog · graceful-halt
 └── .claude/
-    └── settings.json                registers plugin-cclio at project scope
+    ├── settings.json                registers plugin-cclio at project scope
+    └── x-queue.md                   `/queue`'s store for this place
 ```
 
 ## what was touched outside cclio/

@@ -23,7 +23,7 @@ handoff or a memfile. non-negotiable.
   way. this check has already been falsified once by a relocation; it must survive the next.
 - against that derived list: any layer scoped to the CODER role (a `CLAUDE.md` at a
   `~/projects`-level ancestor, DOT-195) is a leak — flag it 🚨, name the file, and say the
-  dotfiles→`~/dotfiles` relocation is now overdue. see `OPEN.md`.
+  dotfiles→`~/dotfiles` relocation is now overdue. see [DOT-202](linear://linear.app/issue/DOT-202).
 - say plainly which layers you could NOT account for, rather than claiming a clean stack.
 - `ls -l ~/.claude/settings.json` — a REAL FILE where the symlink belongs is silent
   divergence from dotfiles. flag it.
@@ -110,8 +110,8 @@ domain fight over children forever.
   around it. still dima's call; never auto-pull.
 - active run id from the last handoff META → continue it, never mint one mid-story
 - a CST marked FROZEN is not the active one; do not supersede it
-- read `OPEN.md` — BOTH sections. `## queue` = work parked by `/queue` in an earlier session;
-  offer the top item. `## parks` = long-lived items. neither surfaces silently.
+- read `.claude/x-queue.md` — `/queue`'s store for this place. offer the top item; it never
+  surfaces on its own. long-lived items are TICKETS, not park lines — the board is queried above.
 
 ## 5.5 stuck reminders ⏰📌 — raise every boot, unprompted
 
@@ -137,18 +137,20 @@ one message, short lines:
 - inbox status
 - freebies (count + the 1-2 juiciest)
 - handoffs pending
-- queue depth + top item from `OPEN.md` (if non-empty)
-- open parks from `OPEN.md`
+- queue depth + top item from `.claude/x-queue.md` (if non-empty)
 - 1-2 proposed next moves — specific, not generic
 
 ## 7. flaw capture 📝 — standing habit
-- open a per-session log at `~/projects/dotfiles/cclio/flawlog/<YYYY-MM-DD>-<runid>.md`
+- open a per-session log at `~/.claude/shelf/flawlog/<YYYY-MM-DD>-<topic-slug>.md` — the slug is
+  the session's main topic in plain words, not the run id. `/cclio:flawlog` has the naming rule.
 - log process flaws AS THEY HAPPEN, one line each: what broke, cost, lesson
 - no ticketifying mid-session — too many moves. at halt, one batched analysis over the log,
   ONE decision/flush with dima.
-- when a flaw class repeats, reference past logs. `~/projects/dotfiles/cclio/flawlog/` first; the pre-migration
-  archive at `~/projects/dotfiles/home/.claude/flawlog/` is READ-ONLY history — never write there.
-- cclio has exactly ONE write target: `~/projects/dotfiles/cclio`. never split its memory across two repos.
+- when a flaw class repeats, read past logs in the same dir — the pre-migration archive was merged
+  in, so there is one flawlog and no second place to look.
+- 📌 the flawlog lives on the **shelf** — `~/.claude/shelf/flawlog/`, which is a symlink into
+  `home/.claude/shelf/` and therefore git-tracked like every other `cc/` dir. write to the
+  `~/.claude/...` path; the mirror rule handles the rest.
 
 ## the command family
 - global, work in ANY ccli session: `/pre` (do it now) · `/queue` (park + resurface) ·

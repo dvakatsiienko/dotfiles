@@ -1,4 +1,4 @@
-# flowlog — 2026-08-22 · run cw·20260819·batch1
+# flawlog — 2026-08-22 · run cw·20260819·batch1
 
 one line per flaw: what broke, cost, lesson.
 
@@ -180,3 +180,28 @@ one line per flaw: what broke, cost, lesson.
 - **zsh does not word-split unquoted variables.** a `sed ... $FILES` pass silently ran as one
   giant filename and errored. cost: one wasted round. lesson: pass file lists as literal args or
   `${=VAR}` — bash habits do not carry to this shell.
+
+- 🚨 **`git mv` stages, so a scoped `git add` does not scope the commit.** planned a two-commit
+  split, staged only the transcript scripts — and the commit swallowed all 15 renames, because
+  `git mv` had put them in the index an hour earlier. this is the **silent sweep** the spawn
+  contract warns about, arriving from my own earlier command rather than a peer's. cost: one
+  `reset --soft` + `git reset` + restage, caught only because `git log -1 --stat` was read.
+  lesson: **before a split, `git diff --cached --name-status` — the index is not empty just
+  because you have not run `git add` this turn.** verifying the hash is not enough; verify the
+  *contents*.
+
+- 🚨 **killing a background session does not stop it — the daemon respawns it.** told dima the
+  probe was stopped after `kill <pid>` showed the process gone and the session record deleted.
+  it came back twice; the roster now reads `"attempt": 3`. removing the job dir did not help
+  either — the supervisor recreates it. cost: **a false "done" reported to dima**, which is worse
+  than the probe still running. lesson: `claude agents` has **no stop verb**, so a background
+  session cannot be stopped from the cli at all. verify a stop AFTER the respawn window, never at
+  t+2s — and when a mechanism fights back twice, stop and report instead of digging further into
+  daemon internals.
+
+- **a hook can fail with its error scrolled off.** the commit reported `🥊 format` and simply did
+  not happen; HEAD was unchanged and the files stayed staged. the cause was 44 biome errors on
+  22 transcript `metadata.json` files newly pulled into git by the shelf. lesson: **read HEAD
+  after every commit** — the summary line is not the outcome. the fix was a biome exclusion for
+  the shelf as a class, which the config's own comment had already predicted for exactly this
+  failure shape.

@@ -33,8 +33,19 @@ only what could NOT be closed on the spot:
 - a pattern needing several occurrences before it is even diagnosable
 - environment facts worth carrying but not actionable yet
 
-file: `cclio/flawlog/<YYYY-MM-DD>-<runid>.md`, created on first entry. never dotfiles' own
-`home/.claude/flawlog/` — that is READ-ONLY pre-migration history.
+file: `~/.claude/shelf/flawlog/<YYYY-MM-DD>-<topic-slug>.md`, created on first entry.
+
+📌 **the slug is the session's main topic, in 2-4 plain words** — `spawn-measurements-and-plugin-cache`,
+`invented-ids-and-tool-limits`, `cclio-first-boot`. a human scanning the dir should be able to
+guess which log holds the thing they half-remember, which a run id can never do. the run id is
+not lost: it stays in the file's H1, where provenance belongs and legibility does not.
+
+📌 name it when the session's shape is clear, not at the first entry — a log opened as
+`misc-flaws` never gets renamed. if the first flaw lands before the topic does, use a working
+slug and fix it at the halt. one dir, all
+history — the pre-migration archive was merged in. the shelf is a symlink into
+`home/.claude/shelf/`, so the log is git-tracked; write the `~/.claude/...` path and let the
+mirror rule do the rest.
 line shape: `what broke · cost · lesson`. one line, no essay.
 
 also log the GOOD finds — a transferable idea worth keeping. this is system-improvement data in

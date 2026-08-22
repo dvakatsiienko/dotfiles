@@ -1,4 +1,4 @@
-# flowlog — cw·20260819·batch1 (dpatch)
+# flawlog — cw·20260819·batch1 (dpatch)
 
 Per-session process-flaw log. One line per flaw as it happens. Wrap = final analysis + ONE
 batched decision/flush. System-improvement data — check past logs when a flaw class repeats.

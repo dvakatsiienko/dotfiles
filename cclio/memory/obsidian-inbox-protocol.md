@@ -21,6 +21,6 @@ live again. `protected.md` in the same folder is his own drop file — read-only
 
 📌 **the two logs are different things and the names now say so.** `flowlog.md` in obsidian is the
 **work** journal — what we are doing, statuses, carry-over; dima's word: *«our work is a flow, not
-work»*. `cclio/flawlog/` in the repo is the **flaw** journal — process defects caught mid-session.
+work»*. `~/.claude/shelf/flawlog/` is the **flaw** journal — process defects caught mid-session.
 one tracks the flow, one tracks the flaws. never write a flaw into the obsidian file or a task
 into the repo one.

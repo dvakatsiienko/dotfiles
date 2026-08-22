@@ -34,7 +34,7 @@ skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
    needs a decision → it does not qualify. do not start anything.
 3. **push if commits are clean and hooks pass.** hooks fail → force NOTHING. leave the commits
    local and say so.
-4. **park notes where the work lives** — ticket comment, flowlog line, `OPEN.md`. not in chat.
+4. **park notes where the work lives** — ticket comment, flowlog line, `/queue`. not in chat.
    one line each: what state it is in, and the single next action. **this is the part that must
    not be skipped**, because it is the part that pays for itself tomorrow.
 5. **phase 3.5 still runs** — a stale milestone misinforms the next boot, and refreshing it is
@@ -69,11 +69,11 @@ only after his go do you proceed. «just halt» → skip to phase 1 and park eve
 ## phase 1 — land the leaves
 execute the «can land now» list. small only — a halt is not the time to start work. bigger than
 it looked → stop, park it, say so.
-each park gets its resume note **where the work lives** (ticket comment, flowlog line, `OPEN.md`),
+each park gets its resume note **where the work lives** (ticket comment, flowlog line, `/queue`),
 not in the report. a park that only exists in a chat message is a strand.
 
 ## phase 2 — missed sweep
-re-read the flowlog, `OPEN.md`'s `## queue`, and this thread for dropped asks and unanswered
+re-read the flowlog, `.claude/x-queue.md`, and this thread for dropped asks and unanswered
 questions. queued items FIRE now. mid-turn messages from dima are the usual casualty — check
 those specifically.
 

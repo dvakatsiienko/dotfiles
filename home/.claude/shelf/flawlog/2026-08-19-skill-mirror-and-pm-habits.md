@@ -1,4 +1,4 @@
-# flowlog — cw·20260819·batch1 (thread c, evening)
+# flawlog — cw·20260819·batch1 (thread c, evening)
 one line per flaw: what broke · cost · lesson
 - plugins search_plugins result blew token cap (77k chars) · one wasted roundtrip + host/sandbox path confusion on the dump file · lesson: grep dumps with host Grep tool, not sandbox bash
 - linear CLI `issue search` doesn't exist + `list --help` prints "issue mine" usage · 2 retries · lesson: list --team X --all-states --limit 0 | grep is the search idiom

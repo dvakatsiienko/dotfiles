@@ -1,4 +1,4 @@
-# flowlog — cw·20260819·batch1, thread e (opus 5, direction-change session)
+# flawlog — cw·20260819·batch1, thread e (opus 5, direction-change session)
 
 - **invented ticket ids before creating the tickets.** Wrote `ticket: DOT-187` / `DOT-188` into
   research + spec frontmatter while drafting. DOT-187 already existed (unrelated: /taste-skill).
