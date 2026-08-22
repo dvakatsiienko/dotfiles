@@ -51,6 +51,16 @@ one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
 - ⚠️ **a peer answering in plain prose reaches nobody.** only a `SendMessage` call travels. every
   brief expecting an answer must say so.
 - ⭐ **`SendMessage` takes `notify_when_idle: true`** — a one-shot completion event, no polling.
+  ⚠️ **the subscription is SESSION-LOCAL and dies when the coordinator restarts.** Measured: Dima
+  restarted cclio with `cc -c` while a coder ran; the coder survived, the subscription did not.
+  Nothing announces the loss — a coordinator simply waits forever for a notice that will never
+  come. **Re-subscribe after every coordinator restart**; a bare `SendMessage` with an empty
+  `message` and `notify_when_idle: true` costs the coder nothing. Proof: the coder's session file
+  still answers, but no notice arrives.
+- ✅ **cross-session peer messaging is confirmed non-intrusive.** Dima's own read, unprompted:
+  *«cross-sess peer msging works fine from my side, does not look like spamming.»* So the etiquette
+  worry in the handoff skills is settled from the user side — message peers when it helps, and stop
+  hedging about waking them.
 - `ListAgents` and `Workflow` are **absent from subagent toolsets** — only the coordinator surveys
   the fleet.
 
@@ -64,4 +74,26 @@ one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
 
 All four were violated in one dispatch session, some twice. The rules already existed; the failure was not checking.
 
-Model cards live in `rules/models.md`. Short form: haiku = bulky and simple · sonnet-5 = good, needs supervision · opus-5 = complex engineering, never PM · **fable-5 never spawned unless Dima asks** (quota).
+## the spawn defaults — dima's call, do not re-derive them
+
+| model | when it is spawned | effort |
+| --- | --- | --- |
+| **opus-5** | the default coder | **always `high`** |
+| **fable-5** | 🚫 **never**, unless dima asks by name | `low` — even when he does ask |
+| sonnet-5 | quota pressure, simple well-specified work | inherit |
+| haiku-4.5 | bulk, classification, retrieval | inherit |
+
+**Why opus went from `low` to `high`:** dima ran a full day of `high` and weekly usage rose only
+**~10%**. His words: «nice number». So the cost argument that justified `low` does not hold, and
+the quality difference does. This is a **measured** change, not a preference — say so if anyone
+proposes reverting it. Proof command: the weekly usage figure in his plan view before and after.
+
+**Why fable stays off spawns AND on `low`:** the fable budget is the scarce resource and dima
+spends it himself. A spawn burns quota he wanted for his own turns. The `low` default is the
+second guard, for the case where he does ask.
+
+📌 `--effort` is honoured on `claude --bg`, measured — see the list above. It is a flag, never
+inheritance, so it must be passed explicitly on every spawn.
+
+Full model cards live in `rules/models.md`. Short form: haiku = bulky and simple · sonnet-5 = good,
+needs supervision · opus-5 = complex engineering, never PM.

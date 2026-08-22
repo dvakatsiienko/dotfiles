@@ -55,6 +55,21 @@ Launched 2025-10. The light and fast tier. **[dima]**
 
 Full research with sources: `docs/research/claude-model-strengths.md`.
 
+## spawn defaults — set by Dima, binding on every surface that spawns
+
+| model | spawned? | effort |
+| --- | --- | --- |
+| **opus-5** | the default coder | **always `high`** |
+| **fable-5** | 🚫 never, unless Dima asks by name | `low`, even when he asks |
+| sonnet-5 | quota pressure, simple specified work | inherit |
+| haiku-4.5 | bulk, classification, retrieval | inherit |
+
+📌 **opus moved from `low` to `high` on measured evidence**, not taste: a full day of `high` raised
+weekly usage by only **~10%**. The cost argument for `low` is dead. Do not revert it on a hunch.
+
+📌 `--effort` is a flag on `claude --bg` and is honoured; it is never inherited, so pass it every
+time.
+
 ## conv picks 2026-08-19 — task→model data (Dima's live calls, keep growing)
 
 - overhaul-audits with taste (git, zsh configs): **fable** — «opus picks pragmatically, fable = flavour; i want best picks»

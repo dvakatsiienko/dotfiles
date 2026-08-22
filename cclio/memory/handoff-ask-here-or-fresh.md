@@ -11,7 +11,7 @@ metadata:
 Before writing a CST, ask Dima whether the work continues here or in a fresh thread.
 
 📌 **Different door, same question.** dpatch read and wrote handoffs through the handoff MCP server
-(`save_handoff`). cclio has no such tool — it runs `/x:handoff` to write and `/x:handoff-pull` to
+(now `handoff_save`). cclio has no such tool — it runs `/x:handoff` to write and `/x:handoff-pull` to
 read, against the same shared store at `~/.claude/shelf/handoffs/`. The mechanism differs; the
 here-or-fresh question is identical and comes first either way.
 
