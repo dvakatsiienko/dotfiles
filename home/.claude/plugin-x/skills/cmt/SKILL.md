@@ -231,6 +231,15 @@ This is how Dima works: no branch, no PR, commit and push. The **commit body car
 - **No ticket → no id.** Most commits have none. Never guess, never grep for a plausible ticket,
   never write `DOT-?`. Just omit the line. The id comes from the conversation, the branch name,
   or Dima — nowhere else.
+- 🎯 **A commit body is PARSED, not read — writing *about* a magic word IS using one.** A commit
+  documenting this very behaviour quoted the phrase `- ref DOT-N` as an example in its prose. Linear
+  cannot tell a quotation from an intent: it assigned Dima and moved the ticket five seconds after
+  the push, and nobody reversed it, because the author had checked their own *intent* rather than
+  the parser's view. The stale assignment then sat for fourteen minutes and was nearly reported as
+  a broken hook.
+  **So before pushing, grep the body for the id pattern and count the hits.** The count is what
+  fires, never the intent. Any mention not meant to link gets reworded — say "a `ref` line naming
+  the ticket" rather than reproducing the literal pair.
 - **Never close on Dima's behalf without saying so.** A closing keyword resolves a ticket AND
   assigns it to the commit author. Name the ticket you are about to close in the reply.
 - ⚠️ **The assign is not limited to closing keywords — plain `- ref DOT-N` fires it too.** Measured

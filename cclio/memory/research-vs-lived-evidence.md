@@ -39,6 +39,11 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
   did not — Dima had flipped it 40 seconds in. it reconciled its own contradictory observations by
   **inventing a cause for a failure it had never witnessed.** when two of your own measurements
   disagree, suspect the environment moved *before* reaching for a story that unifies them.
+- 📌 **name the FIELD the test observed, never the behaviour class it seemed to settle.** `x:cmt`
+  said commits to `main` fire none of the PR automations. the test behind that compared **linking**
+  on a PR versus a commit and never looked at the state field. the conclusion was one size wider
+  than the measurement, it went into a binding rule, and it stood for weeks until a push moved a
+  ticket in front of someone. a finding's scope is the scope of what was actually watched.
 - 📌 **a table reads as measured whether or not it is.** a six-row capability table was published
   from a mix of tool schemas, `--help` output and inference, presented uniformly. one question
   exposed it. **tag provenance per cell, or do not print the table.**

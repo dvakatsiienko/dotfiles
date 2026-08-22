@@ -62,6 +62,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 ## direction
 - ⭐ @cclio-coordinator-trial.md — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
 - ⭐ @pm-fold-or-drop.md — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
+- ⭐ @pm-freebie-verdict-first.md — «easy way?» wants a COST VERDICT, not a plan; if it isn't small say so and stop — building it anyway IS the scope drift
 - ❗ @memfile-import-fails-silently.md — a broken `@import` loads nothing and SAYS nothing; on-disk presence is not evidence of being loaded — probe a leaf-only fact
 - ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → flowlog/inbox → frozen handoffs → cleanup
 - @naming-family-first.md — name by the FAMILY first, then the qualifier; `authoring-memory` not `memory-authoring` — same rule as subject-first, just pick the half that GROUPS
