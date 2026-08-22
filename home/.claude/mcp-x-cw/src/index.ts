@@ -601,10 +601,11 @@ server.registerTool(
     'yt_transcript_fetch',
     {
         description:
-            'YOUTUBE VIDEOS. Download the spoken words of a YouTube video and return them as text. ' +
+            'YOUTUBE VIDEOS — THE DEFAULT ONE. Download the spoken words of a YouTube video and return them as text. ' +
             'Use whenever the user shares a youtube.com or youtu.be link and wants what was said in it — summarising a talk, quoting it, answering questions about it, or pulling it into the conversation. ' +
-            'Prefer this over running yt-dlp yourself: it writes to the shared shelf on the mac, so cc and cw see the same transcripts, and it dedupes against what is already there. ' +
-            'Nothing to do with session handoffs or CSTs. Keeps the transcript for later recall; yt_transcript_transit is the same but leaves nothing behind.',
+            'Use this unless the user explicitly asks not to keep the video; a plain request for a transcript means this tool, not yt_transcript_transit. ' +
+            'Prefer this over running yt-dlp yourself: it writes to the shared shelf on the mac, so cc and cw see the same transcripts, it dedupes against what is already there, and the file still exists tomorrow. ' +
+            'Nothing to do with session handoffs or CSTs.',
         inputSchema: {
             url: z.string().describe('The YouTube video url'),
         },
@@ -617,9 +618,10 @@ server.registerTool(
     'yt_transcript_transit',
     {
         description:
-            'YOUTUBE VIDEOS. Download the spoken words of a YouTube video, return them as text, then delete the files immediately. ' +
-            'Use for a one-off video the user will not come back to — it keeps the store searchable. Safe: captions re-download in seconds, so nothing is lost. ' +
-            'Nothing to do with session handoffs or CSTs. yt_transcript_fetch is the one that keeps the transcript.',
+            'YOUTUBE VIDEOS — THE EXCEPTION, NOT THE DEFAULT. Download the spoken words of a YouTube video, return them as text, then delete the files immediately. ' +
+            'ONLY use this when the user says so — "do not keep it", "just read it to me", "throw it away after". A plain "get me the transcript" is NOT this tool: use yt_transcript_fetch. ' +
+            'The user picks videos he already judged worth keeping, so keeping is the norm; discarding by default would leave yt_transcript_recall with nothing to recall. ' +
+            'Safe when it is asked for: captions re-download in seconds, so nothing is lost. Nothing to do with session handoffs or CSTs.',
         inputSchema: {
             url: z.string().describe('The YouTube video url'),
         },
