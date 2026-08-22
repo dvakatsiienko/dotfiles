@@ -39,9 +39,9 @@ DELIVERY FAILURE RULE (MANDATORY): if your reply bounces (send error, "not reach
 Produce the CST and write it to the store per spec:
 
 ```bash
-mkdir -p ~/.claude/handoffs && chmod 700 ~/.claude/handoffs
-# write ~/.claude/handoffs/<utc-ts>-<slug>.md, then:
-chmod 600 ~/.claude/handoffs/<file>
+mkdir -p ~/.claude/shelf/handoffs && chmod 700 ~/.claude/shelf/handoffs
+# write ~/.claude/shelf/handoffs/<utc-ts>-<slug>.md, then:
+chmod 600 ~/.claude/shelf/handoffs/<file>
 ```
 
 Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via `/x:handoff-pull`, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
@@ -76,14 +76,14 @@ A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ing
 
 Pending handoffs are transient by design (see CST-SPEC.md — Store); this clears the store outright.
 
-1. List `~/.claude/handoffs/*.md` (filename + age). Nothing there → say "store already clean", done.
+1. List `~/.claude/shelf/handoffs/*.md` (filename + age). Nothing there → say "store already clean", done.
 2. Delete them all, including `-shared`.
 3. Report in one line: `pruned N handoff(s): <slugs>`.
 
-No confirmation dance — the user invoked a deliberately destructive verb on disposable files. Do NOT touch anything but `*.md` inside `~/.claude/handoffs/`. Produce no CST on this path.
+No confirmation dance — the user invoked a deliberately destructive verb on disposable files. Do NOT touch anything but `*.md` inside `~/.claude/shelf/handoffs/`. Produce no CST on this path.
 
 ## Cleanup (every invocation)
 
 ```bash
-find ~/.claude/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
+find ~/.claude/shelf/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
 ```

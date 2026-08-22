@@ -107,7 +107,7 @@ A surface that can produce or ingest CSTs — the `cc` `handoff*` skills, or `cw
 _Avoid_: naming one frontend when the statement holds for all
 
 **Handoff store**:
-`~/.claude/handoffs/` — the directory all handoff frontends share. Files are transient: deleted on ingest (`-shared` kept), swept after 24h.
+`~/.claude/shelf/handoffs/` — the directory all handoff frontends share. Files are transient: deleted on ingest (`-shared` kept), swept after 24h.
 
 **Pending handoff**:
 A CST file in the handoff store awaiting ingest. The handoff skill family and the `cw` MCP server own its lifecycle; sline's 📬 only observes.

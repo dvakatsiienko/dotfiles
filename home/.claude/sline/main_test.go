@@ -617,7 +617,7 @@ func TestClaudeHomePathsAgree(t *testing.T) {
 		slineStatePath():   filepath.Join(base, "sline", "sline-state.json"),
 		settingsPath():     filepath.Join(base, "settings.json"),
 		sessionsDir():      filepath.Join(base, "sessions"),
-		handoffsDir():      filepath.Join(base, "handoffs"),
+		handoffsDir():      filepath.Join(base, "shelf", "handoffs"),
 		focusPath("abc12"): filepath.Join(base, "focus", "abc12.json"),
 	}
 	for got, want := range cases {

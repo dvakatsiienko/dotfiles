@@ -18,7 +18,7 @@ If the user stated what THIS thread is for (a focus, "continue only the X part")
 
 ## FILE MODE
 
-1. Sweep first (Cleanup below). List `~/.claude/handoffs/*.md` by mtime.
+1. Sweep first (Cleanup below). List `~/.claude/shelf/handoffs/*.md` by mtime.
 2. Pick: topic keyword → match against filenames/slugs; no keyword → newest. If 2+ files are recent and no keyword disambiguates, list them (filename + age) and ask the user to point — never guess between plausible candidates.
 3. Read the file, ingest per spec. Delete it (`-shared` files: keep). Confirm in ≤2 lines and proceed as the old thread.
 4. Nothing pending → say so in one line; suggest the sender side (`/handoff` in the old thread — `cc` or `cw`).
@@ -56,5 +56,5 @@ I am a fresh session taking over your thread. Pause current work, do this in one
 ## Cleanup (every invocation)
 
 ```bash
-find ~/.claude/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
+find ~/.claude/shelf/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
 ```

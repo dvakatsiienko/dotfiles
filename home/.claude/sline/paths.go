@@ -9,10 +9,9 @@ import (
 // each resolve the home directory and re-spell a path segment, which meant the
 // layout of a directory none of them owns was duplicated across the package.
 //
-// This is also where a move lands: CONTEXT.md plans a consolidated artifact
-// shelf at ~/.claude/shelf/ with handoffs as one family under it. That shelf
-// does not exist yet, so these point at today's layout — and when it arrives,
-// this file is the only thing that changes.
+// This is also where a move lands: the consolidated artifact shelf at
+// ~/.claude/shelf/ now exists, with handoffs as one family under it. That move
+// changed exactly one line below, which is what this file was for.
 
 func claudeHome(parts ...string) string {
 	homeDir, err := os.UserHomeDir()
@@ -35,7 +34,7 @@ func sessionsDir() string { return claudeHome("sessions") }
 func focusPath(sessionID string) string { return claudeHome("focus", sessionID+".json") }
 
 // handoffsDir is the CST store every handoff frontend shares.
-func handoffsDir() string { return claudeHome("handoffs") }
+func handoffsDir() string { return claudeHome("shelf", "handoffs") }
 
 // outputStylesDir holds every style file — the peers of whichever one is active.
 func outputStylesDir() string { return claudeHome("output-styles") }

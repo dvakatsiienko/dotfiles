@@ -81,7 +81,7 @@ TypeScript, sline in Go for the read-only count — because they cannot share a 
 languages. So the rules live here once and implementations cite them; if an implementation and this
 section disagree, this section is right and the implementation is a bug.
 
-- **Location**: `~/.claude/handoffs/`. Directory `chmod 700`, files `chmod 600`.
+- **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
 - **Filename**: `<utc-ts>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ` and `<slug>` is
   kebab-case. Append `-shared` before `.md` when multiple threads are expected to pull it.
 - **Membership**: only `*.md` directly in that directory is a handoff. Anything else — a stray
