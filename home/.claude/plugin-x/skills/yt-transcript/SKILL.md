@@ -26,7 +26,7 @@ Requires `yt-dlp`, `jq`, `python3` on `PATH` (all present on this Mac).
 ## The store
 
 ```
-~/.claude/shelf/yt-transcripts/{sanitized title} [{video_id}]/
+~/.claude/shelf/yt-transcripts/{kebab-slug}-{video_id}/
 ├── transcript.txt    # clean readable text — the thing you read
 ├── metadata.json     # url, video_id, title, channel, duration, source
 └── captions.vtt      # the raw download, kept as the audit trail
@@ -36,7 +36,11 @@ Requires `yt-dlp`, `jq`, `python3` on `PATH` (all present on this Mac).
 so **always write metadata.json**, and when you quote a transcript back, name the video and its
 url from that file.
 
-📌 The `[video_id]` suffix is the dedupe key and the recall key. It is not decoration.
+📌 **The trailing `-{video_id}` is the dedupe key and the recall key, not decoration.**
+
+The whole name is lowercase kebab-case with nothing in it that needs shell quoting — a path from
+this store can be pasted anywhere unquoted. The slug is capped at 70 characters, cut at a word
+boundary; the id keeps its original case, because YouTube ids are case-sensitive.
 
 ## Three modes
 
@@ -82,15 +86,19 @@ title and channel you need anyway, in one call, in about two seconds.
 
 ```bash
 VID=$(jq -r .id "$WORK/meta.json")
-ls "$SHELF" 2>/dev/null | grep -F "[$VID]"
+ls "$SHELF" 2>/dev/null | grep -E -- "-${VID}$"
 ```
 
 A hit means the transcript already exists: **read it and stop.** Do not re-download. Say plainly
 that you reused the existing copy.
 
-⚠️ Use `grep -F` with the brackets, exactly as written. `[$VID]` inside a shell glob or a
-`find -name` pattern is a **character class**, not a literal — `*[PXzHKuBuyJU]` matches any name
-ending in one of those letters. That silent wrong match is the bug this line avoids.
+⚠️ **Anchor the match with `$`, exactly as written.** The id is always the tail of the name after
+a hyphen, so an anchored match can only ever hit the same video. An unanchored search would match a
+slug that merely contains those letters. `--` is there because the pattern starts with a hyphen.
+
+📌 Never reach for a glob or `find -name` here. This store used to be named `title [id]`, and
+`*[PXzHKuBuyJU]` is a **character class** to both — it matches any name ending in one of those
+letters. The kebab rename removed the brackets; do not reintroduce that shape.
 
 ### 3. Pick exactly ONE language code
 
@@ -107,8 +115,7 @@ tracks and YouTube answers **429 Too Many Requests**, which then blocks the whol
 
 ```bash
 TITLE=$(jq -r .title "$WORK/meta.json")
-SAFE=$(python3 "$SCRIPTS/sanitize_title.py" "$TITLE")
-DIR="$SHELF/$SAFE [$VID]"
+DIR="$SHELF/$(python3 "$SCRIPTS/sanitize_title.py" "$TITLE" "$VID")"
 mkdir -p "$DIR" && cd "$DIR"
 
 yt-dlp --skip-download --write-subs --write-auto-subs \
@@ -178,9 +185,14 @@ A bare `list` argument means the first command below and nothing else.
 
 ```bash
 SHELF="$HOME/.claude/shelf/yt-transcripts"
-ls "$SHELF"                                        # everything on the shelf
-ls "$SHELF" | grep -iF '<fragment or video id>'    # narrow by title or id
+ls "$SHELF"                                            # everything on the shelf
+ls "$SHELF" | grep -iF -- '<fragment or video id>'     # narrow by directory name
+grep -li -- '<fragment>' "$SHELF"/*/metadata.json      # search the real titles
 ```
+
+📌 Directory names are kebab-case, so `CLAUDE.md` does not appear in one — `claude-md` does. When
+a fragment is punctuated or Dima quotes a title as he saw it, search `metadata.json` instead; it
+holds the title verbatim.
 
 Then read that directory's `transcript.txt`, with `metadata.json` for the url and channel.
 
