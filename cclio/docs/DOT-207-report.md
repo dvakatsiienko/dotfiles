@@ -10,7 +10,7 @@ status: built and committed — NOT registered, one settings change is dima's to
 ## the two-line answer
 
 **yes, a plugin can ship commands.** built, validated, committed at
-`/Users/dima/projects/dotfiles/cclio/plugin-cclio/`. no skill conversion was needed.
+`/Users/dima/dotfiles/cclio/plugin-cclio/`. no skill conversion was needed.
 
 **but the premise the task rests on is false, and i measured it twice.** a command is not
 free. project commands and plugin commands both sit in the resident listing exactly like
@@ -21,7 +21,7 @@ skills. the free tier exists, it is just a different lever — see §3.
 ## 1 · what i built
 
 ```
-/Users/dima/projects/dotfiles/cclio/plugin-cclio/
+/Users/dima/dotfiles/cclio/plugin-cclio/
 ├── .claude-plugin/
 │   ├── plugin.json          name "cclio", version 0.1.0
 │   └── marketplace.json     marketplace "cclio", one plugin, source "./"
@@ -32,7 +32,7 @@ skills. the free tier exists, it is just a different lever — see §3.
     └── graceful-halt.md     ← cclio-graceful-halt.md
 ```
 
-structured after `/Users/dima/projects/dotfiles/home/.claude/plugin-x/` — same
+structured after `/Users/dima/dotfiles/home/.claude/plugin-x/` — same
 `.claude-plugin/` manifest pair, same author block, same `source: "./"` self-reference.
 
 - the four command files are **byte-identical copies**. zero behaviour drift. verified with
@@ -89,7 +89,7 @@ the brief says *"a COMMAND fires only when typed. Near-zero resting context cost
 not what this machine does.
 
 **measurement 1 — the four cclio commands are ALREADY resident today.** i booted
-`claude -p --model haiku` with cwd `/Users/dima/projects/dotfiles/cclio` and asked it to list
+`claude -p --model haiku` with cwd `/Users/dima/dotfiles/cclio` and asked it to list
 entries in its available-skills listing containing `cclio`. it returned all four:
 
 ```
@@ -196,7 +196,7 @@ so the four split:
 disable-model-invocation: true
 ```
 
-added under `description:` in `/Users/dima/projects/dotfiles/cclio/plugin-cclio/commands/<name>.md`.
+added under `description:` in `/Users/dima/dotfiles/cclio/plugin-cclio/commands/<name>.md`.
 say which of the four and i will apply it in one commit.
 
 ---
@@ -215,7 +215,7 @@ bare names the plugin would expose: `/init`, `/report`, `/flowlog`, `/graceful-h
 swept for collisions: the 14 `x` skills, the 11 `mattpocock-skills`, `ralph-loop` (3),
 `ui-theme-designer` (2), `linear-cli`, `frontend-design`, `context7`, `typescript-lsp`, `warp`,
 and every built-in that appears in a session's skill listing. `~/.claude/commands/` does not
-exist, and `/Users/dima/projects/dotfiles/.claude/commands/` does not exist, so neither adds
+exist, and `/Users/dima/dotfiles/.claude/commands/` does not exist, so neither adds
 names. `boot` is also free, if you want it as the `init` escape hatch.
 
 📌 **the collision costs the whole typing saving on that one command.** `/cclio-init` and
@@ -245,7 +245,7 @@ setup changed. registering needs two keys in `/Users/dima/.claude/settings.json`
 "cclio": {
   "source": {
     "source": "directory",
-    "path": "/Users/dima/projects/dotfiles/cclio/plugin-cclio"
+    "path": "/Users/dima/dotfiles/cclio/plugin-cclio"
   },
   "autoUpdate": true
 }
@@ -257,7 +257,7 @@ setup changed. registering needs two keys in `/Users/dima/.claude/settings.json`
 or, equivalently, without hand-editing json:
 
 ```sh
-claude plugin marketplace add /Users/dima/projects/dotfiles/cclio/plugin-cclio
+claude plugin marketplace add /Users/dima/dotfiles/cclio/plugin-cclio
 claude plugin install cclio@cclio
 ```
 
@@ -267,14 +267,14 @@ DOT-206. both `install` and `marketplace add` accept `--scope project` and `--sc
 given these are coordinator-only rituals, project or local scope is the honest fit:
 
 ```sh
-cd /Users/dima/projects/dotfiles
-claude plugin marketplace add /Users/dima/projects/dotfiles/cclio/plugin-cclio --scope project
+cd /Users/dima/dotfiles
+claude plugin marketplace add /Users/dima/dotfiles/cclio/plugin-cclio --scope project
 claude plugin install cclio@cclio --scope project
 ```
 
 📌 i did not verify which settings file `--scope project` writes to from within the dotfiles
-repo, nor whether a plugin registered at `/Users/dima/projects/dotfiles` reaches a session
-booted in `/Users/dima/projects/dotfiles/cclio`. **that pair is the one thing to check before
+repo, nor whether a plugin registered at `/Users/dima/dotfiles` reaches a session
+booted in `/Users/dima/dotfiles/cclio`. **that pair is the one thing to check before
 committing to a scope.** i left it alone rather than guess.
 
 after registering, `claude plugin details cclio` prints the real always-on cost, and

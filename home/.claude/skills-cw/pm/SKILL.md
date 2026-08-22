@@ -49,7 +49,7 @@ are carried here by hand. If they are edited there, edit them here too — nothi
 
 ## Workspace map — inlined, because `cw` cannot read the repo's tracker context
 
-On `cc` the vocabulary below is normative in `~/projects/dotfiles/docs/tracker/CONTEXT.md` +
+On `cc` the vocabulary below is normative in `~/dotfiles/docs/tracker/CONTEXT.md` +
 `docs/tracker/adr/`. `cw` cannot load those, so they are carried here by hand. Restructured
 2026-08-17 (DOT-72 / TRK-0001); if the repo files move on, this block must be re-adapted — nothing
 detects the drift.

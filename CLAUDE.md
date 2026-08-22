@@ -141,16 +141,16 @@ Reference actual files for current aliases:
 **Config Locations:**
 
 - `~/.claude/` = Standard Claude Code config directory (symlink targets)
-- `~/projects/dotfiles/home/.claude/` = Source of truth (original files, git tracked)
-- `~/projects/dotfiles/cc` = symlink to the above, for shorter paths
-- `~/projects/dotfiles/.claude/` = Project-level claude configs for dotfiles project
+- `~/dotfiles/home/.claude/` = Source of truth (original files, git tracked)
+- `~/dotfiles/cc` = symlink to the above, for shorter paths
+- `~/dotfiles/.claude/` = Project-level claude configs for dotfiles project
 
 **Symlink Flow:**
 
 ```
-~/.claude/CLAUDE.md      → ~/projects/dotfiles/home/.claude/CLAUDE.md
-~/.claude/settings.json  → ~/projects/dotfiles/home/.claude/settings.json
-~/.claude/hooks/         → ~/projects/dotfiles/home/.claude/hooks/
+~/.claude/CLAUDE.md      → ~/dotfiles/home/.claude/CLAUDE.md
+~/.claude/settings.json  → ~/dotfiles/home/.claude/settings.json
+~/.claude/hooks/         → ~/dotfiles/home/.claude/hooks/
 ```
 
 These are no longer hand-made: the mirror rule covers them, so `pnpm dotfiles-link` reports and

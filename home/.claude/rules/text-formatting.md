@@ -28,7 +28,7 @@ to the page you meant.
   One scheme covers everything: **`cursor://file/<absolute path>`**, which opens files and
   directories alike in Cursor. Click-tested 2026-08-16, both kinds.
 
-      [`home/.claude/rules/text-formatting.md`](cursor://file/Users/dima/projects/dotfiles/home/.claude/rules/text-formatting.md)
+      [`home/.claude/rules/text-formatting.md`](cursor://file/Users/dima/dotfiles/home/.claude/rules/text-formatting.md)
 
   📌 `file:///…` (Finder) and `vscode://file/…` (VS Code) also route, if a target ever needs
   them. Neither is the default — Cursor is the editor here. Sline emits the same `cursor://`
@@ -77,7 +77,7 @@ silently. The test: **if a machine reads it, or a human would copy-paste it, it 
 | types + classes | `TypeScript`, `ReactNode`, `HTMLElement` |
 | env vars, constants | `GITHUB_TOKEN`, `SSH_AUTH_SOCK`, `NODE_ENV` |
 | json / yaml keys | `"allowed_bots"`, `"permissions.allow"` |
-| paths + filenames | `~/projects/dotfiles`, `CLAUDE.md`, `SKILL.md`, `Brewfile` |
+| paths + filenames | `~/dotfiles`, `CLAUDE.md`, `SKILL.md`, `Brewfile` |
 | commands + flags | `pnpm dotfiles-link apply`, `--no-verify`, `git -C` |
 | urls, domains, package names | `@anthropic-ai/sdk`, `help.sap.com` |
 | ticket ids, branches, hashes | `DOT-66`, `iterate-on-configs`, `eb35d6a` |

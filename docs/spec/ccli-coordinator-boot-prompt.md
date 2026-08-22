@@ -6,7 +6,7 @@ drafted: 2026-08-21
 
 # boot prompt — paste this into a fresh ccli session
 
-Run it from `~/projects/dotfiles`. Pick **opus**. Nothing else needs saying first — everything
+Run it from `~/dotfiles`. Pick **opus**. Nothing else needs saying first — everything
 below is deliberately self-contained so the session starts with the clearest picture and the least
 noise.
 
@@ -24,7 +24,7 @@ then confirm back to me, in under 10 lines: the two roles, where each sits, and 
 CLAUDE_CONFIG_DIR is rejected. if any of that is unclear from the docs, say so instead of
 guessing — the spec is wrong if it needs explaining.
 
-then do DOT-190 only: scaffold ~/projects/dotfiles/cclio as a coordinator scope.
+then do DOT-190 only: scaffold ~/dotfiles/cclio as a coordinator scope.
   - it lives in dotfiles under the mirror rule, symlinked out. no new repo.
   - CLAUDE.md, .claude/commands/, .claude/agents/, memory/
   - CLAUDE.md is a charter, not a manual: who the coordinator is, the delegate-vs-do-it-

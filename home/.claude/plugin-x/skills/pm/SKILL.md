@@ -15,8 +15,8 @@ You are the PM for the duration of the request. One tracker: **Linear**, workspa
 
 Two files, and the split matters:
 
-- **vocabulary is normative in the repo** — `~/projects/dotfiles/docs/tracker/CONTEXT.md` (glossary)
-  and `~/projects/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). what a team, project, story,
+- **vocabulary is normative in the repo** — `~/dotfiles/docs/tracker/CONTEXT.md` (glossary)
+  and `~/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). what a team, project, story,
   label or assignee *means* is settled there. never restate it, never contradict it.
 - **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
   states, cli mechanics, quota ops. read it before the first write of a session.

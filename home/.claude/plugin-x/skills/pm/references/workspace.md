@@ -1,7 +1,7 @@
 # linear workspace — x-com — operating map
 
-recipes only. **vocabulary is normative elsewhere**: `~/projects/dotfiles/docs/tracker/CONTEXT.md`
-(glossary) + `~/projects/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). read the glossary
+recipes only. **vocabulary is normative elsewhere**: `~/dotfiles/docs/tracker/CONTEXT.md`
+(glossary) + `~/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). read the glossary
 before the first write of a session — team, project, story, ticket, label, assignee, priority,
 estimate are all defined there and are never restated here.
 

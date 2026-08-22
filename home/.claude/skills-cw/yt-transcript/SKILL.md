@@ -50,7 +50,7 @@ and confirm with `ls "$SCRIPTS"` before using it:
 
 1. the `scripts/` directory shipped **beside this SKILL.md**, if you can resolve where this skill
    was unpacked
-2. `$HOME/projects/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts` — the identical
+2. `$HOME/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts` — the identical
    files, in the repo they are maintained in, on this Mac
 
 📌 Never guess a third path. If neither resolves, say so and stop rather than reimplementing the

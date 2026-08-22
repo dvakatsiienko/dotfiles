@@ -21,7 +21,7 @@ he reaches for.
 
 **Current state, both live:**
 - `dpatch` — desktop dispatch, **fully active**, keeps its own memory (`~/.claude/memory-dispatch`).
-- `cclio` — a ccli session at `~/projects/dotfiles/cclio`, holding a **snapshot** of that memory
+- `cclio` — a ccli session at `~/dotfiles/cclio`, holding a **snapshot** of that memory
   taken 2026-08-21. The two drift from the moment either writes; that cost is accepted.
 
 **What the migration settled regardless of the verdict:**

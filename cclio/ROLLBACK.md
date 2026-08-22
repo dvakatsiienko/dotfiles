@@ -1,12 +1,12 @@
 # rollback — DOT-190 coordinator home
 
-cclio lives at `~/projects/dotfiles/cclio`, a plain directory inside the dotfiles repo. it is
+cclio lives at `~/dotfiles/cclio`, a plain directory inside the dotfiles repo. it is
 NOT a nested git repo — dotfiles' git tracks every file here.
 
 ## the one-liner
 
 ```
-cd ~/projects/dotfiles && git rm -r cclio/ && git commit -m "revert: unfold cclio"
+cd ~/dotfiles && git rm -r cclio/ && git commit -m "revert: unfold cclio"
 ```
 
 that is the whole rollback. nothing outside `cclio/` was created or deleted by the scaffold.
@@ -51,8 +51,8 @@ still untouched, as before:
 every file is in dotfiles' history:
 
 ```
-cd ~/projects/dotfiles && git log --oneline -- cclio/
-cd ~/projects/dotfiles && git checkout <sha> -- cclio/
+cd ~/dotfiles && git log --oneline -- cclio/
+cd ~/dotfiles && git checkout <sha> -- cclio/
 ```
 
 ## prior history
@@ -63,4 +63,4 @@ retired; its files were carried across without graft. the shas above are dotfile
 ## what this scaffold does NOT do
 
 it does not switch dima's coordinator over. it is inert until he boots a cli session in
-`~/projects/dotfiles/cclio` and types `/cclio:init`. leaving the dir unused costs nothing.
+`~/dotfiles/cclio` and types `/cclio:init`. leaving the dir unused costs nothing.

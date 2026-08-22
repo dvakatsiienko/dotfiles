@@ -11,7 +11,7 @@ drafted: 2026-08-21
 ## the change in one line
 
 dpatch stops being a dispatch-desktop brain. the coordinator becomes **cclio**, a Claude Code
-session sitting in `~/projects/dotfiles/cclio`. dispatch-desktop degrades to a remote window with no memory of its own.
+session sitting in `~/dotfiles/cclio`. dispatch-desktop degrades to a remote window with no memory of its own.
 
 ## why (evidence, not taste)
 
@@ -30,7 +30,7 @@ session sitting in `~/projects/dotfiles/cclio`. dispatch-desktop degrades to a r
 
 | | **ccli-coord** (this agent) | **ccli-code** (spawned) |
 |---|---|---|
-| sits in | `~/projects/dotfiles/cclio` | the target project dir |
+| sits in | `~/dotfiles/cclio` | the target project dir |
 | model | opus (or fable when quota allows) | opus, chosen per task |
 | loads | global CLAUDE.md + cclio project scope | global CLAUDE.md + that project's scope |
 | memory | coordinator memory: routing, tracker conventions, fleet facts | none of the coordinator's |
@@ -51,7 +51,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
 ~/.claude/CLAUDE.md          shared-by-both only. shrinks hard.
 ~/.claude/rules/*.md         shared always-loaded layers. audited for coder-only content.
 
-~/projects/dotfiles/cclio/            ccli-coord's home. git-tracked in dotfiles.
+~/dotfiles/cclio/            ccli-coord's home. git-tracked in dotfiles.
   CLAUDE.md                  coordinator charter. auto-loads ONLY here.
   .claude/
     commands/                coordinator rituals as slash commands
@@ -59,7 +59,7 @@ Refs: anthropics/claude-code issues 30230, 15071, 80791, 37570. Detail in
   memory/                    coordinator memory: MEMORY.md index + leaf files
 ```
 
-ccli-code never cds into `~/projects/dotfiles/cclio`, so it never sees any of it. No env var, no bleed.
+ccli-code never cds into `~/dotfiles/cclio`, so it never sees any of it. No env var, no bleed.
 
 ## the delegate-vs-do-it-yourself rule
 
@@ -77,7 +77,7 @@ the project — the same peek that lets it review what ccli-code is doing. Codif
 
 ## mvp scope — what "done" means
 
-1. `~/projects/dotfiles/cclio/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
+1. `~/dotfiles/cclio/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
 2. coordinator memory written fresh — **not copied** from dispatch memory. Ported by hand, one
    pass, with the diet plan from `docs/research/context-engineering-memory.md` applied.
 3. global `~/.claude/CLAUDE.md` trimmed to shared-only; coder-specific content pushed down.
@@ -106,7 +106,7 @@ harness is a shim, not a project.
 
 ## open questions for Dima
 
-1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/projects/dotfiles/cclio/`? obsidian gives
+1. do `inbox.md` / `worklog.md` stay in obsidian, or move into `~/dotfiles/cclio/`? obsidian gives
    phone access; the repo gives git history and one-mount simplicity.
 2. ~~new repo, or a directory inside dotfiles?~~ **decided 2026-08-21: a plain directory in
    dotfiles at `cclio/`.** dotfiles is the fleet repo; a fleet coordinator does not get its own.
@@ -127,7 +127,7 @@ The coordinator was specced to live outside `~/projects/`. Reason: the layer sta
 ~/.claude/CLAUDE.md          shared by both roles. tiny.
 ~/projects/CLAUDE.md         ccli-code global — the layer that was missing
 ~/projects/<proj>/CLAUDE.md  project specific
-~/projects/dotfiles/cclio/CLAUDE.md           coordinator only
+~/dotfiles/cclio/CLAUDE.md           coordinator only
 ```
 
 A coordinator sitting under `~/projects/` would inherit the coder-global, defeating the split.
@@ -141,7 +141,7 @@ the isolation argument rests on a layer that has yet to be written. Note also th
 `~/.claude/CLAUDE.md` is user-scope and loads in **every** session regardless of cwd, so cclio
 already inherits it; location cannot buy isolation from that one.
 
-📌 **superseded 2026-08-21.** the coordinator now sits at `~/projects/dotfiles/cclio` — inside
+📌 **superseded 2026-08-21.** the coordinator now sits at `~/dotfiles/cclio` — inside
 `~/projects/`. safe only while the coder-global does not exist. **before DOT-195 creates it, the
 dotfiles repo relocates to `~/dotfiles` with cclio aboard.** blocking ordering constraint, not a
 preference; recorded on [DOT-202](linear://linear.app/issue/DOT-202).

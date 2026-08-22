@@ -45,8 +45,8 @@ row 6 was **not executed** — the brief forbade spawning cloud sessions. everyt
   the system is not a controlled experiment.** when two of your own observations disagree, suspect
   the environment moved before you reach for a story that reconciles them.
 - 🚨 **subagents do not inherit the parent's cwd.** they get the **workspace root** — the git repo root
-  when the parent sits inside a repo. cclio lives at `~/projects/dotfiles/cclio`; its subagents start at
-  `~/projects/dotfiles`. [verified]
+  when the parent sits inside a repo. cclio lives at `~/dotfiles/cclio`; its subagents start at
+  `~/dotfiles`. [verified]
 - ❌ "dima sees it, read-only" for rows 1–3 — the completion notice states he can send another message and
   resume the same agent. [schema]
 - ❌ "effort settable: YES" for row 4 was right but under-specified: it is per `agent()` call inside the
@@ -64,7 +64,7 @@ cclio stack: `~/.claude/CLAUDE.md`, all 10 `rules/*.md`, `dotfiles/CLAUDE.md`, `
 `reminder-cron-handover`'s **2026-09-01** and roadmap step 3 without reading a file.
 
 📌 that is proof of **inheritance**, not re-derivation: `cclio/CLAUDE.md` is a *descendant* of the
-subagent's cwd (`~/projects/dotfiles`), so a cwd-based load could never have found it.
+subagent's cwd (`~/dotfiles`), so a cwd-based load could never have found it.
 
 **conversation is NOT inherited by a plain subagent** — it answered "no" to seeing prior turns. [verified]
 **a fork inherits everything, including earlier tool results** — it reported four facts from this thread
@@ -74,7 +74,7 @@ with zero tool calls. [verified]
 
 | parent cwd | subagent cwd |
 |---|---|
-| `~/projects/dotfiles/cclio` (inside a git repo) | `~/projects/dotfiles` — the **repo root** |
+| `~/dotfiles/cclio` (inside a git repo) | `~/dotfiles` — the **repo root** |
 | a non-git scratch dir | the **same dir** — identical to parent |
 
 so the rule is *workspace root*, and the git-root case is the one that bites cclio every time.
@@ -93,15 +93,15 @@ regardless. so tell the subagent its working directory in the prompt.
 
 **it is the launch shell's cwd that decides, and nothing else.** [verified]
 
-`claude --bg` launched from `~/projects/dotfiles/cclio` produced a session whose registry entry and
-transcript both record `cwd: /Users/dima/projects/dotfiles/cclio`, and whose tui header rendered
-`~/projects/dotfiles/cclio`.
+`claude --bg` launched from `~/dotfiles/cclio` produced a session whose registry entry and
+transcript both record `cwd: /Users/dima/dotfiles/cclio`, and whose tui header rendered
+`~/dotfiles/cclio`.
 
 measured directly with `claude -p` in two directories:
 
 | launched from | stack loaded |
 |---|---|
-| `~/projects/dotfiles/cclio` | `~/.claude/CLAUDE.md` + 10 `rules/*` + `dotfiles/CLAUDE.md` + `cclio/CLAUDE.md` + all ~50 memory leaves + auto-memory `-Users-dima-projects-dotfiles` |
+| `~/dotfiles/cclio` | `~/.claude/CLAUDE.md` + 10 `rules/*` + `dotfiles/CLAUDE.md` + `cclio/CLAUDE.md` + all ~50 memory leaves + auto-memory `-Users-dima-projects-dotfiles` |
 | `~` | `~/.claude/CLAUDE.md` + 10 `rules/*` + auto-memory `-Users-dima` — **nothing from dotfiles or cclio** |
 
 📌 so `cd` before `--bg` is the entire context-selection mechanism. a bg session launched from the wrong
@@ -249,7 +249,7 @@ claude --bg --effort low --model haiku '…'          # → 025e4ea0; transcript
 claude stop ad9c4a1f ; claude stop 025e4ea0         # → "stopped …"  (both probe sessions cleaned up)
 
 # context stack, same prompt, two directories
-cd ~/projects/dotfiles/cclio && claude -p --effort low --output-format json \
+cd ~/dotfiles/cclio && claude -p --effort low --output-format json \
   'list the absolute paths of every CLAUDE.md / memory instruction file whose content is in your context…'
 cd ~ && claude -p --effort low --output-format json '…same…'
 

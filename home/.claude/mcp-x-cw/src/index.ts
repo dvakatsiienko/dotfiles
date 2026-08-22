@@ -23,7 +23,7 @@ const SUPERSEDED_DIR = join(HANDOFF_DIR, 'superseded');
 const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const SPEC_PATH = join(
     homedir(),
-    'projects/dotfiles',
+    'dotfiles',
     'home/.claude',
     'plugin-x',
     'CST-SPEC.md',
@@ -31,7 +31,7 @@ const SPEC_PATH = join(
 const TRANSCRIPT_DIR = join(homedir(), '.claude', 'shelf', 'yt-transcripts');
 const TRANSCRIPT_SCRIPTS = join(
     homedir(),
-    'projects/dotfiles',
+    'dotfiles',
     'home/.claude',
     'plugin-x',
     'skills',

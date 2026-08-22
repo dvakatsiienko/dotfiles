@@ -10,7 +10,7 @@ whole dotfiles repo to `~/dotfiles`, not moving cclio back out. see [DOT-202](li
 
 ## boot
 ```
-cd ~/projects/dotfiles/cclio && claude
+cd ~/dotfiles/cclio && claude
 /cclio:init
 ```
 
