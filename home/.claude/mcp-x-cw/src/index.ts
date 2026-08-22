@@ -6,6 +6,7 @@ import {
     mkdirSync,
     readFileSync,
     readdirSync,
+    renameSync,
     rmSync,
     statSync,
     writeFileSync,
@@ -17,6 +18,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod';
 
 const HANDOFF_DIR = join(homedir(), '.claude', 'shelf', 'handoffs');
+const SUPERSEDED_DIR = join(HANDOFF_DIR, 'superseded');
 const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const SPEC_PATH = join(
     homedir(),
@@ -71,6 +73,124 @@ server.registerTool(
                 ? `!! CST-SPEC.md is missing at ${SPEC_PATH} — this CST was composed without the authoritative spec. Say so to the user.\n\n`
                 : '') +
                 `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
+        );
+    },
+);
+
+server.registerTool(
+    'supersede_handoff',
+    {
+        description:
+            'Save a CST that REPLACES a pending one instead of adding a second: the old file moves to handoffs/superseded/ and the new one takes its place, so a session keeps exactly one live handoff. ' +
+            'Use for a re-handoff of a thread that already saved one — "update my handoff", "replace it", "hand off again". Use save_handoff for a thread\'s first. ' +
+            "Compose the CST exactly as save_handoff's description specifies; the spec lives there and is not repeated here.",
+        inputSchema: {
+            cst: z
+                .string()
+                .describe(
+                    "The complete CST document, composed per the spec in save_handoff's description",
+                ),
+            shared: z
+                .boolean()
+                .optional()
+                .describe(
+                    'Override the -shared suffix; omit to inherit it from the handoff being replaced',
+                ),
+            slug: z
+                .string()
+                .describe(
+                    'Slug of the pending handoff to replace, matched against filenames; also names the new file',
+                ),
+        },
+        title: 'Supersede handoff (CST)',
+    },
+    async ({ cst, slug, shared }) => {
+        const specMissing = !existsSync(SPEC_PATH);
+        sweep();
+        const { error, file: old } = pickBySlug(slug, listPending());
+        if (!old)
+            return text(
+                `${error}\nNothing was superseded. If this thread has no pending handoff yet, use save_handoff instead.`,
+            );
+
+        const keepShared = shared ?? old.name.endsWith('-shared.md');
+        mkdirSync(SUPERSEDED_DIR, { mode: 0o700, recursive: true });
+        // Move first, write second: the standing rule is one live CST per
+        // session, so the window this order risks is zero live, never two.
+        renameSync(old.path, join(SUPERSEDED_DIR, old.name));
+        const file = join(
+            HANDOFF_DIR,
+            `${utcTs()}-${sanitizeSlug(slug)}${keepShared ? '-shared' : ''}.md`,
+        );
+        writeFileSync(file, cst, { mode: 0o600 });
+        chmodSync(file, 0o600);
+        return text(
+            (specMissing
+                ? `!! CST-SPEC.md is missing at ${SPEC_PATH} — this CST was composed without the authoritative spec. Say so to the user.\n\n`
+                : '') +
+                `Superseded ${old.name} → handoffs/superseded/.\nNew handoff: ${file}\nTell the user in one line: handoff replaced, one live CST again; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc${keepShared ? ' (shared: kept for multiple pullers)' : ''}.`,
+        );
+    },
+);
+
+server.registerTool(
+    'list_handoffs',
+    {
+        description:
+            'List the pending CSTs in the shared handoff store — slug, age, size, and tracker run id per entry — WITHOUT ingesting or deleting any of them. ' +
+            'Use when the user asks what handoffs are pending, what is in the store, or whether anything is waiting. ' +
+            "Read-only: no file is consumed and no CST content enters this thread. peek_handoff shows one entry's META; pull_handoff is the one that ingests.",
+        inputSchema: {},
+        title: 'List pending handoffs',
+    },
+    async () => {
+        const pending = listPending();
+        if (pending.length === 0)
+            return text(
+                'Handoff store is clean — nothing pending. A thread creates one via /handoff (cw) or /x:handoff (cc).',
+            );
+
+        const rows = pending.map((f) => {
+            const runId = parseRunId(metaBlock(readOrNull(f.path)));
+            return (
+                `- ${slugOf(f.name)}${f.name.endsWith('-shared.md') ? ' (shared)' : ''} — ` +
+                `${ageLabel(f.mtimeMs)} old · ${sizeLabel(f.size)} · run ${runId ?? 'unknown'}\n  file: ${f.name}`
+            );
+        });
+        return text(
+            `${pending.length} pending handoff(s), newest first. Nothing read into this thread, nothing deleted.\n\n${rows.join('\n')}`,
+        );
+    },
+);
+
+server.registerTool(
+    'peek_handoff',
+    {
+        description:
+            'Show ONLY the META block — the human-readable head — of one pending CST, picked by slug. Never deletes and never ingests the rest. ' +
+            'Use to check what a handoff is about before committing to it: pull_handoff reads the whole CST and consumes the file, peek does neither. ' +
+            'Omit the slug when exactly one handoff is pending.',
+        inputSchema: {
+            slug: z
+                .string()
+                .optional()
+                .describe(
+                    'Keyword picking among several pending handoffs, matched against filenames',
+                ),
+        },
+        title: 'Peek at a handoff (META only)',
+    },
+    async ({ slug }) => {
+        const { error, file } = pickBySlug(slug, listPending());
+        if (!file) return text(error);
+
+        const meta = metaBlock(readOrNull(file.path));
+        if (meta === null)
+            return text(
+                `${file.name} has no META block to peek at — an unusual CST. pull_handoff would still ingest it whole.`,
+            );
+        return text(
+            `META of ${file.name} (${ageLabel(file.mtimeMs)} old, ${sizeLabel(file.size)}). Not ingested, file untouched — call pull_handoff to actually continue this thread.\n\n${meta}`,
         );
     },
 );
@@ -143,6 +263,33 @@ server.registerTool(
     },
 );
 
+server.registerTool(
+    'prune_handoff_one',
+    {
+        description:
+            'Delete ONE pending CST from the shared handoff store, picked by slug, leaving the rest alone. ' +
+            'Use when the user wants a specific handoff dropped — stale, wrong thread, no longer needed. prune_handoffs is the one that clears everything. ' +
+            'An explicit delete also removes a -shared file: that suffix means the file survives being pulled, not that it survives being pruned.',
+        inputSchema: {
+            slug: z
+                .string()
+                .describe(
+                    'Slug of the handoff to delete, matched against filenames',
+                ),
+        },
+        title: 'Prune one handoff',
+    },
+    async ({ slug }) => {
+        const { error, file } = pickBySlug(slug, listPending());
+        if (!file) return text(`${error}\nNothing was deleted.`);
+
+        rmSync(file.path);
+        return text(
+            `Deleted ${file.name}${file.name.endsWith('-shared.md') ? ' — it was -shared, so any other thread waiting on it no longer has it' : ''}.`,
+        );
+    },
+);
+
 server.registerPrompt(
     'handoff',
     {
@@ -201,11 +348,19 @@ function loadSpec(): string {
 }
 
 // The store is shared by every frontend, so a file can vanish between the
-// readdir and the stat — another thread pulling, a cc session pruning. That is
+// readdir and the read — another thread pulling, a cc session pruning. That is
 // normal traffic, not an error, and it must never take a tool call down.
-function mtimeOrNull(path: string) {
+function statOrNull(path: string) {
     try {
-        return statSync(path).mtimeMs;
+        return statSync(path);
+    } catch {
+        return null;
+    }
+}
+
+function readOrNull(path: string) {
+    try {
+        return readFileSync(path, 'utf8');
     } catch {
         return null;
     }
@@ -217,8 +372,8 @@ function sweep() {
     for (const entry of readdirSync(HANDOFF_DIR)) {
         if (!entry.endsWith('.md')) continue;
         const path = join(HANDOFF_DIR, entry);
-        const mtimeMs = mtimeOrNull(path);
-        if (mtimeMs !== null && now - mtimeMs > SWEEP_MAX_AGE_MS) {
+        const stat = statOrNull(path);
+        if (stat !== null && now - stat.mtimeMs > SWEEP_MAX_AGE_MS) {
             try {
                 rmSync(path);
             } catch {
@@ -228,28 +383,104 @@ function sweep() {
     }
 }
 
-function listPending() {
+type PendingFile = {
+    mtimeMs: number;
+    name: string;
+    path: string;
+    size: number;
+};
+
+// Only *.md is a handoff, which is also what keeps superseded/ invisible here:
+// it is a directory, so it never matches, and no tool has to know it exists.
+function listPending(): PendingFile[] {
     if (!existsSync(HANDOFF_DIR)) return [];
     return readdirSync(HANDOFF_DIR)
         .filter((entry) => entry.endsWith('.md'))
         .map((name) => {
             const path = join(HANDOFF_DIR, name);
-            return { mtimeMs: mtimeOrNull(path), name, path };
+            const stat = statOrNull(path);
+            return stat === null
+                ? null
+                : { mtimeMs: stat.mtimeMs, name, path, size: stat.size };
         })
-        .filter(
-            (f): f is { mtimeMs: number; name: string; path: string } =>
-                f.mtimeMs !== null,
-        )
+        .filter((f): f is PendingFile => f !== null)
         .sort((a, b) => b.mtimeMs - a.mtimeMs);
 }
 
-function describe(files: ReturnType<typeof listPending>) {
-    const now = Date.now();
+// Four tools address one file by slug and every one of them must refuse rather
+// than guess, so the ambiguity wording is written once, here.
+function pickBySlug(
+    slug: string | undefined,
+    pending: PendingFile[],
+): { error: string; file: null } | { error: null; file: PendingFile } {
+    const matches = slug
+        ? pending.filter((p) =>
+              p.name.toLowerCase().includes(slug.toLowerCase()),
+          )
+        : pending;
+    const [picked, ...rest] = matches;
+    if (!picked)
+        return {
+            error:
+                pending.length === 0
+                    ? 'Handoff store is clean — nothing pending.'
+                    : `No pending handoff matches "${slug}". Pending:\n${describe(pending)}\nAsk the user to point at one.`,
+            file: null,
+        };
+    if (rest.length > 0)
+        return {
+            error: `Several pending handoffs match — do not guess. Ask the user to point (then call again with a slug that picks one):\n${describe(matches)}`,
+            file: null,
+        };
+    return { error: null, file: picked };
+}
+
+/**
+ * META is the human-facing head of a CST and ends where the next top-level
+ * heading begins. Bounding the slice is what makes it trustworthy: the words
+ * "run id" also occur in ordinary prose further down a CST, and a whole-file
+ * search would happily report one of those as the run marker.
+ */
+function metaBlock(cst: string | null) {
+    if (cst === null) return null;
+    const lines = cst.split('\n');
+    const start = lines.findIndex((line) => /^#\s+META\b/i.test(line));
+    if (start === -1) return null;
+    const rest = lines.slice(start + 1);
+    const end = rest.findIndex((line) => /^#\s/.test(line));
+    return [lines[start], ...(end === -1 ? rest : rest.slice(0, end))]
+        .join('\n')
+        .trim();
+}
+
+// Two shapes are live in the store — `run id: **x**` today, `**Run marker:** `x``
+// in older CSTs. Anything else returns null rather than a guess: a wrong run id
+// silently merges two tracker runs, which is worse than an absent one.
+function parseRunId(meta: string | null) {
+    const match = meta?.match(
+        /run\s*(?:id|marker)\s*:?\**\s*(?:\*\*|`)([^*`\n]+)(?:\*\*|`)/i,
+    );
+    return match ? match[1].trim() : null;
+}
+
+function slugOf(name: string) {
+    return name.replace(/^\d{8}T\d{6}Z-/, '').replace(/(?:-shared)?\.md$/, '');
+}
+
+function ageLabel(mtimeMs: number) {
+    const minutes = Math.round((Date.now() - mtimeMs) / 60000);
+    if (minutes < 90) return `${minutes}m`;
+    if (minutes < 60 * 36) return `${Math.round(minutes / 60)}h`;
+    return `${Math.round(minutes / 1440)}d`;
+}
+
+function sizeLabel(bytes: number) {
+    return bytes < 1024 ? `${bytes} B` : `${(bytes / 1024).toFixed(1)} kB`;
+}
+
+function describe(files: PendingFile[]) {
     return files
-        .map(
-            (f) =>
-                `- ${f.name} (${Math.round((now - f.mtimeMs) / 60000)}m old)`,
-        )
+        .map((f) => `- ${f.name} (${ageLabel(f.mtimeMs)} old)`)
         .join('\n');
 }
 
