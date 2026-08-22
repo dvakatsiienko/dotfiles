@@ -3,6 +3,7 @@ name: comms-mobile
 description: Mobile mode — Dima is typing on a phone keyboard, so ask for the least input possible. USER-INVOKED ONLY (/x:comms-mobile). Never load this on your own, never infer it from context, never suggest it.
 intended-models: fable, opus
 argument-hint: "[off]"
+disable-model-invocation: true
 ---
 
 # Mobile mode

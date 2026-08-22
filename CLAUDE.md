@@ -220,9 +220,11 @@ Issues live in **Linear** (workspace `x-com`, team `DOT`), managed via the `line
 
 Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-info`, `agent`, `human`, Canceled). See the triage role bridge in `docs/tracker/CONTEXT.md`.
 
-### Skill conventions
+### Authoring guides — skills and memory
 
-Skill frontmatter conventions, incl. `intended-models:`, live in `docs/agents/skills.md`.
+The reference pair — the reference pair: `docs/agents/skill-authoring.md` (frontmatter, invocation
+control, the listing budget) and `docs/agents/memory-authoring.md` (where a fact goes, decided
+before it is written).
 
 ### Domain docs
 

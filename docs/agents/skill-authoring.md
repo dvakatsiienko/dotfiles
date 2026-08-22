@@ -1,4 +1,4 @@
-# skill conventions
+# skill authoring — the full reference
 
 conventions for the skills in `home/.claude/plugin-x/skills/` and their `cw` adaptations in
 `home/.claude/skills-cw/`. mechanics of the sync live in `script/skills-sync-cw.ts`.
@@ -53,3 +53,46 @@ consequences for how skills are written:
   description resident, N rule files read on demand.
 - unlike mcp tools, skills have **no `ToolSearch` equivalent** — mcp overflow degrades to lazy
   retrieval, skill overflow degrades to silent truncation. there is no `SkillSearch`.
+
+## invocation control — the only lever that removes a description from the budget
+
+📌 **commands and skills are the same thing now.** the docs state it plainly: *"Custom commands have
+been merged into skills."* `.claude/commands/deploy.md` and `.claude/skills/deploy/SKILL.md` both
+create `/deploy` and behave identically. so **a command is billed exactly like a skill** — measured
+on this machine, the four `cclio-*` commands sit in the resident listing at ~30–40 tokens each.
+there is no cheap tier by being "a command".
+
+three fields, and two of them are easy to confuse:
+
+| what you want | set this | description resident? |
+| --- | --- | --- |
+| **only Dima invokes it** | `disable-model-invocation: true` | ❌ **no — this is the saving** |
+| only Claude invokes it | `user-invocable: false` | ✅ yes, always |
+| Dima-only, without editing the file | `"user-invocable-only"` in `skillOverrides` (settings) | ❌ no |
+
+- ⚠️ **`user-invocable: false` is the trap.** it reads like the one you want and is the opposite:
+  it hides the skill from the `/` menu, keeps Claude's access, and keeps the description resident.
+- **`disable-model-invocation: true` also stops** the skill being preloaded into subagents, and
+  (v2.1.196+) stops it running when a scheduled task fires with it as the prompt.
+- 📌 `"user-invocable-only"` in `skillOverrides` reaches skills **we do not own** — third-party
+  plugin skills that would otherwise sit resident forever. that is its real use; for our own files,
+  prefer the frontmatter field, because it travels with the file.
+
+### the habit
+
+**mark a skill user-invocable-only whenever Dima is the only one who should ever start it.** the
+docs' own test is side effects and timing — `/commit`, `/deploy`, `/send-slack-message`. you do not
+want Claude deciding to deploy because the code looks ready.
+
+🚫 **but check for self-triggering FIRST, and read the skill body, not just its name.** a skill that
+is *supposed* to fire on its own dies silently when flagged, and nothing reports it. real examples
+from this repo:
+
+- `cclio-graceful-halt` **must stay model-invocable** — Dima may simply say something that means
+  «we are done», and starting the ritual is the agent's job, not his
+- `cclio-flowlog` fires «whenever a mistake just happened»
+- `cclio-report` fires on «sup» / «where are we»
+- `x:cmt` loads on any commit, typed or not
+
+the saving is ~30–40 tokens per skill. **that is never worth killing a habit for.** when in doubt,
+leave it invocable.
