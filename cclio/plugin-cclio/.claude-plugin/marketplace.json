@@ -1,0 +1,15 @@
+{
+  "name": "cclio",
+  "owner": {
+    "name": "Dima Vakatsiienko",
+    "email": "imagnum.satellite@gmail.com"
+  },
+  "description": "cclio coordinator rituals marketplace",
+  "plugins": [
+    {
+      "name": "cclio",
+      "source": "./",
+      "description": "cclio's coordinator rituals — boot, status board, flowlog habit, graceful halt"
+    }
+  ]
+}
