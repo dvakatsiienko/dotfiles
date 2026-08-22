@@ -35,6 +35,15 @@ one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
   not is unexplained; the handover direction was never tested, so do not assert a cause.
 - **background sessions survive a coordinator reset** — detached daemon, registered in
   `~/.claude/sessions/<pid>.json`, re-attachable by name.
+- ⭐ **and they are ADOPTABLE, not merely survivable.** measured: coder `11510c80` was spawned by a
+  **desktop-tab-born** session, outlived it, and was briefed by a **terminal-born** coordinator
+  (`cclio-b9`) that never spawned it. so a coder is not owned by its parent — it is a resource on
+  the machine, addressable by any coordinator that can read `~/.claude/sessions/` and `ListAgents`.
+  📌 **the practical consequence: never respawn to escape a lost parent.** a warm coder is worth
+  ~50k context; the only thing a coordinator restart loses is knowing the coder is there, and the
+  registry answers that. what is proven is **delivery** — a send resolved and enqueued across the
+  door boundary; whether an adopted coder does the work correctly is a separate check, per
+  [[spawn-contract]]'s written-marker rule.
 - ⚠️ **`claude --bg <prompt>` does NOT run the prompt.** the session comes up **idle**; deliver the
   brief afterwards with `SendMessage`, which also lets you attach `notify_when_idle: true`.
 - ⚠️ **a subagent does NOT start in the parent's cwd** — it gets the **git repo root**, and the
