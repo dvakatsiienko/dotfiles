@@ -11,7 +11,11 @@ pre-commit:
   commands:
     format:
       glob: "*.{js,ts,json,jsonc}"
-      run: pnpm exec biome check --no-errors-on-unmatched {staged_files}
+      # --max-diagnostics keeps a failure READABLE. Without it biome prints
+      # dozens of diagnostics, then "the number exceeds the limit", and the
+      # actual cause scrolls off above lefthook's summary — the commit looks
+      # like it just did not happen. That has cost two sessions.
+      run: pnpm exec biome check --no-errors-on-unmatched --max-diagnostics=5 {staged_files}
     typecheck:
       run: pnpm typecheck
     test:

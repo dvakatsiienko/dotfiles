@@ -42,3 +42,35 @@ indistinguishable from one that does not exist — and the belief propagates int
 it survives. when a leaf says «cannot», ask when that was last run.
 
 Related: [[cclio-coordinator-trial]], [[spawn-types]].
+
+## the other half: a capability has a resting price
+
+Distilled from two Matt Pocock videos Dima kept on the shelf. They sharpen this leaf rather than
+contradict it — **naming a capability includes naming what it costs to have it loaded.**
+
+**«Claude Code's system tools are SO BLOATED».** He cut his system tools from **25k to ~8k tokens**
+by disabling, in global `settings.json`, the things he never uses: plan-mode control,
+`AskUserQuestion`, cron scheduling, bundled skills, dynamic workflows, remote control, claude.ai
+connectors, and artifacts. Disabling a tool removes its **definition** from the prompt, not just
+its availability. His method: run a proxy to see what is actually shipped, then tune. His reason,
+and it is the load-bearing line: *the less you send over the wire, the better the outputs, because
+the agent has less to be distracted by.*
+
+📌 **Dima is already half-way there** — `NotebookEdit`, the `Cron*` trio, `AskUserQuestion` and
+`EnterPlanMode`/`ExitPlanMode` are in his `permissions.deny`. The untouched ones are the expensive
+ones: bundled skills, dynamic workflows, remote control, connectors, artifacts. Raising that is
+this leaf's job; **deciding it is his**, and several of those are things cclio actively uses.
+
+⚭ So the rule has two directions now, and both must be honoured together:
+- a gated capability nobody names is functionally missing → **surface it**
+- a loaded capability nobody uses is a tax on every request → **surface that too**, with the
+  number, and never quietly enable something for convenience.
+
+**«Most companies are NOT READY for background agents».** His claim: the thing that makes
+background agents usable is not the agent, it is a **fast, well-tuned CI** — typecheck, tests and
+lint in about a minute, with detailed failure output the agent can read. That is what lets a human
+skim a PR and trust it. Directly relevant to [[spawn-contract]]: the gate on how much cclio can
+delegate is how good the automated feedback is, not how good the coder is.
+
+📌 both are **one person's practice, not a benchmark** — [dima] / [community] tier evidence. Useful
+as a lead to test, never as a settled number.
