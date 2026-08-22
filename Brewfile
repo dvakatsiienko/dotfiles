@@ -27,6 +27,11 @@ brew "fd"                        # find
 brew "ripgrep"                   # grep (replaced the_silver_searcher)
 brew "tree"                      # directory trees
 brew "trash"                     # rm, but recoverable
+brew "coreutils"                 # gnu twins as g-prefixed names; `gtimeout` above all —
+                                 # macos ships no `timeout`, and a missing one is SILENT, so a
+                                 # command that never ran reads as a hang. NOT on PATH by design:
+                                 # the gnubin shim would shadow bsd sed/date/ls and change their
+                                 # behaviour repo-wide. call `gtimeout` by name.
 
 # ── Git and review ──────────────────────────────────────────────────────────
 brew "git"
