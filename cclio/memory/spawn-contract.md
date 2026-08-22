@@ -64,3 +64,16 @@ halting cclio does NOT oblige halting its coders. Decide on **context preservati
 📌 **stopping is not `TaskStop`.** That tool only reaches subagents *this* session spawned. A
 background session inherited from a previous coordinator is stopped by pid, read from
 `~/.claude/sessions/<pid>.json`. `ListAgents` shows it; it does not stop it.
+
+🚨 **and deleting the session in the desktop Code ui does NOT stop it either.** Measured: Dima
+deleted `🔧 code: mcp rename to x-cw` from the desktop ui, and the process stayed alive and
+registered — a later coordinator found it idle in `~/.claude/sessions/90480.json` with pid 90480
+still answering `kill -0`. The ui removes the **card**, not the **daemon**.
+
+**So there is exactly one reliable stop for a background session: `kill <pid>`**, with the pid read
+from the registry. It is clean — the registry file removes itself on exit, so a follow-up `ls
+~/.claude/sessions/` is the whole verification.
+
+📌 The failure shape is the dangerous one: the ui gives positive feedback (the card is gone) for an
+action that did not happen. Anyone trusting it believes the machine is quieter than it is. **Never
+report a coder stopped because a ui said so — check the pid.**

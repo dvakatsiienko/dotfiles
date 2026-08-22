@@ -40,6 +40,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 
 ## identity & session ritual
 - @announce-model-at-open.md — MUST open with «hey <model> here», read from env; a session cannot detect a mid-thread switch, so this is the only honest label
+- @batch-drops-get-restated.md — a multi-item batch gets its parsed list restated back before acting; no parsing syntax for dima to remember
 - @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; flowlog.md = processing copy; protected.md = dima's drops, read-only
 - ⭐ @session-ends-with-a-halt.md — run `/cclio:graceful-halt` when dima signals the end, unprompted; it yields a short wrap, the interesting facts, and a copy-paste boot prompt
 - @handoff-ask-here-or-fresh.md — ask before saving a CST, not after
@@ -65,7 +66,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @pm-freebie-verdict-first.md — «easy way?» wants a COST VERDICT, not a plan; if it isn't small say so and stop — building it anyway IS the scope drift
 - ❗ @memfile-import-fails-silently.md — a broken `@import` loads nothing and SAYS nothing; on-disk presence is not evidence of being loaded — probe a leaf-only fact
 - ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → flowlog/inbox → frozen handoffs → cleanup
-- @naming-family-first.md — name by the FAMILY first, then the qualifier; `authoring-memory` not `memory-authoring` — same rule as subject-first, just pick the half that GROUPS
+- 🔑 @naming-entity-first.md — the ONE naming rule: entity leads, verb follows. keyword `entity-first <scope>` — just do it, never re-explain
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
 - ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
 - @halt-rituals-pair.md — wrap retired; ONE ritual `/cclio:graceful-halt`, two speeds — bare plans the finish, `stop` arg leaves fast without breaking
@@ -95,6 +96,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @mcp-earns-its-place-on-desktop.md — 🚫 never say «mcp lost»; cli-first is for surfaces WITH a shell, desktop has none so mcp is its only channel
 
 ## method
+- ⭐ @claims-carry-their-test.md — a written rule states the ONE command that proves it, or is labelled an inference; CST state claims are verified on ingest, never relayed
 - ⭐ @research-vs-lived-evidence.md — dima's daily observation outranks a report; confirm the design before researching it; never relay a subagent verdict unreviewed
 
 ## environment

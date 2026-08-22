@@ -1,28 +1,53 @@
----
-name: naming-family-first
-description: name a file by the FAMILY it belongs to, then the qualifier — so siblings sort together for a human scanning a directory
-metadata:
-  type: feedback
----
+# entity-first — the ONE naming rule
 
-**Lead with the family, then the qualifier.** Dima's call: `authoring-memory.md` and
-`authoring-skill.md`, not `memory-authoring.md` / `skill-authoring.md`. His reason is human, not
-theoretical — *«for a human this quirk is easier to view/navigate»*: the two authoring guides land
-next to each other in the listing instead of scattering to `m` and `s`.
+🔑 **the keyword is `entity-first`.** Dima types it with a scope and nothing else:
 
-**Why this is NOT a contradiction of the subject-first rule** (`~/.claude/CLAUDE.md`: `handoff-delete`,
-never `delete-handoff`) — and this reconciliation matters, because it looks like one at a glance:
+    entity-first the mcp tools
+    entity-first plugin-x
+    entity-first this file
 
-- in `handoff-delete`, the family is **handoff**; `delete` is the qualifier. Subject-first holds.
-- in `authoring-memory`, the family is **authoring**; `memory` is the qualifier. Same rule.
+That is the whole ask. **Do not re-explain the rule, do not restate the reasoning, do not ask
+which variant he means.** Report what changed, nothing more. He got tired of writing the
+explanation; the keyword exists to end it.
 
-So both rules are one rule: **whatever the siblings share goes first.** The failure is not
-verb-vs-noun, it is picking the half that does *not* group. Ask «what else is in this family, and
-what do those names share?» — that shared part leads.
+## the rule
 
-📌 **Global, fleet-wide, and pending.** Dima marked it as applying everywhere and to be applied
-during the bucketing phase, not as a sweep now. Two files are renamed as the seed case; do not
-re-case the rest on sight. When bucketing opens, this belongs in the global naming rule so a future
-agent does not read the two conventions as conflicting.
+**The entity name leads. The verb follows.**
+
+    ✅ handoff_delete · handoff_delete_all · handoff_list · handoff_save
+    ❌ delete_handoff · delete_handoffs   · list_handoffs · save_handoff
+
+    ✅ authoring-memory · authoring-skill
+    ❌ memory-authoring · skill-authoring
+
+**Scope is everything with a name:** variables, methods, classes, files, directories, mcp tools,
+skills, commands, tickets. Dima's own words: proven by years of practice, untested above ~500k loc.
+
+📌 **`verb-last` is the WRONG name for it and he should be told so once if he uses it.**
+`handoff_delete_all` has a qualifier after the verb, so the verb is not last. Only *entity-first*
+describes every case.
+
+## why the name matters more than usual
+
+This rule was written three separate times under three names — **subject-first** in
+`~/.claude/CLAUDE.md`, **family-first** here, **entity-first** in the mcp rename. Same rule, three
+statements, guaranteed to drift. [DOT-73](linear://linear.app/issue/DOT-73) holds the fold: state
+it once, delete the others. `entity-first` won because it names the half that leads.
+
+## what it buys, and this part is agreed on both sides
+
+- **for Dima:** a sorted listing groups by entity. The family is one block, not scattered across
+  the alphabet by verb. Navigation, not aesthetics.
+- **for the agent:** the first token carries the disambiguation weight. `delete_handoffs` and
+  `delete_users` share a prefix, so the entity — the higher-stakes axis — is learned last. A
+  contiguous `handoff_*` block is one region of attention instead of seven lookups.
+  📌 reasoned, not benchmarked. Say so if it is ever load-bearing.
+- **precedent:** `git remote add`, `git branch delete`, `aws s3 ls`.
+- the only cost is english prose reading less like a sentence, in places nobody reads sentences.
+
+## what still needs the pass
+
+The `x:*` and `cclio:*` skill names, the `plugin-x` skill directories, `script/` entrypoints.
+Global, pending — **do not sweep unasked**, wait for the keyword with a scope.
 
 Related: [[pm-fold-or-drop]], [[memfile-trim-comes-last]]
