@@ -120,17 +120,33 @@ plan as subject lines before the first commit; one confirm covers the set.
 
 ## 2.5 · Author identity, and the assign that survives it
 
-**The shared fleet identity is still the standing convention** — every agent commit, on every
-surface, per-commit flags only. Never `git config`, never repo-level, never global. Dima's own
-commits stay his.
+🚫 **The shared fleet identity is RETIRED. Never pass `-c user.name` / `-c user.email` on a
+commit.** Commit under Dima's configured identity like any other commit — no flags, no
+`git config`, nothing per-commit.
 
-```sh
-git -c user.name="dima's fleet" -c user.email=fleet@x-com.local commit -m "..."
+**Why it was dropped, measured on github's api:**
+
+| commit | author | github says |
+| --- | --- | --- |
+| `5170da6` | `dima's fleet <fleet@x-com.local>` | `verified: false`, reason `no_user`, no author link |
+| `f12b64b` | Dima | `verified: true` |
+
+The 1Password ssh signature is still good locally (`%G?` = `G`) either way — but github cannot
+match `fleet@x-com.local` to an account, so the badge dies and the commit shows no author. Dima's
+call, and it is explicit: **he wants verified commits.**
+
+**The agent fingerprint is the trailer, not the author field.** Every agent commit already carries
+
+```
+Co-Authored-By: Claude <model> <noreply@anthropic.com>
 ```
 
-The apostrophe is why the name is in **double** quotes. Do not switch them to single quotes.
+and Dima's hand-typed commits do not. So `git log --grep='Co-Authored-By: Claude'` is the filter —
+it costs nothing, it is written automatically, and it keeps the badge. 📌 the author field never
+worked as that filter anyway: agent commits landed under **both** identities for weeks.
 
-It is worth keeping for honest authorship: the history shows which commits an agent wrote.
+📌 This has nothing to do with the linear assign below. The fleet identity was only ever a
+*candidate* fix for that, and it was falsified — see next.
 
 🚨 **but it does NOT stop the linear assign. that was tested and falsified.**
 
