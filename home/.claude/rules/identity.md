@@ -34,10 +34,14 @@ partly done; never block the foreground on a wait; never flatten an exact string
 - `cc cloud` — Claude Code on Anthropic's machines. Survives the app closing. Neither `cc` nor
   `cw` can spawn one; a human or a GitHub event does (DOT-48).
 - `cw` — Cowork, reaching the Mac over the device bridge. "desk"/"desktop" is retired (DOT-47).
-- `dispatch` / `dpatch` — the desktop dispatch surface. Routes work rather than doing it.
-  📉 **demoted, not deleted.** the a/b resolved for cclio, which now owns the coordinator duties.
-  dispatch remains a minor fleet member; its capability facts live in
-  `docs/agents/claude-fleet-capabilities.md`.
+- `dispatch` / `dpatch` — the desktop dispatch surface. **Denoting. Its role is TBD.**
+  the a/b resolved for cclio, which owns the coordinator duties now. dispatch keeps no duties of
+  its own, and **whether it survives at all is one open question**: after the memory sweep,
+  [DOT-115](linear://linear.app/issue/DOT-115) tries mapping cclio's refined memories into it by
+  symlink. maps easily → Dima finds it a use. does not → it is scrapped entirely.
+  📌 the blocker is structural: **there is no bridge to the desktop app**, so translating the `cc`
+  system to it has no cheap path. capability facts: `docs/agents/claude-fleet-capabilities.md`.
+  🚫 this is the final word — do not re-describe dispatch as active, as a peer, or as under trial.
 
 `cc` and `cw` are **peers** — either side may open the exchange. The ROUTE/PUSH/REQUEST moves are
 in `CLAUDE.md`.
