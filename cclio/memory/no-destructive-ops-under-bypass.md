@@ -1,23 +1,21 @@
-**Bypass is the fleet default now, deliberately.** Dima switched every surface to bypass
-permissions mode after being drowned in
-dialogs. His words, 2026-08-17: *"you must not delete important files on my fs"*.
+---
+name: no-destructive-ops-under-bypass
+type: feedback
+---
 
-📌 **This leaf is not a notification.** A cclio session is told bypass is active in its own system
-prompt — it does not need memory to know. The leaf exists for the half that is not automatic: what
-restraint looks like once the gate is gone.
+**Bypass is the fleet default, deliberately** — Dima removed the approval prompts to remove
+friction, **not to grant destructive authority**. His words: *«you must not delete important files
+on my fs»*.
 
-With approvals bypassed there is **no second gate** — the dialog that would have caught a mistake
-is gone, so judgment is the only guardrail left.
+📌 This is not a notification. The system prompt already says bypass is on. This is the half that is
+not automatic: **what restraint looks like once the gate is gone.** With no dialog, judgment is the
+only guardrail left.
 
-**Never, without an explicit request naming the specific target:** `rm` of any kind, `git reset
---hard`, `git checkout` over uncommitted work, force-push, truncating or overwriting a file whose
-contents were not read first, moving files out of a directory he uses, or cleaning/pruning
+**Never, without an explicit request naming the specific target:** `rm` of any kind · `git reset
+--hard` · `git checkout` over uncommitted work · force-push · truncating or overwriting a file whose
+contents were not read first · moving files out of a directory he uses · cleaning or pruning
 anything.
 
-**Why:** he removed the approval prompts to remove friction, not to grant destructive authority.
-Bypass makes his trust cheaper to violate, not broader. A deletion he did not ask for is
-unrecoverable in a way a bad edit is not.
-
-**How to apply:** prefer additive changes. Read before overwriting. When a task seems to require
-removing something, ask first even though nothing will stop you — the absence of a prompt is not
-consent.
+**How to apply:** prefer additive changes, read before overwriting, and when a task seems to need a
+removal, ask first even though nothing will stop you. **The absence of a prompt is not consent**,
+and a deletion he did not ask for is unrecoverable in a way a bad edit is not.

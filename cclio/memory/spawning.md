@@ -1,3 +1,8 @@
+---
+name: spawning
+type: reference
+---
+
 **Full spec:** `cclio/docs/coordinator-coder-contract.md` — read it when actually spawning, never at
 boot. When it and this file disagree, the file is right and this is stale.
 
@@ -12,8 +17,40 @@ boot. When it and this file disagree, the file is right and this is stale.
 The split is not research-vs-code, it is **disposable-vs-watchable**.
 
 `isolation: "worktree"` gives a real git worktree. Expensive; only when agents would collide.
-Model defaults and effort policy live in `rules/models.md`, which is always loaded — do not restate
-them here.
+
+## picking the model
+
+**Dima's contract, not to be re-derived:**
+
+| model | when | effort |
+| --- | --- | --- |
+| **opus-5** | the default coder | **always `high`** |
+| **fable-5** | 🚫 never, unless he asks by name | `low`, even then |
+| sonnet-5 | quota pressure, routine well-specified work | inherit |
+| **haiku-4.5** | 🎯 **reach for it more** — see below | inherit |
+
+**Why opus is `high`:** a full day of `high` raised weekly usage by only **~10%**. Measured, not
+taste. Do not revert it on a hunch. **Why fable is off spawns:** the fable budget is scarce and Dima
+spends it on his own turns.
+
+**What each is actually for:**
+
+- **opus-5** — hard multi-step engineering where the output is code. ⚠️ **not a PM**: overlong prose,
+  invents jargon, writes docs nobody asked for, commits to assumptions instead of asking.
+- **fable-5** — anything Dima reads, anything coordinating other work. Taste and flavour over
+  pragmatism: *«opus picks pragmatically, fable = flavour»*.
+- **sonnet-5** — routine coding. **Avoid for hard multi-step work**: 16 points below opus on
+  SWE-bench Pro, a real gap.
+- **haiku-4.5** — bulk, classification, summarization, retrieval, subagents.
+
+🎯 **Use haiku more, deliberately.** Dima's ask: it is never reached for as a subagent and he wants
+to see what it handles well. **Default to haiku for any subagent whose job is retrieval,
+classification, extraction or bulk transformation** — reading many files to answer one narrow
+question, grepping a corpus, summarising a doc set. Report back what it did well and what it fumbled;
+that observation is the point, not the token saving. 📌 its benchmarks compare it to the 4.x
+generation, never to the 5s — do not read them as comparable.
+
+📌 Full cards, prices, benchmarks and claim tags: `docs/agents/models.md`, read on demand.
 
 ## preflight, four checks, every spawn
 
@@ -100,4 +137,4 @@ registry file removes itself on exit, so `ls` is the whole verification.
 📌 Before closing a spawn, ask what it is still evidence for. «Finished its work» and «finished being
 useful» are different states.
 
-Related: [[research-vs-lived-evidence]], 
+Related: [[research-vs-lived-evidence]]

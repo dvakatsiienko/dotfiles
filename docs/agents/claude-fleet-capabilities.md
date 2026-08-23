@@ -41,6 +41,23 @@ exists ([DOT-77](linear://linear.app/issue/DOT-77)).
 📌 The «regenerated» read is **inferred from the mtime and the manifest name**, never from an
 overwrite test.
 
+### What loads where
+
+- `cc` cli — everything: `CLAUDE.md`, all `rules/`, `plugin-x` skills, project `CLAUDE.md`, memory.
+- `cclio` — the same, plus `cclio/CLAUDE.md` and its own `memory/` barrel and boot ritual.
+- `cc cloud` — no `~/.claude` config, no `plugin-x`, no Desktop Commander. Project `CLAUDE.md` only.
+- `cw` — one uploaded skill zip, no `rules/` mechanism. What `plugin-x` defers to a rules file,
+  `skills-cw` inlines by hand (`ticket-flow.md`).
+- ⚠️ **dispatch** — Cowork preferences + project `CLAUDE.md`, nothing else. No `rules/`, no memory;
+  it keeps its own. The casing rule went silently unapplied there until 2026-08-17.
+- ⚠️ **dispatch-spawned sessions ignore `~/.claude/settings.json`** — `defaultMode` and
+  `permissions.allow` included. DOT-91.
+
+### Dispatch limits
+
+Cannot spawn a cloud `cc`: `isolation: "remote"` resolves the base branch from a non-git scratch
+cwd. `?` cause inferred. **Can** spawn local `cc` with worktree isolation — use that.
+
 ## Memory, per surface
 
 | surface | mechanism | location | who can edit |

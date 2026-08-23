@@ -1,5 +1,14 @@
-Every hazard here is silent. That is what they have in common and why they share a file: each one
-leaves the store looking healthy from both sides.
+---
+name: silent-failures
+type: feedback
+---
+
+**The tool did the wrong thing and said nothing.** That is what these share, and why they sit in one
+file: each leaves the system looking healthy from both sides.
+
+🎯 **The generalisable fix, and it is the whole point: a discipline fix for a mechanism failure fails
+twice.** When a tool will silently do the wrong thing, the fix is **a different invocation**, never a
+firmer intention. Attention is exactly what runs out.
 
 ## ❗ a broken `@import` loads NOTHING and says nothing
 
@@ -17,6 +26,20 @@ misses one pointer disconnects exactly one leaf, the hardest case to notice.
 
 🚫 Counting files and matching pointers to filenames proves the files exist. It proves nothing about
 what loaded. Two different questions.
+
+## ❗ a bare `git commit` takes the WHOLE index
+
+```sh
+git commit -F msg.txt -- <explicit paths>   # the fix: pathspec on COMMIT
+git diff --cached --name-only               # or read the index before every commit
+```
+
+`git add <paths>` narrows what you **stage**. It does nothing about what is already staged.
+
+It fired twice in one day, and the first remedy was *«be careful, check `git show --stat`
+afterwards»* — which catches it and does not prevent it. The second time it reached the remote,
+where the cheap fix no longer exists. A failed pre-commit hook leaves the index dirty, so **a failed
+commit attempt is a second writer too**; its leftovers are indistinguishable from a peer's.
 
 ## ❗ `open(path,"w")` truncates before the read nested inside it
 

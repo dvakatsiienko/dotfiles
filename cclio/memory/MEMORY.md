@@ -3,7 +3,7 @@
 One line per leaf, pointing into this dir. Content lives in the leaf, never here.
 
 📌 `@slug.md` is an **import**, not a link — it is what loads the leaf. Paths resolve relative to
-**this file**, never the cwd, and a wrong one loads nothing silently. See [[memory-hazards]].
+**this file**, never the cwd, and a wrong one loads nothing silently. See [[silent-failures]].
 
 A leaf is one decision, not a topic dump. A stale pointer means delete both the line and the file.
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
@@ -12,12 +12,6 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen
 - 🧭 @dima-strategies.md — the branch map. six branches, equally weighted, none is the main one
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
-- @strategy-pm.md — a chiller loop, not a fuller board
-- @strategy-fleet.md — one mind, many surfaces; single source of truth
-- @strategy-dimas-tools.md — shared tools where the AGENT is the majority user
-- @strategy-bytes.md — the product work the meta-work starves; surface it even when quiet
-- @strategy-harness.md — wanted, deferred with a date and a test, never refused
-- @strategy-visibility.md — see what the agents do; after mvp, but don't foreclose it
 
 ## running the work
 - ⭐ @pm.md — fold or drop, the four fields every ticket carries, how to read and write linear, and the link rule that keeps breaking
@@ -32,8 +26,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 ## method — how a claim earns belief
 - ⭐ @claims-carry-their-test.md — a rule states the ONE command that proves it, or is labelled an inference
 - ⭐ @research-vs-lived-evidence.md — his daily observation outranks a report; a relayed claim needs its source OPENED
-- ❗ @memory-hazards.md — the ways a memory file breaks silently: dead imports, truncate-before-read, a quote that looked cut off
-- ❗ @git-commit-takes-the-index.md — a bare commit takes the WHOLE index; pass the pathspec to commit itself
+- ❗ @silent-failures.md — the ways a memory file breaks silently: dead imports, truncate-before-read, a quote that looked cut off
 
 ## the system itself
 - ⭐ @skill-edits-are-file-edits.md — a skill change is an ordinary file edit; never hand him a package to install
@@ -44,5 +37,4 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 ## how replies look
 ## environment
 - ⭐ @capability-tips.md — tell him what you can do, filtered to what you are both doing now; a grant is not a limit
-- ⭐ @mcp-earns-its-place-on-desktop.md — 🚫 never say «mcp lost»; ask WHICH MACHINE the shell reaches before answering
 - @settings-json-drifts-when-unlinked.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence

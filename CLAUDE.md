@@ -1,201 +1,77 @@
-# .dotfiles
+# dotfiles
 
-Personal macOS dotfiles repository with automated symlink-based configuration management.
+Personal macOS environment, managed by symlink. Also where the agent system itself is developed
+(`home/.claude/`).
 
-## Repository Overview
+## the mirror rule
 
-- **Purpose**: Complete macOS development environment setup with automated configuration management.
-- **Secondary Purpose**: Development and evolution of efficient agentic workflows (primarily in
-  `home/.claude/` scope).
-- **Approach**: Symlink-based dotfiles, driven by the mirror rule below.
-- **Git Repository**: `git@github.com:dvakatsiienko/dotfiles.git`.
-- **Scripting**: zx (Google's shell scripting utility) for automation.
+**A path under `home/` IS the path under `~`.** Everything symlinked into the home directory lives
+at its literal relative path, so the link map is *derived by walking the tree* rather than
+hand-maintained. Anything imported by hand into an app instead of symlinked lives in `import/`.
 
-## Directory Structure
+A directory is linked wholesale **unless** the matching path in `~` is already a real directory
+holding content this repo does not own (`~/.config`, `~/.claude`) — then it descends and links the
+leaves. `noLink` in `lib/manifest.ts` names the few dirs stored here but referenced by absolute path.
 
-**The mirror rule**: a path under `home/` IS the path under `~`. Everything symlinked into the home
-directory lives there at its literal relative path, so the link map is derived by walking the tree
-instead of being hand-maintained. Anything imported by hand into an app rather than symlinked lives
-in `import/`.
+📌 `home/.claude/` (global config) and `.claude/` (this project's config) are deliberately distinct.
+That collision is exactly why the global config is nested under `home/`.
 
-`home/.claude/` (the global config) and `.claude/` (this project's config) are deliberately
-distinct — that collision is exactly why the global config is nested under `home/` rather than
-sitting at the repo root.
+🚫 **Never edit `~/.claude/…` directly** — edit `home/.claude/…` and the symlink carries it.
 
-📌 the tree itself is not written down here: `ls` shows it, and a copy goes stale.
-
-## Installation Process
-
-### What the Scripts Do
-
-**lib/manifest.ts** — the engine. Walks `home/` and derives the expected link set. A directory is
-linked wholesale unless the matching path in `~` is already a real directory (meaning it holds
-content this repo doesn't own, like `~/.config` or `~/.claude`) — then it descends and links the
-leaves. `noLink` names the few dirs stored in `home/` but referenced by absolute path instead. Nothing runs
-it directly — it decides, `dotfiles-link.ts` acts.
-
-**dotfiles-link.ts** — status / apply / untrack over that manifest. Idempotent, and it refuses to
-clobber a real file rather than moving it into a backup directory nobody reads.
-
-**macos-setup.ts** — runs `brew bundle` against the root `Brewfile`, writes the macOS defaults this
-repo owns, points a few file types at their editor via `duti`, fetches vim-plug. Packages live in the
-`Brewfile`, never in the script.
-
-## Dotfiles Management
-
-### Available Commands
-
-`package.json` `scripts` is the list — read it rather than a copy. The two with non-obvious
-grammar:
+## the two commands with non-obvious grammar
 
 ```bash
 pnpm dotfiles-link apply                  # link everything not linked yet
 pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
 ```
 
-Registering a new dotfile is a move, not a command — `mv ~/.foo home/.foo && pnpm dotfiles-link apply`.
-The tree under `home/` is the config; there is nothing else to update.
+Registering a new dotfile is a **move, not a command**: `mv ~/.foo home/.foo && pnpm dotfiles-link apply`.
 
-Git hooks run through **lefthook** (`lefthook.yml`): biome on staged files, `pnpm typecheck` and
-`pnpm test` at commit; `pnpm dotfiles-link` at push. Nothing in a hook writes to your files.
+`package.json` `scripts` is the full list — read it rather than a copy here.
 
-### Safety Features
+## how the scripts work
 
-- **No clobbering**: a real file where a link belongs is reported, never overwritten or hidden
-- **Validation checks**: Ensures required binaries are installed
-- **Idempotent installation**: Safe to run multiple times
-- **Interactive confirmation**: For destructive operations
+- **`lib/manifest.ts`** — the engine. Walks `home/`, derives the expected link set. Never run
+  directly; it decides, `dotfiles-link.ts` acts.
+- **`dotfiles-link.ts`** — status / apply / untrack. Idempotent, and it **refuses to clobber a real
+  file** rather than moving it into a backup nobody reads.
+- **`macos-setup.ts`** — `brew bundle` against the root `Brewfile`, the macOS defaults this repo
+  owns, `duti` file-type bindings, vim-plug. Packages live in the `Brewfile`, never in the script.
 
-## Key System Details
+## typescript here has no build step
 
-### Symlink Architecture
+**Scripts are `.ts`, run by node directly** — node 24 strips types natively, so there is no `tsx`
+and no compile. `tsconfig.json` sets `erasableSyntaxOnly`, which **bans any syntax needing real
+compilation**. `pnpm typecheck` is the checker.
 
-- Uses **symlinks**, not file copies (changes to source files immediately apply)
-- Backup system prevents data loss during installation
+**Layout:** anything directly under `script/` is a runnable entrypoint with a matching `pnpm`
+script; anything under `script/lib/` is a library and is never invoked directly.
 
-### Configuration Files
+Formatter and linter is **biome** (`pnpm check`). Git hooks run through **lefthook** — biome on
+staged files plus `pnpm typecheck` and `pnpm test` at commit, `dotfiles-link` at push. Nothing in a
+hook writes to your files.
 
-- **Shell**: zsh with oh-my-zsh + custom aliases/functions in `home/.config/oh-my-zsh-custom/`
-- **Git**: 1Password SSH signing integration
-- **Terminal**: Starship prompt with gruvbox theme
-- **Vim**: Gruvbox theme with essential plugins
+## what lives in `home/.claude/` that `ls` does not explain
 
-### Aliases & Functions
-
-Reference actual files for current aliases:
-
-- Git workflows: `home/.config/oh-my-zsh-custom/aliases.zsh`
-- Custom functions: `home/.config/oh-my-zsh-custom/functions.zsh`
-- Includes both "vibe" theme git aliases and standard shortcuts
-
-## Project Configuration
-
-- **Dependencies**: zx for scripting; TypeScript for type checking only. Node/pnpm floors live in
-  `package.json` `engines`, never duplicated here.
-- **Scripts are `.ts`, run by Node directly** — Node 24 strips types natively, so there is no
-  build step and no `tsx`. `tsconfig.json` sets `erasableSyntaxOnly`, which bans any syntax that
-  would need real compilation. `pnpm typecheck` is the checker; it runs on pre-commit.
-- **Script layout**: anything directly under `script/` is a runnable entrypoint with a matching
-  `pnpm` script; anything under `script/lib/` is a library and is never invoked directly.
-- **Code quality**: Biome (`pnpm check`) — the only formatter/linter here
-
-## Claude Config Management (home/.claude)
-
-### System Architecture
-
-**Config Locations:**
-
-- `~/.claude/` = Standard Claude Code config directory (symlink targets)
-- `~/dotfiles/home/.claude/` = Source of truth (original files, git tracked)
-- `~/dotfiles/cc` = symlink to the above, for shorter paths
-- `~/dotfiles/.claude/` = Project-level claude configs for dotfiles project
-
-**Symlink Flow:**
-
-```
-~/.claude/CLAUDE.md      → ~/dotfiles/home/.claude/CLAUDE.md
-~/.claude/settings.json  → ~/dotfiles/home/.claude/settings.json
-~/.claude/hooks/         → ~/dotfiles/home/.claude/hooks/
-```
-
-These are no longer hand-made: the mirror rule covers them, so `pnpm dotfiles-link` reports and
-repairs them like any other link.
-
-### Configuration Categories
-
-**Claude Built-in Configs:**
-
-- ✅ `settings.json` - Permissions, hooks, integrations
-
-**Custom Configs:**
-
-- ✅ `sline/` - Sline code and scripts
-- ✅ `hooks/` - Hook scripts invoked from settings.json
-
-### Management Rules
-
-**Source of Truth:** `home/.claude/` contains originals
-
-- ✅ Edit files in `home/.claude/` (or via `cc/`) only
-- ✅ Changes automatically reflect via symlinks
-- ❌ Never edit files in `~/.claude/` directly
-
-**Backup Strategy:**
-
-- ✅ Git tracks `home/.claude/` originals
-- ✅ `pnpm dotfiles-link` manages these links like every other one
-- ✅ Symlinks preserve real-time sync
-
-**Cache vs Config:**
-
-- ✅ Conversation history, todos, thinking files stay in `~/.claude/`
-- ✅ Only true configuration files stored in `home/.claude/`
-
-### What lives in `home/.claude/`
-
-`ls` shows the tree. What it does not show:
-
-- `plugin-x/` — personal plugin, registered as marketplace "x". `CST-SPEC.md` there is the single
-  definition of the handoff format.
-- `mcp-x-cw/` — local stdio MCP server giving `cw` handoff, transcript and pm tools against the
+- **`plugin-x/`** — the personal plugin, registered as marketplace "x". `CST-SPEC.md` there is the
+  single definition of the handoff format.
+- **`mcp-x-cw/`** — local stdio MCP server giving `cw` handoff, transcript and pm tools against the
   shared shelf. Build: `pnpm mcp:build`.
-- `skills-cw/` — hand-adapted `cw` copies, shipped as zips uploaded by hand. Not `cc`-loadable.
-  Drift is expected; `pnpm skills-sync-cw` reports it.
-- `shelf/` — durable artifacts (handoffs, transcripts, flawlog), symlinked into `~/.claude/`.
+- **`skills-cw/`** — hand-adapted `cw` copies, shipped as zips uploaded by hand. Not `cc`-loadable;
+  drift is expected.
+- **`shelf/`** — durable artifacts (handoffs, transcripts, flawlog), symlinked into `~/.claude/`.
+- **`sline/`** — this repo's statusline. Its own `CLAUDE.md` loads when working under it.
 
-## Sline System
+## docs and tracker
 
-Sline (this repo's Claude Code statusline implementation) is documented in
-`home/.claude/sline/CLAUDE.md`, which loads automatically when working under that directory.
+- Issues live in **Linear**, workspace `x-com`, teams `DOT` / `BYT`, via the `linear` CLI.
+  🚫 Never the Linear MCP. GitHub issues are retired.
+- **Multi-context layout** — `CONTEXT-MAP.md` at root. Repo context: `CONTEXT.md` + `docs/adr/`
+  (ADR-nnnn). Tracker context: `docs/tracker/CONTEXT.md` + `docs/tracker/adr/` (TRK-nnnn).
+- **Authoring guides** — `docs/agents/authoring-memory.md` and `authoring-skill.md` carry the
+  harness mechanics; matt's `writing-for-agents` carries the craft.
+- **Research** — `docs/research/<subject>.md`, subject-first filename, never a ticket-id prefix, so
+  a doc survives the ticket that prompted it. `Ticket: DOT-N` on its own line at the top when one
+  owns it.
 
-## Important Notes
-
-- **1Password required** for SSH signing functionality
-- **Vim plugins** require manual `:PlugInstall` after initial setup
-- Repository optimized for Claude Code development workflows
-
-## Agent skills
-
-### Issue tracker
-
-Issues live in **Linear** (workspace `x-com`, team `DOT`), managed via the `linear` CLI — never the Linear MCP. GitHub issues are retired (closed history). See `docs/tracker/CONTEXT.md`; the `x:pm` skill owns the operating contract.
-
-### Triage labels
-
-Five-role vocabulary mapped onto Linear statuses/labels (Triage inbox, `needs-info`, `agent`, `human`, Canceled). See the triage role bridge in `docs/tracker/CONTEXT.md`.
-
-### Authoring guides — skills and memory
-
-The reference pair: `docs/agents/authoring-skill.md` (frontmatter, invocation
-control, the listing budget) and `docs/agents/authoring-memory.md` (where a fact goes, decided
-before it is written).
-
-### Domain docs
-
-Multi-context layout — see `CONTEXT-MAP.md` at root. Repo context: `CONTEXT.md` + `docs/adr/` (ADR-nnnn). Tracker context: `docs/tracker/CONTEXT.md` + `docs/tracker/adr/` (TRK-nnnn). See `docs/agents/domain.md`.
-
-### Research docs
-
-`docs/research/<subject>.md` — subject-first filename, never a ticket-id prefix, so the folder
-groups by topic and a doc survives the ticket that prompted it. When a ticket owns the doc, put
-`Ticket: DOT-N` on its own line at the top; `grep -rl DOT-N docs/` then finds it.
+📌 **1Password is required** for SSH signing. Vim plugins need a manual `:PlugInstall` after setup.

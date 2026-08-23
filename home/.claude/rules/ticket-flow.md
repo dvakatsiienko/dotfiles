@@ -1,87 +1,30 @@
-# Ticket flow
+# Ticket flow — the basics everyone needs
 
-Always loaded, sibling to `voice.md` and `text-formatting.md`. Those two govern how you talk;
-this one governs how you keep the tracker honest **while you work**. `identity.md` sits above
-all three — tenet 6 (nothing of his is destroyed) is why a ticket is closed and never deleted.
-
-The split is deliberate. The `x:pm` skill is the PM handbook — field contracts, priorities,
-projects, quota, CLI mechanics — and it is only loaded when ticket work is the task. But tickets
-get touched in the middle of doing something else, with `pm` nowhere in context. Everything here
-is what must hold in that case. Anything past it: load `x:pm`.
-
-⚠️ **`cw` cannot read this file.** It has no `rules/` mechanism — one skill, uploaded as a zip,
-and no always-loaded layer. So anything moved here becomes unreachable on that side, and a `cc`
-skill that defers to this file is, from `cw`'s view, a skill that lost a rule.
-
-The obligation runs one way and must be honoured by hand: **whatever `plugin-x/skills/<x>` defers
-to this file, `skills-cw/<x>` inlines.** Duplication is correct here — two runtimes, no shared
-loader — and pretending otherwise is what silently degraded `cw` on 2026-08-16. `.source-sha`
-cannot catch it: it detects that a source moved, never what should have been carried across.
-Problem recorded on DOT-62; no mechanism yet.
+**cclio owns pm.** It runs the board, the conventions, the placement calls and the linear
+mechanics. Everything here is the floor: what any session must know because tickets get touched in
+the middle of doing something else. Anything past it, load `x:pm` or hand it to cclio.
 
 ## Where tickets live
 
 - **Linear**, workspace `x-com`. Two teams: **`DOT`** = tooling, approaches, how-we-work.
   **`BYT`** = building apps. Split by the nature of the work, never by which repo the files sit in.
-- Channel is the **`linear` CLI** (`cc`: Bash · `cw`: Desktop Commander). **Never the Linear MCP.**
-  `linear api '<graphql>'` is the fallback for anything the CLI lacks.
+- The channel is the **`linear` CLI**. 🚫 **Never the Linear MCP.** `linear api '<graphql>'` covers
+  anything the CLI lacks.
 
-## State tracks reality — the rule that gets forgotten
+## State tracks reality
 
-**The moment work on a ticket actually starts, move it to In Progress.** Same turn, not
-retroactively, not when the commit lands. `linear issue update DOT-N --state "In Progress"`
-(`linear issue start` needs a default team and usually fails here).
+**The moment work on a ticket actually starts, move it to In Progress** — same turn, not
+retroactively, not when the commit lands.
 
-📌 **moving a ticket never assigns it.** In Progress says the work is happening; the assignee says
-the ticket is Dima's. never pass `--assignee`, never `--assignee self`. unassigned is the default
-and stays that way until Dima assigns himself — he is the only one who ever sets it. absolute on
-every surface, and it applies to **the tracker named above and nothing else**: workspace `x-com`,
-teams `DOT` and `BYT`. an agent working an oss repo, a client tracker, or any board Dima does not
-own follows that project's conventions, not this line.
+    linear issue update DOT-N --state "In Progress"
 
-📌 Why this is yours and cannot be automated away: **no magic word reaches In Progress.** Commit
-keywords only reach Done. And the default lane here is commit straight to `main` with no PR, so
-the PR automations that would fire `start → In Progress` never run at all. If you do not move it,
-nothing does.
+📌 **Moving a ticket never assigns it.** In Progress says the work is happening; the assignee says
+the ticket is Dima's. **Never pass `--assignee`.** Unassigned is the default and stays that way
+until he assigns himself. This is absolute for workspace `x-com`, teams `DOT` and `BYT` — an oss
+repo or a client tracker follows that project's conventions instead.
 
-The same applies at the other end — a ticket whose work is finished does not sit in In Progress
-waiting for someone to notice.
-
-**One exception: the `standing` label.** A standing ticket is recurring work with no last round —
-a rolling review, a periodic sweep (DOT-82 is the case). It legitimately stays In Progress between
-rounds, because «open by nature» is what its state honestly says. The label is what makes it an
-exception; an In Progress ticket without it is stale, not standing.
-
-## The focus pin — sline's ambient indicator
-
-Sline renders the session's pinned ticket from `~/.claude/focus/<session_id>.json`. Two slots:
-`pin` (the ticket we agreed to resolve — sticky, rendered `🪄 DOT-23`) and `touch` (up to the last
-3 ids we poked, newest first, each rendered dim after a `·`). An id lives in **exactly one** slot;
-the hook moves it between them rather than duplicating.
-
-Dima's keywords, handled by `hooks/focus.sh`: `clam <id>` pins (aliases: `claim`, `pin`),
-`touch <id>` touches, `ticket fly <id>` unsets that id, `tickets fly` clears both. The hook only
-fires on a keyword that **starts a line** and carries its argument — bare ids never write anything.
-
-Moving the pin when *work* moves is yours; a hook cannot see a decision:
-
-- **We start resolving a ticket** → write `pin` + `pin_at` (epoch seconds), same turn, never later.
-  Id only — sline renders no title. Move the ticket to **In Progress** in the same turn: the pin
-  and the board state describe the same fact and must never disagree.
-- **We close or drop it** → clear `pin` + `pin_at` in the same turn, without being asked. A pin
-  outliving its ticket is worse than no pin. Closing includes the case where a `Closes DOT-N`
-  commit does the closing — the pin is yours to clear either way. Leave `touch` alone.
-- Merely *reading* a ticket never moves the pin. Only committing to work on it does.
-- Print `🪄 clam DOT-N` in the reply as the receipt, so Dima sees the pin changed without hunting
-  for it in sline.
-
-Sline also renders each id's Linear state, cached by the same hook (`status-cache.json`). It only
-ever reads that cache — never fetch Linear from the render path.
-
-## Titles
-
-Pretty, short, descriptive — subject-first, details in the body, never the title. No
-scientific-paper prose. Full shape contract lives in `x:pm`.
+**One exception, the `standing` label:** recurring work with no last round legitimately stays In
+Progress between rounds. An In Progress ticket *without* that label is stale, not standing.
 
 ## Ids are never invented
 
@@ -89,60 +32,17 @@ An id comes from Dima, from the conversation, or from the branch name. **Nowhere
 guess one, never grep for a plausible match, never write `DOT-?`. Most commits have no ticket, and
 omitting the line is always correct.
 
-Commit magic words (`ref DOT-N` to link, `Closes DOT-N` to finish) are defined in the `x:cmt`
-skill, which loads on every commit. One thing holds even without it: **a closing keyword resolves
-the ticket and assigns it to the commit author**, so name the ticket you are about to close in
-your reply rather than closing it silently.
+⚠️ Commit magic words assign the ticket and move its state on push. `x:cmt` owns that contract and
+loads on every commit; the investigation behind it is `docs/agents/linear-github-assign.md`.
+**Name the ticket you are about to close in your reply**, never close silently.
 
-⚠️ **and it is not only the closing keyword — plain `- ref DOT-N` assigns too.** measured
-2026-08-21: two tickets took an assignee-only write one second after a push, from commits carrying
-`ref` and no closing word. so the old advice here — use `ref` plus a manual state update to keep a
-ticket unassigned — **did not work and has been removed.**
+## Titles and bodies
 
-🚨 **the commit-author fix was TESTED AND FALSIFIED.** the theory was: commit under a shared
-identity (`git -c user.name="dima's fleet" -c user.email=fleet@x-com.local commit`), that address
-maps to no github account, so it maps to no linear user, so there is nobody to assign.
-
-the experiment: one commit carrying `- ref DOT-182`, authored under that identity, pushed. result
-measured on the ticket seconds later:
-
-- ✅ the `githubCommit` attachment landed — magic words work, they are parsed from the **commit message**
-- ❌ **dima was assigned anyway**
-
-so linear does not read the commit **author**. it reads the **pusher** — the github actor of the
-push event, which is dima's account and dima's ssh key. the author email was never the field in
-play. do not re-propose it, and do not report it as working.
-
-📌 **`~/.config/linear/linear.toml` is NOT this lever, though it looks like it.** it carries
-`issue_create_assign_self = "never"`, which stops the **cli** self-assigning on interactive
-`issue create`. that is a client-side path. the push assign happens server-side inside linear's
-github integration, and no cli config can reach it. both guards are wanted; they cover different
-doors.
-
-📌 **there is no knob. three candidates were checked and ruled out:**
-
-- the github integration panel — branch format, linkbacks, external review tool and
-  `Link commits to issues with magic words`. no assignee option exists.
-- `userSettings.autoAssignToSelf` — already `false`, and the assign fires anyway.
-- `~/.config/linear/linear.toml` `issue_create_assign_self = "never"` — client-side, guards the
-  **cli's** `issue create`. the push assign is server-side; no cli config reaches it.
-
-✅ **the working fix is to reverse it, not prevent it.** dima wants the magic words, so keep them
-and undo the side effect: after any push whose commits carried `ref` or a closing keyword,
-unassign those tickets in the **same turn**, and name it in the reply so it is visible.
-
-    linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'
-
-the one exception is a ticket dima assigned to himself on purpose — leave that alone.
+Titles are subject-first, short, assertive. Details go in the body, never the title. Lowercase
+register. The body is **current state**, kept true as scope moves; comments are the trail.
+**Every close adds a closing word to the body** — what became better, what we have now. Never
+bare-close.
 
 ## Rendering an id back to Dima
 
-Always a link plus a short tldr, never a bare id — format lives in `text-formatting.md`.
-
-## Body vs comments — the state contract (2026-08-19)
-
-- Comments = the trail: progress logs, run stamps, provenance. Fine to keep logging there.
-- The body = current state: keep it sanitized and updated as scope moves — never afraid to
-  mutate it. A closed ticket must read true from the body alone.
-- **Every close adds a «closing word» section to the body**: brief outcome — what became
-  better, what we have now. Never bare-close.
+Always a link plus a short tldr, never a bare id. Format lives in `rules/voice.md`.
