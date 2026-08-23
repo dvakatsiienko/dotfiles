@@ -10,6 +10,11 @@ ticket: DOT-216
 **run this instead of re-planning an inventory.** it is the procedure that came out of the first
 full sweep; the sweep itself was one execution of it.
 
+🔴 **LIVE during a sweep — this file is edited WHILE the work happens, not after.** every step that
+turns out wrong, every check that fires false, every thing the loop missed gets fixed here in the
+same session it was found. a procedure written up afterwards is a memory of a procedure; this one
+has to be the thing that was actually run.
+
 📌 **a skill candidate, not a skill yet.** it earns a trigger once it has run twice and the steps
 stop changing. until then it is a doc, reached by a pointer.
 
