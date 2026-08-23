@@ -1,6 +1,16 @@
-# Models
+---
+researched: 2026-08-23
+refresh-when: a new model ships, a benchmark is published, or Dima's lived read changes
+ticket: DOT-130
+---
 
-Always loaded. Which model to reach for, and what each is bad at.
+# Models — the full reference
+
+**Read on demand when a model-selection question opens.** Moved out of `rules/`, where every coder
+session paid for it; the distilled version cclio actually acts on lives in `cclio/memory/spawning.md`.
+
+📌 This file is meant to stay evergreen — [DOT-130](linear://linear.app/issue/DOT-130) owns that.
+Add measurements and Dima's live calls; never delete a claim tag.
 
 Claim tags: **[dima]** his own assessment, assert it · **[bench]** published benchmark · **[vendor]**
 Anthropic's framing · **[community]** repeated practitioner pattern · **[?]** no evidence either way.

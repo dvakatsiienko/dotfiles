@@ -1,3 +1,8 @@
+---
+name: obsidian-inbox-protocol
+type: feedback
+---
+
 Dima's Obsidian vault folder `/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/` is the coordinator's personal email. `inbox.md` = raw dumps from Dima (mobile → iCloud sync). `flowlog.md` = the coordinator's processing copy with statuses.
 
 **Why:** Dima gens ideas away from Mac; Apple Notes → mega-paste was lossy. Inbox persists as fault-comparison source until exhausted.

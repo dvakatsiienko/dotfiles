@@ -1,3 +1,8 @@
+---
+name: dima-stories
+type: user
+---
+
 The rules memories say *what to do*. This one says *what happened*, so the rules keep their reasons.
 Append short entries; never rewrite an old one into a rule — link to the rule instead.
 

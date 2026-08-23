@@ -1,9 +1,19 @@
-Decided 2026-08-19 (Dima: «like both, save decision, important»). Matt's domain-modeling shape applies twice:
+---
+name: domain-modeling-fleet
+type: project
+---
 
-1. **Fleet workflow vocabulary** — vet, slay, run ids, spawn types, CST, freebie etc. is a bounded-context glossary; it belongs in one CONTEXT.md-shaped file all surfaces read (folds into the mem-revamp / DOT-73 story), not scattered across memory files. Hard-to-reverse fleet decisions get one-paragraph ADRs.
-2. **Linear structure** — continue the pass done once already: challenge fuzzy labels/terms during the horizon sweep, record structural decisions as tracker-context ADRs (docs/tracker/adr/, TRK-nnnn).
+**We run MULTI-domain, and the contexts never merge.** Each code repo carries its own `CONTEXT.md`
+plus ADRs; the tracker has its own (`docs/tracker/`, TRK-nnnn); the fleet vocabulary is a third.
+Cross-reference by pointer, never fold one into another.
 
-High-level, for everyone: **we run MULTI-domain** — each code repo carries its own CONTEXT.md + ADRs (matt system, opus-filled in dotfiles + bytes), the tracker has its own context (docs/tracker/, TRK-nnnn), and the fleet vocab is a third bounded context. Never merge them; cross-reference by pointer.
+**The fleet vocabulary is a bounded-context glossary** — vet, slay, run id, spawn type, CST,
+freebie. It belongs in one `CONTEXT.md`-shaped file every surface reads, not scattered across memory
+files. [DOT-73](linear://linear.app/issue/DOT-73) holds it.
 
-**Why:** shared language is what makes «expert of yourself» (fleet-prios) cheap — vocab amnesia bugs (the «vet» incident) are glossary gaps, not memory gaps.
-**How to apply:** grow lazily during real work, never big-bang; challenge conflicting terms on sight; ADR only when hard-to-reverse + surprising + real trade-off.
+**Why:** shared language is what makes «be an expert of yourself» cheap. A vocab-amnesia bug — the
+«vet» incident — is a glossary gap, not a memory gap.
+
+**How to apply:** grow it lazily during real work, never big-bang. Challenge conflicting terms on
+sight. Write an ADR only when the decision is hard to reverse, surprising, and carries a real
+trade-off.
