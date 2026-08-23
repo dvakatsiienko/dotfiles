@@ -42,6 +42,15 @@ not a better pattern: `cursor://file/` is already an absolute machine-checkable 
   by ~38%), and whether it is resident or deferred
 - 🎯 **the number that matters is not total size. it is `resident × never-used`.**
 
+🎯 **the method that makes this nearly free, and it is the run-2 accelerator:** the whole loaded
+chain is **already in context**, so traversing it costs zero reads. Do the extraction as one script
+over the file list — sizes, pointers, inbound-link counts — and read only what the script flags.
+The first sweep took a full session; a follow-up should take a fraction, because the map exists and
+only the diff needs walking.
+
+⚠️ **measure on disk, never in `/context`.** Memory loads once at session start, so `/context` shows
+the pre-sweep figure and lists files already deleted. It is a boot snapshot, not current state.
+
 ### step 2 · the duplication pass
 
 **the highest-value single check**, because duplication is a *decay multiplier*, not just a cost:
@@ -50,12 +59,46 @@ one board change falsified **twelve** files at once here.
 - find the same claim stated in more than one place
 - pick the one authoritative home, delete the rest, leave a pointer only if the reader would
   otherwise not find it
-- 📌 measured today: 8 of 11 real defects were **one sentence written eight times**
+- 📌 measured on run 1: 8 of 11 real defects were **one sentence written eight times**
+
+🚨 **duplication crosses layers, and that is where the big wins are.** Run 1 found the same content
+in `rules/` and in coordinator memory, in root and in a leaf, in a rule and in a skill. Checking
+each layer against itself misses all of it. Examples that fell out: the spawn-defaults table was
+verbatim in an always-loaded rule *and* in a leaf · a boot rule existed in three places · a whole
+tracker rule duplicated a coordinator memory.
+
+### step 2.5 · the merge pass — one subject per file
+
+Duplication removes copies; this removes **fragmentation**, and it was the larger win on run 1.
+
+**The test: is this one subject split across several files, or several subjects in one file?**
+Splitting by *topic* feels tidy and costs real tokens — each fragment pays its own preamble,
+cross-reference block and frontmatter, and the reader pays to reassemble them.
+
+Measured on run 1: five spawn files → one, at 43% of the total · ten pm files → one, at 40% ·
+six strategy branches → one, at 53%. **The saving is not the content, it is the connective tissue.**
+
+📌 The counter-test, so this does not become «merge everything»: a merge is right when one *decision*
+was split. It is wrong when two decisions merely share a topic. Two files about verification stayed
+separate because one says «state the proving command» and the other says «do not relay unverified».
 
 ### step 3 · the placement pass
 
-each surviving item through the bucket test (see phase 2's table). the question is never «is this
-true» — step 0 settled that — it is **«who pays for this, and do they need it».**
+each surviving item through the bucket test (see `authoring-memory.md`). the question is never «is
+this true» — step 0 settled that — it is **«who pays for this, and do they need it».**
+
+🎯 **the sharpest single test run 1 produced, and it emptied a whole section on its own:**
+
+> **Does this line change a behaviour, or does it describe a mechanic and justify a rule?**
+
+Documentation of something the harness already does is the most common form of dead resident text,
+and it never reads as stale — it reads as correct, because it is. `## Global Defaults` lost every
+line to that question.
+
+📌 **A rule that asks the agent to DO something to the system must name the exact call.** No call →
+the file buys awareness of a wall at full resident cost. That job belongs to `settings.json`, a hook
+or `permissions.deny`, which act instead of informing. **[measured]** — a registry describing an
+unreachable action read as correct until someone tried.
 
 ### step 4 · the deferral pass
 
@@ -82,6 +125,10 @@ true» — step 0 settled that — it is **«who pays for this, and do they need
 
   🚫 **converting is still a weighted call per rule**, never automatic: the glob has to genuinely
   be the trigger, and anything whose real trigger is an *intention* cannot defer at all.
+📌 **frontmatter is usually not the lever it looks like.** A `name:` field duplicates the filename
+and is a live drift surface — rename the file and it goes stale silently. A `type:` field is not
+read at runtime. Keep frontmatter only where something actually consumes it.
+
 - what else can take `paths:` once proven? (code-shaped conventions tied to a glob)
 - what should become a **doc reached by a pointer** instead of a resident rule?
 - what should become a **skill** — a procedure with a name someone would invoke?
