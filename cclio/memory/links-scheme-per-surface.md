@@ -15,7 +15,7 @@ tldr. Never a bare id, never a backticked id alone.
 - **cclio (this surface) — `linear://`.** `[DOT-149](linear://linear.app/issue/DOT-149)` opens the
   macos app directly. This is what `rules/text-formatting.md` mandates, and that rule is binding here.
 - **dpatch — `https://`.** Its chat ui sanitizes non-https hrefs, so `linear://` renders dead there.
-  `rules/dispatch.md` carries this as a named exception.
+  the exception is recorded in `docs/agents/claude-fleet-capabilities.md` (its `rules/` file is retired).
 
 **Why:** Dima flagged repeated forgetting (2026-08-19). Bare ids force a manual lookup; a dead
 scheme forces a copy-paste. Both break the one-click rule.
