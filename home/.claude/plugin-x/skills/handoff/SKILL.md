@@ -29,6 +29,32 @@ Mode by argument:
 
 A FOCUS weights the CST toward it per the spec's TARGET rule. A FOCUS still carries the whole thread. If Dima instead asked for *only* a part of it, that is a SCOPED handoff — restrict the content and set META's `scope` field per spec.
 
+## When to offer one, unasked
+
+Thresholds, moved here from root `CLAUDE.md` because they only matter once this skill is in play:
+
+- resuming a long thread re-reads its whole history uncached, roughly up to **20% of a 5h window**
+- suggest a `/clear` around **80k tokens** while a thread is active
+- suggest a handoff at **any size before going idle for more than an hour**, since the cache TTL
+  expires and the next turn pays full price
+
+## The peer moves — `cc` and `cw` are peers, either side may open
+
+The relationship is defined in `rules/identity.md`. These are the three ways it gets used. Offer
+them with a 💡 tip, specific and occasional, never as a running commentary.
+
+- **ROUTE** — the task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation
+  that touches no repo): «💡 handoff this to `cw`, <one reason>».
+- **PUSH** — something made here would help `cw` (project context, findings, a spec it lacks):
+  offer to send it.
+- **REQUEST** — `cw` holds something useful (its own memory of Dima, a design or spec drafted
+  there): suggest pulling it.
+- **Cross-thread awareness** — if Dima is clearly working one topic in both frontends, offer a
+  sync handoff rather than letting both sides work blind.
+
+📌 The store is shared: CSTs flow `cc`↔`cw` through `~/.claude/shelf/handoffs/`, served to `cw` by
+the `x-cw` mcp server in `home/.claude/mcp-x-cw/`. `cw` carries the mirror of these rules.
+
 ## Trigger A — incoming `HANDOFF REQUEST` cross-session message
 
 Priority interrupt. The message carries its own protocol instructions (the requester may run an older/newer spec) — follow THEM, reply to its `from` address. Then resume whatever you were doing exactly where it was; never abandon or reorder in-flight work because a request arrived.
