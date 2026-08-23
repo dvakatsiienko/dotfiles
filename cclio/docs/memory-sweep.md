@@ -407,9 +407,19 @@ to compress.
 
 ## open questions owed to dima
 
+- 🅠 **the entity-first rename pass still owes a scope.** not yet done: the `x:*` and `cclio:*`
+  skill names, the `plugin-x/skills/` directory names, and `script/` entrypoints. parked here when
+  `naming-entity-first.md` was retired into root. the skill half rides phase 2 step 4; the
+  `script/` half is `dima's tools` work and needs its own home.
+
+- ❓ **`AGENTS.md` support.** root's plan was `AGENTS.md` as the main file with `CLAUDE.md`
+  importing it via `@./AGENTS.md`. cut from root during the connector pass because it is a plan,
+  not a rule, and no ticket owned it. **parked here rather than deleted** — it is still dima's
+  intention, it just has no home yet.
+
 - ❓ story shape — a new «ccli memory nurture» story holding the non-p0 children of DOT-73 and
   DOT-184, with `memory:` / `skill:` title prefixes. proposed, awaiting his word.
-- ❓ where the t3 reference (`AGENTS-t3-code-ref.md`) finally lands.
+- ✅ the t3 reference landed at `docs/agents/AGENTS-t3-code-ref.md`, placed by dima.
 - ❓ is proxying the research guides through `writing-for-agents` both-worlds, or bloat?
 - ❓ does `writing-for-agents` apply to memory files, or only to skills?
 - ❓ do we still need skillsmith once the guides exist?

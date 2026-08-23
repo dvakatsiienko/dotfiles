@@ -84,6 +84,26 @@ ever fires. **[read]** matt + theo agree on all four:
   gives you everything you need and you don't even need to use the skill»* — that is the whole body
   paid resident, every turn
 
+🚨 **and the name is read BEFORE the description, sometimes instead of it. [measured].** four mcp
+tools shipped as `transcript_fetch` / `transcript_list` / `transcript_recall` / `transcript_transit`.
+a `cw` thread listed all four, then refused to use them:
+
+> «x-cw's `transcript_*` tools wouldn't have helped anyway: those are your session/handoff
+> transcript store (agent-fleet CSTs), not YouTube captions. Different meaning of "transcript".»
+
+the description said *«Download the video transcript from a YouTube url»*. it never got that far.
+renamed `yt_transcript_*`, worked first try.
+
+two consequences, both load-bearing:
+
+- **a wrong entity name is not recoverable by a good description.** no longer reasoned, an agent
+  demonstrated it
+- **the entity must be as specific as the namespace it claims.** `transcript_*` claimed a whole
+  namespace that youtube occupies a corner of. dima's framing: *«we may have more things for
+  transcripting»*
+
+the rule itself is entity-first, and it lives in root `CLAUDE.md`.
+
 ## the skill listing budget (cc only)
 
 skills are **half-lazy**. resident from boot = `name` + `description` (~80–100 tokens per skill).

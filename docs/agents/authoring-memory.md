@@ -218,6 +218,27 @@ before writing or editing ANY memory, rule, or `CLAUDE.md`, answer these five.
 rule. `identity.md` grew fat exactly this way — every coder in every repo pays for capabilities of
 surfaces it will never be.
 
+🚨 **memory supplies knowledge, never capability. MEASURED — dima ran it deliberately.**
+
+the dormant-tools registry in root was an **experiment, not documentation**. the goal was context
+thrift: keep rarely-used mcps (`computer-use`, `claude-in-chrome`) switched off, and have the agent
+turn one on when a task needs it and off again after. **the obstacle it was built to solve: a
+disabled mcp is invisible to the session** — the agent cannot ask for what it cannot see. so the
+registry existed to tell the agent those servers were there.
+
+it failed, and the reason is the general lesson: **knowing about a capability is not having a
+mechanism to reach it.** there is no `claude mcp enable`, and a server only binds at session start,
+so no written awareness produces the toggle. dima's verdict: *«test failed = you can't. it only
+creates a mess in memory file.»*
+
+so the bucket test below is not a preference. **when a memory file asks the agent to DO something
+to the system, name the exact call that does it.** no call → the file buys awareness of a wall, at
+full resident cost, and the only thing it produces is clutter. that job belongs to `settings.json`,
+a hook, or `permissions.deny`, which act instead of informing.
+
+📌 what made it expensive: a registry describing an unreachable action reads exactly like one
+describing a reachable one. it looked correct for as long as nobody tried.
+
 📌 **`paths:` is narrower than it looks.** **[measured]** it fires on **reading a matching file**.
 that fits `guide-typescript`. it does not fit `ticket-flow.md`, whose trigger is an intention.
 
