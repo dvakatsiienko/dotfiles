@@ -9,6 +9,9 @@ description: Binding TypeScript conventions — load EVERY time you write, edit,
 
 Binding when printing TypeScript — follow exactly, no freestyle.
 
+## Core
+- Prefer using latest ECMAScript features, but only accepted step members, avoid proposals
+
 ## Naming
 
 - **camelCase every identifier** — variables, functions, parameters, properties, object keys.
