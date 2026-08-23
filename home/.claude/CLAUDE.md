@@ -41,6 +41,7 @@ system around them. Solid, and as pretty as possible.
 
 - Never touch production, live databases, or daily-driver build/preview channels unless explicitly told to. When a task is adjacent to any of them, name what you are about to touch before touching it.
 - Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
+- Never kill a process by pattern. No `pkill -f`, no `pgrep | kill`, no PID matched from a name, path, or worktree string — your own process carries that path in its argv. Kill only a PID you captured at spawn or read from a registry.
 
 ## Memory File Maintenance
 
@@ -65,7 +66,7 @@ system around them. Solid, and as pretty as possible.
 - NEVER proactively create documentation files (\*.md) or README files unless explicitly requested
 - Never write description comments or docstrings for functions/methods unless genuinely needed
 - Only commit changes when explicitly requested
-- Clean up after operations: delete obsolete artifacts, backups, and /tmp files you created
+- Keep scratch outside the worktree: plans, research notes, working files. Clean up after operations too — delete obsolete artifacts, backups, and /tmp files you created
 
 ## Background work
 
@@ -73,6 +74,7 @@ system around them. Solid, and as pretty as possible.
   `until`-loops. Offload to `run_in_background`, a `Monitor`, or a subagent, and keep talking to me.
 - **A spawned routine is yours until it resolves.** Never fire and forget the supervision.
 - Every wait gets a deadline. When it passes, stop and report. Never extend silently.
+- Wait on a real signal, never a sleep or a poll loop. A check that needs a timeout to pass is wrong.
 - Confirm the thing you are waiting for actually started before you call it finished. Once reported
   a deploy green that never ran.
 - Three ends, not two: finished clean, failed, still running past deadline. "No output" is not success.
