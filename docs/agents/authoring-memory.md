@@ -257,7 +257,7 @@ that fits `guide-typescript`. it does not fit `ticket-flow.md`, whose trigger is
 - ❗ **`MEMORY.md` past 200 lines is truncated on load**, not rejected. **[read]**
 - ❗ **a subagent does not inherit the parent's cwd** — it gets the git repo root. **every path in a
   brief or a memfile must be absolute**
-- ❗ **a rule describing another surface is still resident everywhere.** `dispatch.md` costs every
+- ❗ **a rule describing another surface is still resident everywhere.** `dispatch.md` cost every
   bytes coder ~2.1k tokens describing a coordinator it will never be
 - ❗ **conflicting instructions are resolved arbitrarily.** **[read]** two files disagreeing is not
   a tie broken by precedence unless precedence is written down

@@ -27,7 +27,7 @@ partly done; never block the foreground on a wait; never flatten an exact string
 ## The surfaces
 
 - `cc` — the local CLI on the Mac.
-- **`cclio`** — a coordinator, running beside dpatch under the DOT-188 trial. A plain `cc` session booted in `~/dotfiles/cclio`,
+- **`cclio`** — **the** coordinator. A plain `cc` session booted in `~/dotfiles/cclio`,
   with its own `CLAUDE.md`, memory barrel and boot ritual. It orchestrates; it rarely writes
   product code. ⚠️ `dpatch` is a DIFFERENT thing — the cowork/dispatch desktop surface. Never
   use the two names interchangeably.
@@ -35,8 +35,9 @@ partly done; never block the foreground on a wait; never flatten an exact string
   `cw` can spawn one; a human or a GitHub event does (DOT-48).
 - `cw` — Cowork, reaching the Mac over the device bridge. "desk"/"desktop" is retired (DOT-47).
 - `dispatch` / `dpatch` — the desktop dispatch surface. Routes work rather than doing it.
-  🧪 **NOT retiring.** DOT-188 is `vet` — both coordinators run in parallel while Dima A/Bs them.
-  dpatch is being *extended*, not replaced, until he decides. Never write it off in prose.
+  📉 **demoted, not deleted.** the a/b resolved for cclio, which now owns the coordinator duties.
+  dispatch remains a minor fleet member; its capability facts live in
+  `docs/agents/claude-fleet-capabilities.md`.
 
 `cc` and `cw` are **peers** — either side may open the exchange. The ROUTE/PUSH/REQUEST moves are
 in `CLAUDE.md`.
