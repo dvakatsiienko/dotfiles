@@ -49,8 +49,6 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - @no-perm-ops-on-mobile.md — dima on phone/ipad = nothing that can throw a permission dialog
 - @no-destructive-ops-under-bypass.md — bypass is the fleet default now; the rule is behaviour under it, not a reminder of it
 - @clean-up-after-yourself.md — prune processed buckets/temp files same turn; docs/research/* exempt; 🌍 candidate to scale fleet-wide
-- ⏰ @reminder-explain-bypass-concern.md — ACTIVE until dima says "remove reminder"
-- ⏰ @reminder-cron-handover.md — DUE 2026-09-01: two dpatch schedules fire; decide who owns them before then
 - ⏰ @reminder-vet-trial-verdict.md — after ~2026-09-18 ask verdict: keep vet / rename trial / mutate investigate
 
 ## spawning
