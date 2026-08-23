@@ -59,20 +59,29 @@ true» — step 0 settled that — it is **«who pays for this, and do they need
 
 ### step 4 · the deferral pass
 
-- 🧪 **`paths:` — PROBE IT BEFORE PLANNING ANYTHING ON IT.** it is used **zero times** here today,
-  and none of the nine rules files even has frontmatter. two things are unverified, and the whole
-  deferral step rests on them:
-  1. the measurement was on **project-level** `.claude/rules/*.md`. these rules are **user-level**
-     `~/.claude/rules/`. **does user scope honour `paths:` at all?** unknown.
-  2. `globs:` is a **silent no-op typo** — a mistyped key downgrades a scoped rule to always-on
-     with no error, so a failed probe and a working one look identical from outside.
+- ✅ **`paths:` WORKS at user scope — measured, both directions.** three canary rules planted in
+  `~/.claude/rules/`, two fresh sessions, cc 2.1.241:
 
-  **the probe:** put `paths:` on one low-stakes rule, boot a session, confirm its absence in
-  `/context`, then read a matching file and confirm it appears. one rule, one session, both
-  directions.
+  | rule | at boot | after touching a matching file |
+  | -- | -- | -- |
+  | no frontmatter | loaded | — |
+  | frontmatter, no `paths:` key | loaded | — |
+  | `paths: ["**/*.canaryzone"]` | **absent** | **injected** |
 
-  🚫 **convert nothing else until that comes back**, and never adopt it just because it exists —
-  every conversion is a weighted call about whether a glob really is the trigger.
+  so frontmatter alone does not exclude a rule; the `paths:` key does. the deferral lever is real.
+
+  🚨 **the trigger is the `Read` tool, NOT file access.** round 1 read the matching file with
+  `cat` through Bash and the rule never appeared; round 2 used `Read` on the same path and a
+  system-reminder injected the rule immediately. **this is the finding that decides whether
+  `paths:` is safe here** — a session told to prefer Bash for reads (bypass mode says exactly
+  that) would silently never fire a single scoped rule. a `paths:` rule and a deleted rule look
+  identical from inside such a session.
+
+  📌 `globs:` remains a **silent no-op typo** — a mistyped key downgrades a scoped rule to
+  always-on with no error. the key is `paths:`.
+
+  🚫 **converting is still a weighted call per rule**, never automatic: the glob has to genuinely
+  be the trigger, and anything whose real trigger is an *intention* cannot defer at all.
 - what else can take `paths:` once proven? (code-shaped conventions tied to a glob)
 - what should become a **doc reached by a pointer** instead of a resident rule?
 - what should become a **skill** — a procedure with a name someone would invoke?
