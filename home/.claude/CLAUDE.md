@@ -101,3 +101,7 @@ system around them. Solid, and as pretty as possible.
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
 - **uv** — the ONLY approved Python package manager; never pip/pip3/python -m pip
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
+
+## Additional tips
+
+- Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
