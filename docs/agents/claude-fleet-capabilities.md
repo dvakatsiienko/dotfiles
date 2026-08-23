@@ -238,6 +238,29 @@ conversation is bound to a live host process.
 
 There is **no documented beta label, limitations section, or roadmap** for Dispatch anywhere.
 
+### what dispatch structurally cannot do — distilled from the retired `rules/dispatch.md`
+
+dispatch is a **minor fleet member** now; cclio took over its coordinator duties. these are the
+capability facts worth keeping — the operating contract that sat beside them is retired, because
+cclio owns that work.
+
+- ⚠️ **no `rules/` layer.** dispatch auto-loads Cowork preferences and a project `CLAUDE.md`, and
+  nothing else. anything in `~/.claude/rules/` reaches it only if a human pastes it or it reads the
+  file by hand through Desktop Commander. this is why skill copies had to be hand-inlined for it.
+- ⚠️ **dispatch-spawned sessions never read `~/.claude/settings.json`** — `defaultMode` and
+  `permissions.allow` included, so every call prompts. [DOT-91](https://linear.app/x-com/issue/DOT-91).
+  combined with a two-button dialog that has no "always allow", this is what made mobile use
+  expensive: ~40 dialogs in one evening.
+- ⚠️ **its chat UI sanitizes non-https hrefs**, so a `linear://` deep link renders dead there. every
+  other surface uses `linear://`; dispatch needs `https://linear.app/...`.
+- 🚫 **cannot spawn a cloud `cc`** — `isolation: "remote"` resolves the base branch from a non-git
+  scratch cwd and fails. it **can** spawn a local `cc` with worktree isolation.
+- ❓ **effort is not settable on its spawns** and appears inherited — mechanic never verified, so do
+  not build on it.
+- its task-session output folders are **ephemeral** and die with the session, so anything worth
+  keeping is attached to its ticket the moment it is born.
+
+
 ## Spawning cloud sessions — nothing agent-side can do it [verified 2026-08-15]
 
 Neither `cw` nor `cc` can start a Claude Code cloud session programmatically. `cc` tested it and

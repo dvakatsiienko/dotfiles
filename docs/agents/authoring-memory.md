@@ -127,6 +127,18 @@ comment carries everything a maintainer needs and a reader does not.**
 - 🎯 the point is not documentation — it is **removing the temptation to over-describe the entry**.
   the urge to explain has somewhere free to go, so the instruction stays an instruction
 
+🚫 **the cap, because free storage invites flooding.** dima's own objection to this design, and it
+stands: a comment costs zero tokens but still costs **his reading time and its own maintenance**.
+
+- **not every entry gets one.** most rules are self-evident; a comment there is noise with a
+  zero-token price tag
+- **three lines maximum** — the shape the paper measured, and it measured a *short* one
+- write one only when the **why is non-obvious**: a hidden constraint, a past incident, a placement
+  that would look wrong to the next reader
+- 📌 **it is not a barrel-index job.** a one-line hook in an index is written for dima to navigate
+  by, so it stays visible text. the comment is for the maintainer question the hook cannot answer —
+  *why is this leaf here rather than in `rules/`* — and only where that is actually in doubt
+
 ⚠️ **a comment is evidence, not proof.** **[read]** it tells the next reader what to go and check;
 it never establishes that deleting is safe. keep a human in the loop before removing anything —
 and the more expensive the blast radius, the harder that rule binds.

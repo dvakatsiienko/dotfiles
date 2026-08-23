@@ -13,47 +13,16 @@ Personal macOS dotfiles repository with automated symlink-based configuration ma
 
 ## Directory Structure
 
-**The mirror rule**: a path under `home/` IS the path under `~`. Everything symlinked into the
-home directory lives there at its literal relative path, so the link map is derived by walking
-the tree instead of being hand-maintained. Anything imported by hand into an app rather than
-symlinked lives in `import/`.
-
-```
-dotfiles/
-├── home/                       # mirrors ~ exactly — everything here gets symlinked
-│   ├── .config/
-│   │   ├── nvim/              # LazyVim config — was a standalone repo, folded in 2026-08-16
-│   │   ├── oh-my-zsh-custom/  # Custom zsh aliases and functions
-│   │   └── starship.toml      # Starship prompt configuration
-│   ├── .ssh/                  # SSH configuration (config, allowed_signers)
-│   ├── .zshrc .zprofile .zshenv  # Shell configuration
-│   ├── .gitconfig             # Git configuration with 1Password
-│   ├── .vimrc                 # Vim configuration
-│   ├── .warp/                 # Warp settings, keybindings, theme
-│   └── .claude/               # Claude Code config — see below
-├── cc -> home/.claude          # shorthand for the dir edited most
-├── import/                     # NOT symlinked — imported by hand into each app
-│   ├── iterm2/                # prefs folder, pointed at from iTerm2 preferences
-│   ├── raycast/               # script dir, pointed at from Raycast preferences
-│   ├── terminal/              # Gruvbox and Treehouse Terminal.app themes
-│   └── vscode/                # Gruvbox VSCode themes
-├── script/                     # top level = runnable; lib/ = never invoked directly
-│   ├── dotfiles-link.ts       # status / apply / untrack
-│   ├── macos-setup.ts         # Brewfile install + macOS defaults
-│   ├── skills-sync-cw.ts    # cw skill drift check + zip build
-│   └── lib/
-│       ├── manifest.ts        # The engine — derives the link set from the tree
-│       ├── manifest.test.ts   # vitest suite for the engine
-│       └── print.ts           # Terminal output vocabulary
-├── Brewfile                    # every package this machine is built from
-├── docs/                       # ADRs, agent docs, research, audit
-└── .claude/                    # THIS repo's project-level Claude config
-    └── settings.local.json    # Additional directory permissions
-```
+**The mirror rule**: a path under `home/` IS the path under `~`. Everything symlinked into the home
+directory lives there at its literal relative path, so the link map is derived by walking the tree
+instead of being hand-maintained. Anything imported by hand into an app rather than symlinked lives
+in `import/`.
 
 `home/.claude/` (the global config) and `.claude/` (this project's config) are deliberately
 distinct — that collision is exactly why the global config is nested under `home/` rather than
 sitting at the repo root.
+
+📌 the tree itself is not written down here: `ls` shows it, and a copy goes stale.
 
 ## Installation Process
 
@@ -76,16 +45,12 @@ repo owns, points a few file types at their editor via `duti`, fetches vim-plug.
 
 ### Available Commands
 
+`package.json` `scripts` is the list — read it rather than a copy. The two with non-obvious
+grammar:
+
 ```bash
-pnpm dotfiles-link                        # status — what's linked, what conflicts
 pnpm dotfiles-link apply                  # link everything not linked yet
 pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
-
-pnpm macos-setup                           # what this machine is missing vs the Brewfile
-pnpm macos-setup apply                     # install packages, write defaults
-
-pnpm test                            # vitest — the mirror rule, against a temp fixture
-pnpm test:watch
 ```
 
 Registering a new dotfile is a move, not a command — `mv ~/.foo home/.foo && pnpm dotfiles-link apply`.
@@ -186,18 +151,17 @@ repairs them like any other link.
 - ✅ Conversation history, todos, thinking files stay in `~/.claude/`
 - ✅ Only true configuration files stored in `home/.claude/`
 
-### Current Structure
+### What lives in `home/.claude/`
 
-```
-home/.claude/
-├── settings.json          # Main Claude settings
-├── keybindings.json       # CC keyboard shortcuts (symlinked from ~/.claude/)
-├── hooks/                 # Hook scripts invoked from settings.json
-├── sline/                 # Go sline implementation
-├── plugin-x/              # Personal plugin (skills: handoff, handoff-pull, sweep-issues, cmt, cct, …), registered as marketplace "x"; CST-SPEC.md = single definition of the CST format
-├── mcp-x-cw/              # Local stdio MCP server giving `cw` handoff tools over the shared ~/.claude/shelf/handoffs/ store (build: pnpm mcp:build)
-├── skills-cw/             # Thin claude.ai skills, hand-adapted from plugin-x sources (pm, comms-mobile, remind, queue; handoff UX lives in the MCP server's tool descriptions + prompts); sync via `pnpm skills-sync-cw` (drift check + zips + Finder) — not `cc`-loadable, manual zip upload to `cw`
-```
+`ls` shows the tree. What it does not show:
+
+- `plugin-x/` — personal plugin, registered as marketplace "x". `CST-SPEC.md` there is the single
+  definition of the handoff format.
+- `mcp-x-cw/` — local stdio MCP server giving `cw` handoff, transcript and pm tools against the
+  shared shelf. Build: `pnpm mcp:build`.
+- `skills-cw/` — hand-adapted `cw` copies, shipped as zips uploaded by hand. Not `cc`-loadable.
+  Drift is expected; `pnpm skills-sync-cw` reports it.
+- `shelf/` — durable artifacts (handoffs, transcripts, flawlog), symlinked into `~/.claude/`.
 
 ## Sline System
 
