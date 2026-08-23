@@ -59,7 +59,7 @@ not tokens. **resident tokens this turn will not use**, and **duplicate statemen
 
 | proxy | today | why it is the right proxy |
 | --- | --- | --- |
-| the same rule written more than once | ≥ 3 known cases, named in `mem-run.md` | a divergent duplicate **is** a distractor in the measured sense above |
+| the same rule written more than once | ≥ 3 known cases, named in `memory-sweep.md` | a divergent duplicate **is** a distractor in the measured sense above |
 | chars per token in memory text | **2.89** [measured] | see §2.2 — the prettiness has a price nobody counted |
 | memory loaded eagerly vs on demand | ~100% eager | see §2.1 — the opposite of what anthropic's own guidance says |
 
@@ -127,7 +127,7 @@ file reads and a linear fetch are large. [inferred] nothing in the evidence says
 is a degraded place to be.
 
 what *is* a live risk at 200k is §1's distractor finding, and the memory system has confirmed distractors
-in it. `mem-run.md` names one itself: the entity-first naming rule is **recorded three times under three
+in it. `memory-sweep.md` names one itself: the entity-first naming rule is **recorded three times under three
 names** — subject-first, family-first, entity-first. three statements of one rule, worded differently,
 all resident. that is the exact failure chroma measured, and it needs no threshold to be crossed.
 
@@ -199,7 +199,7 @@ agent. what exists is adjacent, and it points one direction consistently:
 | deciding a file should **stop** existing | human | no evidence any agent does this well; every incentive runs the other way |
 | checking a claim carries its test | either, adversarially | this is verification, and it is the one judging task with a mechanical answer |
 
-this matches the finding the run exists for, already in `mem-run.md`: opus writes long by default, and asked
+this matches the finding the run exists for, already in `memory-sweep.md`: opus writes long by default, and asked
 who the long version served, answered «the user» — wrongly. **~70% of written text was not needed.**
 that is a measurement of exactly the weakness the outside evidence predicts. [measured, by dima]
 
@@ -211,7 +211,7 @@ you do not teach taste. you **constrain the write**, and you keep the delete dec
   follows a contract; it drifts from an adjective.
 - **attribution over assertion** for anything an agent sourced — the rule already exists here twice and
   the evidence above is the reason to generalise it, not shrink it.
-- an **index that is generated, never hand-written.** `mem-run.md` already names this: a hand-written
+- an **index that is generated, never hand-written.** `memory-sweep.md` already names this: a hand-written
   barrel can silently lie by omission. that is a manage-stage failure, the class the evidence says
   dominates.
 - ⚠️ what a generator cannot fix is **hook quality** — a one-line pointer that undersells a leaf makes the
