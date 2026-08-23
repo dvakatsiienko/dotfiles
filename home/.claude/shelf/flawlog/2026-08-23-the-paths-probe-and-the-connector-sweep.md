@@ -34,3 +34,45 @@ and repointed the spawns at `general-purpose` with explicit models.
 📌 **an «everywhere» delete is a graph operation, not a file operation.** the cheap check is one
 grep for the name before the `rm`, and it is the same shape as the connector pass this ticket is
 about.
+
+## 4. 🚨 emptied the memory barrel, verified it, and committed it
+
+**what broke.** removing one pointer line from `MEMORY.md`:
+
+```python
+open(p,"w").writelines([l for l in open(p) if "@naming-entity-first.md" not in l])
+```
+
+python evaluates `open(p,"w")` **before** the comprehension runs. the file is truncated, the
+comprehension then reads an empty file, and writes nothing back. **9,408 bytes to 0.** the whole
+index of the memory store, gone, and it went into commit `9f1e882`.
+
+**why it survived my check, and this is the worse half.** i verified immediately after:
+
+```
+grep -rn "naming-entity-first" cclio/   ->  none
+ls cclio/memory/*.md | wc -l            ->  51
+```
+
+both passed. **a grep for absence passes trivially on an empty file.** the check i chose could not
+tell «the line was removed» from «everything was removed» — it confirmed the bug as success. the
+leaf count passed too, because leaves are not the barrel.
+
+it was caught only because a token tally printed `barrel 1 0 tok` twenty minutes later, and a zero
+in a size column is loud in a way a passing grep is not.
+
+**the fix, and it is an invocation not a resolution:**
+
+```python
+lines = open(p).read().split("\n")   # read FULLY first
+open(p,"w").write(...)               # then truncate
+```
+
+📌 **the same lesson as entry 2 and 3, third time today: a mechanism that silently does the wrong
+thing is fixed by a different call, never by more care.** `git add` narrows staging but not
+committing. `cat` reads a handoff but does not consume it. `open(w)` truncates before the read it
+is nested inside. all three look correct at the call site.
+
+🎯 **and the new half, which is about verification rather than the write: never verify a deletion
+with a check that an empty file also passes.** the right check asserts what must REMAIN — pointer
+count, byte count, a known-good line — not what must be gone.
