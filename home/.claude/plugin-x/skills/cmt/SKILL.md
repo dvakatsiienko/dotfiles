@@ -168,35 +168,31 @@ commit author. The author field was never in play.
 - `~/.config/linear/linear.toml` `issue_create_assign_self = "never"` — a **client-side** guard on
   the cli's `issue create`. The push assign happens server-side; no cli config reaches it.
 
-### the working fix: reverse it, do not prevent it
+### 🧪 the reversal is SUSPENDED — under observation
 
-Dima wants the magic words. So keep them and undo the side effect.
+**Do not unassign after a push. Do not put the state back. Observe and report instead.**
 
-**After any push whose commits carried `- ref DOT-N` or a closing keyword, unassign those
-tickets** — unless Dima assigned himself deliberately, in which case leave it alone.
+Why it was suspended, 2026-08-23: six commits carrying a `ref` line for one ticket went up in a
+single push. Linear wrote `assignee → Dima` and then `assignee → None` four times in the **same
+second**, and the ticket settled **unassigned** with nobody intervening. The state landed on
+In Progress, which was true.
 
-```sh
-linear api 'mutation { issueUpdate(id: "DOT-N", input: { assigneeId: null }) { success } }'
-```
+That contradicts the rule this section used to carry. Two readings and no way to pick between them
+from one observation:
 
-- do it in the same turn as the push, never "later"
-- name it in the reply, so the unassign is visible rather than silent
-- 📌 a closing keyword (`Closes DOT-N`) assigns too. The unassign applies there as well; a Done
-  ticket assigned to Dima is the same false signal as an open one.
+- linear's behaviour changed, and the reversal has been undoing nothing for a while
+- a batch of refs in one push behaves differently from the single-ref pushes that were measured
 
-🚨 **the reversal has TWO jobs, not one — the second was missed until it was measured.** A plain
-`- ref DOT-N` also moves the ticket `Todo → In Progress` on push (§3.1). So after the unassign:
+📌 No hook does this. `hooks/`, `.vibemon/` and `settings.json` were grepped for `assigneeId` and
+there is nothing. [DOT-159](https://linear.app/x-com/issue/DOT-159) carries that build and is
+still open, so the manual step was the only mechanism and it was masking its own necessity.
 
-- **did this commit actually start that work?** yes → leave In Progress, it is now true. no → put
-  the state back. Referencing a ticket while answering one question that belongs to it is the
-  common case, and it is not the same as starting it.
-- ⚠️ **never revert a state Dima set himself.** Read the issue history before assuming the
-  integration did it: the push writes state and assignee in one instant under one actor, so a
-  matching timestamp is the tell.
+**What to do instead, each time a ref-carrying push lands:** read the ticket's assignee and state
+afterwards, and say in the reply what Linear actually did. That is the measurement. When there is
+enough of it, either delete this section or restore the reversal with evidence.
 
-📌 Two reversals per push is why this wants to be a hook rather than a habit — [DOT-159](https://linear.app/x-com/issue/DOT-159) carries the
-build. Until it exists this is manual, and Dima has said plainly that he dislikes it. Do it anyway,
-and do not let it go silent.
+⚠️ **If a ticket ends up assigned to Dima and it should not be, tell him.** Suspended means stop
+doing it silently, not stop caring.
 
 ⚠️ **inferred, not documented.** Linear documents the magic words and the status moves; it
 documents the assign nowhere. The pusher-not-author conclusion is measured behaviour, not a
@@ -247,8 +243,8 @@ This is how Dima works: no branch, no PR, commit and push. The **commit body car
   carrying `ref` and no closing word. So swapping `Closes` for `ref` was never an escape hatch,
   and any advice that said otherwise was wrong.
 - 🚨 **§2.5's fleet author identity does NOT stop it — tested and falsified.** Linear reads the
-  pusher, not the commit author. The working fix is to **unassign after the push**, in the same
-  turn, and say so in the reply. See §2.5 for the mutation and the three knobs already ruled out.
+  pusher, not the commit author. 🧪 **The reversal that used to live here is suspended** — see
+  §2.5. Read the ticket after a push and report what Linear did; do not correct it.
 - So the keyword choice is about the ticket's **state** and nothing else: `Closes DOT-N` to finish
   it, `- ref DOT-N` to link only. Scoped to Dima's tracker (`DOT`/`BYT`); an oss repo's closing
   conventions belong to that project.
@@ -275,10 +271,10 @@ Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens 
   a plain `- ref DOT-159` produced **two writes in the same instant** — `Todo → In Progress` **and**
   `assignee: none → Dima`. Same actor, same timestamp, read out of the issue history.
   So a non-closing `ref` moves the state as well as the assignee. A closing keyword moves it to Done.
-  **The reversal in §2.5 therefore has two jobs, not one: unassign, and put the state back** where
-  the commit did not actually start the work. 📌 the old claim came from a PR-vs-commit test that
-  compared linking behaviour and never looked at the state field — the check was narrower than the
-  conclusion drawn from it.
+  📌 the old claim came from a PR-vs-commit test that compared linking behaviour and never looked
+  at the state field — the check was narrower than the conclusion drawn from it. 🧪 **whether this
+  still holds is exactly what §2.5's suspension is measuring** — a six-ref push on 2026-08-23
+  settled unassigned on its own.
 - Reading a Resources entry: a `Non-closing` badge means link-only. **No badge means it closed
   the ticket** — Linear marks the exception, not the norm.
 
