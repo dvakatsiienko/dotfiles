@@ -30,4 +30,4 @@ unrecoverable in a way a bad edit is not.
 
 **How to apply:** prefer additive changes. Read before overwriting. When a task seems to require
 removing something, ask first even though nothing will stop you — the absence of a prompt is not
-consent. See [[no-perm-ops-on-mobile]] for the mirror rule when he is on mobile.
+consent.

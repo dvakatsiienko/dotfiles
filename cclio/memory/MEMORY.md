@@ -49,10 +49,8 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - @handoff-ask-here-or-fresh.md — ask before saving a CST, not after
 
 ## safety
-- @no-perm-ops-on-mobile.md — dima on phone/ipad = nothing that can throw a permission dialog
 - @no-destructive-ops-under-bypass.md — bypass is the fleet default now; the rule is behaviour under it, not a reminder of it
 - @clean-up-after-yourself.md — prune processed buckets/temp files same turn; docs/research/* exempt; 🌍 candidate to scale fleet-wide
-- ⏰ @reminder-vet-trial-verdict.md — after ~2026-09-18 ask verdict: keep vet / rename trial / mutate investigate
 
 ## spawning
 - ⭐ @spawn-contract.md — how work is handed to a coder: two doors, four checks, a bounded message channel; full spec lives in `cclio/docs/`
@@ -103,6 +101,5 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 
 ## environment
 - @settings-json-drifts-when-unlinked.md — CC writes it at runtime; a real file where the symlink belongs = silent divergence, check `ls -l` at boot
-- @browser-mcp-per-project.md — global is off on purpose; add to project-local `.claude` config instead
 - ⭐ @tell-dima-all-capabilities.md — surface what the surface can do, especially the gated parts; this is the yardstick for the DOT-188 A/B
 - @anthropic-job-search.md — dima applying to anthropic + job-profile brief; desktop "job" project memory not accessible to dpatch
