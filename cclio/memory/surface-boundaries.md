@@ -1,11 +1,5 @@
----
-name: memory-divergence-store
-type: rule
----
-
-**An agent mutates only its own memory.** Never write into another surface's store. dispatch keeps
-`~/.claude/dpatch-memory` (a submodule) — read it if you must, never write it. `cw` and cloud `cc`
-keep their own.
+**An agent mutates only its own memory.** Never write into another surface's store — `cw` and cloud
+`cc` keep their own, and neither is yours to edit.
 
 Dima retired the live «sync memory everywhere» instruction: it fired randomly and grew mess faster
 than coverage.

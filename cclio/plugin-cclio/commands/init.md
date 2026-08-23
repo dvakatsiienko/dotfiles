@@ -15,7 +15,7 @@ handoff or a memfile. non-negotiable.
 - memory loaded? it AUTOLOADS now — `cclio/CLAUDE.md` imports `memory/MEMORY.md`, whose pointer
   lines import each leaf. **do not read the barrel by hand; that means it failed.** test it the
   cheap way: name one fact that lives only in a leaf body (the commit hash `d03f3da` in
-  `settings-json-drifts-when-unlinked` is the easiest — it appears in no barrel line). cannot name one → the import chain broke, say so 🚨
+  `settings-json-drift` is the easiest — it appears in no barrel line). cannot name one → the import chain broke, say so 🚨
   and fall back to reading `memory/MEMORY.md` for this session.
 - **derive, never assert.** report the memfile stack that ACTUALLY loaded, by path, listed
   from what is in context — never from a hardcoded expectation. anything positional is
@@ -30,6 +30,14 @@ handoff or a memfile. non-negotiable.
 - tracker reachable? `linear api 'query { viewer { name } }'`. 📌 **there is no `linear whoami`** —
   the cli prints usage and exits 1.
 - any check fails → report the failure FIRST, before any work.
+
+## 2.5 announcements 📢
+
+read `~/.claude/announcements.md` — live warnings with expiry. **announcements beat stale memory**;
+anything there outranks what a leaf says. `changelog.md` beside it is orientation, read it only when
+something looks unfamiliar.
+
+nothing live → say nothing.
 
 ## 3. inbox sweep 📬
 prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`

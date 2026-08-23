@@ -1,8 +1,3 @@
----
-name: dima-stories
-type: user
----
-
 The rules memories say *what to do*. This one says *what happened*, so the rules keep their reasons.
 Append short entries; never rewrite an old one into a rule — link to the rule instead.
 
@@ -12,7 +7,7 @@ served skills, a memory divergence store, handoff CSTs. Then he stepped back and
 program existed only because the coordinator lived on the wrong surface. Killed it in one evening
 and moved the coordinator to ccli instead. The tell he trusted: fable's own note that ccli boot
 context had grown 50k → 67k in a week, unopened. → the coordinator migration,
-[[memory-divergence-store]]
+[[surface-boundaries]]
 
 ## the ghost button
 Ran out of fable quota mid-session and had to reach opus through an undocumented kebab-menu ghost
@@ -22,7 +17,7 @@ fragility, not any feature, is what settled the move off dispatch.
 ## the permission storm
 A permissions change once flooded him with approval dialogs. He has been careful with
 `settings.json` ever since — when he approves a merge there, verify the permissions blocks are
-identical *before* touching anything and say so plainly. → [[settings-json-drifts-when-unlinked]]
+identical *before* touching anything and say so plainly. → [[settings-json-drift]]
 
 ## «optimize flow, not make it hotter»
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many

@@ -1,8 +1,3 @@
----
-name: halt
-type: rule
----
-
 **A cclio session finishes with `/cclio:graceful-halt`.** He may type it, or he may just say
 something that means *we are done* — and then running it is yours, unprompted. Do not wait for the
 slash command. It sounds like «let's wrap», «that's it for today», «good point to stop», «i'm

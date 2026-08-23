@@ -1,8 +1,3 @@
----
-name: dima-strategies
-type: project
----
-
 # dima's strategies — the branch map
 
 The CEO-altitude view. [[dima-stories]] holds what happened, [[dima-roadmap]] holds what we do
@@ -49,7 +44,7 @@ His words. Not one agent, not synced copies: one set of facts, read from whereve
 
 The fleet grew surface-first, each surface with its own memory, skills and boot ritual. The bridge
 between them was never built, and hand-made copies stood in for it, each needing its own
-maintenance ritual. → [[memory-divergence-store]]
+maintenance ritual. → [[surface-boundaries]]
 
 ✅ The coordinator migration to ccli is done ([DOT-188](linear://linear.app/issue/DOT-188)). It
 resolved that by **deletion rather than automation**: one config root, layered by directory, so no

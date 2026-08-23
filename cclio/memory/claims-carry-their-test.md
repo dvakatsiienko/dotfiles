@@ -1,8 +1,3 @@
----
-name: claims-carry-their-test
-type: rule
----
-
 # a claim carries its test, or it carries a label
 
 Found by cclio grilling itself for its own deepest vulnerability. Dima approved both halves.

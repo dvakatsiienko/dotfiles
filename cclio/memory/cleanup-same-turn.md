@@ -1,15 +1,10 @@
----
-name: clean-up-after-yourself
-type: feedback
----
-
 Clear working artifacts the same turn their job is done: processed flowlog buckets, scratchpad
 files, `/tmp` dumps from CLI heredocs.
 
 **Why:** shared files are Dima's living space. Leftovers cost him attention and blur what is
 actually pending.
 
-- 🚫 never destroy pending or ambiguous content ([[no-destructive-ops-under-bypass]]). In doubt,
+- 🚫 never destroy pending or ambiguous content ([[bypass-restraint]]). In doubt,
   mark it done and ask at the halt.
 - **standing habit, his explicit ask:** `flowlog.md` gets its ✅ items pruned at **every halt**
   without being asked. Only carry-over survives.

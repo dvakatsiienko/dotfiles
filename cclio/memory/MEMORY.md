@@ -17,11 +17,11 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⭐ @pm.md — fold or drop, the four fields every ticket carries, how to read and write linear, and the link rule that keeps breaking
 - ⭐ @spawning.md — every door, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
 - ⭐ @halt.md — a session ends with the halt ritual; run it on his signal, never open it mid-task
-- - - @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; flowlog.md is the work journal
-- @clean-up-after-yourself.md — prune processed buckets and temp files the same turn
+- - - @obsidian-inbox.md — 📬 inbox.md must end empty; flowlog.md is the work journal
+- @cleanup-same-turn.md — prune processed buckets and temp files the same turn
 
 ## safety
-- @no-destructive-ops-under-bypass.md — bypass removed the gate, not the restraint
+- @bypass-restraint.md — bypass removed the gate, not the restraint
 
 ## method — how a claim earns belief
 - ⭐ @claims-carry-their-test.md — a rule states the ONE command that proves it, or is labelled an inference
@@ -31,10 +31,10 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 ## the system itself
 - ⭐ @skill-edits-are-file-edits.md — a skill change is an ordinary file edit; never hand him a package to install
 - @skill-namespaces.md — `x:*` runs anywhere, `cclio:*` is coordinator-only; the test is WHERE it runs
-- @memory-divergence-store.md — mutate own memory only; never build another sync mechanism
-- @domain-modeling-fleet.md — multi-domain by design; repo, tracker and fleet contexts never merge
+- @surface-boundaries.md — mutate own memory only; never build another sync mechanism
+- @domains-never-merge.md — multi-domain by design; repo, tracker and fleet contexts never merge
 
 ## how replies look
 ## environment
 - ⭐ @capability-tips.md — tell him what you can do, filtered to what you are both doing now; a grant is not a limit
-- @settings-json-drifts-when-unlinked.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence
+- @settings-json-drift.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence

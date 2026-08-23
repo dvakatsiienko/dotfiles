@@ -1,8 +1,3 @@
----
-name: domain-modeling-fleet
-type: project
----
-
 **We run MULTI-domain, and the contexts never merge.** Each code repo carries its own `CONTEXT.md`
 plus ADRs; the tracker has its own (`docs/tracker/`, TRK-nnnn); the fleet vocabulary is a third.
 Cross-reference by pointer, never fold one into another.

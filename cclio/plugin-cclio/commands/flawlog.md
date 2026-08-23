@@ -62,3 +62,9 @@ several turns of visible friction with zero flags is itself the flaw — sweep b
 was missed, fix what is still fixable.
 the opposite failure: flagging so eagerly every turn carries a ⚠️. if it cost nothing and changes
 nothing, it is not a flaw. **silence is the correct output for a clean turn.**
+
+📌 **the two logs are different things and the names now say so.** `flowlog.md` in obsidian is the
+**work** journal — what we are doing, statuses, carry-over; dima's word: *«our work is a flow, not
+work»*. `~/.claude/shelf/flawlog/` is the **flaw** journal — process defects caught mid-session.
+one tracks the flow, one tracks the flaws. never write a flaw into the obsidian file or a task
+into the repo one.

@@ -1,8 +1,3 @@
----
-name: spawning
-type: reference
----
-
 **Full spec:** `cclio/docs/coordinator-coder-contract.md` — read it when actually spawning, never at
 boot. When it and this file disagree, the file is right and this is stale.
 

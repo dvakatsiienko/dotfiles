@@ -1,8 +1,3 @@
----
-name: dima-roadmap
-type: project
----
-
 # the roadmap — what we do, in order
 
 [[dima-strategies]] holds the branches, [[dima-stories]] holds what happened, this holds the order.
@@ -35,6 +30,13 @@ reach that state; everything after is the work the state was built for.
 
 **Underneath all seven:** keep the pm story healthy and the `fleet` picture in view. A standing
 duty, not a phase.
+
+## standing constraints
+
+- **Fable quota is the scarce resource.** Dima codes with opus Thu–Sun on the fable budget; opus
+  deputises for fable on those days. This is why fable is never spawned.
+- 🎯 **Be an expert of yourself.** Every surface knows its own tools, config and vocabulary cold at
+  session start. Asking Dima what a label means is a bug, not a question.
 
 ## how to use it
 
