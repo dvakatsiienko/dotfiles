@@ -228,6 +228,27 @@ every line to the second question.
 `/context` still shows the pre-sweep figure and the deleted leaves. measure on disk, never in
 `/context`, until a fresh session.
 
+### ✅ step 2 done — cclio's own memory (2026-08-23)
+
+**52 leaves → 18. 47,194 → ~18,700 tok.** Nothing cut for being wrong.
+
+- **4 removals**: content that lived elsewhere (`announce-model` had three copies), guarded a
+  surface we do not use, or was a doc pretending to be a rule.
+- **6 merges**, each one subject per file: `spawning` ← 5 · `pm` ← 10 · `dima-strategies` ← 7 ·
+  `silent-failures` ← 2 · `halt` ← 2 · `surface-boundaries` ← 2.
+- **dispatch stripped** to 8 deliberate mentions, all history or the English word.
+- **frontmatter dropped** — `name` duplicated the filename and was a live drift surface; `type` is
+  not read at runtime and the barrel's salience markers classify better.
+- **6 renames**, entity-first: `cleanup-same-turn` · `bypass-restraint` · `domains-never-merge` ·
+  `surface-boundaries` · `obsidian-inbox` · `settings-json-drift`.
+
+🎯 **The two tests that did the work**, both sharper than «is it stale»: *does this line change a
+behaviour, or describe a mechanic?* and *is this one subject split across files, or several subjects
+in one?*
+
+⚠️ **`rules/` went 12,372 → 6,008** in the same pass, because half its content was coordinator-only.
+Every coder session on this machine pays that saving too.
+
 ### the order is binding
 
 1. **root +** `rules/` **first.** sort, place, trim fluff. if something must leave but may be
