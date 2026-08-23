@@ -166,7 +166,7 @@ download into the root of the store. The `|| exit 1` is what stops that.
 ### 5. Clean and record
 
 ```bash
-python3 "$SCRIPTS/clean_captions.py" captions.vtt transcript.txt
+python3 "$SCRIPTS/clean_captions.py" captions.vtt transcript.txt "$WORK/meta.json"
 
 jq -n --slurpfile m "$WORK/meta.json" --arg url "$URL" --arg lang '<the one code>' \
       --arg at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
@@ -180,6 +180,17 @@ rm -rf "$WORK"
 
 `clean_captions.py` strips timestamps, cue numbers, inline tags and HTML entities, drops the
 duplicate rolling lines auto captions emit, and groups the result into paragraphs.
+
+📌 **The third argument is what repairs mangled filenames**, so pass it. Captions spell technical
+names wrong in a recoverable way — `Claude MD`, `cloud.md`, `ClaudeMD` are all near-misses on
+`CLAUDE.md` — and the right spellings are usually already in the video's own title, description,
+chapters and tags. `repair_identifiers.py` harvests them from `meta.json` and fixes the transcript.
+Measured on [DOT-211](linear://linear.app/issue/DOT-211)'s two test videos: **5 of 18 correct
+before, 18 of 18 after**. Omitting the argument still works — it falls back to a six-entry core
+list — but it throws away most of the win, and `$WORK/meta.json` is already on disk at this point.
+
+The script prints what it changed. Repeat that line when reporting, so a wrong repair is visible
+rather than silent.
 
 ### 6. Read it, then report
 

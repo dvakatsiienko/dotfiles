@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 import sys, re, html
+
+# Set before the import below: this script lives in a git-tracked skill directory,
+# and a __pycache__ next to it would be rewritten on every transcript fetch.
+sys.dont_write_bytecode = True
+
+# Same directory, so the script's own dir is already on sys.path.
+from repair_identifiers import load_vocabulary, repair
 TIMESTAMP_LINE = re.compile(r"^\s*\d{2}:\d{2}:\d{2}[.,]\d{3}\s*-->\s*\d{2}:\d{2}:\d{2}[.,]\d{3}")
 INLINE_TAG = re.compile(r"<[^>]+>")
 CUE_NUMBER = re.compile(r"^\d+$")
@@ -8,6 +15,9 @@ def clean_line(line):
     return html.unescape(stripped).replace('\xa0', ' ').strip()
 def main():
     src, dst = sys.argv[1], sys.argv[2]
+    # Optional yt-dlp -J dump. Its title/description/chapters/tags supply the
+    # vocabulary that repairs mangled filenames; absent, only the core list is used.
+    meta = sys.argv[3] if len(sys.argv) > 3 else None
     with open(src, 'r', encoding='utf-8', errors='replace') as f:
         raw_lines = f.readlines()
     text_lines = []
@@ -36,6 +46,10 @@ def main():
             paragraphs.append(' '.join(chunk)); chunk = []
     if chunk: paragraphs.append(' '.join(chunk))
     output = '\n\n'.join(paragraphs)
+    output, repaired = repair(output, load_vocabulary(meta))
     with open(dst, 'w', encoding='utf-8') as f: f.write(output)
     print(f'Wrote {len(output)} chars, {len(deduped)} caption lines -> {dst}')
+    if repaired:
+        print(f'Repaired {len(repaired)} identifier spelling(s): '
+              + ', '.join(f'{k} -> {v}' for k, v in sorted(repaired.items())))
 main()

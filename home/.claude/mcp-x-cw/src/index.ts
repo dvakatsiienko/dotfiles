@@ -892,15 +892,22 @@ async function transcriptRun(url: string, transit: boolean) {
         );
     }
     renameSync(join(dir, vtt), join(dir, 'captions.vtt'));
+    // The cleaner also repairs mangled filenames, and it reads its vocabulary from
+    // the video's own title/description/chapters/tags. Handing it the raw -J dump
+    // keeps that algorithm in one place instead of restating it in TypeScript.
+    const dump = join(dir, '.ytdlp.json');
+    writeFileSync(dump, raw);
     run(
         'python3',
         [
             join(TRANSCRIPT_SCRIPTS, 'clean_captions.py'),
             'captions.vtt',
             'transcript.txt',
+            dump,
         ],
         dir,
     );
+    rmSync(dump, { force: true });
 
     const body = readOrNull(join(dir, 'transcript.txt'));
     if (body === null) {
