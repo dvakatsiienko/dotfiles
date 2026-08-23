@@ -1,13 +1,3 @@
----
-name: settings-json-drifts-when-unlinked
-description: "settings.json is written at runtime by claude code — the moment it stops being a symlink, repo and live silently diverge"
-metadata: 
-  node_type: memory
-  type: reference
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T00:30:33.160Z
----
-
 `~/.claude/settings.json` is **not a static config** — Claude Code writes to it at runtime (plugin
 enable/disable, `autoMode` learning, `skipDangerousModePermissionPrompt`). So the symlink into
 dotfiles is the only thing keeping repo and live equal.

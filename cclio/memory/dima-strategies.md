@@ -1,13 +1,3 @@
----
-name: dima-strategies
-description: "dima's strategy map — the branches the whole system is moving along, all equally weighted; read before any pm decision"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:03:47.244Z
----
-
 # dima's strategies — the branch map
 
 The CEO-altitude view. [[dima-stories]] holds what happened; this holds **where it is all going**.

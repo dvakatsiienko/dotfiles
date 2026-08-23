@@ -1,13 +1,3 @@
----
-name: clean-up-after-yourself
-description: "universal habit — clear working artifacts when done, produce no trash"
-metadata: 
-  node_type: memory
-  type: feedback
-  originSessionId: 30861ba0-43b0-43bf-b3c2-7f62abafe4b4
-  modified: 2026-08-19T16:40:20.508Z
----
-
 Clear working artifacts when their job is done: processed flowlog buckets, temp files (the session scratchpad dir, /tmp dumps for CLI heredocs etc.), stale scratch. Example case (2026-08-19): flowlog.md kept fully-✅ buckets after processing — Dima flagged it as trash-producing.
 
 **Why:** shared files (obsidian vault, repos) are Dima's living space; leftovers cost him attention and blur what's actually pending.

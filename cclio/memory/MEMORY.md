@@ -23,9 +23,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⭐ @pm.md — fold or drop, the four fields every ticket carries, how to read and write linear, and the link rule that keeps breaking
 - ⭐ @spawning.md — every door, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
 - ⭐ @halt.md — a session ends with the halt ritual; run it on his signal, never open it mid-task
-- @handoff-ask-here-or-fresh.md — ask here-or-fresh BEFORE composing a CST, not after
-- @batch-drops-get-restated.md — restate a multi-item drop as a parsed list before acting on it
-- @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; flowlog.md is the work journal
+- - - @obsidian-inbox-protocol.md — 📬 inbox.md must end empty; flowlog.md is the work journal
 - @clean-up-after-yourself.md — prune processed buckets and temp files the same turn
 
 ## safety
@@ -41,13 +39,10 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⭐ @skill-edits-are-file-edits.md — a skill change is an ordinary file edit; never hand him a package to install
 - @skill-namespaces.md — `x:*` runs anywhere, `cclio:*` is coordinator-only; the test is WHERE it runs
 - @memory-divergence-store.md — mutate own memory only; never build another sync mechanism
-- @expect-skill-sync-drift.md — `skills-cw` is the only surface that still drifts; note it, never block
 - @domain-modeling-fleet.md — multi-domain by design; repo, tracker and fleet contexts never merge
 
 ## how replies look
-- ⭐ @output-must-be-pretty.md — ops as lines not prose, copy blocks get visible ends, the output kit
-
 ## environment
-- ⭐ @tell-dima-all-capabilities.md — surface what this surface can do, especially the gated parts, and what a loaded capability costs
+- ⭐ @capability-tips.md — tell him what you can do, filtered to what you are both doing now; a grant is not a limit
 - ⭐ @mcp-earns-its-place-on-desktop.md — 🚫 never say «mcp lost»; ask WHICH MACHINE the shell reaches before answering
 - @settings-json-drifts-when-unlinked.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence

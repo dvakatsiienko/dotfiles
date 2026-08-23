@@ -1,10 +1,3 @@
----
-name: memory-hazards
-description: ❗ the ways a memory file breaks without telling anyone — silent imports, truncate-before-read, and a quote that looked cut off
-metadata:
-  type: feedback
----
-
 Every hazard here is silent. That is what they have in common and why they share a file: each one
 leaves the store looking healthy from both sides.
 

@@ -1,13 +1,3 @@
----
-name: strategy-harness
-description: "harness branch — a home-baked orchestration harness in dima's style; wanted, deliberately deferred, never refused"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:04:54.069Z
----
-
 Branch of [[dima-strategies]]. Ticket: BYT-52 (harness research). Doc:
 `docs/research/agent-harness-building.md`.
 

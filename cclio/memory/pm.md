@@ -1,10 +1,3 @@
----
-name: pm
-description: how the tracker is run — fold or drop, what every ticket carries, how to read and write linear, and the link rule that keeps getting broken
-metadata:
-  type: rule
----
-
 Conventions live here; **state is always queried, never remembered.** Board state mutates hourly, so
 a cached picture read with confidence is worse than a two-second query. `/cclio:init` step 4.5 pulls
 the skeleton — teams, projects, descriptions, open counts — every boot, so a session knows the shape
@@ -130,4 +123,4 @@ filenames, same shape. **An id feels like a word while you are writing it.**
 
 A bare id in the draft is a bug to fix, never a judgment call about whether that one mattered.
 
-Related: [[strategy-pm]], [[output-must-be-pretty]], [[dima-roadmap]]
+Related: [[strategy-pm]], , [[dima-roadmap]]

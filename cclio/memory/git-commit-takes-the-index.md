@@ -1,11 +1,3 @@
----
-name: git-commit-takes-the-index
-description: A bare git commit takes the WHOLE index, not the paths you just added — pass the pathspec to commit itself
-metadata:
-  node_type: memory
-  type: feedback
----
-
 ❗ **`git add <paths>` narrows what you STAGE. it does nothing about what is ALREADY staged, and a
 bare `git commit` takes the whole index either way.**
 
