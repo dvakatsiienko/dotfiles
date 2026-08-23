@@ -47,6 +47,11 @@ here, in the file you are already reading. **Before any call not on this list, r
 `Skill(linear-cli:linear-cli)`** — an explicit load, not a mention. `linear <cmd> --help` confirms
 a flag in one call and is always cheaper than a wrong guess.
 
+📌 **this list and the `linear-cli` skill are not duplicates — they hold opposite things.**
+`linear-cli` documents **what works**: query filters, create, update, comments, attachments, ~334
+lines of recipes. the list below is **what breaks** — the calls that look right and are not. keep
+both; deleting either re-creates a real failure.
+
 - **listing** — `linear issue query --team DOT`. `issue list` shows only issues assigned to *you*,
   and there is no `--query` flag on it.
 - **searching** — no `issue search` subcommand exists. Use `linear api` with `searchIssues`.
