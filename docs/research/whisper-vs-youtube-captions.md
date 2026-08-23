@@ -246,3 +246,16 @@ rm -rf ~/.claude/shelf/yt-transcripts/.models                        # only if t
 - 📌 The per-video `player_client` finding got worse: `bytemonk` needed `web_safari` at 22:06 and
   **`mweb` at 22:20**. So the working client is unstable **over time**, not merely per video. Any
   audio path must try a list on every run and must not cache the winner.
+
+---
+
+# ➡️ round 3 lives in a sibling doc
+
+The question outgrew this title. Round 3 asked «is there a better model in 2026» and answered
+**no — the problem was never the model**. A metadata-driven repair pass scores **100%** on the
+same census, against this doc's best result of 53%, with no model and no disk cost.
+
+📌 It also revises round 2's conclusion that the vocabulary list is an unavoidable burden: the
+list is real, but it harvests itself from the video's own metadata.
+
+See `docs/research/asr-for-technical-talks.md`.
