@@ -56,7 +56,17 @@ A quote was read as breaking mid-sentence at «info that», written down as inco
 into a precondition that blocked real work. The bullet simply continued onto its own line.
 **When a quote looks incomplete, re-read the original before writing the gap into a rule.**
 
-📌 All three generalise the same way: **when a mechanism returns nothing, suspect your own inputs
+## ❗ an «everywhere» delete is a graph operation, not a file operation
+
+Two agent files were deleted on request. They were spawned **by name** in three places inside a
+skill, so the `rm` alone would have left that skill erroring on its own main loop — and nothing
+would have said so until someone ran it.
+
+**One `grep` for the name before the `rm` is the whole check.** The same shape as a barrel pointer,
+a wikilink, or a rules reference: the file is a node, and deleting a node without walking its edges
+leaves the edges pointing at nothing.
+
+📌 All of these generalise the same way: **when a mechanism returns nothing, suspect your own inputs
 before the mechanism.** Two probes here once read as «nested imports are unsupported» when the real
 cause was a path base.
 

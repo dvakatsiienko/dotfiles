@@ -263,6 +263,12 @@ Every coder session on this machine pays that saving too.
 3. **then project** `CLAUDE.md`**s**, top to bottom: **dotfiles first**, then `bytes`,
    `dvakatsiienko`, `inner-marker`, `reinforcement-learning`.
 4. **then the skills**, one by one, same process.
+   🔴 **[DOT-110](linear://linear.app/issue/DOT-110) and [DOT-217](linear://linear.app/issue/DOT-217)
+   are MUSTS of this step, not follow-ups** — dima's call. «does this skill behave as written» and
+   «does it have a completion criterion» are the two questions asked *while reading each skill*.
+   Running them separately means reading all 33 twice.
+   📌 apply `writing-for-agents` here, live. Whether it actually gets invoked is itself the test the
+   post-review section below is waiting on.
 5. **then a final pass: code review, full picture.**
 
 📌 skills are held **in mind during the memory buckets**, not deferred to step 4 — if a memory is

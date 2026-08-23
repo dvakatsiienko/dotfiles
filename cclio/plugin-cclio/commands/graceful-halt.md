@@ -6,8 +6,8 @@ description: the graceful finish — plan it, land the leaves, close with a CST.
 
 **one ritual, two speeds.** `stop` is an argument, not a sibling command.
 
-- `/cclio:graceful-halt` — dima is finishing up and there is time to talk. plan it, agree an
-  order, land what lands, wrap properly.
+- `/cclio:graceful-halt` — dima is finishing up and there is time to do it properly. plan it,
+  land what lands, wrap properly. 🚨 **invoking it IS the go — never ask for confirmation.**
 - `/cclio:graceful-halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
   conversation, under a minute.
 
@@ -56,15 +56,21 @@ flush it skipped.
 
 ## the full lane — phases below
 
-## phase 0 — the halt plan, and it comes FIRST
-do not start closing. one short message:
+## phase 0 — the halt plan, printed then executed
+
+🚨 **typing the command IS the go.** Print the plan and start working through it in the same
+turn — never stop to ask. He invoked a halt; asking «shall I halt?» makes him type twice.
+
+one short message, then straight into phase 1:
 - name every **live** thread: a ticket In Progress, an unlanded edit, a spawned session, an
   unanswered question put to dima, an unpushed commit
 - sort each into **can land now** (small, finishable here) · **must park** (needs a resume
   note) · **already done**
-- propose the order, ask for a SINGLE go
+- state the order you are taking, as a fact rather than a proposal
 
-only after his go do you proceed. «just halt» → skip to phase 1 and park everything.
+📌 the ONE thing that still stops for him: a **decision** inside a landing step — the flawlog
+flush needs his single approval on what becomes a rule, a ticket, or nothing. That is a decision,
+not a confirmation. Everything else proceeds.
 
 ## phase 1 — land the leaves
 execute the «can land now» list. small only — a halt is not the time to start work. bigger than
