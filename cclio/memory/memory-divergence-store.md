@@ -20,7 +20,7 @@ faster than coverage.
   merge**, and the two stores drift from the moment either writes. Expect divergence; it is the
   cost of the trial, deliberately accepted.
 - **never push into another surface's memory directly.** dpatch's store is
-  `~/.claude/memory-dispatch` (a submodule) — cclio reads it, never writes it. `cw` and cloud `cc`
+  `~/.claude/memory-dpatch` (a submodule) — cclio reads it, never writes it. `cw` and cloud `cc`
   keep their own.
 - fleet-bound facts queue on [DOT-186](https://linear.app/x-com/issue/DOT-186). 📌 that ticket goes
   on-hold once [DOT-194](https://linear.app/x-com/issue/DOT-194) gates — queue anyway, because
