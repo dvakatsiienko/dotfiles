@@ -60,13 +60,31 @@ file is touched.
 
 1. research the **newest best practices for writing memfiles and skills** — what works, what does
    not, tools and tricks.
-2. a **second, dedicated researcher** on the harder question: *«how do you teach agents to properly
+2. 🎯 **the context-size question — dima's, and it is the one with a number attached.**
+
+   > «what is the current target best practice of keeping the ctx size for an llm to perform well?
+   > previously it was ~120k tok — a number after which performance starts to lower. what is the
+   > number now? which number to hunt? your current boot ctx is 115k, and after first boot it
+   > becomes ~200k. 120k target is not realistic. **what do we do wrong?**»
+
+   - find the **current** number, not the remembered one. the ~120k degradation figure is old and
+     may not hold for a 1M-context model.
+   - ⚠️ **the last clause is the real question.** «what do we do wrong» outranks the number: a
+     115k cold boot that reaches 200k after one turn is either normal for this class of work or a
+     symptom. answer which, with evidence, before proposing a target.
+   - 📌 the answer steers [DOT-198](linear://linear.app/issue/DOT-198) directly — that ticket's
+     old 25k target was dispatch's invention and was removed for being made up. do not replace one
+     invented number with another.
+   - measure before optimising: what actually fills the window here is memory files (72k of 115k),
+     and that is what the bucketing changes.
+
+3. a **third researcher** on the harder question: *«how do you teach agents to properly
    write and maintain skills and memory?»* — and dima's sharper version: *«who is better at writing
    skills and mems — a human or an agent?»*
-3. distill both into guides in `docs/`: `authoring-memory.md` and `authoring-skill.md` **exist**;
+4. distill the research into guides in `docs/`: `authoring-memory.md` and `authoring-skill.md` **exist**;
    `authoring-memory-project.md` (how to write a good project-level `CLAUDE.md`) **does not** and
    is an output of this phase.
-4. then read matt's `writing-for-agents` against the landed research:
+5. then read matt's `writing-for-agents` against the landed research:
    - still useful? does the research replicate it? does it have flaws?
    - option to evaluate in place: **proxy the research file through the skill** so both apply, with
      matt's skill taking the final word. ❓ is that both-worlds or bloat — answer it, do not assume.
