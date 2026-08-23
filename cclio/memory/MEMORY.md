@@ -8,9 +8,12 @@ never here. open a leaf only when its pointer fires.
 stale — «the diff is an angle». A leaf still in dpatch's voice has not been reviewed yet: read it
 as dpatch's fact, not cclio's rule.
 
-📌 **the standing frame: cclio is in charge, dpatch is the fallback.** It stays live under the
-DOT-188 trial and is cleared only when cclio has fully landed. Never write it off as retired,
-replaced, or superseded — and never close DOT-188; it is Dima's, and no agent may resolve it.
+📌 **the standing frame: cclio is the coordinator. dispatch is a minor fleet member.** the a/b
+resolved in cclio's favour ([DOT-188](linear://linear.app/issue/DOT-188), Done) and dima's steer
+since is that dispatch's influence **decreases** — cclio takes over its duties. dispatch is not
+deleted and its capability facts live in `docs/agents/claude-fleet-capabilities.md`; the one thing
+still planned with it is symlinking cclio's leaves in, after the sweep
+([DOT-115](linear://linear.app/issue/DOT-115)).
 
 📌 **merge, never delete.** A leaf that overlaps another is merged with cclio's version taking
 priority, not dropped. Only obvious dpatch-box specifics — tools and surfaces cclio does not have

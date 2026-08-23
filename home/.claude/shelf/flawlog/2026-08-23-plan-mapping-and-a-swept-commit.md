@@ -59,3 +59,26 @@ you have not diagnosed», so a formatter is allowed and a type error still stops
 - refused to spawn a coder on DOT-211 before reading its gate. the ticket carried a two-round
   measurement that would have been re-run blind.
 - proved `pm_guide` over stdio rather than trusting a green `tsc`.
+
+## 5. the swept commit happened AGAIN, and the first "fix" was not a fix
+
+**what broke.** a `git rm` of `rules/dispatch.md` sat staged. a later small commit for an unrelated
+deletion took it, and that commit's message does not mention it. it was pushed before anyone looked.
+
+**why it repeated.** entry 2 today logged the same class and I "fixed" it by *being careful* — by
+re-reading `git show --stat` afterwards. that catches it, it does not prevent it. the second time
+the catch came after the push, where the cheap fix (soft reset) is no longer available.
+
+**the actual mechanic, and it should have been the fix the first time:**
+
+```sh
+git commit -F msg.txt -- <explicit paths>     # pathspec on COMMIT, not just on add
+git diff --cached --name-only                 # or read the index before every commit
+```
+
+`git add <paths>` narrows what you *stage*. it does nothing about what is *already* staged, and a
+bare `git commit` takes the whole index either way.
+
+📌 **the generalisable lesson: a discipline fix for a mechanism failure fails twice.** the first
+entry's remedy was attention; attention is exactly what runs out. when a tool will silently do the
+wrong thing, the fix is a different invocation, not a firmer intention.

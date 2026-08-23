@@ -29,8 +29,7 @@ so no allow rule reaches them at all.
 
 📌 On 2026-08-17 he answered roughly **40 dialogs** in one session. **No agent saw a single one** —
 every call returns instantly from our side, so there is no feedback signal and no instinct to
-develop. That is precisely why this is a rule. [DOT-93](https://linear.app/x-com/issue/DOT-93)
-tracks it.
+develop. That is precisely why this is a rule.
 
 ## How to apply
 
