@@ -226,85 +226,10 @@ filling it is a bucketing place in its own right.
 
 ---
 
-## 🔁 the reusable procedure — the thing that stops us re-planning this
+## 🔁 the reusable procedure — moved out
 
-📌 **this section is the deliverable, not the sweep.** the point is that the next inventory is a
-*run*, not a re-plan. everything above is context; this is the loop.
-
-### step 0 · the mechanical pass — code only, no judgment, no model
-
-runs first because it is free, exact, and it shortens every later step. **never an llm judge here**
-(see the guard below).
-
-| check | how | today's precision |
-| -- | -- | -- |
-| **closed-ticket citations** | every `DOT-N`/`BYT-N` in a resident file → ask linear its state → flag Done/Canceled ids sitting within 2 lines of open-state language (`tracks it`, `trial`, `awaiting`, `pending`, `until he decides`) | **~92%** — 12 flagged, 11 genuine |
-| **dead `@import`** | every `@slug` in a barrel resolves to a file | clean |
-| **barrel omission** | every leaf on disk is imported; every import exists | clean, 54/54 both ways |
-| **dead `cursor://` link** | the absolute path in each link exists | clean |
-| **dead file reference** | a named `rules/x.md` / skill / doc that is gone | this is what caught `dispatch.md` |
-
-🚫 **the naive path-existence regex does not work — 94 flagged, ~2 real.** the fix is a convention,
-not a better pattern: `cursor://file/` is already an absolute machine-checkable format, so
-**requiring it for any openable path turns a 3% check into a 100% one for free.**
-
-### step 1 · the inventory — what exists and what it costs
-
-- every memfile, every rule, every skill, every project `CLAUDE.md`
-- for each: bytes, est. tokens at **2.89 chars/token** (measured on this corpus — `/4` undercounts
-  by ~38%), and whether it is resident or deferred
-- 🎯 **the number that matters is not total size. it is `resident × never-used`.**
-
-### step 2 · the duplication pass
-
-**the highest-value single check**, because duplication is a *decay multiplier*, not just a cost:
-one board change falsified **twelve** files at once here.
-
-- find the same claim stated in more than one place
-- pick the one authoritative home, delete the rest, leave a pointer only if the reader would
-  otherwise not find it
-- 📌 measured today: 8 of 11 real defects were **one sentence written eight times**
-
-### step 3 · the placement pass
-
-each surviving item through the bucket test (see phase 2's table). the question is never «is this
-true» — step 0 settled that — it is **«who pays for this, and do they need it».**
-
-### step 4 · the deferral pass
-
-- what can take `paths:`? (code-shaped conventions tied to a glob)
-- what should become a **doc reached by a pointer** instead of a resident rule?
-- what should become a **skill** — a procedure with a name someone would invoke?
-- ⚠️ what genuinely cannot defer: anything whose trigger is an **intention** rather than a file
-
-### step 5 · the human gate
-
-**pruning is not delegated.** an agent files the candidate with its evidence; dima decides a file
-should exist and decides a file should stop existing. that split is not caution — it is what the
-evidence supports.
-
-### 🚫 the one thing not to build
-
-**do not build an llm-judge memory audit.** measured, arXiv 2601.11783, 115,200 judgments: judges
-reach **>99.88% verdict agreement** while their *reasoning* stability collapses to **≈19%** — they
-agree on the answer and fabricate different evidence for it each time. `Offscript` (CHIIR 2026) is
-the same shape: 84.6% of conversations flagged, **22.2% material after human review**.
-
-📌 that paper's own recommendation is this procedure, stated in its words: *«delegate all
-deterministically verifiable logic to code, reserve llms for semantic evaluation.»* step 0 is code,
-step 5 is human, and no step scores a rule's quality with a model.
-
-### ⏱️ cadence — and this is the finding that sets it
-
-🚨 **drift latency here is under 24 hours**, measured: `rules/dispatch.md` was deleted in the
-morning and two docs still described it in the present tense by the afternoon. **so a monthly or
-quarterly checkup cannot be the mechanism.**
-
-- **step 0 runs on commit** — it is code, it takes seconds, and it is the only thing fast enough
-- **steps 1–5 run when dima calls an inventory** — no timer, no scheduler, just a fact that it is
-  needed periodically
-
----
+it lives at `docs/agents/memory-checkup.md`, because it outlives this sweep. **this file is one
+execution of it.**
 
 ## phase 4 · the system checkup — runs in parallel, from the start
 
