@@ -1,6 +1,6 @@
 ---
 name: obsidian-inbox-protocol
-description: "Obsidian prompts folder is dpatch's personal inbox — check every session start, must end empty"
+description: "the obsidian prompts folder is cclio's personal inbox — check every session start, must end empty"
 metadata: 
   node_type: memory
   type: feedback

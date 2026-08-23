@@ -18,16 +18,15 @@ happening.
 
 ## the strategic problem
 
-The fleet grew surface-first — ccli, cwrk, dpatch, cchrome, ccloud — and each grew its own memory,
+The fleet grew surface-first — one memory, one skill set and one boot ritual per surface —
 its own skills, its own boot ritual. The bridge between them was never built; hand-made copies stood
 in for it and each copy needed its own maintenance ritual. → [[memory-divergence-store]]
 
 ## the current move
 
-🧪 The coordinator migration to ccli → story DOT-188 — **under
-trial, not concluded.** dpatch stays live as the fallback until Dima calls it. The design resolves
-the problem by deletion rather than automation: one config root, layered by directory, so no bridge is
-needed. The four-layer memfile stack is the mechanism.
+✅ **The coordinator migration to ccli is done** ([DOT-188](linear://linear.app/issue/DOT-188)).
+It resolved the problem by deletion rather than automation: one config root, layered by directory,
+so no bridge is needed. The four-layer memfile stack is the mechanism.
 
 Two roles emerge from it and should be kept distinct in all thinking: **ccli-coord** (small flat
 context, owns planning and the tracker) and **ccli-code** (large disposable context, owns edits).
@@ -42,5 +41,5 @@ The coordinator may edit — the peek into a project is what makes pair-review p
 
 ## where it is heading
 
-After the migration proves out: the skill-sync program retires, dispatch becomes a reader, and the
-membank (DOT-177) becomes the long-term home for accumulated knowledge rather than more memory files.
+The skill-sync program retires, and the membank ([DOT-177](linear://linear.app/issue/DOT-177))
+becomes the long-term home for accumulated knowledge rather than more memory files.

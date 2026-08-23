@@ -10,7 +10,7 @@ metadata:
 A skill asked for → **edit the file**. `plugin-x/skills/<name>/SKILL.md` for the `x:*` family, `cclio/plugin-cclio/commands/<name>.md` for the
 `cclio-*` family — they are slash **commands**, not skills, and there is no `cclio/.claude/skills/`. Commit it like any other change.
 
-**Why this leaf still exists after the tool changed:** the underlying habit is what Dima flagged as one of the most important — *never hand him a package to install by hand when you can make the change yourself*. Dispatch honoured that with `save_skill`; cclio honours it with an ordinary edit. The tool was the accident, the habit is the rule.
+**Why this leaf still exists after the tool changed:** the underlying habit is what Dima flagged as one of the most important — *never hand him a package to install by hand when you can make the change yourself*. An earlier surface honoured it with a dedicated tool; cclio honours it with an ordinary edit. The tool was the accident, the habit is the rule.
 
 **How to apply:** never produce a zip for drag-and-drop, never tell Dima to re-upload something. The one real exception is `skills-cw`, which genuinely has no channel but a manual zip upload — say so plainly when it comes up, and expect drift there until DOT-77 lands.
 

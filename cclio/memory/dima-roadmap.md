@@ -4,9 +4,9 @@
 (what we do next). [[dima-stories]] holds what already happened.
 
 📌 **This is a reflection of the plan in Dima's head, not a plan an agent invented.** He said it
-out loud once; keeping it true is the job. When he invents something — the way «scrap the
-dpatch↔ccli bridge, put cclio in charge of pm» arrived in one evening — **adjust this file in
-the same session**, and say that you did. A roadmap that lags his thinking is worse than none,
+out loud once; keeping it true is the job. When he invents something — the way «put cclio in
+charge of pm» arrived in one evening — **adjust this file in the same session**, and say that you
+did. A roadmap that lags his thinking is worse than none,
 because it is read with confidence.
 
 ## the destination, in his words
@@ -22,9 +22,8 @@ state was built for.
 1. 🚧 **cclio migrates** — the coordinator lands on ccli and proves itself.
    Story [DOT-188](linear://linear.app/issue/DOT-188), milestones on `fleet`. Open: the proof loop, the coder-global memfile,
    the hand-test checklist.
-2. **memory trashclean, and the fleet package rethink** — one pass, not two. Prune the store
-   ([[memory-hazards]] gates when), and settle **cclio · dpatch · cw as one package**:
-   who needs mcp, who needs the cli, which bridge fixes remain.
+2. **memory trashclean, and the fleet package rethink** — one pass, not two. Prune the store,
+   and settle **cclio and cw as one package**: who needs mcp, who needs the cli.
    📌 the mcp-vs-cli half is [DOT-185](linear://linear.app/issue/DOT-185) in the `cli` project, and the answer is **not** a blanket
    «cli wins» — see [[mcp-earns-its-place-on-desktop]].
 3. **`dima's tools`** — git, zsh, nvim, dotfiles. Deliberately after the fleet settles;

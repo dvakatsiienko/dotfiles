@@ -9,7 +9,7 @@ metadata:
 ---
 
 **Bypass is the fleet default now, deliberately.** Dima switched every surface to bypass
-permissions mode after watching dpatch spawn agents in manual-approval mode and drown him in
+permissions mode after being drowned in
 dialogs. His words, 2026-08-17: *"you must not delete important files on my fs"*.
 
 📌 **This leaf is not a notification.** A cclio session is told bypass is active in its own system
