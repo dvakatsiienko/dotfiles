@@ -17,8 +17,6 @@ Dima's Obsidian vault folder `/Users/dima/Library/Mobile Documents/iCloud~md~obs
 ✅ **Unfrozen by Dima 2026-08-21**, along with every handoff. The freeze is over; the protocol is
 live again. `protected.md` in the same folder is his own drop file — read-only, never ours to edit.
 
-📌 The dpatch original said to *mount* the folder each session. That step does not exist on cclio.
-
 📌 **the two logs are different things and the names now say so.** `flowlog.md` in obsidian is the
 **work** journal — what we are doing, statuses, carry-over; dima's word: *«our work is a flow, not
 work»*. `~/.claude/shelf/flawlog/` is the **flaw** journal — process defects caught mid-session.

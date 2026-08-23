@@ -28,9 +28,6 @@ When he does ask, run phase 0 and wait — do not start closing.
 
 Related: [[session-ends-with-a-halt]], [[pm-fold-or-drop]].
 
-⚠️ The dpatch original named these `dpatch-graceful-halt` / `dpatch-halt-now` and linked itself
-as superseded. Both were wrong: the real commands are `cclio-*`, and the self-link was a loop.
-
 📌 **the pair became one command.** Dima spotted the drift himself — two files describing one
 ritual had already started disagreeing, which is exactly what they existed to prevent. `stop` is
 now an argument on the halt. His reasoning, and it is the right frame: *«if halt means calm halt,

@@ -17,7 +17,7 @@ served skills, a memory divergence store, handoff CSTs. Then he stepped back and
 program existed only because the coordinator lived on the wrong surface. Killed it in one evening
 and moved the coordinator to ccli instead. The tell he trusted: fable's own note that ccli boot
 context had grown 50k → 67k in a week, unopened. → [[cclio-coordinator-trial]],
-[[memfile-bridge-absent]]
+[[memory-divergence-store]]
 
 ## the ghost button
 Ran out of fable quota mid-session and had to reach opus through an undocumented kebab-menu ghost

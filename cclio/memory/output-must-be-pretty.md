@@ -59,7 +59,7 @@ The shape, and the ribbons sit **outside** the fence so they never get copied:
 - 📊 mini scoreboard tables for session wrap-ups (created / done / touched / routed)
 - 🚦 fleet reports as one line per session, fixed order: 🟢 done-idle · 🟡 working · 🔴 blocked.
   Naming is type-first — «ccli batch-1», «cwrk research-x» — and that pattern scales everywhere.
-- ticket ids in scoreboards are always links ([[links-scheme-per-surface]]). No commits section in
+- ticket ids in scoreboards are always links ([[links-scheme-linear]]). No commits section in
   wrap-ups; commit refs live on the tickets.
 - 🎨 anything visual → a published artifact. cclio has the `Artifact` tool and the `dataviz` skill;
   dpatch had to use its proto board. Chat stays terse — hand over the link, not the content.
@@ -67,4 +67,4 @@ The shape, and the ribbons sit **outside** the fence so they never get copied:
 - 🃏 one-line lowercase haiku at session wrap (trial, joke-approved)
 
 Related: [[tickets-must-be-pretty]] (the same taste applied to what we write *into* linear),
-[[links-scheme-per-surface]].
+[[links-scheme-linear]].

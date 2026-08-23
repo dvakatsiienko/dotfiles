@@ -5,7 +5,6 @@ metadata:
   node_type: memory
   type: reference
   rewritten-for: cclio
-  supersedes: dispatch-spawn-types (dpatch original kept in dpatch-memory)
 ---
 
 cclio spawns through the **`Agent` tool**. There is no `start_task` / `start_code_task` here — those were dispatch verbs.
