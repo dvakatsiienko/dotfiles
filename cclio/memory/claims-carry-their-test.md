@@ -33,6 +33,15 @@ does not have to re-derive it.
 🚫 **Do not sweep existing rules for this.** Add the line when a rule is touched anyway. A sweep
 would fabricate commands for claims nobody re-ran, which is the same failure with more confidence.
 
+🎯 **and the command must exercise the thing you are claiming about.** A probe measures the path it
+runs, not the concept it is named after. «read a matching file» is not one operation — `cat` through
+Bash and the `Read` tool are different events to the harness, and only one of them fires a scoped
+rule. Round 1 of the `paths:` probe tested `cat`, saw nothing, and was one sentence from being
+written up as «the presence half does not work».
+
+📌 So a test that returns nothing is not a finding until you have checked that it tested the right
+path. **A null result is a claim about your instrument first, and about the world second.**
+
 ## half two — CSTs
 
 **A CST's claims about live state are candidates, verified before use.** Tickets by query, sessions
