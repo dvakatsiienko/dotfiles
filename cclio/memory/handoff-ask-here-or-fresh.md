@@ -14,4 +14,4 @@ Before writing a CST, ask Dima whether the work continues here or in a fresh thr
 `~/.claude/shelf/handoffs/`.
 
 **Why:** in cw·20260819·batch1 a full CST was saved and then work proceeded in-session — wasted tokens, stale CST.
-**How to apply:** the here-or-fresh question comes BEFORE composing the CST, not after. Related: [[halt-rituals-pair]].
+**How to apply:** the here-or-fresh question comes BEFORE composing the CST, not after. Related: [[halt]].

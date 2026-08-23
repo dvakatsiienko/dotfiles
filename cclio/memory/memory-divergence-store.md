@@ -25,4 +25,4 @@ the pm cluster above all. They sit in a private store, so no other ccli session 
 considers settled. Placement is [DOT-73](linear://linear.app/issue/DOT-73) step 3. Do not move them
 unilaterally.
 
-Related: [[linear-fetch-contract]], [[no-timestamps-in-prose]], [[skill-namespaces]]
+Related: [[pm]], [[skill-namespaces]]

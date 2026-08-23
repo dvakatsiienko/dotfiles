@@ -25,7 +25,7 @@ degrade the system.
 
 ## the moves
 
-- default verb is fold or drop, not file → [[pm-fold-or-drop]]
+- default verb is fold or drop, not file → [[pm]]
 - placement decided before creation, never repaired after → DOT-182 gate
 - one flush per session; batch drafts, one approval
 - act proactively but sit chill, even in the most stressful scenario — this is a standing

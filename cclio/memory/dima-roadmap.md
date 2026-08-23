@@ -23,7 +23,7 @@ state was built for.
    Story [DOT-188](linear://linear.app/issue/DOT-188), milestones on `fleet`. Open: the proof loop, the coder-global memfile,
    the hand-test checklist.
 2. **memory trashclean, and the fleet package rethink** — one pass, not two. Prune the store
-   ([[memfile-trim-comes-last]] gates when), and settle **cclio · dpatch · cw as one package**:
+   ([[memory-hazards]] gates when), and settle **cclio · dpatch · cw as one package**:
    who needs mcp, who needs the cli, which bridge fixes remain.
    📌 the mcp-vs-cli half is [DOT-185](linear://linear.app/issue/DOT-185) in the `cli` project, and the answer is **not** a blanket
    «cli wins» — see [[mcp-earns-its-place-on-desktop]].

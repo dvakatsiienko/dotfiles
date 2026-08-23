@@ -64,4 +64,4 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
   `dispatch.md`. the report was right. a null result from your own tooling is the weakest evidence
   in the room.
 
-Related: [[linear-fetch-contract]], [[tell-dima-all-capabilities]], [[git-commit-takes-the-index]].
+Related: [[pm]], [[tell-dima-all-capabilities]], [[git-commit-takes-the-index]].

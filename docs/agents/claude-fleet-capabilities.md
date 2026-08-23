@@ -17,6 +17,19 @@ only · **[observed]** seen by Dima in the UI · **[?]** unknown.
 Probed 2026-08-15 from a Cowork session in this repo's project; fleet sections added 2026-08-17.
 This file supersedes the earlier assumption that cw is always a detached cloud sandbox.
 
+## 🚫 `CLAUDE_CONFIG_DIR` is REJECTED — do not re-propose it as an isolation mechanism
+
+Evaluated during the coordinator migration and rejected. It is undocumented and it leaks four ways:
+
+- `CLAUDE.md` loads from **both** the custom dir and real `~/.claude/` at once
+- plugin state stays pinned to `~/.claude/plugins/` regardless
+- a `.claude/` at or above the cwd overrides the profile
+- credential paths are inconsistent
+
+What replaced it: **ccli walks arbitrary ancestor dirs** (tested with a marker, not assumed), so
+directory layering does the isolation with no env var at all. The precedence chain lives in root
+`CLAUDE.md`.
+
 ## Memory, per surface
 
 | surface | mechanism | location | who can edit |

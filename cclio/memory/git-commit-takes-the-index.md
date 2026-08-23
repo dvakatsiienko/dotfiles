@@ -30,4 +30,4 @@ never a firmer intention — attention is exactly what runs out.
 📌 the same shape applies with a live peer: `spawn-contract` already forbids `git add -A` while
 another agent works the tree. that rule was right and still insufficient, because it governs `add`.
 
-Related: [[spawn-contract]], [[claims-carry-their-test]]
+Related: [[spawning]], [[claims-carry-their-test]]

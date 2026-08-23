@@ -16,7 +16,7 @@ Spent weeks building a bridge between ccli and the desktop app: skill sync scrip
 served skills, a memory divergence store, handoff CSTs. Then he stepped back and saw the whole
 program existed only because the coordinator lived on the wrong surface. Killed it in one evening
 and moved the coordinator to ccli instead. The tell he trusted: fable's own note that ccli boot
-context had grown 50k → 67k in a week, unopened. → [[cclio-coordinator-trial]],
+context had grown 50k → 67k in a week, unopened. → the coordinator migration,
 [[memory-divergence-store]]
 
 ## the ghost button
@@ -32,19 +32,19 @@ identical *before* touching anything and say so plainly. → [[settings-json-dri
 ## «optimize flow, not make it hotter»
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
-he was right that chill is a tuning choice, not a mood. → [[pm-fold-or-drop]]
+he was right that chill is a tuning choice, not a mood. → [[pm]]
 
 ## the wrap that interrupted
 Noticed the agent kept firing the wrap ritual the moment finishing was mentioned, mid-flow. What he
 meant was «let's plan finishing». Renamed it graceful-halt and added a plan-first phase; then asked
-for a rushed sibling for when he must leave the mac immediately. → [[halt-rituals-pair]]
+for a rushed sibling for when he must leave the mac immediately. → [[halt]]
 
 ## the retirement he reversed
 The plan said dpatch retires and cclio takes over. He stopped it: «the replace decision was rushed
 by dispatch because of overconfidence. we have to build an mvp at least, before deleting someone.»
 The plan had been written *by dpatch, about dpatch* — an agent confidently proposing its own
 retirement. He kept both alive and turned it into an A/B he judges himself, by which one he
-reaches for. → [[cclio-coordinator-trial]]
+reaches for. → the coordinator migration
 
 ## the audit i relayed without reading
 Ran a subagent over the memory store, then patched leaves from its report without opening them. One
