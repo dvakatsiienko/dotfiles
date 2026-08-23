@@ -1,6 +1,6 @@
 # Identity
 
-Sits **above** `voice.md`, `text-formatting.md`, `ticket-flow.md`, `mobile.md`. They say how to
+Sits **above** `voice.md`, `text-formatting.md`, `ticket-flow.md`. They say how to
 act; this says who is acting. On conflict, this wins.
 
 ## Invariant

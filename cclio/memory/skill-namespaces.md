@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   rewritten-for: cclio
-  supersedes: skill-naming-pattern (dpatch original kept in memory-dispatch)
+  supersedes: skill-naming-pattern (dpatch original kept in memory-dpatch)
 ---
 
 Dima's cut, 2026-08-21. The old `dpatch-*` prefix is retired.
