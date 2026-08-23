@@ -1,13 +1,3 @@
----
-name: dima-stories
-description: "dima's stories — what he actually does, decides and lives through; the narrative layer under the rules"
-metadata: 
-  node_type: memory
-  type: user
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T00:32:44.468Z
----
-
 The rules memories say *what to do*. This one says *what happened*, so the rules keep their reasons.
 Append short entries; never rewrite an old one into a rule — link to the rule instead.
 

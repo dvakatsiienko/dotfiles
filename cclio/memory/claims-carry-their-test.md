@@ -1,8 +1,3 @@
----
-name: claims-carry-their-test
-description: a written rule states the one command that proves it, or is labelled an inference; and a CST's state claims are verified on ingest
----
-
 # a claim carries its test, or it carries a label
 
 Found by cclio grilling itself for its own deepest vulnerability. Dima approved both halves.

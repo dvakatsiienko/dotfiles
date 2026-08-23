@@ -1,13 +1,3 @@
----
-name: strategy-pm
-description: "pm branch — the tracker and the flow that runs it; the aim is a chiller loop, not a fuller board"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:04:00.310Z
----
-
 Branch of [[dima-strategies]]. Linear projects: `pm`, and the tracker context docs.
 
 ## the aim

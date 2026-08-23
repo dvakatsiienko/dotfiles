@@ -1,13 +1,3 @@
----
-name: strategy-visibility
-description: "visibility branch — seeing what the agents are actually doing; explicitly after mvp, but the thinking starts now"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:05:06.117Z
----
-
 Branch of [[dima-strategies]]. Related: sline, DOT-114 (sleep/wake spy), DOT-171 (daily health
 digest), DOT-143 (sandbox walkthrough).
 

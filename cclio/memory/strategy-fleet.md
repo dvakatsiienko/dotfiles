@@ -1,13 +1,3 @@
----
-name: strategy-fleet
-description: "fleet branch — the agents themselves: surfaces, memory, skills, the coordinator migration"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:04:12.099Z
----
-
 Branch of [[dima-strategies]]. Linear projects: `fleet`, `mind`, `shelf`.
 
 ## the aim

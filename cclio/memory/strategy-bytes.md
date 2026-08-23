@@ -1,13 +1,3 @@
----
-name: strategy-bytes
-description: "bytes branch — the bytes team and its product work; starved by the meta-work, and he notices"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:04:38.159Z
----
-
 Branch of [[dima-strategies]]. Linear team **BYT**. Live threads: BYT-52 (harness research),
 BYT-55 (proto-lab), BYT-58.
 

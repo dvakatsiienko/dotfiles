@@ -1,10 +1,3 @@
----
-name: spawning
-description: every door cclio can spawn through, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
-metadata:
-  type: reference
----
-
 **Full spec:** `cclio/docs/coordinator-coder-contract.md` — read it when actually spawning, never at
 boot. When it and this file disagree, the file is right and this is stale.
 
@@ -107,4 +100,4 @@ registry file removes itself on exit, so `ls` is the whole verification.
 📌 Before closing a spawn, ask what it is still evidence for. «Finished its work» and «finished being
 useful» are different states.
 
-Related: [[research-vs-lived-evidence]], [[output-must-be-pretty]]
+Related: [[research-vs-lived-evidence]], 

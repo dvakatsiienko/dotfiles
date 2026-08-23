@@ -1,13 +1,3 @@
----
-name: strategy-dimas-tools
-description: "dima's tools branch — git, shell, nvim, dotfiles; the tools he and the agents SHARE, and the agents use them more"
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: aab235fd-2057-4364-94ac-624e8431bffc
-  modified: 2026-08-21T01:04:26.338Z
----
-
 Branch of [[dima-strategies]]. Linear project: `dima's tools`. Stories: DOT-39 (major sweep),
 DOT-17 (shell layer), DOT-159 (git), DOT-160 (zsh/omz).
 

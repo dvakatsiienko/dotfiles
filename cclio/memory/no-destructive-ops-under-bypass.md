@@ -1,13 +1,3 @@
----
-name: no-destructive-ops-under-bypass
-description: Dima runs agents with approvals bypassed — never delete or overwrite anything on his filesystem.
-metadata: 
-  node_type: memory
-  type: feedback
-  originSessionId: 8ea12526-5405-4c3b-8de4-519b32e3e1d8
-  modified: 2026-08-17T01:58:17.424Z
----
-
 **Bypass is the fleet default now, deliberately.** Dima switched every surface to bypass
 permissions mode after being drowned in
 dialogs. His words, 2026-08-17: *"you must not delete important files on my fs"*.

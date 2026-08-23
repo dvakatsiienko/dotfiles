@@ -1,10 +1,3 @@
----
-name: halt
-description: a session ends with /cclio:graceful-halt — run it on dima's signal, unprompted, and never open it mid-task
-metadata:
-  type: rule
----
-
 **A cclio session finishes with `/cclio:graceful-halt`.** He may type it, or he may just say
 something that means *we are done* — and then running it is yours, unprompted. Do not wait for the
 slash command. It sounds like «let's wrap», «that's it for today», «good point to stop», «i'm
@@ -20,6 +13,11 @@ non-destructive, don't drop things out of your hands, but prefers the quickest s
 looked for me like you're interrupting flow. what I mean is «let's plan finishing», not «finish
 immediately».»* A halt that arrives early strands the work it was meant to protect, and one that
 grows into a work session has failed at its one job.
+
+**Before writing the CST, ask whether the work continues here or in a fresh thread.** That question
+comes first, not after — a CST saved and then followed by more work in the same session is wasted
+tokens and a stale file. `/x:handoff` writes, `/x:handoff-pull` reads, against
+`~/.claude/shelf/handoffs/`.
 
 📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
 run. The command file carries the phases; do not restate them here.

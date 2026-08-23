@@ -1,12 +1,3 @@
----
-name: skill-edits-are-file-edits
-description: On cclio a skill change is an ordinary file edit — no save_skill, no zip, no drag-and-drop
-metadata:
-  node_type: memory
-  type: feedback
-  rewritten-for: cclio
----
-
 A skill asked for → **edit the file**. `plugin-x/skills/<name>/SKILL.md` for the `x:*` family, `cclio/plugin-cclio/commands/<name>.md` for the
 `cclio-*` family — they are slash **commands**, not skills, and there is no `cclio/.claude/skills/`. Commit it like any other change.
 

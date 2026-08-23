@@ -30,6 +30,17 @@ What replaced it: **ccli walks arbitrary ancestor dirs** (tested with a marker, 
 directory layering does the isolation with no env var at all. The precedence chain lives in root
 `CLAUDE.md`.
 
+## The desktop skill store is a MANAGED CACHE
+
+`~/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/<uuid>/<uuid>/skills/`,
+manifest `{"name": "anthropic-skills", …}`. It is uuid-keyed per install and its mtime moves when the
+app runs, so it is materialised from the account side rather than being a source of truth. **Writing
+files there cannot automate the upload** — Dima drags and drops by hand until an account-side channel
+exists ([DOT-77](linear://linear.app/issue/DOT-77)).
+
+📌 The «regenerated» read is **inferred from the mtime and the manifest name**, never from an
+overwrite test.
+
 ## Memory, per surface
 
 | surface | mechanism | location | who can edit |

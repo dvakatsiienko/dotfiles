@@ -1,10 +1,3 @@
----
-name: memory-divergence-store
-description: an agent mutates only its own memory; never push into another surface's store
-metadata:
-  type: rule
----
-
 **An agent mutates only its own memory.** Never write into another surface's store. dispatch keeps
 `~/.claude/dpatch-memory` (a submodule) — read it if you must, never write it. `cw` and cloud `cc`
 keep their own.
