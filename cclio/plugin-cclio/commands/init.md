@@ -141,6 +141,20 @@ dima's ask: use the boot to improve the coordinator, not only to orient it.
 - print it as the **last line of the opening board**, after everything else
 - dima answers «approve» or «grill ok» (= approve all), or steers. no answer = no change
 
+🚨 **the shape is two lines, and this is the part that gets broken.** dima's words:
+*«too much of your reasoning baked in. i do not read most of it. i need only issues you spot and
+your suggest how to approach the solution. dats it.»*
+
+```
+🥊 <the issue, one line — what is weak, not why you think so>
+➡️ <the approach, one line — what you would do about it>
+```
+
+**no evidence paragraph, no a/b options, no quoted flawlog.** the grounding requirement below is
+about what you may ask, never about what you print — you read the flawlogs to earn the question,
+then you print the question alone. if the issue does not survive being stated in one line, it is
+not sharp enough to ask yet.
+
 🚨 **grounded or silent. never invent one.** a self-grill with no real evidence produces plausible
 self-criticism, which is worse than nothing — it is the same failure as inventing a cause for a
 symptom nobody witnessed. no flawlog files, or nothing in them worth a question → **say nothing**
