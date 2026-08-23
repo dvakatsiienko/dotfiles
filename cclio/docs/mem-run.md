@@ -105,6 +105,36 @@ into the bigger guide rather than swallowing it.
   note on what it holds, obvious flaws, and a pre-suggestion of the change needed.
 - the map stays a **main resident** for the whole run.
 
+### the order, from dima — binding
+
+1. **gather ALL memfiles** — root `CLAUDE.md` plus every leaf `CLAUDE.md` across every repo.
+2. **eval cc's default «go upd memory» behaviour.** when asked twice, where does the information
+   actually land? the right places? poems? do this **diff-based**, before and after.
+3. **map the `rules/` pointers** — which memfile references which rule, and which links are dead.
+4. **map the voice / formatting / writing-style wiring** — how it is connected today.
+5. **build the connection graph FIRST.** analysis before any edit; dima will ask for a drawing of
+   it, so it has to be a real graph, not prose.
+6. **then the update plan.** think hard. no edits before the plan exists.
+7. flush.
+8. **touch every piece.** a partial pass leaves exactly the ambiguity this is meant to end.
+
+### connector pass vs content pass — keep them apart
+
+- 🎯 **the connector layer is the target**: pointers, precedence, placement. **not the content.**
+- 🚫 pruning the *content* of `rules/`, voices and writing-styles is a **separate** concern and does
+  not ride along here.
+- **precedence to encode**: leaf `CLAUDE.md` overrides root. one line in root, and conflicts get
+  cheap.
+
+### the deliverables of this phase
+
+- **the connection graph** — what points at what, and what points at nothing.
+- **the placement decision table** — `rules/` vs root mem vs leaf mem vs skill body vs
+  `conventions/`. one table, so information stops landing in two homes.
+- **the failure capture.** run in a persistent session, record every failure point found, and write
+  the findings somewhere durable — a rule, or the skill that comes out of phase 0. 🎯 dima's
+  principle, and it is the whole point: **no cleaning is needed when no trash is produced.**
+
 ### the map
 
 _empty — filled in phase 1._
