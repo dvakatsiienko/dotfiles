@@ -405,6 +405,41 @@ to compress.
 
 ---
 
+## 🔴 post-review, mandatory — two things this run proved are missing
+
+not optional, not an open question. both came out of the root pass on 2026-08-23, where the
+coordinator edited root, two rules files and two skills across a dozen edits and **invoked
+`writing-for-agents` zero times**, having written the line telling itself to do so earlier in the
+same session. the outcome was still good, because dima was in the room catching things. that is
+exactly the dependency this run exists to remove.
+
+### 1. make `writing-for-agents` actually fire on memory and skill edits
+
+the doc pointer in root does not work. proven, not suspected: it was installed and ignored within
+the hour. find a mechanism and **test it in a dedicated session** rather than reasoning about it.
+
+- the candidate is a `PreToolUse` hook matching `Edit|Write` on `CLAUDE.md`, `rules/*`, `SKILL.md`
+- ⚠️ **`paths:` cannot do this job** — measured, it fires on the `Read` tool and a session told to
+  prefer Bash for reads never triggers it
+- the test is behavioural: edit a rule in a fresh session and see whether the skill loads unasked
+
+### 2. work out how `authoring-memory.md` and `authoring-skill.md` get used at all
+
+they are good and they are unreachable. same failure as above, one layer down: `writing-for-agents`
+is the craft layer and these two are the harness-mechanics layer, but nothing routes a reader from
+one to the other at the moment of editing.
+
+three things in them that were ignored during the root pass, as evidence of the gap:
+
+- **the html-comment intervention**, the only one with a number behind it: writing the reason at
+  the same time as the rule lifted constraint satisfaction **50.4% → 62.0%**. roughly 2,400 tokens
+  of reasons were deleted that day and none were preserved as comments
+- **the two-draft method** for a file being rethought. every edit was made in place
+- **the five-question pre-write checklist**, answered ad hoc in conversation instead of run
+
+📌 the honest framing for both: a guide nobody opens is indistinguishable from a guide that does
+not exist, and it costs more, because everyone believes the problem is handled.
+
 ## open questions owed to dima
 
 - 🅠 **the entity-first rename pass still owes a scope.** not yet done: the `x:*` and `cclio:*`
