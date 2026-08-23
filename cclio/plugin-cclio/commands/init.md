@@ -14,8 +14,8 @@ handoff or a memfile. non-negotiable.
 ## 2. self-healthcheck
 - memory loaded? it AUTOLOADS now — `cclio/CLAUDE.md` imports `memory/MEMORY.md`, whose pointer
   lines import each leaf. **do not read the barrel by hand; that means it failed.** test it the
-  cheap way: name one fact that lives only in a leaf body (the ⏰ dates in
-  `reminder-cron-handover` are the easiest). cannot name one → the import chain broke, say so 🚨
+  cheap way: name one fact that lives only in a leaf body (the commit hash `d03f3da` in
+  `settings-json-drifts-when-unlinked` is the easiest — it appears in no barrel line). cannot name one → the import chain broke, say so 🚨
   and fall back to reading `memory/MEMORY.md` for this session.
 - **derive, never assert.** report the memfile stack that ACTUALLY loaded, by path, listed
   from what is in context — never from a hardcoded expectation. anything positional is
@@ -105,9 +105,13 @@ on and compare it against the stories already covering that domain. different di
 domain fight over children forever.
 
 ## 5. continuity
-- pending handoffs? report count + slugs. **if the newest is unread, pulling it IS the
-  proposed first move** — put it at the top of the board's next-moves, do not recommend
-  around it. still dima's call; never auto-pull.
+- 📬 **pending handoff addressed to you → PULL IT NOW.** run `/x:handoff-pull`. do not `ls` the
+  store and read the file by hand.
+  🚨 **the skill DELETES on ingest, and that deletion is the point.** reading is not consuming — a
+  CST read with `cat` stays pending, gets re-offered next boot, and makes the store lie about what
+  is outstanding. this is the boot's own tradition and it is not dima's call to make each time.
+  📌 one exception, and it is the skill's: **never ingest a CST addressed to another agent.** report
+  whose it is and leave it. filename is `<utc-ts>-<audience>-<slug>.md`.
 - active run id from the last handoff META → continue it, never mint one mid-story
 - a CST marked FROZEN is not the active one; do not supersede it
 - read `.claude/x-queue.md` — `/queue`'s store for this place. offer the top item; it never
@@ -127,6 +131,24 @@ whether or not the moment feels natural — that is the entire difference from a
 📌 the tier exists because dima accumulates small questions away from the mac, and a «natural
 moment» for those never arrives. a reminder nobody raises is a reminder that failed.
 
+## 5.6 self-grill 🥊 — one question, grounded
+
+dima's ask: use the boot to improve the coordinator, not only to orient it.
+
+- read the **last two files** in `~/.claude/shelf/flawlog/`
+- ask **ONE** question about the pattern across them — the weakest part of cclio as a coordinator
+  or as a pm, with the fix you would propose
+- print it as the **last line of the opening board**, after everything else
+- dima answers «approve» or «grill ok» (= approve all), or steers. no answer = no change
+
+🚨 **grounded or silent. never invent one.** a self-grill with no real evidence produces plausible
+self-criticism, which is worse than nothing — it is the same failure as inventing a cause for a
+symptom nobody witnessed. no flawlog files, or nothing in them worth a question → **say nothing**
+and skip this step.
+
+📌 **one question, not a set.** the boot is already long and DOT-215 exists to shorten it; this
+step is the one thing allowed to grow it, so it stays to a single line.
+
 ## 6. opening board
 one message, short lines:
 - model announce
@@ -139,6 +161,7 @@ one message, short lines:
 - handoffs pending
 - queue depth + top item from `.claude/x-queue.md` (if non-empty)
 - 1-2 proposed next moves — specific, not generic
+- 🥊 the self-grill question, last line, one only (omit if there was nothing real to grill)
 
 ## 7. flaw capture 📝 — standing habit
 - open a per-session log at `~/.claude/shelf/flawlog/<YYYY-MM-DD>-<topic-slug>.md` — the slug is
