@@ -31,7 +31,6 @@ three rules keep it honest:
 - [linear → github agent trigger](research/linear-github-agent-trigger.md) — the `/cc` comment trigger fires a cloud agent that opens a pr; 📌 postponed, non-prio, nothing built
 - [macos filesystem map](research/macos-filesystem-map.md) — who owns which top-level directory, and therefore what is safe to delete
 - [output style extension](research/output-style-extension.md) — proof that output styles cannot import or extend each other
-- [root CLAUDE.md trim](research/root-claude-md-trim.md) — ⚠️ stale, parked rfc round on trimming the global memfile; banner at top says what drifted
 - [skills sync via mcp](research/skills-sync-via-mcp.md) — why mcp is the wrong bulk skill store, and where tool-description skills still win
 - [vercel cli vs mcp](research/vercel-cli-vs-mcp.md) — what `vercel api` reaches and the three things only the mcp can
 - [walkthrough mode](research/walkthrough-mode.md) — field notes shaping the `/walkthrough` skill

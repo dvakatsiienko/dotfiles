@@ -397,8 +397,8 @@ system_profiler SPPowerDataType | sed -n '1,40p'    # cycles, max capacity, cond
 ## What cw does and does not get [verified 2026-08-15]
 
 A Cowork session in a project **does** receive the project's `CLAUDE.md` and standing instructions.
-It does **not** receive `home/.claude/CLAUDE.md` — the global cc memory carrying codenames, the
-dormant-tool registry and global defaults — nor `hooks/`, `output-styles/`, or `rules/`.
+It does **not** receive `home/.claude/CLAUDE.md` — the global cc memory carrying codenames and
+global defaults — nor `hooks/`, `output-styles/`, or `rules/`.
 
 Consequence: repo-scoped conventions transfer, machine-global ones do not. Mechanical style drift
 is bounded anyway because `biome.jsonc`, `.editorconfig` and lefthook enforce it at commit; what

@@ -97,7 +97,6 @@ Links and paths moved out — they live in `text-formatting.md` now, with casing
 
 ## Questions and options
 
-- **Never use the AskUserQuestion tool.** Ask in prose.
 - **Two options max**, as a vertical list, one per line. Never inline as `(1) … (2) …`.
 - Give the context needed to choose fast, and no more.
 - Every question round ends with a ➡️ recommendation on the option you would take.
