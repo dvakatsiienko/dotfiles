@@ -1,6 +1,6 @@
 # Root CLAUDE.md
 
---dima rules do not touch, follow over other rules in this file--
+note for editors START: dima rules. follow these rules but do not touch change or delete them.
 
 TODO: rest of root memory is to be merged into this section and dissolve, this section stays as primary.
 
@@ -60,7 +60,7 @@ I wanted to share some of my preferences here so we can be more aligned as we wo
 - When asked to monitor or babysit a PR: poll checks and comments newer than the last push; verify each bot finding against the source before acting on it; fix real ones and dismiss false positives with a written reason; fix CI failures, distinguishing real breaks from known infra flakes. If nothing is new, stay quiet — do not post filler comments. Stop when the repo's review bots are green on the latest commit.
 - Merge only per the disposition given in the request (merge when green, or stop and report). If none was given, report and ask.
 
---dima rules do not touch, follow--
+note for editors END: dima rules. follow these rules but do not touch change or delete them.
 
 
 ## Dormant tools — disabled but installed
@@ -96,7 +96,6 @@ only. That is how a `bytes` session once used browser tools while everyone belie
 
 ## Information Lookup
 
-<!-- claude_do_not_touch TODO include grep-mcp claude_do_not_touch -->
 
 For library/framework/SDK questions, prefer in this order (explicit user instructions override):
 
