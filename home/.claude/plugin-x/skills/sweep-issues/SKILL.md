@@ -54,7 +54,7 @@ State lives at `~/.claude/sweep-issues/runs/<slug>.json`, slug = the scope's abs
 
 ## 4. Plan the angles
 
-The catalogue — six angles, two classes. **Probe angles** execute the target: you run them yourself, in this session, and the evidence is execution output. **Judgment angles** read the target: each gets a fresh `x:sweep-issues-reviewer` subagent that never saw the work produced.
+The catalogue — six angles, two classes. **Probe angles** execute the target: you run them yourself, in this session, and the evidence is execution output. **Judgment angles** read the target: each gets a fresh reviewer subagent that never saw the work produced.
 
 | Angle | Class | Applies when | Procedure |
 | --- | --- | --- | --- |
@@ -90,7 +90,7 @@ Three gates before each round, in order:
 Then run the angle's procedure:
 
 - **Probe rounds** — probes live in the scratchpad and never modify the target.
-- **Judgment rounds** — spawn one reviewer (Agent tool, `subagent_type: x:sweep-issues-reviewer`). Its prompt carries the scope (concrete paths or diff ref), emphasis, and the angle's mandate — nothing else. The reviewer never sees the conversation, the work's history, earlier rounds' findings, or who wrote the code: its value is that it never saw the work produced.
+- **Judgment rounds** — spawn one reviewer: `Agent` tool, `subagent_type: general-purpose`, `model: opus`, its prompt being the verbatim text of `references/reviewer-mandate.md` plus the scope (concrete paths or diff ref), emphasis, and the angle's mandate — nothing else. The reviewer never sees the conversation, the work's history, earlier rounds' findings, or who wrote the code: its value is that it never saw the work produced.
 
 Both classes return the same currency: findings with file:line, claim, and a concrete failure scenario. Discard anything without one — that bar is the contract, and a finding that misses it is noise, not signal.
 
@@ -101,7 +101,7 @@ Raw LLM review precision is roughly 1-in-5; unverified findings poison the decis
 - **Probe findings** arrive already executed — the failure ran in front of you. Map each to file:line (kill what doesn't map), record the verdict as `reproduced (by execution)`, and skip adversarial verification: a reader cannot refute an observed crash.
 - **Judgment findings** get two tiers, both before anything is reported:
   - **Tier 0 — mechanical.** The cited file and line exist and contain the code the claim is about (shell + grep, free). Kill what fails.
-  - **Tier 1 — adversarial.** For each survivor, spawn one `x:sweep-issues-verifier` subagent, all in parallel, each given **only** the file, line, and claim — never the reviewer's narrative, severity, or the other findings. Its mandate is to refute, and its output contract requires a `strongest-counter` line (the best argument against the claim, found before deciding) and closes with `claim-holds: yes|no|undecided`.
+  - **Tier 1 — adversarial.** For each survivor, spawn one verifier (`subagent_type: general-purpose`, `model: sonnet`, prompt = the verbatim text of `references/verifier-mandate.md`), all in parallel, each given **only** the file, line, and claim — never the reviewer's narrative, severity, or the other findings. Its mandate is to refute, and its output contract requires a `strongest-counter` line (the best argument against the claim, found before deciding) and closes with `claim-holds: yes|no|undecided`.
 
 A finding **survives** only with verdict `reproduced`. `refuted` kills it. `indeterminate` is reported to the human as its own class — neither a survivor nor discarded. A verdict whose label contradicts its own `claim-holds` line or evidence is **malformed**: re-spawn that one verifier once; malformed twice → record the finding `indeterminate`.
 
