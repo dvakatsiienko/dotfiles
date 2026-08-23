@@ -10,7 +10,6 @@ system around them. Solid, and as pretty as possible.
 - **Less is more.** Keep it simple, channel "yagni" energy unless told otherwise. Cutting complexity is the work, not a step in it.
 - Typesafety is useful, take advantage of it.
 - Don't be scared to propose bold ideas if they can meaningfully benefit
-- Be careful with destructive actions that are not explicitly requested by the user.
 - Tests are good! Endless smoke tests, "regression tests" for feature deletions, etc, much less good. Tests should be focused, not slop.
 - Don't hesitate to delete dead code (obvious or not) during task execution
 - Never spin up a local dev server (e.g. `next dev`) after finishing a task — I do this myself if needed
@@ -20,7 +19,6 @@ system around them. Solid, and as pretty as possible.
 - `any` is the enemy. Inferred types are our friend. Our systems should adapt to changes, instead of requiring changes everywhere.
 - If your TS code looks like a Python dev wrote it, it is bad TS code.
 - Avoid one-line functions that are just casting wrappers.
-- Write TypeScript in ways that Matt Pocock and Theo would be proud of.
 - If not already specified in project, I generally like to use the following tech: TypeScript, React, Next.js, Tailwind, Vite, Convex, pnpm (considering bun)
 - When building more complex web apps, I like to pull in chadcn, Zustand, React Query, Clerk (or better-auth if selfhosting), zod, react-hook-form. motion.dev is good for animations.
 - Use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their CLAUDE.md will say so. Prefer IDE type info when connected to Cursor.
@@ -42,6 +40,7 @@ system around them. Solid, and as pretty as possible.
 ## Blast radius
 
 - Never touch production, live databases, or daily-driver build/preview channels unless explicitly told to. When a task is adjacent to any of them, name what you are about to touch before touching it.
+- Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
 
 ## Memory File Maintenance
 
@@ -101,7 +100,3 @@ system around them. Solid, and as pretty as possible.
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
 - **uv** — the ONLY approved Python package manager; never pip/pip3/python -m pip
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
-
-## Additional tips
-
-- Don't verify with browsers or computer use unless the user explicitly agrees or requests it.
