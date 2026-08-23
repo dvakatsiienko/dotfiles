@@ -54,4 +54,14 @@ Shipped a subagent's verdict as settled without testing it against what Dima obs
   was exhausted and it was — but the inbox beside it had a 28k drop written the same day. a status
   inherited from a document is always stale; the check is unconditional.
 
-Related: [[linear-fetch-contract]], [[tell-dima-all-capabilities]].
+- 📌 **a relayed claim needs the SOURCE OPENED, not merely checked.** a researcher reported that
+  matt's `writing-for-agents` «has no rung for resident cost». it was relayed, and it was false —
+  the skill carries a section called «the two loads» defining exactly that. one `grep` of the file
+  would have caught it. **checking a report against your own reasoning is not verification;
+  opening what it cites is.**
+- 📌 **and when your own check contradicts a report, suspect YOUR CHECK first.** the same session, a
+  second claim looked false because the grep pattern was `rules/dispatch` and the text said bare
+  `dispatch.md`. the report was right. a null result from your own tooling is the weakest evidence
+  in the room.
+
+Related: [[linear-fetch-contract]], [[tell-dima-all-capabilities]], [[git-commit-takes-the-index]].

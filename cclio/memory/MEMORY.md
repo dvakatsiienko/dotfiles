@@ -97,6 +97,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @mcp-earns-its-place-on-desktop.md — 🚫 never say «mcp lost»; cli-first is for surfaces WITH a shell, desktop has none so mcp is its only channel
 
 ## method
+- ❗ @git-commit-takes-the-index.md — a bare `git commit` takes the WHOLE index; pass the pathspec to commit itself. fired twice, and «be careful» was not the fix
 - ⭐ @claims-carry-their-test.md — a written rule states the ONE command that proves it, or is labelled an inference; CST state claims are verified on ingest, never relayed
 - ⭐ @research-vs-lived-evidence.md — dima's daily observation outranks a report; confirm the design before researching it; never relay a subagent verdict unreviewed
 
