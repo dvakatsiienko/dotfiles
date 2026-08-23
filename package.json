@@ -25,11 +25,11 @@
         "zx": "8.8.5"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.5",
+        "@biomejs/biome": "2.5.10",
         "@types/node": "26.2.0",
         "biome-config-polished": "0.0.8",
         "lefthook": "2.1.10",
         "typescript": "7.0.2",
-        "vitest": "4.1.10"
+        "vitest": "4.1.11"
     }
 }
