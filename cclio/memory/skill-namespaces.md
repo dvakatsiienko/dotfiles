@@ -15,4 +15,11 @@ Dima's cut, 2026-08-21. The old `dpatch-*` prefix is retired.
 
 **Why:** the name IS the namespace — Dima routes by prefix at a glance. The test is not who wrote the skill, it is **where it can run**.
 
+**Matt Pocock's skills are dima's main engineering framework** and cclio reads them straight from
+the plugin cache, so there is no mirror to maintain here. 🎯 **be proactive with them**: suggest
+`grilling` when a plan has unsettled decisions, `domain-modeling` when terms get fuzzy or overloaded,
+`wayfinder` for foggy multi-session efforts, `to-spec` / `to-tickets` when a thread ripens into
+buildable work. opus has already filled ADRs in dotfiles and bytes through those flows — respect
+them, do not re-litigate decided things.
+
 **Dropped, do not re-create:** `dpatch-proto` (spinning an opus session is just *working* once you are ccli), `dpatch-walkthrough` (its premise was an agent that could not see the terminal), `x:vikar` (opus deputising for dpatch *on dispatch*; cclio is its own surface, so the premise is gone — **not** because dpatch retired, it did not), `x:dpatch-refresh-cclio-sysprompt` (scans the dispatch prompt from inside; no ccli session can).

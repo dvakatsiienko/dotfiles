@@ -41,7 +41,7 @@ each of these was assumed absent or assumed different, and each was settled by r
 indistinguishable from one that does not exist — and the belief propagates into rules, which is how
 it survives. when a leaf says «cannot», ask when that was last run.
 
-Related: [[cclio-coordinator-trial]], [[spawn-types]].
+Related: [[spawning]].
 
 ## the other half: a capability has a resting price
 
@@ -69,7 +69,7 @@ this leaf's job; **deciding it is his**, and several of those are things cclio a
 **«Most companies are NOT READY for background agents».** His claim: the thing that makes
 background agents usable is not the agent, it is a **fast, well-tuned CI** — typecheck, tests and
 lint in about a minute, with detailed failure output the agent can read. That is what lets a human
-skim a PR and trust it. Directly relevant to [[spawn-contract]]: the gate on how much cclio can
+skim a PR and trust it. Directly relevant to [[spawning]]: the gate on how much cclio can
 delegate is how good the automated feedback is, not how good the coder is.
 
 📌 both are **one person's practice, not a benchmark** — [dima] / [community] tier evidence. Useful

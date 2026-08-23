@@ -34,4 +34,4 @@ arrive. So the burden goes on the reader, not the writer.
 Short. One line per item. Mark the ones you read as observation-only, because those are the ones a
 wrong read turns into unwanted work.
 
-Related: [[obsidian-inbox-protocol]], [[pm-freebie-verdict-first]], [[output-must-be-pretty]]
+Related: [[obsidian-inbox-protocol]], [[pm]], [[output-must-be-pretty]]

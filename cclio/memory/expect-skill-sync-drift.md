@@ -18,4 +18,4 @@ app runs, so it is materialised from the account side rather than being a source
 📌 that «regenerated» read is **inferred from the mtime and the manifest name**, never from an
 overwrite test. Dima drags and drops by hand until an account-side channel exists.
 
-Related: [[matt-skills-mirrored]], [[skill-namespaces]]
+Related: [[skill-namespaces]]

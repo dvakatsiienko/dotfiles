@@ -47,5 +47,5 @@ an mcp tool is deferred until called — zero resting context. So the fleet's tw
 **How to apply:** when the mcp-vs-cli question comes up, ask *which surface* before answering.
 Shell present ⇒ cli. No shell ⇒ mcp, and `mcp-x-cw` is the thing to **extend**, not retire.
 
-Related: [[dima-roadmap]] step 2, [[links-scheme-linear]] (the same shape — the right answer
+Related: [[dima-roadmap]] step 2, [[pm]] (the same shape — the right answer
 is per-surface, and a blanket rule is how the wrong one spreads).

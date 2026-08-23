@@ -44,4 +44,4 @@ would fabricate commands for claims nobody re-ran, which is the same failure wit
 by pid, files by `ls`. The rule lives in `CST-SPEC.md` so every frontend inherits it, not in any one
 agent's head. Measured cost on the boot that produced this leaf: about three shell calls.
 
-Related: [[research-vs-lived-evidence]], [[spawn-contract]], [[memfile-import-fails-silently]]
+Related: [[research-vs-lived-evidence]], [[spawning]], [[memory-hazards]]

@@ -24,7 +24,7 @@ in for it and each copy needed its own maintenance ritual. → [[memory-divergen
 
 ## the current move
 
-🧪 The coordinator migration to ccli → [[cclio-coordinator-trial]], story DOT-188 — **under
+🧪 The coordinator migration to ccli → story DOT-188 — **under
 trial, not concluded.** dpatch stays live as the fallback until Dima calls it. The design resolves
 the problem by deletion rather than automation: one config root, layered by directory, so no bridge is
 needed. The four-layer memfile stack is the mechanism.
