@@ -22,7 +22,7 @@ sides. It was found only because a probe asked for a leaf-only fact and got noth
 
 **How to apply — the check is cheap, run it, never assume:**
 - ❗ **Never claim memory is loaded from the barrel's contents.** Name a fact that lives ONLY in a
-  leaf body. `reminder-cron-handover`'s dates are the standard probe. Cannot name one → the chain
+  leaf body. the commit hash `d03f3da` in `settings-json-drifts-when-unlinked` is the standard probe — it is in no barrel line. Cannot name one → the chain
   is broken; say so 🚨 and read `memory/MEMORY.md` by hand for that session.
 - `/cclio:init` step 2 carries this check. It is not ceremony; it is the only detector that exists.
 - After ANY rename, move, or barrel edit: re-probe. A rename that misses one pointer disconnects

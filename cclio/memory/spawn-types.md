@@ -64,7 +64,7 @@ one-way pipe plus a shared store (linear, a commit, a PR), never a handshake.
 - `ListAgents` and `Workflow` are **absent from subagent toolsets** — only the coordinator surveys
   the fleet.
 
-**Scheduling:** ccli has built-in `CronCreate`/`CronList`/`CronDelete`, disabled only by three strings in `permissions.deny`. It beats dispatch's, which fires only while the desktop app is open. ⏰ Two dpatch schedules fire 2026-09-01 — the decision has its own leaf now, [[reminder-cron-handover]].
+**Scheduling:** ccli has built-in `CronCreate`/`CronList`/`CronDelete`, disabled only by three strings in `permissions.deny`. It beats dispatch's, which fires only while the desktop app is open. 📌 dima dropped the two dpatch schedules — he could not say why they existed. dpatch is frozen, so its scheduler does not fire anyway.
 
 ## preflight, four checks, every spawn
 0. **reuse before spawn** — an idle child is not a finished child; a message revives it with context intact.
