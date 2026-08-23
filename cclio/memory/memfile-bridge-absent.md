@@ -14,7 +14,7 @@ Dima kept dpatch alive: DOT-188 is `vet`, both coordinators run in parallel whil
 and dpatch is being *extended*, not replaced.
 
 **The pattern, still live:** there is no memfile bridge between ccli and the desktop app. What
-looks like a bridge is a set of hand-made copies — dispatch memory, the `memory-dpatch`
+looks like a bridge is a set of hand-made copies — dispatch memory, the `dpatch-memory`
 submodule, `skills-cw` zips, the handoff store — each maintained by a different ritual, none of
 them a mechanism. Skill drift, rules re-read at boot, the retired «sync everywhere» rule: all one
 missing layer, not separate bugs.

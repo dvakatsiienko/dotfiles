@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   rewritten-for: cclio
-  supersedes: skills-update-yourself-no-dnd (dpatch original kept in memory-dpatch)
+  supersedes: skills-update-yourself-no-dnd (dpatch original kept in dpatch-memory)
 ---
 
 A skill asked for → **edit the file**. `plugin-x/skills/<name>/SKILL.md` for the `x:*` family, `cclio/plugin-cclio/commands/<name>.md` for the
