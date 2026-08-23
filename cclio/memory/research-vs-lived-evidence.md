@@ -1,8 +1,3 @@
----
-name: research-vs-lived-evidence
-type: feedback
----
-
 **A report is a candidate list, not a finding list — and reading IS the verify step.** Acting on an
 audit without opening the files it names delegates the one part that cannot be delegated.
 

@@ -1,8 +1,3 @@
----
-name: skill-edits-are-file-edits
-type: feedback
----
-
 A skill asked for → **edit the file.** `plugin-x/skills/<name>/SKILL.md` for the `x:*` family,
 `cclio/plugin-cclio/commands/<name>.md` for `cclio:*`. Commit it like any other change.
 

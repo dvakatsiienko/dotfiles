@@ -1,8 +1,3 @@
----
-name: silent-failures
-type: feedback
----
-
 **The tool did the wrong thing and said nothing.** That is what these share, and why they sit in one
 file: each leaves the system looking healthy from both sides.
 
@@ -19,7 +14,7 @@ Paths resolve relative to the **importing file**, never the cwd. Inside `memory/
 `@slug.md`; writing `@memory/slug.md` resolves to `memory/memory/slug.md` and loads nothing quietly.
 
 **The probe, and it is the only detector that exists:** name a fact that lives ONLY in a leaf body.
-The commit hash `d03f3da` in [[settings-json-drifts-when-unlinked]] is the standard one — it appears
+The commit hash `d03f3da` in [[settings-json-drift]] is the standard one — it appears
 in no barrel line. Cannot name it → the chain is broken, say so 🚨 and read the barrel by hand.
 `/cclio:init` step 2 runs this. **Re-probe after any rename, move, or barrel edit** — a rename that
 misses one pointer disconnects exactly one leaf, the hardest case to notice.

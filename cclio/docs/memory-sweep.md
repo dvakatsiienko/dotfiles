@@ -157,7 +157,7 @@ below rather than hand-editing it.
 barrel's own format example and a prose placeholder. 112 leaf-to-leaf wikilinks, **zero dangling**.
 
 **hubs** (most deferred to): `dima-strategies` 7 · `pm-fold-or-drop` 6 ·
-`research-vs-lived-evidence` 6 · `memory-divergence-store` 6 · `spawn-types` 5 ·
+`research-vs-lived-evidence` 6 · `surface-boundaries` 6 · `spawn-types` 5 ·
 `memfile-bridge-absent` 5.
 **isolated** (no edge either way): both found, both **deleted by dima**. 📌 the check earned its
 place on the first run — isolation is not a verdict on its own, but it is where he looked first.

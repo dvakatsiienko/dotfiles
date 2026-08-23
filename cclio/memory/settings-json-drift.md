@@ -1,8 +1,3 @@
----
-name: settings-json-drifts-when-unlinked
-type: reference
----
-
 `~/.claude/settings.json` is **not a static config** — Claude Code writes to it at runtime (plugin
 enable/disable, `autoMode` learning, `skipDangerousModePermissionPrompt`). So the symlink into
 dotfiles is the only thing keeping repo and live equal.
@@ -19,4 +14,4 @@ because Dima was once storm-hit by a permission change and is rightly wary.
 `ls -l ~/.claude/settings.json` at boot alongside `pnpm dotfiles-link` status. A real file there is
 the early warning, not the push failure.
 
-Related: [[memory-divergence-store]].
+Related: [[surface-boundaries]].
