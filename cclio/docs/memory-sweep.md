@@ -198,6 +198,36 @@ files needing a spawn are the outer project `CLAUDE.md`s, which are not in the c
 | **project** `CLAUDE.md` | only what is specific to that project |
 | **cclio memory** | only what is specific to the coordinator |
 
+### ✅ step 1 done — root + `rules/` (2026-08-23)
+
+root `CLAUDE.md`: **4,894 → 2,635 tokens, down 46%.** dima drove it; the coordinator proposed and
+applied. nothing cut was wrong — every line removed either described a mechanic the harness already
+performs, justified a rule stated flatly elsewhere, or existed in two places.
+
+| what left root | where it went |
+| -- | -- |
+| the dormant-tools registry | deleted by dima. a failed experiment in self-managed mcp state |
+| pull requests + issues, 11 lines | the new `github-contrib` skill |
+| the background sound table | `hooks/spawn-sound.sh`, Glass on spawn, Submarine on reply |
+| token-thrift thresholds, the peer moves | `x:handoff` |
+| the precedence chain | `docs/agents/authoring-memory.md`, two sentences kept in root |
+| `AGENTS.md` support | parked in open questions below, no ticket owned it |
+
+`rules/`: one line cut from `voice.md` — the ban on `AskUserQuestion`, a tool sitting in
+`permissions.deny` and therefore uncallable. an always-loaded rule against an uncallable tool.
+
+**three rules borrowed from `AGENTS-t3-code-ref.md`**, each sharpening a section that already
+existed: never kill a process by pattern · wait on a real signal, never a sleep · scratch stays out
+of the worktree. two more (reverse states, no repo-wide checks) held for phase 3.
+
+🎯 **the test that emptied a whole section, and it is sharper than «is it stale»:** does this line
+change a behaviour, or does it describe a mechanic and justify a rule? `## Global Defaults` lost
+every line to the second question.
+
+⚠️ **the saving is not visible until the next boot.** memory loads once at session start, so
+`/context` still shows the pre-sweep figure and the deleted leaves. measure on disk, never in
+`/context`, until a fresh session.
+
 ### the order is binding
 
 1. **root +** `rules/` **first.** sort, place, trim fluff. if something must leave but may be
