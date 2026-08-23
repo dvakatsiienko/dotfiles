@@ -186,7 +186,7 @@
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
-    "linear-cli@linear-cli": true
+    "linear-cli@linear-cli": false
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -232,32 +232,32 @@
   "autoMode": {
     "allow": [
       "$defaults",
-      "Bash(linear:*) — routine issue-tracker CLI use in this project (120× observed)"
+      "Bash(linear:*) \u2014 routine issue-tracker CLI use in this project (120\u00d7 observed)"
     ],
     "environment": [
       "### Org-wide",
       "**Organization**: None configured",
       "**Cloud provider(s)**: None configured",
-      "**Repository visibility**: PUBLIC — dvakatsiienko/dotfiles (github.com) — any push here publishes; only this repo's own work belongs here",
-      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Repository visibility**: PUBLIC \u2014 dvakatsiienko/dotfiles (github.com) \u2014 any push here publishes; only this repo's own work belongs here",
+      "**Internal sharing / snippet hosting**: None configured \u2014 treat public paste/gist services as outside the trust boundary",
       "**Secrets management**: None configured",
-      "**Default / protected branches**: Default branch `main`; no rulesets or protected-branch rules listed via gh (public repo — treat pushes to `main` as publishing regardless)",
+      "**Default / protected branches**: Default branch `main`; no rulesets or protected-branch rules listed via gh (public repo \u2014 treat pushes to `main` as publishing regardless)",
       "**CI/CD deploy targets**: None configured",
       "**Network posture**: None configured",
-      "**Source control**: Trusted repo (dvakatsiienko/dotfiles, github.com) and its remote(s) only — no additional orgs configured",
+      "**Source control**: Trusted repo (dvakatsiienko/dotfiles, github.com) and its remote(s) only \u2014 no additional orgs configured",
       "**Trusted internal domains**: None configured",
       "**Trusted cloud buckets**: None configured",
       "**Key internal services**: mcp.linear.app (Linear issue tracker, contacted repeatedly this project)",
       "**Internal package registry**: None configured",
-      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar — note this repo ships `~/.ssh/config` and `allowed_signers`, treat SSH/1Password-signing material as credential-adjacent",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar \u2014 note this repo ships `~/.ssh/config` and `allowed_signers`, treat SSH/1Password-signing material as credential-adjacent",
       "**Data retention / declassification**: None configured",
       "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
-      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected deployment namespaces / environments**: None configured \u2014 fall back to the Sensitive remote targets heuristic",
       "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
       "### User-specific",
       "**Primary use of Claude Code**: personal macOS dotfiles + agentic-workflow development (hobby/personal use, Claude Pro subscription)",
-      "**Trusted repo**: dvakatsiienko/dotfiles (github.com, PUBLIC) — this repo's own work is fine to commit/push here; content ported or first read from outside this session's repo is not its own work and should not be pushed here; secrets and sensitive data are never cleared into this repo by its public visibility",
-      "**Org-specific CLIs**: `linear` CLI (Linear issue tracker, workspace x-com/team DOT — heavily used, 120× in this project's transcripts) — not a generic tool, routine for this project",
+      "**Trusted repo**: dvakatsiienko/dotfiles (github.com, PUBLIC) \u2014 this repo's own work is fine to commit/push here; content ported or first read from outside this session's repo is not its own work and should not be pushed here; secrets and sensitive data are never cleared into this repo by its public visibility",
+      "**Org-specific CLIs**: `linear` CLI (Linear issue tracker, workspace x-com/team DOT \u2014 heavily used, 120\u00d7 in this project's transcripts) \u2014 not a generic tool, routine for this project",
       "routine under ~/dotfiles/ prefix: dotfiles-link, macos-setup, skills-sync-cw, pnpm test/typecheck/check scripts"
     ]
   },
