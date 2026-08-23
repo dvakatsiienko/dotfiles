@@ -1,7 +1,7 @@
 ---
 researched: 2026-08-23
 sources-current-as-of: 2026-08-23
-refresh-when: a local ASR model ships native keyterm biasing on Apple Silicon, or the yt-transcript identifier repair pass is built and needs re-scoring
+refresh-when: a local ASR model ships native keyterm biasing on Apple Silicon, or the repair pass is pointed at a vocabulary other than *.md / *.json filenames
 ticket: DOT-211
 ---
 
@@ -209,3 +209,61 @@ is pointed at a different kind of vocabulary.
 - [ibm-granite/granite-speech-4.1-2b-plus — Hugging Face](https://huggingface.co/ibm-granite/granite-speech-4.1-2b-plus)
 - [Deepgram Nova-3 keyterm prompting](https://deepgram.com/learn/deepgram-expands-nova-3-with-10-new-languages-and-multilingual-keyterm-prompting)
 - [AssemblyAI vs Deepgram accuracy comparison](https://www.assemblyai.com/blog/assemblyai-vs-deepgram)
+
+---
+
+# Built — 2026-08-23, and re-scored from the shipped code
+
+The pass is implemented. `scripts/repair_identifiers.py` holds the algorithm;
+`clean_captions.py` imports it and takes the yt-dlp `-J` dump as an optional third argument.
+Both consumers — the skill and the `yt_transcript_fetch` mcp tool — already called
+`clean_captions.py`, so that call **is** the seam and the algorithm exists in one language only.
+
+## The score, from the built code rather than the lab harness
+
+Baseline is the same cleaner with only the repair line removed, so cleaning is identical on both
+sides and the pass is the only difference. **[measured]**
+
+| census | attempts | before | after |
+| --- | --- | --- | --- |
+| `CLAUDE.md` only — round-1 comparable | 17 | 5 — **29%** | **17 — 100%** |
+| all memfiles (`CLAUDE.md` `AGENTS.md` `SKILLS.md` `README.md`) | 35 | 8 — 23% | **35 — 100%** |
+
+**The lab number held.** Round 3's harness said 100%; the shipped code says 100%.
+
+A full token-level audit of both transcripts shows **every** changed token is a memfile name.
+Nothing else moved — no `Cloudflare`, no `WebMD`, no ordinary prose. Theo's transcript lost 21
+tokens purely because two-word forms (`Claude MD`) collapse into one (`CLAUDE.md`).
+
+## 📌 The surprise: on these two videos the metadata harvest contributed nothing
+
+**[measured]** Running with and without the metadata argument produces **byte-identical**
+transcripts. The reason is plain once you look:
+
+| video | filenames harvested beyond the core list |
+| --- | --- |
+| theo `e1snsuY4lTI` | *none* — `AGENTS.md`, `SKILLS.md`, `CLAUDE.md` are all already core |
+| bytemonk `PXzHKuBuyJU` | `claude.md` (lowercased by youtube's tag field), which canonicalises back to `CLAUDE.md` |
+
+So **the six-entry core list is doing 100% of the measured work**, and the harvest is so far
+unproven in practice. Round 3's «metadata alone scores 94%» is still true and still not the
+point: the two sets overlap almost completely on these videos.
+
+That does not make the harvest dead weight — it is what stops the core list from growing every
+time a video names a file nobody thought of. But it is **unmeasured value**, and it should be
+labelled that way until a video that names an off-core filename proves it.
+
+## Decisions taken that the brief did not specify
+
+- **Extensions limited to `md` and `json`.** `.ts`, `.go` and `.sh` are ordinary English words,
+  so a candidate regex built on them would fire on running prose. Only `.md` was measured;
+  `.json` is unambiguous and carries the two core entries.
+- **Casing conflicts resolved by capital count.** Youtube lowercases tags, so the same file can
+  arrive as both `CLAUDE.md` and `claude.md`. The spelling with more capitals came from prose a
+  human wrote, so it wins. No hardcoded list of which files are shouty.
+- **Shortest trailing window first.** `and Claude MD` resolves on `Claude MD` and keeps `and`;
+  `read me MD` needs all three words. Trying the long window first would absorb the filler word
+  and push the string out of edit range — that was a real bug in the first harness run.
+- **Edit budget scales with length** — 2 edits on a name of 7+ characters, 1 below that.
+- **Missing or malformed metadata degrades to the core list**, never fails the fetch. Metadata is
+  an enhancement, not a dependency.
