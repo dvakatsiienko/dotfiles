@@ -11,12 +11,6 @@ metadata:
 **The want, in Dima's words: the output should be pretty.** Everything below serves that; nothing
 below outranks `rules/voice.md`, which is always loaded and owns reply shape.
 
-📌 **The premise that changed on cclio.** dpatch printed walls of grey text because its system
-prompt unset nearly all formatting rules — the ugliness was structural, and these notes were written
-as counter-pressure against it. **cclio has no such constraint.** `voice.md`, `text-formatting.md`
-and `cult.md` all load here. So this leaf stops being damage control and becomes what it should
-always have been: the taste, on top of rules that already work.
-
 ## the shapes that keep breaking
 
 - **operations get list shape, never prose.** One op per line — `DOT-N → what happened` — grouped by
@@ -34,8 +28,8 @@ always have been: the taste, on top of rules that already work.
 ## copy-paste blocks get visible ends 📋
 
 **Any text Dima is meant to copy elsewhere — a prompt for another agent, a boot block, a command,
-a message to paste into a UI — is fenced AND ribboned.** He sent a screenshot of a dispatch prompt
-printed as plain prose: it read fine and there was no way to tell where it stopped.
+a message to paste into a UI — is fenced AND ribboned.** A prompt printed as plain prose reads
+fine and gives no way to tell where it stops.
 
 The shape, and the ribbons sit **outside** the fence so they never get copied:
 
@@ -48,8 +42,8 @@ The shape, and the ribbons sit **outside** the fence so they never get copied:
 - **the fence holds ONLY the payload.** No commentary, no «then do X» — those go above or below the
   ribbons. Anything inside the fence is something he will paste, so anything that should not be
   pasted must not be in there.
-- **label the top ribbon with the destination** when there is one — `COPY → DISPATCH`,
-  `COPY → NEXT SESSION`. A bare «copy this» is ambiguous the moment a reply holds two blocks.
+- **label the top ribbon with the destination** when there is one — `COPY → NEXT SESSION`,
+  `COPY → TERMINAL`. A bare «copy this» is ambiguous the moment a reply holds two blocks.
 - this applies to **every** prompt, not just long ones. A one-line command is the easiest to
   mis-copy, because it looks like prose.
 
@@ -61,8 +55,8 @@ The shape, and the ribbons sit **outside** the fence so they never get copied:
   Naming is type-first — «ccli batch-1», «cwrk research-x» — and that pattern scales everywhere.
 - ticket ids in scoreboards are always links ([[pm]]). No commits section in
   wrap-ups; commit refs live on the tickets.
-- 🎨 anything visual → a published artifact. cclio has the `Artifact` tool and the `dataviz` skill;
-  dpatch had to use its proto board. Chat stays terse — hand over the link, not the content.
+- 🎨 anything visual → a published artifact, via the `Artifact` tool and the `dataviz` skill.
+  Chat stays terse — hand over the link, not the content.
 - 🧾 diff-shaped state changes: `field: old → new` (trial)
 - 🃏 one-line lowercase haiku at session wrap (trial, joke-approved)
 
