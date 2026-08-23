@@ -207,6 +207,7 @@ before writing or editing ANY memory, rule, or `CLAUDE.md`, answer these five.
 | root `CLAUDE.md` | guiding for **everyone** — what we do, why, the main dos and donts | would a brand new session in any repo be worse without it? |
 | `rules/*.md`, no `paths:` | granular globals, same audience as root, split so one file is not a dump | same test as root, **plus**: worth paying for in every session on the machine? |
 | `rules/*.md` **with `paths:`** | code-shaped conventions tied to a file type or a directory | is there a **glob** that names when it matters? if the trigger is a topic and not a file, `paths:` cannot reach it |
+| `~/projects/CLAUDE.md` | the coder-global layer — conventions every coding session wants and no coordinator does | would a session that never writes code be worse off reading it? if no, it belongs here and not in root |
 | project `CLAUDE.md` | only what is true of **this** project — see `authoring-memory-project.md` | would it be wrong or meaningless in another repo? |
 | coordinator memory | one decision, coordinator-only | would a coder session be confused or misled by it? |
 | skill | a multi-step procedure, or anything needed occasionally | does it have a name someone would invoke? |
@@ -219,6 +220,27 @@ surfaces it will never be.
 
 📌 **`paths:` is narrower than it looks.** **[measured]** it fires on **reading a matching file**.
 that fits `guide-typescript`. it does not fit `ticket-flow.md`, whose trigger is an intention.
+
+🚨 **and narrower still: the trigger is the `Read` TOOL, not file access.** **[measured]** three
+canary rules, two fresh sessions: `cat <matching file>` through Bash fires nothing, `Read` on the
+same path injects the rule instantly. **so a session instructed to prefer Bash for reads never
+fires a single scoped rule** — and cannot tell a scoped rule from a deleted one. bypass mode says
+exactly that. weigh this before converting anything a coordinator depends on.
+
+## precedence — which layer wins
+
+**more specific always wins.** the order, narrowest last:
+
+```
+root CLAUDE.md  →  rules/*.md  →  ~/projects/CLAUDE.md  →  project CLAUDE.md  →  leaf CLAUDE.md
+```
+
+and **the person in the room outranks all of it** — a user instruction beats every file, always.
+
+📌 the layers are **additive, not exclusive**: a leaf does not replace root, it overrides root *on
+the points where they disagree*. everything root says that the leaf is silent about still binds.
+when two layers genuinely conflict, that is a defect to fix in the files, not a precedence puzzle
+to solve at read time — say so rather than silently picking one.
 
 ---
 

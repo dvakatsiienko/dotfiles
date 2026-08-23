@@ -90,8 +90,16 @@ only. That is how a `bytes` session once used browser tools while everyone belie
 
 ## Global Defaults
 
+- **Precedence — more specific wins, narrowest last:**
+
+      root CLAUDE.md → rules/*.md → ~/projects/CLAUDE.md → project CLAUDE.md → leaf CLAUDE.md
+
+  A leaf `CLAUDE.md` overrides this file wherever the two disagree. **Dima's instruction in the
+  room outranks every file, always.**
+- The layers are **additive, not exclusive** — a leaf overrides root only on the points it
+  contradicts; everything root says that the leaf is silent about still binds. Two layers in
+  genuine conflict is a defect to report and fix, never a puzzle to quietly resolve at read time.
 - Repo-specific `AGENTS.md` and `CLAUDE.md` instructions override these defaults.
-- User instructions override both.
 - Instruction files: `CLAUDE.md` is currently primary; supporting both is planned — `AGENTS.md` as main, with `CLAUDE.md` importing it via `@./AGENTS.md`.
 
 ## Information Lookup

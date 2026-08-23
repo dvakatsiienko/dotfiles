@@ -137,7 +137,52 @@ into the bigger guide rather than swallowing it.
 
 ### the map
 
-_empty — filled in phase 1._
+🕸️ **the drawing:** [memfile wiring](https://claude.ai/code/artifact/8d0f8f40-806a-4f91-a0bd-3c15055ebcac)
+— precedence chain, weight split, leaf topology, defect ledger. regenerate it from the numbers
+below rather than hand-editing it.
+
+**the resident load, measured at 2.89 chars/token** (`/4` undercounts by ~38%):
+
+| layer | files | tokens | share |
+| -- | --: | --: | --: |
+| cclio memory leaves | 54 | 43,861 | 64% |
+| `rules/` | 8 | 12,372 | 18% |
+| root `CLAUDE.md` | 1 | 5,120 | 7% |
+| project `CLAUDE.md` | 2 | 3,757 | 5% |
+| the barrel index | 1 | 3,333 | 5% |
+| **total** | **66** | **68,442** | |
+
+**the connector health, by code not by reading:** 211 pointers extracted (`@import`, `[[wiki]]`,
+`rules/*.md`, `docs/*`, `cursor://`, skill names). **3 flagged, 1 real** — the other two are the
+barrel's own format example and a prose placeholder. 112 leaf-to-leaf wikilinks, **zero dangling**.
+
+**hubs** (most deferred to): `dima-strategies` 7 · `pm-fold-or-drop` 6 ·
+`research-vs-lived-evidence` 6 · `memory-divergence-store` 6 · `spawn-types` 5 ·
+`memfile-bridge-absent` 5.
+**isolated** (no edge either way): both found, both **deleted by dima**. 📌 the check earned its
+place on the first run — isolation is not a verdict on its own, but it is where he looked first.
+
+### what the connector pass found
+
+- 🚨 **a leaf deferred to a deleted rule.** the mobile leaf named `rules/mobile.md` as «the binding
+  copy… if they ever disagree, the rule wins». that file died the day before. **deleted at dima's
+  call**, after confirming its one unique fact (DOT-91) already lives in
+  `docs/agents/claude-fleet-capabilities.md`. barrel line and inbound wikilink removed with it.
+- ✅ **the precedence chain is now written down** — one block in root `CLAUDE.md`, and the same
+  chain in `docs/agents/authoring-memory.md`. it had zero occurrences before.
+- ✅ **the placement decision table ALREADY EXISTED** — phase 0 built it in `authoring-memory.md`.
+  the ticket's «none of which exist» was stale by one day. added the missing `~/projects` row and
+  the precedence section instead of writing a second table.
+- 🚨 **`paths:` fires on the `Read` TOOL, not on file access.** measured, both directions. a
+  session told to prefer Bash for reads never fires a scoped rule and cannot tell one from a
+  deleted file. this is the constraint on every deferral decision downstream.
+- ❓ **the barrel costs 3,333 tokens and defers nothing.** every import is eager, so the index buys
+  dima navigation, not the agent context. folding the leaves would remove it outright. **his call,
+  not a cleanup** — it trades away the granularity the store was built for.
+
+📌 **the method that made this cheap, worth keeping:** the whole loaded chain is already resident,
+so traversing it costs **zero reads**. the extraction ran as one script over 66 files. the only
+files needing a spawn are the outer project `CLAUDE.md`s, which are not in the chain.
 
 ---
 
