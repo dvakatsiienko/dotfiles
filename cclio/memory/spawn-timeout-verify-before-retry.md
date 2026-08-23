@@ -17,5 +17,4 @@ have double-spawned, with two agents writing the same files.
 not a dead one — never respawn on silence. Check with `ListAgents` before assuming a spawn died,
 and use `TaskStop` to end one deliberately rather than spawning past it.
 
-📌 The dpatch original named `start_code_task` and `list_sessions`. Neither exists here; the lesson
-does. Kept for the lesson, re-aimed at the tools cclio actually has. Related: [[spawn-types]].
+Related: [[spawn-types]].

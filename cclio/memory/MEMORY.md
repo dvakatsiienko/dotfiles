@@ -60,13 +60,12 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - @ticket-refs-on-dispatched-work.md — always pass ticket ID + require `- ref DOT-N`; the coordinator that dispatched it is the one that closes
 
 ## direction
-- ⭐ @cclio-coordinator-trial.md — 🧪 cclio is an A/B of dpatch, NOT a replacement; the retire-dpatch plan was dpatch's own overconfidence; CLAUDE_CONFIG_DIR REJECTED; ⚠️ relocation blocks DOT-195
+- @cclio-coordinator-trial.md — what the migration settled and still binds: CLAUDE_CONFIG_DIR rejected, ancestor dirs walked, the four-layer stack
 - ⭐ @pm-fold-or-drop.md — default verb is fold-or-drop not file; one flush per session; a sweep isn't done till its debris is retired
 - ⭐ @pm-freebie-verdict-first.md — «easy way?» wants a COST VERDICT, not a plan; if it isn't small say so and stop — building it anyway IS the scope drift
 - ❗ @memfile-import-fails-silently.md — a broken `@import` loads nothing and SAYS nothing; on-disk presence is not evidence of being loaded — probe a leaf-only fact
 - ⭐ @memfile-trim-comes-last.md — the «why» blocks are scaffolding: they STAY until the story lands; trim order is story → flowlog/inbox → frozen handoffs → cleanup
 - @doc-freshness-frontmatter.md — research docs carry researched/refresh-when; freshness is a date that IS the fact
-- ⭐ @memfile-bridge-absent.md — 🧪 STILL LIVE: cclio's side closed, dpatch's did not. during the DOT-188 vet trial, tolerate the drift and name it — never automate it
 - @halt-rituals-pair.md — wrap retired; ONE ritual `/cclio:graceful-halt`, two speeds — bare plans the finish, `stop` arg leaves fast without breaking
 
 ## pm / linear
@@ -75,7 +74,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @linear-fetch-contract.md — GETs always carry labels+descriptions, relations, parent/children, comments, attachments; gql over `issue view`
 - @no-timestamps-in-prose.md — no dates in bodies/comments/docs; run stamp stays
 - @pm-scrape-strategy.md — conventions in memory, state always queried fresh; never answer board state from memory
-- @links-scheme-per-surface.md — every ticket id in every message is a link; scheme is per-surface — `linear://` on cclio, https on dpatch
+- ⭐ @links-scheme-linear.md — every ticket id is a `linear://` link; the check is MECHANICAL, scan for `DOT-` before sending. broken twice
 - @native-relations-always.md — blocking/linking = linear builtin relations, never body strings
 - @run-stamp-model-name.md — stamp footer = `run-id · model name`
 
@@ -83,7 +82,7 @@ no tombstones · emoji prefix is a salience marker (❗ 📌 ⏰ 🧭 ⭐ 🚫),
 - ⭐ @output-must-be-pretty.md — the want is PRETTY: ops as lines not prose, no glyph run-ons, the output kit; dpatch's formatting handicap does not exist here
 
 ## skills & sync
-- ⭐ @memory-divergence-store.md — mutate own memory only; 🧪 two coordinators live, the adoption was a SNAPSHOT not a merge, drift is expected; guards the colocation question (DOT-73 step 3)
+- ⭐ @memory-divergence-store.md — mutate own memory only; never build a fifth sync mechanism, ask whether the two sides need to be two sides
 - ⭐ @skill-edits-are-file-edits.md — a skill change is an ordinary file edit; never hand dima a package to install by hand
 - @skill-namespaces.md — `x:*` runs in any ccli session, `cclio-*` is coordinator-only; the test is WHERE it runs, not who wrote it; dropped skills listed inside
 - @matt-skills-mirrored.md — 14/25 mirrored 2026-08-19; ⏰ WILL drift (ccli plugin auto-updates, mirror doesn't); THE framework — proactively suggest grilling/domain-modeling/wayfinder at ripe moments; opus-filled ADRs exist in dotfiles+bytes, respect them

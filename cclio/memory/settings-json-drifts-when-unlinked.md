@@ -24,4 +24,4 @@ because Dima was once storm-hit by a permission change and is rightly wary.
 `ls -l ~/.claude/settings.json` at boot alongside `pnpm dotfiles-link` status. A real file there is
 the early warning, not the push failure.
 
-Related: [[memfile-bridge-absent]].
+Related: [[memory-divergence-store]].

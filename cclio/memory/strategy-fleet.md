@@ -20,7 +20,7 @@ happening.
 
 The fleet grew surface-first — ccli, cwrk, dpatch, cchrome, ccloud — and each grew its own memory,
 its own skills, its own boot ritual. The bridge between them was never built; hand-made copies stood
-in for it and each copy needed its own maintenance ritual. → [[memfile-bridge-absent]]
+in for it and each copy needed its own maintenance ritual. → [[memory-divergence-store]]
 
 ## the current move
 

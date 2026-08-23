@@ -17,10 +17,8 @@ When a coordinator sends a worker session work that belongs to a ticket, the spa
    explicitly says so. Default: **the coordinator verifies, then closes** via the `linear` CLI
    with a context comment.
 
-📌 **cclio holds the closing authority for work it dispatches.** The dpatch original vested this in
-dpatch, because dpatch was the only coordinator. Under the DOT-188 trial whichever coordinator
-dispatched the work is the one that verifies and closes it — the rule is *the dispatcher closes*,
-not *dpatch closes*.
+📌 **the dispatcher closes.** whichever coordinator sent the work is the one that verifies and
+closes the ticket.
 
 **Why:** closing keywords also assign the ticket to the commit author and fire on push —
 when orchestrating, verification happens at the coordinator's level, so closing authority stays there.
