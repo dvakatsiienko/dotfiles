@@ -23,3 +23,10 @@ home/.claude/shelf/handoffs/
 # from youtube in seconds, and the skill's `transit` mode deletes them on purpose.
 # Tracking a store one of whose modes is "delete immediately" is pure churn.
 home/.claude/shelf/yt-transcripts/
+
+# The sounds shelf holds game audio Dima ripped by hand — assets we have no
+# right to redistribute, and binaries git has no business storing. audition.sh
+# is the only thing here we wrote; approved.txt and candidates/ are his picking
+# state, rebuilt by running the TUI again.
+home/.claude/shelf/sounds/*
+!home/.claude/shelf/sounds/audition.sh

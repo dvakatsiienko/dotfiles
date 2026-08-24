@@ -24,7 +24,8 @@ follows from it.
 
 these are not real files here; the mirror rule owns them (`pnpm dotfiles-link`):
 `CLAUDE.md`, `settings.json`, `keybindings.json`, `hooks/`, `rules/`, `output-styles/`, `themes/`,
-`sline/`, `flowlog/`, `memory-dispatch/`, `announcements.md`, `changelog.md`.
+`sline/`, `flowlog/`, `memory-dispatch/`, `announcements.md`, `changelog.md`, `shelf/`,
+`sounds/` (an alias link — the real dir is `shelf/sounds/`).
 
 ⚠️ never edit through the link — cc refuses with *"Refusing to write through symlink"*. resolve with
 `readlink -f` and edit the real file under `~/dotfiles/home/.claude/`.
@@ -188,7 +189,7 @@ things asked while walking the tree. kept here so they are not re-derived.
 | `config/` | **not claude's** — `claude-monitor`'s cost-alert state | keep |
 | `daemon/` | attach machinery. `roster.json` = live sessions, `control.key` authorises attach, `dispatch` = socket. **this is what makes reattaching from a terminal work** | keep, live |
 | `ide/<pid>.lock` | editor integration, one per attached cursor/vscode | keep, self-cleans |
-| `focus/` | **ours.** sline's ticket pin. written by `hooks/focus.sh`, cached by `hooks/status-fetch.sh`, read by four sline files | keep, live |
+| `focus/` | **ours.** sline's ticket pin. written by `hooks/sline-focus.sh`, cached by `hooks/sline-status-fetch.sh`, read by four sline files | keep, live |
 | `plans/` | plan-mode output. **unversioned** — decided 2026-08-19 not to track it | keep |
 | `plugins/` | 226m, installed plugin cache | keep, rebuildable |
 | `history.jsonl` | 3.4m — every prompt ever typed, with project and timestamp | keep |

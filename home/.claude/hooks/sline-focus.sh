@@ -71,9 +71,9 @@ while IFS= read -r line; do
 done <<<"$prompt"
 
 # --- DOT-81 -----------------------------------------------------------------
-# The fetch lives in status-fetch.sh so sline can fire the same code on render.
+# The fetch lives in sline-status-fetch.sh so sline can fire the same code on render.
 # Backgrounded: it must never slow the prompt down. The script's own TTL gate
 # decides whether anything actually goes over the network.
-"$(dirname "${BASH_SOURCE[0]}")/status-fetch.sh" "$file" >/dev/null 2>&1 &
+"$(dirname "${BASH_SOURCE[0]}")/sline-status-fetch.sh" "$file" >/dev/null 2>&1 &
 
 exit 0

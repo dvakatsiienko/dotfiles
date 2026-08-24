@@ -57,7 +57,7 @@ A quota window resetting while the session sits idle.
 Rendering 0% instead of the pre-reset percentage once a quota window's reset time is in the past.
 
 **Focus pin**:
-The ticket this session agreed to resolve — one slot, sticky, rendered `🪄 DOT-23`. Written by `hooks/focus.sh` on Dima's keyword and by the agent when work starts or ends.
+The ticket this session agreed to resolve — one slot, sticky, rendered `🪄 DOT-23`. Written by `hooks/sline-focus.sh` on Dima's keyword and by the agent when work starts or ends.
 _Avoid_: current ticket, active issue
 
 **Touch**:
@@ -65,7 +65,7 @@ The last three ticket ids the session poked, newest first, rendered dim after a 
 _Avoid_: recent, history
 
 **Status cache** (`focus/status-cache.json`):
-Linear state for the ids in focus, written only by `hooks/status-fetch.sh` and read only by sline. Shared by every session, merged never replaced. Sline never fetches from a render.
+Linear state for the ids in focus, written only by `hooks/sline-status-fetch.sh` and read only by sline. Shared by every session, merged never replaced. Sline never fetches from a render.
 _Avoid_: ticket state (ambiguous with the pin), sync
 
 **Rule** (`~/.claude/rules/*.md`):
@@ -81,8 +81,8 @@ _Avoid_: sline-db, database
 
 ### Artifact shelf
 
-**Shelf** (PLANNED, does not exist yet — DOT-10):
-`~/.claude/shelf/` — the intended consolidated store for artifacts our skills produce for internal, throwaway-to-mid-term use (not config, not code). One subdirectory per artifact family: `shelf/handoffs/`, `shelf/transcripts/`. Lives outside any git repo.
+**Shelf**:
+`~/.claude/shelf/` — the consolidated store for artifacts our skills and hooks produce for internal, throwaway-to-mid-term use (not config, not code). One subdirectory per artifact family: `shelf/handoffs/`, `shelf/yt-transcripts/`, `shelf/flawlog/`, `shelf/sounds/`. It lives in this repo under `home/.claude/shelf/` and is symlinked into `~/.claude/`; each family decides for itself whether its contents are tracked.
 _Avoid_: store (collides with redux/app stores mid-project), stash (collides with git stash)
 
 **Transcript**:
