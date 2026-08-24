@@ -10,6 +10,9 @@ the middle of doing something else. Anything past it, load `x:pm` or hand it to 
   **`BYT`** = building apps. Split by the nature of the work, never by which repo the files sit in.
 - The channel is the **`linear` CLI**. 🚫 **Never the Linear MCP.** `linear api '<graphql>'` covers
   anything the CLI lacks.
+  - `linear api` takes the query **positionally**, not behind a flag.
+  - **`linear issue list` does not exist.** It is `linear issue mine`.
+  - `linear issue comment` has no `--body`; use `linear api` with a `commentCreate` mutation.
 
 ## State tracks reality
 
