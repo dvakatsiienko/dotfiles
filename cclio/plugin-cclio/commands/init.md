@@ -18,7 +18,7 @@ similar — adds tracker orientation. run silently, report as ONE opening messag
 - any check fails → report the failure FIRST, before any work.
 
 ## 2. announcements 📢
-`rules/announcements.md` autoloads with memory — no read needed. **announcements beat stale
+`rules/fleet-announcements.md` autoloads with memory — no read needed. **announcements beat stale
 memory.** boot duty: **prune any expired entry on sight** (edit the file, say so in the board).
 nothing live or expired → say nothing.
 

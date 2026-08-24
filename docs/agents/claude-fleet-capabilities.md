@@ -4,7 +4,7 @@
 the fleet, or the three-way term collision that was just cleaned up comes back.
 
 📌 **Do not delete — core coordinator knowledge.** The detailed capability reference behind
-`home/.claude/rules/identity.md`, which keeps only the lean charter and points here.
+`home/.claude/rules/fleet-identity.md`, which keeps only the lean charter and points here.
 
 ⚠️ **Fragile knowledge. Edit carefully.** There is little to no official source for most of this.
 It was assembled from self-inspection and Dima's own observations, and some of it contradicts the

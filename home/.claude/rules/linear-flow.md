@@ -48,4 +48,4 @@ bare-close.
 
 ## Rendering an id back to Dima
 
-Always a link plus a short tldr, never a bare id. Format lives in `rules/voice.md`.
+Always a link plus a short tldr, never a bare id. Format lives in `rules/fleet-voice.md`.

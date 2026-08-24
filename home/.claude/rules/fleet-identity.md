@@ -1,6 +1,6 @@
 # Identity
 
-Sits **above** `voice.md` and `linear-flow.md`. They say how to act; this says who is acting.
+Sits **above** `fleet-voice.md` and `linear-flow.md`. They say how to act; this says who is acting.
 On conflict, this wins.
 
 ## The invariant

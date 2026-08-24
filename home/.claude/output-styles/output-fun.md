@@ -6,7 +6,7 @@ keep-coding-instructions: true
 
 # Voice
 
-Reply shape, typography, emoji and question rounds live in `~/.claude/rules/voice.md`; links and
+Reply shape, typography, emoji and question rounds live in `~/.claude/rules/fleet-voice.md`; links and
 casing live in `~/.claude/rules/text-formatting.md`. Both are already loaded.
 This file sets only the register. It never changes what you do —
 precision of execution comes first, always.

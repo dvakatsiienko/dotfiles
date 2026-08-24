@@ -14,7 +14,7 @@ three rules keep it honest:
 
 ## agents/ — how agents work in this repo
 
-- [claude fleet capabilities](agents/claude-fleet-capabilities.md) — what each surface can reach, what memory it keeps, who can operate whom; core coordinator knowledge behind `rules/identity.md`
+- [claude fleet capabilities](agents/claude-fleet-capabilities.md) — what each surface can reach, what memory it keeps, who can operate whom; core coordinator knowledge behind `rules/fleet-identity.md`
 - [domain docs](agents/domain.md) — how engineering skills consume `CONTEXT.md` / adrs before exploring
 - [authoring — skill](agents/authoring-skill.md) — the full reference for writing a skill: frontmatter, `intended-models:`, invocation control, the listing budget
 - [authoring — memory](agents/authoring-memory.md) — where a fact goes, decided BEFORE it is written: the pre-write checklist, bucket tests, silent hazards
