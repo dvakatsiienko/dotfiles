@@ -8,5 +8,4 @@ queries it, so a copy here is a fifth copy that goes stale silently.
 
 ## queue
 
-- review the whole picture of the leafs pass once all leaves are done — anything missed? did
-  right? everything in place?
+_empty._
