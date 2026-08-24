@@ -156,7 +156,7 @@ below rather than hand-editing it.
 `rules/*.md`, `docs/*`, `cursor://`, skill names). **3 flagged, 1 real** — the other two are the
 barrel's own format example and a prose placeholder. 112 leaf-to-leaf wikilinks, **zero dangling**.
 
-**hubs** (most deferred to): `dima-strategies` 7 · `pm-fold-or-drop` 6 ·
+**hubs** (most deferred to): `dima-strategy` 7 · `pm-fold-or-drop` 6 ·
 `research-vs-lived-evidence` 6 · `surface-boundaries` 6 · `spawn-types` 5 ·
 `memfile-bridge-absent` 5.
 **isolated** (no edge either way): both found, both **deleted by dima**. 📌 the check earned its
@@ -234,7 +234,7 @@ every line to the second question.
 
 - **4 removals**: content that lived elsewhere (`announce-model` had three copies), guarded a
   surface we do not use, or was a doc pretending to be a rule.
-- **6 merges**, each one subject per file: `spawning` ← 5 · `pm` ← 10 · `dima-strategies` ← 7 ·
+- **6 merges**, each one subject per file: `spawning` ← 5 · `pm` ← 10 · `dima-strategy` ← 7 ·
   `silent-failures` ← 2 · `halt` ← 2 · `surface-boundaries` ← 2.
 - **dispatch stripped** to 8 deliberate mentions, all history or the English word.
 - **frontmatter dropped** — `name` duplicated the filename and was a live drift surface; `type` is
