@@ -1,0 +1,15 @@
+{
+  "name": "x-com",
+  "owner": {
+    "name": "Dima Vakatsiienko",
+    "email": "imagnum.satellite@gmail.com"
+  },
+  "description": "dima's dotfiles marketplace — the x plugin, synced from the repo",
+  "plugins": [
+    {
+      "name": "x",
+      "source": "./home/.claude/plugin-x",
+      "description": "Dima's own skills — CST session handoff, pm, commit authoring, walkthroughs"
+    }
+  ]
+}
