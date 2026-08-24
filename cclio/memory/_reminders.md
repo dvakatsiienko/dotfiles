@@ -25,7 +25,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 create «opus-mode» skill — session-start voice overrides for opus smartass printing; to be written by dima and fable together
 
-⏰📌 after the memory-review queue completes: suggest type-prefix renames for cclio memory leaves — invent a small set of «type» groups (habit, skill, contract, …, not too many), prefix each file (`habit-reminders.md`, `skill-halt.md`), so files group visually like `dima-*` already does; the problem is scattered files, the prefix is the navigation fix
 
 ⏰📌 🦊👁️ vibemon does not register all commits — 2026-08-24 measured: 42 real (40 agent-authored) vs 24 in the mobile app; known cause candidate: commits via Bash heredoc invisible to its regex (undercounts by design, flowlog note); needs a fix or a verdict
 
