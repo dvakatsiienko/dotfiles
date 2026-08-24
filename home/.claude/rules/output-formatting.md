@@ -109,6 +109,7 @@ lowercase reads flatter and flows; a capital mid-line is a bump the eye clears.
 - our own memory files and rules
 - our own skills
 - readmes and docs of repos we own (`dotfiles`, `bytes`, …)
+- commit subjects and bodies, in our own repos
 
 **off** — never lowercase:
 
@@ -116,9 +117,6 @@ lowercase reads flatter and flows; a capital mid-line is a bump the eye clears.
 - job and recruiter mail
 - anything published under dima's name to an audience that is not dima
 - quoted text, ever
-
-📌 commit subjects stay out of scope for now — that rollout is
-[DOT-66](linear://linear.app/issue/DOT-66), not a rule.
 
 ### never re-case, in any mode
 
