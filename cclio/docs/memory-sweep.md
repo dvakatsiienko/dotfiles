@@ -157,7 +157,7 @@ below rather than hand-editing it.
 barrel's own format example and a prose placeholder. 112 leaf-to-leaf wikilinks, **zero dangling**.
 
 **hubs** (most deferred to): `dima-strategy` 7 · `pm-fold-or-drop` 6 ·
-`research-vs-lived-evidence` 6 · `surface-boundaries` 6 · `spawn-types` 5 ·
+`report-verify` 6 · `surface-boundaries` 6 · `spawn-types` 5 ·
 `memfile-bridge-absent` 5.
 **isolated** (no edge either way): both found, both **deleted by dima**. 📌 the check earned its
 place on the first run — isolation is not a verdict on its own, but it is where he looked first.
@@ -301,8 +301,8 @@ memories into dispatch by symlink. that is all. [DOT-115](linear://linear.app/is
 
 ### carried in: provenance ([DOT-106](linear://linear.app/issue/DOT-106), folded here)
 
-the rule already lives twice in cclio memory (`claims-carry-their-test`,
-`research-vs-lived-evidence`) and once as the CST truth rule. what is left is **generalising it**
+the rule already lives twice in cclio memory (`rule-proof`,
+`report-verify`) and once as the CST truth rule. what is left is **generalising it**
 so a plain ccli session inherits it: write «an agent-sourced claim is written attributed — *per cc:
 X* — never asserted» into `CST-SPEC.md`, `x:pm`, and `rules/`. one bucketing bullet, not a ticket.
 
@@ -330,7 +330,7 @@ filling it is a bucketing place in its own right.
 
 ## 🔁 the reusable procedure — moved out
 
-it lives at `docs/agents/memory-checkup.md`, because it outlives this sweep. **this file is one
+it lives at `cclio/docs/memory-checkup.md`, because it outlives this sweep. **this file is one
 execution of it.**
 
 ## phase 4 · the system checkup — runs in parallel, from the start
