@@ -7,8 +7,9 @@ ticket: DOT-216
 
 # skill authoring — the full reference
 
-conventions for the skills in `home/.claude/plugin-x/skills/` and their `cw` adaptations in
-`home/.claude/skills-cw/`. sync mechanics live in `script/skills-sync-cw.ts`.
+conventions for the skills in `home/.claude/plugin-x/skills/`. `cw` reads the same files —
+`home/.claude/plugin-x-desktop/` symlinks into them and ships as the `x-desktop` plugin, so a
+skill is written once and every surface gets the edit.
 
 ⚠️ **this file is the local half.** the writing craft — pointers, information hierarchy,
 completion criteria, leading words, pruning — is `writing-for-agents`, and it is good. do not

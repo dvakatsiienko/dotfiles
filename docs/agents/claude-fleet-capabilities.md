@@ -46,8 +46,9 @@ overwrite test.
 - `cc` cli — everything: `CLAUDE.md`, all `rules/`, `plugin-x` skills, project `CLAUDE.md`, memory.
 - `cclio` — the same, plus `cclio/CLAUDE.md` and its own `memory/` barrel and boot ritual.
 - `cc cloud` — no `~/.claude` config, no `plugin-x`, no Desktop Commander. Project `CLAUDE.md` only.
-- `cw` — one uploaded skill zip, no `rules/` mechanism. What `plugin-x` defers to a rules file,
-  `skills-cw` inlines by hand (`ticket-flow.md`).
+- `cw` — the `x-desktop` plugin, whose skills are symlinks into `plugin-x`. No `rules/`
+  mechanism, so what `plugin-x` defers to a rules file reaches it another way: `ticket-flow.md`
+  is symlinked into the plugin root, and `x-cw__pm_guide` inlines it on demand.
 - ⚠️ **dispatch** — Cowork preferences + project `CLAUDE.md`, nothing else. No `rules/`, no memory;
   it keeps its own. The casing rule went silently unapplied there until 2026-08-17.
 - ⚠️ **dispatch-spawned sessions ignore `~/.claude/settings.json`** — `defaultMode` and

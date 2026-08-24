@@ -11,7 +11,6 @@
         "dotfiles-link": "node ./script/dotfiles-link.ts",
         "linear-push-revert": "node ./script/linear-push-revert.ts",
         "macos-setup": "node ./script/macos-setup.ts",
-        "skills-sync-cw": "node ./script/skills-sync-cw.ts",
         "check": "biome check --write",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",

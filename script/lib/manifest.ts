@@ -39,13 +39,11 @@ export const repoRoot = findRepoRoot(import.meta.dirname);
 export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~. The reason is the interesting part
-// ? and there are three of them, so it is data rather than a comment above a
+// ? and there are two of them, so it is data rather than a comment above a
 // ? flat list — `pnpm dotfiles-link` prints it, and a new entry has to declare
 // ? which rule it belongs to instead of joining an undifferentiated set.
 export const noLinkReasons = {
     absolutePath: 'reached by absolute path, so a link would be dead weight',
-    notClaudeConfig:
-        'not Claude Code config — linking it would put non-config into ~/.claude',
     // ? Cowork refuses to trust any folder that a protected home path resolves
     // ? into, and its protected list covers the shell rc files. A real ~/.zshrc
     // ? that sources this one keeps the resolved path in ~ and leaves the repo
@@ -57,7 +55,6 @@ export const noLinkReasons = {
 export const noLink = new Map<string, keyof typeof noLinkReasons>([
     ['.claude/plugin-x', 'absolutePath'],
     ['.claude/mcp-x-cw', 'absolutePath'],
-    ['.claude/skills-cw', 'notClaudeConfig'],
     ['.zshrc', 'sourcedByStub'],
     ['.zshenv', 'sourcedByStub'],
     ['.zprofile', 'sourcedByStub'],
