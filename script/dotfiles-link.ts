@@ -5,13 +5,11 @@
  * ?   pnpm dotfiles-link                        # status: what's linked, what conflicts
  * ?   pnpm dotfiles-link apply                  # link everything that isn't linked yet
  * ?   pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+ * ?   pnpm dotfiles-link register ~/.foo        # move a file into the mirror and link it back
  * ?
  * ? There is no install step and no backup directory. The tree under home/ is
  * ? the whole config — status and apply are one code path, and apply refuses to
  * ? clobber a real file rather than quietly filing it away somewhere.
- * ?
- * ? Registering a new dotfile is a move, not a verb:
- * ?   mv ~/.foo home/.foo && pnpm dotfiles-link apply
  */
 
 /* Core */
@@ -73,9 +71,14 @@ const [verb = 'status', argument] = zx.argv._;
 if (verb === 'status') await reconcile({ dryRun: true });
 else if (verb === 'apply') await reconcile({ dryRun: false });
 else if (verb === 'untrack') await untrack(argument);
+else if (verb === 'register') await register(argument);
 else {
     zx.echo(rb(`Unknown verb: ${verb}`));
-    zx.echo(bb('Usage: pnpm dotfiles-link [status|apply|untrack <path>]'));
+    zx.echo(
+        bb(
+            'Usage: pnpm dotfiles-link [status|apply|untrack <path>|register <path>]',
+        ),
+    );
     process.exit(1);
 }
 
@@ -199,6 +202,50 @@ async function untrack(rawPath: string | undefined) {
             `✅ ${toTilde(target)} is yours now. Commit the removal when ready.`,
         ),
     );
+}
+
+async function register(rawPath: string | undefined) {
+    if (!rawPath) {
+        zx.echo(rb('❌ Which file? e.g. pnpm dotfiles-link register ~/.foo'));
+        process.exit(1);
+    }
+
+    const home = zx.os.homedir();
+    const target = zx.path.resolve(rawPath.replace(/^~/, home));
+    const relative = zx.path.relative(home, target);
+
+    if (relative.startsWith('..')) {
+        zx.echo(
+            rb(`❌ ${target} is outside ~ — only home paths can be mirrored.`),
+        );
+        process.exit(1);
+    }
+
+    const stats = await lstatOrNull(target);
+    if (stats === null) {
+        zx.echo(rb(`❌ ${toTilde(target)} does not exist.`));
+        process.exit(1);
+    }
+    if (stats.isSymbolicLink()) {
+        zx.echo(
+            rb(
+                `❌ ${toTilde(target)} is already a symlink — nothing to register.`,
+            ),
+        );
+        process.exit(1);
+    }
+
+    const source = zx.path.join(repoRoot, 'home', relative);
+    if ((await lstatOrNull(source)) !== null) {
+        zx.echo(rb(`❌ home/${relative} already exists in the repo.`));
+        process.exit(1);
+    }
+
+    await zx.fs.mkdirp(zx.path.dirname(source));
+    await zx.fs.move(target, source);
+    ok(toTilde(target), `→ home/${relative}`);
+
+    await reconcile({ dryRun: false });
 }
 
 /* Helpers */
