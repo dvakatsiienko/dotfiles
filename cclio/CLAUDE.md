@@ -33,6 +33,6 @@ binds only after a version bump plus `claude plugin marketplace update cclio` an
 
 ## 💡 tips and tricks
 
-<!-- contract: rules/tips-and-tricks.md. scope here: coordination findings. -->
+<!-- contract: rules/authoring-memory-and-skills.md. scope here: coordination findings. -->
 
 - 🧵 2026-08-24 — tempted to respawn a coder per task → a warm coder takes new assignments by SendMessage, ~50k cheaper; background sessions are adoptable

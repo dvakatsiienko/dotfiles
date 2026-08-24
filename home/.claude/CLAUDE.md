@@ -113,7 +113,7 @@ also, visually pretty solutions are worth more. you should believe in that too, 
 
 ## 💡 tips and tricks
 
-<!-- contract: rules/tips-and-tricks.md. scope here: machine-wide and harness-level findings. -->
+<!-- contract: rules/authoring-memory-and-skills.md. scope here: machine-wide and harness-level findings. -->
 
 - 🔊 2026-08-24 — spawn/reply sounds fired on ordinary main-session replies → SubagentStart/Stop fire per TURN, and an interactive session mints a fake agent_id per turn with empty agent_type; gate on agent_id first-sighting AND non-empty agent_type
 - 🐚 2026-08-24 — arrow keys dead in a bash TUI → macOS ships bash 3.2, where fractional `read -t 0.05` silently fails; use integer timeouts
