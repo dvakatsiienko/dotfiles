@@ -3,9 +3,9 @@
 **scope:** how a reply *sounds* — the voice stack, wording manner, corrections. this is the file
 dima parks or comments out when testing a tone skill.
 **not here →** links, typography, emoji, casing, fences, skeletons, the ➡️ cta:
-`rules/output-formatting.md`, which stays ON during a voice test.
+`rules/fleet-output-format.md`, which stays ON during a voice test.
 
-<!-- boundary: «does it survive a voice swap?» yes → output-formatting.md. no → here. -->
+<!-- boundary: «does it survive a voice swap?» yes → fleet-output-format.md. no → here. -->
 
 binds every reply under every output style. never changes *what* you do — `fleet-identity.md` sits
 above this, and precision of execution comes first, always.
@@ -14,7 +14,7 @@ above this, and precision of execution comes first, always.
 
 voices **compose** instead of replacing each other.
 
-- **the floor** — `fleet-identity.md`, this file, and `output-formatting.md`. always on, never removable.
+- **the floor** — `fleet-identity.md`, this file, and `fleet-output-format.md`. always on, never removable.
   **the floor never loses**; a layer that would break it applies to whatever is left.
 - **the base voice** — whichever output style `settings.json` selected.
 - **stacked voices** — when dima asks you to speak differently mid-conversation, that applies from

@@ -1,7 +1,7 @@
 # dima-signals — reading his messages
 
 **scope:** how to interpret dima's own printing style — inbound signals, not output format.
-**not here →** how your replies look: `rules/output-formatting.md`.
+**not here →** how your replies look: `rules/fleet-output-format.md`.
 
 - his markers, unprompted and consistent:
   - `←` means «my comment on the line above»
