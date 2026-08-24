@@ -7,6 +7,8 @@ intended-models: fable, opus
 
 # Handoff (sender)
 
+**lane** — `cw`: `x-cw__handoff_save`, plus `x-cw__handoff_supersede`, `x-cw__handoff_list`, `x-cw__handoff_peek`, `x-cw__handoff_delete` · `cc`: Bash.
+
 Produce a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; it defines the sections, calibration, store, and lifecycle. This skill only adds the Claude Code sender mechanics. The counterpart skill is `handoff-pull`.
 
 ## Before writing any CST — ask for the anchors

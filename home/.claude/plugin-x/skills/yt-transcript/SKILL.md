@@ -6,6 +6,8 @@ argument-hint: "<youtube url> [transit] | <title fragment or video id> | list"
 
 # yt-transcript
 
+**lane** — `cw`: `x-cw__yt_transcript_fetch`, `x-cw__yt_transcript_transit`, `x-cw__yt_transcript_recall`, `x-cw__yt_transcript_list` · `cc`: Bash.
+
 Dima finds a video useful and wants its content in the thread. This skill downloads YouTube's
 captions, cleans them into readable text, and keeps them on a shelf so the same video is never
 fetched twice.
