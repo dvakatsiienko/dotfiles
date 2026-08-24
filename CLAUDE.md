@@ -73,7 +73,7 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 
 ## 💡 tips and tricks
 
-<!-- contract: rules/tips-and-tricks.md. scope here: this repo + the modern stack (ts/react/next/tailwind/vite/genAI). -->
+<!-- contract: rules/authoring-memory-and-skills.md. scope here: this repo + the modern stack (ts/react/next/tailwind/vite/genAI). -->
 
 - 🔗 2026-08-24 — feared desktop git-sync would break symlinked plugin skills → it materializes them fine: a thin plugin of symlinks (plugin-x-cw) cherry-picks skills with zero copies
 - 🔌 2026-08-24 — wanted MCP prompts as desktop slash commands → desktop never calls prompts/get (0 call sites vs 19 for tools), so it cannot work; claude code consumes prompts fine

@@ -74,7 +74,8 @@ a page you named, never navigates from a site root to the page you meant.
 🚨 **the check is mechanical, not attentional.** this rule has been broken with the rule in
 context — once ~20 bare ticket ids in one reply, once ~26 bare filenames the next day. an id feels
 like a word while you are writing it. **before sending, scan for `DOT-`, `BYT-` and any filename
-he might open, and confirm each sits inside `](linear://` or `](cursor://file/`.**
+he might open, and confirm each sits inside `](linear://` or `](cursor://file/`.** same scan, same
+bucket: any `①②③` glyph run-on becomes plain separate lines.
 
 ## copy-paste blocks get visible ends 📋
 
