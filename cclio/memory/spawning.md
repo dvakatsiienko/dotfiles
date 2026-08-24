@@ -1,135 +1,102 @@
-**Full spec:** `cclio/docs/coordinator-coder-contract.md` — read it when actually spawning, never at
-boot. When it and this file disagree, the file is right and this is stale.
+**Full spec:** `cclio/docs/coordinator-coder-contract.md` — read when actually spawning, never at
+boot. When it and this file disagree, this file is right and the spec is stale.
 
 ## the two doors, never interchangeable
 
 - **subagent** (`Agent` tool) — runs inside cclio, dies with it, Dima cannot open it, takes no
-  effort setting. `subagent_type: "fork"` inherits cclio's full context and keeps its tool noise
-  out; any other type starts blank and needs briefing like a colleague who just walked in.
+  effort setting (inherits the session's). `subagent_type: "fork"` inherits full context; any other
+  type starts blank and is briefed like a colleague who just walked in.
 - **background session** (`claude --bg`) — real, survives a coordinator reset, takes model AND
-  effort. **This is the door for all coding.**
+  effort. **The door for all coding — and always spawned with `--remote-control`**, so Dima can
+  join it.
 
-The split is not research-vs-code, it is **disposable-vs-watchable**.
+The split is **disposable-vs-watchable**, not research-vs-code.
+`isolation: "worktree"` gives a real git worktree — expensive, only when agents would collide.
 
-`isolation: "worktree"` gives a real git worktree. Expensive; only when agents would collide.
+## picking the model — Dima's contract, never re-derived
 
-## picking the model
-
-**Dima's contract, not to be re-derived:**
-
-| model | when | effort |
-| --- | --- | --- |
-| **opus-5** | the default coder | **always `high`** |
-| **fable-5** | 🚫 never, unless he asks by name | `low`, even then |
-| sonnet-5 | quota pressure, routine well-specified work | inherit |
-| **haiku-4.5** | 🎯 **reach for it more** — see below | inherit |
-
-**Why opus is `high`:** a full day of `high` raised weekly usage by only **~10%**. Measured, not
-taste. Do not revert it on a hunch. **Why fable is off spawns:** the fable budget is scarce and Dima
-spends it on his own turns.
-
-**What each is actually for:**
-
-- **opus-5** — hard multi-step engineering where the output is code. ⚠️ **not a PM**: overlong prose,
-  invents jargon, writes docs nobody asked for, commits to assumptions instead of asking.
-- **fable-5** — anything Dima reads, anything coordinating other work. Taste and flavour over
-  pragmatism: *«opus picks pragmatically, fable = flavour»*.
-- **sonnet-5** — routine coding. **Avoid for hard multi-step work**: 16 points below opus on
-  SWE-bench Pro, a real gap.
-- **haiku-4.5** — bulk, classification, summarization, retrieval, subagents.
-
-🎯 **Use haiku more, deliberately.** Dima's ask: it is never reached for as a subagent and he wants
-to see what it handles well. **Default to haiku for any subagent whose job is retrieval,
-classification, extraction or bulk transformation** — reading many files to answer one narrow
-question, grepping a corpus, summarising a doc set. Report back what it did well and what it fumbled;
-that observation is the point, not the token saving. 📌 its benchmarks compare it to the 4.x
-generation, never to the 5s — do not read them as comparable.
-
-📌 Full cards, prices, benchmarks and claim tags: `docs/agents/models.md`, read on demand.
+- **opus-5** — the default coder: hard multi-step engineering, **always `--effort high`**
+  (measured at only ~+10% weekly usage — do not revert on a hunch). ⚠️ **not a PM**: overlong
+  prose, invented jargon, unasked docs.
+- **fable-5** — 🚫 never spawned unless he asks by name, `low` even then; Dima spends that budget
+  on his own turns. Anything Dima reads → fable flavour: *«opus picks pragmatically, fable =
+  flavour»*.
+- **sonnet-5** — routine well-specified work under quota pressure; never hard multi-step (−16 vs
+  opus on SWE-bench Pro).
+- **haiku-4.5** — 🎯 reach for it more: retrieval, classification, extraction, bulk transforms,
+  subagents. Deliberately under-observed — default it for narrow-question subagents and report
+  what it handled well vs fumbled; the observation is the point. 📌 its benchmarks compare against
+  4.x, never the 5s.
+- Full cards and prices: `docs/agents/models.md`, on demand.
 
 ## preflight, four checks, every spawn
 
-0. **reuse before spawn** — an idle child is not a finished child. A message revives it with context
-   intact, and a warm coder is worth ~50k.
+0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
+   worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
-2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first, and it cannot be
-   renamed after spawn. 🚨 **sessions only** — the `Agent` tool's `name` regex bans emoji, colons and
-   spaces, so that prefix is a hard validation error there. `claude --bg -n` is free-form.
-   Dima peeks at running sessions in the desktop Code tab and steers them himself, so the name is
-   how he tells one from another.
-3. **ticket** — pass the id, require a link-only keyword on every commit touching the work. Never a
-   closing keyword unless cclio says so: **the dispatcher verifies, then closes.** [DOT-112](linear://linear.app/issue/DOT-112) sat open
-   after its work shipped because that contract did not exist.
+2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first, unrenamable after.
+   🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
+   sessions by name in the desktop Code tab.
+3. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
+   word — **the dispatcher verifies, then closes.**
 
-All four were violated in one session, some twice. The rules already existed; the failure was not
-checking.
+All four were once violated in one session. The rules existed; the failure was not checking.
 
 ## measured, not read from a schema
 
-- **`--effort` is honoured** on `claude --bg` — a `--effort medium` probe from a `high` coordinator
-  rendered `Opus 5 with medium effort`. A flag, never inheritance, so pass it every time.
-- ⚠️ **`claude --bg <prompt>` does NOT run the prompt.** The session comes up idle. Deliver the brief
+- **`--effort` is honoured** on `claude --bg` — pass it every time, it is a flag, never inherited.
+- ⚠️ **`claude --bg <prompt>` does NOT run the prompt** — the session comes up idle. Brief it
   afterwards with `SendMessage`, which also carries `notify_when_idle`.
-- ⚠️ **a subagent does not start in the parent's cwd** — it gets the git repo root, and the parent
-  cannot choose. **Every path in a brief must be absolute.**
-- ⚠️ **a peer answering in plain prose reaches nobody.** Only a `SendMessage` call travels. Say so in
-  any brief expecting an answer.
-- ⭐ **background sessions are ADOPTABLE, not merely survivable.** Coder `11510c80` was spawned by one
-  session, outlived it, and was briefed by a coordinator that never spawned it. A coder is a resource
-  on the machine, addressable by anything that can read `~/.claude/sessions/`. **Never respawn to
-  escape a lost parent.** What is proven is delivery; whether the adopted coder works correctly is a
-  separate check.
-- ⚠️ **`notify_when_idle` subscriptions are SESSION-LOCAL and die on a coordinator restart.** Nothing
-  announces the loss — you simply wait forever. **Re-subscribe after every restart**; a bare
-  `SendMessage` with an empty message costs the coder nothing.
-- 🚨 **remote control has ONE owner per session**, and the loser prints code 4090. Start in the
-  terminal, treat the desktop Code tab as join-only. 📌 the handover direction was never tested, so
-  do not assert a cause.
-- **cloud is receive-only** and cli → cloud delivery is unverified: a send returned success while the
-  cloud reported nothing arrived. Treat it as a one-way pipe plus a shared store, never a handshake.
-- ✅ **peer messaging is non-intrusive** — Dima, unprompted: *«cross-sess peer msging works fine from
-  my side, does not look like spamming.»* Stop hedging about waking peers.
-- `ListAgents` and `Workflow` are absent from subagent toolsets. Only the coordinator surveys the fleet.
+- ⚠️ **a subagent starts in the git repo root, not the parent's cwd** — every path in a brief is
+  absolute.
+- ⚠️ **a peer answering in plain prose reaches nobody** — only a `SendMessage` call travels. Say so
+  in any brief expecting an answer.
+- ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
+  coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
+  a separate check.
+- ⚠️ **`notify_when_idle` subscriptions die on a coordinator restart, silently** — re-subscribe
+  after every restart; an empty `SendMessage` costs nothing.
+- 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
+  the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
+- **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
+  store, never a handshake.
+- ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about
+  waking peers.
+- `ListAgents` and `Workflow` are absent from subagent toolsets — only the coordinator surveys the
+  fleet.
 
 ## briefing and watching — write freely, read on a leash
 
-cclio messages the coder whenever. The coder answers **once** per assignment, when blocked or done.
-`git diff` in its cwd beats any message. Doneness is a **written marker** — a final commit plus a
-report file — never transcript archaeology. Subscribe, never poll. Budget three round trips;
-exceeding it means the brief was wrong.
+Message the coder whenever; it answers **once** per assignment, blocked or done. `git diff` in its
+cwd beats any message. Doneness is a **written marker** (final commit + report), never transcript
+archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
 
-**A coder's report is a candidate, not a finding.** Check its claims before relaying them.
-
-**A timeout is not proof of failure.** Verify with `ListAgents` before respawning; a blind retry
-double-runs the work with two agents writing the same files.
+**A coder's report is a candidate, not a finding** — check its claims before relaying.
+**A timeout is not proof of failure** — verify with `ListAgents` before respawning; a blind retry
+double-runs the work.
 
 ## the shared working tree
 
-**One agent per repo where possible; parallelism goes ACROSS repos, not inside one.** When two share:
+**One agent per repo where possible; parallelism goes ACROSS repos.** When two share:
 
-- state file ownership at spawn, stage **explicit paths only**. Never `git add -A` while a peer lives.
-- `git status` before staging. Anything modified that is not yours is left exactly as it is.
-- `index.lock` means a peer is committing. Wait and retry. **Never delete a lock.**
-- 🚨 **verify the hash after every commit.** Conflicts are loud; the real risks are a **silent no-op**
-  and a **silent sweep**. Both observed. `git log -1` is the whole check.
-- Worktrees are the answer at ~5+ agents or genuine concurrent edits, **not before**.
+- state file ownership at spawn; stage **explicit paths only**, never `git add -A`.
+- `git status` before staging; anything modified that is not yours stays untouched.
+- `index.lock` means a peer is committing — wait, retry, **never delete a lock**.
+- 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
+  a silent sweep, both observed.
+- Worktrees at ~5+ agents or genuine concurrent edits, not before.
 
 ## lifetime and stopping
 
-**Per-case judgment, not a rule.** A background session survives a cclio restart, so halting the
-coordinator does not oblige halting its coders. Keep one warm when its context is expensive and the
-next assignment is nearby; stop and respawn when the work is unrelated or its context is polluted by
-a failed approach. **Always stop probes** — one that outlives its answer is clutter.
+Per-case judgment: keep a coder warm when its context is expensive and the next assignment is
+nearby; respawn when the work is unrelated or the context is polluted. **Always stop probes.**
 
-🚨 **`kill <pid>` is the ONLY reliable stop**, pid read from `~/.claude/sessions/<pid>.json`. The
-registry file removes itself on exit, so `ls` is the whole verification.
-
+- 🚨 **`kill <pid>` is the ONLY reliable stop** — pid from `~/.claude/sessions/<pid>.json`; the
+  registry file removes itself on exit, so `ls` is the whole verification.
 - `TaskStop` reaches only subagents *this* session spawned.
-- **Deleting the session in the desktop Code ui does NOT stop it.** Measured: the card vanished, the
-  process stayed alive and registered, still answering `kill -0`. **The ui gives positive feedback
-  for an action that did not happen.** Never report a coder stopped because a ui said so.
+- ⚠️ **deleting the session in the desktop Code ui does NOT stop it** — measured: card gone,
+  process alive. Never report a coder stopped because a ui said so.
+- 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
+  being useful» are different states.
 
-📌 Before closing a spawn, ask what it is still evidence for. «Finished its work» and «finished being
-useful» are different states.
-
-Related: [[research-vs-lived-evidence]]
+Related: [research-vs-lived-evidence](research-vs-lived-evidence.md)
