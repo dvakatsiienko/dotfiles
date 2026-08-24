@@ -72,6 +72,7 @@ export type Entry = {
 type WalkConfig = {
     ignored: Set<string>;
     mirror: string;
+    repo: string;
     skip: Map<string, keyof typeof noLinkReasons> | Set<string>;
     target: string;
 };
@@ -82,6 +83,7 @@ export async function buildManifest(
     const config: WalkConfig = {
         ignored: ignoredNames,
         mirror: mirrorRoot,
+        repo: repoRoot,
         skip: noLink,
         target: homedir,
         ...options,
@@ -109,6 +111,52 @@ export async function lstatOrNull(path: string) {
     } catch {
         return null;
     }
+}
+
+// ? The blind spot the walk cannot see. Every entry above is derived FROM the
+// ? mirror, so a link whose source left the repo is not in the manifest at all
+// ? and reconcile never looks at it — `dotfiles-link` reported "everything
+// ? mirrored" while ~/.claude held two links to files deleted hours earlier.
+// ? Finding them needs the opposite direction: read what is actually in the
+// ? link directories and keep the ones pointing at a repo path that is gone.
+export type Orphan = { link: string; points: string };
+
+export async function findOrphans(
+    entries: Entry[],
+    options: Partial<WalkConfig> = {},
+): Promise<Orphan[]> {
+    const repo = options.repo ?? repoRoot;
+    const expected = new Set(entries.map((entry) => entry.target));
+    // ? Exactly the directories the mirror reaches into — ~ plus every dir the
+    // ? walk descended into. Scanning wider would judge links this repo does
+    // ? not own.
+    const dirs = new Set(entries.map((entry) => zx.path.dirname(entry.target)));
+    const orphans: Orphan[] = [];
+
+    for (const dir of dirs) {
+        let names: string[];
+        try {
+            names = await zx.fs.readdir(dir);
+        } catch {
+            continue;
+        }
+
+        for (const name of names) {
+            const link = `${dir}/${name}`;
+            if (expected.has(link)) continue;
+
+            const stats = await lstatOrNull(link);
+            if (!stats?.isSymbolicLink()) continue;
+
+            const points = zx.path.resolve(dir, await zx.fs.readlink(link));
+            if (!points.startsWith(`${repo}/`)) continue;
+            if (zx.fs.existsSync(points)) continue;
+
+            orphans.push({ link, points });
+        }
+    }
+
+    return orphans.sort((a, b) => a.link.localeCompare(b.link));
 }
 
 async function walk(rel: string, out: Entry[], config: WalkConfig) {

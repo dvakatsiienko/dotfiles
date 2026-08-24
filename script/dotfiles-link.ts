@@ -18,6 +18,7 @@ import * as zx from 'zx';
 import type { Entry } from './lib/manifest.ts';
 import {
     buildManifest,
+    findOrphans,
     lstatOrNull,
     noLink,
     noLinkReasons,
@@ -85,6 +86,7 @@ else {
 /* Verbs */
 async function reconcile({ dryRun }: { dryRun: boolean }) {
     const rows = await inspect();
+    const orphans = await findOrphans(rows.map((row) => row.entry));
 
     title(
         'Dotfiles',
@@ -98,6 +100,19 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
     if (dryRun) {
         step(`${noLink.size} not linked, by design`);
         for (const [path, reason] of noLink) skip(path, noLinkReasons[reason]);
+    }
+
+    // ? Loud on purpose and never auto-removed. These are links the repo once
+    // ? owned, so the file they pointed at was deliberately deleted or renamed —
+    // ? which of the two decides whether the fix is `rm` or a new source, and
+    // ? only the human knows that.
+    if (orphans.length > 0) {
+        step(`${orphans.length} dangling — source gone from the repo`);
+
+        for (const { link, points } of orphans) {
+            fail(toTilde(link), `→ ${toTilde(points)} no longer exists`);
+            note(`drop it   rm ${toTilde(link)}`);
+        }
     }
 
     const conflicts = rows.filter((row) => row.state === STATE.REAL);
@@ -118,6 +133,16 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
     }
 
     if (pending.length === 0 && conflicts.length === 0) {
+        if (orphans.length > 0) {
+            done(
+                `Everything mirrored, ${orphans.length} dangling left alone.`,
+                {
+                    clean: false,
+                },
+            );
+            process.exit(1);
+        }
+
         done('Everything mirrored.');
         return;
     }
