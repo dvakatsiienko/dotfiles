@@ -265,7 +265,7 @@ next.js / nextjs / vercel / react returns six, and **none of them is a next.js s
    this line.
 
 6. **i did not touch linear.** the contract puts the tracker on cclio. i did not move DOT-206
-   to In Progress and did not comment on it, even though `ticket-flow.md` would normally ask
+   to In Progress and did not comment on it, even though `linear-flow.md` would normally ask
    the working session to do the former.
 
 ---

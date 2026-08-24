@@ -6,7 +6,7 @@ refresh-when: enough post-push observations accumulate to restore the reversal o
 
 # the linear assign on push — what was measured, and why the fix is suspended
 
-Moved out of `rules/ticket-flow.md`, which every session on the machine loads. This is a
+Moved out of `rules/linear-flow.md`, which every session on the machine loads. This is a
 long-running investigation, not a rule, and it is currently **suspended**: `x:cmt` says read the
 ticket after a ref-carrying push and report what happened, rather than correcting it.
 

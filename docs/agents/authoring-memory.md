@@ -266,7 +266,7 @@ a hook, or `permissions.deny`, which act instead of informing.
 describing a reachable one. it looked correct for as long as nobody tried.
 
 📌 **`paths:` is narrower than it looks.** **[measured]** it fires on **reading a matching file**.
-that fits `guide-typescript`. it does not fit `ticket-flow.md`, whose trigger is an intention.
+that fits `guide-typescript`. it does not fit `linear-flow.md`, whose trigger is an intention.
 
 🚨 **and narrower still: the trigger is the `Read` TOOL, not file access.** **[measured]** three
 canary rules, two fresh sessions: `cat <matching file>` through Bash fires nothing, `Read` on the

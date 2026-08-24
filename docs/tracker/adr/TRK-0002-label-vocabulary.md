@@ -12,7 +12,7 @@ decision — one entity per id:
   - ⚠️ **amended 2026-08-19 (dima ✓), and this reverses the original reading.** L4 first said the
     label *replaced* parking such tickets in a perpetual In Progress. it does not — a `standing`
     ticket legitimately sits In Progress between rounds, and the label is precisely what marks that
-    state as honest rather than stale. the exception is written into `rules/ticket-flow.md`. this
+    state as honest rather than stale. the exception is written into `rules/linear-flow.md`. this
     line is amended rather than rewritten so the earlier reading stays visible. the reversal is
     recorded as a decision in [TRK-0004](TRK-0004-label-system-evolution.md), which also closes the
     `needs *` family at three and bans project-meaning labels.
