@@ -83,6 +83,10 @@ re-read the flowlog, `.claude/x-queue.md`, and this thread for dropped asks and 
 questions. queued items FIRE now. mid-turn messages from dima are the usual casualty — check
 those specifically.
 
+**and the mirror half — what DIMA missed.** scan the session for questions he never answered,
+offers left undecided, and verifications only he can run. print them as a short list in the
+halt report — he misses a few every session, and this is where they get caught.
+
 ## phase 3 — flawlog flush
 read the session's flawlog, cluster the catches, ONE batched proposal (memory / rules /
 announcements / tickets / drop), ONE approval, then execute and commit. see `/cclio:flawlog`.
