@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Linear status for the ids in focus. sline only ever READS this — hooks/sline-status-fetch.sh
+// Linear status for the ids in focus. sline only ever READS this — shelf/hooks/sline-status-fetch.sh
 // owns the fetch, because a linear call costs ~325ms and sline renders on every
 // prompt and again every minute. See DOT-81.
 type ticketStatus struct {
@@ -92,7 +92,7 @@ func statusBadge(cache map[string]ticketStatus, id string) string {
 	return paint(color, label)
 }
 
-// statusFetchTTL mirrors the ttl in hooks/sline-status-fetch.sh. The script is the
+// statusFetchTTL mirrors the ttl in shelf/hooks/sline-status-fetch.sh. The script is the
 // authority — it re-checks before spending a request. This copy exists only so
 // sline does not spawn a process on every single render to be told "not yet".
 const statusFetchTTL = 60 * time.Second
@@ -130,7 +130,7 @@ func triggerRefresh(sessionID string) {
 	if sessionID == "" {
 		return
 	}
-	script := claudeHome("hooks", "sline-status-fetch.sh")
+	script := claudeHome("shelf", "hooks", "sline-status-fetch.sh")
 	if _, err := os.Stat(script); err != nil {
 		return
 	}
