@@ -8,5 +8,3 @@ whoever reads one.** admission test: «what would an agent get wrong without thi
   tracker picture (plugin 0.2.0). expires: after a few proven boots.
 - 📢 vet 🧪 label = examine-before-committing, «vetted unless removed»; trial until ~2026-09-18,
   else mutates to «investigate». expires: label survives or mutates.
-- 📢 skill copies drift across surfaces (ccli `plugin-x` vs `cw` cache) — expected until DOT-77
-  lands; don't file drift as bugs. expires: DOT-77 done.
