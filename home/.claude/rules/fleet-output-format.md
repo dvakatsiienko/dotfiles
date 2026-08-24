@@ -97,6 +97,8 @@ ribbon and fence — to breathe**:
 - **label the top ribbon with the destination** — `copy → next session`, `copy → terminal`.
 - applies to **every** prompt. a one-line command is the easiest to mis-copy, because it looks
   like prose.
+- **his hands needed → hand him the exact command in this fence, unprompted.** but first ask
+  whether your own shell reaches it — run what you can run; fence only what truly needs him.
 
 ## casing — lowercase sentence-initial capitals
 
