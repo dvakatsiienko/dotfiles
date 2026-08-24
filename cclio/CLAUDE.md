@@ -29,7 +29,11 @@ never `@memory/slug.md`; get it wrong and it loads nothing, silently.
 
 Skills live in `plugin-cclio/commands/`, registered by `.claude/settings.json`. ⚠️ **A plugin edit
 binds only after a version bump plus `claude plugin marketplace update cclio` and
-`claude plugin update cclio@cclio --scope project`, and then only in the NEXT session.**
+`claude plugin update cclio@cclio --scope project`, and then only in the NEXT session.** An update
+against an unchanged version answers «already at the latest version» and leaves the stale cache
+live (`~/.claude/plugins/cache/cclio/`). Say the next-session part when handing an edit back.
+📌 A command file containing a query must contain a query that RAN — write it at the shell, watch
+it succeed, paste what ran. For an executable artifact the test IS the write.
 
 ## 💡 tips and tricks
 

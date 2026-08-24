@@ -26,7 +26,6 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ❗ @silent-failures.md — the ways a memory file breaks silently: dead imports, truncate-before-read, a quote that looked cut off
 
 ## the system itself
-- ⭐ @skill-edits-are-file-edits.md — a skill change is an ordinary file edit; never hand him a package to install
 - @skill-namespaces.md — `x:*` runs anywhere, `cclio:*` is coordinator-only; the test is WHERE it runs
 - @surface-boundaries.md — mutate own memory only; never build another sync mechanism
 - @domains-never-merge.md — multi-domain by design; repo, tracker and fleet contexts never merge
