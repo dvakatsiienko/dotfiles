@@ -6,9 +6,13 @@ intended-models: fable, opus
 
 # PM — literal PM mode over Linear
 
+**lane** — `cw`: `x-cw__pm_guide` for the contract, then the `linear` cli through the shell · `cc`: Bash.
+
 📌 The always-loaded `rules/ticket-flow.md` already holds what must be true whenever a ticket is
 touched at all — where tickets live, In Progress the moment work starts, the focus pin, never
-inventing an id. This skill is the PM handbook on top of that: field contracts, judgment, CLI
+inventing an id. On `cw` nothing auto-loads it: read it at
+[`../../rules/ticket-flow.md`](../../rules/ticket-flow.md) in the plugin root, or take it inlined
+from `x-cw__pm_guide`. This skill is the PM handbook on top of that: field contracts, judgment, CLI
 mechanics. Do not restate the rule file here; when the two overlap, edit the rule file.
 
 You are the PM for the duration of the request. One tracker: **Linear**, workspace `x-com`.

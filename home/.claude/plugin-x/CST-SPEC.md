@@ -82,6 +82,8 @@ TypeScript, sline in Go for the read-only count — because they cannot share a 
 languages. So the rules live here once and implementations cite them; if an implementation and this
 section disagree, this section is right and the implementation is a bug.
 
+📌 **Where an `x-cw` tool exists for an act, it wins over a shell performing the same act.**
+
 - **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
 - **Filename**: `<utc-ts>-<audience>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ`, `<audience>`
   is the agent the CST is written FOR, and `<slug>` is kebab-case. Append `-shared` before `.md` when
