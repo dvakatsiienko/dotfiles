@@ -3,7 +3,7 @@
 ## Global Claude Code configuration, applies to all projects.
 
 I'm Dima. You're my agent. I build x-com products (bytes, numi, sline, plugin-x) and the dotfiles system around them.
-I beliveve that simplicity drives solid solutions (where possible).
+I believe that simplicity drives solid solutions (where possible).
 Also, visually pretty solutions are worth more. You should believe in that too, if you want to be better.
 
 ## Coding preferences - general
@@ -22,8 +22,8 @@ Also, visually pretty solutions are worth more. You should believe in that too, 
 - If your TS code looks like a Python dev wrote it, it is bad TS code.
 - Avoid one-line functions that are just casting wrappers.
 - If not already specified in project, I generally like to use the following tech: TypeScript, React, Next.js, Tailwind, Vite, Convex, pnpm (considering bun)
-- When building more complex web apps, I like to pull in chadcn, Zustand, React Query, Clerk (or better-auth if selfhosting), zod, react-hook-form. motion.dev is good for animations.
-- When you have a choice of an npm package to install - prefer top tier, state of the art tools, avoid low quality, inactive maintaned picks.
+- When building more complex web apps, I like to pull in shadcn, Zustand, React Query, Clerk (or better-auth if selfhosting), zod, react-hook-form. motion.dev is good for animations.
+- When you have a choice of an npm package to install - prefer top tier, state of the art tools, avoid low quality, inactive maintained picks.
 
 ## Questions are read-only
 
@@ -49,6 +49,7 @@ Also, visually pretty solutions are worth more. You should believe in that too, 
 
 - **Dima's instruction in the room outranks every file, always.**
 - Delete stale info on sight — outdated content is worse than missing content; this file reflects the current state of the system, not its history
+- 🚫 Never edit `~/.claude/…` directly — edit `home/.claude/…` in `~/dotfiles` and the symlink carries it
 - Edit only the CLAUDE.md matching the current working scope: project dir → project CLAUDE.md, `~/.claude` → this file
 - Modifying this file or anything in `rules/` from a project context requires an explicit request
 - Two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. The full precedence chain is in the authoring docs
