@@ -29,6 +29,10 @@ drops them.
 
 Confirm in one line: `⏰ reminded: <thing>`. Never file two entries for one reminder.
 
+**`yourself stick`** — the thing to track is the agent's own behaviour or a system it watches.
+Store at the stuck tier and **pick an emoji yourself** to flavour the entry (`⏰📌 👁️ …`,
+`⏰📌 🧪 …` — your call, one per entry). Same lifecycle as `stick`.
+
 **`stick`** — store the reminder at the **stuck** tier, prefixed `⏰📌`:
 
 ```markdown
