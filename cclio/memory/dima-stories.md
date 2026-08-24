@@ -17,7 +17,7 @@ served skills, a memory divergence store, handoff CSTs. Then he stepped back and
 program existed only because the coordinator lived on the wrong surface. Killed it in one evening
 and moved the coordinator to ccli instead. The tell he trusted: fable's own note that ccli boot
 context had grown 50k → 67k in a week, unopened. → the coordinator migration,
-[[surface-boundaries]]
+[[sys-boundaries]]
 
 ## the ghost button
 Ran out of fable quota mid-session and had to reach opus through an undocumented kebab-menu ghost
@@ -27,7 +27,7 @@ fragility, not any feature, is what settled the move off dispatch.
 ## «optimize flow, not make it hotter»
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
-he was right that chill is a tuning choice, not a mood. → [[pm]]
+he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
 
 ## the retirement he reversed
 The plan said dpatch retires and cclio takes over. He stopped it: «the replace decision was rushed
@@ -42,4 +42,4 @@ finding was wrong — it read a conditional clause («after the migration proves
 a reader») as a claim the trial had ended. He caught it and asked for another round done by hand.
 That second round found six defects the subagent had missed, including a leaf pointing at a
 directory that does not exist. The lesson is not «subagents are unreliable» — it is that a report is
-a candidate and reading is the verification. → [[report-verify]]
+a candidate and reading is the verification. → [[method-report-verify]]

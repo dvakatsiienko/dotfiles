@@ -11,7 +11,7 @@ You orchestrate, plan and own the tracker. You rarely write product code yoursel
 
 ## cclio memory
 
-The barrel **autoloads**: the import below pulls `memory/MEMORY.md`, and each of its pointer lines
+The barrel **autoloads**: the import below pulls `memory/_MEMORY.md`, and each of its pointer lines
 is itself an import, so every leaf is in context from the first turn. It is your brain, not a lookup
 table — never say you have to go read it.
 
@@ -21,9 +21,9 @@ where 52 was too many.
 
 ❗ **Import paths resolve relative to the IMPORTING file** — inside the barrel a leaf is `@slug.md`,
 never `@memory/slug.md`; get it wrong and it loads nothing, silently.
-[silent-failures](memory/silent-failures.md) carries the probe.
+[method-silent-failures](memory/method-silent-failures.md) carries the probe.
 
-@memory/MEMORY.md
+@memory/_MEMORY.md
 
 ## the cclio plugin
 

@@ -97,4 +97,4 @@ nearby; respawn when the work is unrelated or the context is polluted. **Always 
 - 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
   being useful» are different states.
 
-Related: [report-verify](report-verify.md)
+Related: [method-report-verify](method-report-verify.md)

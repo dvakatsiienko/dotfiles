@@ -1,4 +1,4 @@
-# rule-proof — a rule carries its test, or a label
+# method-rule-proof — a rule carries its test, or a label
 
 **The failure shape: a claim gets written, and nothing ever re-checks it.** A memfile has no
 expiry, a CST has no verify step — without a test, a fact and a fossil are indistinguishable.
@@ -23,11 +23,11 @@ when a rule is touched anyway.
 🎯 **The command must exercise the thing claimed.** A probe measures the path it runs, not the
 concept it is named after: `cat` via Bash and the `Read` tool are different events to the harness,
 and only one fires a scoped rule. A null result is a claim about your instrument first
-([[report-verify]]).
+([[method-report-verify]]).
 
 ## CSTs
 
 **A CST's live-state claims are candidates, verified before use** — tickets by query, sessions by
 pid, files by `ls`. Lives in `CST-SPEC.md`; costs ~three shell calls.
 
-Related: [[report-verify]], [[spawning]], [[silent-failures]]
+Related: [[method-report-verify]], [[craft-spawning]], [[method-silent-failures]]

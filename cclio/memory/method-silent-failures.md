@@ -7,11 +7,11 @@ discipline fix for a mechanism failure fails twice.
 ## ❗ a broken `@import` loads NOTHING and says nothing
 
 No error, no warning. The file reads fine on disk and is simply not in context. Paths resolve
-relative to the **importing file**: inside `memory/MEMORY.md` a leaf is `@slug.md`;
+relative to the **importing file**: inside `memory/_MEMORY.md` a leaf is `@slug.md`;
 `@memory/slug.md` resolves to `memory/memory/slug.md` and loads nothing quietly.
 
 **The probe — the only detector:** name a fact that lives ONLY in a leaf body (standard: commit
-hash `d03f3da` in [[settings-json-drift]]). Cannot name it → the chain broke, say so 🚨 and read
+hash `d03f3da` in [[sys-settings-drift]]). Cannot name it → the chain broke, say so 🚨 and read
 the barrel by hand. **Re-probe after any rename, move, or barrel edit.** Counting files proves
 existence, never loading.
 
@@ -33,7 +33,7 @@ open(p,"w").writelines([l for l in open(p) if ...])   # ❌ empties the file
 lines = open(p).read().split("\n"); open(p,"w").write(...)  # ✅ read fully, then truncate
 ```
 
-This emptied `MEMORY.md` (9,408 bytes → 0) and the verification passed — a grep for absence
+This emptied `_MEMORY.md` (9,408 bytes → 0) and the verification passed — a grep for absence
 passes trivially on an empty file. 🎯 **Never verify a deletion with a check an empty file also
 passes; assert what must REMAIN** — pointer count, byte count, a known-good line.
 
@@ -50,6 +50,6 @@ Two agent files deleted on request were spawned by name in three places inside a
 walking its edges leaves edges pointing at nothing.
 
 📌 When a mechanism returns nothing, suspect your own inputs first — the moral's home is
-[[report-verify]].
+[[method-report-verify]].
 
-Related: [[report-verify]], [[rule-proof]]
+Related: [[method-report-verify]], [[method-rule-proof]]
