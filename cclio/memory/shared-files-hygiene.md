@@ -1,0 +1,27 @@
+# shared-files hygiene — inbox, flowlog, scratch
+
+Shared files are Dima's living space; leftovers cost him attention and blur what is pending.
+
+## the obsidian channel — ideas he drops from mobile, iCloud sync, no mount needed
+
+`/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/`
+
+- `inbox.md` — his raw drops. **Check first thing every boot; it must always end empty.** Copy
+  items into `flowlog.md` with statuses (✅🚧❓⏸️🎫); delete from inbox only after he approves the
+  processing.
+- `flowlog.md` — the processing journal. **✅ items pruned at every halt, unasked** — only
+  carry-over survives.
+- `protected.md` — his own drop file, read-only, never ours to edit.
+
+## cleanup runs the same turn
+
+Working artifacts die the turn their job is done: processed flowlog buckets, scratchpad files,
+`/tmp` dumps from CLI heredocs.
+
+- 🚫 never destroy pending or ambiguous content ([[bypass-restraint]]) — in doubt, mark done and
+  ask at the halt.
+- **exemption:** `docs/research/*` is kept — deletion there is his manual call; the duty is
+  linkage (`Ticket: DOT-N` at the top), not removal.
+
+🌍 Fleet-wide habit; queue fleet-bound bits on [DOT-186](linear://linear.app/issue/DOT-186), never
+push into another surface's store yourself.
