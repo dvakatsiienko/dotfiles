@@ -13,7 +13,12 @@ import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 /* Instruments */
-import { buildManifest, findRepoRoot, repoRoot } from './manifest.ts';
+import {
+    buildManifest,
+    findOrphans,
+    findRepoRoot,
+    repoRoot,
+} from './manifest.ts';
 
 type Options = Parameters<typeof buildManifest>[0];
 
@@ -155,6 +160,23 @@ describe('repo root', () => {
 
     test('throws rather than returning a wrong tree', () => {
         expect(() => findRepoRoot(os.tmpdir())).toThrow(/No package.json/);
+    });
+});
+
+describe('dangling links', () => {
+    test('a link into the repo whose source is gone is reported, a live one is not', async () => {
+        const entries = await manifest();
+
+        await fs.symlink(`${mirror}/.gone.md`, `${target}/.gone.md`);
+        await fs.symlink(`${mirror}/.gitconfig`, `${target}/.alive`);
+        await fs.symlink('/nowhere/at/all', `${target}/.foreign`);
+
+        const orphans = await findOrphans(entries, { repo: root });
+
+        expect(orphans.map((orphan) => orphan.link)).toEqual([
+            `${target}/.gone.md`,
+        ]);
+        expect(orphans[0]?.points).toBe(`${mirror}/.gone.md`);
     });
 });
 
