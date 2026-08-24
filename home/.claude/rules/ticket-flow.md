@@ -2,7 +2,7 @@
 
 **cclio owns pm.** It runs the board, the conventions, the placement calls and the linear
 mechanics. Everything here is the floor: what any session must know because tickets get touched in
-the middle of doing something else. Anything past it, load `x:pm` or hand it to cclio.
+the middle of doing something else. Anything past it, load the `pm` skill or hand it to cclio.
 
 ## Where tickets live
 
@@ -35,7 +35,7 @@ An id comes from Dima, from the conversation, or from the branch name. **Nowhere
 guess one, never grep for a plausible match, never write `DOT-?`. Most commits have no ticket, and
 omitting the line is always correct.
 
-⚠️ Commit magic words assign the ticket and move its state on push. `x:cmt` owns that contract and
+⚠️ Commit magic words assign the ticket and move its state on push. the `cmt` skill owns that contract and
 loads on every commit; the investigation behind it is `docs/agents/linear-github-assign.md`.
 **Name the ticket you are about to close in your reply**, never close silently.
 

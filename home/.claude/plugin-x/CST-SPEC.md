@@ -83,6 +83,8 @@ languages. So the rules live here once and implementations cite them; if an impl
 section disagree, this section is right and the implementation is a bug.
 
 📌 **Where an `x-cw` tool exists for an act, it wins over a shell performing the same act.**
+📌 Skill prefixes follow the plugin name per surface — `x:` on `cc`, `x-cw:` on `cw`. Cross-refs
+in skill bodies use bare skill names; translate with your own prefix.
 
 - **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
 - **Filename**: `<utc-ts>-<audience>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ`, `<audience>`
