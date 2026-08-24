@@ -39,7 +39,7 @@ func handoffsDir() string { return claudeHome("shelf", "handoffs") }
 // outputStylesDir holds every style file — the peers of whichever one is active.
 func outputStylesDir() string { return claudeHome("output-styles") }
 
-// statusCachePath is written by hooks/sline-status-fetch.sh and only ever read here.
+// statusCachePath is written by shelf/hooks/sline-status-fetch.sh and only ever read here.
 func statusCachePath() string { return claudeHome("focus", "status-cache.json") }
 
 // outputStylePath resolves a style to its markdown source. Callers pass the bare

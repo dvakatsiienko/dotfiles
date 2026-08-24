@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// focusState is written by hooks/sline-focus.sh (Dima's clam/touch/fly keywords) and
+// focusState is written by shelf/hooks/sline-focus.sh (Dima's clam/touch/fly keywords) and
 // by the agent on ticket grab and close. Keyed per session id so parallel
 // sessions never fight over one file.
 type focusState struct {
