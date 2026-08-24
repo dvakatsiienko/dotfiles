@@ -42,4 +42,4 @@ finding was wrong — it read a conditional clause («after the migration proves
 a reader») as a claim the trial had ended. He caught it and asked for another round done by hand.
 That second round found six defects the subagent had missed, including a leaf pointing at a
 directory that does not exist. The lesson is not «subagents are unreliable» — it is that a report is
-a candidate and reading is the verification. → [[research-vs-lived-evidence]]
+a candidate and reading is the verification. → [[report-verify]]

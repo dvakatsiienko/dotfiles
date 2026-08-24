@@ -21,8 +21,8 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - 📬 @shared-files-hygiene.md — inbox.md must end empty; flowlog pruned at halt; scratch dies same turn
 
 ## method — how a claim earns belief
-- ⭐ @claims-carry-their-test.md — a rule states the ONE command that proves it, or is labelled an inference
-- ⭐ @research-vs-lived-evidence.md — his daily observation outranks a report; a relayed claim needs its source OPENED
+- ⭐ @rule-proof.md — a rule states the ONE command that proves it, or is labelled an inference
+- ⭐ @report-verify.md — his daily observation outranks a report; a relayed claim needs its source OPENED
 - ❗ @silent-failures.md — the ways a memory file breaks silently: dead imports, truncate-before-read, a quote that looked cut off
 
 ## the system itself
