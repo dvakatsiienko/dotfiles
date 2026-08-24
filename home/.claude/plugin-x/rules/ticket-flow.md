@@ -1,1 +1,0 @@
-../../rules/ticket-flow.md
