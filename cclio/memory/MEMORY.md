@@ -27,8 +27,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 
 ## the system itself
 - @skill-namespaces.md — `x:*` runs anywhere, `cclio:*` is coordinator-only; the test is WHERE it runs
-- @surface-boundaries.md — mutate own memory only; never build another sync mechanism
-- @domains-never-merge.md — multi-domain by design; repo, tracker and fleet contexts never merge
+- @surface-boundaries.md — what stays separate: own memory only, no sync mechanisms, domains never merge
 
 ## how replies look
 ## environment
