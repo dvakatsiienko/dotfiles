@@ -582,7 +582,7 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 	if err != nil {
 		t.Skip("no home dir")
 	}
-	currentDir := filepath.Join(home, "projects", "dotfiles")
+	currentDir := filepath.Join(home, "dotfiles")
 
 	// The link needs the absolute path; only the rendered half wears the ~.
 	abs, display := workingDir(currentDir)
