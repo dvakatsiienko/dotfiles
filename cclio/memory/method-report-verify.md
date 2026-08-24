@@ -1,4 +1,4 @@
-# report-verify — a report is a candidate, reading is the verification
+# method-report-verify — a report is a candidate, reading is the verification
 
 **Dima's lived observation outranks a literature result** — if they conflict, the *question*
 differs; locate the difference before writing a verdict. **An agent-sourced claim is written
@@ -15,7 +15,7 @@ The four failure shapes, each measured here:
   inputs before the mechanism.
 - 🚨 **the sharpest case is your OWN inference.** The auto-unassign fix was reasoned, labelled
   «inferred», written into two binding files — and falsified by the first push. The label did not
-  help; [[rule-proof]] is the fix.
+  help; [[method-rule-proof]] is the fix.
 - 🚨 **name the FIELD the test observed, never the behaviour class it seemed to settle.** A
   linking test never looked at the state field; the conclusion stood one size wider for weeks.
 
@@ -24,4 +24,4 @@ measurements disagreeing means the environment moved · a table reads as measure
 is, tag provenance per cell or do not print it · «exhausted» describes a moment; a status
 inherited from a document is always stale.
 
-Related: [[pm]], [[silent-failures]], [[rule-proof]]
+Related: [[craft-pm]], [[method-silent-failures]], [[method-rule-proof]]

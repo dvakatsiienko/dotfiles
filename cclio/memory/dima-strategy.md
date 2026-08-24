@@ -15,13 +15,13 @@ default. A branch is not a Linear project — projects are storage, branches are
 **A chiller loop, not a fuller board.** Dima: *«you are intended to optimize flow not make it
 hotter.»* Capture is cheap for an agent, retirement is expensive for him — so the measure is how
 much got retired, at how little of his attention. Every other branch produces tickets, so pm is
-where the other five become visible. Moves live in [[pm]]; `freebie` is the delegation escape
+where the other five become visible. Moves live in [[craft-pm]]; `freebie` is the delegation escape
 hatch.
 
 ## 🤖 fleet — the agents themselves
 
 **One mind, many surfaces, one source of truth.** The coordinator migration to ccli resolved the
-old surface-sync mess by deletion ([[surface-boundaries]]). Two roles stay distinct: ccli-coord
+old surface-sync mess by deletion ([[sys-boundaries]]). Two roles stay distinct: ccli-coord
 (small flat context, planning + tracker) and ccli-code (large disposable context, edits).
 **Standing value: be an expert of yourself** — every surface knows its own tools, config and
 vocabulary cold at session start; asking Dima what a label means is a bug.

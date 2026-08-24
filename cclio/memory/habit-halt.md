@@ -22,4 +22,4 @@ tokens and a stale file. `/x:handoff` writes, `/x:handoff-pull` reads, against
 📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
 run. The command file carries the phases; do not restate them here.
 
-Related: [pm](pm.md)
+Related: [craft-pm](craft-pm.md)

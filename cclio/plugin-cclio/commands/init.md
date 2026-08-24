@@ -10,8 +10,8 @@ similar — adds tracker orientation. run silently, report as ONE opening messag
 
 ## 1. healthcheck
 - barrel probe: name one fact that lives ONLY in a leaf body (the commit hash `d03f3da` in
-  `settings-json-drift` — it appears in no barrel line). cannot name it → 🚨 the import chain
-  broke; say so and read `memory/MEMORY.md` by hand for this session.
+  `sys-settings-drift` — it appears in no barrel line). cannot name it → 🚨 the import chain
+  broke; say so and read `memory/_MEMORY.md` by hand for this session.
 - `ls -l ~/.claude/settings.json` — a REAL FILE where the symlink belongs is silent divergence
   from dotfiles. flag it.
 - tracker reachable: `linear api 'query { viewer { name } }'`. 📌 there is no `linear whoami`.
