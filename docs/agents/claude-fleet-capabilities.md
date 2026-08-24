@@ -46,7 +46,7 @@ overwrite test.
 - `cc` cli — everything: `CLAUDE.md`, all `rules/`, `plugin-x` skills, project `CLAUDE.md`, memory.
 - `cclio` — the same, plus `cclio/CLAUDE.md` and its own `memory/` barrel and boot ritual.
 - `cc cloud` — no `~/.claude` config, no `plugin-x`, no Desktop Commander. Project `CLAUDE.md` only.
-- `cw` — the `x-desktop` plugin, whose skills are symlinks into `plugin-x`. No `rules/`
+- `cw` — the `x-cw` plugin, whose skills are symlinks into `plugin-x`. No `rules/`
   mechanism, so what `plugin-x` defers to a rules file reaches it another way: `ticket-flow.md`
   is symlinked into the plugin root, and `x-cw__pm_guide` inlines it on demand.
 - ⚠️ **dispatch** — Cowork preferences + project `CLAUDE.md`, nothing else. No `rules/`, no memory;
