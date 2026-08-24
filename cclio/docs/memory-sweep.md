@@ -213,7 +213,7 @@ performs, justified a rule stated flatly elsewhere, or existed in two places.
 | the precedence chain | `docs/agents/authoring-memory.md`, two sentences kept in root |
 | `AGENTS.md` support | parked in open questions below, no ticket owned it |
 
-`rules/`: one line cut from `voice.md` — the ban on `AskUserQuestion`, a tool sitting in
+`rules/`: one line cut from `fleet-voice.md` — the ban on `AskUserQuestion`, a tool sitting in
 `permissions.deny` and therefore uncallable. an always-loaded rule against an uncallable tool.
 
 **three rules borrowed from `AGENTS-t3-code-ref.md`**, each sharpening a section that already

@@ -42,7 +42,7 @@ Thresholds, moved here from root `CLAUDE.md` because they only matter once this 
 
 ## The peer moves — `cc` and `cw` are peers, either side may open
 
-The relationship is defined in `rules/identity.md`. These are the three ways it gets used. Offer
+The relationship is defined in `rules/fleet-identity.md`. These are the three ways it gets used. Offer
 them with a 💡 tip, specific and occasional, never as a running commentary.
 
 - **ROUTE** — the task fits `cw` better (long-form web research, doc/PDF/image analysis, ideation

@@ -241,7 +241,7 @@ before writing or editing ANY memory, rule, or `CLAUDE.md`, answer these five.
 | `docs/` | reference read **on demand** | is it long, occasional, or a lookup? |
 
 **the sharpest single rule:** anything only ONE surface needs is a **peek-on-demand doc**, never a
-rule. `identity.md` grew fat exactly this way — every coder in every repo pays for capabilities of
+rule. `fleet-identity.md` grew fat exactly this way — every coder in every repo pays for capabilities of
 surfaces it will never be.
 
 🚨 **memory supplies knowledge, never capability. MEASURED — dima ran it deliberately.**

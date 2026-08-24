@@ -1,5 +1,5 @@
-**Full spec:** `cclio/docs/coordinator-coder-contract.md` — read when actually spawning, never at
-boot. When it and this file disagree, this file is right and the spec is stale.
+**One coder by default, two with a stated reason, never three.** Parallelism goes across repos,
+not into headcount.
 
 ## the two doors, never interchangeable
 
@@ -38,9 +38,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
    sessions by name in the desktop Code tab.
 3. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
-   word — **the dispatcher verifies, then closes.**
-
-All four were once violated in one session. The rules existed; the failure was not checking.
+   word — **cclio verifies, then closes.**
 
 ## measured, not read from a schema
 

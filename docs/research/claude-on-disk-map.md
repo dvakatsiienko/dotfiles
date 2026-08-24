@@ -24,7 +24,7 @@ follows from it.
 
 these are not real files here; the mirror rule owns them (`pnpm dotfiles-link`):
 `CLAUDE.md`, `settings.json`, `keybindings.json`, `rules/`, `output-styles/`, `themes/`,
-`sline/`, `flowlog/`, `memory-dispatch/`, `announcements.md`, `changelog.md`, `shelf/`.
+`sline/`, `flowlog/`, `memory-dispatch/`, `fleet-announcements.md`, `changelog.md`, `shelf/`.
 
 📌 `shelf/` carries everything we bake, scripts included — the notification and sline hooks live at
 `shelf/hooks/`, the sounds at `shelf/sounds/`. there is no `~/.claude/hooks` and no `~/.claude/sounds`.

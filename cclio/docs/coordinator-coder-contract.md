@@ -232,7 +232,7 @@ the only exception is dima explicitly asking to keep a spawn alive.
   and did nothing is exactly the silent-failure shape to watch for — always confirm the child left
   idle.
 - ✅ **isolation holds.** a cold boot in `~/projects/bytes` loads zero cclio memory files.
-- ⚠️ **but the shared `rules/` layer leaks the coordinator by name.** `identity.md` (~2k) carries
+- ⚠️ **but the shared `rules/` layer leaks the coordinator by name.** `fleet-identity.md` (~2k) carries
   the surface table and `dispatch.md` (~2.1k) describes a coordinator a bytes coder will never be.
   ~4k tokens on every coder boot, in every repo. a bucketing win for DOT-73, not an isolation
   failure.

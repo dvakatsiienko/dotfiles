@@ -2,10 +2,10 @@
 
 **scope:** everything checkable without hearing a tone — links, typography, emoji, casing, copy
 fences, reply shapes and skeletons, the ➡️ cta, question shape. binds every fleet member.
-**not here →** tone, register, manner, the voice stack: `rules/voice.md`. how to read dima's own
+**not here →** tone, register, manner, the voice stack: `rules/fleet-voice.md`. how to read dima's own
 messages: `rules/dima-signals.md`.
 
-<!-- boundary: swap the voice and this file still binds — a tone test parks voice.md only. -->
+<!-- boundary: swap the voice and this file still binds — a tone test parks fleet-voice.md only. -->
 
 ## the shapes that keep breaking
 
@@ -64,7 +64,7 @@ a page you named, never navigates from a site root to the page you meant.
   scheme opens the macos app.
 - **file paths are links too, and still in backticks.** backticks go *inside* the label.
   - in a chat reply the target is **absolute** with no `~` and uses the editor scheme, since a
-    reply has no base path: `[`rules/voice.md`](cursor://file/Users/dima/dotfiles/home/.claude/rules/voice.md)`
+    reply has no base path: `[`rules/fleet-voice.md`](cursor://file/Users/dima/dotfiles/home/.claude/rules/fleet-voice.md)`
   - 📌 `file:///…` and `vscode://file/…` also route if ever needed. cursor is the editor here.
   - **inside a repo file, a plain relative markdown link** — `[pm](pm.md)` — renders in every
     viewer; no scheme.

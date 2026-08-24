@@ -26,7 +26,7 @@ Not a date, not a ceremony — a command, on the line.
     ✅ background sessions survive a coordinator reset — `kill -0 <pid>` after the reset
     ❌ background sessions survive a coordinator reset
 
-**A rule with no such command is an inference, and says so in its own text.** `identity.md` tenet 2
+**A rule with no such command is an inference, and says so in its own text.** `fleet-identity.md` tenet 2
 already requires *asking* the question; this requires *recording the answer*, so the next reader
 does not have to re-derive it.
 
