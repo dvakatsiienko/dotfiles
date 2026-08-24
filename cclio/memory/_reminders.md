@@ -1,10 +1,15 @@
 # reminders — dima's standing hooks
 
-⏰ ordinary (raise at a natural moment) · ⏰📌 stuck (raise at every boot). Both die only when
-Dima drops them. Store contract: the `remind` skill.
+Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
-Legend: 🦊 = set by the agent for itself; second emoji is flavour — 👁️ watching a metric ·
-📜 keeping a doc alive · 🔬 a probe to run. No 🦊 = Dima's ask.
+## legend
+
+- ⏰ — ordinary, raised at a natural moment
+- ⏰📌 — stuck, raised at every boot
+- 🦊 — set by the agent for itself; no 🦊 = Dima's ask
+  - 👁️ watching a metric
+  - 📜 keeping a doc alive
+  - 🔬 a probe to run
 
 ⏰📌 SessionStart hook prefetch for cclio boot — landed 2026-08-24 (boot-prefetch.sh); watch it serve, suggest new hoists
 
