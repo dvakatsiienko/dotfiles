@@ -149,6 +149,32 @@ not evidence the rule was dead.
 
 ---
 
+## the context budget — what the measurements license
+
+<!-- absorbed from docs/research/context-budget-and-memory-authorship.md and
+     context-engineering-memory.md (deleted 2026-08-24); sources live in git history. -->
+
+- 🚫 **there is no safe token number to hunt.** degradation is a gradient from small inputs up, not
+  a cliff (chroma, 18 models). hunt the two countable proxies instead: **resident tokens a turn
+  will not use**, and **duplicate statements** — a divergent duplicate is a measured distractor,
+  and duplication is a **decay multiplier**: one board change once falsified the same sentence in
+  eight files. **[read + measured]**
+- **flat, separable statements retrieve better than elegant narrative** — models scored better on
+  shuffled haystacks than logically structured prose. write memory as separable facts, not essays.
+  **[read]**
+- **the prettiness has a price: ~2.89 chars/token vs ~4.0 for plain prose** — emoji prefixes,
+  tables, backticks and url schemes cost ~38% more per character. not a reason to stop; a cost to
+  weigh when a table could be three bullets. **[measured 2026-08-23]**
+- **batch boot-file edits.** every edit to resident files invalidates the prompt-cache prefix on
+  the next call; volatile session-scoped content belongs outside the boot path entirely. **[read]**
+- **agents draft memory well; they must not own existence or deletion.** llm evaluators cluster
+  their scores and cannot separate good from bad instructional material — an agent grading its own
+  memory is exactly that weak loop. drafting: agent. should-this-exist and should-this-die: human.
+  **[read]**
+- 📌 the `permissions.deny` bare-deny trick (dropping tool schemas) has **no primary measurement**
+  behind its quoted savings, is already applied on this machine, and costs capability — a denied
+  tool is invisible, not merely blocked. memory is the bigger lever by 4×. **[measured + read]**
+
 ## where a rule comes from — audit, do not invent 🔎
 
 **[read]** the strongest published example of a memfile was not written from taste. theo scraped his
@@ -330,6 +356,28 @@ exists precisely because the layout is wrong.
 two-draft method is the same move, done deliberately and with the reasons preserved.
 
 ---
+
+## upkeep is mechanical — regression checks, never an llm judge
+
+<!-- absorbed from docs/research/memory-upkeep-loop.md (deleted 2026-08-24). -->
+
+memory upkeep is a **regression check on mechanical claims**, run when files are touched — not an
+eval, not an audit-by-agent:
+
+- a rule naming a **command** → run `--help`, confirm the flag exists
+- a rule naming a **file** → confirm it exists
+- a rule naming a **ticket** → confirm the state matches the tense — the highest-precision check
+  measured (~92%: 11 real defects in resident files on its first run) **[measured 2026-08-23]**
+- a rule carrying a **probe** → rerun the probe
+
+📌 drift latency here measured **under 24 hours** — a sweep's own output went stale the day it was
+written. the check runs when a file is touched or it is theatre; a quarterly cadence catches
+nothing. **[measured]**
+
+🚫 **never build an llm-judge memory audit.** judge models agree on verdicts >99.88% of the time
+while fabricating different reasoning per run (~19% reasoning stability) — an agent auditing its
+own memory produces confident, unfalsifiable verdicts. deterministic checks in code; llms only
+for semantics a human then confirms. **[read]**
 
 ## trimming — the order is binding
 

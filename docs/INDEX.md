@@ -27,11 +27,8 @@ three rules keep it honest:
 - [claude model strengths](research/claude-model-strengths.md) — per-model evidence base behind `rules/models.md`
 - [claude on disk map](research/claude-on-disk-map.md) — every place claude keeps state on this mac, and how the pieces find each other
 - [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
-- [context engineering and memory](research/context-engineering-memory.md) — anthropic's context-engineering doctrine, aimed at a lean coordinator memory
 - [linear → github agent trigger](research/linear-github-agent-trigger.md) — the `/cc` comment trigger fires a cloud agent that opens a pr; 📌 postponed, non-prio, nothing built
 - [macos filesystem map](research/macos-filesystem-map.md) — who owns which top-level directory, and therefore what is safe to delete
-- [output style extension](research/output-style-extension.md) — proof that output styles cannot import or extend each other
-- [skills sync via mcp](research/skills-sync-via-mcp.md) — why mcp is the wrong bulk skill store, and where tool-description skills still win
 - [vercel cli vs mcp](research/vercel-cli-vs-mcp.md) — what `vercel api` reaches and the three things only the mcp can
 - [walkthrough mode](research/walkthrough-mode.md) — field notes shaping the `/walkthrough` skill
 

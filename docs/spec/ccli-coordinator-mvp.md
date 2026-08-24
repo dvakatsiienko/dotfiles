@@ -79,7 +79,7 @@ the project — the same peek that lets it review what ccli-code is doing. Codif
 
 1. `~/dotfiles/cclio/` exists with CLAUDE.md + memory/ + commands/, git-tracked under dotfiles.
 2. coordinator memory written fresh — **not copied** from dispatch memory. Ported by hand, one
-   pass, with the diet plan from `docs/research/context-engineering-memory.md` applied.
+   pass, with the context-budget guidance from `docs/agents/authoring-memory.md` applied.
 3. global `~/.claude/CLAUDE.md` trimmed to shared-only; coder-specific content pushed down.
 4. five rituals exist as slash commands in cclio scope: `/init`, `/graceful-halt`, `/report`,
    `/queue`, `/remind`.
