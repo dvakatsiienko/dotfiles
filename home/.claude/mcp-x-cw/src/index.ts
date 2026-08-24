@@ -57,12 +57,12 @@ const PM_WORKSPACE_PATH = join(
     'references',
     'workspace.md',
 );
-const TICKET_FLOW_PATH = join(
+const LINEAR_FLOW_PATH = join(
     homedir(),
     'dotfiles',
     'home/.claude',
     'rules',
-    'ticket-flow.md',
+    'linear-flow.md',
 );
 const server = new McpServer({ name: 'x-cw', version: '0.1.0' });
 
@@ -980,11 +980,11 @@ function loadPmGuide(): string {
             'every other agent on this tracker follows.\n\n' +
             '📌 Two things the text below assumes and this surface does not have:\n' +
             '- there are **no slash commands here**. Where it says `/x:pm`, that is another surface; you already have the guide.\n' +
-            '- `rules/ticket-flow.md` is **auto-loaded elsewhere and not here**, so it is inlined below rather than referenced.\n',
+            '- `rules/linear-flow.md` is **auto-loaded elsewhere and not here**, so it is inlined below rather than referenced.\n',
     );
 
     for (const [label, path] of [
-        ['ticket lifecycle rules (rules/ticket-flow.md)', TICKET_FLOW_PATH],
+        ['ticket lifecycle rules (rules/linear-flow.md)', LINEAR_FLOW_PATH],
         ['the PM handbook (plugin-x/skills/pm/SKILL.md)', PM_SKILL_PATH],
         ['workspace recipes (references/workspace.md)', PM_WORKSPACE_PATH],
     ] as const) {
