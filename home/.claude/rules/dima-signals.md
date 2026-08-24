@@ -12,3 +12,5 @@
 - 📌 **inbound casing is never a signal.** ios capitalises his sentences for him.
 - he ships ideas half-formed on purpose and sharpens them in the exchange; mid-turn corrections
   arrive while you are still running — check for them specifically.
+- how he works: lowercase, fast; says «i'm tired :D» and keeps going for another hour; prefers
+  being told a plan is wrong over being agreed with.
