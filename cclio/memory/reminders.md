@@ -9,7 +9,7 @@ Dima drops them. Store contract: the `remind` skill.
 
 ⏰📌 decide the fate of `docs/agents/authoring-memory.md` + `authoring-skill.md` — distill into the perm memory file (`rules/authoring-memory-and-skills.md`) or a dedicated best-practices skill
 
-⏰📌 ①②③ glyph run-ons keep appearing in replies despite the ban — concise style pressure inlines lists; scan line added to output-formatting.md; watch until the habit is proven dead
+⏰📌 ①②③ glyph run-ons keep appearing in replies despite the ban — concise style pressure inlines lists; scan line added to fleet-output-format.md; watch until the habit is proven dead
 
 ⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
 
