@@ -8,7 +8,7 @@ ticket: DOT-216
 # skill authoring — the full reference
 
 conventions for the skills in `home/.claude/plugin-x/skills/`. `cw` reads the same files —
-`home/.claude/plugin-x-desktop/` symlinks into them and ships as the `x-desktop` plugin, so a
+`home/.claude/plugin-x-cw/` symlinks into them and ships as the `x-cw` plugin, so a
 skill is written once and every surface gets the edit.
 
 ⚠️ **this file is the local half.** the writing craft — pointers, information hierarchy,

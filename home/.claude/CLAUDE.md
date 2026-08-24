@@ -58,7 +58,7 @@ also, visually pretty solutions are worth more. you should believe in that too, 
 ## global naming conventions
 
 - **entity-first.** the entity leads, the verb or qualifier follows: `<entity>-<qualifier>`
-  - ✅ `handoff-delete`, `handoff-create`, `plugin-x`, `plugin-x-desktop`
+  - ✅ `handoff-delete`, `handoff-create`, `plugin-x`, `plugin-x-cw`
   - ❌ `delete-handoff`, `create-handoff`, `x-plugin`, `desktop-plugin-x`
 - applies to anything that can grow into a family: variables, folders, skills, commands, tools. siblings then sort and group by subject.
 - `entity-first <scope>` is the keyword. do the rename, report what changed, skip the explanation.
