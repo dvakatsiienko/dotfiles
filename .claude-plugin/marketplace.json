@@ -7,9 +7,9 @@
   "description": "dima's dotfiles marketplace — the x plugin, synced from the repo",
   "plugins": [
     {
-      "name": "x",
-      "source": "./home/.claude/plugin-x",
-      "description": "Dima's own skills — CST session handoff, pm, commit authoring, walkthroughs"
+      "name": "x-desktop",
+      "source": "./home/.claude/plugin-x-desktop",
+      "description": "Dima's skills curated for claude desktop — handoff, pm, cmt, walkthroughs (conventions excluded)"
     }
   ]
 }
