@@ -1,4 +1,4 @@
-# Ticket flow — the basics everyone needs
+# Linear flow — the basics everyone needs
 
 **cclio owns pm.** It runs the board, the conventions, the placement calls and the linear
 mechanics. Everything here is the floor: what any session must know because tickets get touched in
