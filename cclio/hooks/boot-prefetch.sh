@@ -24,6 +24,9 @@ echo "-- x-queue head --"
 awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
   "$HOME/dotfiles/cclio/.claude/x-queue.md" 2>/dev/null || echo "no queue file"
 
+echo "-- stuck reminders (raise every one in the opening board) --"
+grep '^⏰📌' "$HOME/dotfiles/cclio/memory/reminders.md" 2>/dev/null || echo "none"
+
 echo "-- settings.json symlink --"
 if [ -L "$HOME/.claude/settings.json" ]; then
   echo "symlink OK"

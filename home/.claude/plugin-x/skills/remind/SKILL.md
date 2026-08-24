@@ -12,6 +12,8 @@ inverse of `/queue`, which parks work for *this* session only.
 
 Store: the auto-memory dir for the current project, as one `⏰` line in a memory file that the
 index points at. Never a chat message, never a scratch file.
+**Exception — cclio:** a session booted in `~/dotfiles/cclio` stores in
+`cclio/memory/reminders.md` (barrel-imported, git-backed) instead of auto-memory.
 
 **Two tiers.** `⏰` is an ordinary reminder — raised at a natural moment. `⏰📌` is **stuck** — it
 is raised **at every session boot**, whether or not the moment is natural. Both die only when Dima

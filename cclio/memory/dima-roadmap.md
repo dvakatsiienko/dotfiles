@@ -1,7 +1,7 @@
 # the roadmap — what we do, in order
 
 Dima's plan, not an agent's. When he changes it, rewrite this file the same session and say so —
-current-state document, never append-only. [[dima-strategies]] holds the branches, [[dima-stories]]
+current-state document, never append-only. [[dima-strategy]] holds the branches, [[dima-stories]]
 the history.
 
 **Destination, his words:** *«a good harness setup with solid mem system, precise, clean and

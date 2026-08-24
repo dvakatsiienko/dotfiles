@@ -123,4 +123,4 @@ filenames, same shape. **An id feels like a word while you are writing it.**
 
 A bare id in the draft is a bug to fix, never a judgment call about whether that one mattered.
 
-Related: [[dima-strategies]], , [[dima-roadmap]]
+Related: [[dima-strategy]], [[dima-roadmap]]
