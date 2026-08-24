@@ -6,9 +6,9 @@ Shared files are Dima's living space; leftovers cost him attention and blur what
 
 `/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/`
 
-- `inbox.md` — his raw drops. **Check first thing every boot; it must always end empty.** Copy
-  items into `flowlog.md` with statuses (✅🚧❓⏸️🎫); delete from inbox only after he approves the
-  processing.
+- `inbox.md` — his raw drops. **Check first thing every boot; it must always end empty of
+  CONTENT — his section headers stay**, they are his reprint-saving skeleton. Copy items into
+  `flowlog.md` with statuses (✅🚧❓⏸️🎫); clear from inbox only after he approves the processing.
 - `flowlog.md` — the processing journal. **✅ items pruned at every halt, unasked** — only
   carry-over survives.
 - `protected.md` — his own drop file, read-only, never ours to edit.
