@@ -18,8 +18,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⭐ @spawning.md — every door, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
 - ⭐ @halt.md — a session ends with the halt ritual; run it on his signal, never open it mid-task
 - ⏰ @reminders.md — dima's standing reminders; ⏰📌 stuck ones raised every boot
-- - - @obsidian-inbox.md — 📬 inbox.md must end empty; flowlog.md is the work journal
-- @cleanup-same-turn.md — prune processed buckets and temp files the same turn
+- 📬 @shared-files-hygiene.md — inbox.md must end empty; flowlog pruned at halt; scratch dies same turn
 
 ## safety
 - @bypass-restraint.md — bypass removed the gate, not the restraint
