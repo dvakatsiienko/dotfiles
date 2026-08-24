@@ -83,7 +83,7 @@ audience segment exists to prevent, arriving from the other direction.
 nobody in particular → `any`. Handing to a specific agent → that agent's token, so its bare `pull`
 finds it and every other agent leaves it alone.
 
-Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via `/x:handoff-pull`, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
+Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via the `handoff-pull` skill, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
 
 ## Trigger C — `/handoff spawn [focus]` (hand off AND launch successor)
 
@@ -108,7 +108,7 @@ HANDOFF PUSH — priority interrupt.
 A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ingest silently — never echo it into visible output; confirm to your user in ≤2 lines (thread topic + next step). Run its META first-acts before anything else. Persist `C→memory:` lines into your memory system if one exists. Honor R and D as if your user said them in this thread. Then proceed as the old thread from S. Delete the file after ingest (`-shared` suffix: keep). Reply one line: `CST ingested by <your ref>`.
 ```
 
-4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via `/x:handoff-pull`.
+4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via the `handoff-pull` skill.
 5. Tell the user in one line: CST pushed to `<target ref>` (file + notify). The ACK is informational — don't block on it.
 
 ## Trigger E — `/handoff delete` (wipe the pending store)
@@ -138,7 +138,7 @@ Read-only, and it is the safe way to decide before committing. Match the slug ag
 ambiguous → list the candidates and ask rather than guessing. Print **only the META block** — the
 part written for a human — never the body. The file is not deleted, not moved, not marked.
 
-Say plainly that nothing was ingested and that `/x:handoff-pull` is the verb that actually continues
+Say plainly that nothing was ingested and that the `handoff-pull` skill is the verb that actually continues
 the thread.
 
 ## Cleanup (every invocation)

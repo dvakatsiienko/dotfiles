@@ -296,7 +296,7 @@
       "**Primary use of Claude Code**: personal macOS dotfiles + agentic-workflow development (hobby/personal use, Claude Pro subscription)",
       "**Trusted repo**: dvakatsiienko/dotfiles (github.com, PUBLIC) — this repo's own work is fine to commit/push here; content ported or first read from outside this session's repo is not its own work and should not be pushed here; secrets and sensitive data are never cleared into this repo by its public visibility",
       "**Org-specific CLIs**: `linear` CLI (Linear issue tracker, workspace x-com/team DOT — heavily used, 120× in this project's transcripts) — not a generic tool, routine for this project",
-      "routine under ~/dotfiles/ prefix: dotfiles-link, macos-setup, skills-sync-cw, pnpm test/typecheck/check scripts"
+      "routine under ~/dotfiles/ prefix: dotfiles-link, macos-setup, pnpm test/typecheck/check scripts"
     ]
   },
   "voiceEnabled": true

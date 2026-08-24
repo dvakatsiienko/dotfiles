@@ -4,7 +4,6 @@
             "Bash(pnpm test)",
             "Bash(pnpm typecheck)",
             "Bash(pnpm dotfiles-link)",
-            "Bash(pnpm skills-sync-cw check)",
             "Bash(defaults read:*)",
             "mcp__computer-use__screenshot",
             "mcp__computer-use__zoom"
