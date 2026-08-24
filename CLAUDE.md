@@ -57,8 +57,9 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
   shared shelf. Build: `pnpm mcp:build`.
 - **`skills-cw/`** — hand-adapted `cw` copies, shipped as zips uploaded by hand. Not `cc`-loadable;
   drift is expected.
-- **`shelf/`** — durable artifacts (handoffs, transcripts, flawlog), symlinked into `~/.claude/`.
-  Prefer colocating our produce in `shelf` rather than scattering everywhere.
+- **`shelf/`** — durable artifacts (handoffs, transcripts, flawlog, notification sounds),
+  symlinked into `~/.claude/`. Prefer colocating our produce in `shelf` rather than
+  scattering everywhere.
 - **`sline/`** — this repo's statusline. Its own `CLAUDE.md` loads when working under it.
 
 ## docs and tracker

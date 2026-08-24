@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Refresh the Linear status cache sline renders from. DOT-81.
 #
-#   status-fetch.sh <focus-file>
+#   sline-status-fetch.sh <focus-file>
 #
-# Two callers, one implementation: hooks/focus.sh runs it after a prompt writes
+# Two callers, one implementation: hooks/sline-focus.sh runs it after a prompt writes
 # the focus file, and sline itself fires it detached on render. Neither ever
 # waits — a linear call costs ~325ms, and sline redraws every minute.
 #

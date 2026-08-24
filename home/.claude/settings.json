@@ -102,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ~/.claude/hooks/focus.sh"
+            "command": "bash ~/.claude/hooks/sline-focus.sh"
           }
         ]
       },
