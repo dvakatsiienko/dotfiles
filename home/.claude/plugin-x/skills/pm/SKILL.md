@@ -188,7 +188,7 @@ deleted — the call is Dima's, every time.
 ## Output discipline
 
 - **Titles are the interface**: clear, concise, subject-first — details go in the body, never the title.
-- Bodies tidy and formatted. Ticket-id link format is not restated here — `rules/text-formatting.md` owns it.
+- Bodies tidy and formatted. Ticket-id link format is not restated here — `rules/fleet-output-format.md` owns it.
 - Pretty output: tables for batches, one-line confirmations for single ops.
 - **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename DOT-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
 

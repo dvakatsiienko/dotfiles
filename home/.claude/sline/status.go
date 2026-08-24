@@ -34,7 +34,7 @@ var statusShort = map[string]string{
 }
 
 // One colour per state, all from the existing palette. Colour is a second signal
-// here, never the only one — the word still says it, per voice.md.
+// here, never the only one — the word still says it, per fleet-voice.md.
 var statusColorByName = map[string]string{
 	"Todo":        CleanColor,
 	"In Progress": UsageOkColor,
