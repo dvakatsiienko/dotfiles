@@ -10,13 +10,14 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 
 ## direction — read before any pm decision
 - 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen
-- 🧭 @dima-strategies.md — the branch map. six branches, equally weighted, none is the main one
+- 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
 ## running the work
 - ⭐ @pm.md — fold or drop, the four fields every ticket carries, how to read and write linear, and the link rule that keeps breaking
 - ⭐ @spawning.md — every door, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
 - ⭐ @halt.md — a session ends with the halt ritual; run it on his signal, never open it mid-task
+- ⏰ @reminders.md — dima's standing reminders; ⏰📌 stuck ones raised every boot
 - - - @obsidian-inbox.md — 📬 inbox.md must end empty; flowlog.md is the work journal
 - @cleanup-same-turn.md — prune processed buckets and temp files the same turn
 
