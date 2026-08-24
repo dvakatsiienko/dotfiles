@@ -8,10 +8,10 @@ intended-models: fable, opus
 
 **lane** — `cw`: `x-cw__pm_guide` for the contract, then the `linear` cli through the shell · `cc`: Bash.
 
-📌 The always-loaded `rules/ticket-flow.md` already holds what must be true whenever a ticket is
+📌 The always-loaded `rules/linear-flow.md` already holds what must be true whenever a ticket is
 touched at all — where tickets live, In Progress the moment work starts, the focus pin, never
 inventing an id. On `cw` nothing auto-loads it: read it at
-[`../../rules/ticket-flow.md`](../../rules/ticket-flow.md) in the plugin root, or take it inlined
+[`../../rules/linear-flow.md`](../../rules/linear-flow.md) in the plugin root, or take it inlined
 from `x-cw__pm_guide`. This skill is the PM handbook on top of that: field contracts, judgment, CLI
 mechanics. Do not restate the rule file here; when the two overlap, edit the rule file.
 
@@ -86,7 +86,7 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
-- **State tracks reality** — see `rules/ticket-flow.md`; it binds with or without this skill.
+- **State tracks reality** — see `rules/linear-flow.md`; it binds with or without this skill.
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
 - **Assignee is not yours.** Assigned-to-Dima means strictly his — never resolve it, never start

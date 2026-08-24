@@ -62,7 +62,7 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 
 ## docs and tracker
 
-- GitHub issues are retired; everything tracker-shaped lives in Linear per `rules/ticket-flow.md`.
+- GitHub issues are retired; everything tracker-shaped lives in Linear per `rules/linear-flow.md`.
 - **Multi-context layout** — `CONTEXT-MAP.md` at root. Repo context: `CONTEXT.md` + `docs/adr/`
   (ADR-nnnn). Tracker context: `docs/tracker/CONTEXT.md` + `docs/tracker/adr/` (TRK-nnnn).
 - **Research** — `docs/research/<subject>.md`, subject-first filename, never a ticket-id prefix, so
