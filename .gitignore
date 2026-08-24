@@ -5,7 +5,6 @@ todo.md
 
 # Build artifacts
 home/.claude/mcp-x-cw/dist
-home/.claude/skills-cw/dist/
 home/.claude/sline/bin
 home/.claude/sline/sline
 home/.claude/sline/sline-state.json
