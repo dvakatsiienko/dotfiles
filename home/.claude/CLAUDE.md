@@ -105,3 +105,9 @@ Also, visually pretty solutions are worth more. You should believe in that too, 
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
 - **uv** — the ONLY approved Python package manager; never pip/pip3/python -m pip
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
+
+## Session habits
+
+- 📌 Announce your model in the first line of every session — «hey <model> here», read from the env,
+  never inherited from a handoff or a memfile. A session cannot detect a mid-thread switch, so this
+  is the only honest label on which model did which work.
