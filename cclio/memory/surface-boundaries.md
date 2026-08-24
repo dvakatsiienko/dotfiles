@@ -1,6 +1,13 @@
-# surface boundaries
+# surface boundaries — what stays separate
 
 **An agent mutates only its own memory** — `cw` and cloud `cc` keep their own stores.
+
+**Domains never merge either**: repo context, tracker context (`docs/tracker/`, TRK-nnnn) and the
+fleet vocabulary are separate by design — cross-reference by pointer, never fold one into another
+(the layout itself lives in `dotfiles/CLAUDE.md`). The fleet vocabulary is a bounded-context
+glossary (vet, slay, run id, CST, freebie) belonging in ONE file every surface reads —
+[DOT-73](linear://linear.app/issue/DOT-73) holds it. Grow it lazily during real work; challenge
+conflicting terms on sight; ADR only for hard-to-reverse, surprising decisions.
 
 - 🎯 a «surfaces are out of sync» symptom → ask whether the two sides need to be two sides;
   never propose another sync mechanism. The old sync program died by deletion, and that was the
