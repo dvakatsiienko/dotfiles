@@ -127,5 +127,5 @@ reading, not one indirection away (DOT-89). nothing to duplicate here.
 
 ## links
 
-ticket-id link format lives in `rules/text-formatting.md`, always loaded. not restated here.
+ticket-id link format lives in `rules/fleet-output-format.md`, always loaded. not restated here.
 shell equivalent: `linear issue view DOT-3 -a` opens the app.

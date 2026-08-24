@@ -3,7 +3,7 @@
 Ticket: DOT-66
 
 dima's own words, stitched from DOT-66 and the thread that followed on 2026-08-16.
-verbatim, typos kept. this is the source of intent for `home/.claude/rules/text-formatting.md`;
+verbatim, typos kept. this is the source of intent for `home/.claude/rules/fleet-output-format.md`;
 when the rule and this file disagree, this file is right and the rule is wrong.
 
 the skill this describes was retired on 2026-08-16 — a skill had to be remembered and loaded,
