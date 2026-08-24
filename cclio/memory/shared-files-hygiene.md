@@ -18,7 +18,7 @@ Shared files are Dima's living space; leftovers cost him attention and blur what
 Working artifacts die the turn their job is done: processed flowlog buckets, scratchpad files,
 `/tmp` dumps from CLI heredocs.
 
-- 🚫 never destroy pending or ambiguous content ([[bypass-restraint]]) — in doubt, mark done and
+- 🚫 never destroy pending or ambiguous content (`rules/fleet-bypass-restraint.md`) — in doubt, mark done and
   ask at the halt.
 - **exemption:** `docs/research/*` is kept — deletion there is his manual call; the duty is
   linkage (`Ticket: DOT-N` at the top), not removal.

@@ -20,9 +20,6 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⏰ @reminders.md — dima's standing reminders; ⏰📌 stuck ones raised every boot
 - 📬 @shared-files-hygiene.md — inbox.md must end empty; flowlog pruned at halt; scratch dies same turn
 
-## safety
-- @bypass-restraint.md — bypass removed the gate, not the restraint
-
 ## method — how a claim earns belief
 - ⭐ @claims-carry-their-test.md — a rule states the ONE command that proves it, or is labelled an inference
 - ⭐ @research-vs-lived-evidence.md — his daily observation outranks a report; a relayed claim needs its source OPENED
