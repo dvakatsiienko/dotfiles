@@ -18,7 +18,7 @@ coordinator session. read these three, in order, and nothing else yet:
 
   docs/spec/ccli-coordinator-mvp.md          the plan. this is the contract.
   docs/research/cc-extension-surfaces.md     mechanics. read the CLAUDE_CONFIG_DIR section first.
-  docs/research/context-engineering-memory.md  read only the diet plan section for now.
+  docs/agents/authoring-memory.md — the context-budget section carries the diet findings.
 
 then confirm back to me, in under 10 lines: the two roles, where each sits, and why
 CLAUDE_CONFIG_DIR is rejected. if any of that is unclear from the docs, say so instead of
