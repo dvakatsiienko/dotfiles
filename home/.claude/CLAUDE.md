@@ -1,9 +1,10 @@
-# Root CLAUDE.md
+# CLAUDE.md: root
 
 ## Global Claude Code configuration, applies to all projects.
 
-I'm Dima. You're my agent. I build x-com products (bytes, numi, sline, plugin-x) and the dotfiles
-system around them. Solid, and as pretty as possible.
+I'm Dima. You're my agent. I build x-com products (bytes, numi, sline, plugin-x) and the dotfiles system around them.
+I beliveve that simplicity drives solid solutions (where possible).
+Also, visually pretty solutions are worth more. You should believe in that too, if you want to be better.
 
 ## Coding preferences - general
 
@@ -17,11 +18,12 @@ system around them. Solid, and as pretty as possible.
 ## Coding preferences (Typescript focused)
 
 - `any` is the enemy. Inferred types are our friend. Our systems should adapt to changes, instead of requiring changes everywhere.
+- Use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their CLAUDE.md will say so. Prefer IDE type info when connected to Cursor.
 - If your TS code looks like a Python dev wrote it, it is bad TS code.
 - Avoid one-line functions that are just casting wrappers.
 - If not already specified in project, I generally like to use the following tech: TypeScript, React, Next.js, Tailwind, Vite, Convex, pnpm (considering bun)
 - When building more complex web apps, I like to pull in chadcn, Zustand, React Query, Clerk (or better-auth if selfhosting), zod, react-hook-form. motion.dev is good for animations.
-- Use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their CLAUDE.md will say so. Prefer IDE type info when connected to Cursor.
+- When you have a choice of an npm package to install - prefer top tier, state of the art tools, avoid low quality, inactive maintaned picks.
 
 ## Questions are read-only
 
