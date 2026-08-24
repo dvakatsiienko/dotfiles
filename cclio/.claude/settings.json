@@ -9,5 +9,17 @@
   },
   "enabledPlugins": {
     "cclio@cclio": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dima/dotfiles/cclio/hooks/boot-prefetch.sh"
+          }
+        ]
+      }
+    ]
   }
 }
