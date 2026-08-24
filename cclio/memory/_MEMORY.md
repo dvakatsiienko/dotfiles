@@ -6,6 +6,9 @@ One line per leaf, pointing into this dir. Content lives in the leaf, never here
 **this file**, never the cwd, and a wrong one loads nothing silently. See [[method-silent-failures]].
 
 A leaf is one decision, not a topic dump. A stale pointer means delete both the line and the file.
+**Every leaf carries a type prefix — `dima-` `craft-` `habit-` `method-` `sys-` — and joins that
+barrel section.** A new leaf picks its type at create time; a leaf fitting no type is a signal to
+rethink, not a license for a bare name. (`_`-prefixed files are infrastructure, not leaves.)
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
 
 ## direction — read before any pm decision
