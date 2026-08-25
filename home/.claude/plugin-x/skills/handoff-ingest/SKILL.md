@@ -66,6 +66,13 @@ I am a fresh session taking over your thread. Pause current work, do this in one
 - Verified: idle interactive peers wake on message receipt. An unresponsive peer is usually a zombie twin (same sessionId, stale pid) or a session blocked on a dialog/permission prompt — retry the twin, then FILE MODE.
 - KNOWN CC BUG (temporary — delete this bullet, plus sline's `peerSocketAlive`/⚠ segment, once fixed upstream): a session can register in `~/.claude/sessions/` with its `/tmp/cc-socks/<pid>.sock` never bound — outgoing sends work, inbound is dead, ListAgents omits it, peers get "not reachable". Verify with `test -S /tmp/cc-socks/<pid>.sock`; heal via restart or `/exit` + `claude --continue`; the file tier covers delivery meanwhile. Tracking: https://github.com/anthropics/claude-code/issues/85497 (ours; dupes/related #85412, #84945, #85160, #84894).
 
+## Completion criterion
+
+Done when the CST's content steers this thread (META first-acts run, ≤2-line confirmation sent)
+AND the store reflects the ingest — file gone (`-shared`: kept), verified by `ls`, so the store
+never lies about what is pending. An ingested-but-undeleted file is a failure to report, not a
+detail.
+
 ## Cleanup (every invocation)
 
 ```bash

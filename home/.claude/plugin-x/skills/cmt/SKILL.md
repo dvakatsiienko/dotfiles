@@ -304,6 +304,12 @@ vice versa. `mir` = after committing, local main holds the commit no matter wher
 6. Single-worktree repo → skip mirroring silently; `push` still applies.
    Repo-agnostic: always the invoking repo's own main.
 
+## 4.5 · Completion criterion
+
+Done when `git log -1` shows the new hash (a silent no-op and a silent sweep are both observed
+failures), the tree holds nothing staged that the plan did not name, and — before any push — the
+body's ticket-id-pattern hits are counted and each one is intended. Say the hash.
+
 ## 5 · Guardrails
 
 - Sanity check before every commit: leftover debug/test code, accidentally
