@@ -335,7 +335,7 @@ the evidence). dima's vertical map landed in `rules/authoring-memory-and-skills.
 
 ## 🔁 the reusable procedure — moved out
 
-it lives at `cclio/docs/memory-checkup.md`, because it outlives this sweep. **this file is one
+it lives at `cclio/docs/memory-nurture.md`, because it outlives this sweep. **this file is one
 execution of it.**
 
 ## phase 4 · the system checkup — runs in parallel, from the start

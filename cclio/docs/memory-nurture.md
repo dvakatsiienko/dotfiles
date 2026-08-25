@@ -20,8 +20,7 @@ stop changing. until then it is a doc, reached by a pointer.
 
 📌 **executor: a cclio-booted agent, from the cclio dir** — the checkup is vertical by design
 (placement is half the job, steps 3 + leaf-review 2), and only the coordinator holds the whole
-chain resident to judge placement against. dima's rename candidate: `memory-nurturing-checkup.md`
-— undecided.
+chain resident to judge placement against.
 
 ### step 0 · the mechanical pass — code only, no judgment, no model
 
