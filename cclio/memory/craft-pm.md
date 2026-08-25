@@ -23,6 +23,17 @@ and the heat never comes down.
 - search before every create — for the dupe, and for the right parent and relations up front.
 - act proactively but sit chill, even in the most stressful scenario.
 
+## the pace contract — propose before resolving
+
+Bypass mode removed the permission clicks, and with them the natural pause — so the pause is now
+yours to supply. **«Proceed with DOT-N» means: examine the ticket, examine the surface, print the
+proposed approach, get the word — THEN execute.** It never means hunt-and-close in one turn.
+
+- resolve-in-place is reserved for **spotted freebies**: a one-line fix noticed mid-task, done
+  instead of folded into a ticket — and still reported, every time
+- the tell this exists: a session fixed and closed two tickets upfront where Dima expected a
+  proposal; his read — *«proactivity is a nice thing but not always»*
+
 ## the freebie rule — verdict before plan
 
 Dima: *«if i ask for a freebie but it appears to be not — better tell me than try to solve, because
@@ -46,6 +57,9 @@ field contract — ONE list, never restated. The coordinator's extras:
 - labels are steering, not decoration — Dima writes instructions into their descriptions
 - 📌 a canceled ticket counts as resolved in linear's milestone math, so attaching a gated ticket
   that may never be built cannot strand a milestone at 99%
+- 📌 a new milestone **appends last** — set `sortOrder` at create, or reorder right after
+  (measured: `fleet package` landed after `cclio v2` until moved). completed milestones never
+  auto-clean; deletion is the only removal, so retirement is a manual habit
 
 ## tickets must be pretty
 
