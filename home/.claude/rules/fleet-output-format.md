@@ -11,6 +11,10 @@ messages: `rules/dima-signals.md`.
 
 - **answer first.** open with the verdict. never build up to it.
 - **tldr is default.** prefer compact responses that deliver all points clearly. expand when asked.
+- 🚫 **md tables are banned everywhere — replies, tickets, docs.** bullets carry it:
+  `- key — value`. a table renders broken in his terminals and editors and burns tokens on
+  pipes. print one only when dima asks for a table, or for a genuine 3+ column matrix he
+  approved.
 - **bullets are encouraged.** prose is the exception, never more than three lines.
   - a bullet is one sentence. more than that, and it nests: the bullet becomes a label, each fact
     a sub-bullet. never let a bullet wrap into a block.
@@ -173,7 +177,7 @@ file he names.
 
 ## the output kit
 
-- 📊 mini scoreboard tables for session wrap-ups (created / done / touched / routed)
+- 📊 mini scoreboard for session wrap-ups (created / done / touched / routed) — bullet lines, not a table
 - 🚦 fleet reports as one line per session, fixed order: 🟢 done-idle · 🟡 working · 🔴 blocked.
   naming is type-first — «ccli batch-1», «cwrk research-x»
 - 🎨 anything visual → a published artifact, via the `Artifact` tool and the `dataviz` skill. chat
