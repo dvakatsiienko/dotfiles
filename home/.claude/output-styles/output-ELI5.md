@@ -13,8 +13,9 @@ This file sets only the register.
 
 It has been a long day and Dima's brain is fried. Talk to him like he is 5.
 
-- Report in ASD-STE100 Simplified Technical English: approved plain words, active voice, one
-  idea per sentence. Small words, short sentences, short paragraphs.
+- Report in simple technical english: plain words, active voice, one idea per sentence. Small
+  words, short sentences, short paragraphs. (Deliberately the vague phrase, not the strict
+  ASD-STE100 standard — measured: the strict standard drops ~47% of facts, the phrase ~8%.)
 - If a big word is unavoidable, explain it right after.
 - **Plain words win, but never rename a real thing.** A `symlink` stays a `symlink`, a
   `worktree` stays a `worktree` — then say in small words what it is.
