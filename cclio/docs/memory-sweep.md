@@ -262,11 +262,13 @@ Every coder session on this machine pays that saving too.
      for afterwards**, since relevance shifts once things move
 3. **then project** `CLAUDE.md`**s**, top to bottom: **dotfiles first**, then `bytes`,
    `dvakatsiienko`, `inner-marker`, `reinforcement-learning`.
-4. ✅ **skills pass done (2026-08-25).** all 15 plugin-x skills read once;
-   [DOT-217](linear://linear.app/issue/DOT-217) closed — criteria added to 6, 5 already had one,
-   4 deliberately none. [DOT-110](linear://linear.app/issue/DOT-110) closed by dima as drifted
-   (rl scope moved away); its eval insight survives as a comment there: completion criteria double
-   as oracles. `writing-for-agents` was loaded before the edits — the habit held.
+4. 🚧 **skills pass — HALF done (2026-08-25).** the criteria/eval half ran: all 15 plugin-x
+   skills read once, [DOT-217](linear://linear.app/issue/DOT-217) closed (criteria added to 6,
+   5 had one, 4 deliberately none), [DOT-110](linear://linear.app/issue/DOT-110) closed by dima
+   as drifted — its insight survives as a comment (criteria double as oracles).
+   **still owed: the GROOM half** — per-skill keep/trim/merge/drop verdict + bucket rebalance
+   (skill ↔ memory ↔ doc), the same treatment the memory leaves got. `writing-for-agents` habit
+   held throughout.
 5. **then a final pass: code review, full picture.**
 
 📌 skills are held **in mind during the memory buckets**, not deferred to step 4 — if a memory is

@@ -26,6 +26,10 @@ git diff --cached --name-only               # or read the index before every com
 failed commit attempt is a second writer too.** Fired twice in one day; «check afterwards» caught
 it once and prevented nothing.
 
+📌 `git commit --only <paths>` is NOT the fix either — it commits the **worktree** content of
+those paths, ignoring the index, so it sweeps in unstaged hunks (fired on a coder 2026-08-25).
+The pathspec-on-commit form above commits the INDEX for those paths; only it is safe.
+
 ## ❗ `open(path,"w")` truncates before the read nested inside it
 
 ```python

@@ -61,7 +61,7 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 - **`shelf/`** — everything we bake, symlinked wholesale into `~/.claude/`: handoffs,
   transcripts, flawlog, plus the `hooks/` settings.json points at and the `sounds/` they
   play. Colocate our produce here rather than scattering it across `~/.claude`.
-- **`sline/`** — this repo's statusline. Its own `CLAUDE.md` loads when working under it.
+- **`sline/`** — this repo's statusline. Its own `AGENTS.md` loads when working under it.
 
 ## docs and tracker
 
