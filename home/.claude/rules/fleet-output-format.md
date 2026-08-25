@@ -175,6 +175,14 @@ file he names.
 - **quick answer** — a factual question with a short answer: just answer it. no skeleton, no
   verdict line, no next step. never inflate a one-line answer into a report.
 
+## boards — status reports have ONE shape
+
+- bold section header per topic, then one fact per line, nested bullets.
+- 🟢🟡🔴 group by state, never inline lists of ids in prose.
+- a section «the one confirm» — every question isolated there, one line each.
+- a section «no action needed» — everything informational parks under it.
+- an id never shares a line with a second id's story.
+
 ## the output kit
 
 - 📊 mini scoreboard for session wrap-ups (created / done / touched / routed) — bullet lines, not a table
