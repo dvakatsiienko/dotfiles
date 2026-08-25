@@ -115,7 +115,7 @@ server.registerTool(
             (specMissing
                 ? `!! CST-SPEC.md is missing at ${SPEC_PATH} — this CST was composed without the authoritative spec. Say so to the user.\n\n`
                 : '') +
-                `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
+                `Handoff saved: ${file}\nTell the user in one line: handoff written; pull it with /handoff-ingest in a new cw thread or /x:handoff-ingest in cc. It is deleted on ingest${shared ? ' (shared: kept for multiple pullers)' : ''}.`,
         );
     },
 );
@@ -177,7 +177,7 @@ server.registerTool(
             (specMissing
                 ? `!! CST-SPEC.md is missing at ${SPEC_PATH} — this CST was composed without the authoritative spec. Say so to the user.\n\n`
                 : '') +
-                `Superseded ${old.name} → handoffs/superseded/.\nNew handoff: ${file}\nTell the user in one line: handoff replaced, one live CST again; pull it with /handoff-pull in a new cw thread or /x:handoff-pull in cc${keepShared ? ' (shared: kept for multiple pullers)' : ''}.`,
+                `Superseded ${old.name} → handoffs/superseded/.\nNew handoff: ${file}\nTell the user in one line: handoff replaced, one live CST again; pull it with /handoff-ingest in a new cw thread or /x:handoff-ingest in cc${keepShared ? ' (shared: kept for multiple pullers)' : ''}.`,
         );
     },
 );
@@ -188,7 +188,7 @@ server.registerTool(
         description:
             'List the pending CSTs in the shared handoff store — slug, age, size, and tracker run id per entry — WITHOUT ingesting or deleting any of them. ' +
             'Use when the user asks what handoffs are pending, what is in the store, or whether anything is waiting. Each row names the agent it is FOR; rows marked NOT ours belong to another agent and must not be pulled. ' +
-            "Read-only: no file is consumed and no CST content enters this thread. handoff_peek shows one entry's META; handoff_pull is the one that ingests.",
+            "Read-only: no file is consumed and no CST content enters this thread. handoff_peek shows one entry's META; handoff_ingest is the one that ingests.",
         inputSchema: {},
         title: 'List pending handoffs',
     },
@@ -218,7 +218,7 @@ server.registerTool(
     {
         description:
             'Show ONLY the META block — the human-readable head — of one pending CST, picked by slug. Never deletes and never ingests the rest. ' +
-            'Use to check what a handoff is about before committing to it: handoff_pull reads the whole CST and consumes the file, peek does neither. ' +
+            'Use to check what a handoff is about before committing to it: handoff_ingest reads the whole CST and consumes the file, peek does neither. ' +
             'Omit the slug when exactly one handoff is pending.',
         inputSchema: {
             slug: z
@@ -237,16 +237,16 @@ server.registerTool(
         const meta = metaBlock(readOrNull(file.path));
         if (meta === null)
             return text(
-                `${file.name} has no META block to peek at — an unusual CST. handoff_pull would still ingest it whole.`,
+                `${file.name} has no META block to peek at — an unusual CST. handoff_ingest would still ingest it whole.`,
             );
         return text(
-            `META of ${file.name} (${ageLabel(file.mtimeMs)} old, ${sizeLabel(file.size)}). Not ingested, file untouched — call handoff_pull to actually continue this thread.\n\n${meta}`,
+            `META of ${file.name} (${ageLabel(file.mtimeMs)} old, ${sizeLabel(file.size)}). Not ingested, file untouched — call handoff_ingest to actually continue this thread.\n\n${meta}`,
         );
     },
 );
 
 server.registerTool(
-    'handoff_pull',
+    'handoff_ingest',
     {
         description:
             'Fetch a pending CST (Continuation State Transfer) from the shared handoff store so this thread continues the thread that produced it (in cw or cc). ' +
@@ -260,7 +260,7 @@ server.registerTool(
                     'Keyword to pick among multiple pending handoffs, matched against filenames',
                 ),
         },
-        title: 'Pull handoff (CST)',
+        title: 'Ingest handoff (CST)',
     },
     async ({ topic }) => {
         sweep();
@@ -379,7 +379,7 @@ server.registerPrompt(
 );
 
 server.registerPrompt(
-    'handoff-pull',
+    'handoff-ingest',
     {
         argsSchema: {
             topic: completableString(
@@ -387,11 +387,11 @@ server.registerPrompt(
             ),
         },
         description: 'Continue a thread handed off from cw or cc',
-        title: 'Pull a pending handoff',
+        title: 'Ingest a pending handoff',
     },
     ({ topic }) =>
         promptMessage(
-            `Call handoff_pull${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), run its META first-acts before anything else, honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
+            `Call handoff_ingest${topic ? ` with topic "${topic}"` : ''} and ingest the returned CST per the contract in its tool description: silent ingest, ≤2-line confirmation (thread topic + next step), run its META first-acts before anything else, honor its R/D sections as user-said, then proceed exactly as the old thread from its S section.`,
         ),
 );
 

@@ -1,13 +1,13 @@
 ---
-name: handoff-pull
+name: handoff-ingest
 argument-hint: "[<session-id|name>] | [topic] | cw"
-description: Requester side of session handoff — ingest a CST. Triggers: /handoff-pull, "grab/pull handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "cw" → pending file from the shared store (incl. `cw` handoffs).
+description: Requester side of session handoff — ingest a CST. Triggers: /handoff-ingest, "grab/pull/ingest handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "cw" → pending file from the shared store (incl. `cw` handoffs).
 intended-models: haiku, sonnet
 ---
 
-# Handoff-pull (requester)
+# Handoff-ingest (requester)
 
-**lane** — `cw`: `x-cw__handoff_pull`, with `x-cw__handoff_list` and `x-cw__handoff_peek` to look first · `cc`: Bash.
+**lane** — `cw`: `x-cw__handoff_ingest`, with `x-cw__handoff_list` and `x-cw__handoff_peek` to look first · `cc`: Bash.
 
 Ingest a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; its Ingest section is the consumer contract (silent ingest, ≤2-line confirmation, META's first-acts before anything else, persist `C→memory:` lines, honor R/D, delete-on-ingest unless `-shared`). This skill adds the Claude Code acquisition mechanics. The counterpart skill is `handoff`.
 

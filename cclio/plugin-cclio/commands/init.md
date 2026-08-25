@@ -29,7 +29,7 @@ prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidia
 - empty → «inbox clean». marked FROZEN → do not touch, report frozen, move on.
 
 ## 4. continuity
-- 📬 **pending handoff addressed to you → PULL IT NOW** via `/x:handoff-pull`. never `ls` the
+- 📬 **pending handoff addressed to you → PULL IT NOW** via `/x:handoff-ingest`. never `ls` the
   store and read the file by hand — 🚨 **the skill DELETES on ingest, and that deletion is the
   point**; a CST read with `cat` stays pending and makes the store lie. one exception (the
   skill's): never ingest a CST addressed to another agent — report whose it is and leave it.
