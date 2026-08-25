@@ -1,6 +1,6 @@
 ---
-name: conventions
-description: Binding cross-repo conventions Dima enforces by hand today — url and routing shape (paths vs query strings), and more as they are written down. Load BEFORE designing a route, a url, an api surface, a file layout, or any other shape that is expensive to change later, and whenever a review comment sounds like "we don't do it that way here".
+name: guide-conventions
+description: Load BEFORE designing any shape that is expensive to change later — a route or url, an api surface, a file layout, a naming scheme — and whenever a review comment sounds like "we don't do it that way here". Binding cross-repo conventions Dima enforces by hand (url/routing shape today, more as written); rule files read on demand.
 ---
 
 # Conventions — the umbrella
@@ -30,9 +30,7 @@ answer and is also said out loud.
 
 ## Adding a convention
 
-One file per rule, named for its subject (`routing-url-shape.md`, not `rule-1.md`). Each file
-states the rule, shows ✅/🚫, and says what the correction cost when it was learned — the cost is
-what makes a rule stick. No frontmatter; these are read by path, not resolved as skills.
-
-A rule that belongs to exactly one repo goes in that repo's `CLAUDE.md` instead — it fires only
-where the code is and costs nothing everywhere else. This skill is for rules spanning repos.
+One file per rule, named for its subject (`routing-url-shape.md`, not `rule-1.md`): the rule,
+✅/🚫 examples, and what the correction cost when it was learned. No frontmatter — read by path,
+not resolved as skills. A rule belonging to exactly one repo goes in that repo's `CLAUDE.md`
+instead; this skill is for rules spanning repos.
