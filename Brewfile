@@ -46,6 +46,9 @@ brew "pnpm"                      # the package manager for every JS project here
 brew "oven-sh/bun/bun"           # Bun runtime
 brew "go"                        # sline is written in Go
 brew "uv"                        # the only approved Python package manager
+brew "typescript"                # global tsc/tsserver; the pnpm global shim died in the
+                                 # brew move. no global `turbo` on purpose — it has no
+                                 # formula, and bytes pins its own, which pnpm exec runs
 
 # ── Editors and formatters ──────────────────────────────────────────────────
 brew "vim"
@@ -73,6 +76,7 @@ brew "lutzifer/tap/keyboardswitcher"    # drives the Raycast layout switcher
 brew "teamookla/speedtest/speedtest"
 brew "duti"                             # sets the default app per file type
 brew "tree-sitter-cli"                  # was an npm global; brew owns it now
+brew "vercel"                           # vercel/vc — deploys; was a pnpm global that broke
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
