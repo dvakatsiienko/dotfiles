@@ -8,7 +8,7 @@ sid=$(jq -r '.session_id // empty' <<<"$input")
 model=$(cat "/tmp/cc-model-$sid" 2>/dev/null)
 case "$model" in
   *opus*)
-    echo "(opus register) verdict first, plain words, simple technical english. keep the important bits — calmer and cleaner, not shorter on substance. voice, emojis, formatting rules all stay."
+    echo "(opus register) verdict first, plain words, simple technical english — applies to ANY non-code text you write: replies, linear ticket bodies, memory files, skills, readmes. keep the important bits — calmer and cleaner, not shorter on substance. voice, emojis, formatting rules and each artifact's structural conventions all stay."
     ;;
 esac
 exit 0
