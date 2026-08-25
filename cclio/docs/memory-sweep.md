@@ -519,7 +519,9 @@ not exist, and it costs more, because everyone believes the problem is handled.
 
 - ❓ story shape — a new «ccli memory nurture» story holding the non-p0 children of DOT-73 and
   DOT-184, with `memory:` / `skill:` title prefixes. proposed, awaiting his word.
-- ✅ the t3 reference landed at `docs/agents/AGENTS-t3-code-ref.md`, placed by dima.
+- ✅ the t3 reference (`AGENTS-t3-code-ref.md`) was harvested and DELETED 2026-08-25 — reverse
+  states, smallest-proof, and every-entry-point folded into `x:guide-code`; test-data seeding
+  shape queued for the bytes `CLAUDE.md` pass.
 - ❓ is proxying the research guides through `writing-for-agents` both-worlds, or bloat?
 - ❓ does `writing-for-agents` apply to memory files, or only to skills?
 - ❓ do we still need skillsmith once the guides exist?

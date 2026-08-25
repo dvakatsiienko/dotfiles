@@ -40,6 +40,15 @@ Specific calls this decides:
 one-liners spend the reader's attention to save your keystrokes — that's more, not
 less. What you are minimising is what a reader has to hold in their head.
 
+## Complete means whole
+
+- **Reverse states.** A way in ships with the way out and the way to see it — snooze needs
+  unsnooze, close needs reopen. A one-way door is a bug.
+- **Every entry point.** Before calling a change done, name the other paths that reach the same
+  behavior — the most common defect is a fix that works only where you tested it.
+- **Smallest proof.** Verify with targeted tests and typecheck for what you touched; CI owns
+  the full suite — no repo-wide checks unasked.
+
 **Completion criterion:** code work is done when the diff was walked against the ladder —
 what got deleted, derived, or inlined before anything was written — and a change that only
 adds names the reason a subtraction couldn't cover. One sentence in the report, not a section.
