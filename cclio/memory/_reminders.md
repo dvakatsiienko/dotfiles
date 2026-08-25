@@ -26,8 +26,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 create «opus-mode» skill — session-start voice overrides for opus smartass printing; to be written by dima and fable together
 
 
-⏰📌 🦊👁️ vibemon undercount — VERDICT delivered 2026-08-25: heredoc theory wrong (notify.sh handles heredocs); real cause is chain classification — N commits in one Bash call = 1 event (`_CHAIN_PRIORITY` picks one label per call). fix landed: x:cmt guardrail «one commit per Bash invocation». droppable on dima's word
-
 ⏰📌 🦊📜 keep `cclio/docs/memory-checkup.md` evergreen — every time the checkup/review flow gains a step or changes shape mid-work, write it into the doc the same turn, not at the halt
 
 ⏰ review the tips-and-tricks sections across all claude.md files — are entries useful, rotated, capped? — set 2026-08-24, review ~2026-08-31

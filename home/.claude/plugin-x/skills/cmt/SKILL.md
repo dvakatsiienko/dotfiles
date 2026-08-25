@@ -312,9 +312,6 @@ body's ticket-id-pattern hits are counted and each one is intended. Say the hash
 
 ## 5 · Guardrails
 
-- **One `git commit` per Bash invocation.** Vibemon classifies a whole chained command as ONE
-  event (`git.commit` wins the chain priority), so two commits in one call count as one on
-  Dima's mobile feed — measured 2026-08-25, the cause of the 42-vs-24 undercount.
 - Sanity check before every commit: leftover debug/test code, accidentally
   commented-out code, stray debuggers → pause, report, resume when resolved.
 - Pre-commit hook failure → never self-fix; summarize and stop.
