@@ -4,7 +4,7 @@
 
 echo "=== cclio boot prefetch ==="
 
-echo "-- pending handoffs (list-only; ingest via /x:handoff-pull) --"
+echo "-- pending handoffs (list-only; ingest via /x:handoff-ingest) --"
 found=0
 for f in "$HOME"/.claude/shelf/handoffs/*.md; do
   [ -e "$f" ] || continue

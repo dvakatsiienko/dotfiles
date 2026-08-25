@@ -237,7 +237,7 @@ holds the title verbatim.
 
 Then read that directory's `transcript.txt`, with `metadata.json` for the url and channel.
 
-- **Recall never deletes.** This is the opposite of `handoff-pull`, which consumes what it reads.
+- **Recall never deletes.** This is the opposite of `handoff-ingest`, which consumes what it reads.
   Deletion here is only ever explicit, and only ever asked for by Dima.
 - No match: list what is on the shelf and offer to fetch the video instead. Never invent a url.
 

@@ -9,7 +9,7 @@ intended-models: fable, opus
 
 **lane** — `cw`: `x-cw__handoff_save`, plus `x-cw__handoff_supersede`, `x-cw__handoff_list`, `x-cw__handoff_peek`, `x-cw__handoff_delete` · `cc`: Bash.
 
-Produce a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; it defines the sections, calibration, store, and lifecycle. This skill only adds the Claude Code sender mechanics. The counterpart skill is `handoff-pull`.
+Produce a CST per [CST-SPEC.md](../../CST-SPEC.md) — read it first; it defines the sections, calibration, store, and lifecycle. This skill only adds the Claude Code sender mechanics. The counterpart skill is `handoff-ingest`.
 
 ## Before writing any CST — ask for the anchors
 
@@ -83,7 +83,7 @@ audience segment exists to prevent, arriving from the other direction.
 nobody in particular → `any`. Handing to a specific agent → that agent's token, so its bare `pull`
 finds it and every other agent leaves it alone.
 
-Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via the `handoff-pull` skill, a `cw` thread via its `/handoff-pull` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
+Use the `-shared` filename suffix if the user says several threads will pull it. Tell the user in one line: file written; any frontend picks it up — a `cc` session via the `handoff-ingest` skill, a `cw` thread via its `/handoff-ingest` prompt — and deletes it on ingest (`-shared`: kept). This is also the `cc`→`cw` path; nothing more is needed.
 
 ## Trigger C — `/handoff spawn [focus]` (hand off AND launch successor)
 
@@ -97,9 +97,9 @@ Always pass `--name` — it labels the job list, session picker, and terminal ti
 
 ## Trigger D — `/handoff <session> [focus]` (push to a live CC peer)
 
-The mirror of `handoff-pull` peer mode, initiated from the sender side: this thread hands itself to an already-running session.
+The mirror of `handoff-ingest` peer mode, initiated from the sender side: this thread hands itself to an already-running session.
 
-1. Resolve the target exactly like `handoff-pull` peer mode: `ListAgents` (always fresh — refs rotate), map an id deterministically via `jq -r 'select(.sessionId|startswith("<prefix>")) | "\(.pid) \(.name) \(.status)"' ~/.claude/sessions/*.json`, expect the runtime to demand the ref on a first bare-name send (the error text contains it — resend with it). Target not listed / not resolvable → fall back to Trigger B and tell the user in one line (peer unreachable, file written for pull instead).
+1. Resolve the target exactly like `handoff-ingest` peer mode: `ListAgents` (always fresh — refs rotate), map an id deterministically via `jq -r 'select(.sessionId|startswith("<prefix>")) | "\(.pid) \(.name) \(.status)"' ~/.claude/sessions/*.json`, expect the runtime to demand the ref on a first bare-name send (the error text contains it — resend with it). Target not listed / not resolvable → fall back to Trigger B and tell the user in one line (peer unreachable, file written for pull instead).
 2. Produce the CST (weighted to FOCUS if given) and write it to the store per spec — **file is the default transport**; inline the CST body in the message only if the user explicitly asked for inline.
 3. `SendMessage` the peer a short notification carrying the path + the ingest contract inline (the receiver may never have activated these skills):
 
@@ -108,7 +108,7 @@ HANDOFF PUSH — priority interrupt.
 A CST (Continuation State Transfer) of my thread is at <path>. Read it, then ingest silently — never echo it into visible output; confirm to your user in ≤2 lines (thread topic + next step). Run its META first-acts before anything else. Persist `C→memory:` lines into your memory system if one exists. Honor R and D as if your user said them in this thread. Then proceed as the old thread from S. Delete the file after ingest (`-shared` suffix: keep). Reply one line: `CST ingested by <your ref>`.
 ```
 
-4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via the `handoff-pull` skill.
+4. DELIVERY FAILURE RULE (MANDATORY): if the notification bounces on both the name and the ref (or the twin, for duplicated names), don't loop — the file is already in the store, so tell the user the path in one line; the peer (or any session) picks it up via the `handoff-ingest` skill.
 5. Tell the user in one line: CST pushed to `<target ref>` (file + notify). The ACK is informational — don't block on it.
 
 ## Trigger E — `/handoff delete` (wipe the pending store)
@@ -138,7 +138,7 @@ Read-only, and it is the safe way to decide before committing. Match the slug ag
 ambiguous → list the candidates and ask rather than guessing. Print **only the META block** — the
 part written for a human — never the body. The file is not deleted, not moved, not marked.
 
-Say plainly that nothing was ingested and that the `handoff-pull` skill is the verb that actually continues
+Say plainly that nothing was ingested and that the `handoff-ingest` skill is the verb that actually continues
 the thread.
 
 ## Cleanup (every invocation)

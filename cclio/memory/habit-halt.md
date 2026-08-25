@@ -16,7 +16,7 @@ grows into a work session has failed at its one job.
 
 **Before writing the CST, ask whether the work continues here or in a fresh thread.** That question
 comes first, not after — a CST saved and then followed by more work in the same session is wasted
-tokens and a stale file. `/x:handoff` writes, `/x:handoff-pull` reads, against
+tokens and a stale file. `/x:handoff` writes, `/x:handoff-ingest` reads, against
 `~/.claude/shelf/handoffs/`.
 
 📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
