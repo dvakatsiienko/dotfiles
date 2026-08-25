@@ -1,6 +1,6 @@
 ---
 name: pm
-description: Load EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
+description: Load EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "save this idea as a ticket", "ticketify", scope changes to tracked work, or /x:pm.
 ---
 
 # PM — literal PM mode over Linear
