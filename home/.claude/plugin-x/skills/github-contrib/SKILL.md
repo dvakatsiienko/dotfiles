@@ -1,6 +1,6 @@
 ---
 name: github-contrib
-description: GitHub pull requests and issues — opening, editing, reviewing, monitoring, closing, merging, labels. Load BEFORE any `gh pr` / `gh issue` command, before writing a PR title or description, before filing or editing an issue, and whenever asked to watch or babysit a PR.
+description: Load BEFORE any `gh pr` / `gh issue` command, before writing a PR title or description, before filing or editing an issue, and whenever asked to watch or babysit a PR.
 ---
 
 # github contributions

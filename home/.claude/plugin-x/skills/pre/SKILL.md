@@ -1,6 +1,6 @@
 ---
 name: pre
-description: Execute immediately — tiny alias-like asks. Load when Dima types /pre or marks an item "pre:". Inverse of /queue — never defer, do it now, then resume the main thread.
+description: Load when Dima types /pre or marks an item "pre:", or asks for a tiny thing done right now before the main thread continues.
 argument-hint: "<the tiny thing>"
 ---
 

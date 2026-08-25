@@ -1,6 +1,6 @@
 ---
 name: step-by-step
-description: Granular one-item-per-round pass over a set — files, skills, tickets, anything enumerable. Load when Dima types /step-by-step <what>, or asks to go through something "one by one" / "file by file" / "step by step". Inverse of the batch scan — use when HOW to batch-resolve is unclear and each item needs his steer.
+description: Load when Dima types /step-by-step <what>, or asks to go through a set one by one / file by file — when how to batch-resolve is unclear and each item needs his steer.
 argument-hint: "<the set to walk, and the recipe if one was baked>"
 ---
 
