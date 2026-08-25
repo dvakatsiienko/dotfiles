@@ -15,8 +15,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 writing-for-agents skill was NOT loaded during a whole memory/skill-editing session — load it BEFORE editing any skill, rule, or CLAUDE.md; the trigger is not firing on its own, watch this habit
 
-⏰📌 decide the fate of `docs/agents/authoring-memory.md` + `authoring-skill.md` — distill into the perm memory file (`rules/authoring-memory-and-skills.md`) or a dedicated best-practices skill
-
 ⏰📌 ①②③ glyph run-ons keep appearing in replies despite the ban — concise style pressure inlines lists; scan line added to fleet-output-format.md; watch until the habit is proven dead
 
 ⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
@@ -29,7 +27,5 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 🦊👁️ vibemon does not register all commits — 2026-08-24 measured: 42 real (40 agent-authored) vs 24 in the mobile app; known cause candidate: commits via Bash heredoc invisible to its regex (undercounts by design, flowlog note); needs a fix or a verdict
 
 ⏰📌 🦊📜 keep `cclio/docs/memory-checkup.md` evergreen — every time the checkup/review flow gains a step or changes shape mid-work, write it into the doc the same turn, not at the halt
-
-⏰ mage-evocation spawn sound — dima says sounds OK so far; final ear-verdict at the next fresh bg spawn (today's coder was adopted, sound never fired)
 
 ⏰ review the tips-and-tricks sections across all claude.md files — are entries useful, rotated, capped? — set 2026-08-24, review ~2026-08-31

@@ -262,13 +262,11 @@ Every coder session on this machine pays that saving too.
      for afterwards**, since relevance shifts once things move
 3. **then project** `CLAUDE.md`**s**, top to bottom: **dotfiles first**, then `bytes`,
    `dvakatsiienko`, `inner-marker`, `reinforcement-learning`.
-4. **then the skills**, one by one, same process.
-   🔴 **[DOT-110](linear://linear.app/issue/DOT-110) and [DOT-217](linear://linear.app/issue/DOT-217)
-   are MUSTS of this step, not follow-ups** — dima's call. «does this skill behave as written» and
-   «does it have a completion criterion» are the two questions asked *while reading each skill*.
-   Running them separately means reading all 33 twice.
-   📌 apply `writing-for-agents` here, live. Whether it actually gets invoked is itself the test the
-   post-review section below is waiting on.
+4. ✅ **skills pass done (2026-08-25).** all 15 plugin-x skills read once;
+   [DOT-217](linear://linear.app/issue/DOT-217) closed — criteria added to 6, 5 already had one,
+   4 deliberately none. [DOT-110](linear://linear.app/issue/DOT-110) closed by dima as drifted
+   (rl scope moved away); its eval insight survives as a comment there: completion criteria double
+   as oracles. `writing-for-agents` was loaded before the edits — the habit held.
 5. **then a final pass: code review, full picture.**
 
 📌 skills are held **in mind during the memory buckets**, not deferred to step 4 — if a memory is
@@ -312,6 +310,11 @@ X* — never asserted» into `CST-SPEC.md`, `x:pm`, and `rules/`. one bucketing 
 
 `~/projects/CLAUDE.md` exists as a deliberate **stub** ([DOT-195](linear://linear.app/issue/DOT-195)).
 filling it is a bucketing place in its own right.
+
+✅ **surveyed 2026-08-25:** all outer `~/projects/*/CLAUDE.md` files collated (4 files) — no
+orphan rules waiting to move up; every repeat already owned by a higher layer. the stub stays a
+stub until the coder-behavior decision ([DOT-73](linear://linear.app/issue/DOT-73) comment holds
+the evidence). dima's vertical map landed in `rules/authoring-memory-and-skills.md`.
 
 ❓ **the part dima explicitly does not know how to solve** — `guide-react`, `guide-typescript`,
 `guide-code`. his words:
@@ -475,7 +478,10 @@ exactly the dependency this run exists to remove.
 the doc pointer in root does not work. proven, not suspected: it was installed and ignored within
 the hour. find a mechanism and **test it in a dedicated session** rather than reasoning about it.
 
-- the candidate is a `PreToolUse` hook matching `Edit|Write` on `CLAUDE.md`, `rules/*`, `SKILL.md`
+- 🧊 dima's steer 2026-08-25: **a hook does not scale** («what if i want you to surely run x10
+  skills? bloat settings.json with hardcode? meh») — standing question, do not build the hook.
+  the rule + ⏰📌 watch remain the mechanism meanwhile; the habit held through 2026-08-24/25.
+- the shelved candidate was a `PreToolUse` hook matching `Edit|Write` on `CLAUDE.md`, `rules/*`, `SKILL.md`
 - ⚠️ **`paths:` cannot do this job** — measured, it fires on the `Read` tool and a session told to
   prefer Bash for reads never triggers it
 - the test is behavioural: edit a rule in a fresh session and see whether the skill loads unasked
