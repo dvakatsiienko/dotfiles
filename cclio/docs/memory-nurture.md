@@ -193,6 +193,9 @@ quarterly checkup cannot be the mechanism.**
 
 ## the leaf-by-leaf review — procedure, proven 2026-08-24
 
+🎓 **graduated to a skill 2026-08-25 — `x:step-by-step`** (ran twice: memory leaves, then the
+skills groom). invoke it for any granular pass; this section stays as the origin record.
+
 the format dima steers by; evergreen this section during any future pass instead of re-inventing:
 
 1. **one leaf per round**: tldr what it is · why the coordinator needs it · health/groom
