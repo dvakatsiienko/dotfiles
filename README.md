@@ -1,4 +1,4 @@
-# Dima Vakatsiienko's .dotfiles
+# Dima's .dotfiles
 
 ### Installation
 
