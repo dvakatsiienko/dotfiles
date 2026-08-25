@@ -9,6 +9,10 @@ Dima's frame, and it is the right one: *«if halt means calm halt, halt with sto
 non-destructive, don't drop things out of your hands, but prefers the quickest start.»*
 **`stop` is a speed, not a lower standard.**
 
+📌 **Bare «stop» mid-flow is NOT the halt argument** — hold and ask, one line. It is the halt's
+`stop` only inside a halt frame (the typed command, or wrap words). Measured 2026-08-25: a bare
+«stop» mid-groom ran the whole stop lane; he meant a plain hold. cclio-scoped, not fleet-vibe.
+
 🚫 **Never open the halt plan unprompted mid-task.** Dima: *«you tend to init wrap immediately, it
 looked for me like you're interrupting flow. what I mean is «let's plan finishing», not «finish
 immediately».»* A halt that arrives early strands the work it was meant to protect, and one that
