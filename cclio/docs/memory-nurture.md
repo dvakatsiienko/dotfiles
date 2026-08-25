@@ -193,18 +193,16 @@ quarterly checkup cannot be the mechanism.**
 
 ## the leaf-by-leaf review — procedure, proven 2026-08-24
 
-🎓 **graduated to a skill 2026-08-25 — `x:step-by-step`** (ran twice: memory leaves, then the
-skills groom). invoke it for any granular pass; this section stays as the origin record.
+🎓 **the round format lives in `x:step-by-step` — invoke it, do not re-invent it here.** the whole
+review runs through that skill (one item per round, four bullets, dima steers, «next» advances);
+graduated 2026-08-25 after two proven runs (memory leaves, skills groom). what stays here is the
+review-specific craft on top:
 
-the format dima steers by; evergreen this section during any future pass instead of re-inventing:
-
-1. **one leaf per round**: tldr what it is · why the coordinator needs it · health/groom
-   candidates · «➡️ my CTA» line with the suggested move. dima steers, «next» advances.
-2. **vertical introspection on every leaf** — can content pour into root memory, `rules/`,
+1. **vertical introspection on every leaf** — can content pour into root memory, `rules/`,
    `projects/CLAUDE.md`, a skill, or a doc? placement first, prose second.
-3. **full-rewrite mandate**: every leaf is a rewrite candidate (opus-era wording, dispatch-era
+2. **full-rewrite mandate**: every leaf is a rewrite candidate (opus-era wording, dispatch-era
    provenance). keep points, cut connective tissue, current-model taste.
-4. **renames are graph operations** — grep for the name before and after; barrel pointer, wikilinks,
+3. **renames are graph operations** — grep for the name before and after; barrel pointer, wikilinks,
    docs, symlinked plugins (`plugin-x-cw`) all carry edges. re-probe the barrel after.
-5. **commit per cluster** with explicit pathspecs; count and report unpushed.
-6. dedupe across LAYERS (rule vs leaf vs skill), one home per moral, siblings point.
+4. **commit per cluster** with explicit pathspecs; count and report unpushed.
+5. dedupe across LAYERS (rule vs leaf vs skill), one home per moral, siblings point.
