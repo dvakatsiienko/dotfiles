@@ -1,7 +1,6 @@
 ---
 name: pre
 description: Execute immediately — tiny alias-like asks. Load when Dima types /pre or marks an item "pre:". Inverse of /queue — never defer, do it now, then resume the main thread.
-intended-models: haiku, sonnet
 argument-hint: "<the tiny thing>"
 ---
 
