@@ -1,7 +1,6 @@
 ---
 name: pm
 description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Load EVERY time you create, update, close, or triage a ticket — any mention of a DOT-N/BYT-N id, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
-intended-models: fable, opus
 ---
 
 # PM — literal PM mode over Linear
@@ -25,22 +24,16 @@ Two files, and the split matters:
 - **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
   states, cli mechanics, quota ops. read it before the first write of a session.
 
-Channel: the `linear` CLI. `linear api '<graphql>'` is the fallback for anything the CLI lacks.
+Channel: the `linear` CLI; `linear api '<graphql>'` for anything it lacks. **Pick by probing
+your own tool list, never by guessing the platform** — first match wins:
 
-**Pick the channel by probing your own tool list, never by guessing the platform.** Some
-environments cannot be identified from inside, so a platform check guesses wrong where a capability
-check cannot. Read the manifest — do not make a failing call to find out. First match wins:
+1. a shell tool (`Bash` on `cc`, Desktop Commander on `cw`) → the `linear` CLI through it.
+2. no shell tool at all (Claude iOS) → the Linear MCP connector — the one narrow exception to
+   «never the Linear MCP».
+3. a shell but no `linear` binary or auth → say so and stop; never reach for the MCP to route
+   around a broken CLI.
 
-1. a shell tool (`Bash` on `cc`, Desktop Commander on `cw`) → run the `linear` CLI through it.
-2. no shell tool at all (Claude iOS) → the Linear MCP connector, the only channel that exists there.
-3. a shell tool but no `linear` binary or no auth → say so and stop. Do not reach for the MCP to
-   route around a broken CLI.
-
-📌 The MCP is a **no-shell** fallback, not a preference. Wherever a shell exists the CLI is the only
-correct channel — this is the one exception to «never the Linear MCP», and it is narrow.
-
-Everything below this line is transport-independent: the field contract, the gates, the vocabulary
-and the ticket shape are the same in every environment. Only the call layer differs.
+Everything below is transport-independent; only the call layer differs.
 
 ## CLI cheatsheet — inlined on purpose
 
