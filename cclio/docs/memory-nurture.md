@@ -129,6 +129,14 @@ unreachable action read as correct until someone tried.
 
   🚫 **converting is still a weighted call per rule**, never automatic: the glob has to genuinely
   be the trigger, and anything whose real trigger is an *intention* cannot defer at all.
+
+  📌 2026-08-25 additions, measured: **`Write` of a NEW matching file fires nothing** — a scoped
+  rule cannot remind at creation time, only on later reads. two live `paths:` rules now exist as
+  the pattern: `rules/authoring-trigger.md` (agent-consumed docs → load writing-for-agents) and
+  `rules/guide-trigger.md` (.ts/.tsx → load the guides). controlled result from one session:
+  description-triggered skills missed 2/2, the injected `paths:` trigger hit 1/1 — injection
+  beats descriptions; descriptions stay the primary trigger only because injection cannot cover
+  new files or intentions.
 📌 **frontmatter is usually not the lever it looks like.** A `name:` field duplicates the filename
 and is a live drift surface — rename the file and it goes stale silently. A `type:` field is not
 read at runtime. Keep frontmatter only where something actually consumes it.
@@ -137,6 +145,21 @@ read at runtime. Keep frontmatter only where something actually consumes it.
 - what should become a **doc reached by a pointer** instead of a resident rule?
 - what should become a **skill** — a procedure with a name someone would invoke?
 - ⚠️ what genuinely cannot defer: anything whose trigger is an **intention** rather than a file
+
+### step 4.5 · the skills lane — same loop, two extra questions
+
+skills ride the same steps (inventory, duplication, placement); their extra per-skill questions,
+proven 2026-08-25:
+
+- **completion criterion** — does the skill state a checkable done-condition? write one (a state
+  assertion: a hash, an `ls`, a named list — it doubles as an eval oracle), or name why the skill
+  honestly doesn't want one. no invented ceremony.
+- **groom verdict** — keep / trim / merge / drop, plus the bucket check (is this skill really a
+  rule, a doc, or memory?). paired skills need **symmetric descriptions** — a pair-pointer inside
+  an unloaded body fires after the decision it was meant to steer.
+- the authoring stack for any edit: `writing-for-agents` (craft, load first) →
+  `rules/authoring-memory-and-skills.md` (router + vertical map) → `docs/agents/authoring-*.md`
+  (mechanics, on demand).
 
 ### step 5 · the human gate
 
