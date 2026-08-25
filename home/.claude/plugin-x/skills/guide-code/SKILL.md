@@ -1,6 +1,6 @@
 ---
 name: guide-code
-description: Core values binding on ALL code — load EVERY time you write, edit, or review code in any language, before the language-specific guides. Less is better.
+description: Load EVERY time you write, edit, or review code in any language, BEFORE the language-specific guides.
 ---
 
 # Code Guide

@@ -1,6 +1,6 @@
 ---
 name: cmt
-description: Branded commit authoring — format, emoji canon, steering keywords, Linear magic words. Load EVERY time a git commit is about to be created, in any repo, whether the user typed /cmt or just asked to commit mid-conversation.
+description: Load EVERY time a git commit is about to be created, in any repo — /cmt typed, or committing asked mid-conversation.
 argument-hint: "[y|y+] [push|push+] [correction…]"
 ---
 

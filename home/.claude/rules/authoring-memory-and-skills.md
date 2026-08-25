@@ -55,12 +55,12 @@ is fat or unstructured and needs the bigger picture of how one is written.
 5. **can the agent find it by looking?** scripts, layout, `--help` — a doc restating those is a
    stale cache. cache only the unwritten convention, the reason, the gotcha
 
-## skill descriptions — WHEN leads, WHAT trails
+## skill descriptions — WHEN only
 
-**the description says *when*, the body says *what*** (`docs/agents/authoring-skill.md`, matt +
-theo agreeing). open with the load trigger — «Load BEFORE …», «Load EVERY time …» — then one
-light clause on what the skill is. never let the description carry the answer: that is the whole
-body paid resident, every turn.
+**the description is ONLY the load trigger** — «Load BEFORE …», «Load EVERY time …», «Load
+when …» (dima's call 2026-08-25, sharpening `docs/agents/authoring-skill.md`). the NAME carries
+the entity, the BODY carries the what — details are one invoke away. never let a description
+explain or answer: that is body content paid resident, every turn.
 
 ## tips-and-tricks — the section contract
 

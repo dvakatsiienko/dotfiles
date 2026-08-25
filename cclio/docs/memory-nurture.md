@@ -133,7 +133,7 @@ unreachable action read as correct until someone tried.
   📌 2026-08-25 additions, measured: **`Write` of a NEW matching file fires nothing** — a scoped
   rule cannot remind at creation time, only on later reads. two live `paths:` rules now exist as
   the pattern: `rules/authoring-trigger.md` (agent-consumed docs → load writing-for-agents) and
-  `rules/guide-trigger.md` (.ts/.tsx → load the guides). controlled result from one session:
+  `rules/guide-skill-trigger.md` (.ts/.tsx → load the guides). controlled result from one session:
   description-triggered skills missed 2/2, the injected `paths:` trigger hit 1/1 — injection
   beats descriptions; descriptions stay the primary trigger only because injection cannot cover
   new files or intentions.
@@ -167,7 +167,7 @@ proven 2026-08-25:
   WHAT trails» · heavy human-only skills get `disable-model-invocation: true` (removes the
   description from the listing budget) · investigation history moves to a doc, the skill keeps
   conclusions + pointer · a trigger whose firing is doubted gets a TRACER — the injected rule
-  tells the reader to name which door fired (see `rules/guide-trigger.md`).
+  tells the reader to name which door fired (see `rules/guide-skill-trigger.md`).
 
 ### step 5 · the human gate
 

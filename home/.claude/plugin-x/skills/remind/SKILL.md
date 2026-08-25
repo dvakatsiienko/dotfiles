@@ -1,6 +1,6 @@
 ---
 name: remind
-description: Persistent reminders that survive across sessions. Load when Dima types /remind, or asks to be reminded of something / to drop or list a reminder.
+description: Load when Dima types /remind, or asks to be reminded of something / to drop or list a reminder.
 argument-hint: "[stick|unstick|forget|list|clear]"
 ---
 

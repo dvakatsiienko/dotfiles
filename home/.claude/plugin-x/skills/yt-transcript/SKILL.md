@@ -1,6 +1,6 @@
 ---
 name: yt-transcript
-description: Turn a YouTube video into text in the conversation, and recall transcripts fetched earlier. Load whenever a YouTube link is pasted, or Dima asks to transcribe / read / summarise / ingest a video, or asks what a video already on the shelf said. Triggers: /x:yt-transcript <url> [transit], "get the transcript of <link>", "what did that video about X say".
+description: Load whenever a YouTube link is pasted, or Dima asks to transcribe / summarise / ingest a video, or asks what a video already on the shelf said.
 argument-hint: "<youtube url> [transit] | <title fragment or video id> | list"
 ---
 

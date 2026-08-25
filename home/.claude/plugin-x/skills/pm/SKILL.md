@@ -1,6 +1,6 @@
 ---
 name: pm
-description: CORE skill — one of the highest-priority, near-mandatory skills for any ticket-shaped task. PM mode over Dima's Linear tracker (teams DOT/BYT). Load EVERY time you create, update, close, or triage a ticket — any mention of a DOT-N/BYT-N id, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
+description: Load EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "save this idea as a ticket", scope changes to tracked work, or /x:pm.
 ---
 
 # PM — literal PM mode over Linear
@@ -37,17 +37,10 @@ Everything below is transport-independent; only the call layer differs.
 
 ## CLI cheatsheet — inlined on purpose
 
-📌 **A pointer to another skill is a citation, never a load.** Naming the `linear-cli` skill in
-prose here is what produced invented flags (`issue list --query`, `issue search` — neither exists)
-while the right calls sat in that skill's first screen. So the calls that get guessed wrong live
-here, in the file you are already reading. **Before any call not on this list, run
-`Skill(linear-cli:linear-cli)`** — an explicit load, not a mention. `linear <cmd> --help` confirms
-a flag in one call and is always cheaper than a wrong guess.
-
-📌 **this list and the `linear-cli` skill are not duplicates — they hold opposite things.**
-`linear-cli` documents **what works**: query filters, create, update, comments, attachments, ~334
-lines of recipes. the list below is **what breaks** — the calls that look right and are not. keep
-both; deleting either re-creates a real failure.
+📌 The calls that get guessed wrong live here, in the file you are already reading — invented
+flags (`issue list --query`, `issue search`) came from citing recipes that sat unloaded. This
+list is **what breaks**; for anything not on it, `linear <cmd> --help` confirms a flag in one
+call and is always cheaper than a wrong guess.
 
 - **listing** — `linear issue query --team DOT`. `issue list` shows only issues assigned to *you*,
   and there is no `--query` flag on it.

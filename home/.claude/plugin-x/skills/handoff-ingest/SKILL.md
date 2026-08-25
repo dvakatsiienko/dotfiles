@@ -1,6 +1,6 @@
 ---
 name: handoff-ingest
-description: Requester side of session handoff — ingest a CST. Triggers: /handoff-ingest, "grab/pull/ingest handoff". Session id/name arg → request from that live CC peer; bare / topic keyword / "cw" → pending file from the shared store (incl. `cw` handoffs).
+description: Load on /handoff-ingest or "grab/pull/ingest handoff" — session id/name to request from a live CC peer; bare, topic keyword, or "cw" for the shared store.
 ---
 
 # Handoff-ingest (requester)

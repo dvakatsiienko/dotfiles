@@ -1,6 +1,6 @@
 ---
 name: guide-conventions
-description: Load BEFORE designing any shape that is expensive to change later — a route or url, an api surface, a file layout, a naming scheme — and whenever a review comment sounds like "we don't do it that way here". Binding cross-repo conventions Dima enforces by hand (url/routing shape today, more as written); rule files read on demand.
+description: Load BEFORE designing any shape that is expensive to change later — a route or url, an api surface, a file layout, a naming scheme — and whenever a review comment sounds like "we don't do it that way here".
 ---
 
 # Conventions — the umbrella

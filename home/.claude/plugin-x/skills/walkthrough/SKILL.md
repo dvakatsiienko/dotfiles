@@ -1,6 +1,6 @@
 ---
 name: walkthrough
-description: Interactive guided tour of a system/topic on Dima's machine — he looks, you narrate, «next» advances. Load when Dima asks to be walked through something, a ticket carries the walkthrough label, or teaching-by-showing beats a doc. Works on any surface; anchor commands run wherever a shell exists.
+description: Load when Dima asks to be walked through something, a ticket carries the walkthrough label, or teaching-by-showing beats a doc.
 ---
 
 # /walkthrough — teach by showing, on his machine
