@@ -160,6 +160,14 @@ proven 2026-08-25:
 - the authoring stack for any edit: `writing-for-agents` (craft, load first) →
   `rules/authoring-memory-and-skills.md` (router + vertical map) → `docs/agents/authoring-*.md`
   (mechanics, on demand).
+- **the groom-half checklist, proven on the 15-skill pass (2026-08-25):** full taste rewrite per
+  skill (keep points, cut connective tissue — opus-era wordiness is the default finding) · md
+  tables → bullets (the ban lives in `fleet-output-format.md`; even «real matrix» claims mostly
+  died on contact) · drop `intended-models` on touch · description checked against «WHEN leads,
+  WHAT trails» · heavy human-only skills get `disable-model-invocation: true` (removes the
+  description from the listing budget) · investigation history moves to a doc, the skill keeps
+  conclusions + pointer · a trigger whose firing is doubted gets a TRACER — the injected rule
+  tells the reader to name which door fired (see `rules/guide-trigger.md`).
 
 ### step 5 · the human gate
 
