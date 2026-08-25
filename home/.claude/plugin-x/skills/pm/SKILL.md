@@ -142,13 +142,10 @@ linear api 'query { searchIssues(term: "cc·20260819·batch1") { nodes { identif
 
 250 non-archived issues workspace-wide. Resolve faster than create. Prefer one fuller ticket covering an area over strands of small ones — but no monster tickets; balance. Archive resolved work aggressively. Quota nearing (~200): propose a restructure pass.
 
-## Compression budget — DEV PREVIEW (live, unapproved)
-
-(claude-important) dev preview, live since 2026-08-16, not yet approved by Dima —
-DOT-70 carries the rule and its approval. Follow it now; flag friction the moment you feel it.
-(claude-important)
+## Compression budget
 
 **Structured by default, prose by exception. Ticket body ≤10 lines.** Specs excepted.
+Approved by Dima 2026-08-25 after nine days live.
 
 - Keep: the decision to make, the hard constraint, the non-obvious fact, the exact command or path.
 - Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
