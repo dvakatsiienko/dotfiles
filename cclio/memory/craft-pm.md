@@ -1,3 +1,7 @@
+**Judgment lives here; mechanics live in the `x:pm` skill — load it on every ticket-shaped turn,
+coordinator included.** The floor is `rules/linear-flow.md`. Three homes, complementary, no
+duplicates.
+
 Conventions live here; **state is always queried, never remembered.** Board state mutates hourly, so
 a cached picture read with confidence is worse than a two-second query. `/cclio:init` step 4.5 pulls
 the skeleton — teams, projects, descriptions, open counts — every boot, so a session knows the shape
@@ -34,14 +38,12 @@ it. Not easy, name what makes it hard and stop.
 - the tell is his own discomfort, voiced early: *«starts to sound more complicated than a freebie»*.
   The answer to that is never a defence of the plan.
 
-## every create carries four fields
+## every create is fully fielded — the contract is x:pm's
 
-**label AND project AND parent AND milestone**, decided at create time, never repaired after.
+The field list (role, kind, priority, estimate, project, parent, milestone) lives in the `x:pm`
+field contract — ONE list, never restated. The coordinator's extras:
 
 - labels are steering, not decoration — Dima writes instructions into their descriptions
-- **a ticket with a parent inherits the parent's milestone** unless the body says why not. No
-  milestone means invisible on the board that answers «where are we» at boot, so the omission makes
-  progress read wrong rather than just losing a row
 - 📌 a canceled ticket counts as resolved in linear's milestone math, so attaching a gated ticket
   that may never be built cannot strand a milestone at 99%
 
@@ -61,43 +63,19 @@ reader. Lowercase register; emojis and ascii art welcome.
 - ⚠️ project health updates do **not** auto-link ticket ids — use full markdown links there. Ticket
   bodies auto-link fine.
 
-## relations are native, and you hunt for them
+## reading relations — one hop, titles first, bodies on merit
 
-Use linear's builtin relation, never a «⛔ BLOCKS DOT-N» string in a body. Native edges render in
-the UI and survive body rewrites; strings do neither.
-
-**Actively hunt edges.** Whenever touching a ticket, evaluate the full vocabulary — parent of,
-sub-issue of, related to, blocked by, blocks, duplicate of — and set what matches, in the same
-batch. The test is *«would this change how I do the other one?»*, never *«are these similar»*.
-
-## reading linear — the fetch contract
-
-`linear issue view` is a fixed pre-baked query that omits most of this. **Use `linear api` GraphQL
-for any read that will inform a decision**, and filter the JSON so only needed fields enter context.
-
-Always fetch: `labels { nodes { name description } }` · `parent` + `children` · `comments` ·
-`attachments` · state, project, priority, assignee.
-
-- 🚨 **BOTH `relations` AND `inverseRelations`.** `relations` returns only the edges a ticket
-  *declares*, so a ticket that is **blocked by** something shows an empty list and looks unblocked.
-  The inverse side exposes `issue`, not `relatedIssue`.
-- ⚠️ **`first:` is a cap, and a capped result looks exactly like a complete one.** Linear pages at
-  50 and warns about nothing. **Request `pageInfo { hasNextPage }` on any query whose count you
-  intend to state.** A number nobody paged is an estimate.
-- mutations stay cheap: short single-flag updates inline, heredoc only for prose bodies.
-
-### reading relations — one hop, titles first, bodies on merit
+The fetch contract (GraphQL reads, relations + inverse, pageInfo caps, edge hunting) moved to
+`x:pm` — this section is the coordinator's reading-depth judgment on top of it.
 
 Hop-1 relations cost ~20 tokens each, so pull them always. **Read a hop-1 body when its title says
 it decides something about the task in hand.** Hop 2 is a consideration, not a ban: having read hop
 1, ask whether any of its edges would change the work. What it must never become is automatic — the
 graph has cycles and the cost is unbounded.
 
-🚨 **Never filter relations by state.** A **closed** ticket is usually the most valuable edge on the
-graph, because closing it is what produced the closing word. **The test is the closing word, not the
-state** — read any closed ticket whose body has one, Done or Canceled alike. A ticket deliberately
-dropped after a decision carries the reasoning that stops someone re-proposing it. Skip only the
-genuinely empty ones.
+**The test is the closing word, not the state** — read any closed ticket whose body has one, Done
+or Canceled alike; a deliberately dropped ticket carries the reasoning that stops someone
+re-proposing it. Skip only the genuinely empty ones.
 
 ## writing — no timestamps, no lineage
 
@@ -109,18 +87,7 @@ native edge instead of narrating lineage.
 **Keep** the run stamp, which Dima called useful:
 `⸻ 🪪 <run-id> · <model name> · agent run stamp — please keep 🙏`
 
-## 🚨 every id is a link, and the check is mechanical
-
-Every ticket id in any message is a markdown link plus a short tldr, scheme `linear://`, which opens
-the macos app. Never a bare id, never a backticked id alone.
-
-**This is the most-repeated failure on this surface, and knowing the rule is not the fix.** One
-reply printed ~20 bare ids with the rule in context the whole time; the next day, ~26 bare
-filenames, same shape. **An id feels like a word while you are writing it.**
-
-> Before sending any reply, scan for `DOT-` and `BYT-` and confirm every hit sits inside
-> `](linear://`. Same for any filename Dima might open: `](cursor://file/…)`, absolute path.
-
-A bare id in the draft is a bug to fix, never a judgment call about whether that one mattered.
+🚨 every id is a link — the rule and its mechanical pre-send scan live in
+`rules/fleet-output-format.md`; the most-repeated failure on this surface, so run the scan, always.
 
 Related: [[dima-strategy]], [[dima-roadmap]]

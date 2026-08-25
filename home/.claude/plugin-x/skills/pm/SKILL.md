@@ -86,15 +86,16 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
-- **State tracks reality** — see `rules/linear-flow.md`; it binds with or without this skill.
+- **State and assignee floor** — `rules/linear-flow.md` binds with or without this skill: state
+  tracks reality, never pass `--assignee`. On top of it: assigned-to-Dima means strictly his —
+  never resolve, start, or reassign it; the `human` label says a human does the work, not *which*
+  human (importance is priority's job).
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
-- **Assignee is not yours.** Assigned-to-Dima means strictly his — never resolve it, never start
-  it, never reassign it. Unassigned is the default and open to anyone. Never self-assign, and
-  never assign to Dima to signal importance (that is priority's job). The `human` label is a
-  different statement: it says a human does the work, not *which* human.
-- On create: propose priority (1–4) + estimate (1–5) + project. Projectless is legal for one-offs
-  and idea pools — do not force one.
+- On create: propose priority (1–4) + estimate (1–5) + project + **parent and milestone** — a
+  ticket with a parent inherits the parent's milestone unless the body says why not; no milestone
+  means invisible on the «where are we» board. Projectless is legal for one-offs and idea pools —
+  do not force one.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
 
@@ -194,9 +195,28 @@ deleted — the call is Dima's, every time.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.
 
-## Body vs comments — the state contract (2026-08-19)
+## Body vs comments — the state contract
 
 Comments = trail (logs, stamps, provenance — keep using them). Body = current state: keep it
 sanitized and updated, mutate without fear; a closed ticket reads true from the body alone.
-Every close appends a «closing word» body section: brief outcome — what became better, what we
-have now. Never bare-close.
+The closing word on every close is the floor's rule (`rules/linear-flow.md`).
+
+## Reading — the fetch contract
+
+`linear issue view` is a fixed pre-baked query that omits most of this. **Use `linear api`
+GraphQL for any read that will inform a decision**, and filter the JSON so only needed fields
+enter context. Always fetch: `labels { nodes { name description } }` · `parent` + `children` ·
+`comments` · `attachments` · state, project, priority, assignee.
+
+- 🚨 **BOTH `relations` AND `inverseRelations`.** `relations` returns only the edges a ticket
+  *declares* — a ticket that is **blocked by** something shows an empty list and looks unblocked.
+  The inverse side exposes `issue`, not `relatedIssue`.
+- ⚠️ **`first:` is a cap, and a capped result looks exactly like a complete one.** Linear pages at
+  50 and warns about nothing. Request `pageInfo { hasNextPage }` on any query whose count you
+  intend to state — a number nobody paged is an estimate.
+- Relations are native, and you hunt for them: on every touch evaluate the full vocabulary
+  (parent, sub-issue, related, blocked by, blocks, duplicate) and set what matches in the same
+  batch. The test is *«would this change how I do the other one?»*. 🚨 Never filter relations by
+  state — a closed ticket with a closing word is often the most valuable edge on the graph.
+- Mutations stay cheap: short single-flag updates inline, heredoc/`--description-file` only for
+  prose bodies.
