@@ -8,6 +8,9 @@ cook here too. A mix.
 Main environment is macOS, managed by symlinks.
 This is where the agent system itself (currently Claude Code CLI) is developed (`home/.claude/`).
 
+🚫 **`cclio/` is the coordinator's home.** A session not booted as the coordinator never cds into
+or reads under `cclio/` — its memory autoloads and quietly rebrands whoever enters.
+
 ## the dotfiles
 
 ### the mirror rule

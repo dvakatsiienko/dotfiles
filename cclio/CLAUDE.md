@@ -25,6 +25,9 @@ never `@memory/slug.md`; get it wrong and it loads nothing, silently.
 
 @memory/_MEMORY.md
 
+**«todos» convention:** Dima typing bare `todos` → print the queue + stuck reminders, pretty,
+nothing else. (The SessionStart prefetch already holds both; no queries needed.)
+
 ## the cclio plugin
 
 Skills live in `plugin-cclio/commands/`, registered by `.claude/settings.json`. ⚠️ **A plugin edit
