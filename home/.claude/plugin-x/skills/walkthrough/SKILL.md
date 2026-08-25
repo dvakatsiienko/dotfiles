@@ -1,7 +1,6 @@
 ---
 name: walkthrough
 description: Interactive guided tour of a system/topic on Dima's machine — he looks, you narrate, «next» advances. Load when Dima asks to be walked through something, a ticket carries the walkthrough label, or teaching-by-showing beats a doc. Works on any surface; anchor commands run wherever a shell exists.
-intended-models: all
 ---
 
 # /walkthrough — teach by showing, on his machine
@@ -41,15 +40,13 @@ the anchor comes BEFORE the explanation. explain-then-run turns the command into
 
 ## live-over-lecture — the rule that carries it
 
-- every claim demonstrated on HIS machine. «brew --prefix → /opt/homebrew, and zero brew entries
-  in your /usr/local/bin» persuades; a generic fact does not.
-- **spend a command on his wrong guess.** `touch /bin/.t → Operation not permitted` taught the
+- every claim demonstrated on HIS machine; a generic fact persuades nobody.
+- **spend a command on his wrong guess** — `touch /bin/.t → Operation not permitted` taught the
   sealed volume in one line; a flat «no» teaches nothing.
-- teach through the session's own near-misses, not warnings. a story with a number beats a rule
-  stated flat.
-- mid-to-high overview pace; go deep only where a real hazard lives. no smart-assing.
-- post-checks check **state, not presence** — a grep can say «still registered» while the truth is
-  «waiting to uninstall on reboot».
+- teach through the session's own near-misses; a story with a number beats a rule stated flat.
+- mid-to-high overview pace; deep only where a real hazard lives.
+- post-checks check **state, not presence** — a grep can say «still registered» while the truth
+  is «waiting to uninstall on reboot».
 - resuming after unrelated work = explicit re-anchor step first.
 
 ## after
