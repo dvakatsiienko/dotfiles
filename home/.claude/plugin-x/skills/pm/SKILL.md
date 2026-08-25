@@ -144,8 +144,9 @@ linear api 'query { searchIssues(term: "cc·20260819·batch1") { nodes { identif
 
 ## Compression budget
 
-**Structured by default, prose by exception. Ticket body ≤10 lines.** Specs excepted.
-Approved by Dima 2026-08-25 after nine days live.
+**Structured by default, prose by exception — Linear must stay un-wordy.** That is the whole
+budget; no line limit exists (the old ≤10 was dispatch's invention, never Dima's ask). Judge by
+load, not length.
 
 - Keep: the decision to make, the hard constraint, the non-obvious fact, the exact command or path.
 - Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
