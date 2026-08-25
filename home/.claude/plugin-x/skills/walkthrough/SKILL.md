@@ -1,6 +1,6 @@
 ---
 name: walkthrough
-description: Load when Dima asks to be walked through something, a ticket carries the walkthrough label, or teaching-by-showing beats a doc.
+description: Load when Dima says «walk me through» something, a ticket carries the walkthrough label, or teaching-by-showing beats a doc.
 ---
 
 # /walkthrough — teach by showing, on his machine

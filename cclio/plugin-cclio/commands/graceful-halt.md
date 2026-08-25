@@ -1,5 +1,5 @@
 ---
-description: the graceful finish — plan it, land the leaves, close with a CST. add `stop` when dima leaves NOW
+description: load when dima means we are done — «let's wrap», «that's it for today», «i'm done», «good point to stop» — or types the command. add `stop` when he leaves NOW («i have to go»).
 ---
 
 # /cclio:graceful-halt

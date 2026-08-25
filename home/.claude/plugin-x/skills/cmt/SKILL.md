@@ -1,6 +1,6 @@
 ---
 name: cmt
-description: Load EVERY time a git commit is about to be created, in any repo — /cmt typed, or committing asked mid-conversation.
+description: Load EVERY time a git commit is about to be created, in any repo — /cmt typed, committing asked mid-conversation, or «slay» (push) said.
 argument-hint: "[y|y+] [push|push+] [correction…]"
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: session status board — where we are, in one compact message
+description: load when dima says «sup», «where are we», «status», or asks for the session board — one compact status message.
 ---
 
 # /cclio:report

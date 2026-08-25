@@ -1,5 +1,5 @@
 ---
-description: flawlog habit — fix the flaw in place first, log only what survives the attempt
+description: load the moment a mistake just happened — dima says «you goofed», «that was wrong», or you caught your own flaw. fix in place first, log only what survives the attempt.
 ---
 
 # /cclio:flawlog
