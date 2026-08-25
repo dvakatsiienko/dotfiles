@@ -39,3 +39,7 @@ Specific calls this decides:
 **Less is not fewer characters.** Terse names, collapsed conditionals, and clever
 one-liners spend the reader's attention to save your keystrokes — that's more, not
 less. What you are minimising is what a reader has to hold in their head.
+
+**Completion criterion:** code work is done when the diff was walked against the ladder —
+what got deleted, derived, or inlined before anything was written — and a change that only
+adds names the reason a subtraction couldn't cover. One sentence in the report, not a section.

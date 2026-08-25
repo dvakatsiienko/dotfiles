@@ -141,6 +141,13 @@ part written for a human — never the body. The file is not deleted, not moved,
 Say plainly that nothing was ingested and that the `handoff-ingest` skill is the verb that actually continues
 the thread.
 
+## Completion criterion
+
+A producing trigger (B, C, D) is done when the CST exists per spec AND the store holds exactly ONE
+pending file for this thread — verify with the same `ls` that checked for a supersede target — and
+the user got the one-line report. Read-only triggers (F, G) are done at the report; E at the
+counted deletion line.
+
 ## Cleanup (every invocation)
 
 ```bash

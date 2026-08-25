@@ -24,6 +24,10 @@ once; the rule files cost nothing until Read.
 
 Do not read the whole directory "to be safe". That defeats the point of the split.
 
+**Completion criterion:** before calling the shaping work done, **say which convention files you
+read and which applied** — a named list, not "conventions checked". Zero matching files is a legal
+answer and is also said out loud.
+
 ## Adding a convention
 
 One file per rule, named for its subject (`routing-url-shape.md`, not `rule-1.md`). Each file

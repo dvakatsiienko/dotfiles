@@ -195,6 +195,11 @@ deleted — the call is Dima's, every time.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.
 
+**Completion criterion:** done when every touched ticket is fully fielded (role, kind, priority,
+estimate-or-blocked, project, parent+milestone where they apply) and the approval batch — or the
+one-line confirmation — **says which fields you set or changed**. A ticket left partially fielded
+is not captured, it is scattered.
+
 ## Body vs comments — the state contract
 
 Comments = trail (logs, stamps, provenance — keep using them). Body = current state: keep it
