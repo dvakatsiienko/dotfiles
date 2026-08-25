@@ -11,6 +11,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
+⏰📌 when the WHOLE memory sweep closes — sync fleet voice with cw (profile); set 2026-08-25 from inbox
+
 ⏰📌 SessionStart hook prefetch for cclio boot — landed 2026-08-24 (boot-prefetch.sh); watch it serve, suggest new hoists
 
 ⏰📌 writing-for-agents skill was NOT loaded during a whole memory/skill-editing session — load it BEFORE editing any skill, rule, or CLAUDE.md; the trigger is not firing on its own, watch this habit
@@ -24,7 +26,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 create «opus-mode» skill — session-start voice overrides for opus smartass printing; to be written by dima and fable together
 
 
-⏰📌 🦊👁️ vibemon does not register all commits — 2026-08-24 measured: 42 real (40 agent-authored) vs 24 in the mobile app; known cause candidate: commits via Bash heredoc invisible to its regex (undercounts by design, flowlog note); needs a fix or a verdict
+⏰📌 🦊👁️ vibemon undercount — VERDICT delivered 2026-08-25: heredoc theory wrong (notify.sh handles heredocs); real cause is chain classification — N commits in one Bash call = 1 event (`_CHAIN_PRIORITY` picks one label per call). fix landed: x:cmt guardrail «one commit per Bash invocation». droppable on dima's word
 
 ⏰📌 🦊📜 keep `cclio/docs/memory-checkup.md` evergreen — every time the checkup/review flow gains a step or changes shape mid-work, write it into the doc the same turn, not at the halt
 
