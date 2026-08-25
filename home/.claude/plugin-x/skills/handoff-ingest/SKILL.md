@@ -21,8 +21,8 @@ If the user stated what THIS thread is for (a focus, "continue only the X part")
 ## FILE MODE
 
 1. Sweep first (Cleanup below). List `~/.claude/shelf/handoffs/*.md` by mtime.
-2. **Filter by audience BEFORE picking.** The filename is `<utc-ts>-<audience>-<slug>.md` — the
-   audience is who the CST was written FOR. Keep only files whose audience is `any` or **this
+2. **Filter by audience BEFORE picking.** The filename is `<audience>-<slug>-<utc-ts>.md`
+   (legacy `<utc-ts>`-first names still count) — the audience is who the CST was written FOR. Keep only files whose audience is `any` or **this
    session's own token** (a `cclio` session takes `cclio`; a plain `ccli` session takes `ccli`); a
    two-segment legacy name with no audience counts as `any`.
    - 🚨 **Never ingest a file addressed to another agent.** Pulling one both feeds this thread the

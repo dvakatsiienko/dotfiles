@@ -69,7 +69,7 @@ Produce the CST and write it to the store per spec:
 
 ```bash
 mkdir -p ~/.claude/shelf/handoffs && chmod 700 ~/.claude/shelf/handoffs
-# write ~/.claude/shelf/handoffs/<utc-ts>-<audience>-<slug>.md, then:
+# write ~/.claude/shelf/handoffs/<audience>-<slug>-<utc-ts>.md, then:
 chmod 600 ~/.claude/shelf/handoffs/<file>
 ```
 

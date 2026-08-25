@@ -87,9 +87,11 @@ section disagree, this section is right and the implementation is a bug.
 in skill bodies use bare skill names; translate with your own prefix.
 
 - **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
-- **Filename**: `<utc-ts>-<audience>-<slug>.md`, where `<utc-ts>` is `YYYYMMDDThhmmssZ`, `<audience>`
-  is the agent the CST is written FOR, and `<slug>` is kebab-case. Append `-shared` before `.md` when
-  multiple threads are expected to pull it.
+- **Filename**: `<audience>-<slug>-<utc-ts>.md`, where `<audience>` is the agent the CST is written
+  FOR, `<slug>` is kebab-case, and `<utc-ts>` is `YYYYMMDDThhmmZ` (seconds optional). Append
+  `-shared` before `.md` when multiple threads are expected to pull it:
+  `<audience>-<slug>-<utc-ts>-shared.md`. A legacy `<utc-ts>-first` name still parses; new writes
+  never use it.
 - **Audience** is one lowercase token: `cclio`, `dpatch`, `cw`, `ccli`, or **`any`** when the CST is
   written for whoever picks it up next. A session knows its own audience token; `any` matches every
   reader.
