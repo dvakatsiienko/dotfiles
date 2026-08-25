@@ -107,7 +107,7 @@ server.registerTool(
         mkdirSync(HANDOFF_DIR, { mode: 0o700, recursive: true });
         const file = join(
             HANDOFF_DIR,
-            `${utcTs()}-${audience ?? 'any'}-${sanitizeSlug(slug)}${shared ? '-shared' : ''}.md`,
+            `${audience ?? 'any'}-${sanitizeSlug(slug)}-${utcTs()}${shared ? '-shared' : ''}.md`,
         );
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
@@ -169,7 +169,7 @@ server.registerTool(
         renameSync(old.path, join(SUPERSEDED_DIR, old.name));
         const file = join(
             HANDOFF_DIR,
-            `${utcTs()}-${audience ?? audienceOf(old.name)}-${sanitizeSlug(slug)}${keepShared ? '-shared' : ''}.md`,
+            `${audience ?? audienceOf(old.name)}-${sanitizeSlug(slug)}-${utcTs()}${keepShared ? '-shared' : ''}.md`,
         );
         writeFileSync(file, cst, { mode: 0o600 });
         chmodSync(file, 0o600);
@@ -539,10 +539,11 @@ type Audience = (typeof AUDIENCES)[number];
 /** Which agent THIS server reads for. The x-cw server is the desktop (`cw`) door. */
 const READER: Audience = 'cw';
 
-/** A legacy two-segment name has no audience token and counts as `any` (CST-SPEC store contract). */
+/** Audience leads the filename; legacy ts-first names still parse; no recognized token = `any`. */
 function audienceOf(name: string): Audience {
-    const match = name.match(/^\d{8}T\d{6}Z-([a-z0-9]+)-/);
-    const token = match?.[1];
+    const token =
+        name.match(/^\d{8}T\d{4,6}Z-([a-z0-9]+)-/)?.[1] ??
+        name.match(/^([a-z0-9]+)-/)?.[1];
     return token && (AUDIENCES as readonly string[]).includes(token)
         ? (token as Audience)
         : 'any';
@@ -555,8 +556,9 @@ function readableHere(name: string) {
 
 function slugOf(name: string) {
     return name
-        .replace(/^\d{8}T\d{6}Z-/, '')
+        .replace(/^\d{8}T\d{4,6}Z-/, '')
         .replace(new RegExp(`^(${AUDIENCES.join('|')})-`), '')
+        .replace(/-\d{8}T\d{4,6}Z(?:-shared)?\.md$/, '')
         .replace(/(?:-shared)?\.md$/, '');
 }
 
