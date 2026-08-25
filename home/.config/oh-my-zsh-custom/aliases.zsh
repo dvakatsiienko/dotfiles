@@ -101,6 +101,8 @@ alias rmx='trash'
 
 # llms
 alias cute='claude'
+alias cclio-list='~/dotfiles/cclio/hooks/boot-prefetch.sh'
+alias cclio='cd ~/dotfiles/cclio && claude --remote-control "💻 cclio"'
 alias cutemon='claude-monitor --plan max5 --time-format	24h'
 
 # gum
