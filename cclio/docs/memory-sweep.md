@@ -531,6 +531,19 @@ not exist, and it costs more, because everyone believes the problem is handled.
 - ✅ the t3 reference (`AGENTS-t3-code-ref.md`) was harvested and DELETED 2026-08-25 — reverse
   states, smallest-proof, and every-entry-point folded into `x:guide-code`; test-data seeding
   shape queued for the bytes `CLAUDE.md` pass.
-- ❓ is proxying the research guides through `writing-for-agents` both-worlds, or bloat?
-- ❓ does `writing-for-agents` apply to memory files, or only to skills?
-- ❓ do we still need skillsmith once the guides exist?
+- ✅ proxying the research guides through `writing-for-agents` — **no** (dima 2026-08-26): first
+  make the skill fire reliably on its own; a proxy adds a hop with no new reader.
+- ✅ `writing-for-agents` applies to **memory files AND skills** (dima 2026-08-26) — but the
+  auto-load still does not happen: the leaf pass of 2026-08-26 read files via bash `cat`, which
+  the `paths:` trigger does not see. «make it fire» stays the open mechanism question.
+- ✅ skillsmith — **not needed**, DOT-132 canceled with the closing word in its body.
+
+---
+
+## ✅ the sweep is finished — 2026-08-26
+
+the exit condition (this file complete) is met: both mandatory items closed, every open question
+answered or rehomed. open children re-parented (DOT-225, DOT-13 → skills story; gazette → system
+story); DOT-216 closed. what remains alive on purpose: the writing-for-agents firing mechanism
+(the one open thread, tracked by the ⏰📌 watch) and the priority restore on the two parent
+stories.
