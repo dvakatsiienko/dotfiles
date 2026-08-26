@@ -2,6 +2,7 @@
 name: pre
 description: Load when Dima types /pre or marks an item "pre:", or asks for a tiny thing done right now before the main thread continues.
 argument-hint: "<the tiny thing>"
+disable-model-invocation: true
 ---
 
 # Pre
