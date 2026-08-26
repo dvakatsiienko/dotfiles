@@ -199,6 +199,20 @@ quarterly checkup cannot be the mechanism.**
 ---
 
 
+## the project-leaf pass — proven 2026-08-26, closes a sweep
+
+the checkup above covers the resident chain; project memfiles (`AGENTS.md`/`CLAUDE.md` in bytes,
+inner-marker, rl, …) age separately and get their own pass at sweep end:
+
+1. `find ~/projects -name AGENTS.md -o -name CLAUDE.md` (skip template/tutorial repos)
+2. per file: **examine the project first** (scripts, deps, layout), then judge the file — most
+   post-overhaul files were already modern; only the untouched ones (space-explorer pair) needed
+   rewrites
+3. rewrite test: environment restated → point at it; tutorials → delete; keep only unwritten
+   conventions and gotchas
+4. 📌 measured en route: the `paths:` read-trigger does NOT fire on bash `cat` reads — batch
+   file reading bypasses the authoring-trigger rule entirely
+
 ## the leaf-by-leaf review — procedure, proven 2026-08-24
 
 🎓 **the round format lives in `x:step-by-step` — invoke it, do not re-invent it here.** the whole
