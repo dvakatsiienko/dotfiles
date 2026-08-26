@@ -25,6 +25,7 @@ brew "eza"                       # ls
 brew "bat"                       # cat, with highlighting
 brew "fd"                        # find
 brew "ripgrep"                   # grep (replaced the_silver_searcher)
+brew "tokei"                     # loc counter
 brew "tree"                      # directory trees
 brew "trash"                     # rm, but recoverable
 brew "coreutils"                 # gnu twins as g-prefixed names; `gtimeout` above all —
