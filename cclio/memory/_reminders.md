@@ -11,7 +11,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 when the WHOLE memory sweep closes — sync fleet voice with cw (profile); set 2026-08-25 from inbox
+⏰ sync fleet voice with cw (profile) — ungated 2026-08-26 by the sweep close; raise at a natural moment
 
 ⏰📌 SessionStart hook prefetch for cclio boot — landed 2026-08-24 (boot-prefetch.sh); watch it serve, suggest new hoists
 
