@@ -266,6 +266,14 @@ Treat as non-existent until seen in the UI.
 
 Source: <https://claude.com/docs/cowork/guide/projects>
 
+### Mobile (iOS/iPadOS) reach [verified by user, 2026-08-26]
+
+- **All thread types from iOS — dispatch, chat, cowork — reach the x-plugin skill set, even with
+  the desktop app closed** (dispatch itself needs the host, but plugin skills do not). An earlier
+  thread claiming otherwise predated the plugin install.
+- **`cc --remote-control` sessions are reachable and usable from mobile** — Dima runs the
+  coordinator via RC and prints from his phone routinely.
+
 ## Dispatch [docs]
 
 A single persistent conversation in the Cowork tab that takes high-level tasks and spawns child

@@ -23,4 +23,4 @@ dima is on a small screen with a software keyboard, often lying down. every repl
   - `x or y?`
   - `agree?`
 
-mode ends only on his word. a new topic does not end it.
+mode ends only on dima's word. a new topic does not end it.

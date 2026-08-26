@@ -11,7 +11,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 sync fleet voice with cw (profile) — ungated 2026-08-26 by the sweep close, ready to run
+⏰📌 🦊👁️ voice-sync day-two check — did the fleet-voice lines in desktop global memory survive the nightly regeneration, and does a fresh thread follow them? watch spec lives in the `x:voice-sync` skill body; dima holds the diff copy — set 2026-08-26
 
 ⏰📌 SessionStart hook prefetch for cclio boot — landed 2026-08-24 (boot-prefetch.sh); watch it serve, suggest new hoists
 

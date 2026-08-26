@@ -55,6 +55,12 @@ is fat or unstructured and needs the bigger picture of how one is written.
 5. **can the agent find it by looking?** scripts, layout, `--help` — a doc restating those is a
    stale cache. cache only the unwritten convention, the reason, the gotcha
 
+## a new x:* skill asks the cw question
+
+creating a skill in `plugin-x` does NOT reach the desktop — `plugin-x-cw` is a curated symlink
+set. at create time, decide cw inclusion; if yes: `ln -s ../../plugin-x/skills/<name>` in
+`plugin-x-cw/skills/` + bump both plugin versions.
+
 ## skill descriptions — WHEN only
 
 **the description is ONLY the load trigger** — «Load BEFORE …», «Load EVERY time …», «Load
