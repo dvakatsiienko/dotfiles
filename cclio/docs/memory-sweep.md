@@ -477,6 +477,11 @@ exactly the dependency this run exists to remove.
 
 ### 1. make `writing-for-agents` actually fire on memory and skill edits
 
+✅ **closed 2026-08-26.** the mechanism landed as `rules/authoring-trigger.md` — a `paths:`-scoped
+rule firing on `Read` of any CLAUDE.md/AGENTS.md/SKILL.md/rules file, measured live. known gap
+(stated in the rule itself): creating a NEW file fires nothing — the ⏰📌 watch covers that case.
+the habit held three sessions running (2026-08-24/25/26, loads verified in-session).
+
 the doc pointer in root does not work. proven, not suspected: it was installed and ignored within
 the hour. find a mechanism and **test it in a dedicated session** rather than reasoning about it.
 
@@ -489,6 +494,12 @@ the hour. find a mechanism and **test it in a dedicated session** rather than re
 - the test is behavioural: edit a rule in a fresh session and see whether the skill loads unasked
 
 ### 2. work out how `authoring-memory.md` and `authoring-skill.md` get used at all
+
+✅ **closed 2026-08-26.** the route exists on two rungs: `authoring-trigger.md` fires on read and
+names both docs; `rules/authoring-memory-and-skills.md` (resident router) points at them for the
+deep cases. remaining honesty: the html-comment / two-draft / checklist interventions still depend
+on the docs being opened — watch whether they surface in real edits before calling the content
+reachable.
 
 they are good and they are unreachable. same failure as above, one layer down: `writing-for-agents`
 is the craft layer and these two are the harness-mechanics layer, but nothing routes a reader from
@@ -512,13 +523,11 @@ not exist, and it costs more, because everyone believes the problem is handled.
   `naming-entity-first.md` was retired into root. the skill half rides phase 2 step 4; the
   `script/` half is `dima's tools` work and needs its own home.
 
-- ❓ **`AGENTS.md` support.** root's plan was `AGENTS.md` as the main file with `CLAUDE.md`
-  importing it via `@./AGENTS.md`. cut from root during the connector pass because it is a plan,
-  not a rule, and no ticket owned it. **parked here rather than deleted** — it is still dima's
-  intention, it just has no home yet.
+- ✅ **`AGENTS.md` support — landed 2026-08-26.** the contract is stated in root CLAUDE.md near
+  the top («a project's memory lives in `AGENTS.md`; its `CLAUDE.md` is a one-line `@AGENTS.md`
+  import»), declared its only home. shipped across dotfiles/bytes/inner-marker/rl earlier.
 
-- ❓ story shape — a new «ccli memory nurture» story holding the non-p0 children of DOT-73 and
-  DOT-184, with `memory:` / `skill:` title prefixes. proposed, awaiting his word.
+- ✅ story shape — resolved: DOT-216 exists, scoped by time, holding the pass.
 - ✅ the t3 reference (`AGENTS-t3-code-ref.md`) was harvested and DELETED 2026-08-25 — reverse
   states, smallest-proof, and every-entry-point folded into `x:guide-code`; test-data seeding
   shape queued for the bytes `CLAUDE.md` pass.
