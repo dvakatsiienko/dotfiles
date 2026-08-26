@@ -13,7 +13,9 @@ or scratch file. The inverse of `/queue`, which parks work for this session only
 Store: the auto-memory dir for the current project, as one `⏰` line in a memory file the index
 points at. **Exception — cclio:** a session booted in `~/dotfiles/cclio` stores in
 `cclio/memory/_reminders.md` (barrel-imported, git-backed).
-**Exception — desktop threads without a filesystem:** store as a global memory edit, prefixed `⏰`.
+**Exception — desktop app threads (all kinds):** store as a global memory edit, prefixed `⏰` —
+global memory reaches every thread including mobile; never route reminders through Desktop
+Commander files.
 
 **Two tiers.** `⏰` — raised at a natural moment. `⏰📌` **stuck** — raised at **every session
 boot**, natural moment or not. Both die only when Dima drops them.
