@@ -4,8 +4,7 @@
 clears, never archived. **max 10 lines, freshest first, oldest out; expired pruned on sight by
 whoever reads one.** admission test: «what would an agent get wrong without this line?»
 
-- 📢 2026-08-26 — `x:pre` and `x:remind` are user-invoke-only now (x 0.9.28): prose like «remind
-  me…» no longer autoloads them — the slash command does. expires: when the fleet stops tripping
-  on it.
+- 📢 2026-08-24 — cclio boot went light: `/cclio:init` is minimal, `board`/`full` arg pulls the
+  tracker picture (plugin 0.2.0). expires: after a few proven boots.
 - 📢 vet 🧪 label = examine-before-committing, «vetted unless removed»; trial until ~2026-09-18,
   else mutates to «investigate». expires: label survives or mutates.
