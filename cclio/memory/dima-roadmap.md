@@ -12,14 +12,15 @@ what it was built for.
 2. 🚧 **memory trashclean + fleet package rethink** — one pass. Trashclean largely done; the
    package half remains ([DOT-185](linear://linear.app/issue/DOT-185)): cclio + `cw` as one
    package, mcp vs cli decided by which machine the shell reaches.
-3. **dima's tools** — git, zsh, nvim, dotfiles. Deliberately after the fleet settles.
+3. **the pm milestone** — the takeover milestone on project `pm` (his insert 2026-08-26).
+4. **dima's tools** — git, zsh, nvim, dotfiles. Deliberately after the fleet settles.
    [DOT-159](linear://linear.app/issue/DOT-159) remainder rides here. His order 2026-08-26:
-   finish harness polish → plan git fixes + zsh fixes → then pm (takeover milestone) → then
-   reassess. Bytes is explicitly not near yet.
-4. **the personal cli** — one interface over the rest.
-5. **BYT prettify** — the bytes tracker. ⚠️ freebies only until step 4 lands.
-6. **the bytes repo prettify** — the code.
-7. 🎯 **build apps** — numi, lab, and the rest. The point of all of it.
+   finish harness polish, plan git fixes + zsh fixes, then reassess. Bytes is explicitly not
+   near yet.
+5. **the personal cli** — one interface over the rest.
+6. **BYT prettify** — the bytes tracker. ⚠️ freebies only until step 5 lands.
+7. **the bytes repo prettify** — the code.
+8. 🎯 **build apps** — numi, lab, and the rest. The point of all of it.
 
 Underneath all seven: keep pm healthy and the fleet picture in view — standing duty, not a phase.
 

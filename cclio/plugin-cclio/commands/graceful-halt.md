@@ -39,7 +39,9 @@ skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
    not be skipped**, because it is the part that pays for itself tomorrow.
 5. **phase 3.5 still runs** — a stale milestone misinforms the next boot, and refreshing it is
    seconds.
-6. **CST, slug `<runid-topic>-stop`.** terse is fine; state beats prose.
+6. **the gazette runs, wire auto-yes** — `/cclio:gazette` writes the tweet AND fires the wire
+   without asking; this lane's default is yes so dima can just leave.
+7. **CST, slug `<runid-topic>-stop`.** terse is fine; state beats prose.
 
 then report in under 10 lines: what landed · what is parked and where the note is · anything left
 genuinely unsafe, named plainly and never softened · the boot line to resume.
@@ -106,6 +108,12 @@ the next session directly. before writing the CST:
 ## phase 4 — the board
 the `/cclio:report` shape, mutated to fold in whatever the sweep and the park list surfaced.
 ticket ids as full https links.
+
+## phase 4.5 — the gazette 🗞️ (before the CST, always)
+
+run `/cclio:gazette`: the tweet writes unconditionally; the wire asks «🗞️ the wire? y/n» and
+**blocks until dima answers literally** — he may miss an inline line, so the question stands
+alone. the CST afterwards carries only what the gazette did not.
 
 ## phase 5 — handoff CST 📬
 **mandatory, never skipped.** cclio cannot see sibling sessions, so the CST is its ONLY
