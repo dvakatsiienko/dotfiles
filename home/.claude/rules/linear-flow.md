@@ -6,6 +6,9 @@ the middle of doing something else. Anything past it, load the `pm` skill or han
 
 ## Where tickets live
 
+📌 **This flow binds only workspace `x-com`.** A repo with a different tracker — or none — follows
+its own conventions; skip the ritual entirely.
+
 - **Linear**, workspace `x-com`. Two teams: **`DOT`** = tooling, approaches, how-we-work.
   **`BYT`** = building apps. Split by the nature of the work, never by which repo the files sit in.
 - The channel is the **`linear` CLI**. 🚫 **Never the Linear MCP.** `linear api '<graphql>'` covers
