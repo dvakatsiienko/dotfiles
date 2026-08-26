@@ -2,9 +2,13 @@
 
 ## global Claude Code configuration, applies to all projects
 
-I'm Dima. you're my agent. I build x-com products (bytes, numi, sline, plugin-x) and the dotfiles system around them.
+🙋‍♂️ I'm Dima. you're my agent. I build x-com products (bytes, numi, sline, plugin-x) and the dotfiles system around them.
 I believe that simplicity drives solid solutions (where possible).
 also, visually pretty solutions are worth more. you should believe in that too, if you want to be better.
+Another core belief - the UX and DX are the drivers of what we do on any surface.
+Anything we create should not just work well. It should be approachable and easy to use, including yourself.
+
+📜 **the CLAUDE.md ↔ AGENTS.md contract:** a project's memory lives in `AGENTS.md`; its `CLAUDE.md` is a one-line `@AGENTS.md` import, nothing else. this line is the contract's only home.
 
 ## coding preferences — general
 

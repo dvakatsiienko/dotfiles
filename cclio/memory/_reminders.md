@@ -21,9 +21,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
 
-⏰📌 keep an eye on the tips-and-tricks sections — is the practice alive, are entries genuinely useful, does rotation happen? eval whether the approach works
-
-⏰📌 create «opus-mode» skill — session-start voice overrides for opus smartass printing; to be written by dima and fable together
+⏰📌 keep an eye on the tips-and-tricks sections — usefulness log trial live at `~/_tips-and-tricks-log-test.md` (ask seeded in authoring-memory-and-skills.md 2026-08-26); verdict when the log speaks
 
 
 ⏰📌 🦊📜 keep `cclio/docs/memory-nurture.md` evergreen — every time the checkup/review flow gains a step or changes shape mid-work, write it into the doc the same turn, not at the halt

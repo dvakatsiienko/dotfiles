@@ -23,10 +23,8 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   flavour»*.
 - **sonnet-5** — routine well-specified work under quota pressure; never hard multi-step (−16 vs
   opus on SWE-bench Pro).
-- **haiku-4.5** — 🎯 reach for it more: retrieval, classification, extraction, bulk transforms,
-  subagents. Deliberately under-observed — default it for narrow-question subagents and report
-  what it handled well vs fumbled; the observation is the point. 📌 its benchmarks compare against
-  4.x, never the 5s.
+- **haiku-4.5** — retrieval, classification, extraction, bulk transforms. 📌 its benchmarks
+  compare against 4.x, never the 5s.
 - Full cards and prices: `docs/agents/models.md`, on demand.
 
 ## preflight, four checks, every spawn
