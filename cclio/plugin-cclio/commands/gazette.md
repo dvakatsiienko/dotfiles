@@ -27,9 +27,14 @@ the release — derived from the tweet, pushed outward.
 
 - **gate:** bare halt → ask «🗞️ the wire? y/n» and **block until a literal answer**; stop lane →
   auto-yes, run without asking.
-- **health update** for each project the tweet touched — reads well, looks pretty, ⚠️ full
-  markdown links (health updates do not auto-link ids). until the compose-message skill
-  (DOT-223) exists, write plainly.
+- **health update** for each project the tweet touched — ⚠️ full markdown links (health updates
+  do not auto-link ids). the shape (dima's feedback, run #1):
+  - **bullet-listed, never a text wall**; emoji line-prefixes welcome
+  - **the inverse of a commit message**: not what changed — **what got easier for dima**, each
+    bullet a gain written for him, not for an agent
+  - roughly the current size, not much bigger
+  - the wording itself upgrades when the writing-for-humans skill (DOT-223) lands — until then,
+    plain fleet voice.
 - **announcements.md** — only a genuinely new feature, capability, or hazard affecting the
   fleet; evaluated fresh each time; the file's existing mechanics stay.
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so
