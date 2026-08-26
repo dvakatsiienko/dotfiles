@@ -75,3 +75,5 @@ shaped **issue → resolution** — what was hit, then what resolved it.
 - each file maintains only its own scope
 - no forced entries — empty is healthy
 - line shape: `- <emoji> <yyyy-mm-dd> — <issue hit> → <what resolved it>`
+- 🧪 trial: the moment a tips entry actually helps you, log the case in
+  `~/_tips-and-tricks-log-test.md` (one line, format inside) — this decides keep vs drop
