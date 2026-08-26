@@ -12,7 +12,7 @@ rethink, not a license for a bare name. (`_`-prefixed files are infrastructure, 
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
 
 ## direction — read before any pm decision
-- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen
+- 🧭 @/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. 🧪 master moved to the vault 2026-08-26 so dima edits it in obsidian; «resident upd» from him → re-read it (no hot notices from outside the repo). repo copy at `dima-roadmap.md` is a FALLBACK until the next-boot import probe passes (canary: step 3 «the pm milestone»)
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
