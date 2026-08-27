@@ -72,7 +72,9 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
   contradicting an ADR surfaces the conflict, never silently overrides.
 - **Research** — `docs/research/<subject>.md`, subject-first filename, never a ticket-id prefix, so
   a doc survives the ticket that prompted it. `Ticket: DOT-N` on its own line at the top when one
-  owns it.
+  owns it. **Every research doc carries `dies-when:` frontmatter at creation** — the condition that
+  retires it (distilled into an artifact, hatched into a skill/rule, or acted on). Reading a doc
+  past its `dies-when` means deleting or flagging it, same as expired announcements.
 
 📌 **1Password is required** for SSH signing. Vim plugins need a manual `:PlugInstall` after setup.
 
