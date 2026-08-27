@@ -57,15 +57,11 @@ A quota window resetting while the session sits idle.
 Rendering 0% instead of the pre-reset percentage once a quota window's reset time is in the past.
 
 **Focus pin**:
-The ticket this session agreed to resolve — one slot, sticky, rendered `🪄 DOT-23`. Written by `shelf/hooks/sline-focus.sh` on Dima's keyword and by the agent when work starts or ends.
+The ticket this session is on — one slot, sticky, rendered `🪄 DOT-23`, dimmed once it goes 8h unrefreshed. Written only by `shelf/hooks/sline-focus.sh`, when Dima types `clam DOT-23` on a line of its own; `ticket fly` clears it.
 _Avoid_: current ticket, active issue
 
-**Touch**:
-The last three ticket ids the session poked, newest first, rendered dim after a `·`. An id lives in exactly one slot — pinning a touched ticket moves it rather than copying it.
-_Avoid_: recent, history
-
 **Status cache** (`focus/status-cache.json`):
-Linear state for the ids in focus, written only by `shelf/hooks/sline-status-fetch.sh` and read only by sline. Shared by every session, merged never replaced. Sline never fetches from a render.
+Linear state for the pinned id, written only by `shelf/hooks/sline-status-fetch.sh` and read only by sline. Shared by every session, merged never replaced. Sline never fetches from a render.
 _Avoid_: ticket state (ambiguous with the pin), sync
 
 **Rule** (`~/.claude/rules/*.md`):

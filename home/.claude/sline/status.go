@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Linear status for the ids in focus. sline only ever READS this — shelf/hooks/sline-status-fetch.sh
+// Linear status for the pinned id. sline only ever READS this — shelf/hooks/sline-status-fetch.sh
 // owns the fetch, because a linear call costs ~325ms and sline renders on every
 // prompt and again every minute. See DOT-81.
 type ticketStatus struct {
@@ -23,9 +23,9 @@ type ticketStatus struct {
 // unrefreshed through many prompts, so it stops asserting and starts admitting.
 const statusStaleAfter = 10 * time.Minute
 
-// Short forms, chosen over full names because four ids in focus with "in progress"
-// spelled out runs to 65 columns — most of line 1. Anything not listed renders
-// lowercased as Linear names it.
+// Short forms, chosen over full names because line 1 is already crowded and a
+// spelled-out state buys nothing a three-letter one does not. Anything not
+// listed renders lowercased as Linear names it.
 var statusShort = map[string]string{
 	"In Progress": "wip",
 	"In Review":   "review",
@@ -97,25 +97,16 @@ func statusBadge(cache map[string]ticketStatus, id string) string {
 // sline does not spawn a process on every single render to be told "not yet".
 const statusFetchTTL = 60 * time.Second
 
-// refreshDue reports whether any id in focus is missing from the cache or has
-// aged past the TTL. Only ids in focus are considered: entries left behind by
-// ids that have moved on keep old timestamps forever.
-func refreshDue(cache map[string]ticketStatus, ids []string) bool {
-	if len(ids) == 0 {
+// refreshDue reports whether the pinned id is missing from the cache or has aged
+// past the TTL. Only the pinned id is considered: entries left behind by ids
+// that have moved on keep old timestamps forever. An empty pin is never due —
+// treating it as a missing status made sline spawn a fetch on every render.
+func refreshDue(cache map[string]ticketStatus, id string) bool {
+	if id == "" {
 		return false
 	}
-	cutoff := time.Now().Add(-statusFetchTTL).Unix()
-	due := false
-	for _, id := range ids {
-		if id == "" {
-			continue // an empty pin slot is not a missing status
-		}
-		st, ok := cache[id]
-		if !ok || st.At <= cutoff {
-			due = true
-		}
-	}
-	return due
+	st, ok := cache[id]
+	return !ok || st.At <= time.Now().Add(-statusFetchTTL).Unix()
 }
 
 // triggerRefresh fires the fetch and walks away. sline redraws every minute, so
