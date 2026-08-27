@@ -6,14 +6,12 @@ import (
 	"time"
 )
 
-// focusState is written by shelf/hooks/sline-focus.sh (Dima's clam/touch/fly keywords) and
-// by the agent on ticket grab and close. Keyed per session id so parallel
-// sessions never fight over one file.
+// focusState is written by shelf/hooks/sline-focus.sh when Dima names the ticket
+// he is on (`clam DOT-23`). One slot, never a list. Keyed per session id so
+// parallel sessions never fight over one file.
 type focusState struct {
-	Pin     string   `json:"pin"`
-	PinAt   int64    `json:"pin_at"`
-	Touch   []string `json:"touch"`
-	TouchAt int64    `json:"touch_at"`
+	Pin   string `json:"pin"`
+	PinAt int64  `json:"pin_at"`
 }
 
 // pinStaleAfter dims a pin nobody refreshed — a forgotten pin must look
@@ -37,47 +35,27 @@ func loadFocus(sessionID string) *focusState {
 
 func focusSegment(sessionID string) string {
 	st := loadFocus(sessionID)
-	if st == nil || (st.Pin == "" && len(st.Touch) == 0) {
+	if st == nil || st.Pin == "" {
 		return ""
 	}
 
 	status := loadStatuses()
-	// Fire-and-forget when something has aged out: the hook only runs when Dima
+	// Fire-and-forget when the status has aged out: the hook only runs when Dima
 	// types, and sline redraws every minute regardless — so this is what keeps
 	// the line fresh while a session sits idle. This render uses the cache as it
 	// stands; the next one picks up whatever comes back.
-	if refreshDue(status, append([]string{st.Pin}, st.Touch...)) {
+	if refreshDue(status, st.Pin) {
 		triggerRefresh(sessionID)
 	}
-	// withStatus keeps the id and its state one visual unit.
-	withStatus := func(rendered, id string) string {
-		if badge := statusBadge(status, id); badge != "" {
-			return rendered + " " + badge
-		}
-		return rendered
-	}
 
-	out := ""
-	if st.Pin != "" {
-		color := TicketColor
-		if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {
-			color = CleanColor
-		}
-		out += withStatus("🪄 "+paint(color, ticketLink(st.Pin)), st.Pin)
+	color := TicketColor
+	if st.PinAt > 0 && time.Since(time.Unix(st.PinAt, 0)) > pinStaleAfter {
+		color = CleanColor
 	}
-	// Touches only earn space where they disagree with the pin — that
-	// disagreement is the whole point: it is the drift the pin is guarding.
-	first := st.Pin == ""
-	for _, id := range st.Touch {
-		if id == "" || id == st.Pin {
-			continue
-		}
-		if first {
-			out += withStatus(paint(CleanColor, ticketLink(id)), id)
-			first = false
-			continue
-		}
-		out += " " + withStatus(paint(CleanColor, "· "+ticketLink(id)), id)
+	out := "🪄 " + paint(color, ticketLink(st.Pin))
+	// The id and its state stay one visual unit.
+	if badge := statusBadge(status, st.Pin); badge != "" {
+		out += " " + badge
 	}
 	return out
 }
