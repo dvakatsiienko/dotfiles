@@ -33,6 +33,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - @sys-skills.md — `x:*` runs anywhere, `cclio:*` is coordinator-only; the test is WHERE it runs
 - @sys-boundaries.md — what stays separate: own memory only, no sync mechanisms, domains never merge
 - @sys-settings-drift.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence
+- 📌 `dispatch-init.md` + `sys-dispatch.md` sit here NOT imported (no `@`) on purpose — dispatch's manual boot reads, cclio never loads or reads them unless Dima asks. the elegant memory port failed (dispatch expands no imports); read-everything-by-hand is the accepted chunky fallback
 
 ## habits
 - ⭐ @habit-capability-tips.md — tell him what you can do, filtered to what you are both doing now; a grant is not a limit
