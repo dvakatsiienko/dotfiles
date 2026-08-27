@@ -24,7 +24,6 @@ three rules keep it honest:
 
 - [agent harness building](research/agent-harness-building.md) — building a custom orchestration harness on claude code / agent sdk
 - [cc extension surfaces](research/cc-extension-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
-- [claude model strengths](research/claude-model-strengths.md) — per-model evidence base behind `rules/models.md`
 - [claude on disk map](research/claude-on-disk-map.md) — every place claude keeps state on this mac, and how the pieces find each other
 - [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
 - [linear → github agent trigger](research/linear-github-agent-trigger.md) — the `/cc` comment trigger fires a cloud agent that opens a pr; 📌 postponed, non-prio, nothing built

@@ -1,7 +1,7 @@
 # refresh-writing-for-humans — procedure
 
-Keeps the human-voice toolchain fresh: the research ref, the borrowed humanize skills, the
-detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
+Keeps the human-voice toolchain fresh: the distilled knowledge doc, the borrowed humanize
+skills, the detector lanes. First instance of the procedure entity ([spec](_spec.md)).
 
 ## the want (dima's, confirmed 2026-08-27)
 
@@ -16,9 +16,12 @@ detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
 - best (ideally free) llm-has-written-this-message tools; free tiers and apis first
 - (added 2026-08-27) has harshaneel/humanize moved — new levers, new tells, new references?
 
-## ref doc
+## artifacts (pointed at, never housed)
 
-[research.md](research.md) — colocated, refreshed in place.
+- `docs/agents/writing-for-humans.md` — the distilled knowledge: existing art, techniques,
+  detector landscape
+- `home/.claude/plugin-x/skills/writing-for-humans/` (+ `references/dima-voice.md`)
+- `home/.claude/plugin-x/skills/humanize/` + `humanize-audit/` — the borrowed copies
 
 ## run
 
@@ -26,8 +29,8 @@ detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
 2. spawn two researchers (skills+techniques · detectors), same split as run #1; think
    alongside them too — Dima's standing note: rely on existing solutions, but add your own
    read on how the skill should work
-3. clever-merge findings into `research.md` (the spec's synth semantics: useful old stays,
-   useful new enters, no bloat, completeness first)
+3. distill: clever-merge findings into `docs/agents/writing-for-humans.md` (useful old stays,
+   useful new enters, no bloat, completeness first); raw researcher output dies here
 4. eval + print findings to Dima: anything new to try out? skill refresh needed? upstream
    humanize moved?
 5. resolve with Dima by outcome — typical moves, only as the findings warrant:

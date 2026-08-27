@@ -5,10 +5,30 @@ refresh-when: a mechanical check is added or falsified, or the drift-latency fin
 ticket: DOT-216
 ---
 
-# memory checkup — the reusable inventory loop
+# memory-nurture — procedure
 
 **run this instead of re-planning an inventory.** it is the procedure that came out of the first
-full sweep; the sweep itself was one execution of it.
+full sweep; the sweep itself was one execution of it. procedure entity per [_spec.md](_spec.md).
+
+## the want (dima's, 2026-08-27)
+
+> i want fleet memory system to be pristine. every bit of memory should live in its place
+> vertically. the memory must not be a poem, nor the bytecode. as slim as possible to do its
+> job, natural for me to sometimes peek, trim, tweak. primarily maintained by fleet. no
+> useless, stale memories. i am the owner overall, carrier of the ideas. skill-wise: same.
+
+## research vectors (DRAFT — re-groom with dima before the next run's research phase)
+
+- what changed in cc's memory / import / `paths:` / skill mechanics since last run
+- new agent-doc craft worth distilling (incl. dima's channel parses — theo, matt pocock — via
+  yt-transcript)
+
+## artifacts (pointed at, never housed — the pristine distilled results)
+
+- `docs/agents/authoring-memory.md` · `authoring-memory-project.md` · `authoring-skill.md` —
+  distilled from research runs and video parses; each research phase refreshes them, raw
+  findings die after the distill
+- the memory tree itself is the run's working surface, not an artifact
 
 🔴 **LIVE during a sweep — this file is edited WHILE the work happens, not after.** every step that
 turns out wrong, every check that fires false, every thing the loop missed gets fixed here in the

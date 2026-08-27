@@ -36,5 +36,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - @sys-settings-drift.md — CC writes it at runtime; a real file where the symlink belongs is silent divergence
 - 📌 `dispatch-init.md` + `sys-dispatch.md` sit here NOT imported (no `@`) on purpose — dispatch's boot reads them, cclio never loads or reads them unless Dima asks. dispatch expands no imports, so: injected stub (`dispatch-init.md` as its MEMORY.md) → `/cclio:init-dispatch` command owns the boot → leaves on demand
 
+- 📐 procedures (repeatable maintenance flows) live in `docs/procedures/` here — `_spec.md` is the contract: want = dima's, research vectors = his wording, artifacts pointed-at never housed. read it before creating or running one. (plain pointer, not an import)
+
 ## habits
 - ⭐ @habit-capability-tips.md — tell him what you can do, filtered to what you are both doing now; a grant is not a limit
