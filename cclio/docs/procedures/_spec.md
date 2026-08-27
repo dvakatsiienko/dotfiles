@@ -25,6 +25,8 @@ refresh all share one skeleton.
    worth trying? does a downstream artifact (skill, copy, config) need a refresh? A run that
    ends without this printout did not finish.
 4. **resolve** — with Dima, by outcome: what the findings say gets done, folded, or dropped.
+   **Noop is a first-class outcome** — a run that found nothing new applies nothing; tweaking
+   afterward is never a must.
 
 ## folder shape — one folder per procedure
 
