@@ -23,8 +23,6 @@ three rules keep it honest:
 
 - [agent harness building](research/agent-harness-building.md) — building a custom orchestration harness on claude code / agent sdk
 - [cc extension surfaces](research/cc-extension-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
-- [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
-- [walkthrough mode](research/walkthrough-mode.md) — field notes shaping the `/walkthrough` skill
 
 ## spec/ — designs awaiting or driving implementation
 
