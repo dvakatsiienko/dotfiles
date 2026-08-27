@@ -3,10 +3,11 @@
 Keeps the spawn evidence base true against the current claude code build. Procedure entity per
 [_spec.md](_spec.md).
 
-## the want (candidate accepted 2026-08-27 — dima may rephrase any run)
+## the want (dima's, 2026-08-27)
 
-> spawn decisions must rest on verified mechanics, not remembered ones — cc moves fast and a
-> wrong row costs a lost coder.
+> i want you, coordinator, to coordinate with spawns (subagents) efficiently and precisely.
+> should work for now, with only you occasionally spawning a coder. the wants for this will
+> grow when we add verifiers and the rest of the zoo.
 
 ## research vectors (re-groom each run)
 
@@ -16,6 +17,8 @@ Keeps the spawn evidence base true against the current claude code build. Proced
   `--effort` on an effort-capable model · worktree isolation end to end · workflow per-call
   effort · the cloud row · `notify_when_idle` from the main conversation
 - new spawn surfaces or flags in the cc changelog since last run
+- freshest best practices of building an agent orchestrator — best approaches, accompanying
+  tools, tips and tricks, gotchas, pitfalls
 
 ## artifacts (pointed at, never housed)
 
