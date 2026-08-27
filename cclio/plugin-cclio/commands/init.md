@@ -8,6 +8,12 @@ disable-model-invocation: true
 light boot by default. an argument that loosely means the full picture — «board», «full», or
 similar — adds tracker orientation. run silently, report as ONE opening message.
 
+🎯 **the boot ORIENTS, it never resolves.** steps 1–8 are pure parse-and-assemble: no answers
+written, no tickets touched, no inbox item worked. the opening board ends with a proposed
+processing order and STOPS for dima's word. resolution then runs as labeled sub-batches with a
+checkpoint after each (`habit-pacing`); heavy queries fire at the step that needs them, never
+up front. a query too fat for its checkpoint → say so to dima instead of absorbing it.
+
 ## 1. healthcheck
 - barrel probe: name one fact that lives ONLY in a leaf body (the commit hash `d03f3da` in
   `sys-settings-drift` — it appears in no barrel line). cannot name it → 🚨 the import chain
@@ -24,8 +30,10 @@ nothing live or expired → say nothing.
 
 ## 3. inbox sweep 📬
 prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
-- read `inbox.md` — cclio's personal email. items → copy into `flowlog.md` with statuses
-  (✅🚧❓⏸️🎫) and propose a processing order. **deletion happens at the halt, never here.**
+- read `inbox.md` — cclio's personal email, **a plan source, never a work order.** EVERY item —
+  smallest aside included — gets a line in `flowlog.md` with a status (✅🚧❓⏸️🎫) and a lane:
+  answer-now / step-by-step / defer / observation-only. the checklist line is the completeness
+  guarantee; resolution is paced later. **deletion happens at the halt, never here.**
 - empty → «inbox clean». marked FROZEN → do not touch, report frozen, move on.
 
 ## 4. continuity
@@ -61,7 +69,12 @@ one message, short lines, **no queries here — pure assembly**:
 - healthcheck verdict (one line if green)
 - ⏰📌 stuck reminders, own line each (omit if none)
 - inbox status · handoffs pending · queue depth + top item
-- 1-2 proposed next moves — specific, not generic
+- 📋 the proposed processing order — the flowlog checklist, lanes marked, sub-batches labeled;
+  **the board ends here and waits for dima's word.** he corrects the parse before any work runs;
+  a skipped question means the recommendation is accepted
+- ✍️ prompt coaching, 1–2 lines max: the ONE thing in today's inbox that made parsing harder,
+  and how to write it next time. parsed clean → just «prompt is good». grounded in this inbox
+  or silent — never a generic writing tip
 - 🥊 self-grill, last line (omit if nothing real)
 
 ## 8. flaw capture 📝

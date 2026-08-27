@@ -9,8 +9,10 @@ Shared files are Dima's living space; leftovers cost him attention and blur what
 - `inbox.md` — his raw drops. **Check first thing every boot; it must always end empty of
   CONTENT — his section headers stay**, they are his reprint-saving skeleton. Copy items into
   `flowlog.md` with statuses (✅🚧❓⏸️🎫); clear from inbox only after he approves the processing.
-- `flowlog.md` — the processing journal. **✅ items pruned at every halt, unasked** — only
-  carry-over survives.
+- `flowlog.md` — the processing journal AND the boot checklist: every inbox item lands here at
+  parse time with status + lane, before any resolution. **✅ items pruned at every halt, unasked**
+  — only carry-over survives; a ⏸️ item older than a few sessions gets flagged to Dima, never
+  left to rot.
 - `protected.md` — his own drop file, read-only, never ours to edit.
 
 ## cleanup runs the same turn
