@@ -40,7 +40,7 @@ Use this language. Product names stay as written: "Claude Desktop", "Desktop Com
   mid-story.
 
 📌 **Capabilities, the per-surface table, what loads where, and who can spawn whom live in
-`docs/agents/claude-fleet-capabilities.md`.** Read it on demand; it does not belong resident.
+`docs/knowledge/claude-fleet-capabilities.md`.** Read it on demand; it does not belong resident.
 
 📌 Per-model strengths and the spawn defaults live in `rules/models.md`.
 

@@ -12,7 +12,7 @@ paths:
 1. load `mattpocock-skills:writing-for-agents` — the craft authority.
 2. pick the bucket via the vertical map in `rules/authoring-memory-and-skills.md` — audience
    decides, never topic.
-3. mechanics deep-dives on demand: `docs/agents/authoring-memory.md` · `authoring-skill.md`.
+3. mechanics deep-dives on demand: `docs/knowledge/authoring-memory.md` · `authoring-skill.md`.
 
 📌 this rule fires on the `Read` tool only — creating a NEW memory file or skill gets no reminder;
 the habit still carries that case.

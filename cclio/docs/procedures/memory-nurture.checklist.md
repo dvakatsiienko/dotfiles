@@ -173,9 +173,9 @@ place on the first run — isolation is not a verdict on its own, but it is wher
 - 🚨 **a leaf deferred to a deleted rule.** the mobile leaf named `rules/mobile.md` as «the binding
   copy… if they ever disagree, the rule wins». that file died the day before. **deleted at dima's
   call**, after confirming its one unique fact (DOT-91) already lives in
-  `docs/agents/claude-fleet-capabilities.md`. barrel line and inbound wikilink removed with it.
+  `docs/knowledge/claude-fleet-capabilities.md`. barrel line and inbound wikilink removed with it.
 - ✅ **the precedence chain is now written down** — one block in root `CLAUDE.md`, and the same
-  chain in `docs/agents/authoring-memory.md`. it had zero occurrences before.
+  chain in `docs/knowledge/authoring-memory.md`. it had zero occurrences before.
 - ✅ **the placement decision table ALREADY EXISTED** — phase 0 built it in `authoring-memory.md`.
   the ticket's «none of which exist» was stale by one day. added the missing `~/projects` row and
   the precedence section instead of writing a second table.
@@ -216,7 +216,7 @@ performs, justified a rule stated flatly elsewhere, or existed in two places.
 | pull requests + issues, 11 lines | the new `github-contrib` skill |
 | the background sound table | `hooks/spawn-sound.sh`, Glass on spawn, Submarine on reply |
 | token-thrift thresholds, the peer moves | `x:handoff` |
-| the precedence chain | `docs/agents/authoring-memory.md`, two sentences kept in root |
+| the precedence chain | `docs/knowledge/authoring-memory.md`, two sentences kept in root |
 | `AGENTS.md` support | parked in open questions below, no ticket owned it |
 
 `rules/`: one line cut from `fleet-voice.md` — the ban on `AskUserQuestion`, a tool sitting in

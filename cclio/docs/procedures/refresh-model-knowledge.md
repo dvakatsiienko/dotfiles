@@ -22,7 +22,7 @@ entity per [_spec.md](_spec.md).
 
 ## artifacts (pointed at, never housed)
 
-- `docs/agents/models.md` — THE model reference: cards, spawn defaults, dima's live task→model
+- `docs/knowledge/models.md` — THE model reference: cards, spawn defaults, dima's live task→model
   calls. Distill everything here; claim tags ([dima]/[bench]/[vendor]/[community]/[?]) never
   deleted, only updated.
 - `cclio/memory/craft-spawning.md` carries the resident distillate — check it agrees after

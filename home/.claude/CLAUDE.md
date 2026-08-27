@@ -58,7 +58,7 @@ Anything we create should not just work well. It should be approachable and easy
 - edit only the CLAUDE.md matching the current working scope: project dir → project CLAUDE.md, `~/.claude` → this file
 - modifying this file or anything in `rules/` from a project context requires an explicit request
 - two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. the full precedence chain is in the authoring docs
-- editing any CLAUDE.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/agents/authoring-memory.md` and `authoring-skill.md`
+- editing any CLAUDE.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/knowledge/authoring-memory.md` and `authoring-skill.md`
 
 ## global naming conventions
 

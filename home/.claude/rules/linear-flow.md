@@ -39,7 +39,7 @@ guess one, never grep for a plausible match, never write `DOT-?`. Most commits h
 omitting the line is always correct.
 
 ⚠️ Commit magic words assign the ticket and move its state on push. the `cmt` skill owns that contract and
-loads on every commit; the investigation behind it is `docs/agents/linear-autoassign-investigation.md`.
+loads on every commit; the investigation behind it is `docs/knowledge/linear-autoassign-investigation.md`.
 **Name the ticket you are about to close in your reply**, never close silently.
 
 ## Titles and bodies

@@ -37,9 +37,9 @@ through this shape: name the audience, ignore the topic.
 `writing-for-agents` is the craft authority — load it BEFORE every skill/rule/memory edit (the
 section above). the mechanics live one layer down, read on demand:
 
-- `docs/agents/authoring-memory.md` — placement mechanics, buckets table, precedence, the
+- `docs/knowledge/authoring-memory.md` — placement mechanics, buckets table, precedence, the
   measured cc facts (html-comment stripping, `paths:`, import hazards)
-- `docs/agents/authoring-skill.md` — cc skill mechanics: listing budget, frontmatter, invocation
+- `docs/knowledge/authoring-skill.md` — cc skill mechanics: listing budget, frontmatter, invocation
   control
 
 read the full doc when: unsure about a skill's quality · building a sophisticated skill · a skill
@@ -64,7 +64,7 @@ set. at create time, decide cw inclusion; if yes: `ln -s ../../plugin-x/skills/<
 ## skill descriptions — WHEN only
 
 **the description is ONLY the load trigger** — «Load BEFORE …», «Load EVERY time …», «Load
-when …» (dima's call 2026-08-25, sharpening `docs/agents/authoring-skill.md`). the NAME carries
+when …» (dima's call 2026-08-25, sharpening `docs/knowledge/authoring-skill.md`). the NAME carries
 the entity, the BODY carries the what — details are one invoke away. never let a description
 explain or answer: that is body content paid resident, every turn.
 **seed the trigger with magic keywords** — the literal words dima would type («commit this», a
