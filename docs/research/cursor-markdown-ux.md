@@ -1,3 +1,7 @@
+---
+dies-when: dima confirms the settings applied
+---
+
 # cursor markdown ux
 
 reading and editing `.md` in cursor with the vim binding kept, on a wide monitor.

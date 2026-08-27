@@ -3,6 +3,7 @@ researched: 2026-08-21
 sources-current-as-of: 2026-08-21
 refresh-when: claude code minor version bump, or 60 days
 ticket: DOT-189
+dies-when: the harness ships and the useful parts are distilled into its docs
 ---
 
 # Claude Code extension surfaces

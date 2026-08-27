@@ -21,8 +21,8 @@ three rules keep it honest:
 
 ## research/ — investigations, subject-first, one topic per file
 
-- [agent harness building](research/agent-harness-building.md) — building a custom orchestration harness on claude code / agent sdk
-- [cc extension surfaces](research/cc-extension-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
+- [agent harness building](research/harness-building.md) — building a custom orchestration harness on claude code / agent sdk
+- [cc extension surfaces](research/harness-cc-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
 
 ## spec/ — designs awaiting or driving implementation
 

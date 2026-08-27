@@ -6,6 +6,9 @@ carries run #1's map and verdicts — a new run resets the checklist, keeps the 
 **dima's plan lives here**, moved out of [DOT-73](linear://linear.app/issue/DOT-73)'s body so a
 ticket body is not a granular plan.
 
+📌 standing sweep line, every run: **`docs/research/` — anything past its `dies-when`?** delete
+or flag; the frontmatter contract lives in the dotfiles `CLAUDE.md` research bullet.
+
 three homes, and nothing crosses them:
 
 | home | carries |
