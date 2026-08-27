@@ -1,10 +1,9 @@
 ---
-name: dispatch-boot
-description: Dima invokes this to boot a dispatch (claude desktop VM) session — mounts the working dirs, announces the surface. dispatch-only; a ccli session never runs this.
+description: boot ritual for dispatch (claude desktop VM) — mounts the working dirs, announces the surface. dispatch-only; a ccli session never runs this.
 disable-model-invocation: true
 ---
 
-# dispatch-boot
+# /cclio:init-dispatch
 
 boot ritual for **dispatch** — the claude desktop surface running in a Cowork VM. it starts every
 session with nothing mounted and has no hooks, so this runs only when dima types it. run silently,
