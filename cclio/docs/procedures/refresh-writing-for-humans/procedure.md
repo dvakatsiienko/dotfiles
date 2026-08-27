@@ -12,7 +12,7 @@ detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
 
 - best in class already existing skills for instructing you to print clever human-voiced
   messages, using clever techniques — so we not invent something from scratch
-- if skill not found, hunt clever techniques
+- if skill not found, hunt clever techniques to create home-baked skill
 - best (ideally free) llm-has-written-this-message tools; free tiers and apis first
 - (added 2026-08-27) has harshaneel/humanize moved — new levers, new tells, new references?
 
@@ -22,15 +22,20 @@ detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
 
 ## run
 
-1. re-groom the vectors above with Dima before spawning anything
-2. spawn two researchers (skills+techniques · detectors), same split as run #1
-3. diff findings against the ref doc; update it in place
-4. refresh the borrowed copies: re-fetch `humanize` + `ai-check` from
-   https://github.com/harshaneel/humanize, re-apply the provenance headers and the
-   `humanize-audit` rename + multi-lane section (they are copies by decision — one update
-   mechanism, no repo zoo)
-5. fold new techniques into `x:writing-for-humans` and its `dima-voice.md` tells list
-6. bump plugin-x, update marketplace, report the diff to Dima
+1. re-groom the research vectors above with Dima before spawning anything
+2. spawn two researchers (skills+techniques · detectors), same split as run #1; think
+   alongside them too — Dima's standing note: rely on existing solutions, but add your own
+   read on how the skill should work
+3. clever-merge findings into `research.md` (the spec's synth semantics: useful old stays,
+   useful new enters, no bloat, completeness first)
+4. eval + print findings to Dima: anything new to try out? skill refresh needed? upstream
+   humanize moved?
+5. resolve with Dima by outcome — typical moves, only as the findings warrant:
+   - re-fetch `humanize` + `ai-check` from https://github.com/harshaneel/humanize, re-apply
+     the provenance headers, the `humanize-audit` rename, the multi-lane section, and the
+     routing description lines (copies by decision — one update mechanism, no repo zoo)
+   - fold new techniques into `x:writing-for-humans` and its `dima-voice.md` tells list
+   - bump plugin-x, update marketplace, report
 
 ## cadence
 

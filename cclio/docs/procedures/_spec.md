@@ -15,12 +15,16 @@ refresh all share one skeleton.
   answers to yesterday's questions.
 - **the run** — the execution script. Agents own it.
 
-## the three phases, always
+## the four phases, always
 
 1. **research** — spawn against the current research vectors.
-2. **synth** — findings refresh `research.md` in place (a living ref, not a run artifact).
-3. **run** — the script: what actually gets updated with the fresh findings (skills, copies,
-   configs, tickets).
+2. **synth** — findings CLEVER-MERGE into `research.md` (a living ref, not a run artifact):
+   keep the useful existing data, merge in only the useful new; two runs back-to-back may both
+   yield keepers — all good stuff goes in. Avoid bloat, but completeness outranks thinness.
+3. **eval + findings** — self-eval the merged picture and print Dima the delta: anything new
+   worth trying? does a downstream artifact (skill, copy, config) need a refresh? A run that
+   ends without this printout did not finish.
+4. **resolve** — with Dima, by outcome: what the findings say gets done, folded, or dropped.
 
 ## folder shape — one folder per procedure
 
