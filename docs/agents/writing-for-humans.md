@@ -1,8 +1,9 @@
-# writing-for-humans — research: existing art + detector landscape
+# writing-for-humans — the distilled knowledge
 
-Ticket: DOT-223
+Ticket: DOT-223 · maintained by the `refresh-writing-for-humans` procedure (cclio/docs/procedures)
 
-two parallel researcher runs, 2026-08-27. findings are researcher-sourced (links carried, spot-verification pending where it matters).
+existing art, techniques, and the detector landscape behind the `x:writing-for-humans` skill.
+seeded 2026-08-27 from two parallel researcher runs (researcher-sourced, links carried).
 
 ## existing skills — the art to build on
 
@@ -36,11 +37,8 @@ two parallel researcher runs, 2026-08-27. findings are researcher-sourced (links
 
 ⚠️ reliability caveat: detectors average ~86% on raw ai text and drop 15–30 points after light editing; false positives documented on every tool. **a directional signal in the loop, never a hard pass/fail.** dima stays the main validator (per ticket).
 
-## proposed skill structure (for approval)
+## how the skill landed (2026-08-27)
 
-- lean `SKILL.md`: register selection (casual/professional) → draft **in dima's voice** from few-shot samples → tells-audit → targeted rewrite
-- one reference file: banned words + structural bans + punctuation caps (loaded on demand)
-- a voice-corpus slot: real samples of dima's writing per register — the differentiator no existing skill has
-- optional verify hook: sapling free api call on the draft; pangram web manually for the ones that matter
-- opens with an output-style reset (per ticket); no heavy scripting, so cw runs it too
-- ships as `x:compose-message`, relayed to desktop via the plugin roster
+shipped as `x:writing-for-humans` + borrowed `x:humanize` / `x:humanize-audit` (multi-lane
+verify inside the audit). the differentiator vs all existing art: the dima-voice corpus —
+drafting in-voice from the start instead of de-robotting afterward.
