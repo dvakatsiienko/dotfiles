@@ -22,6 +22,8 @@ full sweep; the sweep itself was one execution of it. procedure entity per [_spe
 - what changed in cc's memory / import / `paths:` / skill mechanics since last run
 - new agent-doc craft worth distilling (incl. dima's channel parses — theo, matt pocock — via
   yt-transcript)
+- new memory-hygiene practice and tooling for agent fleets — new checks worth adding to the
+  loop, anthropic memory features, community approaches
 
 ## artifacts (pointed at, never housed — the pristine distilled results)
 
@@ -29,6 +31,8 @@ full sweep; the sweep itself was one execution of it. procedure entity per [_spe
   distilled from research runs and video parses; each research phase refreshes them, raw
   findings die after the distill
 - the memory tree itself is the run's working surface, not an artifact
+- [memory-nurture.checklist.md](memory-nurture.checklist.md) — the complementary run checklist
+  (dima's recipe): a run can span sessions, its state lives there; reset per run, shape kept
 
 🔴 **LIVE during a sweep — this file is edited WHILE the work happens, not after.** every step that
 turns out wrong, every check that fires false, every thing the loop missed gets fixed here in the
