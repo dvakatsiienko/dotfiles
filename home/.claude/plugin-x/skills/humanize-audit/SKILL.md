@@ -5,6 +5,7 @@ description: >
   this away as AI", "run ai-check on this", or "score this text". Also use when reviewing
   a draft for AI tells before publishing, or when a piece of text reads as suspiciously
   polished, generic, or pattern-y and the user wants a forensic breakdown of why.
+  Routing: this skill only SCORES text; drafting starts in writing-for-humans, rewriting in humanize.
 ---
 <!--
   borrowed 1:1 from https://github.com/harshaneel/humanize (commit 4ec7973145, fetched 2026-08-27).
