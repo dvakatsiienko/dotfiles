@@ -7,8 +7,9 @@ import (
 )
 
 // focusState is written by shelf/hooks/sline-focus.sh when Dima names the ticket
-// he is on (`clam DOT-23`). One slot, never a list. Keyed per session id so
-// parallel sessions never fight over one file.
+// he is on (`claim DOT-23`), and by the agent itself when it starts one — see
+// the pm skill. One slot, never a list. Keyed per session id so parallel
+// sessions never fight over one file.
 type focusState struct {
 	Pin   string `json:"pin"`
 	PinAt int64  `json:"pin_at"`

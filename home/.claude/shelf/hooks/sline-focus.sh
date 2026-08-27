@@ -2,12 +2,12 @@
 # UserPromptSubmit hook — maintains the per-session focus file sline renders.
 # One slot: the ticket this session is on.
 #
-#   clam DOT-23   -> that is the ticket now, replacing whatever was there.
-#                    Aliases: claim, pin.
+#   claim DOT-23  -> that is the ticket now, replacing whatever was there.
+#                    Alias: pin.
 #   ticket fly    -> clear the slot. Also: tickets fly.
 #
 # Two rules keep these from firing on ordinary prose: the keyword must START a
-# line, and the line must be the keyword and nothing else. "don't clam DOT-9"
+# line, and the line must be the keyword and nothing else. "don't claim DOT-9"
 # and "let's fly through this" both stay inert.
 set -euo pipefail
 
@@ -32,7 +32,7 @@ while IFS= read -r line; do
 		printf '{}' >"$file"
 		continue
 	fi
-	[[ $line =~ ^[[:space:]]*(clam|claim|pin)[[:space:]]+((DOT|BYT)-[0-9]+)[[:space:]]*$ ]] || continue
+	[[ $line =~ ^[[:space:]]*(claim|pin)[[:space:]]+((DOT|BYT)-[0-9]+)[[:space:]]*$ ]] || continue
 	id=$(printf '%s' "${BASH_REMATCH[2]}" | tr '[:lower:]' '[:upper:]')
 	# One slot, so the write is a replace — nothing to merge with what was there.
 	jq -n --arg p "$id" --argjson t "$now" '{pin: $p, pin_at: $t}' >"$file.tmp" &&
