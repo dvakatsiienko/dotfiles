@@ -8,7 +8,7 @@ detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
 > llm footprint on messages is a known issue — i want my outbound texts to sound like me, not
 > a robot; and i don't want to re-print the same research asks every time the tech moves.
 
-## vectors (dima's wording — re-groom with him each run)
+## research vectors (dima's wording — re-groom with him each run)
 
 - best in class already existing skills for instructing you to print clever human-voiced
   messages, using clever techniques — so we not invent something from scratch
