@@ -68,3 +68,10 @@ with nobody intervening. That contradicts the rule above, and one observation ca
 linear's behaviour changed or a batch of refs behaves differently from the single-ref pushes that
 were measured. No hook does this — `hooks/`, `.vibemon/` and `settings.json` were grepped for
 `assigneeId` and there is nothing.
+
+## observation log — post-suspension
+
+- 2026-08-27 — push carrying `- ref DOT-227` ×2 (commits b6504c9, aab7de4): ticket read back
+  ~20s after push — **assignee null, state unchanged (Done, set before the push)**. contradicts
+  the 2026-08-21 «plain ref assigns too» measurement; the assign may be conditional (state?
+  closed-before-push?) or linear changed. keep accumulating.

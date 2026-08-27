@@ -1,17 +1,7 @@
----
-name: anthropic-job-search
-description: Dima plans to apply to Anthropic as an engineer; profile brief for job-search support
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: 4b140658-9385-4bd6-8f8c-e3aeefb5214d
-  modified: 2026-08-18T12:39:49.010Z
----
+# dima's job search — the anthropic application brief
 
 Dima plans to apply to Anthropic as an engineer (stated 2026-08-18, half-joking tone but serious intent — "serious side will arrive in partitions"). Also open to other roles: frontend-related hi-tech, fullstack (weaker at backend), or AI-related work.
 
 Profile brief: battle-tested frontend engineer, ~10 years experience. Primary stack: TS/React/Next/Tailwind (confirmed by Dima 2026-08-18). Based in Kyiv, Ukraine. Currently building deep GenAI/agentic-workflow expertise hands-on: agent orchestration (dpatch, then cclio), Claude Code fleets, handoff/CST protocols, Linear-driven PM with agents, skills/memory engineering. Job-search discussion history lives in his Claude Desktop "job" project memory — no agent on this mac can read that project — cclio included; ask him to expand when needed.
 
 Research findings (fable researcher, 2026-08-18): frontend/product roles are US-only (SF/NYC/Seattle), office-first ~3d/week; Europe (~65 roles, London/Dublin) skews infra/research, no frontend; remote ≈8%, Ukraine-remote effectively unavailable. Anthropic sponsors visas + relocation. Process: recruiter screen → tech screen (practical, not leetcode; concurrency recurs) → onsite incl. values round (top failure point). Anthropic officially encourages using Claude on applications. Ranked strategy: 1) Claude Code / Labs Applied AI / Full-stack US with artifact-first apply + referral hunt; 2) London pipeline + UK Global Talent visa prep now; 3) FDE/Applied-AI wedge. Key artifacts to prep: public write-up of the coordinator/fleet + handoff architecture, dashboard demo repo, agent-PM demo video. Main gap: concurrency/system-design (weak backend) + safety-mission narrative.
-
-Related: [[ticket-refs-on-dispatched-work]]
