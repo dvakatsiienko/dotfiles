@@ -523,9 +523,10 @@ not exist, and it costs more, because everyone believes the problem is handled.
   `naming-entity-first.md` was retired into root. the skill half rides phase 2 step 4; the
   `script/` half is `dima's tools` work and needs its own home.
 
-- ✅ **`AGENTS.md` support — landed 2026-08-26.** the contract is stated in root CLAUDE.md near
-  the top («a project's memory lives in `AGENTS.md`; its `CLAUDE.md` is a one-line `@AGENTS.md`
-  import»), declared its only home. shipped across dotfiles/bytes/inner-marker/rl earlier.
+- ✅ **`AGENTS.md` support — landed 2026-08-26, RETIRED 2026-08-27.** the convention was a
+  one-line `@AGENTS.md` import in each `CLAUDE.md`; it bought nothing (only claude code is used
+  as harness) and broke on surfaces that do not expand `@` imports. every pair was swapped back
+  to a plain `CLAUDE.md` across dotfiles/bytes/inner-marker/rl (DOT-115).
 
 - ✅ story shape — resolved: DOT-216 exists, scoped by time, holding the pass.
 - ✅ the t3 reference (`AGENTS-t3-code-ref.md`) was harvested and DELETED 2026-08-25 — reverse

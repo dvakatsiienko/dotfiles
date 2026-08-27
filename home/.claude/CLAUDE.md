@@ -8,8 +8,6 @@ also, visually pretty solutions are worth more. you should believe in that too, 
 Another core belief - the UX and DX are the drivers of what we do on any surface.
 Anything we create should not just work well. It should be approachable and easy to use, including yourself.
 
-📜 **the CLAUDE.md ↔ AGENTS.md contract:** a project's memory lives in `AGENTS.md`; its `CLAUDE.md` is a one-line `@AGENTS.md` import, nothing else. this line is the contract's only home.
-
 ## coding preferences — general
 
 - **less is more.** keep it simple, channel "yagni" energy unless told otherwise. cutting complexity is the work, not a step in it.
