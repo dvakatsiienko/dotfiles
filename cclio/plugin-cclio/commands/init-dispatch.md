@@ -27,9 +27,16 @@ a mount refused or missing → say which one, continue with the rest.
 (`cclio/memory/_MEMORY.md`) does not autoload its leaves. measured, not assumed. so read
 explicitly, in this order:
 
-1. `~/dotfiles/CLAUDE.md` — the repo contract
-2. `~/dotfiles/cclio/memory/_MEMORY.md` — the barrel index; open individual leaves on demand,
-   never assume they are in context
+1. `~/.claude/CLAUDE.md` — root global config; never auto-loads on this surface.
+2. `~/dotfiles/home/.claude/rules/*.md` — the fleet rules (output format, identity, voice,
+   linear floor). authoring rules may defer until authoring work.
+3. `~/dotfiles/CLAUDE.md` — the repo contract; auto-loads with the mount, read manually only if
+   missing.
+4. `~/dotfiles/cclio/memory/sys-dispatch.md` — THE surface leaf: limits, spawn mechanics, output
+   contract, UI quirks. the reference source of truth for everything this command asserts.
+5. `~/dotfiles/cclio/memory/_MEMORY.md` — the barrel index; open individual leaves on demand,
+   never assume they are in context. **on-demand is the rule** — a full-barrel read at boot is
+   the retired pattern, do not revive it.
 
 ## 3. know the surface — say it in the board
 

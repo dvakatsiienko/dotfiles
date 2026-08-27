@@ -28,17 +28,16 @@ Only ONE dispatch session can be active; Dima clears to spawn fresh.
 
 ## reaching the world
 
-- **Mounts are additive** via `request_cowork_directory`. Mount at every boot, unprompted:
-  `~/dotfiles`, `~/dotfiles/cclio` (read-only in spirit — never write under `cclio/`), and the
-  Obsidian vault. Text work on mounted repos (~80% of it) is dispatch's own — do not spawn for
-  sweeps, renames, doc writes.
+- Boot mechanics (mounts, read order, opening board) live in the `/cclio:init-dispatch` command —
+  not here. Text work on mounted repos (~80% of it) is dispatch's own — do not spawn for sweeps,
+  renames, doc writes.
 - **Desktop Commander is the real macOS host** (user dima, zsh): `linear`, `gh`, `git` all on
   PATH. The `workspace bash` Linux sandbox is not the limit; spawned cw children have the same
   sandbox, so they are no better. Board and repo reads go through DC, never a spawn.
 - WebSearch exists. Chat UI sanitizes `linear://` schemes — links always https.
 - This memory dir is a fragile app path behind opaque uuids (stable per-install,
   `.dot115-stability-marker` proves identity). It holds ONLY the `MEMORY.md` symlink into
-  `cclio/memory/dispatch-boot.md` — injection measured PASS 2026-08-27 (DOT-115 probe-2).
+  `cclio/memory/dispatch-init.md` — injection measured PASS 2026-08-27 (DOT-115 probe-2).
   Snapshot-sync is retired; `memory-dispatch` repo = history only, app-reset restore = recreate
   the one symlink.
 
