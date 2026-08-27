@@ -17,7 +17,7 @@ refresh all share one skeleton.
 
 ## the three phases, always
 
-1. **research** — spawn against the current vectors.
+1. **research** — spawn against the current research vectors.
 2. **synth** — findings refresh `research.md` in place (a living ref, not a run artifact).
 3. **run** — the script: what actually gets updated with the fresh findings (skills, copies,
    configs, tickets).
@@ -28,7 +28,7 @@ refresh all share one skeleton.
 Inside, files carry ROLE names, stable across every procedure — the folder is the identity,
 the filenames never restate it (the SKILL.md pattern):
 
-- `procedure.md` — the main file: the want, the vectors, the run, cadence, last-run
+- `procedure.md` — the main file: the want, the research vectors, the run, cadence, last-run
 - `research.md` — the living ref the runs refresh (most procedures have one)
 - anything else the procedure needs, free-form (`bench/`, `samples.md`, …) — arbitrary
   structure is fine; only the two names above are reserved
