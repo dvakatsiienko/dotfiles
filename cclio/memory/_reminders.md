@@ -13,18 +13,12 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 🦊👁️ voice-sync day-two check — did the fleet-voice lines in desktop global memory survive the nightly regeneration, and does a fresh thread follow them? watch spec lives in the `x:voice-sync` skill body; dima holds the diff copy — set 2026-08-26
 
-⏰📌 SessionStart hook prefetch for cclio boot — landed 2026-08-24 (boot-prefetch.sh); watch it serve, suggest new hoists
-
-⏰📌 writing-for-agents skill was NOT loaded during a whole memory/skill-editing session — load it BEFORE editing any skill, rule, or CLAUDE.md; the trigger is not firing on its own, watch this habit
-
-⏰📌 ①②③ glyph run-ons keep appearing in replies despite the ban — concise style pressure inlines lists; scan line added to fleet-output-format.md; watch until the habit is proven dead
+⏰📌 🦊🔬 NEXT BOOT FIRST ACT — roadmap symlink-import probe: `cclio/memory/dima-roadmap.md` is now a symlink into the obsidian vault; canary = step 3 «the pm milestone» nameable from context WITHOUT reading the file. works → keep, drop this reminder. fails → flag to dima, fall back to boot-time `cp` from vault — set 2026-08-27
 
 ⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
 
 ⏰📌 keep an eye on the tips-and-tricks sections — usefulness log trial live at `~/_tips-and-tricks-log-test.md` (ask seeded in authoring-memory-and-skills.md 2026-08-26); verdict when the log speaks
 
-
-⏰📌 🦊📜 keep `cclio/docs/memory-nurture.md` evergreen — every time the checkup/review flow gains a step or changes shape mid-work, write it into the doc the same turn, not at the halt
 
 ⏰📌 mine dispatch's system-prompt dump once memory-nurture fully closes — dispatch self-describes as an orchestrator; borrow useful coordination patterns for cclio. batch: item 2 after DOT-175, BEFORE the claude.md leaves pass. (replaces canceled DOT-143) — set 2026-08-25
 

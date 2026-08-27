@@ -12,7 +12,7 @@ rethink, not a license for a bare name. (`_`-prefixed files are infrastructure, 
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
 
 ## direction — read before any pm decision
-- 🧭 @/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. 🧪 master moved to the vault 2026-08-26 so dima edits it in obsidian; «resident upd» from him → re-read it (no hot notices from outside the repo). repo copy at `dima-roadmap.md` is a FALLBACK until the next-boot import probe passes (canary: step 3 «the pm milestone»)
+- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. master lives in the obsidian vault; the repo path is a SYMLINK to it (direct vault-path import failed the 2026-08-27 probe; symlink probe pending — see reminders). «resident upd» from dima → re-read it
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
@@ -21,6 +21,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 - ⭐ @craft-spawning.md — every door, what each measured to do, the preflight, and how a coder is briefed, watched and stopped
 - ⭐ @habit-halt.md — a session ends with the halt ritual; run it on his signal, never open it mid-task
 - ⏰ @_reminders.md — dima's standing reminders; ⏰📌 stuck ones raised every boot
+- ✍️ @habit-memory-edits.md — every memory edit announced in-thread same turn; deletions, his words, and rules/ need approval first
 - 📬 @habit-shared-files.md — inbox.md must end empty; flowlog pruned at halt; scratch dies same turn
 - ⭐ @habit-pacing.md — a fat drop gets labeled sub-batches with checkpoints; every ask handled, a missed one is the worst outcome
 

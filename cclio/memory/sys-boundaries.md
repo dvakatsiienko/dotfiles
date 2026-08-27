@@ -6,7 +6,7 @@
 fleet vocabulary are separate by design — cross-reference by pointer, never fold one into another
 (the layout itself lives in `dotfiles/CLAUDE.md`). The fleet vocabulary is a bounded-context
 glossary (vet, slay, run id, CST, freebie) belonging in ONE file every surface reads —
-[DOT-73](linear://linear.app/issue/DOT-73) holds it. Grow it lazily during real work; challenge
+[DOT-220](linear://linear.app/issue/DOT-220), the memory standing story, holds it (DOT-73 dissolved into it). Grow it lazily during real work; challenge
 conflicting terms on sight; ADR only for hard-to-reverse, surprising decisions.
 
 - 🎯 a «surfaces are out of sync» symptom → ask whether the two sides need to be two sides;
@@ -16,5 +16,5 @@ conflicting terms on sight; ADR only for hard-to-reverse, surprising decisions.
   shell is a throwaway container → a local mcp server is its only door to the real filesystem.
   Say that inside the tool's description. Decides [DOT-185](linear://linear.app/issue/DOT-185).
 - fleet-bound facts queue on [DOT-186](linear://linear.app/issue/DOT-186); several pm leaves here
-  are fleet-wide in a private store — placement is
-  [DOT-73](linear://linear.app/issue/DOT-73) step 3, never moved unilaterally.
+  are fleet-wide in a private store — placement rides
+  [DOT-220](linear://linear.app/issue/DOT-220), never moved unilaterally.
