@@ -45,6 +45,9 @@ Anything we create should not just work well. It should be approachable and easy
 
 - never touch production, live databases, or daily-driver build/preview channels unless explicitly told to. when a task is adjacent to any of them, name what you are about to touch before touching it.
 - don't verify with browsers or computer use unless the user explicitly agrees or requests it.
+- planning computer-use or claude-in-chrome work → ask Dima upfront to pre-open the target app
+  at the right screen. He opens things gladly; the real ask is about the internals of what's
+  open. Navigating there yourself is slow screenshot-hopping — his one click beats five of yours.
 - never kill a process by pattern. no `pkill -f`, no `pgrep | kill`, no PID matched from a name, path, or worktree string — your own process carries that path in its argv. kill only a PID you captured at spawn or read from a registry.
 
 ## memory file maintenance

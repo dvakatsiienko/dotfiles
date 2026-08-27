@@ -31,6 +31,8 @@ proposed approach, get the word — THEN execute.** It never means hunt-and-clos
 
 - resolve-in-place is reserved for **spotted freebies**: a one-line fix noticed mid-task, done
   instead of folded into a ticket — and still reported, every time
+- **grooming walks carry a standing eval**: each ticket gets a «resolvable in place?» check —
+  by cclio or (preferred) a spun opus coder — offered proactively, dima's word executes it
 - the tell this exists: a session fixed and closed two tickets upfront where Dima expected a
   proposal; his read — *«proactivity is a nice thing but not always»*
 
@@ -69,6 +71,16 @@ reader. Lowercase register; emojis and ascii art welcome.
 - **titles are assertive**, verb-led, like commit messages: «prune brew of unused formulae», not
   «brew pruning considerations». Descriptive titles only where the ticket's nature is descriptive.
   If the ask is blurry, object and propose a sharp title rather than filing mush.
+- 🚨 **a body rewrite starts with a full-body fetch in the same turn** — always, whether dima
+  asked or you decided; never over a preview, a truncated read, or a title. linear keeps no
+  description history, so the old text dies silently (DOT-228, 2026-08-27). **prefer MERGE over
+  full rewrite**: eval the old body for staleness during the pass — stale parts go, but the
+  default motion is folding new into old, not replacing. the goal is zero data loss, not
+  keeping stale data
+- 🚨 **dima-authored text in a body («dima notes», his asks, his takes) survives every edit** —
+  even an approved fold preserves ALL his asks; restructure around them, never through them.
+  Spotting one as irrelevant or stale → tell him first, edit after his approve, original shown
+  next to the proposed change. An approve of a fold is not an approve to drop his words.
 - when prettifying: keep all data, cut only fluff, merge over-broken-down tickets. **Batch drafts
   for approval, never edit ping-pong.**
 - **tracked means everywhere**, not just tickets: project descriptions and overviews, health

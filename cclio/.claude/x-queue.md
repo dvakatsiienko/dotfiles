@@ -3,5 +3,8 @@
 ## queue
 
 - 🚨 MUST, asap: build the writing-for-humans skill — [DOT-223](https://linear.app/x-com/issue/DOT-223) (research first per ticket, then the skill); every wire run needs it, dima called the first health updates «machinic» (set 2026-08-26)
-- 🎯 NEXT SESSION — the smoothing session (set 2026-08-26). boot `full/board`; FIRST: the roadmap-vault import probe (canary: step 3 «the pm milestone» — passes → delete the repo fallback copy, fails → revert the barrel line). then: strays hunt via the report query → catalogue → one approval round. then groom the vision from dima's candidate list: omz overhaul story · DOT-159 git fix (finally) · the pm milestone (wants attention) · cclio v2 · close the ~10 intermediary tickets stale since the dispatch→cclio migration + hunt old dispatch refs · DOT-115 uplink ab-test (cclio memory → dispatch as mini-you). dedicate the session to smoothing edges; dima's mind is deliberately chaotic here — grill lightly, shape together.
+- 🎯 GROOM ORDER, dima's word 2026-08-27 (movable, not stone): 1) pm takeover milestone — exit condition + reshape; 2) dima's tools milestone — he will WIDEN scope (more zsh/machine tickets), walkthrough-ish story by design; 3) cclio v2. steer freely, nothing restricts.
+- «answer → approve → act» fleet shortcut — dima types this contract constantly; design an alias/keyword for it fleet-wide. gated: AFTER skills + procedures refine (his word 2026-08-27)
+- procedures round 2: refine `cclio/docs/procedures/_spec.md` · scan old `docs/research/` for procedure candidates · convert `cclio/docs/memory-nurture.md` into a procedure — when skills are done
+- `/x:step-by-step` filter over `~/dotfiles/docs/agents` — keep useful, delete not useful (his call per file)
 - bytes `CLAUDE.md` pass (roadmap step 6) — ⚠️ likely DONE 2026-08-26 by the leaf pass (all project+app leaves refreshed, seeding shape landed in bytes root); verify nothing per-app remains, then drop this line (set 2026-08-25)

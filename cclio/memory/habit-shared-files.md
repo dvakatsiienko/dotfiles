@@ -11,8 +11,10 @@ Shared files are Dima's living space; leftovers cost him attention and blur what
   `flowlog.md` with statuses (✅🚧❓⏸️🎫); clear from inbox only after he approves the processing.
 - `flowlog.md` — the processing journal AND the boot checklist: every inbox item lands here at
   parse time with status + lane, before any resolution. **✅ items pruned at every halt, unasked**
-  — only carry-over survives; a ⏸️ item older than a few sessions gets flagged to Dima, never
-  left to rot.
+  — only carry-over survives. **carry-over admits only unticketable waits** (dima's hands, an
+  open decision): anything with a ticket id is the ticket's job and dies from the list; the BOOT
+  flags any ⏸️ older than ~3 sessions — mechanical, not halt-attention (2026-08-27, the rotted
+  8-line backlog).
 - `protected.md` — his own drop file, read-only, never ours to edit.
 
 ## cleanup runs the same turn
