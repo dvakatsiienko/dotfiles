@@ -28,11 +28,11 @@ all operations go through the `linear` cli (schpet/linear-cli, on PATH, keyring-
 `linear api '<graphql>'` covers anything without a dedicated command. **the linear mcp is not
 used.** command mechanics live in the `linear-cli` plugin skill; the field contract in `x:pm`.
 
-📌 **the linear↔github repo connection and ticket→gh-issue mirroring were tried and scrapped**
-(2026-08-21, dima). do not re-litigate either. the linear push webhook is still installed on
-`dvakatsiienko/dotfiles` and `dvakatsiienko/bytes` as leftover plumbing — it is not a convention
-anyone relies on, and commit magic words are not a supported path here. the one live thread in
-this area is the `/cc` comment trigger; see `docs/research/linear-github-agent-trigger.md`.
+📌 **ticket→gh-issue mirroring was tried and scrapped** (2026-08-21, dima). do not re-litigate.
+what IS live: the linear push webhook on `dvakatsiienko/dotfiles` and `dvakatsiienko/bytes`
+carries **commit magic words** (`ref` / `Closes`) — the daily convention, owned by the `x:cmt`
+skill and the linear-flow rule. the `/cc` comment trigger was retired 2026-08-27 with the whole
+cc-cloud experiment lane (DOT-61 canceled, workflows deleted).
 
 ## triage role bridge
 

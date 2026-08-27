@@ -59,6 +59,34 @@ overwrite test.
 Cannot spawn a cloud `cc`: `isolation: "remote"` resolves the base branch from a non-git scratch
 cwd. `?` cause inferred. **Can** spawn local `cc` with worktree isolation — use that.
 
+## Claude on disk — the durable facts (distilled from the DOT-157 survey, 2026-08-19)
+
+Two homes, not variants of one thing: `~/.claude` + `~/.claude.json` belong to the **cli**;
+`~/Library/Application Support/Claude/` is the **desktop/cowork** tree. The desktop app embeds a
+copy of the cli, so a desktop-launched session writes into both at once.
+
+- **slug rule**: a `projects/` dir is the cwd with `/` AND `.` → `-`. So **resume is
+  cwd-sensitive** — `claude --resume <uuid>` finds a session only from a directory that slugifies
+  to its home. The transcript is appended per turn, on disk before exit: kill-and-reattach is safe.
+- `~/.claude.json` is **state, not config** — the cli holds it in memory and rewrites it whole;
+  hand-edits mid-session get clobbered. `~/.claude/.claude.json` is a symlink back to it.
+- cc **refuses to write through a symlink** — resolve with `readlink -f`, edit the real file under
+  `~/dotfiles/home/.claude/`.
+- `daemon/` is the reattach machinery (roster, control key, socket) — live, never sweep.
+  `focus/` is ours (sline pin). Deleting from `projects/` is safe but **permanent** — that
+  conversation and its `--resume` are gone.
+- growth-only stores to check first when `~/.claude` gets fat: `session-env/`, `file-history/`,
+  `projects/`, `paste-cache/`, `focus/`. Everything except `plugins/` + `projects/` is ~12 MiB.
+- cowork tree: `local-agent-mode-sessions/<account>/<install>/` — `spaces.json` (mounted folders),
+  `agent/memory/` (dispatch's memory), `local_<uuid>/` per chat with its own **private `.claude`**;
+  a folderless chat's whole world is its own `local_<uuid>/` dir.
+- 🚨 security habit from the 2026-08-19 finding (plaintext github token, world-readable, in a stray
+  mcp config): tool-written files under `~/.claude` can be world-readable —
+  `grep -rn "ghp_\|sk-\|AKIA" ~/.claude` occasionally.
+- macos frame: `Caches` is disposable, `Application Support` is not; `com.apple.*` folders
+  self-clean — never our business (except: `com.apple.TCC` = privacy grants, `com.apple.wallpaper`
+  holds the actual wallpapers; both look like junk and are not).
+
 ## Memory, per surface
 
 | surface | mechanism | location | who can edit |
