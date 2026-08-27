@@ -24,11 +24,11 @@ a mount refused or missing → say which one, continue with the rest.
 
 ## 2. read the memfiles BY HAND
 
-⚠️ **dispatch does not expand `@` imports** — `CLAUDE.md` files whose body is `@AGENTS.md` are
-dead text here, and cclio's memory barrel (`cclio/memory/_MEMORY.md`) does not autoload its
-leaves. measured, not assumed. so read explicitly, in this order:
+⚠️ **dispatch does not expand `@` imports**, and cclio's memory barrel
+(`cclio/memory/_MEMORY.md`) does not autoload its leaves. measured, not assumed. so read
+explicitly, in this order:
 
-1. `~/dotfiles/AGENTS.md` — the repo contract
+1. `~/dotfiles/CLAUDE.md` — the repo contract
 2. `~/dotfiles/cclio/memory/_MEMORY.md` — the barrel index; open individual leaves on demand,
    never assume they are in context
 
