@@ -57,7 +57,7 @@ A quota window resetting while the session sits idle.
 Rendering 0% instead of the pre-reset percentage once a quota window's reset time is in the past.
 
 **Focus pin**:
-The ticket this session is on — one slot, sticky, rendered `🪄 DOT-23`, dimmed once it goes 8h unrefreshed. Written only by `shelf/hooks/sline-focus.sh`, when Dima types `clam DOT-23` on a line of its own; `ticket fly` clears it.
+The ticket this session is on — one slot, sticky, rendered `🪄 DOT-23`, dimmed once it goes 8h unrefreshed. Written by `shelf/hooks/sline-focus.sh` when Dima types `claim DOT-23` on a line of its own (alias `pin`), and by the agent itself when it moves a ticket to In Progress; `ticket fly` clears it.
 _Avoid_: current ticket, active issue
 
 **Status cache** (`focus/status-cache.json`):

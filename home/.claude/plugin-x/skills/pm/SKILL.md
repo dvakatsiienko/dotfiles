@@ -8,8 +8,8 @@ description: Load EVERY time you create, update, close, or triage a ticket — a
 **lane** — `cw`: `x-cw__pm_guide` for the contract, then the `linear` cli through the shell · `cc`: Bash.
 
 📌 The always-loaded `rules/linear-flow.md` already holds what must be true whenever a ticket is
-touched at all — where tickets live, In Progress the moment work starts, the focus pin, never
-inventing an id. On `cw` nothing auto-loads it: read it at
+touched at all — where tickets live, In Progress the moment work starts, never inventing an id.
+On `cw` nothing auto-loads it: read it at
 [`../../rules/linear-flow.md`](../../rules/linear-flow.md) in the plugin root, or take it inlined
 from `x-cw__pm_guide`. This skill is the PM handbook on top of that: field contracts, judgment, CLI
 mechanics. Do not restate the rule file here; when the two overlap, edit the rule file.
@@ -76,6 +76,10 @@ Role, priority and estimate are **always filled and current** — monitoring the
   tracks reality, never pass `--assignee`. On top of it: assigned-to-Dima means strictly his —
   never resolve, start, or reassign it; the `human` label says a human does the work, not *which*
   human (importance is priority's job).
+- **Starting work pins it in sline** (`cc` only). Same turn as the In Progress move, replace this
+  session's one-slot focus file — sline renders it as `🪄 DOT-N` on line 1, and `claim DOT-N` typed
+  by Dima writes the same slot:
+  `printf '{"pin":"DOT-N","pin_at":%s}' "$(date +%s)" > ~/.claude/focus/$CLAUDE_CODE_SESSION_ID.json`
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
 - On create: propose priority (1–4) + estimate (1–5) + project + **parent and milestone** — a
