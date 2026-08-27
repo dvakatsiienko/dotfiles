@@ -22,7 +22,7 @@ events to the harness, and only one of them is the trigger.
 
 this session's own instructions say to prefer Bash for reads. a session under that instruction
 would **never fire a single `paths:`-scoped rule**, and a scoped rule would be indistinguishable
-from a deleted one from inside. recorded in `docs/agents/memory-checkup.md` step 4.
+from a deleted one from inside. recorded in `docs/knowledge/memory-checkup.md` step 4.
 
 ## 3. deleting two agents was not a deletion
 

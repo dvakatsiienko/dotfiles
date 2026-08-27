@@ -15,7 +15,7 @@ refresh all share one skeleton.
   answers to yesterday's questions.
 - **artifacts** — the pristine distilled docs this procedure maintains, listed by path.
   📌 **The procedure points at its artifacts; it never houses them.** Artifacts live where
-  their READERS expect them (`docs/agents/models.md` beside its consumers, skills in their
+  their READERS expect them (`docs/knowledge/models.md` beside its consumers, skills in their
   plugins). Raw research is transient: distilled into the artifacts, then deleted — a research
   doc kept beside its pristine version is sediment.
 - **the run** — the execution script. Agents own it.

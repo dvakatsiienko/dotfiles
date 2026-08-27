@@ -27,7 +27,7 @@ full sweep; the sweep itself was one execution of it. procedure entity per [_spe
 
 ## artifacts (pointed at, never housed — the pristine distilled results)
 
-- `docs/agents/authoring-memory.md` · `authoring-memory-project.md` · `authoring-skill.md` —
+- `docs/knowledge/authoring-memory.md` · `authoring-memory-project.md` · `authoring-skill.md` —
   distilled from research runs and video parses; each research phase refreshes them, raw
   findings die after the distill
 - the memory tree itself is the run's working surface, not an artifact
@@ -182,7 +182,7 @@ proven 2026-08-25:
   rule, a doc, or memory?). paired skills need **symmetric descriptions** — a pair-pointer inside
   an unloaded body fires after the decision it was meant to steer.
 - the authoring stack for any edit: `writing-for-agents` (craft, load first) →
-  `rules/authoring-memory-and-skills.md` (router + vertical map) → `docs/agents/authoring-*.md`
+  `rules/authoring-memory-and-skills.md` (router + vertical map) → `docs/knowledge/authoring-*.md`
   (mechanics, on demand).
 - **the groom-half checklist, proven on the 15-skill pass (2026-08-25):** full taste rewrite per
   skill (keep points, cut connective tissue — opus-era wordiness is the default finding) · md

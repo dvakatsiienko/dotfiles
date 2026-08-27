@@ -25,7 +25,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   opus on SWE-bench Pro).
 - **haiku-4.5** — retrieval, classification, extraction, bulk transforms. 📌 its benchmarks
   compare against 4.x, never the 5s.
-- Full cards and prices: `docs/agents/models.md`, on demand.
+- Full cards and prices: `docs/knowledge/models.md`, on demand.
 
 ## preflight, four checks, every spawn
 

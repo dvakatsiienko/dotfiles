@@ -18,7 +18,7 @@ skills, the detector lanes. First instance of the procedure entity ([spec](_spec
 
 ## artifacts (pointed at, never housed)
 
-- `docs/agents/writing-for-humans.md` — the distilled knowledge: existing art, techniques,
+- `docs/knowledge/writing-for-humans.md` — the distilled knowledge: existing art, techniques,
   detector landscape
 - `home/.claude/plugin-x/skills/writing-for-humans/` (+ `references/dima-voice.md`)
 - `home/.claude/plugin-x/skills/humanize/` + `humanize-audit/` — the borrowed copies
@@ -29,7 +29,7 @@ skills, the detector lanes. First instance of the procedure entity ([spec](_spec
 2. spawn two researchers (skills+techniques · detectors), same split as run #1; think
    alongside them too — Dima's standing note: rely on existing solutions, but add your own
    read on how the skill should work
-3. distill: clever-merge findings into `docs/agents/writing-for-humans.md` (useful old stays,
+3. distill: clever-merge findings into `docs/knowledge/writing-for-humans.md` (useful old stays,
    useful new enters, no bloat, completeness first); raw researcher output dies here
 4. eval + print findings to Dima: anything new to try out? skill refresh needed? upstream
    humanize moved?
