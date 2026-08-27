@@ -90,7 +90,7 @@ revert, or bisect on its own.
 Commit under Dima's configured identity, no flags. GitHub cannot match `fleet@x-com.local` to
 an account, so the verified badge dies; Dima wants verified commits. The full investigation
 (and why the author field never drove the Linear assign) lives in
-`~/dotfiles/docs/agents/linear-github-assign.md`.
+`~/dotfiles/docs/agents/linear-autoassign-investigation.md`.
 
 📌 **The agent fingerprint is the trailer, not the author field.** Every agent commit carries
 the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
@@ -140,7 +140,7 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
   suspended, under observation**: after any ref-carrying push, read the ticket's assignee and
   state and say in the reply what Linear did. Do not correct it silently; if a ticket ends up
   assigned to Dima wrongly, tell him. Full history and falsified fixes:
-  `~/dotfiles/docs/agents/linear-github-assign.md`.
+  `~/dotfiles/docs/agents/linear-autoassign-investigation.md`.
 - **PR events** (exception lane): `start` → In Progress, `review` → In Review, `merge` → Done,
   wired on both teams. No `draft` row — a draft PR jumps straight to In Review.
 - Reading a Resources entry: a `Non-closing` badge means link-only; **no badge means it closed

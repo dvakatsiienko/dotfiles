@@ -15,6 +15,10 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 🦊🔬 NEXT BOOT FIRST ACT — roadmap symlink-import probe: `cclio/memory/dima-roadmap.md` is now a symlink into the obsidian vault; canary = step 3 «the pm milestone» nameable from context WITHOUT reading the file. works → keep, drop this reminder. fails → flag to dima, fall back to boot-time `cp` from vault — set 2026-08-27
 
+⏰📌 kill the linear auto-assign friction — FIRST TODO next session, it freaks dima out appearing so often. the fix likely = the pre-push reversal hook parked in [DOT-159](linear://linear.app/issue/DOT-159); today's observation (ref-push assigned NOBODY) may mean it's conditional or gone — verify first, then land the fix; `docs/agents/linear-autoassign-investigation.md` dies with it — set 2026-08-27
+
+⏰📌 run the refresh-spawn-mechanics procedure (fresh session): re-verify the evidence base against the current cc build AND clean spawn-mechanics-research.md in the distill (~40% trimmable — no stale data stored) — doubles as the procedure entity's live test — set 2026-08-27
+
 ⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
 
 ⏰📌 keep an eye on the tips-and-tricks sections — usefulness log trial live at `~/_tips-and-tricks-log-test.md` (ask seeded in authoring-memory-and-skills.md 2026-08-26); verdict when the log speaks
