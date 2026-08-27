@@ -22,6 +22,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 mine dispatch's system-prompt dump once memory-nurture fully closes — dispatch self-describes as an orchestrator; borrow useful coordination patterns for cclio. batch: item 2 after DOT-175, BEFORE the claude.md leaves pass. (replaces canceled DOT-143) — set 2026-08-25
 
+⏰ 🦊📜 humanize skill copies freshness — `plugin-x/skills/humanize` + `humanize-audit` are 1:1 copies of github.com/harshaneel/humanize (commit 4ec7973145, 2026-08-27); if still manual after ~2 months (≈2026-10-27) → raise: refresh via the `refresh-writing-for-humans` procedure, or automate the pull — set 2026-08-27
+
 ⏰ 🦊 keep [DOT-159](linear://linear.app/issue/DOT-159) (git overhaul) at priority 1 through the fleet package milestone — no milestone in dima's tools, prio is the mechanism — set 2026-08-25
 
 ⏰ review the tips-and-tricks sections across all claude.md files — are entries useful, rotated, capped? — set 2026-08-24, review ~2026-08-31
