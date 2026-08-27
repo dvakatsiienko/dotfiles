@@ -729,26 +729,23 @@ func TestStatusBadgeShortWordsAndStaleness(t *testing.T) {
 	}
 }
 
-func TestRefreshDueIgnoresEmptySlots(t *testing.T) {
+func TestRefreshDueIgnoresEmptyPin(t *testing.T) {
 	fresh := map[string]ticketStatus{"DOT-1": {Status: "Todo", At: time.Now().Unix()}}
 
-	// An unpinned session passes "" for the pin slot. Treating that as a missing
-	// status made sline spawn a fetch on every single render, forever.
-	if refreshDue(fresh, []string{"", "DOT-1"}) {
-		t.Error("an empty slot beside a fresh id must not be due")
+	// An unpinned session passes "". Treating that as a missing status made
+	// sline spawn a fetch on every single render, forever.
+	if refreshDue(fresh, "") {
+		t.Error("an empty pin is never due")
 	}
-	if refreshDue(fresh, []string{""}) {
-		t.Error("nothing but empty slots is never due")
+	if refreshDue(fresh, "DOT-1") {
+		t.Error("a freshly cached id is not due")
 	}
-	if refreshDue(fresh, nil) {
-		t.Error("no ids at all is never due")
-	}
-	if !refreshDue(fresh, []string{"", "DOT-2"}) {
-		t.Error("an uncached id is due whatever sits beside it")
+	if !refreshDue(fresh, "DOT-2") {
+		t.Error("an uncached id is due")
 	}
 	old := map[string]ticketStatus{"DOT-1": {Status: "Todo",
 		At: time.Now().Add(-statusFetchTTL - time.Second).Unix()}}
-	if !refreshDue(old, []string{"DOT-1"}) {
+	if !refreshDue(old, "DOT-1") {
 		t.Error("past the TTL is due")
 	}
 }
