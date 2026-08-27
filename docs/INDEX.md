@@ -23,11 +23,7 @@ three rules keep it honest:
 
 - [agent harness building](research/agent-harness-building.md) — building a custom orchestration harness on claude code / agent sdk
 - [cc extension surfaces](research/cc-extension-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
-- [claude on disk map](research/claude-on-disk-map.md) — every place claude keeps state on this mac, and how the pieces find each other
 - [comms casing](research/comms-casing.md) — dima's verbatim source of intent for the lowercase rule
-- [linear → github agent trigger](research/linear-github-agent-trigger.md) — the `/cc` comment trigger fires a cloud agent that opens a pr; 📌 postponed, non-prio, nothing built
-- [macos filesystem map](research/macos-filesystem-map.md) — who owns which top-level directory, and therefore what is safe to delete
-- [vercel cli vs mcp](research/vercel-cli-vs-mcp.md) — what `vercel api` reaches and the three things only the mcp can
 - [walkthrough mode](research/walkthrough-mode.md) — field notes shaping the `/walkthrough` skill
 
 ## spec/ — designs awaiting or driving implementation
