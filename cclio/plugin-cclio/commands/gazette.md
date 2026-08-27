@@ -28,13 +28,18 @@ the release — derived from the tweet, pushed outward.
 - **gate:** bare halt → ask «🗞️ the wire? y/n» and **block until a literal answer**; stop lane →
   auto-yes, run without asking.
 - **health update** for each project the tweet touched — ⚠️ full markdown links (health updates
-  do not auto-link ids). the shape (dima's feedback, run #1):
-  - **bullet-listed, never a text wall**; emoji line-prefixes welcome
+  do not auto-link ids). **the house style — settled by the 4-round live test with dima,
+  2026-08-27, screenshots verified in linear:**
+  - **hybrid voice**: fleet structure carries the scanning (emoji line-prefix per paragraph,
+    bold verdict openers), the sentences underneath stay human — `x:writing-for-humans` flow,
+    no id-stuffing, no arrow chains, rhythm varies
+  - **paragraphs 2–3 rendered lines each**, one thought per paragraph — linear renders wide;
+    a paragraph that wants two tickets is two paragraphs
+  - **ticket badges at sentence edges**: linear renders an id link as a fat badge with the full
+    title, so a badge goes at a line end after a colon — the sentence carries the meaning, the
+    badge is the door. **one badge per paragraph, ~3 per update**, never inside parentheses
   - **the inverse of a commit message**: not what changed — **what got easier for dima**, each
-    bullet a gain written for him, not for an agent
-  - roughly the current size, not much bigger
-  - the wording itself upgrades when the writing-for-humans skill (DOT-223) lands — until then,
-    plain fleet voice.
+    paragraph a gain written for him, not for an agent
 - **announcements.md** — only a genuinely new feature, capability, or hazard affecting the
   fleet; evaluated fresh each time; the file's existing mechanics stay.
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so
