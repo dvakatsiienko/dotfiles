@@ -4,13 +4,15 @@ Keeps the model knowledge current across the fleet: which model does what best, 
 spawned how. Lands what [DOT-130](https://linear.app/x-com/issue/DOT-130) asked for. Procedure
 entity per [_spec.md](_spec.md).
 
-## the want (dima's — ❓ pending his words; candidate from DOT-130)
+## the want (dima's, 2026-08-27)
 
-> ❓ awaiting dima's statement. candidate from his ticket asks: model routing decisions (who
-> codes, who writes, who researches) must rest on current facts, not vibes from launch week —
-> per family track latest + prev gen; a new model shifts the ladder, never silently replaces it.
+> i want awareness of picked models (mine and ours, fleet interest — haiku 4.5, sonnet 5,
+> opus 5, fable 5) to be up to date. know strengths and weaknesses of each. best types of work
+> each model is best at. the outcome lives at models.md. the data is for me, and for you as a
+> coord to pick the right model. any other fleet member only peeks there if i ask something
+> about which model.
 
-## research vectors (from DOT-130, dima's wording — re-groom each run)
+## research vectors (derived from the want + DOT-130's asks — re-groom each run)
 
 - re-validate core capabilities of haiku / sonnet / opus / fable current gen — what each does best
 - best-fit per research activity type — which model for which research genre
