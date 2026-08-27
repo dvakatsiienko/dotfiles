@@ -7,6 +7,7 @@ description: >
   flat, or AI-like, or when generating new text in a register where AI tells (em dashes,
   semicolons, hedges, banned vocabulary like "delve", "leverage", "robust") would damage
   credibility.
+  Routing: this skill REWRITES existing text; drafting a NEW message for a human starts in writing-for-humans, which calls this one for repairs.
 ---
 <!--
   borrowed 1:1 from https://github.com/harshaneel/humanize (commit 4ec7973145, fetched 2026-08-27).

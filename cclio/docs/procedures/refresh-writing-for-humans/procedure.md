@@ -1,7 +1,13 @@
 # refresh-writing-for-humans — procedure
 
 Keeps the human-voice toolchain fresh: the research ref, the borrowed humanize skills, the
-detector lanes. First instance of the procedure entity ([spec](_spec.md)).
+detector lanes. First instance of the procedure entity ([spec](../_spec.md)).
+
+## the want (dima's — DRAFT from his words, awaiting his confirm)
+
+> ❓ pending dima's own statement. candidate, assembled from his asks: «llm footprint on
+> messages is a known issue — i want my outbound texts to sound like me, not a robot; and i
+> don't want to re-print the same research asks every time the tech moves.»
 
 ## vectors (dima's wording — re-groom with him each run)
 
@@ -13,7 +19,7 @@ detector lanes. First instance of the procedure entity ([spec](_spec.md)).
 
 ## ref doc
 
-[refresh-writing-for-humans.ref.md](refresh-writing-for-humans.ref.md) — colocated, refreshed in place.
+[research.md](research.md) — colocated, refreshed in place.
 
 ## run
 
