@@ -24,9 +24,9 @@ record; detectors are directional signals only.
    [references/dima-voice.md](references/dima-voice.md) first — few-shot samples and the tell
    list. Rewriting an AI-shaped draft never fully escapes the footprint; drafting in-voice from
    the start is the lever this skill exists for.
-4. **Audit.** Run the `humanize-audit` skill's rubric against the draft; rewrite the flagged
-   spots only (targeted, not wholesale). One audit→rewrite round; a second only when the first
-   found heavy tells.
+4. **Audit, then repair.** Run the `humanize-audit` skill's rubric against the draft; then fix
+   the flagged spots with the `humanize` skill's levers — targeted, not wholesale. One
+   audit→rewrite round; a second only when the first found heavy tells.
 5. **Verify when the message matters.** The multi-lane check lives in `humanize-audit`
    (its own section) — run it for job mail and anything with an audience, skip it for a
    two-line chat reply.
