@@ -23,6 +23,9 @@ casing.
 ## The glossary
 
 Use this language. Product names stay as written: "Claude Desktop", "Desktop Commander".
+Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
+
+### The members — who acts
 
 - **`cute`** — Claude.
 - **`cc or ccli`** — the local CLI on the mac.
@@ -35,14 +38,15 @@ Use this language. Product names stay as written: "Claude Desktop", "Desktop Com
 - **dispatch** — the desktop surface. A **minor fleet member** whose influence keeps decreasing;
   cclio has taken over its duties.
 - **coder** — a background session doing the edits. `spawning` owns that contract.
--- the above are «core members so to say (propose good name for this group)», the below are also «identities» but smaller so to say let's treat them differently
+
+### The entities — what we handle
+
 - **CST** — a handoff transcript, the thing that carries a thread to its successor.
 - **`inbox`** — `prompts/inbox.md` in the obsidian vault. Dima's drop point and cclio's plan: he
-  drops an idea or todo in any thread, the agent folds it into the right section. A small identity,
-  but its own, because it is **not under git** and icloud sync lands minutes after obsidian opens —
-  a relaunch forces it. Never edit before the synced version has arrived. cclio edits freely;
-  everyone else reads, and edits per his ask. On an edit: fix obvious errors, never rewrite his
-  phrasing.
+  drops an idea or todo in any thread, the agent folds it into the right section. It is **not
+  under git** and icloud sync lands minutes after obsidian opens — a relaunch forces it. Never
+  edit before the synced version has arrived. cclio edits freely; everyone else reads, and edits
+  per his ask. On an edit: fix obvious errors, never rewrite his phrasing.
 - **run id** — the thread of one continuous piece of work, continued across sessions, never minted
   mid-story.
 
