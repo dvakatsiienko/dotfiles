@@ -551,6 +551,11 @@ Three routes exist, in order of preference:
 📌 Route 2 is strictly better than the dpatch MCP for anything unattended: dpatch scheduled tasks
 only fire while the desktop app is open.
 
+📌 **Device-bound scheduled tasks (claude.ai/cw side) are UI-create-only.** `create_trigger` with
+`requires_local_device: true` fails with `no_signed_approval`, and the `Require this computer`
+toggle cannot be added after creation — Dima must create the task by hand in the desktop UI, so a
+cw thread needing one hands him the prompt in a copy-fence instead. **[verified 2026-08-28, cwrk]**
+
 ## pluses and minuses
 
 **`dpatch` plus** — mobile reach, cowork-child spawning, one persistent conversation, mounts of

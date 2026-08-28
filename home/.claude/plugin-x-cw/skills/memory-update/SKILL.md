@@ -19,6 +19,11 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
 - after any write that changes what an entry owns: update its `description` AND its `/_router.md`
   line in the same run. the description is a routing line — *what's inside · when to read it* —
   never a restatement of the path.
+- after moving a fact between entries: grep the OTHER entries for references to its old owner —
+  a move silently stales any line that pointed there.
+- **retiring an entry has one safe order**: copy its content to the new owner → verify it landed →
+  strip the entry's `/_router.md` line → dima deletes the file in claude.ai → re-read the listing.
+  any other order can lose data permanently (no history, no undo).
 
 ## write mechanics — the tool contract
 
@@ -44,7 +49,14 @@ memory serves two readers: dima (must answer his question without re-asking) and
 - state facts flat — a memory line is a record, not writing. before finishing, reread every
   written line: a line that reads like flavour (metaphor, flourish, rhythm for its own sake)
   gets cut. this binds every model that runs this skill.
-- lowercase register; `backticks` for files, commands, identifiers.
+- lowercase register — fact lines, `description`, and all frontmatter values alike; `backticks`
+  for files, commands, identifiers.
+- **sectioning fires on repetition, not length**: a prefix repeated 3+ times becomes a section
+  header holding those lines; an entry past ~15 fact lines gets sections.
+- cross-link a related entry with `[[name]]` where a reader would actually follow it — never
+  decoratively, a couple per entry at most (they render clickable in the claude.ai memory ui).
+- 📌 `sources:` frontmatter is NOT provenance — it marks pre-bridge origin and is never refreshed
+  on edit. `derived-from:` is the only trustworthy bridge marker.
 
 ## guardrails
 
@@ -63,3 +75,7 @@ zero data loss, shape only: fix register, cut flavour lines, refresh stale descr
 restore `[stated]` prefixes, repair the router line. structural surgery (merges, moves,
 re-routing) is out of scope — collect what you *wanted* to restructure and end the run with
 that list as a proposal for dima. `all` walks every entry in the listing.
+
+after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side and
+flag any fact claimed by two files — per-entry reading is structurally blind to dupes, and every
+dupe found in the field test survived a full prettify walk.
