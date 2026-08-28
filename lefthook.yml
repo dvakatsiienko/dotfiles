@@ -1,6 +1,10 @@
 # Git hooks. Everything fast enough to gate a commit runs at commit; the slower
 # whole-repo dogfood runs on push.
-#   lefthook install   # (re)write .git/hooks — runs automatically on pnpm install
+#
+# Nothing installs these. The global dispatcher in `home/.config/git/hooks` is
+# what git reaches through core.hooksPath, and it runs `lefthook run <hook>`
+# here directly — `lefthook install` cannot write a shim while core.hooksPath is
+# set anyway; it exits 1 and touches nothing.
 #
 # Nothing here writes to your files. A hook that reformats while lefthook is
 # holding your unstaged changes aside can fail to put them back — it cost a file
@@ -28,16 +32,3 @@ pre-push:
       # The engine's own dogfood: if the manifest stops deriving, catch it here
       # rather than on the next machine.
       run: pnpm dotfiles-link
-    linear-revert:
-      # Linear's github integration answers a pushed magic word with TWO writes:
-      # the state move the keyword asked for, and an assignee nobody asked for.
-      # There is no setting for it, so this undoes it afterwards, detached.
-      #
-      # {1} and {2} are git's own pre-push argv — remote name and remote url —
-      # and the url is the guard that keeps this off repos we do not own.
-      # use_stdin hands the command git's ref lines; lefthook gives them to this
-      # command alone, so `mirror` beside it is unaffected.
-      #
-      # It must never fail a push: the script swallows everything and exits 0.
-      use_stdin: true
-      run: node ./script/linear-push-revert.ts hook {1} {2}

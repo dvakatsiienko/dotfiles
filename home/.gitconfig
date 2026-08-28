@@ -7,6 +7,10 @@
     editor        = vim
     autocrlf      = input
 	pager = less -FRX
+	# Every hook, every repo, one dispatcher — see that directory's `dispatch`.
+	# This REPLACES git's hook lookup rather than adding to it, which is why the
+	# dispatcher hands over to whatever the repo installed for itself.
+	hooksPath = ~/.config/git/hooks
 
 [gpg]
     format = ssh

@@ -38,8 +38,10 @@ An id comes from Dima, from the conversation, or from the branch name. **Nowhere
 guess one, never grep for a plausible match, never write `DOT-?`. Most commits have no ticket, and
 omitting the line is always correct.
 
-⚠️ Commit magic words assign the ticket and move its state on push. the `cmt` skill owns that contract and
-loads on every commit; the assign it causes is reverted by the pre-push hook (`script/linear-push-revert.ts`).
+⚠️ A commit body names its ticket as `- ticket: DOT-N`, and nothing else — Linear's own keywords
+(`ref`, `closes`, …) next to an id are banned, because its parser answers them by assigning Dima.
+The `cmt` skill owns that contract and loads on every commit; the pre-push hook
+(`script/linear-push.ts`) does the linking itself.
 **Name the ticket you are about to close in your reply**, never close silently.
 
 ## Titles and bodies

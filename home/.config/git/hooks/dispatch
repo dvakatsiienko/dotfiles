@@ -1,0 +1,94 @@
+#!/bin/sh
+#
+# ? The global git hook directory, reached through `core.hooksPath` in
+# ? ~/.gitconfig. Every hook name beside this file is a symlink to it; the
+# ? script learns which hook it is from its own name, does our work, then hands
+# ? over to whatever the repo itself installed and returns that exit code
+# ? untouched.
+# ?
+# ? `core.hooksPath` REPLACES git's hook lookup rather than adding to it, so a
+# ? name missing from this directory is a repo hook that silently stops running.
+# ? Every documented hook name has a symlink here except `fsmonitor-watchman`,
+# ? which git reaches through the `core.fsmonitor` config by explicit path and
+# ? never through a hooks directory — covering it here would do nothing.
+# ?
+# ? Nothing in here may fail a git operation that would otherwise have
+# ? succeeded. Our own work is best-effort; only the delegate decides the exit.
+
+set -u
+
+[ "${LEFTHOOK:-}" = "0" ] && exit 0
+
+name=${0##*/}
+self=$(realpath "$0" 2>/dev/null) || self=$0
+root=${self%/home/.config/git/hooks/*}
+
+# NOT `git rev-parse --git-path hooks`: that command honours core.hooksPath and
+# answers with THIS directory, so every hook would exec itself forever. The
+# common dir is immune to the setting, and is also the right answer inside a
+# worktree, where .git is a file rather than a directory.
+gitDir=${GIT_COMMON_DIR:-${GIT_DIR:-}}
+if [ -z "$gitDir" ]; then
+    gitDir=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || exit 0
+fi
+
+# 🚨 Self-defence, and it is not optional. `lefthook run` syncs its shims into
+# core.hooksPath — THIS directory — and overwrites the symlink it was reached
+# through; measured, it ate `pre-commit` on the first run. Pointing the setting
+# back at the repo's own hooks dir for everything downstream sends that sync
+# where it always used to go, whatever the repo's own config says.
+index=${GIT_CONFIG_COUNT:-0}
+eval "export GIT_CONFIG_KEY_$index=core.hooksPath"
+eval "export GIT_CONFIG_VALUE_$index=\"\$gitDir/hooks\""
+export GIT_CONFIG_COUNT=$((index + 1))
+
+linearPush() {
+    [ -f "$root/script/linear-push.ts" ] || return 0
+    node=$(command -v node 2>/dev/null) ||
+        node=$HOME/.local/share/fnm/aliases/default/bin/node
+    [ -x "$node" ] || return 0
+    "$node" "$root/script/linear-push.ts" hook "$@"
+}
+
+if [ "$name" = pre-push ]; then
+    # git feeds the ref lines exactly once. We consume them, so they are kept on
+    # disk and replayed to the delegate — a lefthook pre-push handed an empty
+    # stream still exits 0, which makes a lost stream look exactly like success.
+    refs=$(mktemp 2>/dev/null) || refs=
+    if [ -n "$refs" ]; then
+        trap 'rm -f "$refs"' EXIT
+        cat > "$refs"
+        linearPush "$@" < "$refs" || true
+        exec 0< "$refs"
+    fi
+fi
+
+delegate=$gitDir/hooks/$name
+# A repo whose own hook is a link back here would loop until the process table
+# gives out, and it would take every hook name with it.
+if [ -x "$delegate" ] && [ "$(realpath "$delegate" 2>/dev/null)" != "$self" ]; then
+    exec "$delegate" "$@"
+fi
+
+# No installed hook. `lefthook install` REFUSES to write while core.hooksPath is
+# set — it exits 1 and touches nothing — so a lefthook repo has no shim to
+# delegate to and is served directly instead. `lefthook run` on a hook the
+# config does not define exits 0.
+top=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+for config in lefthook.yml lefthook.yaml lefthook.toml lefthook.json \
+    .lefthook.yml .lefthook.yaml .config/lefthook.yml; do
+    [ -f "$top/$config" ] || continue
+    # --no-auto-install is not optional: `lefthook run` otherwise syncs its shims
+    # into core.hooksPath, which is THIS directory, and overwrites the symlink it
+    # was just reached through. Measured — it ate `pre-commit` on the first run.
+    if [ -n "${LEFTHOOK_BIN:-}" ]; then
+        exec "$LEFTHOOK_BIN" run --no-auto-install "$name"
+    elif command -v lefthook >/dev/null 2>&1; then
+        exec lefthook run --no-auto-install "$name"
+    elif [ -x "$top/node_modules/lefthook/bin/index.js" ]; then
+        exec "$top/node_modules/lefthook/bin/index.js" run --no-auto-install "$name"
+    fi
+    break
+done
+
+exit 0
