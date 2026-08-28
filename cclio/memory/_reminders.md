@@ -21,7 +21,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 keep an eye on the tips-and-tricks sections — usefulness log trial live at `~/_tips-and-tricks-log-test.md` (ask seeded in authoring-memory-and-skills.md 2026-08-26); verdict when the log speaks
 
 
-⏰📌 mine dispatch's system-prompt dump once memory-nurture fully closes — dispatch self-describes as an orchestrator; borrow useful coordination patterns for cclio. batch: item 2 after DOT-175, BEFORE the claude.md leaves pass. (replaces canceled DOT-143) — set 2026-08-25
 
 ⏰ 🦊📜 humanize skill copies freshness — `plugin-x/skills/humanize` + `humanize-audit` are 1:1 copies of github.com/harshaneel/humanize (commit 4ec7973145, 2026-08-27); if still manual after ~2 months (≈2026-10-27) → raise: refresh via the `refresh-writing-for-humans` procedure, or automate the pull — set 2026-08-27
 
