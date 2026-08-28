@@ -28,16 +28,19 @@ brew "ripgrep"                   # grep (replaced the_silver_searcher)
 brew "tokei"                     # loc counter
 brew "tree"                      # directory trees
 brew "trash"                     # rm, but recoverable
-brew "coreutils"                 # gnu twins as g-prefixed names; `gtimeout` above all —
-                                 # macos ships no `timeout`, and a missing one is SILENT, so a
-                                 # command that never ran reads as a hang. NOT on PATH by design:
-                                 # the gnubin shim would shadow bsd sed/date/ls and change their
-                                 # behaviour repo-wide. call `gtimeout` by name.
+brew "coreutils"                 # gnu twins as g-prefixed names, plus the handful that have no
+                                 # bsd counterpart under their plain name — `timeout` among them,
+                                 # and macos ships none of its own. sed/date/ls/realpath/stat all
+                                 # still resolve to the bsd originals, so nothing is shadowed and
+                                 # the gnubin shim stays off PATH. `timeout` and `gtimeout` are
+                                 # the same binary; either name works.
 
 # ── Git and review ──────────────────────────────────────────────────────────
 brew "git"
 brew "gh"                        # GitHub CLI
 brew "git-filter-repo"           # history rewriting, for the rare surgery
+brew "git-lfs"                   # the lfs filter is wired in .gitconfig with required=true,
+                                 # so without this binary an lfs-carrying repo fails to CLONE
 brew "schpet/tap/linear"         # Linear CLI — the pm skill runs on this
 brew "withgraphite/tap/graphite" # stacked PRs
 

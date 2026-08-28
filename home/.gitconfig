@@ -15,6 +15,13 @@
 [gpg]
     format = ssh
 
+# Measured 2026-08-28, because "it works by luck" turned out to be wrong: signing
+# survives an unset SSH_AUTH_SOCK, a bogus one, and a bare `env -i` PATH —
+# op-ssh-sign reaches 1Password directly rather than through the ssh agent.
+# The ONE hard failure is the path below. Move, rename or uninstall 1Password and
+# every commit dies with "failed to write commit object", which does not name the
+# cause. allowedSignersFile only decides whether `git verify-commit` succeeds
+# HERE; it never affects whether a commit gets signed.
 [gpg "ssh"]
     program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
     allowedSignersFile = ~/.ssh/allowed_signers
