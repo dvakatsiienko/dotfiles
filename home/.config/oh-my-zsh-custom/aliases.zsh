@@ -71,10 +71,9 @@ alias gpruned='git fetch --prune && echo "Branches to delete:" && git branch --m
 
 # Github CLI
 # PROBLEM (DOT-68): this wants to be `go`, and muscle memory types `go`. It cannot be —
-# `go` is the Go toolchain at /opt/homebrew/bin/go, installed via the Brewfile because
-# sline is written in Go. Aliasing over it would break every `go build`/`go test`.
-# `goo` is the workaround, and it is the wrong shape. Fix is open.
-alias goo='gh browse' # TODO: connect GITHUB_TOKEN
+# bare `go` opens the repo on github; with arguments it is the Go toolchain
+# (/opt/homebrew/bin/go, sline is written in Go) — a plain alias would shadow it.
+go() { (( $# )) && command go "$@" || gh browse; }
 
 # pnpm: core
 alias pn='pnpm'
