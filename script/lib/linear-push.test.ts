@@ -14,9 +14,12 @@ import { describe, expect, test } from 'vitest';
 /* Instruments */
 import {
     type HistoryNode,
-    checkRemoteOwner,
+    branchOf,
+    linkTargetsIn,
     magicRefsIn,
     parsePushedRefs,
+    parseRemote,
+    pickDoneState,
     planRevert,
     pushRange,
 } from './linear-push.ts';
@@ -126,7 +129,17 @@ describe('remote ownership', () => {
             'https://github.com/dvakatsiienko/dotfiles.git',
             'ssh://git@github.com/dvakatsiienko/dotfiles.git',
         ])
-            expect(checkRemoteOwner(url).ok, url).toBe(true);
+            expect(parseRemote(url).ok, url).toBe(true);
+    });
+
+    test('carries owner and repo out, so a commit url can be built', () => {
+        const parsed = parseRemote('git@github.com:dvakatsiienko/dotfiles.git');
+
+        expect(parsed.ok && parsed.remote).toEqual({
+            host: 'github.com',
+            owner: 'dvakatsiienko',
+            repo: 'dotfiles',
+        });
     });
 
     test('stands down on anything else, with a reason', () => {
@@ -136,9 +149,9 @@ describe('remote ownership', () => {
             './remote/r.git',
             '',
         ]) {
-            const checked = checkRemoteOwner(url);
-            expect(checked.ok, url).toBe(false);
-            expect(checked.reason.length, url).toBeGreaterThan(0);
+            const parsed = parseRemote(url);
+            expect(parsed.ok, url).toBe(false);
+            expect(!parsed.ok && parsed.reason.length, url).toBeGreaterThan(0);
         }
     });
 });
@@ -168,6 +181,83 @@ describe('magic words', () => {
         expect(
             magicRefsIn(['refactor DOT-3', 'DOT-4 alone', 'relates to DOT-5']),
         ).toEqual([]);
+    });
+});
+
+describe('our own link form', () => {
+    const commit = (sha: string, body: string) => ({
+        body,
+        branch: 'main',
+        sha,
+        subject: body.split('\n')[0] ?? '',
+    });
+
+    test('reads the form, and the closing marker with it', () => {
+        expect(
+            linkTargetsIn([
+                commit('a1', 'subject\n\n- ticket: DOT-210'),
+                commit('b2', 'subject\n\n- ticket: BYT-7 (closes)'),
+            ]),
+        ).toMatchObject([
+            { closing: false, id: 'DOT-210' },
+            { closing: true, id: 'BYT-7' },
+        ]);
+    });
+
+    test('the form is invisible to the parser we are hiding from', () => {
+        expect(magicRefsIn(['- ticket: DOT-210 (closes)'])).toEqual([]);
+    });
+
+    test('several commits on one ticket group, and closing wins', () => {
+        const [target] = linkTargetsIn([
+            commit('a1', 's\n\n- ticket: DOT-1'),
+            commit('b2', 's\n\n- ticket: DOT-1 (closes)'),
+        ]);
+
+        expect(target?.closing).toBe(true);
+        expect(target?.commits.map((one) => one.sha)).toEqual(['a1', 'b2']);
+    });
+
+    test('a repeated line still attaches the commit once', () => {
+        expect(
+            linkTargetsIn([
+                commit('a1', 's\n\n- ticket: DOT-1\n- ticket: DOT-1'),
+            ])[0]?.commits,
+        ).toHaveLength(1);
+    });
+
+    test('ignores an id that is merely mentioned', () => {
+        expect(
+            linkTargetsIn([
+                commit(
+                    'a1',
+                    'DOT-1 alone\nsee DOT-2\nthe ticket: DOT-3 is open',
+                ),
+            ]),
+        ).toEqual([]);
+    });
+});
+
+describe('push metadata', () => {
+    test('a branch name is read out of the remote ref', () => {
+        expect(
+            branchOf({
+                localOid: 'a',
+                localRef: 'refs/heads/main',
+                remoteOid: 'b',
+                remoteRef: 'refs/heads/probe-linear-forms',
+            }),
+        ).toBe('probe-linear-forms');
+    });
+
+    test('a closing commit lands on Done, not on whatever completed state sorts first', () => {
+        expect(
+            pickDoneState([
+                { id: 'x', name: 'Canceled', position: 0, type: 'canceled' },
+                { id: 'y', name: 'Duplicate', position: 1, type: 'completed' },
+                { id: 'z', name: 'Done', position: 2, type: 'completed' },
+            ])?.id,
+        ).toBe('z');
     });
 });
 

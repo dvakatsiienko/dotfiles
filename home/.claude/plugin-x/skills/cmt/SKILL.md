@@ -90,7 +90,7 @@ revert, or bisect on its own.
 Commit under Dima's configured identity, no flags. GitHub cannot match `fleet@x-com.local` to
 an account, so the verified badge dies; Dima wants verified commits. The full investigation
 (and why the author field never drove the Linear assign) lives in
-the header of `~/dotfiles/script/linear-push-revert.ts`.
+the header of `~/dotfiles/script/linear-push.ts`.
 
 📌 **The agent fingerprint is the trailer, not the author field.** Every agent commit carries
 the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
@@ -103,66 +103,74 @@ the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
 - 📦 bodies: `pkg old → new` lines + `- regenerate pnpm-lock.yaml`.
 - End: blank line + `Co-Authored-By: Claude <current runtime model> <noreply@anthropic.com>`.
 
-## 5 · Linear magic words
+## 5 · The ticket line
 
-Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. **Commit and PR
-linking stay on**, and are the only thread tying code back to its ticket. So the words matter:
+Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. A commit body is the
+only thread tying code back to its ticket, and it carries that thread in **one form**:
 
-- **Non-closing** (link only): `ref` `refs` `references` `part of` `contributes to` `toward` `towards`
-- **Closing** (moves the ticket): `close(s|d)` `fix(es|ed)` `resolve(s|d)` `complete(s|d)` `implement(s|ed)`
-- **Relation only**: `relates to` `related to`
-- Placement: PR **title/description** and **commit messages** work. PR **comments do not**.
-  A branch name needs the bare id, no magic word.
+```
+- ticket: DOT-N
+- ticket: DOT-N (closes)
+```
+
+**We do the linking ourselves.** The pre-push hook reads this line, attaches the commit to the
+ticket through Linear's API, and moves the ticket to Done when the line says `(closes)`. The
+ticket gains a link and nothing else — no assignee, no state churn, no history noise.
+
+🚫 **Linear's own keywords are BANNED in a commit body** — `ref` `refs` `references` `part of`
+`contributes to` `toward(s)` `close(s|d)` `fix(es|ed)` `resolve(s|d)` `complete(s|d)`
+`implement(s|ed)`, each followed by an id. Linear's parser still watches every push, and any of
+them assigns Dima and moves the ticket behind our back. `- ticket:` is inert to it — measured
+on [DOT-229](https://linear.app/x-com/issue/DOT-229) 2026-08-28, six forms, one push.
 
 ### Default lane — commit to `main`
 
 Dima's lane: no branch, no PR, commit and push. The **commit body carries everything**.
 
-- **Every commit touching the work**: a `- ref DOT-N` line.
-- **Close on the last one**: replace it with `Closes DOT-N` when the commit finishes the
-  ticket. One close per ticket, never repeated.
-- **No ticket → no id.** Most commits have none. The id comes from the conversation, the
+- **Every commit touching the work**: a `- ticket: DOT-N` line.
+- **Close on the last one**: `- ticket: DOT-N (closes)` when the commit finishes the ticket.
+  One close per ticket, never repeated.
+- **No ticket → no line.** Most commits have none. The id comes from the conversation, the
   branch name, or Dima — nowhere else. Never guess, never grep for a plausible match, never
   write `DOT-?`. Omitting the line is always correct.
-- **Never close on Dima's behalf without saying so.** A closing keyword resolves the ticket
-  AND assigns it. Name the ticket you are about to close in the reply.
-- 🎯 **A commit body is PARSED, not read — writing *about* a magic word IS using one.** Linear
-  cannot tell a quotation from an intent (measured: a quoted example assigned Dima and moved
-  the ticket five seconds after push). **Before pushing, grep the body for the id pattern and
-  count the hits** — the count is what fires, never the intent. Reword any mention not meant
-  to link: say "a `ref` line naming the ticket", never the literal pair.
+- **Never close on Dima's behalf without saying so.** Name the ticket you are about to close in
+  the reply.
+- 🎯 **A commit body is PARSED, not read — writing *about* a banned keyword IS using one.**
+  Linear cannot tell a quotation from an intent (measured: a quoted example assigned Dima and
+  moved the ticket five seconds after push). **Before pushing, grep the body for the id pattern
+  and count the hits** — the count is what fires, never the intent. Write "a `ticket:` line
+  naming DOT-1", never a banned keyword next to an id.
 - Scoped to Dima's tracker (`DOT`/`BYT`); an oss repo's conventions belong to that project.
 
 ### What a push actually does to the ticket
 
-- A `ref`-carrying push links the commit onto the ticket (Resources block, ~15s). Linear also
-  writes an assignee and a state move in the same instant; **the pre-push hook
-  (`script/linear-push-revert.ts`, via `lefthook`) reverts both ~13s later** and logs to
-  `.git/linear-push-revert.log`. Nothing to do or say after a push — the hook owns it.
-  Report only a miss: assignee still Dima, or state moved, 30s after the push. A repo without
-  the hook wired is [DOT-210](https://linear.app/x-com/issue/DOT-210)'s gap — say so, never
-  unassign by hand.
+- The pre-push hook (`script/linear-push.ts`, reached from the global dispatcher in
+  `~/.config/git/hooks`) waits for the push to land, then attaches each commit and applies the
+  closes. It logs to `.git/linear-push.log` and **fires in every repo Dima pushes from**, not
+  only the ones with a lefthook config. Nothing to do or say after a push — the hook owns it.
+  Report only a miss: no Resources entry 30s after the push.
+- **An external repo gets nothing.** The hook stands down unless the push remote is
+  `github.com` under an owner of ours — no Linear call, no log line, pure delegation.
 - **PR events** (exception lane): `start` → In Progress, `review` → In Review, `merge` → Done,
   wired on both teams. No `draft` row — a draft PR jumps straight to In Review.
-- Reading a Resources entry: a `Non-closing` badge means link-only; **no badge means it closed
-  the ticket** — Linear marks the exception, not the norm.
+- Reading a Resources entry: ours carries the commit subject and `<short sha> · <branch>`.
 
 ### Exception lane — pull requests
 
 Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens a PR for.
-Branch commits carry `- ref DOT-N`, never a closing keyword; the **PR description carries
-exactly one** `Closes DOT-N`. For a branch never checked out here, write the keyword with
-`gh pr edit`, never by rewriting remote commits.
+Branch commits carry `- ticket: DOT-N`; the **PR description carries exactly one**
+`Closes DOT-N` — a PR is Linear's lane, not ours, and the PR automations are wanted. For a
+branch never checked out here, write it with `gh pr edit`, never by rewriting remote commits.
 
 ### Wiring a new repo
 
-Commit linking needs a **manual push webhook per repo**; the `Link commits to issues with
-magic words` toggle alone does nothing. Wired: `dotfiles`, `bytes`. New repo: Linear settings
-→ integrations → GitHub → flip that toggle off/on to reopen the setup modal → copy payload
-URL + secret → repo webhooks → add (json, push event only) → Done.
-⚠️ All repos share **one** `githubCommit` integration — flipping the toggle mints a new
-endpoint and silently breaks every existing webhook. Linking dead everywhere at once → repoint
-each hook at the new URL/secret.
+**Nothing to wire.** The hook links through Linear's API, so a repo is covered the moment its
+remote is `github.com` under an owner of ours. The per-repo push webhook Linear's own parser
+needs is no longer part of committing.
+
+⚠️ Those webhooks still exist on `dotfiles` and `bytes`, and all repos share **one**
+`githubCommit` integration — so a banned keyword that slips into a body still reaches Linear
+from either of them. That is what §5's grep-before-push is for.
 
 ## 6 · Completion criterion
 
