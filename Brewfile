@@ -84,4 +84,6 @@ cask "1password-cli"             # op — SSH agent + signing
 cask "warp"                      # terminal — the daily one
 cask "iterm2"                    # terminal — fallback; its prefs live in import/iterm2
 cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, glyphs render as boxes
+cask "font-ia-writer-duo"        # cursor markdown font (iA Writer DuoS)
+cask "font-ia-writer-quattro"    # proportional sibling, for prose without tables
 cask "pearcleaner"               # app uninstall + leftover hunting; open source, has a CLI
