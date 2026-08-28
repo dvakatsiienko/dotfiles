@@ -81,6 +81,9 @@ double-runs the work.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.
 - Worktrees at ~5+ agents or genuine concurrent edits, not before.
+- ⚠️ **a dotfiles worktree cannot push** (the `mirror` pre-push gate reads the ~ symlinks, which
+  point at the main checkout) and **must never run `pnpm`** (it installs there and `lefthook`
+  rewrites the shared `.git/hooks` to the worktree path). the coordinator merges and pushes.
 
 ## lifetime and stopping
 
