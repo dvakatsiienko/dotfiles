@@ -24,8 +24,3 @@ the source of truth.
 - a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout) and must never run `pnpm` (it installs there and rewrites the shared
   `.git/hooks` to the worktree path)
-
-## cursor
-
-- the markdown «Preview» editor rewrites a file's formatting on open + save (indent, bold,
-  blank lines) — read there if you like, edit on the «Markdown» side
