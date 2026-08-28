@@ -73,7 +73,7 @@ alias gpruned='git fetch --prune && echo "Branches to delete:" && git branch --m
 # PROBLEM (DOT-68): this wants to be `go`, and muscle memory types `go`. It cannot be —
 # bare `go` opens the repo on github; with arguments it is the Go toolchain
 # (/opt/homebrew/bin/go, sline is written in Go) — a plain alias would shadow it.
-go() { (( $# )) && command go "$@" || gh browse; }
+go() { if (( $# )); then command go "$@"; else gh browse; fi }
 
 # pnpm: core
 alias pn='pnpm'
