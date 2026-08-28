@@ -1,6 +1,7 @@
-# /cclio:gazette — the tweet and the wire 🗞️
+# /cclio:gazette — cclio's gazette 🗞️ the tweet and the wire
 
-the durable event history plus its outward release. the halt calls this BEFORE the CST, so the
+**cclio's gazette** — cclio writes it, cclio owns it, the masthead says so. the durable event
+history plus its outward release. the halt calls this BEFORE the CST, so the
 handoff carries only what the gazette did not already say.
 
 ## phase 1 — the tweet (always, no gate)
@@ -13,6 +14,7 @@ write the day's post: `cclio/gazette/YYYY-MM-DD-<short-slug>.md`.
   touched repos, the day's linear activity, the session context last — coders and cw leave
   traces cclio's thread never saw.
 - frontmatter: `date` · `slug` · `tickets: [DOT-N, …]` · `posted: {health: no, announcements: no}`
+- header line: `# 🗞️ cclio's gazette · <slug title>` — the masthead leads every post
 - skeleton, soft cap ~25 lines:
   - **shipped** — what landed, every fact linear-linked
   - **tricks gained** — fleet-useful finds, gotchas, new capabilities
@@ -27,7 +29,7 @@ the release — derived from the tweet, pushed outward.
 
 - **gate:** bare halt → ask «🗞️ the wire? y/n» and **block until a literal answer**; stop lane →
   auto-yes, run without asking.
-- **health update** for each project the tweet touched — ⚠️ full markdown links (health updates
+- **health update** for each project the tweet touched — titled `🗞️ cclio's gazette · <date>` — ⚠️ full markdown links (health updates
   do not auto-link ids). **the house style — settled by the 4-round live test with dima,
   2026-08-27, screenshots verified in linear:**
   - **hybrid voice**: fleet structure carries the scanning (emoji line-prefix per paragraph,
@@ -42,6 +44,9 @@ the release — derived from the tweet, pushed outward.
     paragraph a gain written for him, not for an agent
 - **announcements.md** — only a genuinely new feature, capability, or hazard affecting the
   fleet; evaluated fresh each time; the file's existing mechanics stay.
+- **hand dima the doors** — every `projectUpdateCreate` returns `projectUpdate { url }`; the
+  reply lists one link per post, `- [<project>](<url>) — <one-line gist>`. he never hunts by
+  «last posted». the feed view of all updates is linear's **pulse** (his find, 2026-08-28).
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so
   the wire fires at most once per day's content.
 
