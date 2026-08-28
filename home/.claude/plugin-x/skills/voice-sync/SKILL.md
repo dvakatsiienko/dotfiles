@@ -13,6 +13,7 @@ deliver the fleet voice + formatting rules from their master files to a claude d
 - `rules/fleet-voice.md` — tone, manner, corrections
 - `rules/fleet-output-format.md` — the mechanical shape: answer-first, casing, bullets, emoji, fences
 - `rules/dima-signals.md` — how to read dima's inbound messages
+- `rules/fleet-identity.md` — who each fleet member is, plus `inbox` and its hazards
 
 (cc reads them at `~/dotfiles/home/.claude/rules/`; a desktop thread reads the same absolute
 paths via Desktop Commander.)
@@ -37,7 +38,9 @@ new profile block, fenced for paste:
 
 ## MEMORY lane (desktop)
 
-1. read the three master files via Desktop Commander.
+1. read the four master files via Desktop Commander.
+   `fleet-identity.md` lands in its own memory entry (`fleet`), not in the voice digest — refresh
+   it in the same run so cw always knows who is who and how `inbox` is handled.
 2. condense to ~10–14 lines, each prefixed `fleet voice (from dotfiles rules):`.
 3. merge into the existing global **«Preferences»** entry (the You section): replace ONLY the
    previous `fleet voice…` lines — every other line stays. no new entry, never a full overwrite.
