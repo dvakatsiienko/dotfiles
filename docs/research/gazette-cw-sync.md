@@ -10,6 +10,19 @@ in cw he talks applications, cv, recruiters — cw should surface «we're buildi
 week» in an HR mail unprompted. any thread, cooking included, so he can chat a hot topic without
 a context switch. ctx load accepted.
 
+## what cw does with it — the acceptance test
+
+- **surfaces it unprompted where it helps** — drafting an HR mail, a recruiter reply, cv
+  positioning: «this week we shipped a global git-hook layer for the harness — worth a line».
+  dima's words: *«me personally — i can just forgot to tell about it. but you via cw — remind
+  suddenly.»* the job-search leaf and this leaf connect inside cw; nobody pre-joins them.
+- **answers «what are you two up to» in any thread** without a context switch — a cooking
+  thread included.
+- **so the digest must keep, per post:** what shipped (with the ticket ids), what is live or next,
+  and the one trick worth repeating. drop the mechanics (hashes, file paths, versions) unless
+  they are the story.
+- **ctx load is accepted** by dima; the 7-day window is the cap, not a token budget.
+
 ## the shape (agreed)
 
 - **leaf `cclio's-gazette`** in cw global memory — a rolling **digest**, not a copy: enough to
@@ -20,7 +33,9 @@ a context switch. ctx load accepted.
 - **source:** `cclio/gazette/*.md` on the mac, read through the cw memory bridge the way the
   other mapped sources are.
 - **carrier: `memory-sync`** (plugin-x-cw) gains one more mapped source → target leaf. the map
-  entry states the want above so cw picks what is good; no cclio-side fan-out.
+  entry states the want above so cw picks what is good; no cclio-side fan-out. dima's read of
+  the skill today: *«a rough mvp, a bit clunky but still — it worked and covered a very large
+  info gap»* — this entry is its second real source, expect to tune it.
 - **trigger: the daily 09:00 kyiv cw scheduled task** (device-bound, UI-create-only). the existing
   regen-probe task at that slot **mutates** into «run memory-sync» after probe report #1 — not
   deleted.
