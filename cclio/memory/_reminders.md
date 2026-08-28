@@ -11,7 +11,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 🦊👁️ voice-sync day-two check — did the fleet-voice lines in desktop global memory survive the nightly regeneration, and does a fresh thread follow them? watch spec lives in the `x:voice-sync` skill body; dima holds the diff copy — set 2026-08-26
+⏰📌 🦊👁️ cw-memory regen probe — do written lines in cw global memory survive the nightly regeneration verbatim? baseline = `cclio/cw-memory-map.md` (2026-08-28 dump); cwrk diffs `_router.md` + one bridge entry next day. absorbs the old voice-sync day-two check (skill deleted, absorbed into memory-sync 2026-08-28) — set 2026-08-26
 
 ⏰📌 🦊🔬 NEXT BOOT FIRST ACT — roadmap symlink-import probe: `cclio/memory/dima-roadmap.md` is now a symlink into the obsidian vault; canary = step 3 «the pm milestone» nameable from context WITHOUT reading the file. works → keep, drop this reminder. fails → flag to dima, fall back to boot-time `cp` from vault — set 2026-08-27
 
