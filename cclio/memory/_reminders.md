@@ -17,7 +17,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 run the refresh-spawn-mechanics procedure (fresh session): re-verify the evidence base against the current cc build AND clean spawn-mechanics-research.md in the distill (~40% trimmable — no stale data stored) — doubles as the procedure entity's live test — set 2026-08-27
 
-⏰📌 review and apply docs/research/cursor-markdown-ux.md (vim wrap fix lua lines, md settings) — drop when dima confirms applied
 
 ⏰📌 keep an eye on the tips-and-tricks sections — usefulness log trial live at `~/_tips-and-tricks-log-test.md` (ask seeded in authoring-memory-and-skills.md 2026-08-26); verdict when the log speaks
 
