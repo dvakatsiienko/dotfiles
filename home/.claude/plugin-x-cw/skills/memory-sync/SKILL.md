@@ -15,9 +15,9 @@ first; it owns routing, tool mechanics, register, and guardrails.
 masters live at `~/dotfiles/home/.claude/` (read via the shell lane; DC only where the shell
 cannot).
 
-- `rules/fleet-voice.md` + `rules/fleet-output-format.md` + `rules/dima-signals.md`
-  → `/preferences.md`, ONLY the lines prefixed `fleet voice (from dotfiles rules):` — every
-  other line in that entry is untouchable
+- `rules/fleet-voice.md` + `rules/fleet-output-format.md` → `/preferences.md`, ONLY the voice
+  and formatting lines the bridge owns — every other line in that entry is untouchable
+- `rules/dima-signals.md` → `/areas/working-contract.md` (`## reading him`)
 - `rules/fleet-identity.md` → `/areas/fleet.md`
 - `CLAUDE.md` + `rules/fleet-bypass-restraint.md` + `rules/fleet-vibe.md`
   → `/areas/working-contract.md`
@@ -34,7 +34,9 @@ cannot).
 4. anything ambiguous — a prune, a conflict between cw-native and master — ask dima before
    writing. his words in an entry survive every edit.
 5. one write, per `memory-update` mechanics. refresh the entry `description` with it.
-6. stamp the entry frontmatter: `derived-from: [<master files>]`.
+6. stamp the entry frontmatter: `derived-from: [<master files>]`. when an entry's existing
+   `derived-from:` disagrees with the map above, **the map wins** — restamp, and name the
+   mismatch in the diff report.
 
 the pass is done when every mapped entry is refreshed, the router regenerated, and the
 per-entry diff report printed: `entry: what changed / unchanged / asked`.
