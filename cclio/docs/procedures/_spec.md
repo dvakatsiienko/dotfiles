@@ -10,9 +10,13 @@ refresh all share one skeleton.
 - **the want** — WHY the procedure exists and what problem it solves. **Dima's, always.**
   Creating a procedure without his stated want is not allowed: ask him for it, in his words,
   before the procedure is real. An agent-invented want is a procedure serving nobody.
-- **research vectors** — the questions each run investigates. **Dima's wording**, re-groomed
-  with him at every run before spawning any researcher. Stale vectors produce confident
-  answers to yesterday's questions.
+- **research vectors** — the questions each run investigates against the OUTSIDE world, via
+  web_search-armed researchers. **Dima's wording**, re-groomed with him at every run before
+  spawning any researcher. Stale vectors produce confident answers to yesterday's questions.
+- **analysis vectors** — the same contract, different instrument: questions answered by LOCAL
+  evidence — field reports, disk, git, the agent's own reasoning. No researcher spawns; the
+  running agent is the instrument. A procedure carries research vectors, analysis vectors, or
+  both.
 - **artifacts** — the pristine distilled docs this procedure maintains, listed by path.
   📌 **The procedure points at its artifacts; it never houses them.** Artifacts live where
   their READERS expect them (`docs/knowledge/models.md` beside its consumers, skills in their

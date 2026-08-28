@@ -25,6 +25,15 @@ full sweep; the sweep itself was one execution of it. procedure entity per [_spe
 - new memory-hygiene practice and tooling for agent fleets — new checks worth adding to the
   loop, anthropic memory features, community approaches
 
+## analysis vectors (local evidence — the running agent is the instrument)
+
+- which memories misfired or sat unused across recent sessions — a leaf never load-bearing
+  since the last sweep is a retirement candidate, not a keeper by default
+- did any silent-failure class (dead import, truncate-before-read, index sweep) fire since
+  last run — and does `method-silent-failures` already name its shape?
+- placement drift: any leaf grown past one decision, any fact living at the wrong altitude
+  (project-wide fact in a coordinator leaf, fleet fact in a project file)?
+
 ## artifacts (pointed at, never housed — the pristine distilled results)
 
 - `docs/knowledge/authoring-memory.md` · `authoring-memory-project.md` · `authoring-skill.md` —

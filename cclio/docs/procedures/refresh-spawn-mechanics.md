@@ -20,6 +20,14 @@ Keeps the spawn evidence base true against the current claude code build. Proced
 - freshest best practices of building an agent orchestrator — best approaches, accompanying
   tools, tips and tricks, gotchas, pitfalls
 
+## analysis vectors (local evidence — the running agent is the instrument)
+
+- which [verified] rows did live sessions contradict since last run? a contradiction outranks
+  the row's age as a refresh trigger.
+- did any spawn incident this period reveal a gap the evidence base has no row for — a flag
+  nobody measured, a failure shape nobody named?
+- is the doc still ~claim-tagged throughout, or have untagged assertions crept in?
+
 ## artifacts (pointed at, never housed)
 
 - `cclio/docs/spawn-mechanics-research.md` — the pristine evidence base: claim-tagged, its
