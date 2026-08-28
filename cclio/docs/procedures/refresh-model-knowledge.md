@@ -20,6 +20,14 @@ entity per [_spec.md](_spec.md).
   model-spawn strategy map per task type
 - new models, new benchmarks, price changes since last run
 
+## analysis vectors (local evidence — the running agent is the instrument)
+
+- do the actual spawn choices made since last run agree with `models.md` — and where a card was
+  overridden, was the card wrong or the moment special?
+- did any spawn outcome contradict a card (a sonnet acing hard multi-step, an opus writing
+  poems where prose was asked)? a contradiction is a card edit candidate.
+- does `craft-spawning.md` still agree with `models.md` line by line?
+
 ## artifacts (pointed at, never housed)
 
 - `docs/knowledge/models.md` — THE model reference: cards, spawn defaults, dima's live task→model

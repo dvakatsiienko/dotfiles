@@ -9,7 +9,7 @@
 - «no poems!» — binding on every model that runs the skills, opus included.
 - the procedure exists «so i won't explain you my wants about this again».
 
-## research vectors (his wording, re-groom each run)
+## analysis vectors (his wording, re-groom each run — local evidence, no web research)
 
 - what did the skills get WRONG in the field — which defect becomes a skill edit rather than a
   one-off fix?

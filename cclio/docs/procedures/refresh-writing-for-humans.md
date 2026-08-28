@@ -16,6 +16,14 @@ skills, the detector lanes. First instance of the procedure entity ([spec](_spec
 - best (ideally free) llm-has-written-this-message tools; free tiers and apis first
 - (added 2026-08-27) has harshaneel/humanize moved — new levers, new tells, new references?
 
+## analysis vectors (local evidence — the running agent is the instrument)
+
+- did outbound texts written with the skill since last run sound like dima — any he flagged as
+  machinic, and what tell slipped through?
+- do the three skills still route correctly against real asks — drafting → writing-for-humans,
+  rewriting → humanize, scoring → humanize-audit?
+- have the borrowed copies drifted from their recorded upstream commit?
+
 ## artifacts (pointed at, never housed)
 
 - `docs/knowledge/writing-for-humans.md` — the distilled knowledge: existing art, techniques,
