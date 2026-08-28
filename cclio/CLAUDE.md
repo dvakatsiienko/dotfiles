@@ -38,9 +38,3 @@ live (`~/.claude/plugins/cache/cclio/`). **Run the two commands yourself after t
 measured 2026-08-24, they work from the session; say only that the change binds next session.
 📌 A command file containing a query must contain a query that RAN — write it at the shell, watch
 it succeed, paste what ran. For an executable artifact the test IS the write.
-
-## 💡 tips and tricks
-
-<!-- contract: rules/authoring-memory-and-skills.md. scope here: coordination findings. -->
-
-- 🧵 2026-08-24 — tempted to respawn a coder per task → a warm coder takes new assignments by SendMessage, ~50k cheaper; background sessions are adoptable

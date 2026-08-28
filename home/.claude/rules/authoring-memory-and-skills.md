@@ -70,16 +70,3 @@ explain or answer: that is body content paid resident, every turn.
 **seed the trigger with magic keywords** — the literal words dima would type («commit this», a
 pasted url, «walk me through»), not an abstract paraphrase of the situation; the description
 fires by matching the prompt, and it can only match words that actually appear in one.
-
-## tips-and-tricks — the section contract
-
-every `CLAUDE.md` may end with `## 💡 tips and tricks`: genuinely useful or unexpected findings,
-shaped **issue → resolution** — what was hit, then what resolved it.
-
-- project-specific gotchas outrank broad-topic tips
-- **cap 7 lines, freshest first, oldest out**
-- each file maintains only its own scope
-- no forced entries — empty is healthy
-- line shape: `- <emoji> <yyyy-mm-dd> — <issue hit> → <what resolved it>`
-- 🧪 trial: the moment a tips entry actually helps you, log the case in
-  `~/_tips-and-tricks-log-test.md` (one line, format inside) — this decides keep vs drop
