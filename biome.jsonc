@@ -6,6 +6,7 @@
     "ignoreUnknown": false,
     "includes": [
       "!**/public/**/*",
+      "!.claude/worktrees", // coder worktrees carry their own biome.jsonc — a nested root otherwise
 
       // Not ours to format — editor/app config consumed verbatim, and themes
       // whose diffs would be pure noise.

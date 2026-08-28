@@ -11,6 +11,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
+⏰📌 linear-users research FIRST next boot — dima raised prio 2026-08-28: a linear user for cclio + one for coders (seat vs api-actor, cost, one shared coder user or per-session, own-linker attribution). research → propose → his admin hands. dies when the proposal is on the table — set 2026-08-28
+
 ⏰📌 🦊👁️ cw-memory regen probe — do written lines in cw global memory survive the nightly regeneration verbatim? baseline = `cclio/cw-memory-map.md` (2026-08-28 dump); cwrk diffs `_router.md` + one bridge entry next day. absorbs the old voice-sync day-two check (skill deleted, absorbed into memory-sync 2026-08-28) — set 2026-08-26
 
 

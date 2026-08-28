@@ -123,8 +123,10 @@ question. slug `<runid-topic>-halt`. a previous CST marked FROZEN is never super
 alongside and say which is which.
 
 ## phase 6 — boot prompt
-hand dima a copy-paste block for the fresh thread: the boot command, how to pull the CST by
-slug, the first moves, and the run id — continue it, never mint a new one.
+hand dima a copy-paste block for the fresh thread. 🚨 **line 1 is the literal `/cclio:init`** —
+it is user-invocation only, so the agent cannot run it for him; a prompt without it boots
+blind (measured 2026-08-28, twice). then: the CST pull by slug (`/x:handoff-ingest <slug>`),
+the first moves, and the run id — continue it, never mint a new one.
 
 ## phase 7 — one earned joke. never skip it.
 
