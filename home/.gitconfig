@@ -31,6 +31,12 @@
 	status = false
 	verbose = false
 
+[pull]
+    rebase = true
+
+[tag]
+    gpgsign = true
+
 [push]
     autoSetupRemote = true
 
