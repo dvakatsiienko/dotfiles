@@ -1,7 +1,7 @@
 {
   "name": "x-cw",
-  "version": "0.1.10",
-  "description": "the x skill set curated for cw (claude desktop) — symlinks into plugin-x, no copies",
+  "version": "0.2.0",
+  "description": "the x skill set curated for cw (claude desktop) — symlinks into plugin-x, plus cw-only skills as real dirs",
   "author": {
     "name": "Dima Vakatsiienko",
     "email": "imagnum.satellite@gmail.com"
