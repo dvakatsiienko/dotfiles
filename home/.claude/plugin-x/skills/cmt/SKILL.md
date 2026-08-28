@@ -90,7 +90,7 @@ revert, or bisect on its own.
 Commit under Dima's configured identity, no flags. GitHub cannot match `fleet@x-com.local` to
 an account, so the verified badge dies; Dima wants verified commits. The full investigation
 (and why the author field never drove the Linear assign) lives in
-`~/dotfiles/docs/knowledge/linear-autoassign-investigation.md`.
+the header of `~/dotfiles/script/linear-push-revert.ts`.
 
 📌 **The agent fingerprint is the trailer, not the author field.** Every agent commit carries
 the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
@@ -135,12 +135,13 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
 
 ### What a push actually does to the ticket
 
-- A `ref`-carrying push links the commit onto the ticket (Resources block, ~15s) — and has
-  been measured to also move state and write the assignee. 🧪 **The auto-assign story is
-  suspended, under observation**: after any ref-carrying push, read the ticket's assignee and
-  state and say in the reply what Linear did. Do not correct it silently; if a ticket ends up
-  assigned to Dima wrongly, tell him. Full history and falsified fixes:
-  `~/dotfiles/docs/knowledge/linear-autoassign-investigation.md`.
+- A `ref`-carrying push links the commit onto the ticket (Resources block, ~15s). Linear also
+  writes an assignee and a state move in the same instant; **the pre-push hook
+  (`script/linear-push-revert.ts`, via `lefthook`) reverts both ~13s later** and logs to
+  `.git/linear-push-revert.log`. Nothing to do or say after a push — the hook owns it.
+  Report only a miss: assignee still Dima, or state moved, 30s after the push. A repo without
+  the hook wired is [DOT-210](https://linear.app/x-com/issue/DOT-210)'s gap — say so, never
+  unassign by hand.
 - **PR events** (exception lane): `start` → In Progress, `review` → In Review, `merge` → Done,
   wired on both teams. No `draft` row — a draft PR jumps straight to In Review.
 - Reading a Resources entry: a `Non-closing` badge means link-only; **no badge means it closed

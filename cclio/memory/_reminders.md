@@ -13,9 +13,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 🦊👁️ cw-memory regen probe — do written lines in cw global memory survive the nightly regeneration verbatim? baseline = `cclio/cw-memory-map.md` (2026-08-28 dump); cwrk diffs `_router.md` + one bridge entry next day. absorbs the old voice-sync day-two check (skill deleted, absorbed into memory-sync 2026-08-28) — set 2026-08-26
 
-⏰📌 🦊🔬 NEXT BOOT FIRST ACT — roadmap symlink-import probe: `cclio/memory/dima-roadmap.md` is now a symlink into the obsidian vault; canary = step 3 «the pm milestone» nameable from context WITHOUT reading the file. works → keep, drop this reminder. fails → flag to dima, fall back to boot-time `cp` from vault — set 2026-08-27
 
-⏰📌 kill the linear auto-assign friction — FIRST TODO next session, it freaks dima out appearing so often. the fix likely = the pre-push reversal hook parked in [DOT-159](linear://linear.app/issue/DOT-159); today's observation (ref-push assigned NOBODY) may mean it's conditional or gone — verify first, then land the fix; `docs/knowledge/linear-autoassign-investigation.md` dies with it — set 2026-08-27
 
 ⏰📌 run the refresh-spawn-mechanics procedure (fresh session): re-verify the evidence base against the current cc build AND clean spawn-mechanics-research.md in the distill (~40% trimmable — no stale data stored) — doubles as the procedure entity's live test — set 2026-08-27
 
