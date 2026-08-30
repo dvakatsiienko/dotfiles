@@ -23,6 +23,8 @@ the source of truth.
 - worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
   the worktree's path — including pnpm's own auto-install before ANY script, so the first gated
   commit in a fresh worktree does it by itself. harmless to gating (the shim's repo-root
-  fallback rescues it) but dirty. **the guard: `CI=1 pnpm install` once, right after
-  `git worktree add`, before any other pnpm call** — lefthook's postinstall exits early on `CI`
-  (measured 2026-08-30). inline env for that one command only, never global
+  fallback rescues it) but dirty. **the guard: `CI=1 pnpm install`** — lefthook's postinstall exits early on `CI` (measured
+  2026-08-30). in dotfiles it is AUTOMATED: the `EnterWorktree` hook
+  (`.claude/hooks/worktree-setup.sh`) runs it in every bg coder's fresh worktree; manual
+  `CI=1 pnpm install` is needed only for a hand-made `git worktree add`. inline env for that
+  one command only, never global
