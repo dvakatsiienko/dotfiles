@@ -11,11 +11,11 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 linear-users research FIRST next boot — dima raised prio 2026-08-28: a linear user for cclio + one for coders (seat vs api-actor, cost, one shared coder user or per-session, own-linker attribution). research → propose → his admin hands. dies when the proposal is on the table — set 2026-08-28
+⏰📌 linear-users research — queued LAST by dima 2026-08-30 (after the small errands), was FIRST on 08-28: a linear user for cclio + one for coders (seat vs api-actor, cost, one shared coder user or per-session, own-linker attribution). research → propose → his admin hands. dies when the proposal is on the table — set 2026-08-28
 
-⏰📌 gazette → cw memory, NEXT SESSION after the probe verdict — spec: `cclio/docs/gazette-cw-sync.md` (leaf `cclio's-gazette`, 2 posts, memory-sync carries, 09:00 cw task mutates from the probe). dies when the leaf exists and the task runs — set 2026-08-28
+⏰📌 gazette → cw memory — queued LAST by dima 2026-08-30, tricky to do nicely — spec: `cclio/docs/gazette-cw-sync.md` (leaf `cclio's-gazette`, 2 posts, memory-sync carries, 09:00 cw task mutates from the probe). dies when the leaf exists and the task runs — set 2026-08-28
 
-⏰📌 🦊👁️ cw-memory regen probe — do written lines in cw global memory survive the nightly regeneration verbatim? baseline = `cclio/cw-memory-map.md` (2026-08-28 dump); cwrk diffs `_router.md` + one bridge entry next day. absorbs the old voice-sync day-two check (skill deleted, absorbed into memory-sync 2026-08-28) — set 2026-08-26
+⏰📌 cw-memory probe, dima's order 2026-08-30: the daily `🧪 memory regen probe` trigger fires ONCE more (2026-08-31 09:00 kyiv, full 12-entry compare) → then dima deletes it and we switch to the collision probe (does a model-side update to an entry keep our `[stated]` lines byte-identical, or rewrite the entry?). the nightly regen itself is retired (docs 2026-07-10, `cclio/docs/cw-memory-regen.md`). dima tests local-cw-has-no-memory himself. dies when report #2 is in and the collision probe is designed — set 2026-08-30
 
 
 
