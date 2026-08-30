@@ -8,9 +8,9 @@
  * ?   node script/linear-push.ts hook <remote-name> <remote-url>   # refs on stdin
  * ?   node script/linear-push.ts run --job=<path>                  # the detached half
  * ?
- * ? It is reached from the global hook dispatcher (`home/.config/git/hooks`),
- * ? so it fires in every repo Dima pushes from, and stands down in any repo
- * ? that is not his — see parseRemote.
+ * ? It is a `lefthook` pre-push job, called from `dotfiles` by relative path and
+ * ? from `bytes` by absolute path — one implementation, two callers. It stands
+ * ? down in any repo that is not Dima's — see parseRemote.
  * ?
  * ? `hook` never blocks and never fails the push: it reads the refs, works out
  * ? what the push means for Linear, detaches `run` into the background and exits

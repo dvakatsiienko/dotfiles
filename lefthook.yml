@@ -1,11 +1,10 @@
 # Git hooks. Everything fast enough to gate a commit runs at commit; the slower
 # whole-repo dogfood runs on push.
 #
-# Nothing installs these. The global dispatcher in `home/.config/git/hooks` is
-# what git reaches through core.hooksPath, and it runs `lefthook run <hook>`
-# here directly. A bare `lefthook install` refuses while core.hooksPath is set,
-# but lefthook's npm postinstall runs `install -f` and overwrites the dispatcher's
-# symlinks — which is why `allowBuilds` in pnpm-workspace.yaml must not allow it.
+# lefthook installs these into this repo's own `.git/hooks`, which is where it
+# expects to write and where git looks by default. Nothing is global: there is no
+# `core.hooksPath`, so nothing else can claim the slot and nothing here reaches
+# another repo.
 #
 # Nothing here writes to your files. A hook that reformats while lefthook is
 # holding your unstaged changes aside can fail to put them back — it cost a file
@@ -33,3 +32,19 @@ pre-push:
       # The engine's own dogfood: if the manifest stops deriving, catch it here
       # rather than on the next machine.
       run: pnpm dotfiles-link
+    linear-push:
+      # Links a pushed commit to the ticket its body names, and reverses the
+      # writes Linear's own integration still makes. `bytes` runs this same
+      # script by absolute path — one implementation, two callers, and a path
+      # that rots fails LOUD: node exits non-zero on a missing file and lefthook
+      # fails the push.
+      #
+      # {1} and {2} are git's own pre-push argv — remote name and remote url —
+      # and the url is the guard that keeps this off repos we do not own.
+      # use_stdin hands this command git's ref lines; lefthook gives them to
+      # this command alone, so `mirror` beside it is unaffected.
+      #
+      # It must never fail a push for its own reasons: the script swallows
+      # everything and exits 0.
+      use_stdin: true
+      run: node ./script/linear-push.ts hook {1} {2}

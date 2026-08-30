@@ -18,9 +18,6 @@ the source of truth.
 
 ## git hooks
 
-- `core.hooksPath` is global (`~/.config/git/hooks`, the dispatcher) — `lefthook run` syncs
-  its shims INTO that path and `lefthook install --force` overwrites it; the dispatcher guards
-  the first, nothing guards the second. never run `lefthook install` with any flag
 - a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout) and must never run `pnpm` (it installs there and rewrites the shared
   `.git/hooks` to the worktree path)
