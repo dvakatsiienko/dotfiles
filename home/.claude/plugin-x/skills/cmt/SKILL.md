@@ -144,11 +144,12 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
 
 ### What a push actually does to the ticket
 
-- The pre-push hook (`script/linear-push.ts`, reached from the global dispatcher in
-  `~/.config/git/hooks`) waits for the push to land, then attaches each commit and applies the
-  closes. It logs to `.git/linear-push.log` and **fires in every repo Dima pushes from**, not
-  only the ones with a lefthook config. Nothing to do or say after a push — the hook owns it.
-  Report only a miss: no Resources entry 30s after the push.
+- The pre-push hook (`script/linear-push.ts`, run as a `lefthook` pre-push job) waits for the
+  push to land, then attaches each commit and applies the closes. It logs to
+  `.git/linear-push.log` and fires only in **`dotfiles` and `bytes`** — the two repos whose
+  `lefthook` config calls it; a third repo needs those lines copied from `bytes` first. Nothing
+  to do or say after a push — the hook owns it. Report only a miss: no Resources entry 30s
+  after the push.
 - **An external repo gets nothing.** The hook stands down unless the push remote is
   `github.com` under an owner of ours — no Linear call, no log line, pure delegation.
 - **PR events** (exception lane): `start` → In Progress, `review` → In Review, `merge` → Done,
