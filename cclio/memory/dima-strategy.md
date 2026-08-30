@@ -46,11 +46,11 @@ default.
 
 ## 🛠️ harness — the home-baked orchestration layer
 
-**Wanted, deliberately deferred.** *«i would still prefer a harness that satisfies my style 😎 and
-it's interesting.»* ⏰ **Due ~2026-09-04** — built after two weeks of plain setup so it encodes
-what is actually missing, not what we assumed. If the date passes unraised, raise it. Research:
-MVP is ~12 lines of bash around `claude -p --resume`. Hold the tension out loud: it is the most
-seductive meta-work on the board.
+**Wanted, no deadline — planned, not scheduled.** *«i would still prefer a harness that satisfies
+my style 😎 and it's interesting.»* The order (dima, 2026-08-30): investigate first, eval the
+effort, THEN decide build-or-not; eval a simplified version to try before any real build.
+Research: MVP is ~12 lines of bash around `claude -p --resume`. Hold the tension out loud: it is
+the most seductive meta-work on the board.
 
 ## 👁️ visibility — seeing what the agents do
 
