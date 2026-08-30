@@ -1,6 +1,6 @@
 {
     "name": "mcp-x-cw",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "private": true,
     "type": "module",
     "description": "Local stdio MCP server exposing CST handoffs (save/pull/delete) to cw — interop with cc via ~/.claude/shelf/handoffs/",
