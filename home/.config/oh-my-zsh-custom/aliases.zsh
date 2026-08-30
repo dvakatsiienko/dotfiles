@@ -100,7 +100,7 @@ alias rmx='trash'
 
 # llms
 alias cc='claude'
-alias cclio-list='~/dotfiles/cclio/hooks/boot-prefetch.sh'
+alias cclio-list='~/dotfiles/cclio/.claude/hooks/boot-prefetch.sh'
 alias cclio='cd ~/dotfiles/cclio && claude --remote-control "💻 cclio"'
 
 # gum
