@@ -11,18 +11,19 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
 ## routing — where a fact belongs
 
 - **one subject, one file.** a fact goes where its subject lives, never into whichever file was
-  open. unsure → read `/_router.md` first.
+  open. unsure → `memory_list` with previews: the descriptions ARE the index.
 - `/areas/` = things with a lifecycle (a project, a hunt, a system) · `/topics/` = things that
   just are · `/profile.md` `/preferences.md` = fixed roots.
-- a genuinely new subject gets a new entry + a router line, never a section squatting in a
-  neighbour file.
-- after any write that changes what an entry owns: update its `description` AND its `/_router.md`
-  line in the same run. the description is a routing line — *what's inside · when to read it* —
-  never a restatement of the path.
+- a genuinely new subject gets a new entry, never a section squatting in a neighbour file.
+- after any write that changes what an entry owns: refresh its `description` in the same run. the
+  description is a routing line — *what's inside · when to read it* — never a restatement of the
+  path, and never load-bearing: only `- [stated]` lines are stable across a prettify pass;
+  descriptions are prettify-owned and regenerable.
+- `/_router.md` holds the routing rule and the `## bridge` line, nothing per-entry — no map.
 - after moving a fact between entries: grep the OTHER entries for references to its old owner —
   a move silently stales any line that pointed there.
 - **retiring an entry has one safe order**: copy its content to the new owner → verify it landed →
-  strip the entry's `/_router.md` line → dima deletes the file in claude.ai → re-read the listing.
+  flag it retired in `/_router.md` → dima deletes the file in claude.ai → re-read the listing.
   any other order can lose data permanently (no history, no undo).
 
 ## write mechanics — the tool contract
@@ -71,10 +72,11 @@ run the full pass, print every intended write as a diff, write nothing.
 
 ## arg: `prettify <entry|all>`
 
-zero data loss, shape only: fix register, cut flavour lines, refresh stale descriptions,
-restore `[stated]` prefixes, repair the router line. structural surgery (merges, moves,
-re-routing) is out of scope — collect what you *wanted* to restructure and end the run with
-that list as a proposal for dima. `all` walks every entry in the listing.
+prettify is a formatter: it reshapes lines and never removes one. in scope: register, `[stated]`
+prefixes, stale descriptions, sectioning. a line that reads like flavour is rewritten flat, its
+fact kept. **every section or fact line you want gone, and every merge, move or re-route, goes
+on a list printed at the end of the run as a proposal for dima** — nothing leaves memory
+unasked. `all` walks every entry in the listing.
 
 after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side and
 flag any fact claimed by two files — per-entry reading is structurally blind to dupes, and every
