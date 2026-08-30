@@ -203,9 +203,14 @@ path in it absolute.**
 - **completion events:**
   - subagents and forks → automatic `<task-notification>` [verified]
   - another session going idle → `notify_when_idle: true` on a `SendMessage`, one-shot, opt-in,
-    **from a main conversation only**. the subscription is **accepted** from a main conversation
-    [verified 2.1.251]; the notice may be routed to dima's transcript instead of to the subscriber
-    when the sessions differ in permission class, so delivery to the caller is [unknown].
+    **from a main conversation only**. **verified end to end on 2.1.251** — the subscription was
+    accepted and the `[Cross-session idle notice]` arrived at the caller, carrying the peer's own
+    closing line. (the docs note it can route to dima's transcript instead when the two sessions
+    differ in permission class; same class here.)
+  - ⏱️ **the notice is queued, not immediate** [verified]. it drains at the subscriber's next tool
+    round, so it can land well after the idle it reports — and **after the target session has been
+    stopped**. the one measured here reported a 20:03 idle and arrived once the session was already
+    killed. never read its arrival as "the peer just went idle"; read the timestamp it carries.
 - **driving a session dima started himself works** [verified] — a probe reached an `interactive`
   session two days old and it replied. the message arrives wrapped and attributed:
 
