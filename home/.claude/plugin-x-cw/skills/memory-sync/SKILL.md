@@ -23,10 +23,14 @@ cannot).
   → `/areas/fleet-contract.md`
 - `rules/fleet-hazards.md` → `/topics/obsidian.md` (the vault section)
 - the constant blocks below → `/areas/fleet-contract.md`
-- `/_router.md` — computed LAST, from what actually exists after the pass. a run that skips the
-  router regen leaves the barrel fiction.
+- `/_router.md` — the `## bridge` line only, refreshed LAST from what actually exists after the
+  pass. no per-entry map lives there: `memory_list` previews are the index.
 
 ## the up-merge — per entry, in order
+
+a cw session starts with NO memory loaded — scheduled runs included. `memory_list` +
+`memory_read` are the only view, and every write needs the version token a same-session
+`memory_read` returns; reading each entry first is the protocol, not overhead.
 
 1. read the FULL entry (also yields the version token).
 2. read the fresh master(s).
@@ -38,7 +42,7 @@ cannot).
    `derived-from:` disagrees with the map above, **the map wins** — restamp, and name the
    mismatch in the diff report.
 
-the pass is done when every mapped entry is refreshed, the router regenerated, and the
+the pass is done when every mapped entry is refreshed, the bridge line refreshed, and the
 per-entry diff report printed: `entry: what changed / unchanged / asked`.
 
 ## constant blocks — source of truth is THIS file
