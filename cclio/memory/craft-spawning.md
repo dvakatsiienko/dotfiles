@@ -104,9 +104,10 @@ double-runs the work.
 Per-case judgment: keep a coder warm when its context is expensive and the next assignment is
 nearby; respawn when the work is unrelated or the context is polluted. **Always stop probes.**
 
-- 🚨 **stop with `claude stop <jobId>` or `kill <pid>`** (pid from `~/.claude/sessions/<pid>.json`)
-  — both verified on 2.1.251; the registry file removes itself on exit, so `ls` is the whole
-  verification either way. never pattern-kill.
+- 🚨 **stop with `claude stop <jobId>`, prefer it over `kill <pid>`** — both verified on 2.1.251,
+  but four rc sessions killed by pid came back with new pids (2026-08-30; dima's read: his
+  agents-view ctrl+x swipe may have respawned them — unconfirmed). the registry file removes
+  itself on exit, so `ls` is the whole verification either way. never pattern-kill.
 - `TaskStop` reaches only subagents *this* session spawned.
 - ⚠️ **deleting the session in the desktop Code ui does NOT stop it** — measured: card gone,
   process alive. Never report a coder stopped because a ui said so.
