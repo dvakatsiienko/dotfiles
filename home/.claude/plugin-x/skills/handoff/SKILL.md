@@ -148,5 +148,5 @@ user got the one-line report. F, G: done at the report; E: at the counted deleti
 ## Cleanup (every invocation)
 
 ```bash
-find ~/.claude/shelf/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
+find ~/.claude/shelf/handoffs -name '*.md' -mmin +10080 -delete 2>/dev/null
 ```

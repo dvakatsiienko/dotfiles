@@ -20,7 +20,7 @@ import { z } from 'zod';
 
 const HANDOFF_DIR = join(homedir(), '.claude', 'shelf', 'handoffs');
 const SUPERSEDED_DIR = join(HANDOFF_DIR, 'superseded');
-const SWEEP_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+const SWEEP_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 const SPEC_PATH = join(
     homedir(),
     'dotfiles',

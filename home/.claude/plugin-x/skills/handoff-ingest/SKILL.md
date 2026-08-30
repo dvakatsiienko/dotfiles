@@ -95,5 +95,5 @@ ingested-but-undeleted file is a failure to report, not a detail.
 ## Cleanup (every invocation)
 
 ```bash
-find ~/.claude/shelf/handoffs -name '*.md' -mmin +1440 -delete 2>/dev/null
+find ~/.claude/shelf/handoffs -name '*.md' -mmin +10080 -delete 2>/dev/null
 ```

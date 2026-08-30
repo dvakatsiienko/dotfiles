@@ -107,8 +107,8 @@ in skill bodies use bare skill names; translate with your own prefix.
   `.DS_Store`, a subdirectory — is not, and is never counted, swept, or deleted.
 - **Ingest**: the consumer deletes the file on successful ingest, EXCEPT `-shared` files, which are
   left for other pullers.
-- **Sweep**: every frontend deletes files older than **24h** on any handoff operation. History stays
-  clean by design — pending files are the exception, not the norm.
+- **Sweep**: every frontend deletes files older than **7 days** on any handoff operation. Long enough
+  for a paused thread or a day off to survive; Dima's eyes cover the rest.
 - **Delete**: an explicit delete removes every pending file including `-shared` ones. It is a deletion, not a trim — no implementation may name it `prune`.
 - **Races are normal, not errors.** The store is shared, so a file can vanish between listing it and
   reading it — another thread pulled it, another session deleted it. An implementation must tolerate
