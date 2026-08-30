@@ -19,5 +19,10 @@ the source of truth.
 ## git hooks
 
 - a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
-  the main checkout) and must never run `pnpm` (it installs there and rewrites the shared
-  `.git/hooks` to the worktree path)
+  the main checkout)
+- worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
+  the worktree's path — including pnpm's own auto-install before ANY script, so the first gated
+  commit in a fresh worktree does it by itself. harmless to gating (the shim's repo-root
+  fallback rescues it) but dirty. **the guard: `CI=1 pnpm install` once, right after
+  `git worktree add`, before any other pnpm call** — lefthook's postinstall exits early on `CI`
+  (measured 2026-08-30). inline env for that one command only, never global

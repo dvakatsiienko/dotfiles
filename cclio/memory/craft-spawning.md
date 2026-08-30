@@ -93,7 +93,9 @@ double-runs the work.
 - `index.lock` means a peer is committing — wait, retry, **never delete a lock**.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.
-- Worktrees at ~5+ agents or genuine concurrent edits, not before.
+- Worktrees at ~5+ agents or genuine concurrent edits, not before. a worktree brief's step 0 is
+  `CI=1 pnpm install` (inline, that command only) — kills the shared-hooks rewrite
+  (`rules/fleet-hazards.md`, git hooks).
 - ⚠️ a dotfiles worktree cannot push and must never run `pnpm` (`rules/fleet-hazards.md`, git
   hooks) — the coordinator merges and pushes.
 
