@@ -99,10 +99,9 @@ alias tb='turbo'
 alias rmx='trash'
 
 # llms
-alias cute='claude'
+alias cc='claude'
 alias cclio-list='~/dotfiles/cclio/hooks/boot-prefetch.sh'
 alias cclio='cd ~/dotfiles/cclio && claude --remote-control "💻 cclio"'
-alias cutemon='claude-monitor --plan max5 --time-format	24h'
 
 # gum
 alias gg='git log --oneline | gum filter | cut -d" " -f1 # | copy'

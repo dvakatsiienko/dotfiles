@@ -17,3 +17,7 @@ function l() {
 function acp() {
     git add . && git commit -m "$1" && git push
 }
+
+function cute() {
+  claude --remote-control "${*:-$(date +%s)}"
+}
