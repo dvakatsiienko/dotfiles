@@ -13,9 +13,12 @@ Keeps the spawn evidence base true against the current claude code build. Proced
 
 - re-verify the corrected spawn table against the current cc version — every [verified] row is
   only as old as its last run
-- the standing open questions (the evidence base's own «could not determine» list): `--bg` +
-  `--effort` on an effort-capable model · worktree isolation end to end · workflow per-call
-  effort · the cloud row · `notify_when_idle` from the main conversation
+- the standing open questions: workflow per-call effort · 🆕 worktree-safety in dotfiles — how
+  to set a worktree up properly (setup script? native cc support?) so lefthook/pnpm cannot
+  rewrite the shared `.git/hooks`; dima's priority pick
+- ✂️ dropped by dima 2026-08-30: the cloud row (not a prio, overcomplicating) · `claude attach`
+  (works, settled) · `notify_when_idle` (verified end to end; the sound covers him, notices are
+  for cclio)
 - new spawn surfaces or flags in the cc changelog since last run
 - freshest best practices of building an agent orchestrator — best approaches, accompanying
   tools, tips and tricks, gotchas, pitfalls

@@ -30,7 +30,7 @@ a `dies-when:` label fires only when someone opens the doc; this list is the che
 each run: for every doc here, ask whether its verdict is encoded in an artifact above — yes →
 delete the doc and its line.
 
-- `cclio/docs/cw-memory-regen.md` — verdict: no nightly regen; projects are separate stores;
+- `docs/research/cw-memory-regen.md` — verdict: no nightly regen; projects are separate stores;
   local cw has no memory. encoded when the collision probe design and those two carve-outs sit
   in the artifacts.
 

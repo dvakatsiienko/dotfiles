@@ -15,7 +15,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 gazette → cw memory — queued LAST by dima 2026-08-30, tricky to do nicely — spec: `cclio/docs/gazette-cw-sync.md` (leaf `cclio's-gazette`, 2 posts, memory-sync carries, 09:00 cw task mutates from the probe). dies when the leaf exists and the task runs — set 2026-08-28
 
-⏰📌 cw-memory probe, dima's order 2026-08-30: the daily `🧪 memory regen probe` trigger fires ONCE more (2026-08-31 09:00 kyiv, full 12-entry compare) → then dima deletes it and we switch to the collision probe (does a model-side update to an entry keep our `[stated]` lines byte-identical, or rewrite the entry?). the nightly regen itself is retired (docs 2026-07-10, `cclio/docs/cw-memory-regen.md`). dima tests local-cw-has-no-memory himself. dies when report #2 is in and the collision probe is designed — set 2026-08-30
+⏰📌 cw-memory probe, dima's order 2026-08-30: the daily `🧪 memory regen probe` trigger fires ONCE more (2026-08-31 09:00 kyiv, full 12-entry compare) → then dima deletes it and we switch to the collision probe (does a model-side update to an entry keep our `[stated]` lines byte-identical, or rewrite the entry?). the nightly regen itself is retired (docs 2026-07-10, `docs/research/cw-memory-regen.md`). dima tests local-cw-has-no-memory himself. dies when report #2 is in and the collision probe is designed — set 2026-08-30
 
 
 
