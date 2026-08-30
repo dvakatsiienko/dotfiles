@@ -17,12 +17,12 @@ cannot).
 
 - `rules/fleet-voice.md` + `rules/fleet-output-format.md` → `/preferences.md`, ONLY the voice
   and formatting lines the bridge owns — every other line in that entry is untouchable
-- `rules/dima-signals.md` → `/areas/working-contract.md` (`## reading him`)
+- `rules/dima-signals.md` → `/areas/fleet-contract.md` (`## reading him`)
 - `rules/fleet-identity.md` → `/areas/fleet.md`
 - `CLAUDE.md` + `rules/fleet-bypass-restraint.md` + `rules/fleet-vibe.md`
-  → `/areas/working-contract.md`
+  → `/areas/fleet-contract.md`
 - `rules/fleet-hazards.md` → `/topics/obsidian.md` (the vault section)
-- the constant blocks below → `/areas/working-contract.md`
+- the constant blocks below → `/areas/fleet-contract.md`
 - `/_router.md` — computed LAST, from what actually exists after the pass. a run that skips the
   router regen leaves the barrel fiction.
 
@@ -43,7 +43,7 @@ per-entry diff report printed: `entry: what changed / unchanged / asked`.
 
 ## constant blocks — source of truth is THIS file
 
-no cc master exists for these; they live here and land in `/areas/working-contract.md`.
+no cc master exists for these; they live here and land in `/areas/fleet-contract.md`.
 
 ### cw conduct — the surface-difference statement
 
