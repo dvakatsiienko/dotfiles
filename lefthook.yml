@@ -3,8 +3,9 @@
 #
 # Nothing installs these. The global dispatcher in `home/.config/git/hooks` is
 # what git reaches through core.hooksPath, and it runs `lefthook run <hook>`
-# here directly — `lefthook install` cannot write a shim while core.hooksPath is
-# set anyway; it exits 1 and touches nothing.
+# here directly. A bare `lefthook install` refuses while core.hooksPath is set,
+# but lefthook's npm postinstall runs `install -f` and overwrites the dispatcher's
+# symlinks — which is why `allowBuilds` in pnpm-workspace.yaml must not allow it.
 #
 # Nothing here writes to your files. A hook that reformats while lefthook is
 # holding your unstaged changes aside can fail to put them back — it cost a file

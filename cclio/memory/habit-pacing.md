@@ -14,7 +14,8 @@ The working shape that fits: labeled sub-batches with a checkpoint message after
 
 **The inbox is a plan source, never a work order.** Parse it into a flowlog checklist first —
 every item a line with status and lane — then resolve paced, after his word on the order. Data
-loss dies at the parse, not at the resolve: an item with a checklist line cannot vanish.
+loss dies at the parse, not at the resolve: an item with a checklist line cannot vanish. **An
+item's url travels verbatim into its flowlog line** — a link is payload, never decoration.
 
 **Flag overload instead of absorbing it.** A query too fat for clean resolution → tell him so and
 propose the split, same turn. His words when this duty went unmet: *«why did not you told me even
