@@ -44,9 +44,8 @@ the release — derived from the tweet, pushed outward.
     paragraph a gain written for him, not for an agent
 - **announcements.md** — only a genuinely new feature, capability, or hazard affecting the
   fleet; evaluated fresh each time; the file's existing mechanics stay.
-- **hand dima the doors** — every `projectUpdateCreate` returns `projectUpdate { url }`; the
-  reply lists one link per post, `- [<project>](<url>) — <one-line gist>`. he never hunts by
-  «last posted». the feed view of all updates is linear's **pulse** (his find, 2026-08-28).
+- **pulse is the feed** — dima enabled linear's pulse (2026-08-30), so the reply names WHICH
+  projects got a post, one line total; no per-post links, no gists.
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so
   the wire fires at most once per day's content.
 
