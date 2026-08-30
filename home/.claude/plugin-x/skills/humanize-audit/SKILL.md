@@ -515,13 +515,10 @@ If the user asks "what would tool X say?", these are the current characteristics
 <!-- 🧪 vet: dima compares this skill's verdicts against pangram and friends himself — the
      extension may not earn its keep, or may. judge after a few real runs. -->
 
-The forensic score above is lane 1. When a draft matters, run the lanes side by side and print
-all results together — disagreement between lanes is itself signal.
+The forensic score above is lane 1. When a draft matters, print lane 1, then hand the draft to
+Dima for the gold gate — disagreement between the two is itself signal.
 
 - **lane 1 — this skill**: the scoring rubric above.
-- **lane 2 — sapling api** (free tier): only when `SAPLING_API_KEY` is set in the environment —
-  `curl -s -X POST https://api.sapling.ai/api/v1/aidetect -H 'Content-Type: application/json' -d "{\"key\":\"$SAPLING_API_KEY\",\"text\":\"<draft>\"}"`
-  returns an overall ai-probability score. No key → skip the lane silently, say so in the output.
 - **manual gold gate — pangram**: [pangram.com](https://www.pangram.com) web app, 2,000 words/day
   free — the accuracy leader, checked by Dima's hand, never automated here.
 

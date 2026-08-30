@@ -24,6 +24,16 @@
 - `docs/knowledge/claude-fleet-capabilities.md` — cw platform facts land here (e.g. the
   device-bound scheduled-task limit)
 
+## retires — research docs this procedure's run kills
+
+a `dies-when:` label fires only when someone opens the doc; this list is the check that runs.
+each run: for every doc here, ask whether its verdict is encoded in an artifact above — yes →
+delete the doc and its line.
+
+- `cclio/docs/cw-memory-regen.md` — verdict: no nightly regen; projects are separate stores;
+  local cw has no memory. encoded when the collision probe design and those two carve-outs sit
+  in the artifacts.
+
 ## the run
 
 1. **trigger** — cc masters changed meaningfully, or dima says the bridge feels stale. hand him
