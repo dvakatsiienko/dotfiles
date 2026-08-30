@@ -58,6 +58,9 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   a separate check.
 - ⚠️ **`notify_when_idle` subscriptions die on a coordinator restart, silently** — re-subscribe
   after every restart; an empty `SendMessage` costs nothing.
+- ⏱️ **the idle notice is QUEUED, not immediate** — it drains at your next tool round, so it can
+  land after the session it reports was stopped. read the timestamp it carries, never its arrival
+  time (2.1.251).
 - 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
   the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
 - **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
