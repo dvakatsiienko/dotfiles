@@ -98,6 +98,6 @@ than spawn evidence. dropped to a pointer. the 9-column matrix was replaced by o
 per door, per `rules/fleet-output-format.md`.
 
 📌 **research vectors need dima's re-groom before run #2** — vector 2's list is now mostly closed
-(`--bg` + `--effort` ✅, worktree ✅, `notify_when_idle` partly ✅). what survives: workflow
+(`--bg` + `--effort` ✅, worktree ✅, `notify_when_idle` ✅ end to end). what survives: workflow
 per-call effort, the cloud row, `claude attach` (needs a tty). one new candidate: the unexplained
 cclio-stack bleed recorded in §11 of the artifact.
