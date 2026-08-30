@@ -27,7 +27,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   compare against 4.x, never the 5s.
 - Full cards and prices: `docs/knowledge/models.md`, on demand.
 
-## preflight, four checks, every spawn
+## preflight, five checks, every spawn
 
 0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
    worth ~50k.
@@ -35,7 +35,11 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first. 🚨 **the registry name is `-n <name>`** — `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured 2026-08-30: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`) — a coder has no tool for it (measured).
    🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
    sessions by name in the desktop Code tab.
-3. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
+3. **cwd** — 🚨 never spawn from `~/dotfiles/cclio`: a child starts in the parent's cwd and
+   re-derives its CLAUDE.md stack there, so it boots wearing the coordinator's brain (measured
+   2026-08-30, the refresh-spawn-mechanics researcher). `cd` to the target repo in the same
+   command that spawns.
+4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
    word — **cclio verifies, then closes.**
 
 ## measured, not read from a schema
