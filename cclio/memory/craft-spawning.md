@@ -41,10 +41,16 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 ## measured, not read from a schema
 
 - **`--effort` is honoured** on `claude --bg` — pass it every time, it is a flag, never inherited.
-- ⚠️ **`claude --bg <prompt>` does NOT run the prompt** — the session comes up idle. Brief it
-  afterwards with `SendMessage`, which also carries `notify_when_idle`.
-- ⚠️ **a subagent starts in the git repo root, not the parent's cwd** — every path in a brief is
-  absolute.
+- ✅ **`claude --bg '<prompt>'` RUNS the prompt** (cc 2.1.251 — it came up idle on 2.1.239).
+  `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
+- ⚠️ **a subagent starts in the PARENT'S cwd** (2.1.251; it was the repo root on 2.1.239 — this
+  flipped) and re-derives its own CLAUDE.md stack from there. keep every path in a brief absolute.
+- ⚠️ **effort is inherited only by an effort-capable child** — an opus subagent gets
+  `CLAUDE_EFFORT`, a haiku one records `effort=null`. never measure effort with haiku in the loop.
+- ⚠️ **a worktree agent branches from `origin/<default-branch>`, not local HEAD** — it cannot see
+  unpushed commits.
+- 📌 `~/.claude/jobs/<jobId>/state.json` carries `respawnFlags` — the only place a session's
+  launch argv survives.
 - ⚠️ **a peer answering in plain prose reaches nobody** — only a `SendMessage` call travels. Say so
   in any brief expecting an answer.
 - ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
@@ -89,12 +95,15 @@ double-runs the work.
 Per-case judgment: keep a coder warm when its context is expensive and the next assignment is
 nearby; respawn when the work is unrelated or the context is polluted. **Always stop probes.**
 
-- 🚨 **`kill <pid>` is the ONLY reliable stop** — pid from `~/.claude/sessions/<pid>.json`; the
-  registry file removes itself on exit, so `ls` is the whole verification.
+- 🚨 **stop with `claude stop <jobId>` or `kill <pid>`** (pid from `~/.claude/sessions/<pid>.json`)
+  — both verified on 2.1.251; the registry file removes itself on exit, so `ls` is the whole
+  verification either way. never pattern-kill.
 - `TaskStop` reaches only subagents *this* session spawned.
 - ⚠️ **deleting the session in the desktop Code ui does NOT stop it** — measured: card gone,
   process alive. Never report a coder stopped because a ui said so.
 - 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
   being useful» are different states.
+
+Full evidence base: `docs/knowledge/spawn-mechanics.md`, on demand.
 
 Related: [method-report-verify](method-report-verify.md)

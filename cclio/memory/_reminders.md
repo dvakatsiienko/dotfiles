@@ -19,7 +19,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
-⏰📌 run the refresh-spawn-mechanics procedure (fresh session): re-verify the evidence base against the current cc build AND clean spawn-mechanics-research.md in the distill (~40% trimmable — no stale data stored) — doubles as the procedure entity's live test — set 2026-08-27
+⏰ 🦊📜 spawn-mechanics artifact freshness — `docs/knowledge/spawn-mechanics.md` verified against cc 2.1.251 (2026-08-30, run #1 of `refresh-spawn-mechanics`); re-run the procedure when the cc minor version changes, or when a spawn behaves against a [verified] row. research vectors need dima's re-groom before run #2 — set 2026-08-30
 
 
 

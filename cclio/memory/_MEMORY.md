@@ -12,7 +12,7 @@ rethink, not a license for a bare name. (`_`-prefixed files are infrastructure, 
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
 
 ## direction — read before any pm decision
-- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. master lives in the obsidian vault; the repo path is a SYMLINK to it (direct vault-path import failed the 2026-08-27 probe; symlink probe pending — see reminders). «resident upd» from dima → re-read it
+- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. master lives in the obsidian vault; the repo path is a SYMLINK to it (a direct vault-path import loads nothing; the symlink loads — verified 2026-08-30). «resident upd» from dima → re-read it
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
