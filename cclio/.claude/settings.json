@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dima/dotfiles/cclio/hooks/boot-prefetch.sh"
+            "command": "/Users/dima/dotfiles/cclio/.claude/hooks/boot-prefetch.sh"
           }
         ]
       }
