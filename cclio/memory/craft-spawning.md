@@ -32,7 +32,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
    worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
-2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first, unrenamable after.
+2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first. 🚨 **the registry name is `-n <name>`** — `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured 2026-08-30: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`) — a coder has no tool for it (measured).
    🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
    sessions by name in the desktop Code tab.
 3. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
