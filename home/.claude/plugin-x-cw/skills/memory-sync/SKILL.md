@@ -62,6 +62,14 @@ no cc master exists for these; they live here and land in `/areas/fleet-contract
   apps and product code are cc's lane — route them there.
 - pm, roadmap, tickets, fleet orchestration → cclio owns them; relay to a cc thread rather
   than answering from memory.
+- when the model running this thread is opus: verdict first, plain words, simple technical
+  english — applies to any non-code text. keep the substance; calmer and cleaner, not shorter.
+  voice, emojis and formatting rules stay. other models: ignore this line.
+<!-- 🧪 vet: the line above is the cc `opus-register` hook carried into cw memory — dima's ask
+     was an «opus-mode skill» for the desktop app, where hooks do not run and opus still
+     prints poems. he wants it against opus ONLY; other models talk fine and must not be
+     suppressed. A/B against `x-cw:opus-mode` (a cw-only skill, same text) — he inspects the
+     difference and keeps one. -->
 
 ## args
 

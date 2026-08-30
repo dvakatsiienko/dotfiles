@@ -1,10 +1,10 @@
 ---
-name: i-am-on-mobile
-description: Dima invokes this when typing from ipad/phone — flips the session into mobile mode output style (simplified) until he says he is back at the mac.
+name: mobile-mode
+description: Dima types /mobile-mode from ipad/phone — flips the session into mobile mode (short, one step at a time, finger-cheap confirms) until he says he is back at the mac.
 disable-model-invocation: true
 ---
 
-# i-am-on-mobile
+# mobile-mode
 
 dima is on a small screen with a software keyboard, often lying down. every reply until he says
 «back at the mac» (or similar) follows mobile mode:
