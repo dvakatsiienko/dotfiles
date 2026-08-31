@@ -38,3 +38,20 @@ posted: {health: no}
 - warm coder 37830e4d idles for [DOT-234](https://linear.app/x-com/issue/DOT-234) (dima's Triage
   promote) → [DOT-235](https://linear.app/x-com/issue/DOT-235) · next session: linear-users
   research first, then dima's-tools groom via init board · cw force refresh pending (0.2.7).
+
+⸻ upd, evening
+
+## the coder chain finishes the day
+
+- **plugin-release shipped and self-proven** ([DOT-234](https://linear.app/x-com/issue/DOT-234)):
+  `pnpm plugin-release` — status by default, apply acts; its FIRST real run caught its own
+  worktree footgun (bump in worktree + marketplace reads main = release binds nothing, cli says
+  success) — now detected and warned. the ~11-runs-a-day ritual is one verb.
+- **focus seam gets its contract** ([DOT-235](https://linear.app/x-com/issue/DOT-235)):
+  FOCUS-SPEC.md, four sides cite it, single writer, stale 5m comment dead — plus a real bug:
+  the 7d focus sweep could reach the shared status-cache; excluded by name.
+- **guides become a mechanism** — the coder's own post-mortem («a complete brief suppresses the
+  skill router») turned into: brief step zero in craft-spawning, an imperative guide rule, and a
+  wired PreToolUse hook that denies the first ts/tsx write of a session and hands over the guide
+  text. per-extension-class markers so tsx-after-ts still triggers the react guide.
+- day total: **11 tickets closed** · 162 tests green (was 35 at dawn) · x at 0.11.12.
