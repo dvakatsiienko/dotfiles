@@ -21,7 +21,7 @@ hand-maintained. Anything imported by hand into an app instead of symlinked live
 
 A directory is linked wholesale **unless** the matching path in `~` is already a real directory
 holding content this repo does not own (`~/.config`, `~/.claude`) — then it descends and links the
-leaves. `noLink` in `lib/manifest.ts` names the few dirs stored here but referenced by absolute path.
+leaves. `noLink` in `script/lib/manifest.ts` names the few dirs stored here but referenced by absolute path.
 
 📌 Two different `.claude` dirs exist here, and they are not the same thing: `home/.claude/` is the
 global `~/.claude` config (the agent system, every session reads it); `.claude/` at repo root is
@@ -39,7 +39,7 @@ pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 
 ## scripts
 
-- **`lib/manifest.ts`** decides (walks `home/`, derives the expected link set), `dotfiles-link.ts`
+- **`script/lib/manifest.ts`** decides (walks `home/`, derives the expected link set), `dotfiles-link.ts`
   acts — status / apply / untrack, idempotent, refuses to clobber a real file. Never run the
   manifest directly.
 - **`macos-setup.ts`** — `brew bundle` against the root `Brewfile`, the macOS defaults this repo
