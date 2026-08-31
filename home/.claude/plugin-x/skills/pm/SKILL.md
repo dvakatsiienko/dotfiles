@@ -204,6 +204,7 @@ is not captured, it is scattered.
 ## Body vs comments — the state contract
 
 **The body shape: what · why · how · notes · closing word — the ticket face, a reference.**
+Spec-shaped tickets add an optional sixth: acceptance/exit.
 Body = current state: keep it sanitized and updated, mutate without fear; a closed ticket reads
 true from the body alone. Agent context that does not fit the shape goes to a comment —
 deliberately, when it covers a real ctx gap, never as flood. Comments = trail (logs, stamps,
