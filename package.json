@@ -12,6 +12,7 @@
         "handoff-store": "node ./script/handoff-store.ts",
         "linear-push": "node ./script/linear-push.ts",
         "macos-setup": "node ./script/macos-setup.ts",
+        "plugin-release": "node ./script/plugin-release.ts",
         "check": "biome check --write",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
