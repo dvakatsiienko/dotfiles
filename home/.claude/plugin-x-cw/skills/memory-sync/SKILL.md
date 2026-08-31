@@ -15,14 +15,22 @@ first; it owns routing, tool mechanics, register, and guardrails.
 masters live at `~/dotfiles/home/.claude/` (read via the shell lane; DC only where the shell
 cannot).
 
-- `rules/fleet-voice.md` + `rules/fleet-output-format.md` + `rules/dima-signals.md`
-  → `/preferences.md`, ONLY the `## voice and formatting` section — every other section in
-  that entry is cw-native and untouchable
+- `rules/fleet-voice.md` + `rules/fleet-output-format.md` → `/preferences.md`, ONLY the
+  `## voice and formatting` section — every other section in that entry is cw-native and
+  untouchable
 - `rules/dima-signals.md` → `/areas/fleet-contract.md` (`## reading him`)
-- `rules/fleet-identity.md` → `/areas/fleet.md`
+- `rules/fleet-identity.md` → split: members + entities glossary and surface facts →
+  `/areas/fleet.md` · invariants + refusals (the destruction rails) →
+  `/areas/fleet-contract.md`, which is the ONE home of the rails — `/areas/fleet.md` carries
+  no copy
 - `CLAUDE.md` + `rules/fleet-bypass-restraint.md` + `rules/fleet-vibe.md`
-  → `/areas/fleet-contract.md`
-- `rules/fleet-hazards.md` → `/topics/obsidian.md` (the vault section)
+  → `/areas/fleet-contract.md`, with two carve-outs routed OUT: the beliefs block (x-com
+  products, simplicity, UX/DX drivers) → `/profile.md` · the TS/stack preferences block →
+  `/topics/frontend.md`
+- `rules/fleet-hazards.md` → split: vault section → `/topics/obsidian.md` · git-hooks section
+  → `/areas/dotfiles.md`
+- a route move is a MOVE: the line lands in its new entry and leaves the old one in the same
+  pass — a dupe across entries is a defect to fix, never a safety margin
 - the constant blocks below → `/areas/fleet-contract.md`
 - `/_router.md` — the `## bridge` line only, refreshed LAST from what actually exists after the
   pass. no per-entry map lives there: `memory_list` previews are the index.
