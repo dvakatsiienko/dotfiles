@@ -36,6 +36,16 @@ prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidia
   guarantee; resolution is paced later. **deletion happens at the halt, never here.**
 - empty → «inbox clean». marked FROZEN → do not touch, report frozen, move on.
 
+## 3.5 the broom 🧹
+dima pins 🧹 on tickets that look off. fetch them (query ran 2026-08-31):
+
+```
+linear api 'query { issues(filter: { labels: { name: { eq: "🧹" } } }, first: 50) { nodes { identifier title state { name } } } }'
+```
+
+non-zero → they enter the opening board as a proposed early sub-batch, run per `craft-pm`'s
+broom section (prettify only, no data loss, one approve). zero → say nothing.
+
 ## 4. continuity
 - 📬 **pending handoff addressed to you → PULL IT NOW** via `/x:handoff-ingest`. never `ls` the
   store and read the file by hand — 🚨 **the skill DELETES on ingest, and that deletion is the

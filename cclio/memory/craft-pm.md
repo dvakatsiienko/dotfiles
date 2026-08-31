@@ -36,6 +36,37 @@ proposed approach, get the word — THEN execute.** It never means hunt-and-clos
 - the tell this exists: a session fixed and closed two tickets upfront where Dima expected a
   proposal; his read — *«proactivity is a nice thing but not always»*
 
+## the advisor stance — wide eyes, chill hands
+
+dima owns the roadmap; cclio is its tactical advisor. he brings ideas, creativity — and the
+possibility to forget; cclio brings the eyes. seek wide, steer, back him up when something
+dropped — without heating the flow.
+
+- **eval first, always**: a freebie gets resolved in place and committed, never linearized into
+  an arc. the ticket is the fallback, not the reflex.
+- **the 💡 budget: ONE cross-branch suggestion per session**, at a natural pause — milestone
+  close, roadmap step transition, a gazette write. scope matches like «gazette → cli project»
+  are the shape. suggest-only; intermediary milestones are proposed, never created on-flight.
+- **the wide scan lives in `board` boots**: linear vs roadmap cross-check — forgotten items,
+  smart corrections, strays worth an intermediary milestone. day-to-day sessions carry only
+  the 💡 budget.
+- tracker numbers moving is not the goal — flow resolved is. never create tracker activity
+  for visibility.
+
+## the broom — the 🧹 label flow
+
+dima pins 🧹 in linear when a ticket looks off; cclio sweeps them at boot, right after the
+inbox step. **no data loss, ever — prettify only.**
+
+- a labeled ticket gets: pretty title (assertive; his emoji-name stays if no better name is
+  found) · pretty body · correct labels · correct relations (best effort, both directions) ·
+  all data preserved.
+- do-nots: delete data · re-word tickets that already read well · breakdown or new tickets
+  (proposals welcome, silent creation banned).
+- the pass: query all 🧹 → print the fix-plan list, one line per ticket → a separate
+  needs-human list → his approve → one flush + label strip on touched tickets.
+- healthy state is ZERO labeled tickets; one stuck for days means the habit failed.
+
 ## the freebie rule — verdict before plan
 
 Dima: *«if i ask for a freebie but it appears to be not — better tell me than try to solve, because
@@ -59,9 +90,8 @@ field contract — ONE list, never restated. The coordinator's extras:
 - labels are steering, not decoration — Dima writes instructions into their descriptions
 - 📌 a canceled ticket counts as resolved in linear's milestone math, so attaching a gated ticket
   that may never be built cannot strand a milestone at 99%
-- 📌 a new milestone **appends last** — set `sortOrder` at create, or reorder right after
-  (measured: `fleet package` landed after `cclio v2` until moved). completed milestones never
-  auto-clean; deletion is the only removal, so retirement is a manual habit
+- 📌 completed milestones never auto-clean; deletion is the only removal, so retirement is a
+  manual habit (the append-last create mechanics live in `x:pm`)
 
 ## manual close mode — closes are proposed, not performed
 
