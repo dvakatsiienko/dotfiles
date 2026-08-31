@@ -19,11 +19,13 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
   description is a routing line — *what's inside · when to read it* — never a restatement of the
   path, and never load-bearing: only `- [stated]` lines are stable across a prettify pass;
   descriptions are prettify-owned and regenerable.
-- `/_router.md` holds the routing rule and the `## bridge` line, nothing per-entry — no map.
+- no index file exists: entry `description`s in `memory_list` ARE the index — unsure where a
+  fact goes, read the descriptions and the closest match owns it.
 - after moving a fact between entries: grep the OTHER entries for references to its old owner —
   a move silently stales any line that pointed there.
 - **retiring an entry has one safe order**: copy its content to the new owner → verify it landed →
-  flag it retired in `/_router.md` → dima deletes the file in claude.ai → re-read the listing.
+  empty the entry to a single «retired → <new owner>» line and name it in your reply for
+  dima's hand → dima deletes the file in claude.ai → re-read the listing.
   any other order can lose data permanently (no history, no undo).
 
 ## write mechanics — the tool contract
@@ -37,7 +39,8 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
   it lands outside every section.
 - a version conflict returns the current content in the error: merge and retry same turn.
 - a content-refused write (privacy filter) is a hard stop, never rewritten to slip past.
-- cw cannot delete an entry. a retired entry gets flagged in `/_router.md` for dima's hand.
+- cw cannot delete an entry. a retired entry gets emptied to a «retired» line and named in the
+  reply for dima's hand.
 
 ## register — how memory prose reads
 

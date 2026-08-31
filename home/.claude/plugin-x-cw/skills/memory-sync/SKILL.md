@@ -27,13 +27,11 @@ cannot).
   → `/areas/fleet-contract.md`, with two carve-outs routed OUT: the beliefs block (x-com
   products, simplicity, UX/DX drivers) → `/profile.md` · the TS/stack preferences block →
   `/topics/frontend.md`
-- `rules/fleet-hazards.md` → split: vault section → `/topics/obsidian.md` · git-hooks section
-  → `/areas/dotfiles.md`
+- `rules/fleet-hazards.md` → `/topics/obsidian.md`, the vault section ONLY — the git-hooks
+  section is cc-only (cw makes no worktrees), deliberately not mirrored
 - a route move is a MOVE: the line lands in its new entry and leaves the old one in the same
   pass — a dupe across entries is a defect to fix, never a safety margin
 - the constant blocks below → `/areas/fleet-contract.md`
-- `/_router.md` — the `## bridge` line only, refreshed LAST from what actually exists after the
-  pass. no per-entry map lives there: `memory_list` previews are the index.
 
 ## the up-merge — per entry, in order
 
@@ -57,13 +55,16 @@ a cw session starts with NO memory loaded — scheduled runs included. `memory_l
    `derived-from:` disagrees with the map above, **the map wins** — restamp, and name the
    mismatch in the diff report.
 
-the pass is done when every mapped entry is refreshed, the bridge line refreshed, and the
-per-entry diff report printed: `entry: what changed / unchanged / asked` — plus a coverage
-line: every section of every mapped master landed somewhere, or is named as not-mirrored.
+the pass is done when every mapped entry is refreshed and the per-entry diff report printed:
+`entry: what changed / unchanged / asked` — plus a coverage line: every section of every
+mapped master landed somewhere, or is named as not-mirrored. an entry retired during the pass
+is named in the report for dima's hand (cw cannot delete).
 
 ## constant blocks — source of truth is THIS file
 
 no cc master exists for these; they live here and land in `/areas/fleet-contract.md`.
+a `🧪 vet` comment is an authoring note: write the content plain — the trial state lives here,
+never in memory.
 
 ### cw conduct — the surface-difference statement
 
