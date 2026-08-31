@@ -61,8 +61,9 @@ call and is always cheaper than a wrong guess.
 - **labels replace, never add** — `issue update --label` drops every label you omit, silently, with
   a success message. Pass the full intended set (`--label agent --label improvement --label 'opus
   5'`) and verify: `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
-- **state on create** — `issue create` with no `--state` lands in **Triage**, not Todo. The team
-  default wins and the CLI says nothing. Always pass `--state Todo`, or the state the role calls for.
+- **state on create** — `issue create` with no `--state` lands in **Triage**, and that is the
+  contract (dima's call 2026-08-31): agent-created tickets are BORN in Triage so he sees, trims
+  and steers every one. Never pass `--state Todo` on create; promotion out of Triage is his word.
 - **reading fields back** — `issue view --json` exits 5. Use `linear api` GraphQL.
 - **archiving** — no CLI verb. `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`,
   uuid from `linear api 'query { issue(id: "DOT-3") { id } }'`.
@@ -77,7 +78,7 @@ call and is always cheaper than a wrong guess.
 
 Role, priority and estimate are **always filled and current** — monitoring them is your job, not Dima's:
 
-- **Role first.** Every ticket carries one role (state ↔ label map in [references/workspace.md](references/workspace.md)), assigned by you on every create and every update, without being asked. Judge it from the ticket's own readiness: fully specified and mechanical enough to hand over → `agent` + Todo; needs Dima's taste or hands → `human` + Todo; a real question blocks it → `needs human` (an agent waiting on Dima) or `needs agent` (Dima waiting on agent research) + Todo — pick by **who is waiting**; dead → Canceled. `Triage` is for a capture you genuinely cannot place yet, not the landing pad for new tickets. A ticket blocked on quota, time, or another ticket keeps its real role — a blocker is a relation, never a role.
+- **Role first.** Every ticket carries one role (state ↔ label map in [references/workspace.md](references/workspace.md)), assigned by you on every create and every update, without being asked. Judge it from the ticket's own readiness: fully specified and mechanical enough to hand over → `agent`; needs Dima's taste or hands → `human`; a real question blocks it → `needs human` (an agent waiting on Dima) or `needs agent` (Dima waiting on agent research) — pick by **who is waiting**; dead → Canceled. New tickets are born fully fielded AND in Triage — his review gate, see state-on-create in the cheatsheet. A ticket blocked on quota, time, or another ticket keeps its real role — a blocker is a relation, never a role.
 - **Kind second.** Alongside the role, every ticket carries one kind — `bug` / `feature` /
   `improvement` (see [references/workspace.md](references/workspace.md)). Role says who does it,
   kind says what it is; both are yours to keep current.
