@@ -9,6 +9,7 @@
     },
     "scripts": {
         "dotfiles-link": "node ./script/dotfiles-link.ts",
+        "handoff-store": "node ./script/handoff-store.ts",
         "linear-push": "node ./script/linear-push.ts",
         "macos-setup": "node ./script/macos-setup.ts",
         "check": "biome check --write",
