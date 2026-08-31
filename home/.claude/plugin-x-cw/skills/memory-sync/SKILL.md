@@ -15,8 +15,9 @@ first; it owns routing, tool mechanics, register, and guardrails.
 masters live at `~/dotfiles/home/.claude/` (read via the shell lane; DC only where the shell
 cannot).
 
-- `rules/fleet-voice.md` + `rules/fleet-output-format.md` → `/preferences.md`, ONLY the voice
-  and formatting lines the bridge owns — every other line in that entry is untouchable
+- `rules/fleet-voice.md` + `rules/fleet-output-format.md` + `rules/dima-signals.md`
+  → `/preferences.md`, ONLY the `## voice and formatting` section — every other section in
+  that entry is cw-native and untouchable
 - `rules/dima-signals.md` → `/areas/fleet-contract.md` (`## reading him`)
 - `rules/fleet-identity.md` → `/areas/fleet.md`
 - `CLAUDE.md` + `rules/fleet-bypass-restraint.md` + `rules/fleet-vibe.md`
@@ -32,18 +33,25 @@ a cw session starts with NO memory loaded — scheduled runs included. `memory_l
 `memory_read` are the only view, and every write needs the version token a same-session
 `memory_read` returns; reading each entry first is the protocol, not overhead.
 
+0. at run start, compare `memory_list` against the map: a mapped entry missing from the
+   listing means THIS skill is stale (a rename it never followed, or a stale plugin cache) —
+   stop and report; never create the missing entry.
 1. read the FULL entry (also yields the version token).
 2. read the fresh master(s).
 3. diff: what is new · what is stale · what is cw-native with no cc source (untouchable).
 4. anything ambiguous — a prune, a conflict between cw-native and master — ask dima before
-   writing. his words in an entry survive every edit.
+   writing. his words in an entry survive every edit. a master line whose subject belongs to
+   a different entry than the map assigns is a routing question, never a silent write into the
+   mapped entry. one concept under two names (master says `entity-first`, entry says
+   `subject-first`) is a diff, not a synonym — the master's spelling wins.
 5. one write, per `memory-update` mechanics. refresh the entry `description` with it.
 6. stamp the entry frontmatter: `derived-from: [<master files>]`. when an entry's existing
    `derived-from:` disagrees with the map above, **the map wins** — restamp, and name the
    mismatch in the diff report.
 
 the pass is done when every mapped entry is refreshed, the bridge line refreshed, and the
-per-entry diff report printed: `entry: what changed / unchanged / asked`.
+per-entry diff report printed: `entry: what changed / unchanged / asked` — plus a coverage
+line: every section of every mapped master landed somewhere, or is named as not-mirrored.
 
 ## constant blocks — source of truth is THIS file
 
