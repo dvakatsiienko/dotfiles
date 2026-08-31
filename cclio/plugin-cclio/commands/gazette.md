@@ -13,7 +13,7 @@ write the day's post: `cclio/gazette/YYYY-MM-DD-<short-slug>.md`.
 - **source from evidence, not memory of your own turns**: `git log --since=<today>` across
   touched repos, the day's linear activity, the session context last — coders and cw leave
   traces cclio's thread never saw.
-- frontmatter: `date` · `slug` · `tickets: [DOT-N, …]` · `posted: {health: no, announcements: no}`
+- frontmatter: `date` · `slug` · `tickets: [DOT-N, …]` · `posted: {health: no}`
 - header line: `# 🗞️ cclio's gazette · <slug title>` — the masthead leads every post
 - skeleton, soft cap ~25 lines:
   - **shipped** — what landed, every fact linear-linked
@@ -42,8 +42,6 @@ the release — derived from the tweet, pushed outward.
     badge is the door. **one badge per paragraph, ~3 per update**, never inside parentheses
   - **the inverse of a commit message**: not what changed — **what got easier for dima**, each
     paragraph a gain written for him, not for an agent
-- **announcements.md** — only a genuinely new feature, capability, or hazard affecting the
-  fleet; evaluated fresh each time; the file's existing mechanics stay.
 - **pulse is the feed** — dima enabled linear's pulse (2026-08-30), so the reply names WHICH
   projects got a post, one line total; no per-post links, no gists.
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so

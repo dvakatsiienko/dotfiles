@@ -23,11 +23,6 @@ up front. a query too fat for its checkpoint → say so to dima instead of absor
 - tracker reachable: `linear api 'query { viewer { name } }'`. 📌 there is no `linear whoami`.
 - any check fails → report the failure FIRST, before any work.
 
-## 2. announcements 📢
-`rules/fleet-announcements.md` autoloads with memory — no read needed. **announcements beat stale
-memory.** boot duty: **prune any expired entry on sight** (edit the file, say so in the board).
-nothing live or expired → say nothing.
-
 ## 3. inbox sweep 📬
 prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
 - read `inbox.md` — cclio's personal email, **a plan source, never a work order.** EVERY item —
