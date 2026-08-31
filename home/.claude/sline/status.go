@@ -12,15 +12,19 @@ import (
 // Linear status for the pinned id. sline only ever READS this — shelf/hooks/sline-status-fetch.sh
 // owns the fetch, because a linear call costs ~325ms and sline renders on every
 // prompt and again every minute. See DOT-81.
+//
+// The cache format, its writer and its retention are specified once in
+// shelf/hooks/FOCUS-SPEC.md; this struct is the reading half of that contract.
 type ticketStatus struct {
 	Status string `json:"status"` // Linear's own state name, e.g. "In Progress"
 	Type   string `json:"type"`   // stable enum: unstarted/started/completed/canceled/…
 	At     int64  `json:"at"`
 }
 
-// statusStaleAfter is deliberately longer than the hook's 5m fetch TTL: between
-// the two a status is merely un-refreshed, which is normal. Past this it has gone
-// unrefreshed through many prompts, so it stops asserting and starts admitting.
+// statusStaleAfter is deliberately longer than the 60s fetch TTL: between the two
+// a status is merely un-refreshed, which is normal for an idle session. Past this
+// it has gone unrefreshed through many prompts, so it stops asserting and starts
+// admitting. Every duration in this seam: shelf/hooks/FOCUS-SPEC.md.
 const statusStaleAfter = 10 * time.Minute
 
 // Short forms, chosen over full names because line 1 is already crowded and a
@@ -92,9 +96,10 @@ func statusBadge(cache map[string]ticketStatus, id string) string {
 	return paint(color, label)
 }
 
-// statusFetchTTL mirrors the ttl in shelf/hooks/sline-status-fetch.sh. The script is the
-// authority — it re-checks before spending a request. This copy exists only so
-// sline does not spawn a process on every single render to be told "not yet".
+// statusFetchTTL mirrors `ttl` in shelf/hooks/sline-status-fetch.sh, and must be
+// changed with it. The script is the authority — it re-checks before spending a
+// request. This copy exists only so sline does not spawn a process on every
+// single render to be told "not yet". FOCUS-SPEC.md, "The four durations".
 const statusFetchTTL = 60 * time.Second
 
 // refreshDue reports whether the pinned id is missing from the cache or has aged
