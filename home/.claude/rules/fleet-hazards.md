@@ -1,8 +1,8 @@
 # fleet-hazards — well-known pitfalls, fleet-wide
 
 common traps any surface can hit. one section per subject; add a section only for a hazard
-that bites more than one surface. `cw-memory-sync` carries these into cw memory — this file is
-the source of truth.
+that bites more than one surface. this file is the source of truth; `x-cw:memory-sync` carries
+the vault section into cw memory — the rest is cc-only, deliberately not mirrored.
 
 ## the obsidian vault
 
