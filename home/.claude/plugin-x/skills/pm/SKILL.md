@@ -95,6 +95,10 @@ Role, priority and estimate are **always filled and current** — monitoring the
   ticket with a parent inherits the parent's milestone unless the body says why not; no milestone
   means invisible on the «where are we» board. Projectless is legal for one-offs and idea pools —
   do not force one.
+- **Parent-or-flat test on create**: name the story this ticket dies with — none names it → flat
+  project-level. The parking spot comes from the project's live description, never memory recall.
+- **Milestone create**: linear appends a new milestone LAST — set `sortOrder` at create or
+  reorder in the same turn, and verify the project's milestone order before reporting done.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
 
@@ -199,9 +203,12 @@ is not captured, it is scattered.
 
 ## Body vs comments — the state contract
 
-Comments = trail (logs, stamps, provenance — keep using them). Body = current state: keep it
-sanitized and updated, mutate without fear; a closed ticket reads true from the body alone.
-The closing word on every close is the floor's rule (`rules/linear-flow.md`).
+**The body shape: what · why · how · notes · closing word — the ticket face, a reference.**
+Body = current state: keep it sanitized and updated, mutate without fear; a closed ticket reads
+true from the body alone. Agent context that does not fit the shape goes to a comment —
+deliberately, when it covers a real ctx gap, never as flood. Comments = trail (logs, stamps,
+provenance) plus that gap. The closing word on every close is the floor's rule
+(`rules/linear-flow.md`).
 
 ## Reading — the fetch contract
 
