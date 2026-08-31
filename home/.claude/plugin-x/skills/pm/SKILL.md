@@ -76,7 +76,9 @@ Our pm layer rides on matt pocock's engineering framework. His chain:
 `to-spec` (conversation → spec) → `to-tickets` (spec → tracer-bullet tickets with blocking
 edges) → `triage` (role state machine: category `bug`/`enhancement` + state `needs-triage` /
 `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`) → `implement` → `code-review`.
-The role mapping to our linear lives in `docs/tracker/CONTEXT.md` (produced by his setup skill).
+The role mapping to our linear lives in `~/dotfiles/docs/tracker/CONTEXT.md` (produced by his
+setup skill) — absolute on purpose: the tracker is ONE domain, this file governs linear ops from
+any repo; a repo's own CONTEXT.md governs only its code domain.
 What we bent, deliberately: roles became our label family (`agent`/`human`/`needs *`), kinds
 replaced categories, tickets are born fully fielded (inline triage) yet still land in Triage as
 dima's review gate, and `wontfix`/`.out-of-scope` became Canceled-with-closing-word. Reach for
