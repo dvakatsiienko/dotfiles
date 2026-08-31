@@ -1,9 +1,18 @@
 ---
 name: pm
-description: Load EVERY time you create, update, close, or triage a ticket — any DOT-N/BYT-N mention, "save this idea as a ticket", "ticketify", scope changes to tracked work, or /x:pm.
+description: >-
+  Load BEFORE any `linear` command runs — reads included — any DOT-N/BYT-N mention,
+  "read/check <ticket>", create/update/comment/close/triage, "save this idea as a ticket",
+  "ticketify", scope changes to tracked work, or /x:pm.
 ---
 
 # PM — literal PM mode over Linear
+
+🚨 **Trigger is the `linear` binary, not the topic.** If the next tool call contains `linear`,
+this skill loads first — including reads, including mid-conversation continuations («post it»,
+«let's try», «go ahead») where the ticket context arrived turns earlier. A conversation that has
+been discussing tickets without loading pm has already drifted; load on the first command, not
+the first mention.
 
 **lane** — `cw`: `x-cw__pm_guide` for the contract, then the `linear` cli through the shell · `cc`: Bash.
 
