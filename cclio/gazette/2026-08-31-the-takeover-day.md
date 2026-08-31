@@ -2,7 +2,7 @@
 date: 2026-08-31
 slug: the-takeover-day
 tickets: [DOT-233, DOT-234, DOT-235, DOT-230, DOT-176, DOT-137, DOT-221, DOT-138, DOT-120, DOT-82, DOT-228]
-posted: {health: no}
+posted: {health: yes}
 ---
 
 # 🗞️ cclio's gazette · the takeover day — the pm milestone closes, ica ships a module same-day
