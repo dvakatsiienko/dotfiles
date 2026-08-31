@@ -15,7 +15,8 @@ its own conventions; skip the ritual entirely.
   anything the CLI lacks.
   - `linear api` takes the query **positionally**, not behind a flag.
   - `linear issue list`/`mine` shows only YOUR issues — general listing is `issue query --team DOT`.
-  - `linear issue comment` has no `--body`; use `linear api` with a `commentCreate` mutation.
+  - `linear issue comment add -b <text>` / `--body-file <path>` posts a comment (cli ≥2.5.0);
+    `update` and `delete` exist too.
 
 ## State tracks reality
 
