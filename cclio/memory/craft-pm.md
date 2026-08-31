@@ -63,6 +63,20 @@ field contract — ONE list, never restated. The coordinator's extras:
   (measured: `fleet package` landed after `cclio v2` until moved). completed milestones never
   auto-clean; deletion is the only removal, so retirement is a manual habit
 
+## manual close mode — closes are proposed, not performed
+
+auto-close is reserved for three named cases, each said out loud when used: **stale** (overtaken
+by events, body proves it) · **dupe** (the surviving id named) · **freebie done in place** (the
+fix shipped this turn). everything else — however obviously finished — lands in a printed
+«closable, because …» list and waits for his word.
+
+- every list entry passes the close test first: **what became better** (the closing word) ·
+  **what strays** (anything the close would orphan — findings, sub-items, dima notes)
+- the loosening knob is his phrase **«close all listed»** — one word closes the batch; silence
+  closes nothing
+- a close he approved still gets its closing word in the body — approval covers the state
+  change, never excuses a bare-close
+
 ## tickets must be pretty
 
 Subject-first title, body with only key data. No fluff, no walls, no descriptions written for a
