@@ -7,8 +7,14 @@ store, `~/.claude/handoffs/` (now `~/.claude/shelf/handoffs/` — the location m
 under the shelf, the decision did not), in the same CST format. The format is defined
 once, in `home/.claude/plugin-x/CST-SPEC.md`; frontends inline or load that file,
 never fork its text. Files are transient: deleted on ingest (`-shared` kept for
-multiple pullers), swept after 24h. CSTs therefore flow in every direction
+multiple pullers). CSTs therefore flow in every direction
 (`cc`↔`cc`, `cc`↔`cw`) with no per-direction machinery.
+
+> **Amended 2026-08-31 (DOT-233):** the store's mechanics now live in ONE executable —
+> `script/handoff-store.ts` — and every frontend is a thin adapter over it. The sweep is
+> retired: nothing auto-deletes; `list` age-flags files older than ~7d and deletion is
+> always a human-said thing. Upmerge exists as `write --replaces <slug>`. The shared-store
+> decision itself stands unchanged.
 
 ## Considered Options
 
