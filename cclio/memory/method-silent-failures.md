@@ -41,6 +41,12 @@ This emptied `_MEMORY.md` (9,408 bytes → 0) and the verification passed — a 
 passes trivially on an empty file. 🎯 **Never verify a deletion with a check an empty file also
 passes; assert what must REMAIN** — pointer count, byte count, a known-good line.
 
+## ❗ zsh eats unquoted `=word` args
+
+`echo ===DIVIDER===` in a chained command aborts the WHOLE chain — zsh equals-expansion tries to
+resolve `==DIVIDER==` as a command path, fails, and everything after the `&&` never runs (`(eval):1:
+==DIVIDER== not found`). bit twice in one day. **quote separators, or drop the flair.**
+
 ## ❗ a truncated read recorded as a truncated source
 
 A quote read as breaking mid-sentence became a blocking precondition; the bullet simply continued

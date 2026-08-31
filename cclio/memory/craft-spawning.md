@@ -76,6 +76,12 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## briefing and watching — write freely, read on a leash
 
+**Every coder brief opens with step zero: «load `x:guide-code` + the language guides before the
+first file».** A complete brief suppresses the skill router — the coder reads 40 exact lines as
+the whole instruction set and never goes looking for a supplementary one (measured on DOT-233:
+guide-code never loaded, guide-typescript arrived only after the code was written). One line in
+the brief closes it.
+
 Message the coder whenever; it answers **once** per assignment, blocked or done. `git diff` in its
 cwd beats any message. Doneness is a **written marker** (final commit + report), never transcript
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
