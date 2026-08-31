@@ -69,6 +69,19 @@ call and is always cheaper than a wrong guess.
   uuid from `linear api 'query { issue(id: "DOT-3") { id } }'`.
 - **hanging >15s** — likely a hidden keychain prompt. Tell Dima to check the screen.
 
+## The framework underneath — matt's pipeline, and what we bent
+
+Our pm layer rides on matt pocock's engineering framework. His chain:
+`grilling` (stress-test the idea) → `domain-modeling` (CONTEXT.md vocabulary + ADRs) →
+`to-spec` (conversation → spec) → `to-tickets` (spec → tracer-bullet tickets with blocking
+edges) → `triage` (role state machine: category `bug`/`enhancement` + state `needs-triage` /
+`needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`) → `implement` → `code-review`.
+The role mapping to our linear lives in `docs/tracker/CONTEXT.md` (produced by his setup skill).
+What we bent, deliberately: roles became our label family (`agent`/`human`/`needs *`), kinds
+replaced categories, tickets are born fully fielded (inline triage) yet still land in Triage as
+dima's review gate, and `wontfix`/`.out-of-scope` became Canceled-with-closing-word. Reach for
+his skills by name when a stage's depth is needed — they load on demand.
+
 ## The two jobs
 
 1. **Tweak an existing ticket** — read it first (`linear issue view`), then edit surgically; keep the ticket's voice.
