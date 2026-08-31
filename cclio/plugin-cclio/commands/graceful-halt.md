@@ -91,7 +91,7 @@ halt report — he misses a few every session, and this is where they get caught
 
 ## phase 3 — flawlog flush
 read the session's flawlog, cluster the catches, ONE batched proposal (memory / rules /
-announcements / tickets / drop), ONE approval, then execute and commit. see `/cclio:flawlog`.
+tickets / drop), ONE approval, then execute and commit. see `/cclio:flawlog`.
 
 ## phase 3.5 — milestones, before the board
 

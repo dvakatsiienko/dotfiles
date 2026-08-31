@@ -53,7 +53,7 @@ both directions.
 
 ## 3. at wrap
 the log is short by construction; it holds only unresolved items. cluster them, produce ONE
-batched proposal (memory / rules / announcements / tickets / drop), ONE approve from dima, then
+batched proposal (memory / rules / tickets / drop), ONE approve from dima, then
 execute and commit. never ticketify catches one at a time.
 when a flaw class repeats, reference past logs — a repeat is stronger evidence than a first sighting.
 
