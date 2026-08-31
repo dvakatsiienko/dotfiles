@@ -6,17 +6,21 @@ import (
 	"time"
 )
 
-// focusState is written by shelf/hooks/sline-focus.sh when Dima names the ticket
-// he is on (`claim DOT-23`), and by the agent itself when it starts one — see
-// the pm skill. One slot, never a list. Keyed per session id so parallel
-// sessions never fight over one file.
+// focusState is written by shelf/hooks/sline-focus.sh — the only writer, whether
+// Dima names the ticket (`claim DOT-23`) or an agent pins the one it just started
+// (the pm skill calls the same script). One slot, never a list. Keyed per session
+// id so parallel sessions never fight over one file.
+//
+// The file format, its writers and its retention are specified once in
+// shelf/hooks/FOCUS-SPEC.md; this struct is the reading half of that contract.
 type focusState struct {
 	Pin   string `json:"pin"`
 	PinAt int64  `json:"pin_at"`
 }
 
 // pinStaleAfter dims a pin nobody refreshed — a forgotten pin must look
-// forgotten rather than quietly assert a ticket we left hours ago.
+// forgotten rather than quietly assert a ticket we left hours ago. Far longer
+// than the status durations on purpose: FOCUS-SPEC.md, "The four durations".
 const pinStaleAfter = 8 * time.Hour
 
 func loadFocus(sessionID string) *focusState {

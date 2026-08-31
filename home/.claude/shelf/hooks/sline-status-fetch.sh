@@ -9,12 +9,17 @@
 #
 # Safe to run as often as you like: the TTL gate below decides whether anything
 # actually goes over the network.
+#
+# THE ONLY WRITER of the status cache. Format, id shape, TTLs and retention:
+# FOCUS-SPEC.md beside this file.
 set -euo pipefail
 
 file=${1:-}
 [[ -n $file && -f $file ]] || exit 0
 
 cache="$HOME/.claude/focus/status-cache.json"
+# The fetch TTL. sline keeps a copy in status.go so it can skip spawning this
+# script; this one is the authority. FOCUS-SPEC.md, "The four durations".
 ttl=60
 now=$(date +%s)
 
