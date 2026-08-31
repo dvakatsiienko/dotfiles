@@ -65,6 +65,17 @@
   "model": "claude-fable-5[1m]",
   "disableClaudeAiConnectors": true,
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/guide-trigger-write.sh"
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
