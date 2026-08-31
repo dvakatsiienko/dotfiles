@@ -9,19 +9,19 @@ Keeps the spawn evidence base true against the current claude code build. Proced
 > should work for now, with only you occasionally spawning a coder. the wants for this will
 > grow when we add verifiers and the rest of the zoo.
 
-## research vectors (re-groom each run)
+## research vectors (re-groomed with dima 2026-08-31 for run #2)
 
-- re-verify the corrected spawn table against the current cc version — every [verified] row is
-  only as old as its last run
-- the standing open questions: workflow per-call effort · 🆕 worktree-safety in dotfiles — how
-  to set a worktree up properly (setup script? native cc support?) so lefthook/pnpm cannot
-  rewrite the shared `.git/hooks`; dima's priority pick
-- ✂️ dropped by dima 2026-08-30: the cloud row (not a prio, overcomplicating) · `claude attach`
-  (works, settled) · `notify_when_idle` (verified end to end; the sound covers him, notices are
-  for cclio)
-- new spawn surfaces or flags in the cc changelog since last run
-- freshest best practices of building an agent orchestrator — best approaches, accompanying
-  tools, tips and tricks, gotchas, pitfalls
+- re-verify every [verified] row against the current cc build — the standing mechanical pass
+- workflow per-call `effort` — the one open flag question left
+- 🆕 the cclio-stack bleed (§11 of the evidence base): a designed probe for why a
+  `cwd: ~/dotfiles` `--bg` session once loaded the coordinator's stack — non-deterministic,
+  trigger unknown, cost is a session quietly wearing cclio's brain
+- new spawn surfaces or flags in the cc changelog since 2.1.251
+- orchestrator best-practices sweep — BOUNDED: one pass, findings land as evidence-base rows
+  or die
+- ✂️ closed at this groom: worktree-safety (the `EnterWorktree` hook automated the guard,
+  proven live) · earlier cuts stand: cloud row · `claude attach` · `notify_when_idle`
+- dima's standing word: cclio doing the spawning is fine for now
 
 ## analysis vectors (local evidence — the running agent is the instrument)
 
