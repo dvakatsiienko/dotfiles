@@ -70,7 +70,23 @@ async function release(apply: boolean) {
     for (const entry of releases) await report(entry, apply);
     await audit();
 
-    binds(releases, apply);
+    binds(releases, apply, await inWorktree());
+}
+
+/**
+ * ? A marketplace resolves its `./` source against the checkout it was added
+ * ? from — always the main one. Run from a worktree, the bump lands here and the
+ * ? refresh reads there, so the CLI cheerfully reports "already at the latest
+ * ? version" and the release binds nothing. Measured on this tool's first real
+ * ? run; a silent no-op release is exactly the failure worth one git call.
+ */
+async function inWorktree() {
+    const [common, own] = await Promise.all([
+        zx.$`git -C ${repoRoot} rev-parse --path-format=absolute --git-common-dir`.nothrow(),
+        zx.$`git -C ${repoRoot} rev-parse --path-format=absolute --git-dir`.nothrow(),
+    ]);
+
+    return common.stdout.trim() !== own.stdout.trim();
 }
 
 async function plan(plugin: Plugin): Promise<Release> {
@@ -173,12 +189,18 @@ async function audit() {
     );
 }
 
-function binds(releases: Release[], apply: boolean) {
+function binds(releases: Release[], apply: boolean, worktree: boolean) {
     const bumped = releases.filter((entry) => entry.action === 'bump');
     const refreshed = bumped.filter((entry) => entry.commands.length > 0);
 
     newLine();
     zx.echo(bold(yb('binds next session')));
+
+    if (worktree && refreshed.length > 0)
+        warn(
+            'running from a worktree — the bump landed here, the refresh read the main checkout',
+            'nothing binds until this branch merges',
+        );
 
     if (bumped.length === 0) {
         zx.echo(dim('  nothing to release — every plugin matches its tree.'));
