@@ -30,12 +30,21 @@ path=$(printf '%s' "$payload" | jq -r '.tool_input.file_path // empty' 2>/dev/nu
 session=$(printf '%s' "$payload" | jq -r '.session_id // empty' 2>/dev/null) || exit 0
 [[ -n $session ]] || exit 0
 
-# Once per session. The marker lives in TMPDIR because "once per session" and
-# "once per boot" are close enough, and nothing here is worth persisting.
+# Once per session PER EXTENSION CLASS. A .ts fire is satisfied by either marker
+# (a tsx fire already delivered the ts guidance), but a .tsx write after a
+# ts-only fire triggers once more — otherwise guide-react rides on habit again.
+# Markers live in TMPDIR because "once per session" and "once per boot" are
+# close enough, and nothing here is worth persisting.
 marker_dir="${TMPDIR:-/tmp}/cc-guide-trigger"
-marker="$marker_dir/$session"
+class=ts
+[[ $path == *.tsx ]] && class=tsx
+marker="$marker_dir/$session-$class"
 mkdir -p "$marker_dir" 2>/dev/null || exit 0
-[[ -e $marker ]] && exit 0
+if [[ $class == ts ]]; then
+	[[ -e $marker_dir/$session-ts || -e $marker_dir/$session-tsx ]] && exit 0
+else
+	[[ -e $marker ]] && exit 0
+fi
 : >"$marker" 2>/dev/null || exit 0
 
 # The rule file is the single source of truth; this hook only delivers it. Its
