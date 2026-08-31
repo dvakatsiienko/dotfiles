@@ -116,6 +116,8 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Milestone create**: linear appends a new milestone LAST — set `sortOrder` at create or
   reorder in the same turn, and verify the project's milestone order before reporting done.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
+- **Structural tracker change** (project born/dissolved, term decided, label vocabulary shift) →
+  `~/dotfiles/docs/tracker/CONTEXT.md` / TRK adr updated **in the same batch**, never later.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
 
 ## The assumption gate — run before every estimate
