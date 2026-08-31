@@ -102,6 +102,12 @@ fix shipped this turn). everything else — however obviously finished — lands
 
 - every list entry passes the close test first: **what became better** (the closing word) ·
   **what strays** (anything the close would orphan — findings, sub-items, dima notes)
+- 🙋‍♂️ **the ask-guard — overrides every skill template, step-by-step included.** a close/cancel/
+  merge/reshape proposal for a ticket carrying dima's asks prints a dedicated block BEFORE the
+  suggestion: one line per ask, verbatim-ish, with its proposed destination (answered here /
+  moves to X / dies). 🚨 **the ticket cannot close until dima explicitly verdicts each ask** —
+  «yes let's do» / «not important anymore» / a steer. no response = not resolved, however stale
+  the rest of the ticket is. a lost ask is the worst outcome a close can produce.
 - the loosening knob is his phrase **«close all listed»** — one word closes the batch; silence
   closes nothing
 - a close he approved still gets its closing word in the body — approval covers the state
