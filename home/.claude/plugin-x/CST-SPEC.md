@@ -75,49 +75,40 @@ Compress the **language**, never the substance. Telegraphic fragments are fine. 
 
 **REDACT**: no API keys, tokens, passwords, or PII — reference where a secret lives (env var name, file path), never its value.
 
-## Store contract (shared across frontends)
+## Store contract (semantics)
 
-Normative. Every frontend re-implements this — the `cc` skills in bash, the `cw` MCP server in
-TypeScript, sline in Go for the read-only count — because they cannot share a library across three
-languages. So the rules live here once and implementations cite them; if an implementation and this
-section disagree, this section is right and the implementation is a bug.
+📌 **The mechanics live in one executable: `~/dotfiles/script/handoff-store.ts`.** Filename
+grammar, permissions, the audience gate, age flagging, the replace — it owns all of it, and every
+frontend calls it rather than re-deriving it: the `cc` `handoff` and `handoff-ingest` skills
+directly, `cw` through the `x-cw` mcp server's adapters. sline keeps its own read-only glob for
+the pending count. `--help` prints the verbs. This section says what the rules MEAN; the cli is
+what they ARE, and on a disagreement about mechanics the cli wins.
 
 📌 **Where an `x-cw` tool exists for an act, it wins over a shell performing the same act.**
 📌 Skill prefixes follow the plugin name per surface — `x:` on `cc`, `x-cw:` on `cw`. Cross-refs
 in skill bodies use bare skill names; translate with your own prefix.
 
-- **Location**: `~/.claude/shelf/handoffs/`. Directory `chmod 700`, files `chmod 600`.
-- **Filename**: `<audience>-<slug>-<utc-ts>.md`, where `<audience>` is the agent the CST is written
-  FOR, `<slug>` is kebab-case, and `<utc-ts>` is `YYYYMMDDThhmmZ` (seconds optional). Append
-  `-shared` before `.md` when multiple threads are expected to pull it:
-  `<audience>-<slug>-<utc-ts>-shared.md`. A legacy `<utc-ts>-first` name still parses; new writes
-  never use it.
-- **Audience** is one lowercase token: `cclio`, `dpatch`, `cw`, `ccli`, or **`any`** when the CST is
-  written for whoever picks it up next. A session knows its own audience token; `any` matches every
-  reader.
-  - 🚨 **`pull` NEVER ingests a file addressed to another agent.** It reports what it found and whose
-    it is, and stops. Forcing one is possible by naming its slug explicitly — that is the user saying
-    so out loud, which is the whole point.
-  - **Why this exists:** two pending CSTs, one per coordinator, meant the user had to type which file
-    to take every single time or risk a wrong ingest that also deleted the file. The audience was
-    already sitting in the slug and nothing read it. Now bare `pull` is safe.
-  - Legacy files with no audience segment are treated as `any` — the segment is positional, so a
-    two-segment name is simply an old one. No migration.
-- **Membership**: only `*.md` directly in that directory is a handoff. Anything else — a stray
-  `.DS_Store`, a subdirectory — is not, and is never counted, swept, or deleted.
-- **Ingest**: the consumer deletes the file on successful ingest, EXCEPT `-shared` files, which are
-  left for other pullers.
-- **Sweep**: every frontend deletes files older than **7 days** on any handoff operation. Long enough
-  for a paused thread or a day off to survive; Dima's eyes cover the rest.
-- **Delete**: an explicit delete removes every pending file including `-shared` ones. It is a deletion, not a trim — no implementation may name it `prune`.
-- **Races are normal, not errors.** The store is shared, so a file can vanish between listing it and
-  reading it — another thread pulled it, another session deleted it. An implementation must tolerate
-  that silently and never fail a whole operation over one missing file.
-
-📌 `DOT-10` plans to move this store to `~/.claude/shelf/handoffs/`. That migration touches every
-implementation at once, which makes it the right moment to replace them with a single
-`handoff-store` executable that all frontends shell out to — the only shape where these rules stop
-being duplicated. Until then, this section is the owner.
+- **Audience** — one lowercase token naming the agent a CST is written FOR: `cclio`, `dpatch`,
+  `cw`, `ccli`, or **`any`** when it is for whoever picks it up next. A session knows its own
+  token; `any` matches every reader.
+  - 🚨 **A pull NEVER ingests a file addressed to another agent.** It reports what it found and
+    whose it is, and stops. Forcing one is possible by naming its slug explicitly — that is the
+    user saying so out loud, which is the whole point.
+  - **Why this exists:** two pending CSTs, one per coordinator, meant the user had to type which
+    file to take every single time or risk a wrong ingest that also deleted the file. The audience
+    was already sitting in the slug and nothing read it. Now a bare pull is safe.
+- **Ingest** — the consumer deletes the file on successful ingest, EXCEPT `-shared` files, which
+  are left for other pullers.
+- **`-shared`** — the file survives being PULLED. It does not survive an explicit delete: that
+  removes `-shared` files too. A deletion, not a trim — no implementation may name it `prune`.
+- **Replace, the upmerge** — one thread leaves ONE pending file. A follow-up handoff folds the
+  still-live content of its sibling into itself and replaces it in one act; the old file is
+  deleted, never archived. Every frontend checks for a sibling before writing.
+- **Nothing is deleted by age, anywhere.** A handoff past 7 days is flagged when listed and left
+  where it is. A stray handoff is Dima's to see and decide about.
+- **Races are normal, not errors.** The store is shared, so a file can vanish between listing it
+  and reading it — another thread pulled it, another session deleted it. An implementation must
+  tolerate that silently and never fail a whole operation over one missing file.
 
 ## Ingest (consumer contract)
 
