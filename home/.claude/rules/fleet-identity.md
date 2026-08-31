@@ -22,7 +22,9 @@ casing.
 
 ## The glossary
 
-Use this language. Product names stay as written: "Claude Desktop", "Desktop Commander".
+Use this language. Product names in THIS glossary stay as written: "Claude Desktop",
+"Desktop Commander". General product-name casing belongs to `fleet-output-format.md` (lowercase
+in backticks); this file wins only for its own terms.
 Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 
 ### The members — who acts
