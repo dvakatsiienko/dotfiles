@@ -104,7 +104,7 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - **Starting work pins it in sline** (`cc` only). Same turn as the In Progress move, replace this
   session's one-slot focus file — sline renders it as `🪄 DOT-N` on line 1, and `claim DOT-N` typed
   by Dima writes the same slot:
-  `printf '{"pin":"DOT-N","pin_at":%s}' "$(date +%s)" > ~/.claude/focus/$CLAUDE_CODE_SESSION_ID.json`
+  `printf '{"session_id":"%s","prompt":"claim DOT-N"}' "$CLAUDE_CODE_SESSION_ID" | ~/.claude/shelf/hooks/sline-focus.sh` — that hook is the ONLY writer of the slot, and it also kicks off the status fetch a raw write skips (`shelf/hooks/FOCUS-SPEC.md`)
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
 - On create: propose priority (1–4) + estimate (1–5) + project + **parent and milestone** — a
