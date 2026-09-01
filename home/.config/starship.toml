@@ -21,9 +21,8 @@ $python\
 $git_branch\
 $git_status\
 $git_state\
-[](fg:color_aqua bg:color_bg1)\
 $git_metrics\
-[](fg:color_bg1)\
+${custom.gitcap}\
 $line_break$character"""
 
 right_format = """
@@ -82,11 +81,16 @@ format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_aqua)]($style)'
 disabled = false
 added_style = "bold fg:#b8bb26 bg:color_bg1"
 deleted_style = "bold fg:#fb4934 bg:color_bg1"
-format = '([ +$added]($added_style))([ −$deleted]($deleted_style))[ ](bg:color_bg1)'
+format = '([](fg:color_aqua bg:color_bg1)([ +$added]($added_style))([ −$deleted]($deleted_style))[ ](bg:color_bg1)[](fg:color_bg1))'
 
 [package]
 symbol = "󰏗 "
 format = '[[ $symbol$version ](fg:#fabd2f bg:color_blue)](bg:color_blue)'
+
+[custom.gitcap]
+when = 'git rev-parse --git-dir >/dev/null 2>&1 && [ -z "$(git diff HEAD --numstat 2>/dev/null | head -1)" ]'
+command = "true"
+format = '[](fg:color_aqua)'
 
 [nodejs]
 symbol = ""
