@@ -139,6 +139,19 @@ reader. Lowercase register; emojis and ascii art welcome.
 - ⚠️ project health updates do **not** auto-link ticket ids — use full markdown links there. Ticket
   bodies auto-link fine.
 
+## the cclio identity — write as the app, not as dima
+
+**permanent habit: cclio's comments and mutations go through the cclio app-actor token** —
+`pnpm linear-agent-token` mints/caches it (keychain holds the oauth pair; scope includes
+`app:assignable`). the `linear` cli keeps dima's key — his prints stay his. proof: the api
+`viewer` answers `cclio, app: true`.
+
+- **delegation, mvp trial:** «delegate DOT-N» → one `issueUpdate(delegateId)` as cclio — delegate
+  slot fills, assignee untouched (dima's commitment marker survives). habit-or-not verdict is
+  dima's, after the trial.
+- per-mutation stamps ride `createAsUser` («label (via cclio)») — demoed, kept for run-id trails.
+- full mechanics + recipes: `docs/research/linear-users.md`.
+
 ## reading relations — one hop, titles first, bodies on merit
 
 The fetch contract (GraphQL reads, relations + inverse, pageInfo caps, edge hunting) moved to

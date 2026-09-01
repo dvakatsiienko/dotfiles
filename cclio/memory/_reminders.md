@@ -11,8 +11,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 linear-users research — queued LAST by dima 2026-08-30 (after the small errands), was FIRST on 08-28: a linear user for cclio + one for coders (seat vs api-actor, cost, one shared coder user or per-session, own-linker attribution). research → propose → his admin hands. dies when the proposal is on the table — set 2026-08-28
-
 ⏰📌 gazette → cw memory — queued LAST by dima 2026-08-30, tricky to do nicely — spec: `cclio/docs/gazette-cw-sync.md` (leaf `cclio's-gazette`, 2 posts, memory-sync carries, 09:00 cw task mutates from the probe). dies when the leaf exists and the task runs — set 2026-08-28
 
 

@@ -110,6 +110,7 @@ Anything we create should not just work well. It should be approachable and easy
   multi-person collab case, which is currently nowhere in this setup; everywhere else it only
   hurts (resident schemas, weaker ergonomics). settled on the vercel cli-vs-mcp research.
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
+- **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
 - **uv** — the ONLY approved Python package manager; never pip/pip3/python -m pip
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
 
