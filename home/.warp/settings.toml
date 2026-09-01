@@ -3,7 +3,11 @@ spacing = "compact"
 
 [appearance.themes]
 theme = { custom = { name = "Gruvbox Violet", path = "gruvbox-violet.yaml" } }
-system_theme = false
+system_theme = true
+selected_system_themes = {
+  dark = { custom = { name = "Gruvbox Violet", path = "gruvbox-violet.yaml" } },
+  light = "gruvbox_light",
+}
 
 [appearance.cursor]
 cursor_blink = "disabled"
@@ -110,6 +114,7 @@ completions_open_while_typing = true
 alias_expansion_enabled = false
 input_box_type_setting = "universal"
 command_corrections = true
+honor_ps1 = false
 
 [general]
 show_warning_before_quitting = false
