@@ -5,12 +5,10 @@
 #   brew bundle check      # what's missing, without installing
 #   brew bundle cleanup    # what's installed but not listed
 
-tap "charmbracelet/tap"
 tap "lutzifer/tap"
 tap "oven-sh/bun"
 tap "schpet/tap"
 tap "teamookla/speedtest"
-tap "withgraphite/tap"
 
 # ── Shell ───────────────────────────────────────────────────────────────────
 brew "zsh"                       # the shell itself, newer than the system one
@@ -26,7 +24,6 @@ brew "bat"                       # cat, with highlighting
 brew "fd"                        # find
 brew "ripgrep"                   # grep (replaced the_silver_searcher)
 brew "tokei"                     # loc counter
-brew "tree"                      # directory trees
 brew "trash"                     # rm, but recoverable
 brew "coreutils"                 # gnu twins as g-prefixed names, plus the handful that have no
                                  # bsd counterpart under their plain name — `timeout` among them,
@@ -42,7 +39,6 @@ brew "git-filter-repo"           # history rewriting, for the rare surgery
 brew "git-lfs"                   # the lfs filter is wired in .gitconfig with required=true,
                                  # so without this binary an lfs-carrying repo fails to CLONE
 brew "schpet/tap/linear"         # Linear CLI — the pm skill runs on this
-brew "withgraphite/tap/graphite" # stacked PRs
 
 # ── Languages and package managers ──────────────────────────────────────────
 brew "fnm"                       # Node version manager
@@ -68,14 +64,15 @@ brew "docker-compose"
 
 # ── Media and data ──────────────────────────────────────────────────────────
 brew "jq"                        # JSON on the command line
+brew "gron"                      # JSON → greppable path=value lines; schema discovery in one pipe
+brew "yq"                        # jq-syntax for YAML/TOML — settings.toml, lefthook configs
+brew "sd"                        # sed replacement without the macos -i '' quoting traps
 brew "ffmpeg"
 brew "yt-dlp"
-brew "gitingest"                  # repo→text for LLM context; was a broken uv tool
-brew "whisper-cpp"               # local speech-to-text
+brew "whisper-cpp"               # local speech-to-text — mcp-x-cw transcripts pipeline calls it
 brew "poppler"                   # PDF tooling
 
 # ── Odds and ends ───────────────────────────────────────────────────────────
-brew "charmbracelet/tap/crush"          # terminal AI assistant
 brew "lutzifer/tap/keyboardswitcher"    # drives the Raycast layout switcher
 brew "teamookla/speedtest/speedtest"
 brew "duti"                             # sets the default app per file type
