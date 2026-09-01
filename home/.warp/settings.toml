@@ -3,7 +3,7 @@ spacing = "compact"
 
 [appearance.themes]
 theme = { custom = { name = "Gruvbox Violet", path = "gruvbox-violet.yaml" } }
-system_theme = true
+system_theme = false
 selected_system_themes = {
   dark = { custom = { name = "Gruvbox Violet", path = "gruvbox-violet.yaml" } },
   light = "gruvbox_light",
@@ -25,6 +25,7 @@ match_ai_font = true
 font_size = 14.0
 font_name = "Hack Nerd Font Mono"
 match_notebook_to_monospace_font_size = false
+line_height_ratio = 1.2999999523162842
 
 [appearance.panes]
 focus_pane_on_hover = true
