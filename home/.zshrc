@@ -1,11 +1,11 @@
 # .zshrc should contain: aliases, functions, prompt themes, interactive features
 
-# oh-my-zsh plugins
-plugins=()
+# Completions — the dump is generated data, so ~/.cache
+autoload -Uz compinit
+compinit -d ~/.cache/zsh/zcompdump
 
-# Also auto-sources every $ZSH_CUSTOM/*.zsh — aliases and functions load here,
-# with no explicit source line anywhere.
-source $ZSH/oh-my-zsh.sh
+# Custom aliases and functions
+for f in ~/.config/zsh-custom/*.zsh; do source $f; done
 
 # Custom zsh plugins installed with homebrew because antigen (zsh plugin manager) is deprecated.
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -35,7 +35,3 @@ zsh_init_cached() {           # $1 = binary, rest = the command that prints init
 zsh_init_cached fnm fnm env --use-on-cd --version-file-strategy=recursive
 zsh_init_cached starship starship init zsh
 zsh_init_cached zoxide zoxide init zsh
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/dima/.lmstudio/bin"
-# End of LM Studio CLI section

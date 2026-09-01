@@ -4,14 +4,6 @@
 # This file is sourced for all zsh invocations (interactive, non-interactive, scripts)
 # Contains environment variables that should be available globally
 
-# =============================================================================
-# Oh My Zsh Configuration
-# =============================================================================
-
-export ZSH=$HOME/.oh-my-zsh
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST-$ZSH_VERSION
-export ZSH_CUSTOM=$HOME/.config/oh-my-zsh-custom
-
 # Generated tool init, cached and version-stamped by zsh_init_cached in .zshrc.
 # Generated data, so it lives outside the dotfiles repo.
 export ZSH_INIT_CACHE_DIR=$HOME/.cache/zsh
@@ -37,8 +29,8 @@ export EDITOR=vim
 # bat - syntax highlighting cat replacement
 export BAT_THEME=gruvbox-dark
 
-# fzf - fuzzy finder
-export FZF_DEFAULT_COMMAND='find * -type f'
+# fzf - fuzzy finder (fd: fast, gitignore-aware, hidden files included)
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
 # zoxide - directory navigation
 export _ZO_DATA_DIR=$HOME/.cache
@@ -49,9 +41,7 @@ export _ZO_RESOLVE_SYMLINKS=1
 # Terminal Configuration
 # =============================================================================
 
-# iTerm2 color support
 export CLICOLOR=1
-export TERM=xterm-256color
 
 # =============================================================================
 # PATH Configuration
@@ -82,8 +72,7 @@ esac
 export FORCE_HYPERLINK=1
 
 # LM Studio CLI
-export PATH="$PATH:~/.lmstudio/bin"
+export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # User local bins
-export PATH="~/.local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
