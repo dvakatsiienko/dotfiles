@@ -59,6 +59,7 @@ voice_input_enabled = true
 voice_input_toggle_key = "none"
 
 [agents.warp_agent]
+is_any_ai_enabled = false
 
 [agents.warp_agent.input]
 nld_in_terminal_enabled = true
@@ -112,9 +113,9 @@ osc52_clipboard_access = "write_only"
 [terminal.input]
 completions_open_while_typing = true
 alias_expansion_enabled = false
-input_box_type_setting = "universal"
+input_box_type_setting = "classic"
 command_corrections = true
-honor_ps1 = false
+honor_ps1 = true
 
 [general]
 show_warning_before_quitting = false
