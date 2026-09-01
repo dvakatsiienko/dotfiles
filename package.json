@@ -10,6 +10,7 @@
     "scripts": {
         "dotfiles-link": "node ./script/dotfiles-link.ts",
         "handoff-store": "node ./script/handoff-store.ts",
+        "linear-agent-token": "node ./script/linear-agent-token.ts",
         "linear-push": "node ./script/linear-push.ts",
         "macos-setup": "node ./script/macos-setup.ts",
         "plugin-release": "node ./script/plugin-release.ts",
