@@ -2,8 +2,8 @@
 
 ## queue
 
-- 🥇 linear-users research — START OF NEXT SESSION, one of the first things on init (dima 2026-08-31, no rush within the session). bake in: research MECHANICS first — working recipes likely exist out there — before any setup. angles: seat vs api-actor · cost · one shared coder user vs per-session · own-linker attribution · assignee utilization (how/when to assign once agent users exist; today assignees ≈ unused, dima-only)
-- 🥇 first-dos remainder: refresh-spawn-mechanics procedure — PARKED by dima 2026-08-28, fresh session. (auto-assign, cursor-ux, dispatch dump all closed 2026-08-28)
-- 🎯 GROOM ORDER, dima's word 2026-08-27 (movable, not stone): 1) pm takeover milestone — exit condition + reshape; 2) dima's tools milestone — he will WIDEN scope (more zsh/machine tickets), walkthrough-ish story by design; 3) cclio v2. steer freely, nothing restricts.
+- 🥇 refresh-spawn-mechanics procedure run #2 — FIRST MUST-DO of the next session, pinned by dima 2026-09-01 (the item spanned ~8 sessions unpinned). step zero: his re-groom of the research vectors, then the run.
+- 🥇 «coder» oauth app — APPROVED by dima 2026-09-01, one of the first things: his admin hands (3 min, linear settings → new app, client credentials, hand over id+secret) · cclio side generalized (keychain slots + token script). distinguishable coder comments land in the comms model.
+- 🥇 dima's tools — resolve FULLY (his word 2026-09-01): aliases DOT-36 (dir-rename rider inside) · git DOT-159 + DOT-38 · vibe DOT-37 · then the milestone tail (39, 26, 228, 222, 209, 147, nvim block last).
+- 🎯 groom remainder: cclio v2 (pm + dima's-tools grooms are done; roadmap + flowlog carry the order now).
 - ⏸️ gazette → cw memory, spec `cclio/docs/gazette-cw-sync.md` — end of queue, tricky to do nicely
-- 🧭 DOT-82 refresh — improve-codebase-architecture standing round; also fixes the stale «coordinator» entry in docs/tracker/CONTEXT.md (still says dpatch/cclio dual trial) — queued 2026-08-31 during the matt-framework walkthrough
