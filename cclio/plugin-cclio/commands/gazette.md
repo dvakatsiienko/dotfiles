@@ -35,8 +35,9 @@ the release — derived from the tweet, pushed outward.
 
 - **gate:** bare halt → ask «🗞️ the wire? y/n» and **block until a literal answer**; stop lane →
   auto-yes, run without asking.
-- **health update** for each project the tweet touched — titled `🗞️ cclio's gazette · <date>` — ⚠️ full markdown links (health updates
-  do not auto-link ids). **the house style — settled by the 4-round live test with dima,
+- **health update** for each project the tweet touched — **no title line**: pulse already shows the
+  date and the author, the body starts at the first paragraph (dima, 2026-09-02) — ⚠️ full markdown
+  links (health updates do not auto-link ids). **the house style — settled by the 4-round live test with dima,
   2026-08-27, screenshots verified in linear:**
   - **hybrid voice**: fleet structure carries the scanning (emoji line-prefix per paragraph,
     bold verdict openers), the sentences underneath stay human — `x:writing-for-humans` flow,
