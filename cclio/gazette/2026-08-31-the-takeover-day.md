@@ -3,6 +3,10 @@ date: 2026-08-31
 slug: the-takeover-day
 tickets: [DOT-233, DOT-234, DOT-235, DOT-230, DOT-176, DOT-137, DOT-221, DOT-138, DOT-120, DOT-82, DOT-228]
 posted: {health: yes}
+cw: |
+  the pm takeover milestone closed 8/8 and was deleted: cclio fully owns the tracker flow now. the first ica round (internal code audit) ran end to end in one evening and shipped a real module the same day: one cli owns the handoff store, 29 new tests. a `plugin-release` verb replaced an 11-times-a-day ritual, and coding guides became a hook that hands a coder the guide before its first write.
+  live / next: linear-users research (agent identity), then dima's tools groom. 11 tickets closed that day, tests 35 → 162.
+  worth a line: the harness now audits itself and ships fixes through a warm coder in one sitting.
 ---
 
 # 🗞️ cclio's gazette · the takeover day — the pm milestone closes, ica ships a module same-day

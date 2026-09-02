@@ -1,6 +1,6 @@
 ---
 name: memory-sync
-description: dima runs /memory-sync to refresh cw memory from the dotfiles master files — full pass, or one entry by name. Args: <entry> · dry. cw-only.
+description: dima runs /memory-sync to refresh cw memory from the dotfiles master files — full pass, or one entry by name. Args: <entry> · gazette · dry. cw-only. the daily 09:00 task runs `/memory-sync gazette`.
 disable-model-invocation: true
 ---
 
@@ -32,6 +32,8 @@ cannot).
 - a route move is a MOVE: the line lands in its new entry and leaves the old one in the same
   pass — a dupe across entries is a defect to fix, never a safety margin
 - the constant blocks below → `/areas/fleet-contract.md`
+- `cclio/gazette/*.md` → `/areas/cclio-gazette.md` — the ONE entry that is a rolling window, not an
+  up-merge; procedure in «the gazette» below
 
 ## the up-merge — per entry, in order
 
@@ -60,6 +62,33 @@ the pass is done when every mapped entry is refreshed and the per-entry diff rep
 mapped master landed somewhere, or is named as not-mirrored. an entry retired during the pass
 is named in the report for dima's hand (cw cannot delete).
 
+## the gazette — `/memory-sync gazette`
+
+cclio writes one post a day into `~/dotfiles/cclio/gazette/`. each post's frontmatter carries a
+`cw:` block: 3 lines cclio pre-digested for you — what shipped, what is live or next, the one line
+worth repeating to a human. your job is a rolling window, never a rewrite.
+
+the entry `/areas/cclio-gazette.md` is what makes you aware of what dima and cclio are doing.
+surface it unprompted where it helps: an hr mail, a recruiter reply, cv positioning («this week
+we shipped…»), or any thread where he asks what the two of them are up to.
+
+1. `memory_read` the entry (version token + current state). its body is one section per post:
+   `## <date> · <slug> · <bytes>b`, freshest first, the `cw:` lines under it.
+2. list the source: `ls -l ~/dotfiles/cclio/gazette/*.md` — date and slug from the filename,
+   bytes from the size.
+3. diff by header: a filename with no section is NEW; a section whose byte count differs from
+   the file is CHANGED (cclio appends an evening update to the same post). everything else is
+   untouched and stays byte-identical.
+4. for each new or changed post only: extract the block —
+   `sed -n '/^cw: |/,/^---$/p' <file>` — and build its section. copy, with light humanizing
+   only where a line reads like a changelog.
+5. assemble: new sections prepended in date order, changed sections replaced in place, then trim
+   to the **7 freshest**. one `memory_write`. `derived-from: [cclio/gazette/*.md]`.
+6. nothing new, nothing changed → write nothing, report «gazette: noop».
+
+done when the entry holds ≤7 sections, each byte count matches its file, and the report names
+which sections were added, replaced, trimmed, or noop.
+
 ## constant blocks — source of truth is THIS file
 
 no cc master exists for these; they live here and land in `/areas/fleet-contract.md`.
@@ -79,9 +108,10 @@ never in memory.
   apps and product code are cc's lane — route them there.
 - pm, roadmap, tickets, fleet orchestration → cclio owns them; relay to a cc thread rather
   than answering from memory.
-- when the model running this thread is opus: verdict first, plain words, simple technical
-  english — applies to any non-code text. keep the substance; calmer and cleaner, not shorter.
-  voice, emojis and formatting rules stay. other models: ignore this line.
+- 🚨 **opus register, mandatory when the model running this thread is opus** — every reply, from
+  the first one: verdict first, plain words, simple technical english. applies to any non-code
+  text. keep the substance; calmer and cleaner, never shorter. voice, emojis and formatting rules
+  stay. no poems, no meta-frameworks, no theories of everything. other models: ignore this line.
 <!-- 🧪 vet: the line above is the cc `opus-register` hook carried into cw memory — dima's ask
      was an «opus-mode skill» for the desktop app, where hooks do not run and opus still
      prints poems. he wants it against opus ONLY; other models talk fine and must not be

@@ -3,6 +3,10 @@ date: 2026-08-27
 slug: the-pacing-fix
 tickets: [DOT-228, DOT-178, DOT-114, DOT-159, DOT-227, DOT-121, DOT-166, DOT-61, DOT-223, DOT-130, DOT-220, DOT-184, DOT-72, DOT-176, DOT-117, DOT-196, DOT-54]
 posted: { health: yes, announcements: yes }
+cw: |
+  the coordinator boot was rewired to orient, never resolve: the inbox parses into a checklist with lanes, the board proposes an order and stops for dima's word. the pacing flow was validated the same evening on its first run. dispatch (the desktop coordinator) was sealed as a minor member. new guards after one ticket body got overwritten: fetch-full before rewrite, dima's words survive every edit, memory edits announced.
+  live / next: the smoothing session, omz story, the pm milestone.
+  worth a line: dima designs how his agents pace themselves, not just what they do.
 ---
 
 # 🗞️ the pacing fix — the boot learns to orient, dispatch seals
