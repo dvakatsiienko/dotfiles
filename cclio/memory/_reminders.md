@@ -15,7 +15,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
-⏰ 🦊👁️ coder linear identity vet — app «cclio's pet» (keychain slots `coder`, `pnpm linear-agent-token coder`): every coder brief carries the token and asks for one linear comment on its ticket at done; after ~5 coder spawns, count comments authored by the app — none → the identity dies (keychain + script arg), dima's call — set 2026-09-02
+⏰ 🦊👁️ coder linear identity vet — on/after 2026-09-16: fetch every comment by the coder app user (`linear api 'query { comments(filter: { user: { id: { eq: "195a6ec0-ed0c-4519-9750-948eac4e5e00" } } }, first: 50) { nodes { issue { identifier } createdAt body } } }'`, channel proven at set time) and eval with dima: did «cclio's pet» comments help him see who did what? none or useless → drop the identity (keychain slots `coder` + the script arg). until then every coder brief carries the token and one done-comment; steer the shape as it goes — set 2026-09-02
 
 ⏰ 🦊👁️ brew-picks vet — on/after 2026-09-15: measure gron/yq/sd usage across the fleet — `grep -lE '\bgron |yq |sd ' ~/.claude/projects/*/*.jsonl` (channel proven at set time); a tool with no real hits → drop its Brewfile line + its root CLAUDE.md tooling mention. hyperfine already dropped at pick time (occasional-use, dima's bar was regular) — set 2026-09-01
 

@@ -146,9 +146,10 @@ reader. Lowercase register; emojis and ascii art welcome.
 `app:assignable`). the `linear` cli keeps dima's key — his prints stay his. proof: the api
 `viewer` answers `cclio, app: true`.
 
-- **delegation, mvp trial:** «delegate DOT-N» → one `issueUpdate(delegateId)` as cclio — delegate
-  slot fills, assignee untouched (dima's commitment marker survives). habit-or-not verdict is
-  dima's, after the trial.
+- **delegation is a habit (dima's yes, 2026-09-02):** every ticket cclio starts gets `delegateId` =
+  cclio (`0e9bab8b-1e99-4d9c-90f8-57ce3166ca7a`); every ticket handed to a coder gets the coder app
+  (`195a6ec0-ed0c-4519-9750-948eac4e5e00`, «cclio's pet»). delegate = who works it; assignee stays
+  dima's commitment marker, never touched.
 - per-mutation stamps ride `createAsUser` («label (via cclio)») — demoed, kept for run-id trails.
 - the why and the recipe live in the header of `script/linear-agent-token.ts`; `coder` is the second app, same script with an arg.
 
