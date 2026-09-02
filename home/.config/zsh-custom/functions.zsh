@@ -5,34 +5,36 @@ function l() {
     eza "${args[@]}" "$@"
 }
 
-# processes on a tcp port, 3000 by default
+# processes on a tcp port — `port` = 3000, `port 5177` = that one
 function port() {
     lsof -i tcp:"${1:-3000}"
 }
 
-# gone-upstream + merged branches: list, or delete with -d
+# cleanup branches: `gprune` lists · `gprune -d` deletes local · `gprune -d rmt` also deletes merged branches on origin
 function gprune() {
     git fetch --prune
     local gone=$(git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" { print $1 }')
-    local merged=$(git branch --merged | grep -v '^\*' | grep -Ev '(^|\s+)(main|master|dev|develop)$')
-    if [[ "$1" == "-d" ]]; then
-        [[ -n "$gone" ]] && echo "$gone" | xargs git branch -D
-        [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
-    else
-        echo "gone:"; echo "$gone"; echo "merged:"; echo "$merged"
+    local merged=$(git branch --merged | grep -v '^\*' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
+    if [[ "$1" != "-d" ]]; then
+        echo "gone on remote:"; echo "$gone"; echo "merged:"; echo "$merged"; return
+    fi
+    [[ -n "$gone" ]] && echo "$gone" | xargs git branch -D
+    [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
+    if [[ "$2" == "rmt" && -n "$merged" ]]; then
+        echo "$merged" | xargs -I{} git push origin --delete {}
     fi
 }
 
-# Add to git stage, commit and push
+# github cli: bare `go` opens the repo on github; with arguments it is the Go toolchain
+# (/opt/homebrew/bin/go, sline is written in Go), so a plain alias would shadow it (DOT-68)
+go() { if (( $# )); then command go "$@"; else gh browse; fi }
+
+# Add to git stage, commit and push — `acp "message"`
 # Chained on purpose: a zsh function does not stop on error, so an unchained
 # sequence pushed even when the commit was rejected — failing hook, nothing
 # staged, empty message — publishing whatever the branch already held.
 function acp() {
     git add . && git commit -m "$1" && git push
-}
-
-function cute() {
-  claude --remote-control "${*:-$(date +%s)}"
 }
 
 # mkdir + cd in one move (ex-omz `take`)
@@ -49,4 +51,9 @@ function extract() {
         *.7z) 7z x "$1" ;;
         *) echo "extract: unknown archive: $1" ;;
     esac
+}
+
+# llms
+function cute() {
+  claude --remote-control "${*:-$(date +%s)}"
 }

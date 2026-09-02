@@ -19,8 +19,8 @@ alias 8='cd -8'
 alias 9='cd -9'
 alias kk='kill -9'
 alias rmx='trash'
-alias fpson='/bin/launchctl setenv MTL_HUD_ENABLED 1'
-alias fpsoff='/bin/launchctl setenv MTL_HUD_ENABLED 0'
+alias fpson='/bin/launchctl setenv MTL_HUD_ENABLED 1'   # metal fps overlay in games, on
+alias fpsoff='/bin/launchctl setenv MTL_HUD_ENABLED 0'  # …and off
 
 # shell + editor
 alias rezsh='exec zsh'
@@ -28,22 +28,34 @@ alias ezsh='nvim ~/.zshrc'
 alias ealiases='nvim ~/.config/zsh-custom/aliases.zsh'
 alias evim='nvim ~/.vimrc'
 
-# git vibe — dima's hands; vocabulary owned by DOT-37
+# git vibe — dima's hands; the words mirror ~/.claude/rules/fleet-vibe.md (a test keeps them in sync)
 alias grab='git add .'
-alias mana='git commit'
+alias mana='git commit'                     # commit, editor opens
 alias vibe='git commit -m'
 alias vibetune='git commit --amend'
 alias slay='git push'
-alias slayer='git push --force'
+alias slayer='git push --force'             # raw force, overwrites whatever is there
+alias yolo='git push --force-with-lease'    # force, but refuses if the remote moved since your last fetch
 alias sup='git status -s'
-alias chill='git rebase -i $(git merge-base HEAD master)'
+alias warp='git switch'                     # jump to an existing branch
+alias spawn='git switch -c'                 # create a branch and jump to it
+alias loot='git pull'
+alias scout='git fetch --prune'             # download remote state, forget branches deleted on the remote
+alias onward='git rebase --continue'
+alias oops='git reset --soft HEAD~1'        # undo the last commit, keep the changes staged
+alias lore='git log --oneline --graph -20'  # the story so far
+alias peek='git diff'                       # unstaged changes: what you edited but did not grab yet
+alias peeked='git diff --staged'            # staged changes: what the next commit will contain
+alias camp='git worktree add'
+alias decamp='git worktree remove'
+alias reforge='git rebase -i $(git merge-base HEAD main)'  # rewrite every commit of this branch since it left main
 
 # git
 alias gs='git status -s'
 alias ga='git add .'
 alias gc='git commit'
 alias gcm='git commit -m'
-alias gca='git commit -a -m'
+alias gca='git commit -a -m'   # stage every tracked change and commit, one move
 alias gcam='git commit --amend'
 alias gsw='git switch'
 alias gswb='git switch -c'
@@ -62,13 +74,6 @@ alias gfp='git fetch --prune'
 alias gwa='git worktree add'
 alias gwl='git worktree list'
 alias gwr='git worktree remove'
-alias gg='git log --oneline | gum filter | cut -d" " -f1'
-
-# github cli
-# PROBLEM (DOT-68): this wants to be `go`, and muscle memory types `go`. It cannot be —
-# bare `go` opens the repo on github; with arguments it is the Go toolchain
-# (/opt/homebrew/bin/go, sline is written in Go) — a plain alias would shadow it.
-go() { if (( $# )); then command go "$@"; else gh browse; fi }
 
 # pnpm
 alias pn='pnpm'
@@ -79,7 +84,7 @@ alias pno='pnpm outdated'
 alias pnor='pnpm outdated -r'
 alias pnup='pnpm update --latest'
 alias pnun='pnpm uninstall'
-alias pnpx='pnpm dlx'
+alias pnx='pnpm dlx'
 alias pnt='pnpm typecheck'
 alias pnd='pnpm dev'
 alias pns='pnpm start'
