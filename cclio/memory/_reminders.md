@@ -11,6 +11,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
+⏰📌 ui/ux best-practices research + a `ui-ux.md` home — dima's ask from BYT-43 (user-select family, selection colour, the systematic bits): a DOT ticket on his word, or it stays parked in BYT-43's body under «later». raise at boot until he verdicts — set 2026-09-02
+
 ⏰ gazette → cw memory — leaf `/areas/fleet-cclio-gazette.md` live, dry run + noop proven by cw 2026-09-02, 09:00 kyiv task set for 2026-09-03. after the first scheduled run is confirmed: drop this line, fold `cclio/docs/gazette-cw-sync.md` into `docs/procedures/memory-bridge-refresh-cw.md`, delete the doc — set 2026-08-28
 
 
