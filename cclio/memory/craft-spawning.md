@@ -35,20 +35,28 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first. 🚨 **the registry name is `-n <name>`** — `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured 2026-08-30: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`) — a coder has no tool for it (measured).
    🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
    sessions by name in the desktop Code tab.
-3. **cwd** — 🚨 never spawn from `~/dotfiles/cclio`: a child starts in the parent's cwd and
-   re-derives its CLAUDE.md stack there, so it boots wearing the coordinator's brain (measured
-   2026-08-30, the refresh-spawn-mechanics researcher). `cd` to the target repo in the same
-   command that spawns.
+3. **cwd** — 🚨 a coder is a `--bg` session launched with `cd <target repo> && claude --bg …`
+   in one command: the only door that derives its stack from cwd (2/2 clean on 2.1.258). a
+   subagent spawned by cclio inherits the coordinator's brain whatever the cwd — fine for a
+   probe, wrong for a coder. the brief asks the coder to name its loaded CLAUDE.md paths in its
+   first reply — the bleed detector.
 4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
    word — **cclio verifies, then closes.**
+5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm -s linear-agent-token coder)` and
+   asks the coder to post its done-report as one linear comment on the ticket through that token
+   (`linear api` with `Authorization: Bearer`); it renders as «cclio's pet». the reminder counts.
 
 ## measured, not read from a schema
 
 - **`--effort` is honoured** on `claude --bg` — pass it every time, it is a flag, never inherited.
-- ✅ **`claude --bg '<prompt>'` RUNS the prompt** (cc 2.1.251 — it came up idle on 2.1.239).
+  a `Workflow` `agent()` call honours its per-call `effort` too (2.1.258).
+- ✅ **`claude --bg '<prompt>'` RUNS the prompt** (re-verified 2.1.258; it came up idle on 2.1.239).
   `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
-- ⚠️ **a subagent starts in the PARENT'S cwd** (2.1.251; it was the repo root on 2.1.239 — this
-  flipped) and re-derives its own CLAUDE.md stack from there. keep every path in a brief absolute.
+- ⚠️ **a subagent starts in the parent's BASH SHELL cwd** — whatever the last `cd` left —
+  and on 2.1.258 **inherits cclio's whole stack regardless of that cwd** (`cd` sheds nothing;
+  flipped on each of the last three builds, so re-probe every build). a cclio subagent is a
+  probe or a researcher wearing the coordinator's brain, never a plain coder. keep every path
+  in a brief absolute.
 - ⚠️ **effort is inherited only by an effort-capable child** — an opus subagent gets
   `CLAUDE_EFFORT`, a haiku one records `effort=null`. never measure effort with haiku in the loop.
 - ⚠️ **a worktree agent branches from `origin/<default-branch>`, not local HEAD** — it cannot see

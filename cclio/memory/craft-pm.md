@@ -150,7 +150,7 @@ reader. Lowercase register; emojis and ascii art welcome.
   slot fills, assignee untouched (dima's commitment marker survives). habit-or-not verdict is
   dima's, after the trial.
 - per-mutation stamps ride `createAsUser` («label (via cclio)») — demoed, kept for run-id trails.
-- full mechanics + recipes: `docs/research/linear-users.md`.
+- the why and the recipe live in the header of `script/linear-agent-token.ts`; `coder` is the second app, same script with an arg.
 
 ## reading relations — one hop, titles first, bodies on merit
 
