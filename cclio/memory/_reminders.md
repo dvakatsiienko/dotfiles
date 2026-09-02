@@ -15,9 +15,11 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
+⏰ 🦊👁️ coder linear identity vet — app «cclio's pet» (keychain slots `coder`, `pnpm linear-agent-token coder`): every coder brief carries the token and asks for one linear comment on its ticket at done; after ~5 coder spawns, count comments authored by the app — none → the identity dies (keychain + script arg), dima's call — set 2026-09-02
+
 ⏰ 🦊👁️ brew-picks vet — on/after 2026-09-15: measure gron/yq/sd usage across the fleet — `grep -lE '\bgron |yq |sd ' ~/.claude/projects/*/*.jsonl` (channel proven at set time); a tool with no real hits → drop its Brewfile line + its root CLAUDE.md tooling mention. hyperfine already dropped at pick time (occasional-use, dima's bar was regular) — set 2026-09-01
 
-⏰ 🦊📜 spawn-mechanics artifact freshness — `docs/knowledge/spawn-mechanics.md` verified against cc 2.1.251 (2026-08-30, run #1 of `refresh-spawn-mechanics`); re-run the procedure when the cc minor version changes, or when a spawn behaves against a [verified] row. research vectors need dima's re-groom before run #2 — set 2026-08-30
+⏰ 🦊📜 spawn-mechanics artifact freshness — `docs/knowledge/spawn-mechanics.md` verified against cc 2.1.258 (2026-09-02, run #2 of `refresh-spawn-mechanics`); re-run the procedure when the cc version changes, or when a spawn behaves against a [verified] row. the subagent stack row is [volatile] — the first thing run #3 probes — set 2026-08-30
 
 
 

@@ -62,6 +62,28 @@ against a [verified] row.
 
 ## last run
 
+**run #2 — 2026-09-02, cc 2.1.258** (previous: 2.1.251). all five groomed vectors executed: 2 bg
+probes, 3 subagents, 2 one-agent workflows, both stop routes.
+
+- 🚨 **the subagent stack flipped AGAIN: a subagent inherits the parent's whole stack, whatever
+  its cwd.** two cclio subagents at `~/dotfiles/docs` and `~/dotfiles` both carried
+  `cclio/CLAUDE.md` + every memory leaf. tagged [volatile] in §7 — three builds, three answers.
+- **the bleed is explained for subagents** (inheritance) and **unreproduced for `--bg`**: 2/2
+  clean on this build. the §11 row stays as a watch, not a rule.
+- **subagent cwd = the parent's BASH SHELL cwd**, mutable by any earlier `cd` — sharper than
+  «parent's cwd».
+- ✅ **workflow per-call `effort` is honoured** — `high` under a session at `low`. the last
+  open flag question closed.
+- bg-spare pool anatomy recorded: a transient `claude daemon` (ppid 1) owns the slots, born at
+  the first `--bg`, one spare stays warm.
+- re-verified unchanged: `--bg` runs its prompt · `--model` + `--effort` on every record ·
+  registry + `respawnFlags` · worktree branches from `origin/main`, auto-cleans · `claude stop`
+  and `kill <pid>` both remove the registry file · `ListAgents`/`Workflow` absent in a subagent ·
+  `CLAUDE_EFFORT` inherited by an opus child.
+- vectors closed by this run: workflow effort · the bleed (as far as it can be) · changelog
+  sweep and orchestrator best-practices produced nothing new worth a row (the build changes
+  were the flips above).
+
 **run #1 — 2026-08-30, cc 2.1.251** (previous evidence: cc 2.1.239, 2026-08-22). every
 [verified] row re-executed with real spawns. the raw research doc was distilled into
 `docs/knowledge/spawn-mechanics.md` and deleted.
