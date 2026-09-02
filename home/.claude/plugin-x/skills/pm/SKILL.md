@@ -64,7 +64,8 @@ call and is always cheaper than a wrong guess.
 - **state on create** — `issue create` with no `--state` lands in **Triage**, and that is the
   contract (dima's call 2026-08-31): agent-created tickets are BORN in Triage so he sees, trims
   and steers every one. Never pass `--state Todo` on create; promotion out of Triage is his word.
-- **reading fields back** — `issue view --json` exits 5. Use `linear api` GraphQL.
+- **reading fields back** — `issue view --json` exits 5, and `issue view` omits comments. Use
+  `linear api` GraphQL for any read that informs a decision, comments included.
 - **archiving** — no CLI verb. `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`,
   uuid from `linear api 'query { issue(id: "DOT-3") { id } }'`.
 - **hanging >15s** — likely a hidden keychain prompt. Tell Dima to check the screen.
@@ -223,6 +224,9 @@ is not captured, it is scattered.
 
 **The body shape: what · why · how · notes · closing word — the ticket face, a reference.**
 Spec-shaped tickets add an optional sixth: acceptance/exit.
+🚨 **Dima's words never go into a comment.** A want, a note, a verdict from him lands in the body
+under «dima notes» — a comment is read only by the GraphQL fetch, a body by every reader.
+Comments carry trail only: run stamps, «done, see commit», provenance.
 Body = current state: keep it sanitized and updated, mutate without fear; a closed ticket reads
 true from the body alone. Agent context that does not fit the shape goes to a comment —
 deliberately, when it covers a real ctx gap, never as flood. Comments = trail (logs, stamps,
