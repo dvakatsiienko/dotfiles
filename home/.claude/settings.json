@@ -62,7 +62,7 @@
       "/Users/dima"
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "claude-fable-5-1[1m]",
   "disableClaudeAiConnectors": true,
   "hooks": {
     "PreToolUse": [
@@ -190,6 +190,9 @@
       "effortLevel": "low"
     },
     "claude-fable-5": {
+      "effortLevel": "low"
+    },
+    "claude-fable-5-1": {
       "effortLevel": "low"
     }
   },
