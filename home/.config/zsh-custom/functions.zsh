@@ -14,7 +14,7 @@ function port() {
 function gprune() {
     git fetch --prune
     local gone=$(git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" { print $1 }')
-    local merged=$(git branch --merged | grep -v '^\*' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
+    local merged=$(git branch --merged | grep -Ev '^[*+]' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
     if [[ "$1" != "-d" ]]; then
         echo "gone on remote:"; echo "$gone"; echo "merged:"; echo "$merged"; return
     fi
