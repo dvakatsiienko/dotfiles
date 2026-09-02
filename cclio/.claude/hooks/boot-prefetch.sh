@@ -24,9 +24,9 @@ echo "-- x-queue head --"
 awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
   "$HOME/dotfiles/cclio/.claude/x-queue.md" 2>/dev/null || echo "no queue file"
 
-echo "-- gazette, 2 freshest posts (durable event history; older posts on demand) --"
+echo "-- gazette, 7 freshest posts (durable event history; older posts on demand) --"
 gz_found=0
-for g in $(ls -t "$HOME/dotfiles/cclio/gazette/"*.md 2>/dev/null | head -2); do
+for g in $(ls -t "$HOME/dotfiles/cclio/gazette/"*.md 2>/dev/null | head -7); do
   echo "### $(basename "$g")"
   awk 'NR==1&&/^---$/{f=1;next} f&&/^---$/{f=0;next} !f' "$g" | head -60
   gz_found=1
