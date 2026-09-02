@@ -24,16 +24,20 @@ cannot).
   `/areas/fleet-contract.md`, which is the ONE home of the rails — `/areas/fleet.md` carries
   no copy
 - `CLAUDE.md` + `rules/fleet-bypass-restraint.md` + `rules/fleet-vibe.md`
-  → `/areas/fleet-contract.md`, with two carve-outs routed OUT: the beliefs block (x-com
+  → `/areas/fleet-contract.md`, with three carve-outs routed OUT: the beliefs block (x-com
   products, simplicity, UX/DX drivers) → `/profile.md` · the TS/stack preferences block →
-  `/topics/frontend.md`
+  `/topics/frontend.md` · the global naming conventions block (entity-first) →
+  `/preferences.md` `## content conventions` (dima's call 2026-09-02); `fleet-contract` carries
+  no copy
+- every routing decision dima makes during a run lands in this map the same day — the map is
+  the memory of the bridge, the run is not
 - `rules/fleet-hazards.md` → `/topics/obsidian.md`, the vault section ONLY — the git-hooks
   section is cc-only (cw makes no worktrees), deliberately not mirrored
 - a route move is a MOVE: the line lands in its new entry and leaves the old one in the same
   pass — a dupe across entries is a defect to fix, never a safety margin
 - the constant blocks below → `/areas/fleet-contract.md`
-- `cclio/gazette/*.md` → `/areas/cclio-gazette.md` — the ONE entry that is a rolling window, not an
-  up-merge; procedure in «the gazette» below
+- `cclio/gazette/*.md` → `/areas/fleet-cclio-gazette.md` — the ONE entry that is a rolling window,
+  not an up-merge; procedure in «the gazette» below
 
 ## the up-merge — per entry, in order
 
@@ -43,7 +47,9 @@ a cw session starts with NO memory loaded — scheduled runs included. `memory_l
 
 0. at run start, compare `memory_list` against the map: a mapped entry missing from the
    listing means THIS skill is stale (a rename it never followed, or a stale plugin cache) —
-   stop and report; never create the missing entry.
+   stop and report; never create the missing entry. one exception: the gazette entry
+   (`/areas/fleet-cclio-gazette.md`) may be created when missing — a rolling window with no
+   cw-native content to protect.
 1. read the FULL entry (also yields the version token).
 2. read the fresh master(s).
 3. diff: what is new · what is stale · what is cw-native with no cc source (untouchable).
@@ -53,7 +59,10 @@ a cw session starts with NO memory loaded — scheduled runs included. `memory_l
    mapped entry. one concept under two names (master says `entity-first`, entry says
    `subject-first`) is a diff, not a synonym — the master's spelling wins.
 5. one write, per `memory-update` mechanics. refresh the entry `description` with it.
-6. stamp the entry frontmatter: `derived-from: [<master files>]`. when an entry's existing
+6. stamp the entry frontmatter: `derived-from: [<master files>]`. a partially derived entry
+   scopes the stamp to the block: `derived-from: [CLAUDE.md#beliefs]`,
+   `[rules/fleet-voice.md, rules/fleet-output-format.md → ## voice and formatting]` — the stamp
+   names what is a protected copy; everything else in that entry is cw-native. when an entry's existing
    `derived-from:` disagrees with the map above, **the map wins** — restamp, and name the
    mismatch in the diff report.
 
@@ -68,7 +77,7 @@ cclio writes one post a day into `~/dotfiles/cclio/gazette/`. each post's frontm
 `cw:` block: 3 lines cclio pre-digested for you — what shipped, what is live or next, the one line
 worth repeating to a human. your job is a rolling window, never a rewrite.
 
-the entry `/areas/cclio-gazette.md` is what makes you aware of what dima and cclio are doing.
+the entry `/areas/fleet-cclio-gazette.md` is what makes you aware of what dima and cclio are doing.
 surface it unprompted where it helps: an hr mail, a recruiter reply, cv positioning («this week
 we shipped…»), or any thread where he asks what the two of them are up to.
 
@@ -80,8 +89,8 @@ we shipped…»), or any thread where he asks what the two of them are up to.
    the file is CHANGED (cclio appends an evening update to the same post). everything else is
    untouched and stays byte-identical.
 4. for each new or changed post only: extract the block —
-   `sed -n '/^cw: |/,/^---$/p' <file>` — and build its section. copy, with light humanizing
-   only where a line reads like a changelog.
+   `sed -n '/^cw: |/,/^---$/p' <file>` — and build its section. **copy verbatim** — the lines
+   are cclio's words for you, zero edits.
 5. assemble: new sections prepended in date order, changed sections replaced in place, then trim
    to the **7 freshest**. one `memory_write`. `derived-from: [cclio/gazette/*.md]`.
 6. nothing new, nothing changed → write nothing, report «gazette: noop».

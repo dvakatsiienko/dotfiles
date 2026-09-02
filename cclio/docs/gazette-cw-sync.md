@@ -1,5 +1,5 @@
 ---
-dies-when: the `cclio's-gazette` leaf exists in cw memory and the 09:00 cw task runs memory-sync — then this folds into `cclio/docs/procedures/memory-bridge-refresh-cw.md`
+dies-when: the `fleet-cclio-gazette` leaf exists in cw memory and the 09:00 cw task runs memory-sync — then this folds into `cclio/docs/procedures/memory-bridge-refresh-cw.md`
 ---
 
 # gazette → cw memory: ambient awareness of what dima and cclio are doing
@@ -25,7 +25,7 @@ a context switch. ctx load accepted.
 
 ## the shape (agreed)
 
-- **leaf `cclio's-gazette`** in cw global memory — a rolling **digest**, not a copy: enough to
+- **leaf `fleet-cclio-gazette`** in cw global memory — a rolling **digest**, not a copy: enough to
   cover the use case, humanized voice (cw reads it to talk to him). freshest first.
 - **window: the 2 freshest gazette posts** (mvp; tune later — 5 was floated).
   **retirement built in:** a line older than 7 days falls off at the next sync, so the leaf never

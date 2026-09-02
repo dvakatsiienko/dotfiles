@@ -1,6 +1,6 @@
 ---
 name: memory-update
-description: Load BEFORE any write to cw global memory — dima says «upd memory», «remember this», «save to memory», «prettify memory», or any memory_* write is about to happen. Args: prettify <entry|all> · dry. cw-only; a cc session stops here (cc memory has its own procedure).
+description: Load BEFORE any write to cw global memory — dima says «upd memory», «remember this», «save to memory», «prettify memory», or any memory_* write is about to happen. Args: prettify <entry|all> · dedupe [entry|all] · dry. cw-only; a cc session stops here (cc memory has its own procedure).
 ---
 
 # memory-update — the shape of every cw memory edit
@@ -75,12 +75,29 @@ run the full pass, print every intended write as a diff, write nothing.
 
 ## arg: `prettify <entry|all>`
 
-prettify is a formatter: it reshapes lines and never removes one. in scope: register, `[stated]`
-prefixes, stale descriptions, sectioning. a line that reads like flavour is rewritten flat, its
-fact kept. **every section or fact line you want gone, and every merge, move or re-route, goes
-on a list printed at the end of the run as a proposal for dima** — nothing leaves memory
-unasked. `all` walks every entry in the listing.
+**prettify is a formatter, never a de-duper: it reshapes lines and loses nothing.** in scope:
+register, `[stated]` prefixes, stale descriptions, sectioning. a line that reads like flavour is
+rewritten flat, its fact kept. `all` walks every entry in the listing.
 
-after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side and
-flag any fact claimed by two files — per-entry reading is structurally blind to dupes, and every
-dupe found in the field test survived a full prettify walk.
+after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side
+and flag any fact claimed by two files — per-entry reading is structurally blind to dupes, and
+every dupe found in the field test survived a full prettify walk. the pass prints one fixed
+block and writes none of it:
+
+```
+🔎 dupes and conflicts
+- entry-a ↔ entry-b: the fact — ➡️ proposed fix
+```
+
+every merge, move, re-route or line you want gone is a line in that block. nothing leaves
+memory from a prettify run.
+
+## arg: `dedupe [entry|all]`
+
+the second wave, dima's word each time. input is the `🔎 dupes and conflicts` block from a
+prettify run in the same session; run alone, it does a fresh cross-entry pass first. print the
+fix list, stop for his word, then apply each approved fix as its own `memory_str_replace`:
+a move lands in the new owner before it leaves the old one; a delete is a move to the surviving
+copy, never a bare cut. report `entry: fixed / skipped`.
+
+`dry` on either arg prints and writes nothing.
