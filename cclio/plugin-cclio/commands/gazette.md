@@ -64,5 +64,5 @@ approved 2026-08-26); fix what reality disagrees with the same session it disagr
 
 ## 👁️ ingest side (for reference)
 
-the boot-prefetch hook serves the 2 freshest posts (body only, the `cw:` block stripped) into every cclio boot. multi-day arcs may
+the boot-prefetch hook serves the 7 freshest posts (body only, the `cw:` block stripped) into every cclio boot. multi-day arcs may
 warrant reading further back — the boot judges, this file just notes the knob.
