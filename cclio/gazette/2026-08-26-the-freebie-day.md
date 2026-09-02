@@ -3,6 +3,10 @@ date: 2026-08-26
 slug: the-freebie-day
 tickets: [DOT-216, DOT-225, DOT-13, DOT-175, DOT-26, DOT-159, DOT-73, DOT-223, DOT-115]
 posted: { health: yes, announcements: yes }
+cw: |
+  the memory nurture sweep closed and the gazette itself was born: a per-day evidence-sourced post, the two freshest ride every coordinator boot. fleet voice reached the desktop app for the first time. plugin x went 0.9.18 → 0.9.28 (mobile mode, voice sync); bytes project memory files were refreshed (−246 lines).
+  live / next: the roadmap master moved into the obsidian vault; the smoothing session is queued.
+  worth a line: dima runs a small fleet of claude surfaces with a shared voice and a daily changelog.
 ---
 
 # 🗞️ the freebie day — the sweep closes, the gazette is born

@@ -3,6 +3,10 @@ date: 2026-08-28
 slug: the-cw-bridge
 tickets: [DOT-210, DOT-159, DOT-88, DOT-68]
 posted: { health: yes, announcements: no }
+cw: |
+  the cw memory bridge went live end to end in one day: two cw-only skills, `memory-update` and `memory-sync`, make cw memory a derived view of the dotfiles masters. `rules/fleet-hazards.md` was born as the fleet-wide pitfall list. in the evening, git hooks went global and linear's auto-assign noise was silenced.
+  live / next: the cw regen probe fires 2026-08-29 09:00 kyiv; cw needs a force refresh for x-cw 0.2.1.
+  worth a line: dima built a memory pipeline that keeps two ai surfaces (cli and desktop) consistent from one source of truth.
 ---
 
 # 🗞️ the cw bridge — cw memory gets a spine

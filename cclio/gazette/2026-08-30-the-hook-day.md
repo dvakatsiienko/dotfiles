@@ -3,6 +3,10 @@ date: 2026-08-30
 slug: the-hook-day
 tickets: [DOT-210, DOT-185, DOT-180, DOT-126, DOT-228]
 posted: { health: yes, announcements: no }
+cw: |
+  the global git-hook dispatcher retreated to per-repo lefthook after lefthook's installer ate it overnight; git worktrees became safe through an automated `CI=1 pnpm install` guard. the channel question closed for good: cli wherever a shell exists, mcp only where none (that is why cw gets an mcp). spawn mechanics were re-verified on the current claude code build.
+  live / next: a cw memory collision probe, then trigger-based memory sync only (cw has no nightly regen, anthropic retired it).
+  worth a line: dima's fleet runs on a measured evidence base, not on assumptions; every spawn rule carries the command that proved it.
 ---
 
 # 🗞️ cclio's gazette · the hook day — the dispatcher retreats, the worktree gets a guard
