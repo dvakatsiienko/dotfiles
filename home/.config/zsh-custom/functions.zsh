@@ -1,12 +1,25 @@
-# List files with eza
-# TODO revalidate eza argument list after exa deprecation
+# List files with eza; `l -m` adds mtime
 function l() {
-    if [ "$#" -eq "0" ]; then
-        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --no-time --git
-    elif [[ "$1" == "-m" ]]; then
-        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --git
+    local args=(--all --long --header --color=always --icons --group-directories-first --binary --no-user --git)
+    [[ "$1" == "-m" ]] && shift || args+=(--no-time)
+    eza "${args[@]}" "$@"
+}
+
+# processes on a tcp port, 3000 by default
+function port() {
+    lsof -i tcp:"${1:-3000}"
+}
+
+# gone-upstream + merged branches: list, or delete with -d
+function gprune() {
+    git fetch --prune
+    local gone=$(git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" { print $1 }')
+    local merged=$(git branch --merged | grep -v '^\*' | grep -Ev '(^|\s+)(main|master|dev|develop)$')
+    if [[ "$1" == "-d" ]]; then
+        [[ -n "$gone" ]] && echo "$gone" | xargs git branch -D
+        [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
     else
-        eza --all --long --header --color=always --icons --group-directories-first --binary --no-user --git "$1"
+        echo "gone:"; echo "$gone"; echo "merged:"; echo "$merged"
     fi
 }
 
