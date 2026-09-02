@@ -14,6 +14,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 ## direction — read before any pm decision
 - 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. master lives in the obsidian vault; the repo path is a SYMLINK to it (a direct vault-path import loads nothing; the symlink loads — verified 2026-08-30). «resident upd» from dima → re-read it
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
+- 🗞️ @../gazette/_recent.md — the 7 freshest gazette posts, regenerated at boot and at every post; the event history behind the rules
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
 ## running the work
