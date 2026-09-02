@@ -27,7 +27,7 @@ Each line here IS a shell alias in `home/.config/zsh-custom/aliases.zsh`; `scrip
 - `scout` — `git fetch --prune`
 - `onward` — `git rebase --continue`
 - `oops` — `git reset --soft HEAD~1`
-- `lore` — `git log --oneline --graph -20`
+- `lore` — `git lg -20 --no-pager`
 - `peek` — `git diff`
 - `peeked` — `git diff --staged`
 - `camp` — `git worktree add`
