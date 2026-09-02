@@ -11,7 +11,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 gazette → cw memory — queued LAST by dima 2026-08-30, tricky to do nicely — spec: `cclio/docs/gazette-cw-sync.md` (leaf `cclio's-gazette`, 2 posts, memory-sync carries, 09:00 cw task mutates from the probe). dies when the leaf exists and the task runs — set 2026-08-28
+⏰ gazette → cw memory — leaf `/areas/fleet-cclio-gazette.md` live, dry run + noop proven by cw 2026-09-02, 09:00 kyiv task set for 2026-09-03. after the first scheduled run is confirmed: drop this line, fold `cclio/docs/gazette-cw-sync.md` into `docs/procedures/memory-bridge-refresh-cw.md`, delete the doc — set 2026-08-28
 
 
 
