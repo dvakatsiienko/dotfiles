@@ -206,4 +206,4 @@ native edge instead of narrating lineage.
 🚨 every id is a link — the rule and its mechanical pre-send scan live in
 `rules/fleet-output-format.md`; the most-repeated failure on this surface, so run the scan, always.
 
-Related: [[dima-strategy]], [[dima-roadmap]]
+Related: [[dima-strategy]]

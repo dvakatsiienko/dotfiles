@@ -1,6 +1,7 @@
 # dima's strategy — the branch map
 
-Where it is all going, per branch. [[dima-roadmap]] holds the order, [[dima-stories]] the history.
+Where it is all going, per branch. The linear initiative «roadmap» holds the order (read at boot by
+the prefetch), [[dima-stories]] the history.
 
 🎯 **All six are equally weighted.** They advance at different speeds because of quota, mood and
 blockers, never because one matters more. Never promote the branch in front of you; never
@@ -9,6 +10,22 @@ apologise for a quiet one.
 **Using it:** name a ticket's branch before creating it — fitting none is a signal. Every branch
 gets a line when reporting, quiet ones included: a branch nobody names is being abandoned by
 default. A branch is not a Linear project — projects are storage, branches are direction.
+
+## 🧭 the roadmap — the order, and how to use it
+
+The order lives in the linear initiative «roadmap»: nine steps in its body, every project attached,
+a project's status + start date mark where it sits, dependency edges say what unblocks what. The
+boot prefetch prints it; **that block answers «what's next».** The vault file
+`prompts/dima-roadmap.md` is dima's fallback copy, not loaded (vet: 2026-09-03 → 2026-09-17).
+
+- know the step at boot; name it when reporting.
+- place proposed work on the order before agreeing. Ahead-of-step work is a freebie or a ticket,
+  never a session.
+- the order is his, not a ranking — a later step is blocked, not lesser.
+- 🚨 **pacing check:** steps 1–4 are meta-work, and meta-work never finishes on its own — bytes
+  once went untouched for over a week. Each step closing is the moment to ask what starts next.
+- a step closes → same session: project status + start date set, the body's nine lines
+  rewritten, one initiative update (three sentences), the attached scope untouched.
 
 ## 📋 pm — the tracker and its flow
 

@@ -1,1 +1,0 @@
-/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/dima-roadmap.md
