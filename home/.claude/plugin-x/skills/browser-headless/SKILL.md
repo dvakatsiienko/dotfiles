@@ -26,6 +26,18 @@ agent-browser skills get core --full
   truly needed: playwright `connectOverCDP` onto `agent-browser get cdp-url`.
 - 🚫 no browser mcp — cli only, the resident schema is not worth it.
 
+## hazards — measured on a chart app, 2026-09-03
+
+- ⚠️ **an unknown flag is swallowed as a positional arg and reports success** — `screenshot
+  out.png --selector x` wrote a png named `--selector` into the cwd with a green ✓. verbs are
+  positional: `screenshot <selector> <path>`. check `--help` for the verb before a first use.
+- **`click` does not auto-wait** — it fails in 20 ms on an element still loading. `wait <sel>`
+  first, then act. playwright through the escape hatch is the auto-retrying lane.
+- **`eval` shares one page scope across calls** — a second `const p` dies as «already declared».
+  wrap every eval in an IIFE.
+- **token bombs:** `network requests` unfiltered ≈ 11k tokens, `snapshot -i` ≈ 6.5k on a dense
+  page. always `--filter`, always scope to a selector.
+
 ## habits
 
 - `--json` on every verb when the output feeds a decision.
