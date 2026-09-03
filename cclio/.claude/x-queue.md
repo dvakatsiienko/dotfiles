@@ -8,4 +8,3 @@
 - ⏸️ inbox leftovers, deferred 2026-09-02: g2i skills peek (https://github.com/g2i-ai/agents) · new skills eval (advise-project-approach, neuroarxiv + yt explainer) — at the cli/numi stage · the bureau question (unanswered).
 - 🧪 playwright for coders — dima: «useful, but needs a way to set it up properly». today it lived in a coder's scratch dir + `~/Library/Caches/ms-playwright` (82 MB). decide the proper home (bytes devDependency? a fleet tool in Brewfile? a skill step in the coder brief) before the next ui coder.
 - 🎯 groom remainder: cclio v2
-- ⏸️ gazette → cw memory — task set for 09:00 2026-09-03; after the run: reminder dies, `docs/gazette-cw-sync.md` folds into the procedure.

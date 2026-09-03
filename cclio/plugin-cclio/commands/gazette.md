@@ -4,6 +4,12 @@
 history plus its outward release. the halt calls this BEFORE the CST, so the
 handoff carries only what the gazette did not already say.
 
+**what it is (dima, 2026-09-03): the memory of what meaningful stuff we did, not a mirror of
+the tracker.** anything that changed something belongs — a ticketed close and a bare todo fixed
+in place carry equal weight; an immediate ask done without a ticket is exactly the kind of fact
+only the gazette keeps. meaningful only — a minor move stays out, however fresh. on point only: the fact and its effect, no talk, no fluff. a linear body
+already describes the ticket; the post says what happened.
+
 ## phase 1 — the tweet (always, no gate)
 
 write the day's post: `cclio/gazette/YYYY-MM-DD-<short-slug>.md`.
@@ -19,7 +25,7 @@ write the day's post: `cclio/gazette/YYYY-MM-DD-<short-slug>.md`.
   paths; line 2 `live / next:`; line 3 `worth a line:` the one sentence a human would repeat.
   plain sentences with commas — no `·` chains, cw copies the block verbatim.
   an evening `⸻ upd` rewrites the block to cover the whole day. `/memory-sync gazette` on cw
-  copies it into `/areas/cclio-gazette.md` every morning; a post without it is invisible there.
+  copies it into `/areas/fleet-cclio-gazette.md` every morning; a post without it is invisible there.
 - header line: `# 🗞️ cclio's gazette · <slug title>` — the masthead leads every post
 - skeleton, soft cap ~25 lines:
   - **shipped** — what landed, every fact linear-linked
