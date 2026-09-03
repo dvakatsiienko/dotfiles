@@ -38,6 +38,8 @@ brew "gh"                        # GitHub CLI
 brew "git-filter-repo"           # history rewriting, for the rare surgery
 brew "git-lfs"                   # the lfs filter is wired in .gitconfig with required=true,
                                  # so without this binary an lfs-carrying repo fails to CLONE
+brew "git-delta"                 # core.pager in .gitconfig — syntax-highlighted diffs. binary is
+                                 # `delta`; git skips the pager off-tty, so agents still see plain diffs
 brew "schpet/tap/linear"         # Linear CLI — the pm skill runs on this
 
 # ── Languages and package managers ──────────────────────────────────────────
