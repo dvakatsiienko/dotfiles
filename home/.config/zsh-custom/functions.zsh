@@ -10,32 +10,77 @@ function port() {
     lsof -i tcp:"${1:-3000}"
 }
 
-# cleanup branches: `gprune` lists · `gprune -d` deletes local · `gprune -d rmt` also deletes merged branches on origin
+# cleanup branches — `gprune -h` prints the contract; tab shows the flags
 function gprune() {
+    local B=$'\e[1;34m' Y=$'\e[1;33m' R=$'\e[1;31m' D=$'\e[2;37m' G=$'\e[1;32m' N=$'\e[0m'
+    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+        cat <<USAGE
+gprune               list what is safe to delete, and what is held and why
+gprune -d            delete the safe set locally (merged, or remote gone + nothing unmerged)
+gprune -d rmt        …and delete the merged ones on origin too
+gprune -D            walk the held branches one by one, ask y/n each — the force lane
+gprune --stale [Nd]  list unmerged branches untouched for N days (default 90) as candidates
+USAGE
+        return
+    fi
     git fetch --prune
-    # %(worktreepath) is non-empty for a branch checked out in any worktree, the current
-    # one included. git refuses to delete those, so they are held back rather than piped
-    # into `branch -D`, which used to fail the whole prune partway.
-    local refs=$(git for-each-ref --format='%(refname:short)%09%(upstream:track)%09%(worktreepath)' refs/heads)
-    local gone=$(echo "$refs" | awk -F'\t' '$2 == "[gone]" && $3 == "" { print $1 }')
-    local held=$(echo "$refs" | awk -F'\t' '$2 == "[gone]" && $3 != "" { print $1 }')
+    if [[ "$1" == "--stale" ]]; then
+        local days=${2%d}; days=${days:-90}
+        echo "${Y}unmerged, untouched for ${days}+ days${N}"
+        git for-each-ref --sort=committerdate --format='%(refname:short)%09%(committerdate:unix)%09%(committerdate:relative)' refs/heads \
+        | while IFS=$'\t' read -r name ts rel; do
+            (( ts > $(date +%s) - days*86400 )) && continue
+            [[ "$name" == main ]] && continue
+            printf "  ${B}%s${N}  ${D}%s${N}\n" "$name" "$rel"
+        done
+        return
+    fi
+    # %1f = the ascii unit separator: a tab would collapse the empty worktree field in zsh
+    local refs=$(git for-each-ref --format='%(refname:short)%1f%(upstream:track)%1f%(worktreepath)%1f%(committerdate:relative)' refs/heads)
+    local gone=() held=() heldnames=()
+    while IFS=$'\x1f' read -r name track wt age; do
+        [[ "$track" != "[gone]" ]] && continue
+        if [[ -n "$wt" ]]; then held+=("$name  ${D}$age · checked out in ${wt}${N}"); heldnames+=("$name"); continue; fi
+        local n=$(git rev-list --count main.."$name")
+        if (( n > 0 )); then
+            # squash-merged? replay the branch as ONE commit on its merge-base and ask
+            # `git cherry` whether main already holds that exact patch ("-" = yes)
+            local tmp=$(git commit-tree "$name^{tree}" -p "$(git merge-base main "$name")" -m squash-probe)
+            if [[ "$(git cherry main "$tmp")" == -* ]]; then gone+=("$name  ${D}$age · squash-merged${N}")
+            else held+=("$name  ${D}$age ·${N} ${R}carries $n commit(s) main lacks${N}"); heldnames+=("$name"); continue; fi
+        else gone+=("$name  ${D}$age${N}"); fi
+    done <<< "$refs"
     local merged=$(git branch --merged | grep -Ev '^[*+]' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
-    if [[ -z "$gone" && -z "$merged" ]]; then
-        echo "✨ nothing to prune — every branch is alive or unmerged"
-        [[ -n "$held" ]] && { echo "held by a worktree:"; echo "$held" }
+    if (( ${#gone} == 0 )) && [[ -z "$merged" ]] && (( ${#held} == 0 )); then
+        echo "${G}✨ nothing to prune${N} — every branch is alive or unmerged"; return
+    fi
+    (( ${#gone} ))  && { echo "${Y}remote gone, nothing unmerged${N}"; printf "  ${B}%s\n" "${gone[@]}"; }
+    [[ -n "$merged" ]] && { echo "${Y}merged into main${N}"; echo "$merged" | sed "s/^/  ${B}/;s/\$/${N}/"; }
+    (( ${#held} ))  && { echo "${D}held, not touched${N}"; printf "  ${B}%s\n" "${held[@]}"; }
+    if [[ "$1" == "-D" ]]; then
+        local b; for b in "${heldnames[@]}"; do
+            git worktree list --porcelain | grep -qx "branch refs/heads/$b" && { echo "${D}$b is checked out in a worktree, skipping${N}"; continue; }
+            if read -q "?${R}force-delete${N} $b? [y/N] "; then echo; git branch -D "$b"; else echo; fi
+        done
         return
     fi
-    if [[ "$1" != "-d" ]]; then
-        echo "gone on remote:"; echo "$gone"; echo "merged:"; echo "$merged"
-        [[ -n "$held" ]] && { echo "held by a worktree (skipped):"; echo "$held" }
-        return
-    fi
-    [[ -n "$gone" ]] && echo "$gone" | xargs git branch -D
+    [[ "$1" != "-d" ]] && return
+    (( ${#gone} )) && printf '%s\n' "${gone[@]%%  *}" | xargs git branch -D
     [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
     if [[ "$2" == "rmt" && -n "$merged" ]]; then
         echo "$merged" | xargs -I{} git push origin --delete {}
     fi
 }
+# tab completion: the flags with their meaning
+_gprune() {
+    _arguments \
+        '-d[delete the safe set locally]' \
+        '-D[force lane: walk held branches, ask y/n each]' \
+        '--stale[unmerged branches untouched for N days, default 90]' \
+        '-h[print the contract]' \
+        '1: :(rmt)'
+}
+compdef _gprune gprune
 
 # github cli: bare `go` opens the repo on github; with arguments it is the Go toolchain
 # (/opt/homebrew/bin/go, sline is written in Go), so a plain alias would shadow it (DOT-68)

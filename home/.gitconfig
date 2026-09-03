@@ -95,20 +95,35 @@
 # alias resolves everywhere git runs — scripts, `git -C`, another shell, an
 # agent's non-interactive bash. Short two-letter shortcuts stay in aliases.zsh,
 # where saving keystrokes is the whole point.
+[pretty]
+	# the one look every recipe below shares: hash · age · subject · author · refs
+	fleet = format:%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)
+
 [alias]
 	# the map: one line per commit, every ref, conductor checkpoints excluded
-	lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --exclude=refs/conductor-checkpoints/* --all"
+	lg = "log --graph --abbrev-commit --decorate --pretty=fleet --exclude=refs/conductor-checkpoints/* --all"
 	# what landed today, across every branch
-	ship = "log --since=midnight --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset)' --all"
+	ship = "log --since=midnight --pretty=fleet --all"
 	# the last two days with weekday and clock — the standup answer
-	standup = "log --since=2.days.ago --date=format:'%a %H:%M' --format=format:'%C(green)%ad%C(reset) %C(bold blue)%h%C(reset) %C(white)%s%C(reset)'"
+	standup = "log --since=2.days.ago --pretty=fleet"
 	# local branches, newest first, with whether the upstream is gone
 	br = "branch --sort=-committerdate --format='%(color:bold blue)%(refname:short)%(color:reset)  %(color:dim white)%(committerdate:relative)%(color:reset)  %(color:bold yellow)%(upstream:track)%(color:reset)'"
 	# this branch against main: the commits it adds, then the files it touches.
 	# three dots on the diff, so it reads the merge-base and not main's own moves
-	vs = "!f() { b=${1:-HEAD}; git log --oneline main..$b; echo; git diff --stat main...$b; }; f"
+	vs = "!f() { b=${1:-HEAD}; git log --pretty=fleet main..$b; echo; git diff --stat main...$b; }; f"
 	# who wrote this repo: agent commits carry a Co-Authored-By trailer, dima's do not
-	who = "!git log --format='%(trailers:key=Co-authored-by,valueonly)' | sed 's/ <.*//' | grep . | sort | uniq -c | sort -rn"
+	# the trailer was spelled a dozen ways before x:cmt fixed the canon — the sed map folds them
+	who = "!git log --format='%(trailers:key=Co-authored-by,valueonly)' | sed -E 's/ <.*//; s/(claude-opus-5(\\[1m\\])?|opus-5|Opus 5 \\(1M context\\))/Opus 5/; s/(claude-fable-5|fable-5)$/Fable 5/' | grep . | sort | uniq -c | sort -rn"
+	# label a staged fix as belonging to <hash>; the next reforge folds it in (rebase.autoSquash)
+	fixup = commit --fixup
+	# take one commit onto HEAD; -x records "(cherry picked from …)" in the new body
+	pick = cherry-pick -x
+	# pick from a branch: fzf over the commits main lacks, multi-select with tab, oldest first
+	pickfrom = "!f() { git log --reverse --pretty=fleet main..\"$1\" | fzf --ansi --multi --no-sort | awk '{print $1}' | xargs -r git cherry-pick -x; }; f"
+	# what the last commit touched
+	last = "show --stat --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset) %C(dim white)- %an, %ar%C(reset)' HEAD"
+	# the files that changed most in 90 days — where the pain lives
+	churn = "!git log --since=90.days.ago --format= --name-only | grep . | sort | uniq -c | sort -rn | head -20"
 
 # git-lfs wiring. required=true means a repo with lfs-tracked files fails to CLONE
 # without the git-lfs binary, so the Brewfile carries it.
