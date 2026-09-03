@@ -1,15 +1,22 @@
 [user]
-    name = Dima Vakatsiienko
-    email = imagnum.satellite@gmail.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILnChnk8JuZUBynotPPornPGEoRPZcOtK9srvd5QP91M
+	name = Dima Vakatsiienko
+	email = imagnum.satellite@gmail.com
+	# public half of the 1Password SSH key that signs every commit
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILnChnk8JuZUBynotPPornPGEoRPZcOtK9srvd5QP91M
 
 [core]
-    editor        = vim
-    autocrlf      = input
-	pager = less -FRX
+	# opens for a commit with no -m
+	editor = nvim
+	# normalise CRLF on the way into a commit; the worktree is left alone
+	autocrlf = input
+	# syntax-highlighted, navigable diffs. git skips the pager when stdout is not
+	# a tty, so scripts and agents still get a plain unified diff — measured
+	# 2026-09-03. never use diff.external for this: that one DOES run non-tty.
+	pager = delta
 
 [gpg]
-    format = ssh
+	# sign with the ssh key above, not a gpg key
+	format = ssh
 
 # Measured 2026-08-28, because "it works by luck" turned out to be wrong: signing
 # survives an unset SSH_AUTH_SOCK, a bogus one, and a bare `env -i` PATH —
@@ -19,34 +26,101 @@
 # cause. allowedSignersFile only decides whether `git verify-commit` succeeds
 # HERE; it never affects whether a commit gets signed.
 [gpg "ssh"]
-    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-    allowedSignersFile = ~/.ssh/allowed_signers
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = ~/.ssh/allowed_signers
 
 [commit]
-    gpgsign = true
-	status = false
-	verbose = false
+	# every commit signed, so github shows the verified badge
+	gpgsign = true
+	# put the diff in the editor, so `mana` shows what is being committed
+	verbose = true
 
 [pull]
-    rebase = true
+	# rebase instead of a merge bubble on every pull
+	rebase = true
+
+[rebase]
+	# fixup!/squash! commits fold on their own, no -i needed
+	autoSquash = true
+	# a rebase carries branches pointing into the range; without this a stacked
+	# branch is silently left behind on the old commits
+	updateRefs = true
+
+[merge]
+	# the conflict marker also shows the common ancestor, so you can see what each
+	# side changed instead of guessing
+	conflictStyle = zdiff3
+
+[diff]
+	# better hunk boundaries than the default myers, especially on moved code
+	algorithm = histogram
+
+[rerere]
+	# remember how a conflict was resolved and replay it next time — bg coders
+	# rebase the same branches onto a moving main over and over
+	enabled = true
+
+[fetch]
+	# drop remote-tracking refs for branches deleted on the remote. this is what
+	# makes the [gone] marker trustworthy, and `gprune` reads [gone] to decide
+	prune = true
+
+[branch]
+	# newest branch first in `git branch`
+	sort = -committerdate
 
 [tag]
-    gpgsign = true
+	# newest tag first, version-aware rather than alphabetical
+	sort = -v:refname
+	# tags signed like commits
+	gpgsign = true
 
 [push]
-    autoSetupRemote = true
+	# a first push creates its own upstream; no --set-upstream dance
+	autoSetupRemote = true
 
+[interactive]
+	# delta colours `git add -p` too, without going near diff.external
+	diffFilter = delta --color-only
+
+[delta]
+	# n/N jump between files in a diff
+	navigate = true
+	line-numbers = true
+	# same theme as bat (BAT_THEME in .zshenv), so the two match
+	syntax-theme = gruvbox-dark
+	dark = true
+
+# Recipes, not keystroke savers: these live here rather than in zsh because a git
+# alias resolves everywhere git runs — scripts, `git -C`, another shell, an
+# agent's non-interactive bash. Short two-letter shortcuts stay in aliases.zsh,
+# where saving keystrokes is the whole point.
 [alias]
-	# Pretty-print git log in graph mode
-    lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --exclude=refs/conductor-checkpoints/* --all"
+	# the map: one line per commit, every ref, conductor checkpoints excluded
+	lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --exclude=refs/conductor-checkpoints/* --all"
+	# what landed today, across every branch
+	ship = "log --since=midnight --format=format:'%C(bold blue)%h%C(reset) %C(white)%s%C(reset)' --all"
+	# the last two days with weekday and clock — the standup answer
+	standup = "log --since=2.days.ago --date=format:'%a %H:%M' --format=format:'%C(green)%ad%C(reset) %C(bold blue)%h%C(reset) %C(white)%s%C(reset)'"
+	# local branches, newest first, with whether the upstream is gone
+	br = "branch --sort=-committerdate --format='%(color:bold blue)%(refname:short)%(color:reset)  %(color:dim white)%(committerdate:relative)%(color:reset)  %(color:bold yellow)%(upstream:track)%(color:reset)'"
+	# this branch against main: the commits it adds, then the files it touches.
+	# three dots on the diff, so it reads the merge-base and not main's own moves
+	vs = "!f() { b=${1:-HEAD}; git log --oneline main..$b; echo; git diff --stat main...$b; }; f"
+	# who wrote this repo: agent commits carry a Co-Authored-By trailer, dima's do not
+	who = "!git log --format='%(trailers:key=Co-authored-by,valueonly)' | sed 's/ <.*//' | grep . | sort | uniq -c | sort -rn"
+
+# git-lfs wiring. required=true means a repo with lfs-tracked files fails to CLONE
+# without the git-lfs binary, so the Brewfile carries it.
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+
 [init]
 	defaultBranch = main
-[coderabbit]
-	machineId = cli/95824464dd714d25a8c79a117fe70a14
+
+# every https github remote is rewritten to ssh, so pushes use the 1Password key
 [url "git@github.com:"]
 	insteadOf = https://github.com/

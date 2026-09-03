@@ -50,11 +50,9 @@ alias camp='git worktree add'
 alias decamp='git worktree remove'
 alias reforge='git rebase -i $(git merge-base HEAD main)'  # rewrite every commit of this branch since it left main
 
-# git
-alias gs='git status -s'
-alias ga='git add .'
-alias gc='git commit'
-alias gcm='git commit -m'
+# git — only the shortcuts with no vibe word above and no better git alias below.
+# the recipes (lg, ship, standup, br, vs, who) live in .gitconfig [alias] instead,
+# where scripts, other shells and agents reach them too.
 alias gca='git commit -a -m'   # stage every tracked change and commit, one move
 alias gcam='git commit --amend'
 alias gsw='git switch'
@@ -63,13 +61,13 @@ alias gp='git push'
 alias gpf='git push --force'
 alias gpl='git pull'
 alias gcl='git clone'
-alias gba='git branch -a'
+alias gba='git br'
 alias gbD='git branch -D'
 alias grb='git rebase'
 alias grbi='git rebase -i'
 alias grba='git rebase --abort'
 alias grbc='git rebase --continue'
-alias grh='git reset --hard'
+alias grh='git reset --hard' # destructive: throws away every uncommitted change
 alias gfp='git fetch --prune'
 alias gwa='git worktree add'
 alias gwl='git worktree list'
