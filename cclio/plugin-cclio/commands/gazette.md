@@ -60,6 +60,16 @@ the release — derived from the tweet, pushed outward.
 - flip the `posted:` marks after each fanout — a re-run with marks already yes is a no-op, so
   the wire fires at most once per day's content.
 
+## phase 2.5 — the initiative update (gated: a mil completed this session)
+
+the linear initiative «roadmap» carries the plan-level feed, one post per **milestone end**,
+never daily (dima, 2026-09-03: «gazette - daily, initiative - per mil (end)»). the gate is
+literal: a milestone reached done/total this session, or a roadmap step closed. nothing → skip
+silently. when it fires: three sentences — what became true, what starts, what it unblocks —
+through `initiativeUpdateCreate` (same shape as the project update, `health` included), full
+markdown links for ids. a step transition also rewrites the initiative body's nine-line list and
+moves the attached projects to the new step (`memory/dima-roadmap.md`, using it).
+
 ## completion criterion
 
 the day's file holds today's facts with correct `posted:` marks, and the reply names what went
