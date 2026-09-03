@@ -13,8 +13,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 ui/ux best-practices research + a `ui-ux.md` home — dima's ask from BYT-43 (user-select family, selection colour, the systematic bits): a DOT ticket on his word, or it stays parked in BYT-43's body under «later». raise at boot until he verdicts — set 2026-09-02
 
-⏰ gazette → cw memory — leaf `/areas/fleet-cclio-gazette.md` live, dry run + noop proven by cw 2026-09-02, 09:00 kyiv task set for 2026-09-03. after the first scheduled run is confirmed: drop this line, fold `cclio/docs/gazette-cw-sync.md` into `docs/procedures/memory-bridge-refresh-cw.md`, delete the doc — set 2026-08-28
-
 
 
 ⏰ 🦊👁️ coder linear identity vet — on/after 2026-09-16: fetch every comment by the coder app user (`linear api 'query { comments(filter: { user: { id: { eq: "195a6ec0-ed0c-4519-9750-948eac4e5e00" } } }, first: 50) { nodes { issue { identifier } createdAt body } } }'`, channel proven at set time) and eval with dima: did «cclio's pet» comments help him see who did what? none or useless → drop the identity (keychain slots `coder` + the script arg). until then every coder brief carries the token and one done-comment; steer the shape as it goes — set 2026-09-02

@@ -23,6 +23,12 @@
 - `home/.claude/rules/fleet-hazards.md` — fleet-wide pitfalls the sync carries into cw
 - `docs/knowledge/claude-fleet-capabilities.md` — cw platform facts land here (e.g. the
   device-bound scheduled-task limit)
+- `cclio/gazette/*.md` → cw leaf `/areas/fleet-cclio-gazette.md` — the gazette digest, cw's
+  ambient awareness of what dima and cclio do (his want: «i not see any reason of cw to not be
+  aware of what we do with you»). carried by `memory-sync gazette`: each post's `cw:` frontmatter
+  block, 7-post window, older lines fall off at the next sync, noop when unchanged. trigger is
+  dima's daily 09:00 kyiv cw scheduled task (device-bound, ui-create-only). acceptance test: cw
+  surfaces «this week we shipped …» unprompted in an hr mail or any thread.
 
 ## retires — research docs this procedure's run kills
 
@@ -53,6 +59,11 @@ on demand — after master-file changes or a batch of cw memory activity. not a 
 the sync is a real token spend on the expensive lane.
 
 ## last run
+
+2026-09-03 — gazette lane confirmed live by dima («works like a charm»): the 09:00 task runs
+`memory-sync gazette` into `/areas/fleet-cclio-gazette.md`. `cclio/docs/gazette-cw-sync.md`
+folded here and retired.
+
 
 2026-08-28 — round 1: skills born (0.2.0), field test folded (0.2.1): 7 edits to
 memory-update, 2 to memory-sync, scheduled-task limit into capabilities. regen probe armed
