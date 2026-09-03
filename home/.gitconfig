@@ -107,7 +107,7 @@
 	# the last two days with weekday and clock — the standup answer
 	standup = "log --since=2.days.ago --pretty=fleet"
 	# local branches, newest first, with whether the upstream is gone
-	br = "branch --sort=-committerdate --format='%(color:bold blue)%(refname:short)%(color:reset)  %(color:dim white)%(committerdate:relative)%(color:reset)  %(color:bold yellow)%(upstream:track)%(color:reset)'"
+	br = "branch --sort=-committerdate --format='%(color:bold blue)%(refname:short)%(color:reset)  %(color:bold green)%(committerdate:relative)%(color:reset)  %(color:bold yellow)%(upstream:track)%(color:reset)'"
 	# this branch against main: the commits it adds, then the files it touches.
 	# three dots on the diff, so it reads the merge-base and not main's own moves
 	vs = "!f() { b=${1:-HEAD}; git log --pretty=fleet main..$b; echo; git diff --stat main...$b; }; f"
