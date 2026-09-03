@@ -26,6 +26,9 @@ export EDITOR=vim
 # Tool Configuration
 # =============================================================================
 
+# homebrew - the env-hint footer after every auto-update
+export HOMEBREW_NO_ENV_HINTS=1
+
 # bat - syntax highlighting cat replacement
 export BAT_THEME=gruvbox-dark
 
