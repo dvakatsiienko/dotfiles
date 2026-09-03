@@ -1,0 +1,20 @@
+#!/bin/bash
+# the linear initiative «roadmap» — the live step, its scope, the timeline, the mil tail in
+# execution order. one query, ~25 lines, no due dates by design (dima, 2026-09-03).
+INIT=70e6718f-fab6-4a1f-83b8-50bc659d706c
+linear api "query { initiative(id: \"$INIT\") { name status description content projects(first: 20) { nodes { name status { name } startDate } } } projectRelations(first: 30) { nodes { type project { name } relatedProject { name } anchorType relatedAnchorType } } projectMilestones(first: 50) { nodes { name project { name } issues(first: 50) { nodes { identifier sortOrder state { type } } } } } }" 2>/dev/null \
+| jq -r '
+  .data as $d |
+  "-- roadmap initiative (\($d.initiative.status)) --",
+  $d.initiative.description,
+  ($d.initiative.content // "" | split("\n") | map(select(test("^[0-9]\\."))) | join("\n")),
+  "-- scope: projects on the initiative, by start date --",
+  ($d.initiative.projects.nodes | sort_by(.startDate // "9999") | map("\(.name) · \(.status.name) · \(.startDate // "undated")") | join("\n")),
+  "-- dependencies --",
+  ($d.projectRelations.nodes | map("\(.project.name) \(.anchorType) → \(.relatedProject.name) \(.relatedAnchorType)") | join("\n") | if . == "" then "none" else . end),
+  "-- open milestones, tickets in execution order (sortOrder) --",
+  ($d.projectMilestones.nodes
+    | map(select([.issues.nodes[] | select(.state.type != "completed" and .state.type != "canceled")] | length > 0))
+    | map("\(.project.name) · \(.name) · \([.issues.nodes[] | select(.state.type == "completed" or .state.type == "canceled")] | length)/\(.issues.nodes | length) · " + ([.issues.nodes[] | select(.state.type != "completed" and .state.type != "canceled")] | sort_by(.sortOrder) | map(.identifier) | join(" → ")))
+    | join("\n"))
+' || echo "roadmap prefetch: linear unreachable"

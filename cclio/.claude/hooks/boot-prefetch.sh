@@ -26,6 +26,8 @@ awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
 
 "$HOME/dotfiles/cclio/.claude/hooks/gazette-recent.sh"   # gazette rides the memory import, not stdout
 
+"$HOME/dotfiles/cclio/.claude/hooks/roadmap-prefetch.sh"   # the linear initiative: step, scope, timeline, mil tail in order
+
 echo "-- stuck reminders (raise every one in the opening board) --"
 grep '^⏰📌' "$HOME/dotfiles/cclio/memory/_reminders.md" 2>/dev/null || echo "none"
 
