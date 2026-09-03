@@ -3,9 +3,17 @@
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "type": "module",
-    "engines": {
-        "node": ">=24.0.0",
-        "pnpm": ">=10.14.0"
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=24.0.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "pnpm",
+            "version": ">=11.5.2",
+            "onFail": "warn"
+        }
     },
     "scripts": {
         "dotfiles-link": "node ./script/dotfiles-link.ts",
