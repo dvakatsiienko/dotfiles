@@ -12,7 +12,7 @@ rethink, not a license for a bare name. (`_`-prefixed files are infrastructure, 
 The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗ marks a silent failure.
 
 ## direction — read before any pm decision
-- 🧭 @dima-roadmap.md — the ORDER: what we do next, his sequence, kept evergreen. master lives in the obsidian vault; the repo path is a SYMLINK to it (a direct vault-path import loads nothing; the symlink loads — verified 2026-08-30). «resident upd» from dima → re-read it
+- 🧭 the roadmap is the linear initiative «roadmap», printed by the boot prefetch — not a file. the vault copy is dima's fallback, deliberately NOT imported (vet to 2026-09-17: does the initiative answer «what's next» at every boot?). rules for using it: `dima-strategy`
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
 - 🗞️ @../gazette/_recent.md — the 7 freshest gazette posts, regenerated at boot and at every post; the event history behind the rules
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite

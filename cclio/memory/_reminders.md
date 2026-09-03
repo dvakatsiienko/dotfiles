@@ -15,6 +15,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
+⏰ 🦊👁️ initiatives vet — on/after 2026-09-17: did the linear initiative «roadmap» answer «what's next» at every boot for two weeks, without the md file? measure: the flawlog + CSTs of the window name no «re-read the roadmap» moment, and the step named at boot matched what dima did. yes → the vault copy `prompts/dima-roadmap.md` retires on his word. no → revert: `ln -s "…/prompts/dima-roadmap.md" cclio/memory/dima-roadmap.md` + the one barrel import line back, the strategy section stays — set 2026-09-03
+
 ⏰ 🦊👁️ coder linear identity vet — on/after 2026-09-16: fetch every comment by the coder app user (`linear api 'query { comments(filter: { user: { id: { eq: "195a6ec0-ed0c-4519-9750-948eac4e5e00" } } }, first: 50) { nodes { issue { identifier } createdAt body } } }'`, channel proven at set time) and eval with dima: did «cclio's pet» comments help him see who did what? none or useless → drop the identity (keychain slots `coder` + the script arg). until then every coder brief carries the token and one done-comment; steer the shape as it goes — set 2026-09-02
 
 ⏰ 🦊👁️ brew-picks vet — on/after 2026-09-15: measure gron/yq/sd usage across the fleet — `grep -lE '\bgron |yq |sd ' ~/.claude/projects/*/*.jsonl` (channel proven at set time); a tool with no real hits → drop its Brewfile line + its root CLAUDE.md tooling mention. hyperfine already dropped at pick time (occasional-use, dima's bar was regular) — set 2026-09-01
