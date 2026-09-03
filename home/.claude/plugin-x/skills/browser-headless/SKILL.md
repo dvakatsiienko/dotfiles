@@ -21,9 +21,9 @@ agent-browser skills get core --full
 - **the desktop Browser pane** (`mcp__Claude_Browser__*`) — exists only in a session the Code tab
   created; a cli-born session never has it. Where it exists it is Dima's window and a one-shot
   probe; a hidden pane does not lay the page out, so charts render blank there.
-- 🚫 no playwright/puppeteer scripts from memory: cold start ~700 ms per run, a version-pinned
-  browser cache, and nothing the verbs above do not already cover. Escape hatch when a script is
-  truly needed: playwright `connectOverCDP` onto `agent-browser get cdp-url`.
+- 🚫 no playwright/puppeteer, ever — not installed anywhere in the fleet by decision (2026-09-03):
+  cold start ~700 ms per run, a version-pinned browser cache, and nothing the verbs above do not
+  already cover. A flaky element wants `wait <sel>` then the action, never a script.
 - 🚫 no browser mcp — cli only, the resident schema is not worth it.
 
 ## hazards — measured on a chart app, 2026-09-03
@@ -32,7 +32,7 @@ agent-browser skills get core --full
   out.png --selector x` wrote a png named `--selector` into the cwd with a green ✓. verbs are
   positional: `screenshot <selector> <path>`. check `--help` for the verb before a first use.
 - **`click` does not auto-wait** — it fails in 20 ms on an element still loading. `wait <sel>`
-  first, then act. playwright through the escape hatch is the auto-retrying lane.
+  first, then act.
 - **`eval` shares one page scope across calls** — a second `const p` dies as «already declared».
   wrap every eval in an IIFE.
 - **token bombs:** `network requests` unfiltered ≈ 11k tokens, `snapshot -i` ≈ 6.5k on a dense
