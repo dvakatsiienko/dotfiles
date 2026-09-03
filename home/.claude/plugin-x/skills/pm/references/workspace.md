@@ -110,6 +110,24 @@ since 2026-08-17 every label is **workspace-wide**; there are no per-team label 
   ticket matters. must-land-before-another is a `blocks` relation, never a priority bump.
 - **estimate** 1–5 = complexity and uncertainty, **not** wall-clock. 5 = design-heavy, 1 = mechanical.
 
+## execution order — `sortOrder`, the native field
+
+every issue carries one `sortOrder` (a float; lower sorts first). it is what a manually-sorted
+view writes on drag, and the api takes it directly. dima orders a milestone by dragging or by
+saying the order in chat; the agent writes it, and reads it back to print a milestone in
+execution order. ran 2026-09-03:
+
+```
+linear api 'mutation { issueUpdate(id: "DOT-39", input: { sortOrder: -194319.29 }) { success issue { identifier sortOrder } } }'
+linear api 'query { issue(id: "DOT-39") { identifier sortOrder } }'
+```
+
+- to order a list: read the current values, then write them spaced by 1000 in the wanted order.
+  keep the floats negative and below the neighbours, so untouched tickets stay where they were.
+- 📌 one `sortOrder` per issue, shared by every view — never a per-milestone field.
+- a **sorting phase** opens every new branch or milestone: after the tickets exist, the order is
+  set before any work starts (`cclio/memory/craft-pm.md`, the sorting phase).
+
 ## quota ops (250 non-archived, workspace-wide)
 
 auto-archive is **on**, and teams also auto-archive completed/canceled after 6 months. still keep

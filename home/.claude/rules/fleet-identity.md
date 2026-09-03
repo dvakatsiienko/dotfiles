@@ -51,6 +51,8 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
   under git** and icloud sync lands minutes after obsidian opens — a relaunch forces it. Never
   edit before the synced version has arrived. cclio edits freely; everyone else reads, and edits
   per his ask. On an edit: fix obvious errors, never rewrite his phrasing.
+- **mil** — a Linear milestone: the unit we plan and retire in, always opened with a sorting phase so
+  it starts ordered.
 - **run id** — the thread of one continuous piece of work, continued across sessions, never minted
   mid-story.
 
