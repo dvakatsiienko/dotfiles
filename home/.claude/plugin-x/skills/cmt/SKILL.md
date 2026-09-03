@@ -101,7 +101,10 @@ the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
 - Hyphen bullets, one change per line, `subject: what changed`; `→` for before/after
   (`- model: sonnet → fable-5`). Prose paragraphs only for single-concern commits needing a why.
 - 📦 bodies: `pkg old → new` lines + `- regenerate pnpm-lock.yaml`.
-- End: blank line + `Co-Authored-By: Claude <current runtime model> <noreply@anthropic.com>`.
+- End: blank line + `Co-Authored-By: Claude <Family> <version> <noreply@anthropic.com>` — the
+  product name as it reads, never the api id: `Claude Fable 5.1`, `Claude Opus 5`,
+  `Claude Sonnet 5`. No `claude-`, no `[1m]`, no `(1M context)`. `git who` counts these, and
+  twelve spellings once made it a zoo (2026-09-03).
 
 ## 5 · The ticket line
 
