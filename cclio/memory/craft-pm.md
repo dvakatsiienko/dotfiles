@@ -53,6 +53,15 @@ dropped — without heating the flow.
 - tracker numbers moving is not the goal — flow resolved is. never create tracker activity
   for visibility.
 
+## the sorting phase — a mil starts ordered, never as a pile
+
+dima, 2026-09-03: *«we plan a lot and then when come to a bunch, we have a pile of unsorted
+tickets.»* so every new branch and every new mil opens with a sorting phase, right after the
+tickets exist and before any work: cclio proposes the execution order, dima corrects it, and it
+lands in linear's native `sortOrder` (the recipe is in `x:pm` workspace refs). the boot reads
+`sortOrder` and prints a mil in execution order; priority stays what it is — importance, not
+sequence. re-sort when the mil changes shape, never mid-ticket.
+
 ## the broom — the 🧹 label flow
 
 dima pins 🧹 in linear when a ticket looks off; cclio sweeps them at boot, right after the

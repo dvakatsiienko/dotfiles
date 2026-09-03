@@ -368,6 +368,20 @@ reported having `start_code_task` (spawns a real local `cc` session with worktre
 appears in the Code tab); this session did not have that tool at all. Never assume a capability
 from another session's report — check the current tool list.
 
+## The desktop Browser pane is Code-tab-born only [verified 2026-09-03]
+
+The desktop app injects its built-in mcp servers (Browser pane `mcp__Claude_Browser__*`:
+preview_start / navigate / computer / read_page / read_console_messages / preview_logs, plus the
+Chrome bridge, scheduled-tasks, mcp-registry) via `--mcp-config` **once, at session creation, only
+for sessions the Code tab itself spawns**. Terminal-born sessions — plain `claude`, `--bg`,
+`--remote-control` — never get them: not on resume in the Code tab, not via `/exit` + `--continue`;
+no flag or setting exists, and `claude mcp add` cannot recreate a desktop-only surface. Measured: a
+terminal-RC session viewed in the Code tab had zero browser tools; a fresh Code-tab session drove a
+whole app (login, forms, screenshots, console). Sources: https://code.claude.com/docs/en/desktop.md ·
+https://github.com/anthropics/claude-code/issues/37284. `.claude/launch.json` per repo defines the
+dev servers `preview_start` can launch. Consequence: a browser-needing coder is a handoff Dima opens
+in a fresh Code-tab session; cli-born coders verify with headless chromium + playwright instead.
+
 ## Scheduled tasks [verified: none currently exist]
 
 Stored as `{taskId}/SKILL.md` under `~/Claude/Scheduled/` — the directory does not exist until the
