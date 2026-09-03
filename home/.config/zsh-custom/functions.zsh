@@ -13,13 +13,22 @@ function port() {
 # cleanup branches: `gprune` lists · `gprune -d` deletes local · `gprune -d rmt` also deletes merged branches on origin
 function gprune() {
     git fetch --prune
-    local gone=$(git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == "[gone]" { print $1 }')
+    # %(worktreepath) is non-empty for a branch checked out in any worktree, the current
+    # one included. git refuses to delete those, so they are held back rather than piped
+    # into `branch -D`, which used to fail the whole prune partway.
+    local refs=$(git for-each-ref --format='%(refname:short)%09%(upstream:track)%09%(worktreepath)' refs/heads)
+    local gone=$(echo "$refs" | awk -F'\t' '$2 == "[gone]" && $3 == "" { print $1 }')
+    local held=$(echo "$refs" | awk -F'\t' '$2 == "[gone]" && $3 != "" { print $1 }')
     local merged=$(git branch --merged | grep -Ev '^[*+]' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
     if [[ -z "$gone" && -z "$merged" ]]; then
-        echo "✨ nothing to prune — every branch is alive or unmerged"; return
+        echo "✨ nothing to prune — every branch is alive or unmerged"
+        [[ -n "$held" ]] && { echo "held by a worktree:"; echo "$held" }
+        return
     fi
     if [[ "$1" != "-d" ]]; then
-        echo "gone on remote:"; echo "$gone"; echo "merged:"; echo "$merged"; return
+        echo "gone on remote:"; echo "$gone"; echo "merged:"; echo "$merged"
+        [[ -n "$held" ]] && { echo "held by a worktree (skipped):"; echo "$held" }
+        return
     fi
     [[ -n "$gone" ]] && echo "$gone" | xargs git branch -D
     [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
