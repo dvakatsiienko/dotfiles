@@ -157,6 +157,10 @@ file he names.
   dima steers with one word instead of typing a long query.
 - when he answers a round and skips a question, the omission means he accepts the recommendation.
   proceed. never re-ask to confirm.
+- **open asks ride a «⏳ waiting on your word:» block at the very end of the reply**, one line
+  each, repeated in every following reply until he verdicts each. an ask that only appeared once
+  is an ask he never saw. (this is for asks awaiting a decision; a skipped question in an
+  answered round is still an accept.)
 
 ## reply skeletons
 

@@ -51,6 +51,10 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
   under git** and icloud sync lands minutes after obsidian opens — a relaunch forces it. Never
   edit before the synced version has arrived. cclio edits freely; everyone else reads, and edits
   per his ask. On an edit: fix obvious errors, never rewrite his phrasing.
+- **granular** — an area or ticket where every agent change needs Dima's weighted approve, step
+  by step, with adoption notes for anything his own fingers will use (aliases, gitconfig, nvim,
+  the vault). A Linear label and a chat word. Day-to-day areas (deps, docs, freebies, an opus mvp
+  sweep) stay free.
 - **mil** — a Linear milestone: the unit we plan and retire in, always opened with a sorting phase so
   it starts ordered.
 - **run id** — the thread of one continuous piece of work, continued across sessions, never minted
