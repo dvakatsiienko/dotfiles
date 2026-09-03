@@ -40,6 +40,8 @@ brew "git-lfs"                   # the lfs filter is wired in .gitconfig with re
                                  # so without this binary an lfs-carrying repo fails to CLONE
 brew "git-delta"                 # core.pager in .gitconfig — syntax-highlighted diffs. binary is
                                  # `delta`; git skips the pager off-tty, so agents still see plain diffs
+brew "agent-browser"            # headless browser cli for coders: rust daemon, attach in 30 ms, --json verbs.
+                                 # the x:browser-headless skill says when; `agent-browser skills get core` says how
 brew "schpet/tap/linear"         # Linear CLI — the pm skill runs on this
 
 # ── Languages and package managers ──────────────────────────────────────────

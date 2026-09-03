@@ -12,7 +12,7 @@ function port() {
 
 # cleanup branches — `gprune -h` prints the contract; tab shows the flags
 function gprune() {
-    local B=$'\e[1;34m' Y=$'\e[1;33m' R=$'\e[1;31m' D=$'\e[2;37m' G=$'\e[1;32m' N=$'\e[0m'
+    local B=$'\e[1;34m' Y=$'\e[1;33m' R=$'\e[1;31m' D=$'\e[2;37m' T=$'\e[1;32m' G=$'\e[1;32m' N=$'\e[0m'
     if [[ "$1" == "-h" || "$1" == "--help" ]]; then
         cat <<USAGE
 gprune               list what is safe to delete, and what is held and why
@@ -31,7 +31,7 @@ USAGE
         | while IFS=$'\t' read -r name ts rel; do
             (( ts > $(date +%s) - days*86400 )) && continue
             [[ "$name" == main ]] && continue
-            printf "  ${B}%s${N}  ${D}%s${N}\n" "$name" "$rel"
+            printf "  ${B}%s${N}  ${T}%s${N}\n" "$name" "$rel"
         done
         return
     fi
@@ -40,15 +40,15 @@ USAGE
     local gone=() held=() heldnames=()
     while IFS=$'\x1f' read -r name track wt age; do
         [[ "$track" != "[gone]" ]] && continue
-        if [[ -n "$wt" ]]; then held+=("$name  ${D}$age · checked out in ${wt}${N}"); heldnames+=("$name"); continue; fi
+        if [[ -n "$wt" ]]; then held+=("$name  ${T}$age${N} ${D}· checked out in ${wt}${N}"); heldnames+=("$name"); continue; fi
         local n=$(git rev-list --count main.."$name")
         if (( n > 0 )); then
             # squash-merged? replay the branch as ONE commit on its merge-base and ask
             # `git cherry` whether main already holds that exact patch ("-" = yes)
             local tmp=$(git commit-tree "$name^{tree}" -p "$(git merge-base main "$name")" -m squash-probe)
-            if [[ "$(git cherry main "$tmp")" == -* ]]; then gone+=("$name  ${D}$age · squash-merged${N}")
-            else held+=("$name  ${D}$age ·${N} ${R}carries $n commit(s) main lacks${N}"); heldnames+=("$name"); continue; fi
-        else gone+=("$name  ${D}$age${N}"); fi
+            if [[ "$(git cherry main "$tmp")" == -* ]]; then gone+=("$name  ${T}$age${N} ${D}· squash-merged${N}")
+            else held+=("$name  ${T}$age${N} ${D}·${N} ${R}carries $n commit(s) main lacks${N}"); heldnames+=("$name"); continue; fi
+        else gone+=("$name  ${T}$age${N}"); fi
     done <<< "$refs"
     local merged=$(git branch --merged | grep -Ev '^[*+]' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
     if (( ${#gone} == 0 )) && [[ -z "$merged" ]] && (( ${#held} == 0 )); then
