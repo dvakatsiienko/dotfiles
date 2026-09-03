@@ -93,6 +93,8 @@ the whole instruction set and never goes looking for a supplementary one (measur
 guide-code never loaded, guide-typescript arrived only after the code was written). One line in
 the brief closes it.
 
+A research brief asks for a **structured summary, never a file dump** — paths with line ranges, who owns what, footguns, and «what is NOT in the area» (borrowed from g2i's spec skill, 2026-09-03).
+
 Message the coder whenever; it answers **once** per assignment, blocked or done. `git diff` in its
 cwd beats any message. Doneness is a **written marker** (final commit + report), never transcript
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
