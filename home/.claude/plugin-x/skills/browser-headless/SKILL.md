@@ -13,6 +13,11 @@ version-matched — read it before the first verb:**
 agent-browser skills get core --full
 ```
 
+It ships more than `core` — `agent-browser skills list` shows them, and two earn a load on
+their own trigger: **`dogfood`** before any exploratory QA pass (systematic exploring, repro
+evidence per finding), **`electron`** for a desktop app. The `--help` header points at them, but
+nobody reads `--help` twice: check the list once per session before improvising a workflow.
+
 ## the split — which browser when
 
 - **`agent-browser`** — every loop, hover sweep, measurement, console/network tail, multi-viewport
