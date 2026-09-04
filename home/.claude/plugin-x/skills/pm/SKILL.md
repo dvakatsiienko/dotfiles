@@ -147,7 +147,7 @@ Provenance and undo. A bad batch reverts in one pass, and a later session can te
 a ticket instead of filing it twice. No tracker vendor ships this; the marker is ours.
 
 **Mint once per working session**, at the first tracker write, then reuse it for every write in that
-session: `<surface>·<YYYYMMDD>·<slug>` — surface ∈ `dp` · `cc` · `cw` · `ios`, slug short and
+session: `<surface>·<YYYYMMDD>·<slug>` — surface ∈ `cc` · `cw` · `ios` (`dp` only in stamps older than 2026-09-04), slug short and
 kebab (`cc·20260819·batch1`). Never mint a second one mid-session.
 
 **Stamp** as the **last line** of a created ticket body and of any comment you author:

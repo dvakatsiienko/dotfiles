@@ -30,7 +30,7 @@ free plan: **2 teams max** (both used), **250 non-archived issues** workspace-wi
 ## projects — current (restructured 2026-08-17, DOT-72 / TRK-0001)
 
 - **DOT**: `pm` (tracker + pm skill) · `mind` (memory, skills, rules, writing) · `fleet` (surfaces
-  and bridges: dispatch, `cc cloud`, ipad, handoff) · `cli` (the interface layer over the rest) ·
+  and bridges: `cc cloud`, ipad, handoff) · `cli` (the interface layer over the rest) ·
   `shelf` (artifact store + transcript family) · `revamp` (setup audit + restructure) · `sline` ·
   `numi`
 - **BYT**: `rl` (benchmark work) · `design-system` · `cv` · `x-com-chat` · `tooling`

@@ -39,8 +39,8 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
   fleet can spawn one — only Dima.**
 - **`cw`** — Cowork, reaching the mac over the device bridge. A peer: either side may open the
   exchange.
-- **dispatch** — the desktop surface. A **minor fleet member** whose influence keeps decreasing;
-  cclio has taken over its duties.
+- **dispatch** — retired 2026-09-04. The desktop surface that once coordinated; cclio holds every
+  duty it had. The name survives only in old run stamps (`dp·…`) and stories.
 - **coder** — a background session doing the edits. `spawning` owns that contract.
 
 ### The entities — what we handle
