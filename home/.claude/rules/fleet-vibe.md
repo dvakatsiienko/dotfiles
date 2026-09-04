@@ -22,7 +22,7 @@ Each line here IS a shell alias in `home/.config/zsh-custom/aliases.zsh`; `scrip
 - `slay` — `git push`
 - `slayer` — `git push --force`
 - `yolo` — `git push --force-with-lease`
-- `sup` — `git status -s`
+- `sup` — `git sup`
 - `warp` — `git switch`
 - `spawn` — `git switch -c`
 - `loot` — `git pull`

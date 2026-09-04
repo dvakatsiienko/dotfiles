@@ -118,6 +118,8 @@
 	fixup = commit --fixup
 	# take one commit onto HEAD; -x records "(cherry picked from …)" in the new body
 	pick = cherry-pick -x
+	# status with a face: branch pill, drift, last commit, the tree grouped by state
+	sup = "!~/.config/git/sup.sh"
 	# pick from a branch: fzf over the commits main lacks, multi-select with tab, oldest first
 	pickfrom = "!f() { git log --reverse --pretty=fleet main..\"$1\" | fzf --ansi --multi --no-sort | awk '{print $1}' | xargs -r git cherry-pick -x; }; f"
 	# what the last commit touched
