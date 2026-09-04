@@ -83,7 +83,7 @@ we shipped…»), or any thread where he asks what the two of them are up to.
 
 1. `memory_read` the entry (version token + current state). its body is one section per post:
    `## <date> · <slug> · <bytes>b`, freshest first, the `cw:` lines under it.
-2. list the source: `ls -l ~/dotfiles/cclio/gazette/*.md` — date and slug from the filename,
+2. list the source: `ls -l ~/dotfiles/cclio/gazette/20*.md` — date and slug from the filename (`_recent.md` is cclio's preboot file, not a post — the glob skips it),
    bytes from the size.
 3. diff by header: a filename with no section is NEW; a section whose byte count differs from
    the file is CHANGED (cclio appends an evening update to the same post). everything else is
