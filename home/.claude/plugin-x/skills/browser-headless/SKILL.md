@@ -1,6 +1,6 @@
 ---
 name: browser-headless
-description: Load BEFORE any browser check of a web app in a cli-born session — «verify in a browser», «does it render», «screenshot», «hover», «check the console», «test at mobile width» — and before writing any playwright or puppeteer script.
+description: Load BEFORE any browser check of a web app, in every session — cli-born or Code-tab with the Browser pane — «verify in a browser», «does it render», «screenshot», «hover», «check the console», «test at mobile width», a chart that renders blank in the pane — and before writing any playwright or puppeteer script.
 ---
 
 # browser-headless — `agent-browser` is the fleet's headless browser
@@ -25,7 +25,10 @@ nobody reads `--help` twice: check the list once per session before improvising 
   shape; one daemon survives across separate Bash calls.
 - **the desktop Browser pane** (`mcp__Claude_Browser__*`) — exists only in a session the Code tab
   created; a cli-born session never has it. Where it exists it is Dima's window and a one-shot
-  probe; a hidden pane does not lay the page out, so charts render blank there.
+  probe. ⚠️ **`document.hidden` is true for scripts even while the pane is on screen**, so
+  `ResizeObserver`/`ParentSize` never measure and every chart renders blank (measured on
+  trophy-sys, 2026-09-04: pane saw 2 svgs, agent-browser 58). layout checks go through
+  agent-browser, always; the pane is for Dima's eyes.
 - 🚫 no playwright/puppeteer, ever — not installed anywhere in the fleet by decision (2026-09-03):
   cold start ~700 ms per run, a version-pinned browser cache, and nothing the verbs above do not
   already cover. A flaky element wants `wait <sel>` then the action, never a script.
