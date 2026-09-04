@@ -66,8 +66,14 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   unpushed commits.
 - 📌 `~/.claude/jobs/<jobId>/state.json` carries `respawnFlags` — the only place a session's
   launch argv survives.
-- ⚠️ **a peer answering in plain prose reaches nobody** — only a `SendMessage` call travels. Say so
-  in any brief expecting an answer.
+- ⚠️ **a peer answering in plain prose reaches nobody** — only a message call travels. Say so
+  in any brief expecting an answer. Code-tab sessions have no cc `SendMessage`; their channel is
+  the desktop tool `mcp__ccd_session_mgmt__send_message` (load via ToolSearch), one-way per
+  call and delivered as a user turn — a two-way needs both sides to load it and to know the
+  other's `session_id` (`get_session self`). the brief carries that line, or the coder's
+  finish is invisible until a transcript read (2026-09-04). **both, always:** the ping for timing, the
+  transcript (`list_events`) for the picture — dima also steers the coder in its own chat, and only
+  the transcript shows that.
 - ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
   coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
   a separate check.
@@ -78,7 +84,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   time (2.1.251).
 - 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
   the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
-- 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (ingested CST `browser-pane-spawn`, 2026-09-03, sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session; cclio herself is terminal-born and has none.
+- 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (ingested CST `browser-pane-spawn`, 2026-09-03, sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session. cclio has it only when dima booted her from the Code tab — this session did (2026-09-04, `mcp__Claude_Browser__navigate` answered); a terminal-born cclio has none. `x:browser-headless` works from either.
 - **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
   store, never a handshake.
 - ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about

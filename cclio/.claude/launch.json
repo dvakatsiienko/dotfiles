@@ -83,14 +83,6 @@
     },
     {
       "name": "trophy-sys",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "-C",
-        "/Users/dima/projects/bytes",
-        "--filter",
-        "trophy-sys",
-        "dev"
-      ],
       "port": 5177,
       "url": "http://localhost:5177",
       "autoPort": false
