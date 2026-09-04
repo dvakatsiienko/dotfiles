@@ -107,6 +107,10 @@ cwd beats any message. Doneness is a **written marker** (final commit + report),
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
 
 **A coder's report is a candidate, not a finding** — check its claims before relaying.
+**A relay to a coder names the source it was read from** — and a claim about a repo's behaviour
+opens that repo's `CLAUDE.md` first: «gitignore handler.js, the build regenerates it» was
+reasoned from `vercel.json` alone; the repo's own docs said vercel picks functions at clone time,
+and the coder held (2026-09-04).
 **A timeout is not proof of failure** — verify with `ListAgents` before respawning; a blind retry
 double-runs the work.
 
@@ -139,6 +143,10 @@ nearby; respawn when the work is unrelated or the context is polluted. **Always 
   process alive. Never report a coder stopped because a ui said so.
 - 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
   being useful» are different states.
+
+**Cost of a reading agent = bodies × size, never agents × a flat number.** an agent that reads
+through a cli pays every body it reads: the board-sweep workflow was guessed at ~150k and spent
+1.27M subagent tokens for 82 ticket bodies + comments (2026-09-04).
 
 Full evidence base: `docs/knowledge/spawn-mechanics.md`, on demand.
 

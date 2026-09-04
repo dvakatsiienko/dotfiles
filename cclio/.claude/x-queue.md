@@ -2,15 +2,10 @@
 
 ## queue
 
-- 🥇 dima's tools — git DONE 2026-09-03 (DOT-159 + DOT-38 closed, aliases + gprune + recipes + delta live). the milestone tail IN THIS ORDER (dima, 2026-09-03):
-  1. walkthroughs — shell internals (DOT-17 ask, playlist in its body) · DOT-222 dynamic workflows showcase
-  2. DOT-209 cc feature pass (permissions mess first)
-  3. DOT-231 vibecoding companion search
-  4. DOT-228 notes stack showdown — fat, needs a session pick
-  5. rest of DOT-39 (closing word with 159) + DOT-26 brand readme (solo, no bureau pair)
-  6. DOT-147 seed script — kept, last
-- 🥇 trophy-sys — BYT-65 DONE 2026-09-04. BYT-67 pass 4 (log route, layout, unfinished merge, rarity drift, code review) with the Code-tab coder. NEXT SESSION FIRST: dima creates the sys design system in the desktop Design tab, hands the bundle over → tokens into theme.css (his part, then ours).
-- ⏸️ inbox leftovers: the bureau folded into DOT-14 · skills peek done (DOT-187 holds the verdicts).
+- 🥇 NEXT SESSION FIRST — sys redesign, dima's part: the desktop Design tab session (feed trophy-sys `theme.css` + the readability numbers), hand the bundle to the coder → tokens into `theme.css`. then BYT-66 constellation pairs with the new design.
+- 🥈 dima's tools — mil «next overhaul» 16/22, tail in sortOrder: DOT-209 (rest: cc feature pass, /design inspection, «walkthrough me through yourself» — In Progress) → DOT-228 notes stack (fat, its own session) → DOT-39 → DOT-26 → DOT-147 → DOT-17 (shell internals walkthrough, playlist in body). DOT-222 + DOT-231 closed 2026-09-04.
+- 🤖 coder «🔧 coder: trophy-sys» (Code-tab session local_81a720a7…) kept alive, compacted by dima; BYT-67 pass 4 shipped 2026-09-04 — verify its Done + done-comment at boot. channel: `mcp__ccd_session_mgmt__send_message`, he pings back.
+- ⏸️ DOT-187 skill picks walkthrough — its own hour.
 - 🐞 `plugin-release` false-negative: «nothing to do» while cache < source version (0.11.19 vs 0.11.21, 2026-09-04) — compare the cache dir, not the git log. freebie.
-- ✅ headless browser settled 2026-09-03: agent-browser (brew) + `x:browser-headless`; playwright gone.
-- 🎯 groom remainder: cclio v2
+- 🔎 vet: `permissions.allow: ["Workflow"]` — does the desktop still ask on the next workflow run? if yes: desktop-side gate, drop the line.
+- 🎯 groom remainder: cclio v2 (0/4).

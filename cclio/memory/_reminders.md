@@ -11,7 +11,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 📜 keeping a doc alive
   - 🔬 a probe to run
 
-⏰📌 ui/ux best-practices research + a `ui-ux.md` home — dima's ask from BYT-43 (user-select family, selection colour, the systematic bits): a DOT ticket on his word, or it stays parked in BYT-43's body under «later». raise at boot until he verdicts — set 2026-09-02
 
 
 
