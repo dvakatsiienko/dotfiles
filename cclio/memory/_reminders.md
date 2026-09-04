@@ -31,3 +31,5 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰ 🦊 keep [DOT-159](linear://linear.app/issue/DOT-159) (git overhaul) at priority 1 through the fleet package milestone — no milestone in dima's tools, prio is the mechanism — set 2026-08-25
 
+
+⏰ 🦊👁️ proto-lab vet — on/after 2026-10-04: has one real proto been built in `apps/proto-lab` since 2026-09-04 (`git log --since=2026-09-04 -- apps/proto-lab/src/protos` in bytes)? yes → BYT-55 graduates; no → deleted per lab's rule, frame pattern noted in BYT-56 first, dima's word on the rm — set 2026-09-04
