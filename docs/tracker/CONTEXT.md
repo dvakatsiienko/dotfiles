@@ -15,7 +15,7 @@ the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. opera
 - **run marker** — per-run identifier stamped as the last line of agent-created ticket bodies and agent comments: `⸻ 🪪 cc·20260819·batch1 · agent run stamp — please keep 🙏`. minted once per session, `<surface>·<date>·<slug>`. buys one-pass revert of a bad batch and cross-session idempotency. never on a dima-authored ticket. contract in `x:pm` (DOT-107).
 - **doc** — research/deliverable attached to a ticket or project the moment it is born (task outputs are ephemeral). title is the interface: topic — kind — date.
 - **project overview** — a project's content field, the standing description of what it is and where it stands. a tracked surface: the coordinator maintains it for dima, it is never left to rot.
-- **coordinator** — the session that owns tracker work: creates, updates, closes, triages, and never writes product code. **`cclio`** holds it (a ccli session in `~/dotfiles/cclio`) — the DOT-188 trial resolved in its favor 2026-08-31; `dpatch` (desktop dispatch) remains a minor surface with decreasing duties.
+- **coordinator** — the session that owns tracker work: creates, updates, closes, triages, and never writes product code. **`cclio`** holds it (a ccli session in `~/dotfiles/cclio`) — the DOT-188 trial resolved in its favor 2026-08-31; `dpatch` (desktop dispatch) retired 2026-09-04 (DOT-236).
 - **health update** — a linear project update. cadence is weekly per active project plus event-driven on real state changes (TRK-0003). ticket ids do not auto-link there, so every id is a markdown link — mandatory, not style.
 
 ## channel
