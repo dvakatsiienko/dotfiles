@@ -11,13 +11,16 @@ format = """
 $os\
 [](bg:color_yellow fg:color_orange)\
 $directory\
-[](fg:color_yellow bg:color_blue)\
+${custom.sep_blue}\
+${custom.cap_yellow}\
 $nodejs\
 $package\
 $rust\
 $golang\
 $python\
-[](fg:color_blue bg:color_aqua)\
+${custom.sep_aqua_from_blue}\
+${custom.sep_aqua_from_yellow}\
+${custom.cap_blue}\
 $git_branch\
 $git_status\
 $git_state\
@@ -86,6 +89,34 @@ format = '([](fg:color_aqua bg:color_bg1)([ +$added]($added_style))([ −$del
 [package]
 symbol = "󰏗 "
 format = '[[ $symbol$version ](fg:#fabd2f bg:color_blue)](bg:color_blue)'
+
+# the chevrons and caps only print when the block behind them has content — outside a repo or a
+# project the prompt used to end in two empty coloured blocks with a square edge.
+# "project" ≈ what the tool modules above detect: node, rust, go, python markers.
+[custom.sep_blue]
+when = 'test -f package.json -o -f .nvmrc -o -f .node-version -o -f Cargo.toml -o -f go.mod -o -f pyproject.toml -o -f requirements.txt -o -f .python-version'
+command = "true"
+format = '[](fg:color_yellow bg:color_blue)'
+
+[custom.cap_yellow]
+when = '! ( test -f package.json -o -f .nvmrc -o -f .node-version -o -f Cargo.toml -o -f go.mod -o -f pyproject.toml -o -f requirements.txt -o -f .python-version ) && ! git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+command = "true"
+format = '[](fg:color_yellow)'
+
+[custom.sep_aqua_from_blue]
+when = 'test -f package.json -o -f .nvmrc -o -f .node-version -o -f Cargo.toml -o -f go.mod -o -f pyproject.toml -o -f requirements.txt -o -f .python-version && git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+command = "true"
+format = '[](fg:color_blue bg:color_aqua)'
+
+[custom.sep_aqua_from_yellow]
+when = '! ( test -f package.json -o -f .nvmrc -o -f .node-version -o -f Cargo.toml -o -f go.mod -o -f pyproject.toml -o -f requirements.txt -o -f .python-version ) && git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+command = "true"
+format = '[](fg:color_yellow bg:color_aqua)'
+
+[custom.cap_blue]
+when = 'test -f package.json -o -f .nvmrc -o -f .node-version -o -f Cargo.toml -o -f go.mod -o -f pyproject.toml -o -f requirements.txt -o -f .python-version && ! git rev-parse --is-inside-work-tree >/dev/null 2>&1'
+command = "true"
+format = '[](fg:color_blue)'
 
 [custom.gitcap]
 when = 'git rev-parse --git-dir >/dev/null 2>&1 && [ -z "$(git diff HEAD --numstat 2>/dev/null | head -1)" ]'
