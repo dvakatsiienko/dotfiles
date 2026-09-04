@@ -105,23 +105,8 @@ A large edit visiting an unpatterned file → propose aligning the whole file to
 
 ## UI/UX floor
 
-Binding on every rendered element; a review flags each miss. Sources: WCAG 2.2, MDN, M3.
-
-- **text ≥14px, dense data ≥12px, never below** — small AND dim is the failure pair; ≥4.5:1
-  contrast for text, ≥3:1 for icons, chart marks, axis lines, focus rings
-- **`user-select: none` only on chrome** — buttons, icons, chart marks, drag handles. Values,
-  ids, code, errors stay selectable. Dark theme sets `::selection` explicitly (opaque bg)
-- **every clickable is `<button>`/`<a>` with `cursor: pointer`** — a `div` with onClick is a
-  keyboard hole. Hit target ≥24×24 (44 touch); a dense chart gets a transparent padded hit
-  rect per cell, empty cells included
-- **state never by colour alone** — pair with weight, underline, border. `:focus-visible` ring
-  ≥2px, never removed
-- **honour `prefers-reduced-motion` and `prefers-color-scheme`** — both palettes as tokens
-- **`tabular-nums` on every numeric column**; truncated text carries the full value in a
-  tooltip; tooltips are hoverable and Esc-dismissible
-- **dark surface ≈ `#121212`, never `#000`** — elevation by lighter surface, accents
-  desaturated
-- one spacing scale (4px base), never ad-hoc px
+Every rendered element also passes `guide-ui-ux` — the floor for anything a human looks at,
+react or not. Load it alongside this guide.
 
 ## Vendored code (shadcn `ui/`)
 
