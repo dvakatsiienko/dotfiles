@@ -54,7 +54,7 @@ overwrite test.
 - ⚠️ **dispatch-spawned sessions ignore `~/.claude/settings.json`** — `defaultMode` and
   `permissions.allow` included. DOT-91.
 
-### Dispatch limits
+### Dispatch limits (retired 2026-09-04 — kept as the record of why)
 
 Cannot spawn a cloud `cc`: `isolation: "remote"` resolves the base branch from a non-git scratch
 cwd. `?` cause inferred. **Can** spawn local `cc` with worktree isolation — use that.
@@ -318,7 +318,7 @@ There is **no documented beta label, limitations section, or roadmap** for Dispa
 
 ### what dispatch structurally cannot do — distilled from the retired `rules/dispatch.md`
 
-dispatch is a **minor fleet member** now; cclio took over its coordinator duties. these are the
+dispatch left the fleet on 2026-09-04 (DOT-236); cclio holds its duties. these were the
 capability facts worth keeping — the operating contract that sat beside them is retired, because
 cclio owns that work.
 
