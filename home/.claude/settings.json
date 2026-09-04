@@ -21,6 +21,9 @@
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "/Users/dima"
+    ],
+    "allow": [
+      "Workflow"
     ]
   },
   "model": "claude-fable-5-1[1m]",
@@ -174,5 +177,6 @@
   "inputNeededNotifEnabled": false,
   "agentPushNotifEnabled": false,
   "voiceEnabled": true,
-  "leftArrowOpensAgents": false
+  "leftArrowOpensAgents": false,
+  "skipWorkflowUsageWarning": true
 }

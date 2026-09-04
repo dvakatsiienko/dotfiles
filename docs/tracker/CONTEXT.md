@@ -3,7 +3,7 @@
 the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. operational recipes live in `x:pm`; this file is vocabulary only.
 
 - **team** — top split by nature of work, never by repo: `DOT` = tooling/approaches/how-we-work, `BYT` = building apps. two teams, free-plan max.
-- **project** — long-lived area inside a team. never closes. DOT: pm, mind, fleet, cli, shelf, revamp, sline, numi. BYT: rl, design-system, cv, x-com-chat, tooling.
+- **project** — long-lived area inside a team. never closes. DOT: pm, mind, fleet, cli, shelf, revamp, sline, numi. BYT: rl, design-system, cv, x-com-chat, tooling, lab, trophy-sys, monorepo (bytes-the-repo: shape, deps, turbo, lint, scripts — sweeps over the whole repo).
 - **story** — a ticket with sub-tickets grouping one strand or batch inside a project. the only grouping term («epic» is dead, TRK-0001). no title marker — the sub-tickets are what makes it a story.
 - **ticket** — unit of work. pretty title (short, descriptive, subject-first), body = key data only.
 - **standing ticket** — a recurring home that never finishes (DOT-82). carries the `standing` label and legitimately sits In Progress between rounds — the one exception to state-tracks-reality (TRK-0004, `rules/linear-flow.md`). without the label, an In Progress ticket is stale, not standing.

@@ -26,6 +26,9 @@
       // — transcript metadata, flaw logs. Written by tools, read by tools, and
       // reformatting a store nobody hand-edits is the same two-owner churn.
       "!home/.claude/shelf",
+      // workflow scripts run in cc's sandbox, which wraps them in an async function — a
+      // top-level `return` is legal there and a parse error for biome
+      "!home/.claude/workflows",
 
       // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
       // sync, so formatting it just starts a fight. The lua there has its own
