@@ -1,0 +1,99 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "financial",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "financial",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "cv",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "cv",
+        "dev",
+        "-p",
+        "3001"
+      ],
+      "port": 3001
+    },
+    {
+      "name": "x-com-chat",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "x-com-chat",
+        "dev",
+        "-p",
+        "3002"
+      ],
+      "port": 3002
+    },
+    {
+      "name": "figmentation",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "figmentation",
+        "dev",
+        "-p",
+        "3003"
+      ],
+      "port": 3003
+    },
+    {
+      "name": "proto-lab",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "proto-lab",
+        "dev"
+      ],
+      "port": 5179,
+      "url": "http://localhost:5179",
+      "autoPort": false
+    },
+    {
+      "name": "space-explorer-ui",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "space-explorer-ui",
+        "dev"
+      ],
+      "port": 5173
+    },
+    {
+      "name": "trophy-sys",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "trophy-sys",
+        "dev"
+      ],
+      "port": 5177,
+      "url": "http://localhost:5177",
+      "autoPort": false
+    }
+  ]
+}
