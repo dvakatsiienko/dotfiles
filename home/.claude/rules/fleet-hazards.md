@@ -28,3 +28,6 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   (`.claude/hooks/worktree-setup.sh`) runs it in every bg coder's fresh worktree; manual
   `CI=1 pnpm install` is needed only for a hand-made `git worktree add`. inline env for that
   one command only, never global
+- `rebase.updateRefs` is on since the git overhaul (2026-09-03): a safety BRANCH made before a
+  rebase is dragged forward with the rewrite and stops being a recovery point — a tag or the
+  reflog is the net (a coder lost its net on a reword, 2026-09-05)

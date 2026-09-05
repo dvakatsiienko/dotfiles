@@ -19,6 +19,12 @@ The four failure shapes, each measured here:
 - 🚨 **name the FIELD the test observed, never the behaviour class it seemed to settle.** A
   linking test never looked at the state field; the conclusion stood one size wider for weeks.
 
+- 🚨 **my own recall is a relay too.** a fact i remember (an api verb, a token lifetime, a
+  settings value) gets its source opened before it reaches dima or a coder — the same rule as
+  for a researcher's claim. 5 of 8 catches on 2026-09-05 were this shape (cron POST, `waitUntil`,
+  refresh rotation, `3h` ttl, a gateway's schema); `/insights` named the pattern the same day.
+  the label «verified» is earned by the probe, never by confidence.
+
 Smaller, same root: a probe run while a human edits the system is not controlled — two of your own
 measurements disagreeing means the environment moved · a table reads as measured whether or not it
 is, tag provenance per cell or do not print it · «exhausted» describes a moment; a status
