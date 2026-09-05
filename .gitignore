@@ -30,3 +30,6 @@ home/.claude/shelf/yt-transcripts/
 # state, rebuilt by running the TUI again.
 home/.claude/shelf/sounds/*
 !home/.claude/shelf/sounds/audition.sh
+
+# The cclio snapshot is a build (script/cclio-snapshot.ts), recompiled at every halt.
+home/.claude/shelf/cclio-mode-cw-snapshot.md
