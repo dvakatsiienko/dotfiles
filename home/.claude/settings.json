@@ -178,5 +178,6 @@
   "agentPushNotifEnabled": false,
   "voiceEnabled": true,
   "leftArrowOpensAgents": false,
-  "skipWorkflowUsageWarning": true
+  "skipWorkflowUsageWarning": true,
+  "cleanupPeriodDays": 90
 }
