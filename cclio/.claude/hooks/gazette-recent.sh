@@ -10,3 +10,5 @@ out="$dir/_recent.md"
     awk 'NR==1&&/^---$/{f=1;next} f&&/^---$/{f=0;next} !f' "$g"
   done
 } > "$out"
+# the cw snapshot rides the same moment: every gazette post is a halt, and the compile is ~1 s.
+node "$HOME/dotfiles/script/cclio-snapshot.ts" >/dev/null 2>&1 || true
