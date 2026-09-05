@@ -58,7 +58,7 @@ USAGE
     (( ${#gone} ))  && { echo "${Y}remote gone, nothing unmerged${N}"; printf "  ${B}%s\n" "${gone[@]}"; }
     [[ -n "$merged" ]] && { echo "${Y}merged into main${N}"; echo "$merged" | sed "s/^/  ${B}/;s/\$/${N}/"; }
     (( ${#held} ))  && { echo "${D}held, not touched${N}"; printf "  ${B}%s\n" "${held[@]}"; }
-    [[ -n "$local_only" ]] && { echo "${D}local only, never pushed — ${R}-D${D} walks them${N}"; echo "$local_only" | sed "s/^  /  ${B}/;s/\$/${N}/"; }
+    [[ -n "$local_only" ]] && { echo "${Y}local only, never pushed${N} ${D}— ${R}-D${D} walks them${N}"; echo "$local_only" | awk -v B="$B" -v T="$T" -v N="$N" '{ printf "  %s%s%s  %s%s%s\n", B, $1, N, T, substr($0, index($0,$2)), N }'; }
     if [[ "$1" == "-D" ]]; then
         # every unmerged local branch, not only the [gone] ones — a branch never pushed has no
         # upstream to be gone, and used to slip past this lane entirely (bytes, 2026-09-05)
