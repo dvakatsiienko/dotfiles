@@ -11,6 +11,13 @@ not into headcount.
   join it.
 
 The split is **disposable-vs-watchable**, not research-vs-code.
+
+- **`/fork [prompt]`** — a third door (dima, 2026-09-05): copies THIS conversation into a new
+  background session, no brief, the coder starts knowing everything cclio knows. reach for it
+  when the job needs the session's context (a design bundle discussed here → `theme.css`, a
+  grill's outcome → the build); `--bg` when it needs a clean one. dima may say «fork it»; cclio
+  suggests it when the brief would be longer than the context it replaces. unmeasured yet:
+  whether the fork inherits the Code-tab pane and the desktop channel — probe on first use.
 `isolation: "worktree"` gives a real git worktree — expensive, only when agents would collide.
 
 ## picking the model — Dima's contract, never re-derived
@@ -145,6 +152,13 @@ nearby; respawn when the work is unrelated or the context is polluted. **Always 
   process alive. Never report a coder stopped because a ui said so.
 - 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
   being useful» are different states.
+
+**Context size is a cost, not a precision cliff — until our own probe says otherwise** (dima +
+research, 2026-09-05): no long-context number exists for the 5 family, the last measured knee
+(opus 4.6) sits past 256k, cc compacts for cost not quality, and a 90k boot on a warm 1h cache is
+~2 cents a turn. what does cost: a cache gone cold after a >1h gap. the probe — 10-needle recall +
+one code edit at 100k / 400k / 800k in a `--bg` session — rides `refresh-spawn-mechanics` at every
+model bump; 4.7 shipped a silent long-context regression, so the curve is per-release.
 
 **Cost of a reading agent = bodies × size, never agents × a flat number.** an agent that reads
 through a cli pays every body it reads: the board-sweep workflow was guessed at ~150k and spent
