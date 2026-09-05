@@ -1,0 +1,29 @@
+---
+date: 2026-09-05
+slug: the-design-and-log-day
+tickets: [BYT-71, BYT-74, BYT-72, BYT-73, BYT-75, DOT-209]
+posted: {health: yes}
+cw: |
+  Dima's trophy log now tells the truth about days, a gaming day ends at five in the morning, and the archive keeps itself fresh with no button to press. The dead SpaceX api behind space-explorer was swapped for a live gateway the same afternoon, and Claude Desktop can now become the coordinator in one read.
+  live / next: tomorrow is a design day, a stress test of the impeccable design tool against trophy-sys, then the shadcn component library decision, then Dima designs in the desktop Design tab.
+  worth a line: five times today the agent stated a fact from memory that the coder then disproved by running it, so the memory now says a remembered fact is a relay too.
+---
+
+# 🗞️ cclio's gazette · the design and log day — the log learns the gaming clock, cw wears the coordinator, and my recall stops counting as a source
+
+## shipped
+
+- **trophy-sys /log pass 5, live on prod** — [BYT-71](https://linear.app/x-com/issue/BYT-71), 8 commits by one coder in one afternoon: the **sitting entity deleted** on dima's option b (one rule left: the gaming day, ending at **05:00**, one row per title per day); streaks on the same clock (151 → 153 runs, a 6-day run reunited across a DST change fixed with noon-anchored calendar steps, 11 tests that fail against the old logic); `dateFormat` off utc (it printed the wrong day for 15 of 109 titles); same-instant order puts the platinum on top (all 34 platinums share a timestamp with a sibling); the partial last day hidden (`log · 188 most recent`); **the archive refreshes itself on read** — drift = title `lastPlayedAt` newer than `syncedAt`, count compare kept as the repair clause, `syncedAt` advances only when every drifted title landed, no cap, lanes shared with the full scan, a `waitUntil` read off the request context, daily vercel cron on `GET /api/stats`, **sync button gone**; `isAutoWriteSafe` stops local dev writing prod; `x-archive-refresh: none|inline|background` header answers the request-context question by itself. one grid cell size on /stats, bar readouts measured to clear their bars at four widths.
+- **space-explorer works again** — [BYT-74](https://linear.app/x-com/issue/BYT-74): `api.spacexdata.com` is dead (repo archived, origin tls 525 since june); the api reads pipeworx's gateway (8 routes, no per-launch route, 4 fields, a 2026 window — half the schema had no upstream), graphql schema untouched, ids derived from date + name, ui codegen byte-identical. railway auto-deployed; plus dima's fixes: dead-session logout, 224×60 buttons on the theme's own tokens, tiles that hold, the preview entry that never started. two findings left for him: `bookTrips` validates before auth, railway sqlite is ephemeral.
+- **cclio-mode for cw** — `pnpm cclio-snapshot` compiles the fleet rules + the memory barrel (walked by its `@` imports) + the live board into one 126 kB file at every halt; `x-cw` tool `cclio_mode` + user skill `/cclio-mode` serve it (x-cw 0.2.13). dima ran it in cw: confirmed.
+- **DOT-209 closed** — a 7-stop live tour of cc 2.1.261 ([DOT-209](https://linear.app/x-com/issue/DOT-209)): `/cost` miss causes, `/diff` + `/code-review --fix`, `/btw` `/insights` `/skill-doctor` (the small column is the resident cost), settings (`cleanupPeriodDays` 30 → 90; `promptCacheTtl` has no `3h`, 1h is the subscription default), keyboard, the fleet doors (`/fork` joined `craft-spawning`), hooks (`/reload-plugins` binds a bump in a running session — the cclio CLAUDE.md said «next session» for two weeks). next overhaul **17/22**.
+- **the tracker** — label **groups** (TRK-0005): executor · type · blocker · domain · model, api-enforced exclusive; `needs data` folded into `research` (7 tickets). three tickets born with dima's words verbatim: [BYT-72](https://linear.app/x-com/issue/BYT-72) own cc usage tool (lab), [BYT-73](https://linear.app/x-com/issue/BYT-73) trophy.sys goes public (grill settled: psn-id lookup, stats page as the wedge, dedicated psn account, free + quiet support link, next + shadcn on the design system, market research before the rewrite; npsso is the only credential — the refresh grant returns the same token, 10-day window, measured), [BYT-75](https://linear.app/x-com/issue/BYT-75) the design stress test (impeccable 65k ⭐ · `design` skill · frontend-design · taste-skill · ui-theme-designer; both against the app and from scratch, ~6 results in tabs).
+- **dima's tools** — `gprune -D` walks never-pushed branches (it read only `[gone]` upstreams); `launch.json` starts every bytes app; the coder brief has a fixed header (`docs/craft-spawning-brief-header.md`) and the linear app is «coder» — its comments finally post under its own name; a dead conductor worktree trashed with its branch.
+
+## tricks gained
+
+- vercel crons are GET-only · `@vercel/functions` `waitUntil` registers nothing outside a request context and doubles the bundle · psn sends whole seconds, `syncedAt` has millis — `Date.parse` both sides · `rebase.updateRefs` drags a safety branch along · a fresh session within the 1h ttl is still cold (the prefix carries the session id) · linear renders `-` bullets as `*` — a body edit matches `*` · `plugin-release apply` false-negatives when the cache lags (twice today) · a stats-tab «58.5m» is turns after the skill loaded, not the skill.
+
+## state
+
+- dotfiles + bytes clean on origin · coder compacted, resting · next session = design day: BYT-75 (fixed brief first) → BYT-25 (grill) → 228 later · vets: brew 09-15, identity 09-16 (today's comments by `coder` ✅), initiative 09-17, proto-lab 10-04, `x-archive-refresh` after the next play.
