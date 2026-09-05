@@ -44,7 +44,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    word — **cclio verifies, then closes.**
 5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm -s linear-agent-token coder)` and
    asks the coder to post its done-report as one linear comment on the ticket through that token
-   (`linear api` with `Authorization: Bearer`); it renders as «cclio's pet». the reminder counts.
+   (`linear api` with `Authorization: Bearer`); it renders as «coder». the reminder counts.
    📌 **cap the comment at ~12 lines** — what shipped, what is left, measured numbers, one line per
    defect; the essay stays in the coder's transcript. dima on the uncapped ones: «comments are
    poems for me». and: prompt BEFORE `--remote-control` — that flag eats the next arg as its label.
@@ -94,11 +94,13 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## briefing and watching — write freely, read on a leash
 
-**Every coder brief opens with step zero: «load `x:guide-code` + the language guides before the
-first file».** A complete brief suppresses the skill router — the coder reads 40 exact lines as
-the whole instruction set and never goes looking for a supplementary one (measured on DOT-233:
-guide-code never loaded, guide-typescript arrived only after the code was written). One line in
-the brief closes it.
+**Every coder brief starts from `docs/craft-spawning-brief-header.md`, pasted verbatim** — the skill set, the coder token line, the done-comment cap, the ping-back. **Step zero inside it: «load `x:guide-code` + the language guides before the
+first file» — and names the full skill set for the job** (`x:guide-typescript`, `x:guide-react`,
+`x:guide-ui-ux`, `x:guide-conventions`, `x:browser-headless`, …). Skills are sharpeners, and a
+coder loads only what the brief names (dima, 2026-09-05): a complete brief suppresses the skill
+router — the coder reads 40 exact lines as the whole instruction set and never goes looking for a
+supplementary one (measured on DOT-233: guide-code never loaded, guide-typescript arrived only
+after the code was written). cclio adds a skill when the work drifts into a new area.
 
 A research brief asks for a **structured summary, never a file dump** — paths with line ranges, who owns what, footguns, and «what is NOT in the area» (borrowed from g2i's spec skill, 2026-09-03).
 
