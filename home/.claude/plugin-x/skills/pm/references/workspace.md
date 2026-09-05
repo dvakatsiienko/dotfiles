@@ -72,7 +72,7 @@ linear issue update DOT-N --parent DOT-M     # hang a ticket under a story paren
 | role | linear |
 | --- | --- |
 | needs-triage | **Triage** status (native inbox) |
-| needs-info | Todo + one of the `needs *` family: `needs human` (agent waiting on dima) · `needs agent` (dima waiting on agent research) · `needs data` (no data pool yet — gather before deciding) |
+| needs-info | Todo + one `blocker`: `needs human` (agent waiting on dima) · `needs agent` (dima waiting on agent research) |
 | ready-for-agent | `agent` label + Todo |
 | ready-for-human | `human` label + Todo |
 | wontfix | **Canceled** |
@@ -85,14 +85,15 @@ since 2026-08-17 every label is **workspace-wide**; there are no per-team label 
 **role** and one **kind** on every ticket, always.
 
 📌 **label groups are mutually exclusive** (dima, 2026-09-05): `executor` = `agent` | `human` ·
-`type` = `bug` | `feature` | `improvement` · `model` = one model tag. an update carrying two
+`type` = `bug` | `feature` | `improvement` · `model` = one model tag · `blocker` = `needs human` |
+`needs agent` · `domain` = `memory` | `skill` | `tools`. an update carrying two
 labels from one group is refused by the api — send exactly one per group; the `needs *` family
-sits outside any group and still combines with a role.
+combines with a role (different groups).
 
 - **role** — `agent` · `human` · the `needs *` family. who does it, or what it waits on. the family
   is split by **block direction** and closed at three (TRK-0002, TRK-0004): `needs human` = an agent
-  waits on dima · `needs agent` = dima waits on agent research · `needs data` = no data pool exists
-  yet, gather before deciding. resist a fourth.
+  waits on dima · `needs agent` = dima waits on agent research. `needs data` was folded into
+  `research` (2026-09-05). resist a third.
 - **kind** — `bug` (behaves wrong, restores intended behaviour) · `feature` (capability that does
   not exist yet) · `improvement` (existing thing made better — refactors, renames, docs, tooling,
   ergonomics). a story parent or a pure decision ticket takes the kind of the work it leads to;
