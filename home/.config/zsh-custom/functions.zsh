@@ -51,16 +51,21 @@ USAGE
         else gone+=("$name  ${T}$age${N}"); fi
     done <<< "$refs"
     local merged=$(git branch --merged | grep -Ev '^[*+]' | grep -Ev '(^|\s+)(main|master|dev|develop)$' | tr -d ' ')
-    if (( ${#gone} == 0 )) && [[ -z "$merged" ]] && (( ${#held} == 0 )); then
+    local local_only=$(git for-each-ref --format='%(refname:short)%09%(upstream:short)%09%(committerdate:relative)' refs/heads | awk -F'\t' '$2=="" && $1!~/^(main|master|dev|develop)$/ {print "  " $1 "  " $3}')
+    if (( ${#gone} == 0 )) && [[ -z "$merged" ]] && (( ${#held} == 0 )) && [[ -z "$local_only" ]]; then
         echo "${G}✨ nothing to prune${N} — every branch is alive or unmerged"; return
     fi
     (( ${#gone} ))  && { echo "${Y}remote gone, nothing unmerged${N}"; printf "  ${B}%s\n" "${gone[@]}"; }
     [[ -n "$merged" ]] && { echo "${Y}merged into main${N}"; echo "$merged" | sed "s/^/  ${B}/;s/\$/${N}/"; }
     (( ${#held} ))  && { echo "${D}held, not touched${N}"; printf "  ${B}%s\n" "${held[@]}"; }
+    [[ -n "$local_only" ]] && { echo "${D}local only, never pushed — ${R}-D${D} walks them${N}"; echo "$local_only" | sed "s/^  /  ${B}/;s/\$/${N}/"; }
     if [[ "$1" == "-D" ]]; then
-        local b; for b in "${heldnames[@]}"; do
+        # every unmerged local branch, not only the [gone] ones — a branch never pushed has no
+        # upstream to be gone, and used to slip past this lane entirely (bytes, 2026-09-05)
+        local b; for b in $(git for-each-ref --format='%(refname:short)' refs/heads | grep -Ev '^(main|master|dev|develop)$'); do
+            (( $(git rev-list --count main.."$b") == 0 )) && continue
             git worktree list --porcelain | grep -qx "branch refs/heads/$b" && { echo "${D}$b is checked out in a worktree, skipping${N}"; continue; }
-            if read -q "?${R}force-delete${N} $b? [y/N] "; then echo; git branch -D "$b"; else echo; fi
+            if read -q "?${R}force-delete${N} $b ${D}($(git log -1 --format=%cr "$b"), $(git rev-list --count main.."$b") ahead)${N}? [y/N] "; then echo; git branch -D "$b"; else echo; fi
         done
         return
     fi
