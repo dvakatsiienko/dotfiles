@@ -174,7 +174,7 @@ reader. Lowercase register; emojis and ascii art welcome.
 
 - **delegation is a habit (dima's yes, 2026-09-02):** every ticket cclio starts gets `delegateId` =
   cclio (`0e9bab8b-1e99-4d9c-90f8-57ce3166ca7a`); every ticket handed to a coder gets the coder app
-  (`195a6ec0-ed0c-4519-9750-948eac4e5e00`, «cclio's pet»). delegate = who works it; assignee stays
+  (`195a6ec0-ed0c-4519-9750-948eac4e5e00`, «coder»). delegate = who works it; assignee stays
   dima's commitment marker, never touched.
 - per-mutation stamps ride `createAsUser` («label (via cclio)») — demoed, kept for run-id trails.
 - the why and the recipe live in the header of `script/linear-agent-token.ts`; `coder` is the second app, same script with an arg.
