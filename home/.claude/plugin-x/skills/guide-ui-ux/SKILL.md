@@ -25,6 +25,9 @@ guides (`guide-react`) sit on top of this one.
 - **dark surface ≈ `#121212`, never `#000`** — elevation by lighter surface, accents
   desaturated
 - one spacing scale (4px base), never ad-hoc px
+- **a visual fix is measured, never eyeballed** — before the change, read the computed geometry of
+  the element and its container (bounding boxes, at 390 / 768 / 1280); state the delta in px; make
+  ONE change that closes it; re-measure. three guessed offsets on one emoji is the failure this kills
 
 A rule here grows only from a defect Dima saw — the trigger was trophy-sys: dim colours on
 10px text, `user-select` on chart marks, dead clicks on empty cells.
