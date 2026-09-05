@@ -77,12 +77,22 @@
         "/Users/dima/projects/bytes",
         "--filter",
         "space-explorer-ui",
+        "--filter",
+        "space-explorer-api",
         "dev"
       ],
       "port": 5173
     },
     {
       "name": "trophy-sys",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "-C",
+        "/Users/dima/projects/bytes",
+        "--filter",
+        "trophy-sys",
+        "dev"
+      ],
       "port": 5177,
       "url": "http://localhost:5177",
       "autoPort": false
