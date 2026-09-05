@@ -84,6 +84,11 @@ Backlog is deliberately unused — a blocked ticket keeps its real role and stay
 since 2026-08-17 every label is **workspace-wide**; there are no per-team label sets left. one
 **role** and one **kind** on every ticket, always.
 
+📌 **label groups are mutually exclusive** (dima, 2026-09-05): `executor` = `agent` | `human` ·
+`type` = `bug` | `feature` | `improvement` · `model` = one model tag. an update carrying two
+labels from one group is refused by the api — send exactly one per group; the `needs *` family
+sits outside any group and still combines with a role.
+
 - **role** — `agent` · `human` · the `needs *` family. who does it, or what it waits on. the family
   is split by **block direction** and closed at three (TRK-0002, TRK-0004): `needs human` = an agent
   waits on dima · `needs agent` = dima waits on agent research · `needs data` = no data pool exists
