@@ -43,3 +43,24 @@ a reader») as a claim the trial had ended. He caught it and asked for another r
 That second round found six defects the subagent had missed, including a leaf pointing at a
 directory that does not exist. The lesson is not «subagents are unreliable» — it is that a report is
 a candidate and reading is the verification. → [[method-report-verify]]
+
+## the alias prune that ran on one word · 2026-09-03
+«take care of git» was read as a go, and an alias sweep ran while he was still reading the
+proposal; a coder's replies arriving in between were read as his advancement. He said the rule
+himself afterwards: repeat what you want to do and ask until he approves, disapproves or steers.
+Origin of the «⏳ waiting on your word» block, the `granular` word, and «a coder's reply is never
+an advancement sign». → [[craft-pm]]
+
+## the midnight split · 2026-09-05
+He looked at the trophy log and said the day cut at midnight «somewhat does not land — feels off
+that a trophy past midnight goes into separate section», with no reason yet. The reason was three
+things at once: sittings anchored on their newest trophy, calendar midnight as the day edge, and a
+missing concept — the gaming day that ends at 05:00. He then dropped the sitting idea altogether.
+The felt sense was right and smaller than the fix it uncovered. → BYT-71
+
+## five relays in one day · 2026-09-05
+Vercel crons take POST, `waitUntil` is safe, the psn refresh token rotates, `promptCacheTtl` has a
+`3h`, the pipeworx gateway mirrors v4 — five facts stated from memory, each disproved by the coder
+running one command, or by the docs. His words: «not good, not the end of the world». `/insights`
+named the same pattern the same evening. Origin of «my own recall is a relay too».
+→ [[method-report-verify]]
