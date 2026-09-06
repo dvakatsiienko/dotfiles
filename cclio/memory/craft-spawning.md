@@ -92,6 +92,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 - 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
   the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
 - 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (ingested CST `browser-pane-spawn`, 2026-09-03, sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session. cclio has it only when dima booted her from the Code tab — this session did (2026-09-04, `mcp__Claude_Browser__navigate` answered); a terminal-born cclio has none. `x:browser-headless` works from either.
+- ⚠️ **a desktop-born cclio must not spawn `--bg` coders** — the child inherits the Code tab's environment (`CLAUDE_CODE_ENTRYPOINT=claude-desktop`, `ANTHROPIC_BASE_URL`, desktop oauth scopes) and boots on **API Usage Billing**, not the subscription (banner read 2026-09-06, stopped in 40 s). measured with `claude -p` from this session: `Failed to authenticate: OAuth session expired and could not be refreshed`, cost 0 — the child inherits the desktop's oauth (`CLAUDE_CODE_SDK_HAS_HOST_AUTH_REFRESH`) and cannot refresh it itself, so it is not an api charge, it is a dead child. upstream: anthropics/claude-code #39903, #40688. dima spawns coders in the Code tab, cclio briefs by message.
 - **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
   store, never a handshake.
 - ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about
@@ -108,6 +109,8 @@ coder loads only what the brief names (dima, 2026-09-05): a complete brief suppr
 router — the coder reads 40 exact lines as the whole instruction set and never goes looking for a
 supplementary one (measured on DOT-233: guide-code never loaded, guide-typescript arrived only
 after the code was written). cclio adds a skill when the work drifts into a new area.
+
+🎨 **comp first** — a design job opens with a `design` canvas dima approves in the artifact, then `impeccable` builds the code from that comp: its finish-reviewer judges the build against the comp, its documenter derives `DESIGN.md` from the shipped code. one coder, both skills in sequence (measured 2026-09-06: the two halves ran in two sessions and composed; impeccable's `PostToolUse`/`Stop` hooks are user-scope and fire in every session — a clean a/b needs the competing plugin disabled per lane). the canvas lane touches no files; the build lane starts only after his word on the boards.
 
 A research brief asks for a **structured summary, never a file dump** — paths with line ranges, who owns what, footguns, and «what is NOT in the area» (borrowed from g2i's spec skill, 2026-09-03).
 
