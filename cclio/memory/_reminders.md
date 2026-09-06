@@ -14,6 +14,12 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
+⏰📌 dima's raycast review plan — his ask 2026-09-06, after the halt: he tells the plan; connect it to the `ca` zsh function (fzf → `cursor -n apps/<x>`) as a raycast trick for jumping into bytes apps; in the same pass: Peacock (window colour per app, an accessibility combo with Project Manager which he already uses) — install or not. scope-parked until ui-kit + space-explorer land — set 2026-09-06
+
+⏰📌 process the «remove mannered prose» video — dima's ask 2026-09-06, after the halt: https://www.youtube.com/watch?v=7au4tWVG8a0&list=PLqvvsYr0T3pnevG3huCGVrqVuLwPpU-gu&index=3&t=239s (the point is around ~10:00); ingest via `x:yt-transcript`, distil what applies to fleet voice/output rules, propose — set 2026-09-06
+
+⏰ 🦊📜 cva 1.0 stable → retire the beta clauses — check `npm view cva version` at each bytes deps bump; when it reads `1.x` without `beta`: drop the «one import swap after each `shadcn add`» + «`--diff` always shows the cva wrap» lines from bytes `CLAUDE.md` `## ui-kit` and `packages/kit/CLAUDE.md`, and check whether shadcn now generates against `cva` (then the swap dies too) — set 2026-09-06
+
 ⏰ 🦊👁️ initiatives vet — on/after 2026-09-17: did the linear initiative «roadmap» answer «what's next» at every boot for two weeks, without the md file? measure: the flawlog + CSTs of the window name no «re-read the roadmap» moment, and the step named at boot matched what dima did. yes → the vault copy `prompts/dima-roadmap.md` retires on his word. no → revert: `ln -s "…/prompts/dima-roadmap.md" cclio/memory/dima-roadmap.md` + the one barrel import line back, the strategy section stays — set 2026-09-03
 
 ⏰ 🦊👁️ coder linear identity vet — on/after 2026-09-16: fetch every comment by the coder app user (`linear api 'query { comments(filter: { user: { id: { eq: "195a6ec0-ed0c-4519-9750-948eac4e5e00" } } }, first: 50) { nodes { issue { identifier } createdAt body } } }'`, channel proven at set time) and eval with dima: did «coder» comments help him see who did what? none or useless → drop the identity (keychain slots `coder` + the script arg). until then every coder brief carries the token and one done-comment; steer the shape as it goes — set 2026-09-02
