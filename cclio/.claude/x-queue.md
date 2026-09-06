@@ -2,12 +2,10 @@
 
 ## queue
 
-- 🥇 NEXT SESSION = design day: BYT-75 (Todo) → BYT-25 (grill; dima describes it first) → 228 later. BYT-75 opens with the FIXED BRIEF written before any tool runs, then install impeccable plugin, baseline `/audit` + screenshots, ~6 eval results (existing app + from scratch × impeccable / design / frontend-design / taste-skill / ui-theme-designer), each on its own port + launch.json entry so dima diffs them in tabs. BYT-30 is a lane. 228 stays on cclio, not cw (cw = 1-2% fable quota per message).
-- 🥈 dima's tools — mil «next overhaul» 16/22, 17/22 after DOT-209 closed 2026-09-05; tail: DOT-228 notes stack (fat, its own session) → DOT-39 → DOT-26 → DOT-147 → DOT-17 (shell internals walkthrough, playlist in body). DOT-222 + DOT-231 closed 2026-09-04.
-- 🤖 coder «🔧 coder: trophy-sys» (Code-tab session local_81a720a7…) — BYT-71 sealed 2026-09-05 (8 commits, push on dima's slay in his chat), now on BYT-74 space-explorer → pipeworx. channel: `mcp__ccd_session_mgmt__send_message`, he pings back. every brief starts from `docs/craft-spawning-brief-header.md`.
-- ⏸️ DOT-187 skill picks walkthrough — its own hour.
-- 🐞 `plugin-release` false-negative: «nothing to do» while cache < source version (0.11.19 vs 0.11.21, 2026-09-04) — compare the cache dir, not the git log. freebie.
-- 🔎 vet: `permissions.allow: ["Workflow"]` — does the desktop still ask on the next workflow run? if yes: desktop-side gate, drop the line.
-- 🎯 groom remainder: cclio v2 (0/4).
-
-- 🧪 vets: `/cclio-mode` on cw confirmed 2026-09-05 — after the first BYT-71 deploy, `curl -sI https://trophy-sys.vercel.app/api/stats | grep x-archive-refresh` answers the request-context question (background = yes) · `plugin-release apply` false-negative struck twice (0.11.25, 0.11.26) — freebie: compare cache dir vs source version
+- 🥇 NEXT SESSION, first job (coder, fable low, PR lane, worktree): the vercel install defect — `installCommand: "pnpm i -F '<app>...'"` in cv / figmentation / x-com-chat / space-explorer-ui `vercel.json` (kit's `typecheck` runs with empty node_modules today, space-explorer-ui prod stuck on the old ui since 73fae60d) + `apps/space-explorer-ui/src/components/ThemeToggle.tsx(25,23)` implicit any + retire `turbo-ignore` → redeploy space-explorer-ui. details in BYT-25 «state 2026-09-07». the same run proves whether local `turbo typecheck` misses what vercel catches (the Select/ThemeToggle repro).
+- 🥈 the terminal-born a/b (reminder ⏰📌): `Agent:` trailer back? `--bg` child alive on the subscription?
+- 🥉 trophy-sys redesign, the map: dima's hands (DESIGN-REQUEST §10, commit the three md files) → desktop designer session → comp → impeccable builds on a worktree PR (kit primitives adopted, next-or-vite decided) → `/document` DESIGN.md closes BYT-75. then cv build (BYT-36, comp approved), outpost (BYT-76).
+- 🔧 freebies (dima's y): bytes pre-push hook `turbo typecheck --filter=...[origin/main]` · shared `bench/audit.js` · `script/worktree-seed.ts` (copies gitignored `.env*` per app + `CI=1 pnpm install` into a new worktree; think first: what else a fresh tree needs) · vitest exclude `.claude/worktrees/**` · `plugin-release` false-negative.
+- 🔎 dima's hands, no ticket: greptile app install (opt out of training) + `/install-github-app` in bytes for the claude review workflow; look at coderabbit + graphite; the linear agent's answer on auto-assign; `gprune -d` (squash-merged `coder/BYT-75-prettify`); `BYT-74`'s railway ephemeral sqlite finding still open.
+- 🎯 later: BYT-77 payload a/b · BYT-78 storybook · DOT-228 · cclio v2 groom (0/4) · DOT-187 · BYT-60 name · BYT-44 grill · `@next/playwright` narrow exception when cache components land · stacked prs on the first multi-layer assignment.
+- 🧪 vets: brew picks 09-15 · coder identity 09-16 · initiative 09-17 · proto-lab 10-04 (the bench counts as a real proto — graduate?) · `x-archive-refresh` after dima's next play.
