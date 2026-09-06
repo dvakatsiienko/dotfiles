@@ -168,7 +168,7 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
 assignment, not by hash: branch `coder/BYT-N-<slug>` from `main`, step-commits on it (each
 with `- ticket: BYT-N` and its step line), `gh pr create` with the body's **one** `Closes BYT-N`
 (a PR is Linear's lane, its automations are wanted: open → In Progress, merge → Done), then
-**squash-merge** on Dima's word — the squash body lists the steps. Load `x:github-contrib`
+**squash-merge** on Dima's word — the squash body lists the steps. On a `coder/*` branch the coder holds `y+` and `push+` (commit each step, push, open the PR as a **draft at the first push**, mark it ready when done); on `main` the default lane's rules hold unchanged. Load `x:github-contrib`
 before the `gh` call. **The PR url goes to Dima as a one-click link the moment `gh pr create`
 prints it** — in the coder's chat and in its ping to the coordinator. `dotfiles` keeps the
 default lane.
