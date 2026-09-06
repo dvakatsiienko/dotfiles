@@ -1,4 +1,5 @@
 {
+  "cleanupPeriodDays": 90,
   "skillListingBudgetFraction": 0.025,
   "env": {
     "EDITOR": "nvim",
@@ -9,6 +10,9 @@
     "pr": ""
   },
   "permissions": {
+    "allow": [
+      "Workflow"
+    ],
     "deny": [
       "NotebookEdit",
       "CronCreate",
@@ -21,9 +25,6 @@
     "defaultMode": "bypassPermissions",
     "additionalDirectories": [
       "/Users/dima"
-    ],
-    "allow": [
-      "Workflow"
     ]
   },
   "model": "claude-fable-5-1[1m]",
@@ -115,13 +116,14 @@
   },
   "enabledPlugins": {
     "context7@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": true,
     "warp@claude-code-warp": true,
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
-    "linear-cli@linear-cli": false
+    "linear-cli@linear-cli": false,
+    "impeccable@impeccable": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -142,6 +144,12 @@
       "source": {
         "source": "github",
         "repo": "schpet/linear-cli"
+      }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
       }
     }
   },
@@ -169,6 +177,7 @@
   "autoMemoryEnabled": false,
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "custom:gruvbox-ansi",
   "editorMode": "vim",
   "verbose": false,
@@ -177,7 +186,5 @@
   "inputNeededNotifEnabled": false,
   "agentPushNotifEnabled": false,
   "voiceEnabled": true,
-  "leftArrowOpensAgents": false,
-  "skipWorkflowUsageWarning": true,
-  "cleanupPeriodDays": 90
+  "leftArrowOpensAgents": false
 }
