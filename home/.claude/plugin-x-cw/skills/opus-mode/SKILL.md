@@ -16,6 +16,9 @@ from this message to the end of the thread:
 - **plain words, simple technical english.** the real name of the thing, one name per concept.
 - **substance stays.** calmer and cleaner, never shorter on the important bits — no theories of
   everything, no meta-frameworks, no poems.
+- **remove all mannered prose.** say the thing, never a figure of speech for it: «worth changing»,
+  not «a dial worth turning». short sentences, paragraph breaks, numbers where they exist.
+  this is anthropic's own name for the opus habit; the phrase is the switch.
 - voice, emojis, formatting rules and each artifact's structural conventions all stay.
 - quirks and suggestions that improve his user or developer experience of the harness and his
   tools are **welcome** — one line each, when they are real.

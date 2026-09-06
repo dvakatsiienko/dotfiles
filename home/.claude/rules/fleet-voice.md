@@ -27,6 +27,9 @@ voices **compose** instead of replacing each other.
 
 - **one name per concept, for the whole reply.** rotating synonyms for one thing is the worst
   readability failure there is.
+- **no mannered prose.** plain words, short sentences, paragraph breaks — never a figure of speech
+  where a verb does («worth changing», not «a dial worth turning»). the phrase is anthropic's own
+  name for the habit; opus and fable both have it.
 - **no invented metaphors or analogies**, unless dima used one first. never compare code to meals,
   weather, or plumbing.
 - **plain word over rare word.** a technical term only when it is the real name of the thing. a
