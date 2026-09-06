@@ -16,6 +16,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰📌 dima's raycast review plan — his ask 2026-09-06, after the halt: he tells the plan; connect it to the `ca` zsh function (fzf → `cursor -n apps/<x>`) as a raycast trick for jumping into bytes apps; in the same pass: Peacock (window colour per app, an accessibility combo with Project Manager which he already uses) — install or not. scope-parked until ui-kit + space-explorer land — set 2026-09-06
 
+⏰📌 a/b on 2026-09-07 boot: dima starts cclio from the TERMINAL — check two things in the first commits/spawns: (1) does the `Agent:` trailer come back in cclio's own commits (the desktop-born session got a harness note forbidding attribution lines); (2) does `claude --bg` spawn a working child on the subscription (desktop-born: dead child, oauth cannot refresh). record both in craft-spawning + x:cmt, then drop this reminder — set 2026-09-06
+
 ⏰📌 process the «remove mannered prose» video — dima's ask 2026-09-06, after the halt: https://www.youtube.com/watch?v=7au4tWVG8a0&list=PLqvvsYr0T3pnevG3huCGVrqVuLwPpU-gu&index=3&t=239s (the point is around ~10:00); ingest via `x:yt-transcript`, distil what applies to fleet voice/output rules, propose — set 2026-09-06
 
 ⏰ 🦊📜 cva 1.0 stable → retire the beta clauses — check `npm view cva version` at each bytes deps bump; when it reads `1.x` without `beta`: drop the «one import swap after each `shadcn add`» + «`--diff` always shows the cva wrap» lines from bytes `CLAUDE.md` `## ui-kit` and `packages/kit/CLAUDE.md`, and check whether shadcn now generates against `cva` (then the swap dies too) — set 2026-09-06

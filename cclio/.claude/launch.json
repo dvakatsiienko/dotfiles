@@ -71,15 +71,10 @@
     },
     {
       "name": "space-explorer-ui",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "sh",
       "runtimeArgs": [
-        "-C",
-        "/Users/dima/projects/bytes",
-        "--filter",
-        "space-explorer-ui",
-        "--filter",
-        "space-explorer-api",
-        "dev"
+        "-c",
+        "cd /Users/dima/projects/bytes && (PORT=4000 pnpm --filter @space-explorer/api dev &) && PORT=5173 pnpm --filter @space-explorer/ui dev"
       ],
       "port": 5173
     },

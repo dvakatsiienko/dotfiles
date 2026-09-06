@@ -22,10 +22,10 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## picking the model — Dima's contract, never re-derived
 
-- **opus-5** — the default coder: hard multi-step engineering, **always `--effort high`**
+- **opus-5** — the default coder: hard multi-step engineering, **always `--effort high`** (cheap enough to squeeze; his 2026-09-06 word)
   (measured at only ~+10% weekly usage — do not revert on a hunch). ⚠️ **not a PM**: overlong
   prose, invented jargon, unasked docs.
-- **fable-5** — 🚫 never spawned unless he asks by name, `low` even then; Dima spends that budget
+- **fable-5 / 5.1** — spawned only on his word, and then **always `low`** (dima, 2026-09-06: five medium tasks burned ~40–50% of a 5h window; the knob follows complexity, never volume, and the pick is his — bump only when he says so); Dima spends that budget
   on his own turns. Anything Dima reads → fable flavour: *«opus picks pragmatically, fable =
   flavour»*.
 - **sonnet-5** — routine well-specified work under quota pressure; never hard multi-step (−16 vs
