@@ -1,0 +1,28 @@
+---
+date: 2026-09-06
+slug: the-fable-day
+tickets: [BYT-75, BYT-25, BYT-30, BYT-36, BYT-76, BYT-77, BYT-78]
+posted: {health: yes}
+cw: |
+  the design stress test picked its tool, the shared ui kit was rebuilt from scratch on base ui, and space explorer got trophy-sys's look in one day, eight coders in a row.
+  live / next: the cv comp is approved and waits for its build, the trophy-sys redesign starts with the designer session, and a vercel install defect is the first fix tomorrow.
+  worth a line: five design skills given the same brief all chose green, because the brief carried two colour codes it called mere references.
+---
+# 🗞️ cclio's gazette · the fable day — five lanes pick a tool, the kit is reborn, space explorer boards the ticket
+
+## shipped
+
+- **the design stress test** — [BYT-75](https://linear.app/x-com/issue/BYT-75): one frozen brief (dima's cv, from scratch), five lanes in five Code-tab sessions on a proto-lab bench: impeccable · frontend-design · taste-skill · high-end (ui-theme-designer turned out to be SAP's plugin — [BYT-30](https://linear.app/x-com/issue/BYT-30) canceled) · the `design` canvas. dima's rank: impeccable first; round 2 made it the composite (sidebar ≥1024, cream on green). the canvas lane, steered by him in the artifact, became the **approved cv comp** (navy + lime, Manrope, his old cv's soul) — the build is [BYT-36](https://linear.app/x-com/issue/BYT-36). findings: impeccable installs user-scope hooks that ran inside the frontend-design lane (they compose, no clash); two hex refs pulled every code lane to green; the `design` skill rewrites copy. loadout after: impeccable (finish reviewer earned the plugin) + `redesign-existing-projects` for audits; frontend-design disabled, taste's others removed. cost ≈ 34% of a 5h window.
+- **the kit reborn** — [BYT-25](https://linear.app/x-com/issue/BYT-25) steps 1–6 in one evening by one coder on low: contract in bytes `CLAUDE.md` (kit is the source, compose before eject, eject gated by dima, ≤4 own variants, cva beta everywhere, `neutral`); `packages/kit` wiped and re-inited on **base ui** (`nova` preset, `cn`, `cva` beta.9, react as peer dep); four apps wired; button/toggle/toggle-group/select/drawer/input re-derived; biome override so `add --diff` shows only the cva wrap. research closed the gates: base ui is shadcn's default since 2026-07, baseColor does not leak, source import without prebuild, cli + the official `shadcn/ui` skill and no mcp. field research: the pattern is how teams run it; `shadcn eject` is not component ejection (my miss, fixed).
+- **space explorer wears trophy-sys** — the vite proof: gruvbox-material L1 → L2 → L3, mono, scanlines, the mission card as a boarding ticket, blue accent («cold = vacuum»), 13.5 KB of hand-rolled svgs → lucide, `bookTrips` refuses anonymous calls first. 7 + 3 commits. ⚠️ prod still shows the old ui: vercel installs `pnpm i -F=<app>` without `...`, the kit's typecheck runs with empty `node_modules` — first fix next session.
+- **trophy-sys prettify** — [PR #45](https://github.com/dvakatsiienko/bytes/pull/45) squash-merged: light contrast fails 17 → 0, dark 5 → 0, hit targets under 24px 74 → 0, focus gaps 10 → 0, min font 12, the look untouched. the **first PR of the coder lane**: ~5 min and ~3k tokens of overhead, Linear Diffs showed the full diff + a vercel preview button on the issue; the issue got auto-assigned to dima on link (setting unknown, asked linear's agent).
+- **the coder lane, written** — x 0.11.27 → 0.11.30: `Agent: <role> · <model>` trailer replaces Co-Authored-By; PR by default for coders (freebies → main), branch in a worktree before the first edit, draft PR at first push, `slay+` on the branch only, «dima's word» starts without a y/n; the brief header carries it all. effort contract: fable 5/5.1 always low, opus 5 high.
+- **tickets born**: [BYT-76](https://linear.app/x-com/issue/BYT-76) outpost (hello + blog on next + fumadocs-mdx), [BYT-77](https://linear.app/x-com/issue/BYT-77) payload a/b, [BYT-78](https://linear.app/x-com/issue/BYT-78) storybook showcase. `packages/fonts` and the garment apps were ghosts — gone. `ca` (fzf → cursor window per app), starship `↑N`, the next skills reinstalled for claude-code + cursor via symlink.
+
+## tricks gained
+
+- a Code-tab-born cclio cannot spawn `--bg` children: the inherited desktop oauth cannot refresh (dead child, not an api bill) · bytes is one shared checkout — a coder's `git switch` moves every session · the desktop pane injects one `PORT` per launch entry (api + ui in one entry collide) · `skills add -a` takes repeated flags, not a comma list; «Agents:» in `skills list` means who can read the dir · `shadcn init` refuses a framework-less package — hand-copy from a scratch init · biome resorts registry output · agent-browser's console log accumulates across pages — `console --clear` before each open · github shipped native stacked PRs (public preview 2026-07-30) · greptile is the only free review bot for private repos; coderabbit no longer is.
+
+## state
+
+- dotfiles + bytes clean on origin · BYT-25 In Progress (vercel defect first, trophy-sys adopts with its redesign) · BYT-75 In Progress (DESIGN.md test on the cv build) · next session boots **terminal-born** (a/b: trailer + `--bg`) · reminders stuck: mannered-prose video, raycast + `ca` + peacock · vets unchanged.

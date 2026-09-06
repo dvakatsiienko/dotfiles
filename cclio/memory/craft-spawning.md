@@ -12,6 +12,7 @@ not into headcount.
 
 The split is **disposable-vs-watchable**, not research-vs-code.
 
+- **the Code tab door (dima opens, cclio briefs)** — the flow that ran eight coders on 2026-09-06: dima opens a session in the app dir (root when the job crosses apps), pastes a one-line pointer to a brief file in cclio's scratchpad, the coder pings back through `mcp__ccd_session_mgmt__send_message`. a brief that says «dima's word» starts without a y/n round; a steer relayed by cclio is NOT his grant to the coder (the coder confirms with him — by our own rule). every brief starts from `docs/craft-spawning-brief-header.md`.
 - **`/fork [prompt]`** — a third door (dima, 2026-09-05): copies THIS conversation into a new
   background session, no brief, the coder starts knowing everything cclio knows. reach for it
   when the job needs the session's context (a design bundle discussed here → `theme.css`, a
@@ -135,6 +136,7 @@ double-runs the work.
 - `index.lock` means a peer is committing — wait, retry, **never delete a lock**.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.
+- 🚨 **bytes is ONE shared checkout: a coder's `git switch` moves every session's tree** (measured 2026-09-07 — the prettify branch took the dev servers with it). the PR lane makes every coder concurrent, so **a `coder/*` branch lives in its own worktree** (`git worktree add ../bytes-<slug> -b coder/BYT-N-<slug> main`, or the Code tab's worktree option under `.claude/worktrees/`); the main checkout stays on `main`. a fresh tree needs `CI=1 pnpm install`, the gitignored `.env*` files copied per app, and its own dev-server port — a seed script is queued.
 - Worktrees at ~5+ agents or genuine concurrent edits, not before. a worktree brief's step 0 is
   `CI=1 pnpm install` (inline, that command only) — kills the shared-hooks rewrite
   (`rules/fleet-hazards.md`, git hooks).

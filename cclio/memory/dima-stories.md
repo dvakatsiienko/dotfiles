@@ -64,3 +64,6 @@ Vercel crons take POST, `waitUntil` is safe, the psn refresh token rotates, `pro
 running one command, or by the docs. His words: «not good, not the end of the world». `/insights`
 named the same pattern the same evening. Origin of «my own recall is a relay too».
 → [[method-report-verify]]
+
+## «yes they all went green, not very good» · 2026-09-06
+four design lanes, four different skills, one frozen brief — and every result came back green. he saw it in the tabs before any of us named the cause: two hex codes in the brief labelled «refs, not specs» had pulled every lane the same way. the test was «too narrow» in his words, and the fix was to strip the codes, not to add a rule. the felt sense arrived as a verdict on the output; the reason sat in the input. → BYT-75, the round-2 brief
