@@ -92,19 +92,22 @@ an account, so the verified badge dies; Dima wants verified commits. The full in
 (and why the author field never drove the Linear assign) lives in
 the header of `~/dotfiles/script/linear-push.ts`.
 
-📌 **The agent fingerprint is the trailer, not the author field.** Every agent commit carries
-the Co-Authored-By line (§4) and Dima's hand-typed commits do not, so
-`git log --grep='Co-Authored-By: Claude'` is the filter that tells the two apart.
+📌 **The agent fingerprint is a trailer, not the author field.** Every agent commit ends with
+an `Agent:` trailer (§4) and Dima's hand-typed commits do not, so `git log --grep='^Agent:'`
+tells the two apart. Older history carries `Co-Authored-By: Claude …` for the same purpose —
+`git who` counts both. A surface whose harness forbids attribution lines says so in its report
+instead of silently omitting the trailer.
 
 ## 4 · Body
 
 - Hyphen bullets, one change per line, `subject: what changed`; `→` for before/after
   (`- model: sonnet → fable-5`). Prose paragraphs only for single-concern commits needing a why.
 - 📦 bodies: `pkg old → new` lines + `- regenerate pnpm-lock.yaml`.
-- End: blank line + `Co-Authored-By: Claude <Family> <version> <noreply@anthropic.com>` — the
-  product name as it reads, never the api id: `Claude Fable 5.1`, `Claude Opus 5`,
-  `Claude Sonnet 5`. No `claude-`, no `[1m]`, no `(1M context)`. `git who` counts these, and
-  twelve spellings once made it a zoo (2026-09-03).
+- End: blank line + the trailer `Agent: <role> · <model>` — role is the session's fleet name
+  (`coder`, `cclio`), model is the product name as it reads: `Agent: coder · Claude Fable 5.1`.
+  One spelling; twelve once made `git who` a zoo (2026-09-03). No `Co-Authored-By` line.
+- A coder's step-commit names its step in the first body line (`step 3 of BYT-25: …`) so an
+  interleaved `main` still reads as a sequence.
 
 ## 5 · The ticket line
 
@@ -159,12 +162,23 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
   wired on both teams. No `draft` row — a draft PR jumps straight to In Review.
 - Reading a Resources entry: ours carries the commit subject and `<short sha> · <branch>`.
 
-### Exception lane — pull requests
+### Coder lane — PR by default, in `bytes`
 
-Only for cloud-agent branches (`claude/…`) and anything Dima explicitly opens a PR for.
-Branch commits carry `- ticket: DOT-N`; the **PR description carries exactly one**
-`Closes DOT-N` — a PR is Linear's lane, not ours, and the PR automations are wanted. For a
-branch never checked out here, write it with `gh pr edit`, never by rewriting remote commits.
+**A coder assignment lands through a PR by default** (dima, 2026-09-07: he cannot review at the pace agents print; the PR is the review surface). The exceptions are a freebie or a genuinely small change — when in doubt the brief says «PR or main?» once, up front, never mid-flight. The flow: so `main` reverts by
+assignment, not by hash: branch `coder/BYT-N-<slug>` from `main`, step-commits on it (each
+with `- ticket: BYT-N` and its step line), `gh pr create` with the body's **one** `Closes BYT-N`
+(a PR is Linear's lane, its automations are wanted: open → In Progress, merge → Done), then
+**squash-merge** on Dima's word — the squash body lists the steps. Load `x:github-contrib`
+before the `gh` call. **The PR url goes to Dima as a one-click link the moment `gh pr create`
+prints it** — in the coder's chat and in its ping to the coordinator. `dotfiles` keeps the
+default lane.
+
+### Exception lane — other pull requests
+
+Cloud-agent branches (`claude/…`) and anything Dima explicitly opens a PR for follow the same
+shape: branch commits carry `- ticket: DOT-N`, the PR description carries exactly one
+`Closes DOT-N`. For a branch never checked out here, write it with `gh pr edit`, never by
+rewriting remote commits.
 
 ### Wiring a new repo
 
