@@ -115,6 +115,11 @@ function extract() {
     esac
 }
 
+# jump into a bytes app in its own cursor window — `ca`, fzf picks the app
+function ca() {
+    local d; d=$(ls -d ~/projects/bytes/apps/*/ | fzf --height 40%) && open -na Cursor --args -n "$d"
+}
+
 # llms
 function cute() {
   claude --remote-control "${*:-$(date +%s)}"
