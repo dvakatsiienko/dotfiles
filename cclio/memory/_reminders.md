@@ -14,6 +14,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 
+⏰📌 test `claude api prompt-audit` (the bundled `claude-api` skill's audit) — dima's ask 2026-09-07 for the next session: run it over root CLAUDE.md + rules/, it proposes removals of instructions written for older models and changes nothing; batch the proposal for his y. drop this line once run — set 2026-09-07
+
 ⏰📌 dima's raycast review plan — his ask 2026-09-06, after the halt: he tells the plan; connect it to the `ca` zsh function (fzf → `cursor -n apps/<x>`) as a raycast trick for jumping into bytes apps; in the same pass: Peacock (window colour per app, an accessibility combo with Project Manager which he already uses) — install or not. scope-parked until ui-kit + space-explorer land — set 2026-09-06
 
 ⏰📌 a/b on 2026-09-07 boot: dima starts cclio from the TERMINAL — check two things in the first commits/spawns: (1) does the `Agent:` trailer come back in cclio's own commits (the desktop-born session got a harness note forbidding attribution lines); (2) does `claude --bg` spawn a working child on the subscription (desktop-born: dead child, oauth cannot refresh). record both in craft-spawning + x:cmt, then drop this reminder — set 2026-09-06
