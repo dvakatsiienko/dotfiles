@@ -32,7 +32,7 @@ router, so this list is the whole set — load it, do not wait to be reminded.
 
 - **PR by default in `bytes`.** Before any edit: `git worktree add ../bytes-<slug> -b
   coder/<ticket>-<slug> main` (or the Code tab's worktree option), `CI=1 pnpm install` there,
-  copy the gitignored `.env*` per app, own dev-server port. The main checkout stays on `main` —
+  then `pnpm worktree:seed <path>` (env copies, install, a port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it for a tree it made). The main checkout stays on `main` —
   it is one shared tree and your `git switch` would move every session.
 - on a `coder/*` branch you hold `/cmt y+` and `slay+`: commit each step, push, open a **draft
   PR at the first push** (`gh pr create --draft`, body `- ticket: <id>`; `Closes <id>` only when

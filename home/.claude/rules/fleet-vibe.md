@@ -26,7 +26,7 @@ Each line here IS a shell alias in `home/.config/zsh-custom/aliases.zsh`; `scrip
 - `warp` — `git switch`
 - `spawn` — `git switch -c`
 - `loot` — `git pull`
-- `scout` — `git fetch --prune`
+- `scout` — `gprune -d`
 - `onward` — `git rebase --continue`
 - `oops` — `git reset --soft HEAD~1`
 - `lore` — `git --no-pager lg -20`
