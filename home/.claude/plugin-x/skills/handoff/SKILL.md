@@ -16,10 +16,10 @@ Counterpart: `handoff-ingest`.
 ## The store cli
 
 ```bash
-node ~/dotfiles/script/handoff-store.ts list --for <audience>
-node ~/dotfiles/script/handoff-store.ts peek <slug>
-node ~/dotfiles/script/handoff-store.ts write --audience <a> --slug <s> [--shared] [--replaces <slug>]
-node ~/dotfiles/script/handoff-store.ts delete <slug> | --all
+node ~/dotfiles/script/skill-handoff-store.ts list --for <audience>
+node ~/dotfiles/script/skill-handoff-store.ts peek <slug>
+node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <s> [--shared] [--replaces <slug>]
+node ~/dotfiles/script/skill-handoff-store.ts delete <slug> | --all
 ```
 
 `write` takes the CST on stdin — heredoc it. The cli owns the filename, the permissions, and the
@@ -93,7 +93,7 @@ it was. Bounce → the rule above.
 Sibling check, compose, then write:
 
 ```bash
-node ~/dotfiles/script/handoff-store.ts write --audience <a> --slug <topic> <<'CST'
+node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <topic> <<'CST'
 <the composed CST>
 CST
 ```

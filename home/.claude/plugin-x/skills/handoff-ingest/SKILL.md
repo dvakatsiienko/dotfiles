@@ -25,7 +25,7 @@ If the user stated what THIS thread is for, that is a TARGET — peer mode passe
 ## FILE MODE
 
 ```bash
-node ~/dotfiles/script/handoff-store.ts ingest [<topic>] --for <this session's audience>
+node ~/dotfiles/script/skill-handoff-store.ts ingest [<topic>] --for <this session's audience>
 ```
 
 `<audience>` is this session's own token — `cclio` for a coordinator session, `ccli` for a plain

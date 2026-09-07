@@ -1,7 +1,7 @@
 /**
- * cclio-snapshot — compiles the coordinator's whole brain into ONE file cw can read in one call
+ * skill-cclio-mode-snapshot — compiles the coordinator's whole brain into ONE file cw can read in one call
  * (`x-cw` tool `cclio_mode`, skill `/cclio-mode`). Runs at every cclio halt via
- * `cclio/.claude/hooks/gazette-recent.sh`, and by hand: `pnpm cclio-snapshot`.
+ * `cclio/.claude/hooks/gazette-recent.sh`, and by hand: `pnpm skill:cclio-mode-snapshot`.
  *
  * Zero-maintenance by construction: the cclio layer is derived by walking the memory barrel's
  * `@` imports, exactly as cc itself loads it — a new leaf joins the snapshot the moment it joins
@@ -18,7 +18,7 @@ const HOME = homedir();
 const DOTFILES = join(HOME, 'dotfiles');
 const CLAUDE_HOME = join(DOTFILES, 'home/.claude');
 const CCLIO = join(DOTFILES, 'cclio');
-const OUT = join(CLAUDE_HOME, 'shelf/cclio-mode-cw-snapshot.md');
+const OUT = join(CLAUDE_HOME, 'shelf/cclio-mode-snapshot.md');
 
 const read = (path: string) => readFileSync(path, 'utf8');
 

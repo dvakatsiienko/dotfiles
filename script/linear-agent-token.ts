@@ -1,6 +1,6 @@
 // prints a fresh linear app-actor token for one of our oauth apps: `cclio` (default) or `coder`.
-//   pnpm linear-agent-token          → cclio token
-//   pnpm linear-agent-token coder    → coder token
+//   pnpm linear:agent-token          → cclio token
+//   pnpm linear:agent-token coder    → coder token
 // id/secret live in the macos keychain as linear-<app>-id / linear-<app>-secret (account <app>);
 // the minted token caches in ~/.cache/linear/<app>-token.json and re-mints when <24h of life remain.
 //

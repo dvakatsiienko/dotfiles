@@ -30,9 +30,9 @@ this project's own config. The global one nests under `home/` precisely so the t
 ### the link commands
 
 ```bash
-pnpm dotfiles-link apply                  # link everything not linked yet
-pnpm dotfiles-link register ~/.foo        # move a file into the mirror and link it back
-pnpm dotfiles-link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+pnpm dotfiles:link apply                  # link everything not linked yet
+pnpm dotfiles:link register ~/.foo        # move a file into the mirror and link it back
+pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
 ```
 
 `package.json` `scripts` is the full list — read it rather than a copy here.

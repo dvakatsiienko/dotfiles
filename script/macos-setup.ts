@@ -2,8 +2,8 @@
 /**
  * ? macos — bring a Mac up to this repo's baseline.
  * ?
- * ?   pnpm macos-setup          # show what's missing, change nothing
- * ?   pnpm macos-setup apply    # install packages, write defaults, fetch vim-plug
+ * ?   pnpm macos:setup          # show what's missing, change nothing
+ * ?   pnpm macos:setup apply    # install packages, write defaults, fetch vim-plug
  * ?
  * ? Packages live in the Brewfile at the repo root, never in this file.
  * ? This script only knows how to run `brew bundle`, set a few defaults, and
@@ -92,7 +92,7 @@ await vimPlug();
 if (apply) {
     done('Machine matches the baseline.');
 } else {
-    done('Dry run. Run `pnpm macos-setup apply` to make it so.', {
+    done('Dry run. Run `pnpm macos:setup apply` to make it so.', {
         clean: false,
     });
 }

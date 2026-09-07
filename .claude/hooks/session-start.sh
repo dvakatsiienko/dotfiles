@@ -11,7 +11,7 @@ command -v pnpm >/dev/null 2>&1 || exit 0
 
 # --ignore-scripts skips `prepare` → skips `lefthook install`, on purpose.
 #
-# The pre-push hook runs `pnpm dotfiles-link`, which exits 1 anywhere the links
+# The pre-push hook runs `pnpm dotfiles:link`, which exits 1 anywhere the links
 # are absent or conflicting — every fresh container, always. Installing hooks
 # here would block the agent's push instead of gating it. CI is the gate that
 # survives a container; hooks stay a local-machine convenience, wired by

@@ -3,33 +3,22 @@
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "type": "module",
-    "devEngines": {
-        "runtime": {
-            "name": "node",
-            "version": ">=24.0.0",
-            "onFail": "error"
-        },
-        "packageManager": {
-            "name": "pnpm",
-            "version": ">=11.5.2",
-            "onFail": "warn"
-        }
-    },
     "scripts": {
-        "cclio-snapshot": "node ./script/cclio-snapshot.ts",
-        "dotfiles-link": "node ./script/dotfiles-link.ts",
-        "handoff-store": "node ./script/handoff-store.ts",
-        "linear-agent-token": "node ./script/linear-agent-token.ts",
-        "linear-push": "node ./script/linear-push.ts",
-        "macos-setup": "node ./script/macos-setup.ts",
-        "plugin-release": "node ./script/plugin-release.ts",
+        "skill:cclio-mode-snapshot": "node ./script/skill-cclio-mode-snapshot.ts",
+        "skill:memory-sync-mirror": "node ./script/skill-memory-sync-mirror.ts",
+        "skill:handoff-store": "node ./script/skill-handoff-store.ts",
+        "mcp:build": "pnpm --filter mcp-x-cw build",
+        "plugin:release": "node ./script/plugin-release.ts",
+        "sline:build": "cd ./home/.claude/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
+        "sline:test": "cd ./home/.claude/sline && go test ./...",
+        "linear:agent-token": "node ./script/linear-agent-token.ts",
+        "linear:push": "node ./script/linear-push.ts",
+        "dotfiles:link": "node ./script/dotfiles-link.ts",
+        "macos:setup": "node ./script/macos-setup.ts",
         "check": "biome check --write",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
-        "test:watch": "vitest",
-        "sline:build": "cd ./home/.claude/sline && go build -trimpath -buildvcs=false -ldflags \"-s -w\" -o bin .",
-        "sline:test": "cd ./home/.claude/sline && go test ./...",
-        "mcp:build": "pnpm --filter mcp-x-cw build"
+        "test:watch": "vitest"
     },
     "dependencies": {
         "zx": "8.8.5"
@@ -41,5 +30,17 @@
         "lefthook": "2.1.10",
         "typescript": "7.0.2",
         "vitest": "4.1.11"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=24.0.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "pnpm",
+            "version": ">=11.5.2",
+            "onFail": "warn"
+        }
     }
 }

@@ -31,7 +31,7 @@ pre-push:
     mirror:
       # The engine's own dogfood: if the manifest stops deriving, catch it here
       # rather than on the next machine.
-      run: pnpm dotfiles-link
+      run: pnpm dotfiles:link
     linear-push:
       # Links a pushed commit to the ticket its body names, and reverses the
       # writes Linear's own integration still makes. `bytes` runs this same
