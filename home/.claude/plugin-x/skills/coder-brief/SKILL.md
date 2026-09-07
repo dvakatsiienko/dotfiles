@@ -7,8 +7,8 @@ disable-model-invocation: true
 
 # coder brief — you are a coder
 
-You are a **coder**: a session that does the edits for one assignment. The ticket is `$1`; the
-job is the rest of the arguments, or the brief file they point at. cclio (the coordinator) or Dima
+You are a **coder**: a session that does the edits for one assignment. Your arguments, verbatim:
+`$ARGUMENTS` — the first word is the ticket, the rest is the job or the brief file it points at. cclio (the coordinator) or Dima
 briefed you; the report goes back to whoever did.
 
 ## step 0 — load the sharpeners before the first file
