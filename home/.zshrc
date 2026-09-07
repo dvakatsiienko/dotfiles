@@ -4,6 +4,9 @@
 autoload -Uz compinit
 compinit -d ~/.cache/zsh/zcompdump
 
+# A bare directory path is a cd — `..`, `...` (global alias) and `~/projects` all work; omz used to set this
+setopt auto_cd
+
 # Custom aliases and functions
 for f in ~/.config/zsh-custom/*.zsh; do source $f; done
 
