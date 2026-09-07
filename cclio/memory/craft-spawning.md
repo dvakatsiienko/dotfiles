@@ -12,7 +12,7 @@ not into headcount.
 
 The split is **disposable-vs-watchable**, not research-vs-code.
 
-- **the Code tab door (dima opens, cclio briefs)** — the flow that ran eight coders on 2026-09-06: dima opens a session in the app dir (root when the job crosses apps), pastes a one-line pointer to a brief file in cclio's scratchpad, the coder pings back through `mcp__ccd_session_mgmt__send_message`. a brief that says «dima's word» starts without a y/n round; a steer relayed by cclio is NOT his grant to the coder (the coder confirms with him — by our own rule). every brief starts from `docs/craft-spawning-brief-header.md`.
+- **the Code tab door (dima opens, cclio briefs)** — the flow that ran eight coders on 2026-09-06: dima opens a session in the app dir (root when the job crosses apps), pastes a one-line pointer to a brief file in cclio's scratchpad, the coder pings back through `mcp__ccd_session_mgmt__send_message`. a brief that says «dima's word» starts without a y/n round; a steer relayed by cclio is NOT his grant to the coder (the coder confirms with him — by our own rule). every brief starts from `x:coder-brief` (dima types it in the coder's session; cclio pastes the file body into a `--bg` prompt).
 - **`/fork [prompt]`** — a third door (dima, 2026-09-05): copies THIS conversation into a new
   background session, no brief, the coder starts knowing everything cclio knows. reach for it
   when the job needs the session's context (a design bundle discussed here → `theme.css`, a
@@ -96,13 +96,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## briefing and watching — write freely, read on a leash
 
-**Every coder brief starts from `docs/craft-spawning-brief-header.md`, pasted verbatim** — the skill set, the coder token line, the done-comment cap, the ping-back. **Step zero inside it: «load `x:guide-code` + the language guides before the
-first file» — and names the full skill set for the job** (`x:guide-typescript`, `x:guide-react`,
-`x:guide-ui-ux`, `x:guide-conventions`, `x:browser-headless`, …). Skills are sharpeners, and a
-coder loads only what the brief names (dima, 2026-09-05): a complete brief suppresses the skill
-router — the coder reads 40 exact lines as the whole instruction set and never goes looking for a
-supplementary one (measured on DOT-233: guide-code never loaded, guide-typescript arrived only
-after the code was written). cclio adds a skill when the work drifts into a new area.
+**The coder contract is `x:coder-brief`** (`plugin-x/skills/coder-brief/SKILL.md`, user-invoked only, zero resident cost): skill set, lane, identity, done-comment cap, ping-back. cclio adds only the job, the ticket, its own session id, and any skill the work drifts into — a complete brief suppresses the skill router (measured on DOT-233: guide-code never loaded), so an unnamed skill is an unloaded one.
 
 🎨 **comp first** — a design job opens with a `design` canvas dima approves in the artifact, then `impeccable` builds the code from that comp: its finish-reviewer judges the build against the comp, its documenter derives `DESIGN.md` from the shipped code. one coder, both skills in sequence (measured 2026-09-06: the two halves ran in two sessions and composed; impeccable's `PostToolUse`/`Stop` hooks are user-scope and fire in every session — a clean a/b needs the competing plugin disabled per lane). the canvas lane touches no files; the build lane starts only after his word on the boards.
 
