@@ -16,7 +16,8 @@ with no PR, so this fires rarely and carries the detail root `CLAUDE.md` cannot 
 - descriptions: the problem in a sentence or two, then how you solved it. end with a blurb
   naming the model and harness that did the work.
 - **one concern per PR** — if the description says «also», split it.
-- open a real PR, not a draft — drafts get no review-bot coverage.
+- a PR opens as a **draft while the work continues** (the coder lane: draft at first push) and is
+  marked ready when done — review bots read the ready PR, so «ready» is the review request.
 - rebase onto latest main before opening; stale branches waste a review round.
 - UI changes need before/after images; motion or timing needs a short video. upload evidence to
   GitHub — never commit PR-only screenshots or assets into the repo.
