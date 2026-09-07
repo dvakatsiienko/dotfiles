@@ -131,6 +131,18 @@ describe('the release plan', () => {
         expect(planned.version).toEqual({ from: '0.11.11', to: '0.11.12' });
     });
 
+    test('uncommitted edits under the plugin mean a bump too', () => {
+        const planned = planRelease({
+            committedVersion: '0.11.11',
+            dirty: 2,
+            plugin: plugin(),
+            touched: 0,
+        });
+
+        expect(planned.action).toBe('bump');
+        expect(planned.version.to).toBe('0.11.12');
+    });
+
     test('a quiet tree releases nothing', () => {
         expect(
             planRelease({

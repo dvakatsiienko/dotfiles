@@ -43,6 +43,8 @@ export type Release = {
     plugin: Plugin;
     /** Commits touching the plugin since its version last moved. */
     touched: number;
+    /** Paths under the plugin changed in the working tree and not yet committed. */
+    dirty: number;
     version: { from: string; to: string };
 };
 
@@ -96,25 +98,36 @@ export function planRelease(options: {
     committedVersion: string | null;
     plugin: Plugin;
     touched: number;
+    /** ? uncommitted edits count as movement too — a bump run before the commit used to read «nothing». */
+    dirty?: number;
 }): Release {
-    const { committedVersion, plugin, touched } = options;
+    const { committedVersion, plugin, touched, dirty = 0 } = options;
     const version = { from: plugin.version, to: plugin.version };
 
     if (committedVersion !== null && committedVersion !== plugin.version)
         return {
             action: 'uncommitted',
             commands: [],
+            dirty,
             plugin,
             touched,
             version,
         };
 
-    if (touched === 0)
-        return { action: 'none', commands: [], plugin, touched, version };
+    if (touched === 0 && dirty === 0)
+        return {
+            action: 'none',
+            commands: [],
+            dirty,
+            plugin,
+            touched,
+            version,
+        };
 
     return {
         action: 'bump',
         commands: refreshCommands(plugin),
+        dirty,
         plugin,
         touched,
         version: { from: plugin.version, to: bumpPatch(plugin.version) },
