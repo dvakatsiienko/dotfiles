@@ -104,6 +104,14 @@ each layer against itself misses all of it. Examples that fell out: the spawn-de
 verbatim in an always-loaded rule *and* in a leaf · a boot rule existed in three places · a whole
 tracker rule duplicated a coordinator memory.
 
+### step 2.2 · the cruft pass — `/claude-api prompt-audit`
+
+the bundled `claude-api` skill's `prompt-audit` subcommand, run over root `CLAUDE.md` + `rules/`
+(then cclio's memory, then the skills): it lists instructions written for older models — hedges,
+restated defaults, «be thorough»-class no-ops — with `file:line` and a proposed diff, changes
+nothing by itself. ran once on 2026-09-07: four hunks over root + rules, all applied. one invoke,
+read the report, apply by hand. (dima's fold, 2026-09-07)
+
 ### step 2.5 · the merge pass — one subject per file
 
 Duplication removes copies; this removes **fragmentation**, and it was the larger win on run 1.
