@@ -19,9 +19,12 @@ zsh_init_cached() {           # $1 = binary, rest = the command that prints init
     local name=$1; shift
     local cache="$ZSH_INIT_CACHE_DIR/$name.zsh"
     local stamp="$ZSH_INIT_CACHE_DIR/$name.version"
-    local version
+    local bin version
 
-    version="$($name --version 2>/dev/null)" || { eval "$("$@")"; return }
+    # the binary's mtime is the version: a `--version` subprocess per tool per tab cost ~30 ms
+    bin=$(whence -p $name) || { eval "$("$@")"; return }
+    zmodload -F zsh/stat b:zstat
+    version=$(zstat +mtime $bin)
 
     if [[ ! -s $cache || $version != "$(<$stamp 2>/dev/null)" ]]; then
         mkdir -p $ZSH_INIT_CACHE_DIR
