@@ -133,7 +133,7 @@ linear api 'query { projectMilestones(first: 50) { pageInfo { hasNextPage } node
 ## the command family
 - global, any ccli session: `/pre` · `/queue` · `/remind` · `/handoff` · `/cmt` · `/x:pm`
 - coordinator-only: `/cclio:init [board]` · `/cclio:report` · `/cclio:flawlog` ·
-  `/cclio:graceful-halt` (bare = planned finish, `stop` = immediate)
+  `/cclio:halt` (bare = planned finish, `stop` = immediate)
 - nothing in the global family may assume this home exists.
 
 ## rules
