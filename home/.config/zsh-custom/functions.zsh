@@ -16,7 +16,8 @@ function gprune() {
     if [[ "$1" == "-h" || "$1" == "--help" ]]; then
         cat <<USAGE
 gprune               list what is safe to delete, and what is held and why
-gprune -d            delete the safe set locally (merged, or remote gone + nothing unmerged)
+gprune -d            delete the safe set locally (merged, or remote gone + nothing unmerged); a gone
+                     branch living in a clean worktree takes the worktree with it — the PR lane's exit
 gprune -d rmt        …and delete the merged ones on origin too
 gprune -D            walk the held branches one by one, ask y/n each — the force lane
 gprune --stale [Nd]  list unmerged branches untouched for N days (default 90) as candidates
@@ -37,10 +38,14 @@ USAGE
     fi
     # %1f = the ascii unit separator: a tab would collapse the empty worktree field in zsh
     local refs=$(git for-each-ref --format='%(refname:short)%1f%(upstream:track)%1f%(worktreepath)%1f%(committerdate:relative)' refs/heads)
-    local gone=() held=() heldnames=()
+    local gone=() held=() heldnames=() trees=()
     while IFS=$'\x1f' read -r name track wt age; do
         [[ "$track" != "[gone]" ]] && continue
-        if [[ -n "$wt" ]]; then held+=("$name  ${T}$age${N} ${D}· checked out in ${wt}${N}"); heldnames+=("$name"); continue; fi
+        if [[ -n "$wt" ]]; then
+            # a merged coder branch lives in its own worktree; a clean tree goes with the branch
+            if [[ -z "$(git -C "$wt" status --porcelain 2>/dev/null)" ]]; then trees+=("$wt"); gone+=("$name  ${T}$age${N} ${D}· with its worktree ${wt}${N}"); continue; fi
+            held+=("$name  ${T}$age${N} ${D}· checked out in ${wt}, uncommitted changes${N}"); heldnames+=("$name"); continue
+        fi
         local n=$(git rev-list --count main.."$name")
         if (( n > 0 )); then
             # squash-merged? replay the branch as ONE commit on its merge-base and ask
@@ -70,6 +75,7 @@ USAGE
         return
     fi
     [[ "$1" != "-d" ]] && return
+    local t; for t in "${trees[@]}"; do git worktree remove "$t"; done
     (( ${#gone} )) && printf '%s\n' "${gone[@]%%  *}" | xargs git branch -D
     [[ -n "$merged" ]] && echo "$merged" | xargs git branch -d
     if [[ "$2" == "rmt" && -n "$merged" ]]; then
