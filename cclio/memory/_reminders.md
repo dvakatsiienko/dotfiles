@@ -17,6 +17,8 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 test `claude api prompt-audit` (the bundled `claude-api` skill's audit) — dima's ask 2026-09-07 for the next session: run it over root CLAUDE.md + rules/, it proposes removals of instructions written for older models and changes nothing; batch the proposal for his y. drop this line once run — set 2026-09-07
 
 
+⏰📌 bytes, first chance we get there: the ui-kit moved radix → base-ui — sweep the monorepo and remove every radix-ui reference (docs, CLAUDE.md files, comments, deps) so it stops trashing ctx; base-ui is the kit now. same pass: delete the project-level `migrate-radix-to-base` skill, its job is done — dima's ask 2026-09-07 — set 2026-09-07
+
 ⏰📌 a/b half left: does the `Agent:` trailer come back in cclio's own commits when booted from the TERMINAL (a desktop-born session gets a harness note forbidding attribution lines)? check on the first commit of a terminal-born session, record in x:cmt, drop this line. half (2) resolved 2026-09-07: `--bg` works from the Code tab, the dead child was a signed-out cc — set 2026-09-06
 
 ⏰ 🦊📜 cva 1.0 stable → retire the beta clauses — check `npm view cva version` at each bytes deps bump; when it reads `1.x` without `beta`: drop the «one import swap after each `shadcn add`» + «`--diff` always shows the cva wrap» lines from bytes `CLAUDE.md` `## ui-kit` and `packages/kit/CLAUDE.md`, and check whether shadcn now generates against `cva` (then the swap dies too) — set 2026-09-06
