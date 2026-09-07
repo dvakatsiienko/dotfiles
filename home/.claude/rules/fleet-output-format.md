@@ -158,10 +158,16 @@ file he names.
 - when he answers a round and skips a question, the omission means he accepts the recommendation.
   proceed. never re-ask to confirm.
 - **open asks ride a «⏳ waiting on your word:» block at the very end of the reply** — the final
-  cta of every turn, one numbered line each (`1. <ask> ➡️ <recommendation>`), repeated in every
-  following reply until he verdicts each. an ask that only appeared once is an ask he never saw.
-  (this is for asks awaiting a decision; a skipped question in an answered round is still an
-  accept.) no ribbons, no box — he found the boxed version too much.
+  cta of every turn, repeated in every following reply until he verdicts each. an ask that only
+  appeared once is an ask he never saw. (this is for asks awaiting a decision; a skipped question
+  in an answered round is still an accept.) the asks sit in a plain code fence so he copies the
+  block and answers inline, one numbered line each, no ribbons:
+
+      ⏳ waiting on your word:
+      ```
+      1. <ask> ➡️ <recommendation>
+      2. <ask> ➡️ <recommendation>
+      ```
 
 ## reply skeletons
 
