@@ -12,22 +12,25 @@ three rules keep it honest:
 - **adding a doc to `docs/` means adding its line here, in the same turn.** a doc missing from the
   index is, for membank, a doc that does not exist.
 
-## agents/ — how agents work in this repo
+## knowledge/ — read on demand, the lookups behind the rules
 
-- [claude fleet capabilities](agents/claude-fleet-capabilities.md) — what each surface can reach, what memory it keeps, who can operate whom; core coordinator knowledge behind `rules/fleet-identity.md`
-- [authoring — skill](agents/authoring-skill.md) — the full reference for writing a skill: frontmatter, `intended-models:`, invocation control, the listing budget
-- [authoring — memory](agents/authoring-memory.md) — where a fact goes, decided BEFORE it is written: the pre-write checklist, bucket tests, silent hazards
-- [dpatch system prompt](agents/system-prompt-dpatch.md) — structural map of what the cowork surface injects into dpatch, captured from inside
+- [claude fleet capabilities](knowledge/claude-fleet-capabilities.md) — what each surface can reach, what memory it keeps, who can operate whom; core coordinator knowledge behind `rules/fleet-identity.md`
+- [authoring — skill](knowledge/authoring-skill.md) — the full reference for writing a skill: frontmatter, invocation control, the listing budget, argument placeholders as measured
+- [authoring — memory](knowledge/authoring-memory.md) — where a fact goes, decided BEFORE it is written: the pre-write checklist, bucket tests, silent hazards
+- [authoring — project memfile](knowledge/authoring-memory-project.md) — how to write a project `CLAUDE.md`
+- [models](knowledge/models.md) — the model cards and prices behind `rules/models.md`
+- [spawn mechanics](knowledge/spawn-mechanics.md) — what is actually true about subagents, `--bg` sessions and their inheritance, per cc build
+- [writing for humans](knowledge/writing-for-humans.md) — the distilled knowledge behind the `x:writing-for-humans` skill
+- [dima's job search](knowledge/dima-job-search.md) — the anthropic application brief
 
 ## research/ — investigations, subject-first, one topic per file
 
 - [agent harness building](research/harness-building.md) — building a custom orchestration harness on claude code / agent sdk
 - [cc extension surfaces](research/harness-cc-surfaces.md) — every extension point of ccli, mechanics + gotchas per surface
-
-## spec/ — designs awaiting or driving implementation
-
-- [ccli coordinator boot prompt](spec/ccli-coordinator-boot-prompt.md) — copy-paste prompt that boots the session which builds the coordinator
-- [ccli coordinator mvp](spec/ccli-coordinator-mvp.md) — dpatch becomes a claude code session on disk; dispatch degrades to a window
+- [headless browser tool](research/headless-browser-tool.md) — agent-browser vs playwright for llm coders, measured
+- [matt's framework walkthrough](research/matt-framework-walkthrough.md) — the digest of the walkthrough over his skills
+- [notion channel](research/notion-channel.md) — notion, octoport, zapier: three verdicts
+- [cw memory regeneration](research/cw-memory-regen.md) — does anything rewrite our lines in cw memory?
 
 ## adr/ — repo decisions (`ADR-nnnn`)
 
