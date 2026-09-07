@@ -70,7 +70,7 @@ Anything we create should not just work well. It should be approachable and easy
 
 ## byproducts and cleaning habits
 
-- NEVER proactively create documentation files (\*.md) or README files unless explicitly requested
+- create a documentation file or README only when asked for one
 - never write description comments or docstrings for functions/methods unless genuinely needed
 - only commit changes when explicitly requested
 - keep scratch outside the worktree: plans, research notes, working files. clean up after operations too — delete obsolete artifacts, backups, and /tmp files you created
@@ -113,7 +113,7 @@ Anything we create should not just work well. It should be approachable and easy
 - **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
 - **gron / yq / sd** — json-path discovery (`gron file | grep value` beats jq-guessing an unknown schema) · yaml/toml read-write (`settings.toml`, lefthook) · in-place text replace without sed's macos `-i ''` traps. ⏳ vet until 2026-09-15 — usage measured from transcripts, unused → dropped
 - **trash over rm** — `trash <path>` moves to the recoverable macos trash; prefer it wherever a deletion is approved but regret is possible (same 2026-09-15 vet)
-- **uv** — the ONLY approved Python package manager; never pip/pip3/python -m pip
+- **uv** — the Python package manager here; pip in any form is not used
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
 
 ## session habits

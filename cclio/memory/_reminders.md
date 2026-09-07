@@ -12,16 +12,10 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 🔬 a probe to run
 
 
-
-
-⏰📌 test `claude api prompt-audit` (the bundled `claude-api` skill's audit) — dima's ask 2026-09-07 for the next session: run it over root CLAUDE.md + rules/, it proposes removals of instructions written for older models and changes nothing; batch the proposal for his y. drop this line once run — set 2026-09-07
-
-
 ⏰📌 bytes, first chance we get there: the ui-kit moved radix → base-ui — sweep the monorepo and remove every radix-ui reference (docs, CLAUDE.md files, comments, deps) so it stops trashing ctx; base-ui is the kit now. same pass: delete the project-level `migrate-radix-to-base` skill, its job is done — dima's ask 2026-09-07 — set 2026-09-07
 
 ⏰📌 a/b half left: does the `Agent:` trailer come back in cclio's own commits when booted from the TERMINAL (a desktop-born session gets a harness note forbidding attribution lines)? check on the first commit of a terminal-born session, record in x:cmt, drop this line. half (2) resolved 2026-09-07: `--bg` works from the Code tab, the dead child was a signed-out cc — set 2026-09-06
 
-⏰ 🦊📜 cva 1.0 stable → retire the beta clauses — check `npm view cva version` at each bytes deps bump; when it reads `1.x` without `beta`: drop the «one import swap after each `shadcn add`» + «`--diff` always shows the cva wrap» lines from bytes `CLAUDE.md` `## ui-kit` and `packages/kit/CLAUDE.md`, and check whether shadcn now generates against `cva` (then the swap dies too) — set 2026-09-06
 
 ⏰ 🦊🔬 github native stacked PRs — public preview since 2026-07-30 (`gh extension install github/gh-stack`, roadmap #1218); try on the first multi-layer coder assignment, not before — dima 2026-09-07: «too many novelties today». retire graphite from the list when it works — set 2026-09-07
 
@@ -34,12 +28,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰ 🦊📜 spawn-mechanics artifact freshness — `docs/knowledge/spawn-mechanics.md` verified against cc 2.1.258 (2026-09-02, run #2 of `refresh-spawn-mechanics`); re-run the procedure when the cc version changes, or when a spawn behaves against a [verified] row. the subagent stack row is [volatile] — the first thing run #3 probes — set 2026-08-30
 
 
-
-
-
 ⏰ 🦊📜 humanize skill copies freshness — `plugin-x/skills/humanize` + `humanize-audit` are 1:1 copies of github.com/harshaneel/humanize (commit 4ec7973145, 2026-08-27); if still manual after ~2 months (≈2026-10-27) → raise: refresh via the `refresh-writing-for-humans` procedure, or automate the pull — set 2026-08-27
-
-⏰ 🦊 keep [DOT-159](linear://linear.app/issue/DOT-159) (git overhaul) at priority 1 through the fleet package milestone — no milestone in dima's tools, prio is the mechanism — set 2026-08-25
 
 
 ⏰ 🦊👁️ proto-lab vet — on/after 2026-10-04: has one real proto been built in `apps/proto-lab` since 2026-09-04 (`git log --since=2026-09-04 -- apps/proto-lab/src/protos` in bytes)? yes → BYT-55 graduates; no → deleted per lab's rule, frame pattern noted in BYT-56 first, dima's word on the rm — set 2026-09-04

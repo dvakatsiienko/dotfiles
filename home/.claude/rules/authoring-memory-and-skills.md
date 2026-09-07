@@ -20,7 +20,7 @@ whose whole audience benefits. wrong-bucket placement is the mistake this map ki
 - **`~/.claude/rules/*`** — same global audience as root: each file one granular area (output
   format, voice, linear floor, …), split so root stays lean.
 - **`~/projects/CLAUDE.md`** — every coding session, no coordinator: true in every repo under
-  `~/projects` and nowhere else. cclio fills it. currently a deliberate stub (DOT-73 phase 3).
+  `~/projects` and nowhere else. cclio fills it. currently a deliberate stub.
 - **project-level `CLAUDE.md`** — sessions in that one project only. cclio fills these too.
 - **`cclio/memory/*`** — the coordinator only; a coder reading it would be misled.
 - **skills** — any audience, but loaded on demand, never resident. a memory that reads like
