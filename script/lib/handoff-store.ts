@@ -14,6 +14,7 @@
  * ? fixture and never touch ~/.claude.
  */
 
+import { execFile } from 'node:child_process';
 /* Core */
 import {
     chmod,
@@ -26,6 +27,7 @@ import {
 } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { promisify } from 'node:util';
 
 export const AUDIENCES = ['any', 'ccli', 'cclio', 'cw', 'dpatch'] as const;
 
@@ -429,9 +431,12 @@ async function readOrNull(path: string) {
     }
 }
 
+// ? `trash` keeps a pulled CST recoverable (the halt8 one died to an rm);
+// ? vitest keeps rm so a test run never fills the macos trash.
 async function rmOrIgnore(path: string) {
     try {
-        await rm(path);
+        if (process.env.VITEST) await rm(path);
+        else await promisify(execFile)('trash', [path]);
     } catch {
         /* already gone — another frontend got there first */
     }

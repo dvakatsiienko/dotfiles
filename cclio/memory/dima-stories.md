@@ -19,11 +19,6 @@ and moved the coordinator to ccli instead. The tell he trusted: fable's own note
 context had grown 50k → 67k in a week, unopened. → the coordinator migration,
 [[sys-boundaries]]
 
-## the ghost button
-Ran out of fable quota mid-session and had to reach opus through an undocumented kebab-menu ghost
-setting. His words: «if it die at some point i'll sit without even ability to tune model.» That
-fragility, not any feature, is what settled the move off dispatch.
-
 ## «optimize flow, not make it hotter»
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
