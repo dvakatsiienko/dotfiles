@@ -26,7 +26,7 @@
 - `cclio/gazette/*.md` → cw leaf `/areas/fleet-cclio-gazette.md` — the gazette digest, cw's
   ambient awareness of what dima and cclio do (his want: «i not see any reason of cw to not be
   aware of what we do with you»). carried by `memory-sync gazette`: each post's `cw:` frontmatter
-  block, 7-post window, older lines fall off at the next sync, noop when unchanged. trigger is
+  block, 5-post window, older lines fall off at the next sync, noop when unchanged. trigger is
   dima's daily 09:00 kyiv cw scheduled task (device-bound, ui-create-only). acceptance test: cw
   surfaces «this week we shipped …» unprompted in an hr mail or any thread.
 
