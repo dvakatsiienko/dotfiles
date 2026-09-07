@@ -1,4 +1,4 @@
-**A cclio session finishes with `/cclio:graceful-halt`.** He may type it, or he may just say
+**A cclio session finishes with `/cclio:halt`.** He may type it, or he may just say
 something that means *we are done* — and then running it is yours, unprompted. Do not wait for the
 slash command. It sounds like «let's wrap», «that's it for today», «good point to stop», «i'm
 done». Read the room, not the syntax.

@@ -5,7 +5,7 @@ Dima routes by prefix at a glance; the test is **where a skill can run**, never 
 - **`x:*`** — useful in ANY ccli session: `x:pm`, `x:cmt`, `x:pre`, `x:queue`, `x:remind`,
   `x:handoff`.
 - **`cclio:*`** — coordinator-only, via the `cclio` plugin at project scope: `cclio:init`,
-  `cclio:report`, `cclio:graceful-halt` (`stop` arg), `cclio:flawlog`.
+  `cclio:report`, `cclio:halt` (`stop` arg), `cclio:flawlog`.
 - **mirrored external frameworks** (matt's) keep their original names for cross-surface muscle
   memory.
 

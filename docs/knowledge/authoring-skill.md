@@ -169,7 +169,7 @@ docs' own test is side effects and timing — `/commit`, `/deploy`, `/send-slack
 🚫 **but check for self-triggering FIRST, and read the skill body, not just its name.** a skill that
 is *supposed* to fire on its own dies silently when flagged, and nothing reports it:
 
-- `cclio-graceful-halt` **must stay model-invocable** — dima may simply say something that means
+- `cclio-halt` **must stay model-invocable** — dima may simply say something that means
   «we are done», and starting the ritual is the agent's job
 - `cclio-flowlog` fires «whenever a mistake just happened»
 - `cclio-report` fires on «sup» / «where are we»

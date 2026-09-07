@@ -2,13 +2,13 @@
 description: load when dima means we are done — «let's wrap», «that's it for today», «i'm done», «good point to stop» — or types the command. add `stop` when he leaves NOW («i have to go»).
 ---
 
-# /cclio:graceful-halt
+# /cclio:halt
 
 **one ritual, two speeds.** `stop` is an argument, not a sibling command.
 
-- `/cclio:graceful-halt` — dima is finishing up and there is time to do it properly. plan it,
+- `/cclio:halt` — dima is finishing up and there is time to do it properly. plan it,
   land what lands, wrap properly. 🚨 **invoking it IS the go — never ask for confirmation.**
-- `/cclio:graceful-halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
+- `/cclio:halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
   conversation, under a minute.
 
 **both are graceful, and `stop` is not the careless one.** it is still a halt: nothing is dropped
@@ -16,7 +16,7 @@ out of your hands, nothing is left half-applied, nothing is forced. it just pref
 safe finish over the best one. never trade safety for speed — a rushed exit leaving a half-written
 file or a half-applied migration costs far more than the minute it saved.
 
-loads on `/cclio:graceful-halt`, `/halt`, `/wrap`, or when dima says to finish the day.
+loads on `/cclio:halt`, `/halt`, `/wrap`, or when dima says to finish the day.
 `stop` also fires on `/halt stop`, `/bail`, or «i have to go».
 
 📌 **never open the halt plan unprompted mid-task.** if dima has not asked to finish, do not
@@ -34,7 +34,8 @@ skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
    needs a decision → it does not qualify. do not start anything.
 3. **push if commits are clean and hooks pass.** hooks fail → force NOTHING. leave the commits
    local and say so.
-4. **park notes where the work lives** — ticket comment, flowlog line, `/queue`. not in chat.
+4. **inbox cleared** (phase 1.5, same rule, no ask).
+4b. **park notes where the work lives** — ticket comment, flowlog line, `/queue`. not in chat.
    one line each: what state it is in, and the single next action. **this is the part that must
    not be skipped**, because it is the part that pays for itself tomorrow.
 5. **phase 3.5 still runs** — a stale milestone misinforms the next boot, and refreshing it is
@@ -79,6 +80,12 @@ execute the «can land now» list. small only — a halt is not the time to star
 it looked → stop, park it, say so.
 each park gets its resume note **where the work lives** (ticket comment, flowlog line, `/queue`),
 not in the report. a park that only exists in a chat message is a strand.
+
+## phase 1.5 — the inbox, cleared unasked 📬
+every halt, both lanes, no confirmation: re-read `inbox.md`, confirm each item has a home
+(a flowlog line, a ticket, an answer given, a fold), then clear the content — his section
+headers stay. an item without a home is not deleted: it gets its flowlog line first, then
+goes. dima, 2026-09-07: «cleaning inbox is your default habit each halt without re-confirming».
 
 ## phase 2 — missed sweep
 re-read the flowlog, `.claude/x-queue.md`, and this thread for dropped asks and unanswered
