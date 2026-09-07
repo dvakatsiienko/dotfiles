@@ -15,7 +15,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 bytes, first chance we get there: the ui-kit moved radix → base-ui — sweep the monorepo and remove every radix-ui reference (docs, CLAUDE.md files, comments, deps) so it stops trashing ctx; base-ui is the kit now. same pass: delete the project-level `migrate-radix-to-base` skill, its job is done — dima's ask 2026-09-07 — set 2026-09-07
 
 
-⏰ 🦊🔬 github native stacked PRs — public preview since 2026-07-30 (`gh extension install github/gh-stack`, roadmap #1218); try on the first multi-layer coder assignment, not before — dima 2026-09-07: «too many novelties today». retire graphite from the list when it works — set 2026-09-07
+⏰ 🦊🔬 github native stacked PRs — public preview since 2026-07-30 (`gh extension install github/gh-stack`, roadmap #1218); try on the first multi-layer coder assignment, not before — dima 2026-09-07: «too many novelties today». retire graphite from the list when it works. +1 dima 2026-09-07: the BYT-56 coder's job 2 branched from job 1's tip on its own — that is a stack — set 2026-09-07
 
 ⏰ 🦊👁️ initiatives vet — on/after 2026-09-17: did the linear initiative «roadmap» answer «what's next» at every boot for two weeks, without the md file? measure: the flawlog + CSTs of the window name no «re-read the roadmap» moment, and the step named at boot matched what dima did. yes → the vault copy `prompts/dima-roadmap.md` retires on his word. no → revert: `ln -s "…/prompts/dima-roadmap.md" cclio/memory/dima-roadmap.md` + the one barrel import line back, the strategy section stays — set 2026-09-03
 

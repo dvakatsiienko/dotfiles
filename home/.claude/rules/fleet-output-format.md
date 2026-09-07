@@ -157,10 +157,18 @@ file he names.
   dima steers with one word instead of typing a long query.
 - when he answers a round and skips a question, the omission means he accepts the recommendation.
   proceed. never re-ask to confirm.
-- **open asks ride a «⏳ waiting on your word:» block at the very end of the reply**, one line
-  each, repeated in every following reply until he verdicts each. an ask that only appeared once
-  is an ask he never saw. (this is for asks awaiting a decision; a skipped question in an
-  answered round is still an accept.)
+- **open asks ride the ⏳ block at the very end of the reply** — the final cta of every turn,
+  repeated in every following reply until he verdicts each. an ask that only appeared once is
+  an ask he never saw. (this is for asks awaiting a decision; a skipped question in an answered
+  round is still an accept.) its shape is fixed so it stands out from the body:
+
+      ╭─────────── ⏳ your word ───────────╮
+      1. <the ask, one line> ➡️ <recommendation>
+      2. <the ask, one line> ➡️ <recommendation>
+      ╰─── «all» takes every ➡️ ───────────╯
+
+  numbered so he answers by number («1 y, 2 skip»); the bottom ribbon reminds him of the one
+  word that accepts the lot. no bullets inside, nothing after the ribbon.
 
 ## reply skeletons
 
