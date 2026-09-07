@@ -28,6 +28,8 @@ If the user stated what THIS thread is for, that is a TARGET — peer mode passe
 node ~/dotfiles/script/skill-handoff-store.ts ingest [<topic>] --for <this session's audience>
 ```
 
+🚫 **never silence an ingest.** it prints the CST once and deletes the file — piping it to `/dev/null` destroys the handoff (measured 2026-09-07: halt8, reconstructed from a peek, tail lost). read the print in full; a peek is not an ingest.
+
 `<audience>` is this session's own token — `cclio` for a coordinator session, `ccli` for a plain
 one. The cli does the mechanics and refuses rather than guessing:
 
