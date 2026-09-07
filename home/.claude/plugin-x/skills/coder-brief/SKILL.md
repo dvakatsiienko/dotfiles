@@ -34,10 +34,9 @@ router, so this list is the whole set — load it, do not wait to be reminded.
   coder/<ticket>-<slug> main` (or the Code tab's worktree option), `CI=1 pnpm install` there,
   then `pnpm worktree:seed <path>` (env copies, install, a port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it for a tree it made). The main checkout stays on `main` —
   it is one shared tree and your `git switch` would move every session.
-- on a `coder/*` branch you hold `/cmt y+` and `slay+`: commit each step, push, open a **draft
-  PR at the first push** (`gh pr create --draft`, body `- ticket: <id>`; `Closes <id>` only when
-  the ticket ends), paste the PR url in your chat and in your ping, mark ready when done. Dima
-  squash-merges.
+- on a `coder/*` branch you hold `/cmt y+` and `slay+`: commit each step, push, **open the PR at the
+  first push** — a real PR, never a draft (`gh pr create`, body `- ticket: <id>`; `Closes <id>` only
+  when the ticket ends), paste the PR url in your chat and in your ping. Dima squash-merges.
 - freebies and tiny changes go to `main` — the brief says which; unsure → ask once, up front.
   On `main`: commit only on Dima's word; push only when he says slay in your chat.
 - every commit body: first line names the step (`step 3 of BYT-25: …`), one `- ticket: <id>`
