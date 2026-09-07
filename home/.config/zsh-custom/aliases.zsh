@@ -83,5 +83,5 @@ alias tb='turbo'
 
 # llms
 alias cc='claude'
-alias cclio='cd ~/dotfiles/cclio && claude --remote-control "💻 cclio"'
+alias cclio='cd ~/dotfiles/cclio && claude --remote-control "🦊 cclio"'
 alias cclio-list='~/dotfiles/cclio/.claude/hooks/boot-prefetch.sh'
