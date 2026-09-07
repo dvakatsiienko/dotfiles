@@ -31,5 +31,9 @@ home/.claude/shelf/yt-transcripts/
 home/.claude/shelf/sounds/*
 !home/.claude/shelf/sounds/audition.sh
 
-# The cclio snapshot is a build (script/cclio-snapshot.ts), recompiled at every halt.
-home/.claude/shelf/cclio-mode-cw-snapshot.md
+# The cclio-mode snapshot is a build (script/skill-cclio-mode-snapshot.ts), recompiled at every halt.
+home/.claude/shelf/cclio-mode-snapshot.md
+
+# The memory-sync mirror is a build too (script/skill-memory-sync-mirror.ts): the cc masters rendered
+# into cw memory entries plus a manifest, re-rendered by x-cw:memory-sync and at every halt.
+home/.claude/shelf/memory-sync-mirror/

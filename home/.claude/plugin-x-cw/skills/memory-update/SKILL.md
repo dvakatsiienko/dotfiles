@@ -68,6 +68,9 @@ memory serves two readers: dima (must answer his question without re-asking) and
 - unsure whether to prune a line → ask him before writing.
 - a fact with a master file in `~/dotfiles` is a derived copy — point at the master or copy it
   exactly; never write a competing variant.
+- an entry carrying `source-sha256:` in its frontmatter, or a block between `<!-- mirror:start -->`
+  and `<!-- mirror:end -->`, is a mirror written by `memory-sync` — never edit it by hand; the change
+  goes to the master in `~/dotfiles`, then `/memory-sync`.
 
 ## arg: `dry`
 
