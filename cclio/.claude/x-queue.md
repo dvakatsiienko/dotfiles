@@ -1,6 +1,7 @@
 # x-queue
 
 ## queue
+- 🔑 for the handoff/CST: cclio CAN spawn `--bg` coders herself from a Code-tab-born session (measured 2026-09-07: subscription banner, rc bridged); the 09-06 dead child was a signed-out cc, a false negative. the 🥇 vercel job runs as a cclio-spawned `--bg` coder named `🔧 code: BYT-25 vercel install` — no Code-tab paste needed.
 
 - 🥇 NEXT SESSION, first job (coder, fable low, PR lane, worktree): the vercel install defect — `installCommand: "pnpm i -F '<app>...'"` in cv / figmentation / x-com-chat / space-explorer-ui `vercel.json` (kit's `typecheck` runs with empty node_modules today, space-explorer-ui prod stuck on the old ui since 73fae60d) + `apps/space-explorer-ui/src/components/ThemeToggle.tsx(25,23)` implicit any + retire `turbo-ignore` → redeploy space-explorer-ui. details in BYT-25 «state 2026-09-07». the same run proves whether local `turbo typecheck` misses what vercel catches (the Select/ThemeToggle repro).
 - 🥈 the terminal-born a/b (reminder ⏰📌): `Agent:` trailer back? `--bg` child alive on the subscription?
