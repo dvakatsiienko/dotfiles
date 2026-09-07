@@ -122,7 +122,8 @@ command = "true"
 format = '[](fg:color_blue)'
 
 [custom.gitcap]
-when = 'git rev-parse --git-dir >/dev/null 2>&1 && [ -z "$(git diff HEAD --numstat 2>/dev/null | head -1)" ]'
+# shows exactly when git_metrics does not: zero changed lines (clean, an empty file, a rename, a binary)
+when = 'git rev-parse --git-dir >/dev/null 2>&1 && git diff HEAD --numstat 2>/dev/null | awk "{a+=\$1;d+=\$2} END{exit (a+d)>0}"'
 command = "true"
 format = '[](fg:color_aqua)'
 
