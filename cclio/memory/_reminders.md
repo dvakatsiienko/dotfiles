@@ -27,3 +27,5 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 ⏰ 🦊👁️ proto-lab vet — on/after 2026-10-04: has one real proto been built in `apps/proto-lab` since 2026-09-04 (`git log --since=2026-09-04 -- apps/proto-lab/src/protos` in bytes)? yes → BYT-55 graduates; no → deleted per lab's rule, frame pattern noted in BYT-56 first, dima's word on the rm — set 2026-09-04
+
+⏰📌 the freshness engine — dima's own ask, raised at EVERY boot until he verdicts it: he wants daily software freshness back (patches auto-committed, no dangling minors so a major is a straight jump), a cron'd upgrade round run by cclio, a supply-chain «anti virus» layer, and solid ci first (depot · blacksmith · similar) — his words and the vercel fan-out math are the 🥇 item in `.claude/x-queue.md`. he said: «don't forget to remind me what i asked because i can forget». dies only when he says drop it — set 2026-09-08
