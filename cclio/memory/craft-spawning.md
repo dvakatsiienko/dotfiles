@@ -40,7 +40,9 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
    worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
-2. **name** — the template is `claude --bg -n '🧪 probe: <what>' …`: type-first (`🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`), `-n` typed BEFORE the prompt, every child, probes included. `-n` is the registry name; `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`); a coder has no tool for it. the `Agent` tool's `name` regex bans emoji/colons/spaces. dima steers running sessions by name in the desktop Code tab.
+2. **name + argv** — the template, literal, prompt BEFORE `--remote-control` (measured 2026-09-07: the flag ate a 1.5 kB brief as its rc label → 400, idle child):
+   `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort high '/x:coder-brief BYT-N <job> coordinator: <session id>' --remote-control`
+   type-first (`🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`), `-n` typed BEFORE the prompt, every child, probes included. `-n` is the registry name; `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`); a coder has no tool for it. the `Agent` tool's `name` regex bans emoji/colons/spaces. dima steers running sessions by name in the desktop Code tab.
 3. **cwd** — a coder is launched as `cd <target repo> && claude --bg …` in one command: the only
    door that derives its stack from cwd (2/2 clean on 2.1.258). a subagent inherits the
    coordinator's brain whatever the cwd — fine for a probe, wrong for a coder. the brief asks the
@@ -96,7 +98,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## briefing and watching — write freely, read on a leash
 
-**The coder contract is `x:coder-brief`** (`plugin-x/skills/coder-brief/SKILL.md`, user-invoked only, zero resident cost): skill set, lane, identity, done-comment cap, ping-back. cclio adds only the job, the ticket, its own session id, and any skill the work drifts into — a complete brief suppresses the skill router (measured on DOT-233: guide-code never loaded), so an unnamed skill is an unloaded one.
+**The coder contract is `x:coder-brief`** (`plugin-x/skills/coder-brief/SKILL.md`, user-invoked only, zero resident cost): skill set, lane, identity, done-comment cap, ping-back. ✅ **the `--bg` prompt expands it** (measured 2026-09-07, haiku: all four headers back) — 🚫 **a `SendMessage` does NOT** (same day: the coder got raw slash text, no brief, and posted its comment as dima). so the brief is the spawn prompt; a later message carries only steers. cclio adds only the job, the ticket, its own session id, and any skill the work drifts into — a complete brief suppresses the skill router (measured on DOT-233: guide-code never loaded), so an unnamed skill is an unloaded one.
 
 🎨 **comp first** — a design job opens with a `design` canvas dima approves in the artifact, then `impeccable` builds the code from that comp: its finish-reviewer judges the build against the comp, its documenter derives `DESIGN.md` from the shipped code. one coder, both skills in sequence (measured 2026-09-06: the two halves ran in two sessions and composed; impeccable's `PostToolUse`/`Stop` hooks are user-scope and fire in every session — a clean a/b needs the competing plugin disabled per lane). the canvas lane touches no files; the build lane starts only after his word on the boards.
 
