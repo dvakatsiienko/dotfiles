@@ -67,3 +67,11 @@ named the same pattern the same evening. Origin of «my own recall is a relay to
 
 ## «yes they all went green, not very good» · 2026-09-06
 four design lanes, four different skills, one frozen brief — and every result came back green. he saw it in the tabs before any of us named the cause: two hex codes in the brief labelled «refs, not specs» had pulled every lane the same way. the test was «too narrow» in his words, and the fix was to strip the codes, not to add a rule. the felt sense arrived as a verdict on the output; the reason sat in the input. → BYT-75, the round-2 brief
+
+## the flat starship end · 2026-09-07
+He pasted a prompt screenshot: «another blocky case. make it so the ending part is rounded.» The
+cap glyph was already rounded; the reason was elsewhere. A staged change with zero lines (an
+empty file, a rename, a binary) hid `git_metrics` and its cap, and the `gitcap` fallback hid too
+because the diff was non-empty. Two rules, both correct, one gap between them. The felt sense was
+«blocky»; the fix was making the fallback key off the same number the other module shows. → the
+`starship.toml` gitcap `when`
