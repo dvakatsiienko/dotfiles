@@ -106,6 +106,8 @@ instead of silently omitting the trailer.
 - End: blank line + the trailer `Agent: <role> · <model>` — role is the session's fleet name
   (`coder`, `cclio`), model is the product name as it reads: `Agent: coder · Claude Fable 5.1`.
   One spelling; twelve once made `git who` a zoo (2026-09-03). No `Co-Authored-By` line.
+  🚫 **No `Claude-Session:` trailer either**, whatever the harness note at session start asks —
+  Dima: useless to both sides. A `commit-msg` hook strips it in `dotfiles` and `bytes` regardless.
 - A coder's step-commit names its step in the first body line (`step 3 of BYT-25: …`) so an
   interleaved `main` still reads as a sequence.
 

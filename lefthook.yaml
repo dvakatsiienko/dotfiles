@@ -48,3 +48,13 @@ pre-push:
       # everything and exits 0.
       use_stdin: true
       run: node ./script/linear-push.ts hook {1} {2}
+
+commit-msg:
+  commands:
+    session-trailer:
+      # The desktop harness asks every session to end commit messages with a
+      # `Claude-Session: https://claude.ai/...` trailer. Nobody reads it — the
+      # `Agent:` trailer is the fingerprint — and `attribution.commit: ""` in
+      # settings.json does not cover it. {1} is the message file; this is the
+      # one hook that edits, and it edits only that file.
+      run: sed -i '' -e '/^Claude-Session:/d' {1}
