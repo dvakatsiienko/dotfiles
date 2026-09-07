@@ -12,4 +12,5 @@ if jq -e '.scripts["worktree:seed"]' "$wt/package.json" >/dev/null 2>&1; then
   CI=1 pnpm --dir "$wt" -s worktree:seed "$wt" >/dev/null 2>&1 || true
 elif [ -f "$wt/pnpm-lock.yaml" ]; then
   CI=1 pnpm install --dir "$wt" >/dev/null 2>&1 || true
+  echo "worktree seeded with a plain install — this repo has no \`worktree:seed\` script; add one if a tree needs env files or its own dev ports (bytes has the reference)"
 fi
