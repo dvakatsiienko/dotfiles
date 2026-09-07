@@ -104,19 +104,28 @@ async function plan(plugin: Plugin): Promise<Release> {
         ).stdout.trim() || '0',
     );
 
+    const dirty = (
+        await zx.$`git -C ${repoRoot} status --porcelain -- ${plugin.dir}`.nothrow()
+    ).stdout
+        .split('\n')
+        .filter(
+            (line) => line !== '' && !line.endsWith(plugin.manifest),
+        ).length;
+
     const head = (
         await zx.$`git -C ${repoRoot} show HEAD:${plugin.manifest}`.nothrow()
     ).stdout;
 
     return planRelease({
         committedVersion: head === '' ? null : readField(head, 'version'),
+        dirty,
         plugin,
         touched,
     });
 }
 
 async function report(entry: Release, apply: boolean) {
-    const { action, commands, plugin, touched, version } = entry;
+    const { action, commands, dirty, plugin, touched, version } = entry;
     step(`${plugin.name}  ${dim(version.from)}`);
 
     if (action === 'uncommitted') {
@@ -133,7 +142,10 @@ async function report(entry: Release, apply: boolean) {
 
     const change = `${version.from} → ${bold(version.to)}`;
     if (!apply) {
-        ok(`${touched} commit(s) since the version moved`, change);
+        ok(
+            `${touched} commit(s) + ${dirty} uncommitted path(s) since the version moved`,
+            change,
+        );
         for (const command of commands) note(`would run: ${command.join(' ')}`);
         if (commands.length === 0)
             note('bump only — cw reads this plugin by file');
