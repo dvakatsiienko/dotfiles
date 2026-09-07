@@ -28,3 +28,14 @@ loads for any coder there; a repo of theirs gets cloned inside it).
 - their repo, their conventions: titles and casing follow the target; no ticket lines — there is no
   ticket. `x:github-contrib` for any `gh` call.
 - the day-old lanes (PR-first, worktree seed) may bite; fix in place, one line about it, move on.
+
+## on the shared screen — the things that bite silently (from cw's prep CST, 2026-09-06)
+
+- **secrets**: no `.env` opened on screen, no shell history with keys, env var *names* only; sline's
+  usage/cost line shows billing — if it is visible, say nothing about it, never explain numbers.
+- their doc's rules, so cclio never suggests against them: entire screen shared, one display, no
+  second device, no outside help, session recorded and owned by g2i; 12 h notice to reschedule,
+  max 2 reschedules, first no-show = warning, second = out.
+- plan b if claude dies mid-call: say «switching tools», cursor on the same repo; git history is
+  the shared state.
+- no pre-baked solution repo — a fresh dir and a real first commit are what they should see.
