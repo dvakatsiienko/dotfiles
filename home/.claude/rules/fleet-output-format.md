@@ -160,11 +160,12 @@ file he names.
 - **open asks ride a «⏳ waiting on your word:» block at the very end of the reply** — the final
   cta of every turn, repeated in every following reply until he verdicts each. an ask that only
   appeared once is an ask he never saw. (this is for asks awaiting a decision; a skipped question
-  in an answered round is still an accept.) the asks sit in a plain code fence so he copies the
-  block and answers inline, one numbered line each, no ribbons:
+  in an answered round is still an accept.) the whole block — header included — is ONE plain
+  code fence so he copies it and answers inline, one numbered line each; nothing outside the
+  fence, no ribbons, the header never printed twice:
 
-      ⏳ waiting on your word:
       ```
+      ⏳ waiting on your word:
       1. <ask> ➡️ <recommendation>
       2. <ask> ➡️ <recommendation>
       ```
