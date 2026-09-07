@@ -30,7 +30,7 @@ nothing else. (The SessionStart prefetch already holds both; no queries needed.)
 
 ## the cclio plugin
 
-Skills live in `plugin-cclio/commands/`, registered by `.claude/settings.json`. ⚠️ **A plugin edit
+Skills live in `plugin-cclio/skills/<name>/SKILL.md`, registered by `.claude/settings.json`. ⚠️ **A plugin edit
 binds only after a version bump plus `claude plugin marketplace update cclio` and
 `claude plugin update cclio@cclio --scope project`, then `/reload-plugins` typed by Dima in the
 running session (2.1.26x; measured 2026-09-05 — a compacted session is not a fresh one, so

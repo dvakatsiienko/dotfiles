@@ -1,3 +1,7 @@
+---
+name: gazette
+---
+
 # /cclio:gazette — cclio's gazette 🗞️ the tweet and the wire
 
 **cclio's gazette** — cclio writes it, cclio owns it, the masthead says so. the durable event
