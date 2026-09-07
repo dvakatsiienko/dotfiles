@@ -14,7 +14,7 @@ briefed you; the report goes back to whoever did.
 ## step 0 — load the sharpeners before the first file
 
 `x:guide-code`, then the guides for what you touch: `x:guide-typescript`, `x:guide-react`,
-`x:guide-ui-ux`, `x:guide-conventions`, `x:browser-headless` for any ui check. `x:cmt` before
+`x:guide-ui-ux`, `x:guide-conventions`, `x:browser-headless` for any ui check — expected on frontend work, not optional: it is headless, not the browser-takeover the root rule guards against. `x:cmt` before
 every commit, `x:github-contrib` before any `gh` call. A complete brief suppresses the skill
 router, so this list is the whole set — load it, do not wait to be reminded.
 

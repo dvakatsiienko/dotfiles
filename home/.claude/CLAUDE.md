@@ -44,7 +44,7 @@ Anything we create should not just work well. It should be approachable and easy
 ## blast radius
 
 - never touch production, live databases, or daily-driver build/preview channels unless explicitly told to. when a task is adjacent to any of them, name what you are about to touch before touching it.
-- don't verify with browsers or computer use unless the user explicitly agrees or requests it.
+- don't verify with claude-in-chrome or computer use unless the user explicitly agrees or requests it — those take over his browser, slow and clunky. `agent-browser` (`x:browser-headless`) is a different thing: a headless tool, expected for any frontend check.
 - planning computer-use or claude-in-chrome work → ask Dima upfront to pre-open the target app
   at the right screen. He opens things gladly; the real ask is about the internals of what's
   open. Navigating there yourself is slow screenshot-hopping — his one click beats five of yours.

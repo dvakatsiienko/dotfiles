@@ -54,6 +54,9 @@ broom section (prettify only, no data loss, one approve). zero → say nothing.
   skill's): never ingest a CST addressed to another agent — report whose it is and leave it.
 - active run id from the last CST META → continue it, never mint one mid-story. a CST marked
   FROZEN is not the active one.
+- a coder alive (`claude agents`) with open `coder/*` PRs → arm the merge monitor: a persistent
+  `Monitor` polling `gh pr list --state merged --search 'head:coder/'` every 60 s and running
+  `gprune -d` on each new merge. dima merges, cclio cleans; the monitor dies with the session.
 - read `.claude/x-queue.md` — offer the top item; it never surfaces on its own. long-lived items
   are tickets, not park lines.
 
