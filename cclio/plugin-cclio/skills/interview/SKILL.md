@@ -6,6 +6,8 @@ disable-model-invocation: true
 
 # the interview — a 45–60 minute live session, cclio coordinating
 
+**wed 2026-09-09, 16:00 kyiv.** 45–60 min.
+
 Dima's whole screen is shared. An interviewer watches how he prompts, how the result gets verified,
 and the judgment in between. The task is unknown until it is given: a small scoped build, a fix in
 an existing repo, or a discussion. The workbench is `~/projects/g2i-interview` (its `CLAUDE.md`
