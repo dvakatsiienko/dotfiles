@@ -40,17 +40,14 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
    worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
-2. **name** — `🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`, type-first. 🚨 **the registry name is `-n <name>`** — `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured 2026-08-30: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`) — a coder has no tool for it (measured).
-   🚨 sessions only: the `Agent` tool's `name` regex bans emoji/colons/spaces. Dima steers running
-   sessions by name in the desktop Code tab.
-3. **cwd** — 🚨 a coder is a `--bg` session launched with `cd <target repo> && claude --bg …`
-   in one command: the only door that derives its stack from cwd (2/2 clean on 2.1.258). a
-   subagent spawned by cclio inherits the coordinator's brain whatever the cwd — fine for a
-   probe, wrong for a coder. the brief asks the coder to name its loaded CLAUDE.md paths in its
-   first reply — the bleed detector.
+2. **name** — the template is `claude --bg -n '🧪 probe: <what>' …`: type-first (`🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:`), `-n` typed BEFORE the prompt, every child, probes included. `-n` is the registry name; `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`); a coder has no tool for it. the `Agent` tool's `name` regex bans emoji/colons/spaces. dima steers running sessions by name in the desktop Code tab.
+3. **cwd** — a coder is launched as `cd <target repo> && claude --bg …` in one command: the only
+   door that derives its stack from cwd (2/2 clean on 2.1.258). a subagent inherits the
+   coordinator's brain whatever the cwd — fine for a probe, wrong for a coder. the brief asks the
+   coder to name its loaded CLAUDE.md paths in its first reply — the bleed detector.
 4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
    word — **cclio verifies, then closes.**
-5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm -s linear-agent-token coder)` and
+5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm -s linear:agent-token coder)` and
    asks the coder to post its done-report as one linear comment on the ticket through that token
    (`linear api` with `Authorization: Bearer`); it renders as «coder». the reminder counts.
    📌 **cap the comment at ~12 lines** — what shipped, what is left, measured numbers, one line per
@@ -63,25 +60,21 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   a `Workflow` `agent()` call honours its per-call `effort` too (2.1.258).
 - ✅ **`claude --bg '<prompt>'` RUNS the prompt** (re-verified 2.1.258; it came up idle on 2.1.239).
   `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
-- ⚠️ **a subagent starts in the parent's BASH SHELL cwd** — whatever the last `cd` left —
-  and on 2.1.258 **inherits cclio's whole stack regardless of that cwd** (`cd` sheds nothing;
-  flipped on each of the last three builds, so re-probe every build). a cclio subagent is a
-  probe or a researcher wearing the coordinator's brain, never a plain coder. keep every path
-  in a brief absolute.
+- ⚠️ **a subagent starts in the parent's bash cwd and inherits cclio's whole stack regardless
+  of it** (2.1.258; flipped on each of the last three builds — re-probe every build). keep every
+  path in a brief absolute.
 - ⚠️ **effort is inherited only by an effort-capable child** — an opus subagent gets
   `CLAUDE_EFFORT`, a haiku one records `effort=null`. never measure effort with haiku in the loop.
 - ⚠️ **a worktree agent branches from `origin/<default-branch>`, not local HEAD** — it cannot see
   unpushed commits.
 - 📌 `~/.claude/jobs/<jobId>/state.json` carries `respawnFlags` — the only place a session's
   launch argv survives.
-- ⚠️ **a peer answering in plain prose reaches nobody** — only a message call travels. Say so
+- ⚠️ **a peer answering in plain prose reaches nobody** — only a message call travels; say so
   in any brief expecting an answer. Code-tab sessions have no cc `SendMessage`; their channel is
-  the desktop tool `mcp__ccd_session_mgmt__send_message` (load via ToolSearch), one-way per
-  call and delivered as a user turn — a two-way needs both sides to load it and to know the
-  other's `session_id` (`get_session self`). the brief carries that line, or the coder's
-  finish is invisible until a transcript read (2026-09-04). **both, always:** the ping for timing, the
-  transcript (`list_events`) for the picture — dima also steers the coder in its own chat, and only
-  the transcript shows that.
+  `mcp__ccd_session_mgmt__send_message` (load via ToolSearch), one-way per call, delivered as a
+  user turn — a two-way needs both sides to load it and to know the other's `session_id`
+  (`get_session self`). **both, always:** the ping for timing, the transcript (`list_events`)
+  for the picture — dima also steers the coder in its own chat, and only the transcript shows that.
 - ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
   coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
   a separate check.
@@ -92,8 +85,8 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   time (2.1.251).
 - 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
   the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
-- 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (ingested CST `browser-pane-spawn`, 2026-09-03, sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session. cclio has it only when dima booted her from the Code tab — this session did (2026-09-04, `mcp__Claude_Browser__navigate` answered); a terminal-born cclio has none. `x:browser-headless` works from either.
-- ⚠️ **a desktop-born cclio must not spawn `--bg` coders** — the child inherits the Code tab's environment (`CLAUDE_CODE_ENTRYPOINT=claude-desktop`, `ANTHROPIC_BASE_URL`, desktop oauth scopes) and boots on **API Usage Billing**, not the subscription (banner read 2026-09-06, stopped in 40 s). measured with `claude -p` from this session: `Failed to authenticate: OAuth session expired and could not be refreshed`, cost 0 — the child inherits the desktop's oauth (`CLAUDE_CODE_SDK_HAS_HOST_AUTH_REFRESH`) and cannot refresh it itself, so it is not an api charge, it is a dead child. upstream: anthropics/claude-code #39903, #40688. dima spawns coders in the Code tab, cclio briefs by message.
+- 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session; a terminal-born cclio has no pane. `x:browser-headless` works from either.
+- ✅ **cclio spawns `--bg` coders from either birth, terminal or Code tab** — measured 2026-09-07: a Code-tab-born session's child booted on `Claude Max`, wrote a file, bridged rc. the desktop env markers (`CLAUDE_CODE_ENTRYPOINT=claude-desktop`, `ANTHROPIC_BASE_URL`) are harmless. an auth error on spawn means cc is signed out, not a broken door — probe: `claude -p --model haiku 'reply: alive'`.
 - **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
   store, never a handshake.
 - ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about
@@ -148,26 +141,23 @@ double-runs the work.
 Per-case judgment: keep a coder warm when its context is expensive and the next assignment is
 nearby; respawn when the work is unrelated or the context is polluted. **Always stop probes.**
 
-- 🚨 **stop with `claude stop <jobId>`, prefer it over `kill <pid>`** — both verified on 2.1.251,
-  but four rc sessions killed by pid came back with new pids (2026-08-30; dima's read: his
-  agents-view ctrl+x swipe may have respawned them — unconfirmed). the registry file removes
-  itself on exit, so `ls` is the whole verification either way. never pattern-kill.
+- 🚨 **stop with `claude stop <jobId>`, never `kill <pid>`** — four rc sessions killed by pid came
+  back with new pids (2026-08-30, cause unconfirmed). the registry file removes itself on exit,
+  so `ls` is the whole verification. never pattern-kill.
 - `TaskStop` reaches only subagents *this* session spawned.
 - ⚠️ **deleting the session in the desktop Code ui does NOT stop it** — measured: card gone,
   process alive. Never report a coder stopped because a ui said so.
 - 📌 before closing a spawn, ask what it is still evidence for — «finished its work» and «finished
   being useful» are different states.
 
-**Context size is a cost, not a precision cliff — until our own probe says otherwise** (dima +
-research, 2026-09-05): no long-context number exists for the 5 family, the last measured knee
-(opus 4.6) sits past 256k, cc compacts for cost not quality, and a 90k boot on a warm 1h cache is
-~2 cents a turn. what does cost: a cache gone cold after a >1h gap. the probe — 10-needle recall +
-one code edit at 100k / 400k / 800k in a `--bg` session — rides `refresh-spawn-mechanics` at every
-model bump; 4.7 shipped a silent long-context regression, so the curve is per-release.
+**Context size is a cost, not a precision cliff — until our own probe says otherwise**: no
+long-context number exists for the 5 family, the last measured knee (opus 4.6) sits past 256k, a
+90k boot on a warm 1h cache is ~2 cents a turn. what does cost: a cache gone cold after a >1h gap.
+the probe (10-needle recall + one edit at 100k / 400k / 800k) rides `refresh-spawn-mechanics` at
+every model bump — the curve is per-release.
 
-**Cost of a reading agent = bodies × size, never agents × a flat number.** an agent that reads
-through a cli pays every body it reads: the board-sweep workflow was guessed at ~150k and spent
-1.27M subagent tokens for 82 ticket bodies + comments (2026-09-04).
+**Cost of a reading agent = bodies × size, never agents × a flat number** — the board-sweep
+workflow was guessed at ~150k and spent 1.27M for 82 ticket bodies + comments.
 
 Full evidence base: `docs/knowledge/spawn-mechanics.md`, on demand.
 

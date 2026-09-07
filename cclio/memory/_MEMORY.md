@@ -14,7 +14,7 @@ The emoji prefix is a salience marker (❗ 📌 ⭐ 🧭), never decoration; ❗
 ## direction — read before any pm decision
 - 🧭 the roadmap is the linear initiative «roadmap», printed by the boot prefetch — not a file. the vault copy is dima's fallback, deliberately NOT imported (vet to 2026-09-17: does the initiative answer «what's next» at every boot?). rules for using it: `dima-strategy`
 - 🧭 @dima-strategy.md — the branch map. six branches, equally weighted, none is the main one
-- 🗞️ @../gazette/_recent.md — the 7 freshest gazette posts, regenerated at boot and at every post; the event history behind the rules
+- 🗞️ @../gazette/_recent.md — the 5 freshest gazette posts, regenerated at boot and at every post; the event history behind the rules
 - 📖 @dima-stories.md — what actually happened, so the rules keep their reasons. append, never rewrite
 
 ## running the work
