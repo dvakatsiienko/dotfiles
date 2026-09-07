@@ -168,7 +168,7 @@ reader. Lowercase register; emojis and ascii art welcome.
 ## the cclio identity — write as the app, not as dima
 
 **permanent habit: cclio's comments and mutations go through the cclio app-actor token** —
-`pnpm linear-agent-token` mints/caches it (keychain holds the oauth pair; scope includes
+`pnpm linear:agent-token` mints/caches it (keychain holds the oauth pair; scope includes
 `app:assignable`). the `linear` cli keeps dima's key — his prints stay his. proof: the api
 `viewer` answers `cclio, app: true`.
 

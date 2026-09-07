@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * ? handoff-store — the one door to the CST handoff store.
+ * ? skill:handoff-store — the one door to the CST handoff store.
  * ?
- * ?   handoff-store list [--for <audience>]        # read-only, age-flagged
- * ?   handoff-store peek <slug>                    # META block only
- * ?   handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]
- * ?   handoff-store ingest [<slug>] [--for <a>]    # prints the CST, deletes the file
- * ?   handoff-store delete <slug> | --all
+ * ?   skill:handoff-store list [--for <audience>]        # read-only, age-flagged
+ * ?   skill:handoff-store peek <slug>                    # META block only
+ * ?   skill:handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]
+ * ?   skill:handoff-store ingest [<slug>] [--for <a>]    # prints the CST, deletes the file
+ * ?   skill:handoff-store delete <slug> | --all
  * ?
  * ? `write` takes the CST body on stdin. `--replaces` is the upmerge: the named
  * ? sibling goes away and this handoff takes its place, so one thread leaves one
@@ -44,11 +44,11 @@ if (!process.stdout.isTTY) zx.chalk.level = 0;
 
 const USAGE = [
     'usage:',
-    '  handoff-store list [--for <audience>]',
-    '  handoff-store peek [<slug>]',
-    '  handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]',
-    '  handoff-store ingest [<slug>] [--for <audience>]',
-    '  handoff-store delete <slug> | --all',
+    '  skill:handoff-store list [--for <audience>]',
+    '  skill:handoff-store peek [<slug>]',
+    '  skill:handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]',
+    '  skill:handoff-store ingest [<slug>] [--for <audience>]',
+    '  skill:handoff-store delete <slug> | --all',
     '',
     `audiences: ${AUDIENCES.join(', ')}`,
     'store root: --root <path>, or $HANDOFF_STORE_ROOT, or ~/.claude/shelf/handoffs',

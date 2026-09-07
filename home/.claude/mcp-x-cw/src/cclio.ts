@@ -1,6 +1,6 @@
 /* ── cclio mode ──────────────────────────────────────────────────────────────
  * cw has no way to boot as the coordinator, so the coordinator's resident
- * context is compiled into one file at every cclio halt (script/cclio-snapshot.ts)
+ * context is compiled into one file at every cclio halt (script/skill-cclio-mode-snapshot.ts)
  * and served here whole. One call, one read, the thread becomes cclio.
  */
 
@@ -16,7 +16,7 @@ import {
     text,
 } from './shared.js';
 
-const SNAPSHOT_PATH = join(CLAUDE_HOME, 'shelf', 'cclio-mode-cw-snapshot.md');
+const SNAPSHOT_PATH = join(CLAUDE_HOME, 'shelf', 'cclio-mode-snapshot.md');
 
 export function registerCclioTools(server: McpServer) {
     server.registerTool(
@@ -34,7 +34,7 @@ export function registerCclioTools(server: McpServer) {
             const stat = statOrNull(SNAPSHOT_PATH);
             if (!body || !stat)
                 return text(
-                    `no snapshot at ${SNAPSHOT_PATH}. it is compiled at every cclio halt; ask Dima to run \`pnpm cclio-snapshot\` in ~/dotfiles.`,
+                    `no snapshot at ${SNAPSHOT_PATH}. it is compiled at every cclio halt; ask Dima to run \`pnpm skill:cclio-mode-snapshot\` in ~/dotfiles.`,
                 );
             const ageH = ((Date.now() - stat.mtimeMs) / 3_600_000).toFixed(1);
             return text(

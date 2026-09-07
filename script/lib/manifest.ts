@@ -40,7 +40,7 @@ export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~. The reason is the interesting part
 // ? and there are two of them, so it is data rather than a comment above a
-// ? flat list — `pnpm dotfiles-link` prints it, and a new entry has to declare
+// ? flat list — `pnpm dotfiles:link` prints it, and a new entry has to declare
 // ? which rule it belongs to instead of joining an undifferentiated set.
 export const noLinkReasons = {
     absolutePath: 'reached by absolute path, so a link would be dead weight',

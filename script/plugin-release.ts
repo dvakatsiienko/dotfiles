@@ -2,8 +2,8 @@
 /**
  * ? plugin-release — bump the plugins the tree moved past, and refresh them.
  * ?
- * ?   pnpm plugin-release          # status: what changed, what would bump
- * ?   pnpm plugin-release apply    # bump, then refresh each registered plugin
+ * ?   pnpm plugin:release          # status: what changed, what would bump
+ * ?   pnpm plugin:release apply    # bump, then refresh each registered plugin
  * ?
  * ? Status and apply are one code path, the `dotfiles-link` house convention.
  * ? Nothing here commits: the bump lands in the working tree and the commit is
@@ -55,7 +55,7 @@ zx.$.verbose = false;
 const [verb = 'status'] = zx.argv._.map(String);
 if (verb !== 'status' && verb !== 'apply') {
     zx.echo(rb(`Unknown verb: ${verb}`));
-    zx.echo(bb('Usage: pnpm plugin-release [status|apply]'));
+    zx.echo(bb('Usage: pnpm plugin:release [status|apply]'));
     process.exit(1);
 }
 
@@ -210,7 +210,7 @@ function binds(releases: Release[], apply: boolean, worktree: boolean) {
     if (!apply) {
         zx.echo(
             dim(
-                `  ${bumped.length} plugin(s) would bump. Nothing was written — run: pnpm plugin-release apply`,
+                `  ${bumped.length} plugin(s) would bump. Nothing was written — run: pnpm plugin:release apply`,
             ),
         );
         done('status only', { clean: false });

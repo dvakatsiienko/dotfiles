@@ -23,7 +23,7 @@ import {
     text,
 } from './shared.js';
 
-const CLI = join(DOTFILES, 'script', 'handoff-store.ts');
+const CLI = join(DOTFILES, 'script', 'skill-handoff-store.ts');
 const SPEC_PATH = join(CLAUDE_HOME, 'plugin-x', 'CST-SPEC.md');
 
 /** Which agent this server reads for. The x-cw server is the desktop door. */

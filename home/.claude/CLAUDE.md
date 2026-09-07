@@ -105,7 +105,7 @@ Anything we create should not just work well. It should be approachable and easy
 
 - **pnpm** — preferred package manager for node/typescript/javascript projects
 - **fnm** — node version manager, use if needed
-- **package.json versions** — always exact pins, never `^`/`~` (when hand-authoring a manifest too — `~/.npmrc save-prefix=` only covers `pnpm add`); pick/keep every package at the highest stable version available (hi-tech only) — check `npm view <pkg> version` before writing ANY version, never one recalled from training data (that reflex produces dinosaurs: `^5.9` when TS 7 is stable)
+- **package.json** — exact pins, `npm view` before any version, script order and `family:name` keys: the whole shape is `x:guide-conventions` → `conventions/package-json.md`, read before printing or editing any manifest
 - **cli over mcp, whenever possible** — an mcp only earns its place in a complex multi-surface,
   multi-person collab case, which is currently nowhere in this setup; everywhere else it only
   hurts (resident schemas, weaker ergonomics). settled on the vercel cli-vs-mcp research.
