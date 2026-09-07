@@ -96,7 +96,7 @@ the header of `~/dotfiles/script/linear-push.ts`.
 an `Agent:` trailer (§4) and Dima's hand-typed commits do not, so `git log --grep='^Agent:'`
 tells the two apart. Older history carries `Co-Authored-By: Claude …` for the same purpose —
 `git who` counts both. A surface whose harness forbids attribution lines says so in its report
-instead of silently omitting the trailer.
+instead of silently omitting the trailer. Measured 2026-09-07: a terminal-born cclio (`CLAUDE_CODE_ENTRYPOINT=cli`) writes the trailer on every commit; the desktop-born note was the `Claude-Session` line, now hook-stripped.
 
 ## 4 · Body
 
