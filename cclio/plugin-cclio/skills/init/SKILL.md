@@ -62,6 +62,9 @@ broom section (prettify only, no data loss, one approve). zero → say nothing.
   with the session.
 - read `.claude/x-queue.md` — offer the top item; it never surfaces on its own. long-lived items
   are tickets, not park lines.
+- 🧬 open renovate PRs (`gh pr list -R dvakatsiienko/<bytes|dotfiles> --search 'author:app/renovate' --json number`)
+  → one board line with counts and the oldest age; the digest itself is `/cclio:evergreen`, on
+  his word. zero → say nothing.
 
 ## 5. stuck reminders ⏰📌
 `/remind stick` writes `⏰📌` entries into the auto-memory store; **raise every one at every
