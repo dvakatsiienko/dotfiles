@@ -12,7 +12,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
   - 🔬 a probe to run
 
 
-⏰ 🦊🔬 github native stacked PRs — public preview since 2026-07-30 (`gh extension install github/gh-stack`, roadmap #1218); try on the first multi-layer coder assignment, not before — dima 2026-09-07: «too many novelties today». retire graphite from the list when it works. +1 dima 2026-09-07: the BYT-56 coder's job 2 branched from job 1's tip on its own — that is a stack — set 2026-09-07
+⏰ 🦊🔬 github native stacked PRs — public preview since 2026-07-30 (`gh extension install github/gh-stack`, roadmap #1218); try on the first multi-layer coder assignment, not before — dima 2026-09-07: «too many novelties today». retire graphite from the list when it works. +3 (dima +2 on 2026-09-08 after the coder retro: three merges raced unpushed commits, a stack would have held them) · the BYT-56 coder's job 2 branched from job 1's tip on its own — that is a stack — set 2026-09-07
 
 ⏰ 🦊👁️ initiatives vet — on/after 2026-09-17: did the linear initiative «roadmap» answer «what's next» at every boot for two weeks, without the md file? measure: the flawlog + CSTs of the window name no «re-read the roadmap» moment, and the step named at boot matched what dima did. yes → the vault copy `prompts/dima-roadmap.md` retires on his word. no → revert: `ln -s "…/prompts/dima-roadmap.md" cclio/memory/dima-roadmap.md` + the one barrel import line back, the strategy section stays — set 2026-09-03
 
@@ -28,4 +28,4 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰ 🦊👁️ proto-lab vet — on/after 2026-10-04: has one real proto been built in `apps/proto-lab` since 2026-09-04 (`git log --since=2026-09-04 -- apps/proto-lab/src/protos` in bytes)? yes → BYT-55 graduates; no → deleted per lab's rule, frame pattern noted in BYT-56 first, dima's word on the rm — set 2026-09-04
 
-⏰📌 the freshness engine — dima's own ask, raised at EVERY boot until he verdicts it: he wants daily software freshness back (patches auto-committed, no dangling minors so a major is a straight jump), a cron'd upgrade round run by cclio, a supply-chain «anti virus» layer, and solid ci first (depot · blacksmith · similar) — his words and the vercel fan-out math are the 🥇 item in `.claude/x-queue.md`. he said: «don't forget to remind me what i asked because i can forget». dies only when he says drop it — set 2026-09-08
+⏰📌 the freshness engine — BUILT 2026-09-08 (renovate + cclio:evergreen, DOT-240 done); raised until dima says drop: he wants daily software freshness back (patches auto-committed, no dangling minors so a major is a straight jump), a cron'd upgrade round run by cclio, a supply-chain «anti virus» layer, and solid ci first (depot · blacksmith · similar) — his words and the vercel fan-out math are the 🥇 item in `.claude/x-queue.md`. he said: «don't forget to remind me what i asked because i can forget». dies only when he says drop it — set 2026-09-08

@@ -158,3 +158,5 @@ workflow was guessed at ~150k and spent 1.27M for 82 ticket bodies + comments.
 Full evidence base: `docs/knowledge/spawn-mechanics.md`, on demand.
 
 Related: [method-report-verify](method-report-verify.md)
+
+**a coder's last act is a retro** (dima, 2026-09-08, after a test that surfaced nine ranked findings): ≤20 lines to the coordinator, ranked by cost, with the WHY stated in the ask — the fleet improves itself only from what its members saw. the shape of the ask matters: name the angles (the brief, the steers, the lane, the reporting, what nobody asked), ask for blunt, name-the-moment specifics. cclio folds it into the flawlog flush. the contract line lives in `x:coder-brief`.
