@@ -43,6 +43,18 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
+      # Renovate's config is only read by renovate, on its own schedule, so a
+      # typo would sit undetected until someone noticed the bot going quiet.
+      # This catches an unknown key or a wrong shape. No filename argument on
+      # purpose — the docs say passing one makes the validator treat the file as
+      # global self-hosted config, and the bare form auto-detects renovate.json
+      # as repo config, which is what it is.
+      #
+      # It cannot catch a semantically wrong config: a rule that parses fine and
+      # matches nothing stays green here.
+      - name: Validate renovate config
+        run: npx --yes --package renovate -- renovate-config-validator --strict
+
       # `biome ci`, not the repo's own `check` script: that one is
       # `biome check --write`, which rewrites files rather than failing on them,
       # so it can never report a problem from CI.
