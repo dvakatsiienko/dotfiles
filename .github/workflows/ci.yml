@@ -58,11 +58,16 @@ jobs:
         run: pnpm test
 
       # sline is a Go module, and renovate.json turns the gomod manager on for
-      # it. Without these two steps every Go update would merge with nothing
-      # having compiled it.
+      # it. Without these steps a Go update would merge with nothing having
+      # compiled it.
       - uses: actions/setup-go@v7
         with:
           go-version-file: home/.claude/sline/go.mod
 
-      - name: Test sline
-        run: pnpm sline:test
+      # `sline:build`, not `sline:test`. The suite cannot run on a runner:
+      # TestOutputStyleBadgeLinksItsSource stats a real file under ~/.claude,
+      # which exists only on a machine where dotfiles:link has been run. It
+      # passes locally for that reason and will fail anywhere else. Compiling is
+      # what a Go toolchain bump actually risks, so that is what is checked here.
+      - name: Build sline
+        run: pnpm sline:build
