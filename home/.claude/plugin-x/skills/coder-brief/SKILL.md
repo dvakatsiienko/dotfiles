@@ -68,6 +68,12 @@ router, so this list is the whole set — load it, do not wait to be reminded.
     -d '{"query":"mutation { commentCreate(input: { issueId: \"<uuid>\", body: \"…\" }) { success } }"}'
   ```
   issue uuid: `linear api 'query { issue(id: "<id>") { id } }'`.
+- Your GitHub identity is the app `x-coder-bot`. Every PR comment, review reply and PR body you
+  write goes through it, never as Dima — prefix the `gh` call, nothing else changes:
+  ```
+  GH_TOKEN=$(cd ~/dotfiles && pnpm -s github:agent-token) gh api … / gh pr comment … / gh pr create …
+  ```
+  pushes stay on Dima's git auth (the app has no `contents: write`); only the API calls wear the bot.
 - **done-report: ONE comment per assignment, ≤12 lines** — shipped · left · measured numbers ·
   one line per defect. The essay stays in your transcript.
 - **report back where you were briefed.** A plain reply reaches nobody. Code tab: ping cclio via
