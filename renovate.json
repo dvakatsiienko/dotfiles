@@ -1,0 +1,37 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "commitMessagePrefix": "🌲 evergreen:",
+    "extends": ["config:recommended"],
+
+    "gomod": {
+        "enabled": true
+    },
+    "internalChecksFilter": "strict",
+    "minimumReleaseAge": "3 days",
+
+    "packageRules": [
+        {
+            "automerge": true,
+            "automergeType": "pr",
+            "description": "patches: one grouped pr overnight, automerged once ci is green",
+            "groupName": "patches",
+            "matchUpdateTypes": ["patch", "pin", "pinDigest", "digest"],
+            "schedule": ["* 0-5 * * *"]
+        },
+        {
+            "description": "minors: one grouped pr on monday morning, merged by hand",
+            "groupName": "minors",
+            "matchUpdateTypes": ["minor"],
+            "schedule": ["* 9-12 * * 1"]
+        }
+    ],
+    "prCreation": "not-pending",
+
+    "rangeStrategy": "bump",
+
+    "semanticCommits": "disabled",
+
+    "separateMajorMinor": true,
+    "separateMinorPatch": true,
+    "timezone": "Europe/Kyiv"
+}

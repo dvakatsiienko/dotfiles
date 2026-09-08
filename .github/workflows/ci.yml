@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    # `renovate/**` is required, not decorative. renovate.json sets
+    # `prCreation: "not-pending"`, which holds a PR back until the branch's
+    # checks finish — and a branch carrying no checks reads as pending forever,
+    # so the PR would never open. Running CI on the bare branch is also what
+    # makes patch automerge mean something here.
+    branches: [main, 'renovate/**']
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DO_NOT_TRACK: 1
+
+jobs:
+  check:
+    name: check + typecheck + test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # package.json carries no `packageManager` field, so the action cannot
+      # read a version from the repo and it is pinned here instead.
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.5.2
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      # GitHub Actions sets CI=true itself, which is what makes lefthook's
+      # postinstall exit early instead of rewriting the git hook shims.
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # `biome ci`, not the repo's own `check` script: that one is
+      # `biome check --write`, which rewrites files rather than failing on them,
+      # so it can never report a problem from CI.
+      - name: Check
+        run: pnpm exec biome ci .
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      # sline is a Go module, and renovate.json turns the gomod manager on for
+      # it. Without these two steps every Go update would merge with nothing
+      # having compiled it.
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: home/.claude/sline/go.mod
+
+      - name: Test sline
+        run: pnpm sline:test
