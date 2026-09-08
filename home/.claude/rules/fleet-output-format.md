@@ -81,8 +81,10 @@ a page you named, never navigates from a site root to the page you meant.
 context — once ~20 bare ticket ids in one reply, once ~26 bare filenames the next day. an id feels
 like a word while you are writing it. **before sending, scan for `DOT-`, `BYT-` and any filename
 he might open, and confirm each sits inside `](linear://` or `](cursor://file/`.** same scan, same
-bucket: **any chained sequence in one line** — ①②③ glyphs, `a → b → c` arrows, step chains —
-becomes plain separate lines. the shape is the bug, not the glyph.
+bucket: **any chained sequence in one line** — ①②③ glyphs, `a → b → c` arrows, step chains,
+and every `·` between two things — becomes plain separate lines. the shape is the bug, not the
+glyph. 📌 the `·` habit is fed by our own memory files; a memory write uses bullets too, so the
+next boot stops re-teaching it (dima, 2026-09-08: «how to force you stop printing these»).
 
 ## copy-paste blocks get visible ends 📋
 
