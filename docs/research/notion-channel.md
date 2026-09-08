@@ -87,6 +87,12 @@ embeds, link previews, breadcrumbs, templates — come back as `<unknown>` tags 
 read-modify-write cycle (`GET markdown` → edit → `PATCH` replace) therefore **destroys every one of
 those blocks on the page**. [inferred, but directly from the documented behaviour]
 
+📌 **corrected 2026-09-08, measured in `notes-stack.md` branch 3:** a bookmark round-tripped
+`GET markdown` → `PATCH replace_content` intact — the `<unknown url="…" alt="bookmark"/>` tag is
+self-describing and re-materialises, the spec returns `unknown_block_ids`, and every destructive
+shape takes `allow_deleting_content` (default false). one bookmark, one data point; the
+insert-over-replace rule below is now a preference, not a hazard.
+
 - 🎯 the safe pattern is **insert/append, not replace**, on any page that might hold an embed
 - a full-page replace is only safe on pages an agent authored end to end
 - worth one real test before trusting it with anything of his
