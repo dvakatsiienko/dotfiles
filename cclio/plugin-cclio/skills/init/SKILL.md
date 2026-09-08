@@ -56,7 +56,10 @@ broom section (prettify only, no data loss, one approve). zero → say nothing.
   FROZEN is not the active one.
 - a coder alive (`claude agents`) with open `coder/*` PRs → arm the merge monitor: a persistent
   `Monitor` polling `gh pr list --state merged --search 'head:coder/'` every 60 s and running
-  `gprune -d` on each new merge. dima merges, cclio cleans; the monitor dies with the session.
+  `gprune -d` on each new merge — **only while the owning coder is idle** (`claude agents --json`
+  status; busy → wait a tick, retry): a merge that races the coder's tail push had its worktree
+  removed under a live push twice on 2026-09-08. dima merges, cclio cleans; the monitor dies
+  with the session.
 - read `.claude/x-queue.md` — offer the top item; it never surfaces on its own. long-lived items
   are tickets, not park lines.
 
