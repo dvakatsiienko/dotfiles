@@ -18,7 +18,9 @@ messages: `rules/dima-signals.md`.
 - **bullets are encouraged.** prose is the exception, never more than three lines.
   - a bullet is one sentence. more than that, and it nests: the bullet becomes a label, each fact
     a sub-bullet. never let a bullet wrap into a block.
-  - 🚫 oneline lists are banned — «topic a · topic b · topic c» always becomes multiline.
+  - 🚫 oneline lists are banned — «topic a · topic b · topic c» always becomes multiline. the
+    `·` separator never appears inside a sentence at all: three things in a row are three
+    bullets (dima on a «missed so far» paragraph, 2026-09-08: «ugly block»).
 - **operations get list shape, never prose.** one op per line, `DOT-N → what happened`, grouped by
   kind. his words on a reply packed with ids mid-sentence: *«so ugly… hard to read»*. reasoning
   stays prose; operations never do.
@@ -88,15 +90,17 @@ becomes plain separate lines. the shape is the bug, not the glyph.
 boot block, a command. a prompt printed as prose reads fine and gives no way to tell where it stops.
 
 the ribbons sit **outside** the fence so they never get copied, with **one blank line between
-ribbon and fence — to breathe**:
+ribbon and fence — to breathe**. **plain text only — no box-drawing glyphs, no dashes**: the long
+`╭───╮` lines wrapped in the code tab and trimmed in cw (dima, 2026-09-08); an emoji-bold-emoji
+line renders the same in every pane:
 
-    ╭─────────────── 📋 copy → terminal ───────────────╮
+    📋 **copy → terminal** 📋
 
     ```
     the payload, and nothing else
     ```
 
-    ╰───────────────────── ✂️ end ─────────────────────╯
+    ✂️ **end** ✂️
 
 - **the fence holds ONLY the payload.** commentary goes above or below the ribbons.
 - **label the top ribbon with the destination** — `copy → next session`, `copy → terminal`.
