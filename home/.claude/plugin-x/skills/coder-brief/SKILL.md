@@ -30,11 +30,11 @@ router, so this list is the whole set — load it, do not wait to be reminded.
 
 ## the git lane
 
-- **PR by default in `bytes`.** Before any edit: `git worktree add ~/projects/.worktrees/bytes-<slug>
+- **PR by default in `bytes`.** Before any edit: `git worktree add .claude/worktrees/<ticket>-<slug>
   -b coder/<ticket>-<slug> main`, then `pnpm worktree:seed <path>` (env copies, `CI=1` install, a
   port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it
-  for a tree it made). Worktrees live under `~/projects/.worktrees/`, one flat level, never inside
-  the repo and never beside it. The main checkout stays on `main` — it is one shared tree and your
+  for a tree it made). Worktrees live under `<repo>/.claude/worktrees/` — cc's own default, gitignored,
+  the same place `EnterWorktree` puts them. The main checkout stays on `main` — it is one shared tree and your
   `git switch` would move every session.
 - **the PR exists before the first edit**: `git commit --allow-empty` with the job as subject, push,
   `gh pr create` — a real PR, never a draft; title in the `x:cmt` shape (`🔧 <scope>: <what>`),

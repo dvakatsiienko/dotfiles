@@ -125,7 +125,7 @@ double-runs the work.
 - `index.lock` means a peer is committing — wait, retry, **never delete a lock**.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.
-- 🚨 **bytes is ONE shared checkout: a coder's `git switch` moves every session's tree** (measured 2026-09-07 — the prettify branch took the dev servers with it). the PR lane makes every coder concurrent, so **a `coder/*` branch lives in its own worktree** (`git worktree add ../bytes-<slug> -b coder/BYT-N-<slug> main`, or the Code tab's worktree option under `.claude/worktrees/`); the main checkout stays on `main`. a fresh tree needs `CI=1 pnpm install`, the gitignored `.env*` files copied per app, and its own dev-server port — a seed script is queued.
+- 🚨 **bytes is ONE shared checkout: a coder's `git switch` moves every session's tree** (measured 2026-09-07 — the prettify branch took the dev servers with it). the PR lane makes every coder concurrent, so **a `coder/*` branch lives in its own worktree** (`git worktree add .claude/worktrees/BYT-N-<slug> -b coder/BYT-N-<slug> main` — `<repo>/.claude/worktrees/` is the one location, cc's own default and where `EnterWorktree` puts its trees; dima's call 2026-09-08 after two locations produced drift); the main checkout stays on `main`. `pnpm worktree:seed` makes a fresh tree runnable (`CI=1` install, env copies, port offset).
 - Worktrees at ~5+ agents or genuine concurrent edits, not before. a worktree brief's step 0 is
   `CI=1 pnpm install` (inline, that command only) — kills the shared-hooks rewrite
   (`rules/fleet-hazards.md`, git hooks).
