@@ -13,10 +13,13 @@ briefed you; the report goes back to whoever did.
 
 ## step 0 — load the sharpeners before the first file
 
-`x:guide-code`, then the guides for what you touch: `x:guide-typescript`, `x:guide-react`,
-`x:guide-ui-ux`, `x:guide-conventions`, `x:browser-headless` for any ui check — expected on frontend work, not optional: it is headless, not the browser-takeover the root rule guards against. `x:cmt` before
-every commit, `x:github-contrib` before any `gh` call. A complete brief suppresses the skill
-router, so this list is the whole set — load it, do not wait to be reminded.
+`x:guide-code` first, then **only the guides for the file types you actually touch** — `.ts` →
+`x:guide-typescript`, `.tsx` → plus `x:guide-react`, anything a human looks at → `x:guide-ui-ux`,
+a route/url/layout → `x:guide-conventions`, any ui check → `x:browser-headless` (headless, not the
+browser-takeover the root rule guards against). `x:cmt` before every commit, `x:github-contrib`
+before any `gh` call. A complete brief suppresses the skill router, so nobody reminds you: load
+per file type as you reach it, never the whole set up front (a config-only ticket needs four of
+eight).
 
 ## how you work
 
@@ -41,9 +44,17 @@ router, so this list is the whole set — load it, do not wait to be reminded.
   because the squash commit takes the PR title and body verbatim; body `- ticket: <id>` (`Closes
   <id>` only when the ticket ends). Paste the url in your chat and in your ping. Dima sees the job
   start on github; then he squash-merges.
-- **one push per step, never per commit.** Every push deploys every vercel project on Dima's
-  hobby plan (100 deploys per day, shared by all apps). Commit as you go on a `coder/*` branch
-  (`/cmt y+` stands), push when a step is verified.
+- **push freely on your `coder/*` branch.** Vercel creates nothing for `coder/*` (the gate in
+  every `vercel.json`); only github ci runs, and Dima likes seeing pushes land as they happen.
+  Commit as you go (`/cmt y+` stands). A merge to main costs 6 prod deploys — that one is
+  Dima's click, never yours.
+- **«final» is a handshake, and it comes after your own review.** When the last step is done:
+  run `code-review` over the branch, fix what it finds, push, THEN declare the branch final to
+  the coordinator (one line: PR url + head sha + «final»). Nothing is merged before that word —
+  three PRs were merged mid-push on 2026-09-08 and every one needed a follow-up PR.
+- **verify state before any deletion someone else ordered, every time.** A coordinator steer
+  like «discard that change» rests on what the coordinator believes; `git status` is what is
+  true. On 2026-09-08 a `checkout --` was ordered for a change that was already committed.
 - **babysit your PR until it closes — the watcher is armed in the same turn the PR opens.** ONE
   persistent `Monitor`, 60 s poll, three feeds: `gh pr checks <n>` · conversation comments
   (`gh api repos/<owner>/<repo>/issues/<n>/comments?since=…`) · **review comments on diff lines**
@@ -74,8 +85,17 @@ router, so this list is the whole set — load it, do not wait to be reminded.
   GH_TOKEN=$(cd ~/dotfiles && pnpm -s github:agent-token) gh api … / gh pr comment … / gh pr create …
   ```
   pushes stay on Dima's git auth (the app has no `contents: write`); only the API calls wear the bot.
-- **done-report: ONE comment per assignment, ≤12 lines** — shipped · left · measured numbers ·
-  one line per defect. The essay stays in your transcript.
+- **done-report: ONE comment per assignment, ≤20 lines** — shipped · left · measured numbers ·
+  one line per defect. **Facts a future reader of the repo needs** (an api that lies, a setting
+  that is really two, a tool that queues instead of failing) go into that app's `CLAUDE.md`, not
+  the comment and not a message. Messages to the coordinator: ≤12 lines, the essay stays in your
+  transcript.
+- **last act of every assignment: a retro to the coordinator, ≤20 lines, ranked by cost.** The
+  why: the fleet improves itself only from what its members saw, and you are the one inside the
+  lane — where the brief was dead weight or wrong, which steers came late or on a false premise,
+  what you would have done differently unbriefed, what nobody asked about. Blunt, specific, name
+  the moment. The coordinator folds it into the flawlog flush; nothing you say there is a
+  complaint, it is the input.
 - **report back where you were briefed.** A plain reply reaches nobody. Code tab: ping cclio via
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch) to the session id in the brief.
   `--bg` session: your idle state is the signal; the coordinator subscribed.
