@@ -42,5 +42,6 @@
             "version": ">=11.5.2",
             "onFail": "warn"
         }
-    }
+    },
+    "packageManager": "pnpm@11.25.0"
 }
