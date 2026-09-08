@@ -85,6 +85,7 @@ brew "vercel"                           # vercel/vc — deploys; was a pnpm glob
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
+cask "obsidian"                  # notes — the vault is icloud, config in ~/Library/Application Support/obsidian; ships the official `obsidian` cli
 cask "warp"                      # terminal — the daily one
 cask "iterm2"                    # terminal — fallback; its prefs live in import/iterm2
 cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, glyphs render as boxes
