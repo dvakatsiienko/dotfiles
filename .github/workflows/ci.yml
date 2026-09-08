@@ -29,11 +29,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # package.json carries no `packageManager` field, so the action cannot
-      # read a version from the repo and it is pinned here instead.
+      # Version comes from `packageManager` in package.json, so there is no
+      # number to keep in step with by hand and renovate can bump it.
       - uses: pnpm/action-setup@v6
-        with:
-          version: 11.5.2
 
       - uses: actions/setup-node@v7
         with:
@@ -64,10 +62,8 @@ jobs:
         with:
           go-version-file: home/.claude/sline/go.mod
 
-      # `sline:build`, not `sline:test`. The suite cannot run on a runner:
-      # TestOutputStyleBadgeLinksItsSource stats a real file under ~/.claude,
-      # which exists only on a machine where dotfiles:link has been run. It
-      # passes locally for that reason and will fail anywhere else. Compiling is
-      # what a Go toolchain bump actually risks, so that is what is checked here.
-      - name: Build sline
-        run: pnpm sline:build
+      # `go test` compiles as well as runs, so this covers what a toolchain bump
+      # risks and the behaviour too. The one assertion that needs a real
+      # ~/.claude now skips itself instead of failing here.
+      - name: Test sline
+        run: pnpm sline:test
