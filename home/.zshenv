@@ -79,3 +79,6 @@ export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # User local bins
 export PATH="$HOME/.local/bin:$PATH"
+
+# machine-local secrets (tokens for agent tooling), never in the repo
+[ -f ~/.zshenv.local ] && source ~/.zshenv.local
