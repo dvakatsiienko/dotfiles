@@ -45,7 +45,7 @@ between. a release post on the project's blog beats the github release body when
   `^16.11.0`, missed by a src-only grep on 2026-09-09); (b) grep the repo for the apis the notes
   name as removed or changed
 - **since last major** — on every major card, one clause: `<prev major> shipped <yyyy-mm-dd>, <n> months ago` (dima 2026-09-09, «for curiosity»). npm: `npm view <pkg> time --json`; others: the project's release page
-- **machine** — `packageManager`, `engines.node`, a cli he runs by hand, a brew formula. the
+- **machine** — on a pnpm / node / biome major, also grep our own repos for the cli flags we pass (`grep -rn 'pnpm -' home/.claude cclio script` and the bytes scripts): pnpm 12 dropped `-s` and broke every token snippet the same evening (2026-09-09). then `packageManager`, `engines.node`, a cli he runs by hand, a brew formula. the
   repo can be green and his shell still broken
 - **🌟 or 🟠** — his taste (interview 2026-09-09): a **rewrite** (zig → rust, a new bundler
   core), a **perf claim with numbers**, a **new capability** he could use → 🌟 with a `🔬 deep`
@@ -110,7 +110,8 @@ same message («hold #61») subtract from the round.
   reopens it on the next release of the package. any other hold: nothing, the age prefix
   carries it.
 - **brew** → `brew upgrade` in the background (a long run), the result line in the next reply.
-- after the round: `git pull` both mains; a merged bytes round redeploys prod, say so.
+- after the round: `git pull` both mains, then `pnpm install` in each (his tree is stale until then; lockfile-driven, fast); a merged bytes round redeploys prod, say so. `pnpm dedupe` is its own deliberate commit once in a while, never a reinstall — a wipe re-resolves peers and floats transitives, which is the «different lockfile» he noticed.
+- **skills lane, weekly with brew** — the agent skills renovate cannot see: `npx skills update` in bytes and dotfiles (vercel's `skills` cli; `skills-lock.json` knows the sources — the convex set in `apps/x-com-chat` sat 5 months stale because nobody looks there), and `greptile skills update`. one line in the digest per repo when something moved.
 
 ## completion criterion
 

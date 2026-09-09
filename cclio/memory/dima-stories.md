@@ -70,3 +70,6 @@ empty file, a rename, a binary) hid `git_metrics` and its cap, and the `gitcap` 
 because the diff was non-empty. Two rules, both correct, one gap between them. The felt sense was
 «blocky»; the fix was making the fallback key off the same number the other module shows. → the
 `starship.toml` gitcap `when`
+
+## «sounds like cheating from VC side» · 2026-09-09
+He dropped it in the inbox with no evidence, only the feel: «can't believe in deploy quota burning so fast… when a deploy was truly skipped and compute was not spent, the count should not be affected. i feel something is off here.» A researcher opened vercel's own doc and found the sentence: canceled builds started by the ignored build step count toward the deployment limit. The six `turbo-ignore` lines had been removed two days earlier without anyone knowing that was the reason. The felt sense named the bug before the doc did; the fix had landed by accident. → the vercel research, `cclio:evergreen`'s gate rules
