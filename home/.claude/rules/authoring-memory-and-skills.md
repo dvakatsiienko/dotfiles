@@ -52,7 +52,10 @@ is fat or unstructured and needs the bigger picture of how one is written.
    resident; a doc costs nothing until read
 3. **does it already exist somewhere?** a second copy is worse than none — the two drift
 4. **is it a fact, a rule, or a story?** different homes, different decay rates
-5. **can the agent find it by looking?** scripts, layout, `--help` — a doc restating those is a
+5. **is it a measurement or a standing fact?** a dated «as of» line in a `CLAUDE.md` or doc is a
+   measurement and belongs in the commit that measured it; two such lines went stale within a day
+   and each cost a false finding (2026-09-08). docs state what does not expire
+6. **can the agent find it by looking?** scripts, layout, `--help` — a doc restating those is a
    stale cache. cache only the unwritten convention, the reason, the gotcha
 
 ## a new x:* skill asks the cw question
