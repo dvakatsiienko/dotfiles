@@ -170,9 +170,9 @@ that is the documented shape when it finds nothing.
 
 **exit**
 
-- a bot-authored pr gets reviewed
-- a human-authored pr gets reviewed
-- the trigger fires when we ask and not before
+- [x] a bot-authored pr gets reviewed — bytes #64, 2026-09-09: `x-coder-bot` opened it and commented `@claude review`; one inline finding (the planted off-by-one), 18 turns, 198 s of claude, 3m49s job wall time. the first attempt skipped: the title said «throwaway» and the skill skips prs it judges trivial/automated — probe prs must look real
+- [ ] a human-authored pr gets reviewed — dima's next pr
+- [x] the trigger fires when we ask and not before — pushes are silent (no `pull_request` trigger); noise comments (vercel) get their own concurrency group after #65, the first run was cancelled by one
 - ❓ the round-2 question is answered (see probes) — we know whether a fix push re-reviews or needs
   a re-request
 

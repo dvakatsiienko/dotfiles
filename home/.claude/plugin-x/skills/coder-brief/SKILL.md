@@ -55,7 +55,11 @@ eight).
   is merged before that word — three PRs were merged mid-push on 2026-09-08 and every one needed
   a follow-up PR. A review tool that rate-limits is skipped, named in the report, and never
   waited on (`coderabbit` free tier: ~3 reviews/hour). The done-report names both passes and
-  what each returned.
+  what each returned. After the push: `gh pr comment <n> --body "@claude review"` — the ci
+  reviewer (opus, ~4 min) posts inline findings, or a summary when clean. Fix what is real,
+  reply «declined: <why>» on what is not. Re-request (another `@claude review` comment) only
+  after a critical/warning fix, at most once. Then `gh pr edit <n> --add-reviewer dvakatsiienko`
+  and the «final» line.
 - **verify state before any deletion someone else ordered, every time.** A coordinator steer
   like «discard that change» rests on what the coordinator believes; `git status` is what is
   true. On 2026-09-08 a `checkout --` was ordered for a change that was already committed.
