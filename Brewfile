@@ -92,3 +92,4 @@ cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, gl
 cask "font-ia-writer-duo"        # cursor markdown font (iA Writer DuoS)
 cask "font-ia-writer-quattro"    # proportional sibling, for prose without tables
 cask "pearcleaner"               # app uninstall + leftover hunting; open source, has a CLI
+cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
