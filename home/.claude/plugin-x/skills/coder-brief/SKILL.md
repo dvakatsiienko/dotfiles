@@ -48,18 +48,27 @@ eight).
   every `vercel.json`); only github ci runs, and Dima likes seeing pushes land as they happen.
   Commit as you go (`/cmt y+` stands). A merge to main costs 6 prod deploys — that one is
   Dima's click, never yours.
-- **«final» is a handshake, and it comes after your own review.** When the last step is done:
-  run `coderabbit review --agent --base main -c CLAUDE.md` (plus the app's own `CLAUDE.md`
-  when one exists), fix what it finds, then `code-review` over the branch, fix again, push, THEN
-  declare the branch final to the coordinator (one line: PR url + head sha + «final»). Nothing
-  is merged before that word — three PRs were merged mid-push on 2026-09-08 and every one needed
-  a follow-up PR. A review tool that rate-limits is skipped, named in the report, and never
-  waited on (`coderabbit` free tier: ~3 reviews/hour). The done-report names both passes and
-  what each returned. After the push: `gh pr comment <n> --body "@claude review"` — the ci
-  reviewer (opus, ~4 min) posts inline findings, or a summary when clean. Fix what is real,
-  reply «declined: <why>» on what is not. Re-request (another `@claude review` comment) only
-  after a critical/warning fix, at most once. Then `gh pr edit <n> --add-reviewer dvakatsiienko`
-  and the «final» line.
+- **«final» is a handshake, and it comes after your own review — three local passes, two ci
+  reviewers, in this order.** When the last step is done:
+  1. `coderabbit review --agent --base main -c CLAUDE.md` (plus the app's own `CLAUDE.md` when
+     one exists), fix what it finds.
+  2. `mattpocock-skills:code-review` over the branch (matt's standards + spec review — NOT the
+     built-in `/code-review`; the ci action already runs the built-in one, this is the second
+     angle), fix again.
+  3. `greploop`, one loop, cap 1 review (greptile's local eyes; 1 credit of 50/month), fix what
+     survives its triage. Push.
+  4. `gh pr comment <n> --body "@claude review"` and `gh pr comment <n> --body "@greptile review"`
+     in the same minute — the ci reviewers read one diff. Fix what is real, reply
+     «declined: <why>» on what is not. Re-request (another `@claude review`) only after a
+     critical/warning fix, at most once.
+  5. `gh pr edit <n> --add-reviewer dvakatsiienko`, then the «final» line to the coordinator
+     (PR url + head sha + «final»).
+  Nothing is merged before that word — three PRs were merged mid-push on 2026-09-08 and every
+  one needed a follow-up PR. A review tool that rate-limits or is out of credits is skipped,
+  named in the report, never waited on (`coderabbit` free tier: ~3 reviews/hour). The
+  done-report names every pass and what each returned, and the retro says which layer found
+  what nobody else did — the stack is being measured, and layers with no unique findings get
+  cut after two real PRs.
 - **verify state before any deletion someone else ordered, every time.** A coordinator steer
   like «discard that change» rests on what the coordinator believes; `git status` is what is
   true. On 2026-09-08 a `checkout --` was ordered for a change that was already committed.
