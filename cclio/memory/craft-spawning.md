@@ -49,7 +49,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    coder to name its loaded CLAUDE.md paths in its first reply — the bleed detector.
 4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
    word — **cclio verifies, then closes.**
-5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm -s linear:agent-token coder)` and
+5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm --silent linear:agent-token coder)` and
    asks the coder to post its done-report as one linear comment on the ticket through that token
    (`linear api` with `Authorization: Bearer`); it renders as «coder». the reminder counts.
    📌 **cap the comment at ~12 lines** — what shipped, what is left, measured numbers, one line per

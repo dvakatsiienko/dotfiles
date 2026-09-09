@@ -1,6 +1,6 @@
 // prints a fresh github installation token for our github app `x-coder` (app id 4873606).
 //   pnpm github:agent-token                            → token for the one installation (dvakatsiienko)
-//   GH_TOKEN=$(pnpm -s github:agent-token) gh api …    → every write renders as x-coder[bot]
+//   GH_TOKEN=$(pnpm --silent github:agent-token) gh api …    → every write renders as x-coder[bot]
 // the app's private key (base64 of the pem) + id live in the macos keychain as github-x-coder-key / github-x-coder-id
 // (account x-coder); the token caches in ~/.cache/github/x-coder-token.json, re-minted when <10 min remain.
 // flow: RS256 jwt signed with the app key (10 min) → POST /app/installations/<id>/access_tokens (1 h).
