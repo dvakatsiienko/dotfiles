@@ -141,3 +141,5 @@
 # every https github remote is rewritten to ssh, so pushes use the 1Password key
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[coderabbit]
+	machineId = cli/1b1584fc4c1f445a8a3f1fa406c2b793
