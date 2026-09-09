@@ -2,7 +2,7 @@
 date: 2026-09-09
 slug: the-reviewer-day
 tickets: [BYT-37, BYT-81, BYT-82, DOT-26]
-posted: {health: no}
+posted: {health: yes}
 cw: |
   the pull request reviewer changed hands today, then the second reviewer arrived: coderabbit's github app is gone and its cli stays local, claude code reviews any bytes pull request on «@claude review», and greptile is wired on bytes with its dashboard filtered and its cli plus skills installed. the dependency news layer got its second shape (cards with researched facts, brew in the same digest, one word runs the merges) and the first round landed: pnpm 12, postgres 18, checkout v7. x-com-chat got scoped into three tickets after a read of its 1.5-year-old code, and a one-page map of the whole agent setup was published for interviews.
   live / next: dima reads the three x-com-chat tickets cold, then an opus coder starts the routing-and-threads one, which doubles as the first of two pull requests that measure five reviewers against each other; graphite comes after the stack settles; tomorrow also the repo-identity ticket with dima at the keyboard.
