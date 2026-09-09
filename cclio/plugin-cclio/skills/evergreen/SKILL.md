@@ -44,6 +44,7 @@ between. a release post on the project's blog beats the github release body when
   that excludes the new major is a hold, whatever the src says (graphql 17 vs `@apollo/server`
   `^16.11.0`, missed by a src-only grep on 2026-09-09); (b) grep the repo for the apis the notes
   name as removed or changed
+- **since last major** — on every major card, one clause: `<prev major> shipped <yyyy-mm-dd>, <n> months ago` (dima 2026-09-09, «for curiosity»). npm: `npm view <pkg> time --json`; others: the project's release page
 - **machine** — `packageManager`, `engines.node`, a cli he runs by hand, a brew formula. the
   repo can be green and his shell still broken
 - **🌟 or 🟠** — his taste (interview 2026-09-09): a **rewrite** (zig → rust, a new bundler
@@ -62,6 +63,7 @@ between. a release post on the project's blog beats the github release body when
 🌟 <pkg> <from> → <to> — [repo #N](url) (+ [repo #M](url) when one release hits both), ci ✅
 - **brings** — …
 - **breaks** — nothing we use | <what>, <where>
+- **since** — <prev> shipped <date>, <n> months ago
 - 🔬 **deep** — 2–4 sentences with numbers. [source](url)
 - ➡️ merge | coder | hold
 
