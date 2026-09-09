@@ -49,9 +49,13 @@ eight).
   Commit as you go (`/cmt y+` stands). A merge to main costs 6 prod deploys — that one is
   Dima's click, never yours.
 - **«final» is a handshake, and it comes after your own review.** When the last step is done:
-  run `code-review` over the branch, fix what it finds, push, THEN declare the branch final to
-  the coordinator (one line: PR url + head sha + «final»). Nothing is merged before that word —
-  three PRs were merged mid-push on 2026-09-08 and every one needed a follow-up PR.
+  run `coderabbit review --agent --base main -c CLAUDE.md` (plus the app's own `CLAUDE.md`
+  when one exists), fix what it finds, then `code-review` over the branch, fix again, push, THEN
+  declare the branch final to the coordinator (one line: PR url + head sha + «final»). Nothing
+  is merged before that word — three PRs were merged mid-push on 2026-09-08 and every one needed
+  a follow-up PR. A review tool that rate-limits is skipped, named in the report, and never
+  waited on (`coderabbit` free tier: ~3 reviews/hour). The done-report names both passes and
+  what each returned.
 - **verify state before any deletion someone else ordered, every time.** A coordinator steer
   like «discard that change» rests on what the coordinator believes; `git status` is what is
   true. On 2026-09-08 a `checkout --` was ordered for a change that was already committed.
