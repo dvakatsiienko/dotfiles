@@ -153,8 +153,8 @@ actions minutes are unlimited on public repos, and `bytes` + `dotfiles` are publ
 
 **moves**
 
-- `claude setup-token` locally to mint the oauth token
-- in `bytes`: `/install-github-app`, choose **the subscription token**, take the review workflow
+- [x] `claude setup-token` locally to mint the oauth token → repo secret `CLAUDE_CODE_OAUTH_TOKEN` (bytes, 2026-09-09)
+- [x] the claude github app installed on all repos; the workflow is hand-written (bytes #63): `review` job = code-review plugin on `@claude review`, `assist` job = interactive on any other `@claude`; opus-5 `--effort high`, `--max-turns 30`; the round-2 rule: re-review only after a critical/warning fix, cap 2, then `--add-reviewer dvakatsiienko`
 - 🚨 **before merging the workflow pr, add `allowed_bots`.** the action rejects bot actors on every
   event. `x-coder-bot[bot]` opens the coder's PRs and `renovate[bot]` opens the evergreen ones —
   **without this line the action reviews nothing our lane actually produces.**
@@ -376,7 +376,7 @@ bot still working, and a measured before/after on ci wall-clock.
 shipped review workflow fires on every one of them, so the reviewer reads unfinished work and burns
 runs. we want the review to run **once, when the coder says it is ready**.
 
-three options. **b is locked; c is the live alternative to try alongside.**
+three options. **c is locked (dima, 2026-09-09: labels are friction; one workflow covers review + assist); b is the fallback.**
 
 **a — draft → ready for review**
 
@@ -387,7 +387,7 @@ three options. **b is locked; c is the live alternative to try alongside.**
   draft — dima's word»*. and dima's own read: *«i don't like them»*.
 - **not chosen. recorded so nobody re-proposes it as new.**
 
-**b — label-driven · LOCKED**
+**b — label-driven · fallback**
 
 - workflow triggers on `pull_request: types: [labeled]`, guarded by
   `if: github.event.label.name == 'review'`
@@ -397,7 +397,7 @@ three options. **b is locked; c is the live alternative to try alongside.**
 - ➕ **remove-and-re-add the label is a clean re-trigger** — which also solves the round-2 problem
 - ➖ one more coder habit to teach, and a label taxonomy to maintain
 
-**c — `@claude review` comment · to try**
+**c — `@claude review` comment · LOCKED — bytes #63**
 
 - the review workflow triggers on `issue_comment: types: [created]`, guarded by
   `if: contains(github.event.comment.body, '@claude review')`, still passing the `/code-review`
