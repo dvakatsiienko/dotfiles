@@ -122,6 +122,7 @@ double-runs the work.
 
 - state file ownership at spawn; stage **explicit paths only**, never `git add -A`.
 - `git status` before staging; anything modified that is not yours stays untouched.
+- 🚨 **a worktree is pruned only when no live session sits in it** — `jq -r .cwd ~/.claude/sessions/*.json` lists every live cwd; a match means hands off, whatever `git status` says (two prunes under a live push, 2026-09-08; the merge monitor now waits for the coder to be idle, this is the check for a hand-run `scout`).
 - `index.lock` means a peer is committing — wait, retry, **never delete a lock**.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.

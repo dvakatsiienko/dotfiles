@@ -31,3 +31,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - `rebase.updateRefs` is on since the git overhaul (2026-09-03): a safety BRANCH made before a
   rebase is dragged forward with the rewrite and stops being a recovery point — a tag or the
   reflog is the net (a coder lost its net on a reword, 2026-09-05)
+
+## the bash sandbox
+
+- three shapes get rewritten or refused by the sandbox guard and cost a coder ~15 min of retries
+  on 2026-09-08: a `jq` filter whose text contains `git`, a heredoc piped into `gh`, and a
+  `HOME=` override in front of a command. write the filter or body to a scratch file first and
+  pass the path (`jq -f`, `gh --body-file`); never override `HOME`
