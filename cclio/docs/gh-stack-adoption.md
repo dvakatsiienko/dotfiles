@@ -1,7 +1,7 @@
 # gh-stack adoption — the plan
 
 **owner:** cclio · **audience:** cclio + every coder briefed into this area
-**status:** locked 2026-09-08 · step 0 done 2026-09-09, step 2 wired (unmeasured)
+**status:** locked 2026-09-08 · steps 0–2 done, step 3 wired 2026-09-09 (greptile app + cli + filters), measurement run pending (step 3b)
 
 **dies when:** step 5 closes — we land on gh stacks and dima approves it. at that moment this
 doc is **deleted**, not archived. what survives it moves first:
@@ -248,6 +248,50 @@ those threads. **that disagreement is the reason to measure rather than to skip.
 [the measurement contract](#the-measurement-contract).
 
 **exit:** three PRs measured, and a keep-or-scrap verdict from dima.
+
+---
+
+### step 3b — the measurement run (dima, 2026-09-09) — binding until both prs are scored
+
+**what is decided by it:** (1) which local cli goes first in the coder's fallback chain, coderabbit or
+greptile; (2) whether greptile runs locally (cli), on ci (`@greptile review`), or both.
+
+**the target shape after the run — dima's sequence, verbatim in spirit:** when the coder is done,
+before asking the ci action: **one** local adversary review from the available set. first the winner
+cli (one review, fix what it decides is worth fixing); off quota → the other cli; off quota too →
+matt's `code-review` (free floor). the coder always gets one local review, whichever quota is alive.
+then push, then the ci adversaries.
+
+**the run — two real coder prs, not synthetic, medium size with real logic (docs-only diffs draw
+only nits):**
+
+- on the **same final commit, before any fix**, the coder runs all three local tools: `coderabbit
+  review --agent --base main -c CLAUDE.md`, `greptile review --agent` (via greploop, cap 1),
+  `mattpocock-skills:code-review`. all three see identical code — tool 2 never gets credit for
+  tool 1's cleanup.
+- records per tool, then fixes what it accepts, pushes, comments `@claude review` and
+  `@greptile review` in the same minute.
+- the sheet, per pr, per tool (5 local/ci entries): **true findings** (real defects) · **noise**
+  (wrong, trivial, lint restatement) · **time to result** · **unique** (caught by nobody else) ·
+  **credits spent** (greptile: read the counter before/after; coderabbit: rate-limit hit y/n).
+  the coder fills it in its retro; cclio copies it into the ticket comment.
+- **decision 1, local order:** most unique + true per minute goes first; the other is the quota
+  fallback; matt's the floor. tie → coderabbit first (hourly quota refills, greptile's monthly
+  does not).
+- **decision 2, greptile env:** ci pass finds nothing unique vs the cli pass → greptile becomes
+  **cli-only**, `@greptile review` leaves the brief, the empty-open credit question dies. ci finds
+  unique things (pr context, comments, full repo index) → **ci-only**, the local slot goes to
+  coderabbit. both unique → keep both.
+- also read on pr 1: did the automatic first review on the empty-commit pr open run and cost a
+  credit (filters: `renovate/*` excluded, auto-review-on-commits off)? yes → a `review-ready`
+  label rule is the fix, dima's word first («no labels spam yet»).
+- after pr 2: `x:coder-brief` switches to the fallback chain with the winner first; this
+  section folds into the decision log.
+
+**candidates (real, medium):** space-explorer-ui error boundary + api `cancelTrip` without
+`validateAuth` + `bookTrips` validate-before-auth (one pr); `.cursor/rules` delete + root
+`AGENTS.md` pointer is too docs-shaped for pr 1, fine as a third. dima picks; 2026-09-10 after
+DOT-26.
 
 ---
 
