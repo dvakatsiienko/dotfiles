@@ -91,7 +91,7 @@ eight).
 
 - Your Linear identity is the app user «coder». Every comment goes through it, never as Dima:
   ```
-  LINEAR_TOKEN=$(cd ~/dotfiles && pnpm -s linear:agent-token coder)
+  LINEAR_TOKEN=$(cd ~/dotfiles && pnpm --silent linear:agent-token coder)
   curl -s https://api.linear.app/graphql -H "Authorization: Bearer $LINEAR_TOKEN" -H 'content-type: application/json' \
     -d '{"query":"mutation { commentCreate(input: { issueId: \"<uuid>\", body: \"…\" }) { success } }"}'
   ```
@@ -99,7 +99,7 @@ eight).
 - Your GitHub identity is the app `x-coder-bot`. Every PR comment, review reply and PR body you
   write goes through it, never as Dima — prefix the `gh` call, nothing else changes:
   ```
-  GH_TOKEN=$(cd ~/dotfiles && pnpm -s github:agent-token) gh api … / gh pr comment … / gh pr create …
+  GH_TOKEN=$(cd ~/dotfiles && pnpm --silent github:agent-token) gh api … / gh pr comment … / gh pr create …
   ```
   pushes stay on Dima's git auth (the app has no `contents: write`); only the API calls wear the bot.
 - **done-report: ONE comment per assignment, ≤20 lines** — shipped · left · measured numbers ·
