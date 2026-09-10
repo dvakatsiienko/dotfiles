@@ -1,7 +1,7 @@
 # gh-stack adoption — the plan
 
 **owner:** cclio · **audience:** cclio + every coder briefed into this area
-**status:** locked 2026-09-08 · steps 0–2 done, step 3 wired 2026-09-09 (greptile app + cli + filters), measurement run pending (step 3b)
+**status:** locked 2026-09-08 · steps 0–2 done, step 3 wired 2026-09-09 (greptile app + cli + filters), measurement run pending (step 3b; overnight pre-run 2026-09-10 folded)
 
 **dies when:** step 5 closes — we land on gh stacks and dima approves it. at that moment this
 doc is **deleted**, not archived. what survives it moves first:
@@ -287,6 +287,16 @@ only nits):**
   label rule is the fix, dima's word first («no labels spam yet»).
 - after pr 2: `x:coder-brief` switches to the fallback chain with the winner first; this
   section folds into the decision log.
+
+**measurement 0 — the overnight pre-run (dima, 2026-09-10, `bytes-b1`):** greptile vs coderabbit on
+trophy-sys, ~2900 lines, full write-up in [adversary-lane-greptile-vs-coderabbit.md](adversary-lane-greptile-vs-coderabbit.md).
+counts as a data point, **not a decision** — dima's caveats: it ran after the deploy, and coderabbit
+started after greptile's fixes (the doc's own sequence-bias section; the worktree re-run patched it
+partially). what it does settle for pr 1 and 2: 1-in-5 overlap, zero false positives from either,
+greptile anchors lines + flags security + gives a verdict, coderabbit covers the frontend + ships
+patches + carries injection hygiene, and **re-review after every fix** is tool-independent. so the
+sheet keeps its five columns; the tie-break stays coderabbit-first; greptile's latency is the one
+number nobody has yet — time it on pr 1.
 
 **candidates (real, medium):** space-explorer-ui error boundary + api `cancelTrip` without
 `validateAuth` + `bookTrips` validate-before-auth (one pr); `.cursor/rules` delete + root
