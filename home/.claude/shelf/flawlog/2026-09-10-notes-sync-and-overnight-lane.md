@@ -9,3 +9,6 @@
 - coder retro BYT-83 (3): «flip the default» was a state change, not a code change — a stored value outranked the default · brief habit: name the observable
 - coder retro BYT-83 (4): bash sandbox guard refuses `pnpm github:agent-token` (substring `git`) and `eval` (an agent-browser verb) · ~10 min · fleet-hazards sandbox section gets both shapes
 - coder retro BYT-83 (5): greptile failed once server-side with no partial result, 151 s lost · coder-brief chain: one retry budgeted, then skip and name it
+- coder retro BYT-83 (final, 4): testing beat reading twice — the token-clear test and the browser found 3 of its 6 real findings, five reviewers found one · the lane has no step that RUNS the thing · candidate for coder-brief «final»: one run-it step (agent-browser or a curl) before the review chain
+- coder retro BYT-83 (final, 7): coder-brief «re-request at most once» reads as a cap on rounds; a second feature batch needs a second round · reword to «once per batch of fixes»
+- claude ci action: `--max-turns 30` exhausted on a 9-commit diff, run red, nothing posted — a coder that skips the run log reports «reviewed, clean» · raise the cap or make the brief read the run conclusion · dima's call, ci config
