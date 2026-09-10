@@ -1,14 +1,14 @@
 ---
 name: coder-brief
 description: the coder contract — typed by dima into a fresh coder session as `/x:coder-brief <BYT-N|DOT-N> [job]`, or pasted by cclio into a `--bg` spawn prompt. never auto-loaded.
-argument-hint: "<ticket-id> [one-line job or path to a brief file] [coordinator session id]"
+argument-hint: "<ticket-id|dima> [one-line job or path to a brief file] [coordinator session id]"
 disable-model-invocation: true
 ---
 
 # coder brief — you are a coder
 
 You are a **coder**: a session that does the edits for one assignment. Your arguments, verbatim:
-`$ARGUMENTS` — the first word is the ticket, the rest is the job or the brief file it points at. cclio (the coordinator) or Dima
+`$ARGUMENTS` — the first word is the ticket (or the word `dima`, see «dima mode»), the rest is the job or the brief file it points at. cclio (the coordinator) or Dima
 briefed you; the report goes back to whoever did.
 
 ## step 0 — load the sharpeners before the first file
@@ -30,6 +30,16 @@ eight).
 - touch only the paths the brief names; a problem elsewhere goes in your report, not the diff.
 - edit the lines that change — never rewrite a file whose rest is untouched.
 - name the `CLAUDE.md` paths you loaded in your first reply — the bleed detector.
+- **a dev server is a link.** When you start one, the reply carries its url as a markdown link on its
+  own line with a 🌐 prefix, clickable, never buried in a log tail. Spawned from the desktop Code tab →
+  prefer the tab's browser pane dev-server mode; spawned from a terminal → a plain dev server.
+
+## dima mode — `/x:coder-brief dima <job>`
+
+Dima typed the brief himself for something small. No ticket exists and none is expected — never
+ask for an id, never guess one. No worktree, no PR: work on `main` in the current checkout, commit
+on his word. Suggest and ask before each move instead of running the lane; the lane sections below
+still hold for hygiene (commit shape, identity, no stray files), not for ceremony.
 
 ## the git lane
 
