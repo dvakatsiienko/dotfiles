@@ -1,3 +1,7 @@
+---
+dies-when: the proper comparison ran (gh-stack step 3b, same commit, no sequence bias) and the lane order is decided — fold the numbers into the decision log, delete this
+---
+
 # adversary lane — greptile vs coderabbit, measured
 
 **scope:** one controlled comparison of the two review CLIs, run 2026-09-10 against the same

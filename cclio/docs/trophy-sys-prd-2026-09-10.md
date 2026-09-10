@@ -1,3 +1,7 @@
+---
+dies-when: the «prd / product-owner» problem dima is about to introduce (2026-09-10) is solved and prds have a real home — move or delete this
+---
+
 # trophy-sys — what shipped 2026-09-10
 
 **scope:** the features built in one evening session, and nothing else. pre-existing behaviour is
