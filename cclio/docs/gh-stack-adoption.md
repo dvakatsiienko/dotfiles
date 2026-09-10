@@ -298,6 +298,15 @@ patches + carries injection hygiene, and **re-review after every fix** is tool-i
 sheet keeps its five columns; the tie-break stays coderabbit-first; greptile's latency is the one
 number nobody has yet — time it on pr 1.
 
+**pr 1 — bytes #67 (BYT-83, trophy-sys follow-ups + cn), scored 2026-09-10 on commit `dcb6d892` before any fix:**
+- coderabbit — true 1 · noise 0 · 85 s · unique 0 · rate limit not hit
+- greptile — true 0 · noise 1 (`rel=noreferrer noopener`, spec-wrong) · 198 s + one 151 s server-side failure · unique 0 · 2 review ids spent (the cli exposes no counter)
+- matt's `code-review` — true 5 · noise 0 · ~40 s · unique 4
+- ci `@claude` + `@greptile` — pending at report time
+- the one real defect (`monthTicks` floor of 2) found by coderabbit AND matt independently
+- empty-open credit question: **no** — greptile did not auto-review on open; no credit on the empty commit
+- coder's read, flagged not decided: on this pr greptile does not earn the local slot; matt's is strongest and free; coderabbit fast and precise. one pr; pr 2 decides.
+
 **candidates (real, medium):** space-explorer-ui error boundary + api `cancelTrip` without
 `validateAuth` + `bookTrips` validate-before-auth (one pr); `.cursor/rules` delete + root
 `AGENTS.md` pointer is too docs-shaped for pr 1, fine as a third. dima picks; 2026-09-10 after
