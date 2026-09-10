@@ -12,3 +12,4 @@
 - coder retro BYT-83 (final, 4): testing beat reading twice — the token-clear test and the browser found 3 of its 6 real findings, five reviewers found one · the lane has no step that RUNS the thing · candidate for coder-brief «final»: one run-it step (agent-browser or a curl) before the review chain
 - coder retro BYT-83 (final, 7): coder-brief «re-request at most once» reads as a cap on rounds; a second feature batch needs a second round · reword to «once per batch of fixes»
 - claude ci action: `--max-turns 30` exhausted on a 9-commit diff, run red, nothing posted — a coder that skips the run log reports «reviewed, clean» · raise the cap or make the brief read the run conclusion · dima's call, ci config
+- coder BYT-83: read a ci review run as «success, no comments» = clean; the comments posted after; two real defects nearly shipped · brief line: poll the pr comments after the run completes, run status is not the review
