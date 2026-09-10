@@ -302,7 +302,10 @@ number nobody has yet — time it on pr 1.
 - coderabbit — true 1 · noise 0 · 85 s · unique 0 · rate limit not hit
 - greptile — true 0 · noise 1 (`rel=noreferrer noopener`, spec-wrong) · 198 s + one 151 s server-side failure · unique 0 · 2 review ids spent (the cli exposes no counter)
 - matt's `code-review` — true 5 · noise 0 · ~40 s · unique 4
-- ci `@claude` + `@greptile` — pending at report time
+- ci `@greptile` — round 1: 0 unique (same as its cli finding) · round 2 on `7370b683`: 5/5 confidence, 0 findings
+- ci `@claude` — round 1: clean, 0 findings · round 2: **failed, `Reached maximum number of turns (30)`, nothing posted** — a 9-commit diff exhausts the cap and the reviewer drops out silently; the cap in `.github/workflows/claude.yml` is the fix, dima's call (ci config)
+- greptile's one cli finding was withdrawn by greptile itself when challenged
+- coder's read: decision 1 → matt first, coderabbit second, greptile last or dropped; decision 2 → ci found nothing the cli did not, both rounds, and the cli found nothing true either. one pr, flagged not called; BYT-81 = pr 2 decides
 - the one real defect (`monthTicks` floor of 2) found by coderabbit AND matt independently
 - empty-open credit question: **no** — greptile did not auto-review on open; no credit on the empty commit
 - coder's read, flagged not decided: on this pr greptile does not earn the local slot; matt's is strongest and free; coderabbit fast and precise. one pr; pr 2 decides.
