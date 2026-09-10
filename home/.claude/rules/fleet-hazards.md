@@ -13,8 +13,16 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   whatever the other device wrote (most likely when dima just printed from a mobile device)
 - reads are fine anytime; writes only when he asks — never change the vault on his behalf
   unprompted
-- never move or rename a vault file from outside obsidian — wikilinks break; renames happen
-  in the app
+- never move or rename a vault file by plain `mv` — 231/231 wikilinks broke on the bench; the
+  `obsidian` cli (`rename` / `move`) rewrites them through the running app, and it is judged by
+  the file landing with a timeout, never by the process returning (it hung twice, 2026-09-10)
+- icloud sync is whole-file, last-writer-wins, no conflict copy (measured 2026-09-10): a write on
+  the mac while a mobile device holds a stale copy is lost on that device's next reconnect — keep
+  obsidian closed on the ipad during a session, re-read before every write
+- the channel recipe for every surface: raw files for read / append / property edits, the cli
+  for rename / move / backlinks / search, never the rest-api plugin or an mcp; notion through
+  `ntn`, never the connector for edits. on cw both doors cost ~1 % of a 5-hour window per
+  paragraph (measured 2026-09-10) — cw reads, cc edits; a batch is handed to the mac
 
 ## git hooks
 
