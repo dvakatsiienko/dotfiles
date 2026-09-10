@@ -36,3 +36,4 @@ home/.claude/shelf/cclio-mode-snapshot.md
 # The memory-sync mirror is a build too (script/skill-memory-sync-mirror.ts): the cc masters rendered
 # into cw memory entries plus a manifest, re-rendered by x-cw:memory-sync and at every halt.
 home/.claude/shelf/memory-sync-mirror/
+__pycache__/
