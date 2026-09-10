@@ -21,6 +21,10 @@ refinements. Binding when printing TypeScript — follow exactly, no freestyle.
 - **Plain names, no Hungarian prefixes** — `SelectProps`, `Payload`; the `I`/`T`/`U` prefix
   system is retired 🪦.
 - Component props: an interface named **`<Component>Props`**.
+- **Booleans carry an auxiliary verb** — `isLoading`, `hasError`, `canEdit`; a bare `loading` reads as
+  a noun at the call site.
+- **Event handlers are `handle`-prefixed** — `handleClick`, `handleSubmit`; the prop that receives one
+  stays `onClick`.
 - **Rename-on-touch:** legacy prefixed names get renamed when a real edit visits their file —
   never in dedicated rename sweeps.
 
@@ -63,6 +67,7 @@ Reach for it on anything config-shaped: option lists, route maps, tool registrie
 
 - **`as const`** for fixed lists and config literals; derive the union from the list instead
   of maintaining a parallel union type.
+- **No `enum`.** The `as const` list plus its derived union does the same job with no runtime object.
 
 ## Placement
 

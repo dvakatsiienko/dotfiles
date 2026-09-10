@@ -23,6 +23,14 @@ refinements. Binding when printing React — follow exactly, no freestyle. Types
 - **Body = logic, return = markup.** The body prepares data; the return stays pure JSX. Simple
   expressions inline are fine — complexity graduates to a named const.
 
+## Server components (Next.js)
+
+- **Server Components by default** — a component is RSC until it needs state, an effect, or a browser API.
+- **`'use client'` sits as deep as it goes** — the smallest leaf that needs it, never a route's top.
+- **Every async boundary carries an error boundary** — a thrown fetch is a blank page otherwise.
+- **`Suspense` wraps every async child**, with a fallback holding the final layout so nothing shifts
+  when data lands.
+
 ## Imports
 
 Three groups, fixed order — every dependency has one obvious home:
