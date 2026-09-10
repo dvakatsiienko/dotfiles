@@ -13,6 +13,7 @@ TOK = os.environ["NOTION_API_TOKEN"]
 CONC = 4  # notion throttles real write traffic; see the report
 
 RETRIES = {"n": 0}
+BYTES = {"out": 0}
 def call(path, method="GET", body=None, ver="2022-06-28", tries=6):
     for a in range(tries):
         req = urllib.request.Request(
@@ -22,7 +23,8 @@ def call(path, method="GET", body=None, ver="2022-06-28", tries=6):
                      "Content-Type": "application/json"})
         try:
             with urllib.request.urlopen(req) as r:
-                return r.status, json.load(r)
+                raw = r.read(); BYTES["out"] += len(raw)
+                return r.status, json.loads(raw)
         except urllib.error.HTTPError as e:
             if e.code == 429:
                 RETRIES["n"] += 1
@@ -38,8 +40,8 @@ def title_of(o):
     return "".join(x.get("plain_text", "") for x in o.get("title", []))
 
 def timed(label, n, fn):
-    t0 = time.time(); out = fn(); el = (time.time() - t0)
-    print(f"{label:<24} {el*1000:7.0f} ms  n={n:<4} {n/max(el,1e-9)*60:8.0f} ops/min")
+    b0 = BYTES["out"]; t0 = time.time(); out = fn(); el = (time.time() - t0)
+    print(f"{label:<24} {el*1000:7.0f} ms  n={n:<4} {n/max(el,1e-9)*60:8.0f} ops/min  out={BYTES['out']-b0} bytes")
     return out, el
 
 def par(fn, items):
@@ -50,7 +52,7 @@ def main():
     parent_title = sys.argv[1] if len(sys.argv) > 1 else "bench-notes-stack"
     N = int(sys.argv[2]) if len(sys.argv) > 2 else 60
 
-    s, d = call("/search", "POST", {"query": parent_title, "page_size": 20})
+    s, d = call("/search", "POST", {"query": parent_title, "page_size": 100})
     hits = [o for o in d.get("results", []) if title_of(o) == parent_title and o["object"] == "page"]
     if not hits:
         print(f"!! parent page {parent_title!r} not visible to the integration"); sys.exit(1)
