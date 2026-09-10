@@ -82,6 +82,7 @@ brew "teamookla/speedtest/speedtest"
 brew "duti"                             # sets the default app per file type
 brew "tree-sitter-cli"                  # was an npm global; brew owns it now
 brew "vercel"                           # vercel/vc — deploys; was a pnpm global that broke
+brew "notion-cli"                       # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
 
 # ── Casks ───────────────────────────────────────────────────────────────────
 cask "1password-cli"             # op — SSH agent + signing
