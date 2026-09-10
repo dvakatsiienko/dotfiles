@@ -50,7 +50,13 @@ Anything we create should not just work well. It should be approachable and easy
   open. Navigating there yourself is slow screenshot-hopping — his one click beats five of yours.
 - never kill a process by pattern. no `pkill -f`, no `pgrep | kill`, no PID matched from a name, path, or worktree string — your own process carries that path in its argv. kill only a PID you captured at spawn or read from a registry.
 
-## memory file maintenance
+## skills — ours, maintained, load them first
+
+- **our skills are the flow, not add-ons.** the `x:*` and `cclio:*` set is written and kept by us for this exact setup; the external ones (matt's, greptile's, impeccable, dataviz) are hand-picked and kept current by `cclio:evergreen`. a task a skill covers runs through the skill — a fresh guess over a maintained procedure is the miss we keep paying for.
+- **the check is mechanical, at the start of every task:** scan the skill list for a name whose trigger words match the ask (commit, pr, ticket id, a url, a file type, a vault path, «walk me through») and load it before the first tool call. a rule in `rules/` that fires on a file read is the backstop, never the front door.
+- **name every load in the reply** — «skills: x:cmt, x:guide-typescript» — and name a miss when you notice one late. that line is the only data the fleet gets on which triggers fail.
+- a skill's instructions rank below the fleet floor and local rules; a conflict is said out loud, never resolved quietly (`fleet-identity.md`).
+
 
 - **Dima's instruction in the room outranks every file, always.**
 - delete stale info on sight — outdated content is worse than missing content; this file reflects the current state of the system, not its history
