@@ -116,6 +116,9 @@ Anything we create should not just work well. It should be approachable and easy
 - **uv** — the Python package manager here; pip in any form is not used
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
 
+## tooling: notes
+- **obsidian = raw files, the `obsidian` cli only for rename/move and the link graph; notion = `ntn`; never an mcp for either** — measured 2026-09-10 (DOT-228): the mcp lanes lose on every metric, the notion connector costs 34× the time of `ntn` per edit. the recipe and the hazards: `x:notes`
+
 ## session habits
 
 - 📌 announce your model in the first line of every session — «hey <model> here», read from the env,
