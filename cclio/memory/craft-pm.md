@@ -93,6 +93,13 @@ inbox step. **no data loss, ever — prettify only.**
   needs-human list → his approve → one flush + label strip on touched tickets.
 - healthy state is ZERO labeled tickets; one stuck for days means the habit failed.
 
+## a research doc that answers a ticket todo writes into the ticket the same day
+
+the 09-08 notes research answered both of dima's DOT-228 todos (bases over dataview; the doctrine:
+drop) and nobody carried the verdicts to the ticket or to him; he had to point at his own todos two
+days later. the doc is the evidence, the ticket is where he reads: one «→ research says …» line
+under the todo, same session as the doc.
+
 ## the freebie rule — verdict before plan
 
 Dima: *«if i ask for a freebie but it appears to be not — better tell me than try to solve, because

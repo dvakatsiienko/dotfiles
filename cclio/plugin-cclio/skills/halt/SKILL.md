@@ -67,6 +67,8 @@ turn — never stop to ask. He invoked a halt; asking «shall I halt?» makes hi
 one short message, then straight into phase 1:
 - name every **live** thread: a ticket In Progress, an unlanded edit, a spawned session, an
   unanswered question put to dima, an unpushed commit
+- **the coder roster, two questions per coder: retro received? `claude stop <id>` done?** a coder
+  has outlived a halt before; `claude agents --json` is the check, never memory
 - sort each into **can land now** (small, finishable here) · **must park** (needs a resume
   note) · **already done**
 - state the order you are taking, as a fact rather than a proposal
