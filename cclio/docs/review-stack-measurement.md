@@ -60,6 +60,8 @@ number nobody has yet — time it on pr 1.
 - ci `@greptile` — round 1: 0 unique (same as its cli finding) · round 2 on `7370b683`: 5/5 confidence, 0 findings
 - ci `@claude` — round 1: clean, 0 findings · round 2: **failed, `Reached maximum number of turns (30)`, nothing posted** — a 9-commit diff exhausts the cap and the reviewer drops out silently; the cap in `.github/workflows/claude.yml` is the fix, dima's call (ci config)
 - greptile's one cli finding was withdrawn by greptile itself when challenged
+- round 3 on `bc9c0638` (max-turns 60): `@claude` clean, `@greptile` 5/5 zero findings — 0 findings from either ci reviewer across three rounds
+- **the coder's larger finding:** three of its six real defects came from running the app (a browser at two widths, an end-to-end token clear); no reviewer found any of them. the lane has five reading steps and zero running steps → a «drive it once at two widths before final» step is the brief change this pr argues for, ahead of any reviewer reordering
 - coder's read: decision 1 → matt first, coderabbit second, greptile last or dropped; decision 2 → ci found nothing the cli did not, both rounds, and the cli found nothing true either. one pr, flagged not called; BYT-81 = pr 2 decides
 - the one real defect (`monthTicks` floor of 2) found by coderabbit AND matt independently
 - empty-open credit question: **no** — greptile did not auto-review on open; no credit on the empty commit
