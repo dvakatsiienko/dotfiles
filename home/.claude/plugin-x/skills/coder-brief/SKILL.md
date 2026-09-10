@@ -67,10 +67,11 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      angle), fix again.
   3. `greploop`, one loop, cap 1 review (greptile's local eyes; 1 credit of 50/month), fix what
      survives its triage. Push.
-  4. `gh pr comment <n> --body "@claude review"` and `gh pr comment <n> --body "@greptile review"`
-     in the same minute — the ci reviewers read one diff. Fix what is real, reply
-     «declined: <why>» on what is not. Re-request (another `@claude review`) only after a
-     critical/warning fix, at most once.
+  4. `gh pr comment <n> --body "@claude review"` — the ci reviewer. **The run's status is not the
+     review**: a green run with no comments means «clean» OR «not posted yet»; poll the PR comments
+     after the run completes (two real defects nearly shipped on that misread, 2026-09-10). Fix what
+     is real, reply «declined: <why>» on what is not. Re-request once per batch of fixes.
+     (greptile is cli-only since 2026-09-10 — its ci pass found nothing across three rounds.)
   5. `gh pr edit <n> --add-reviewer dvakatsiienko`, then the «final» line to the coordinator
      (PR url + head sha + «final»).
   Nothing is merged before that word — three PRs were merged mid-push on 2026-09-08 and every
