@@ -33,8 +33,13 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   an inline thread is answered only through `POST /pulls/{n}/comments/{id}/replies`; a
   top-level comment does not count as a reply.
 - **the bytes review lane**: `gh pr edit <n> --add-label '🤖 review:requested'` starts the ci
-  reviewer on this head (the `review` check is required on main); a later push leaves it stale
-  — re-review = remove + add the label, at most twice per pr, a third round on dima's word.
+  reviewer on this head; the guard publishes `review:clean`, the required check on main —
+  never created = blocked. a later push leaves it stale — re-review = remove + add the label,
+  at most twice per pr (read the counter: `workflows/review.yml/runs?branch=<head>`), a third
+  round on dima's word. 📌 a green `review:clean` means a review ran; until the reviewer's
+  own verdict marker gates it, the findings live in its comment — read that.
+- a claude-code-action pr editing a workflow ALREADY on the default branch self-skips
+  (anti-tamper); a workflow file new to main reviews itself, twice if labeled twice.
 - merge only per the disposition given (merge-when-green, or stop and report). none given →
   report and ask.
 - a merged PR is the implementation record — close or update the tracking item when the work
@@ -60,7 +65,7 @@ and neither is one merged when the request said report and ask.
 an issue, pr or comment on a repo we do not own, written by an agent and posted with dima's `gh`,
 ends with one footer line so the maintainer knows who typed it and that dima stands behind it:
 
-    — written by Claude Code at my request; I read it and stand behind it.
+    — printed by Claude Code, signed by me.
 
 his account carries the accountability, the footer carries the honesty. the text itself is
 written through `x:writing-for-humans` — load it before the first draft. never a `[bot]`

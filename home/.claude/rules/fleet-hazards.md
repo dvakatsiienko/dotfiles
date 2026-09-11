@@ -50,7 +50,9 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   on 2026-09-08: a `jq` filter whose text contains `git`, a heredoc piped into `gh`, and a
   `HOME=` override in front of a command. write the filter or body to a scratch file first and
   pass the path (`jq -f`, `gh --body-file`); never override `HOME`
-- two more shapes (2026-09-10, ~10 min each): any compound command containing the substring `git`
+- two more shapes (2026-09-10, ~10 min each): **any command or heredoc whose TEXT contains the
+  substring `git`** — `github.repository` inside a yaml body, a jq path `.git.deploymentEnabled`
+  (8 refusals across two jobs, 2026-09-11) —
   — `pnpm github:agent-token` included — and `eval` outright (an agent-browser verb). both go
   into a scratch script and run from there
 

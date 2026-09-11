@@ -27,7 +27,9 @@ eight).
   «touch the shared biome config if lint needs it»); brief behaviours, never a count — «one
   test: renders, a variant, a click» produced a conjunctive test where five were right.
   **Measure the live number before a build that rests on one** (the 10-day grant reframed a
-  whole step, 2026-09-11). Before replacing an assertion, say what the old one protected.
+  whole step, 2026-09-11). A manifest survey unions `dependencies` + `devDependencies` before
+  counting (a one-field read hid three tools twice). A taxonomy comes from a grep, never from
+  adjacency. A probe runs its control first, then the surprising input. Before replacing an assertion, say what the old one protected.
   **Fetch main before asking a question a commit could answer.** Two coders in one repo: the
   second brief names the files the first is touching, or the coordinator holds the first's
   merge until the second's pr is open (a merged pr broke a rebase, 2026-09-11).
@@ -95,6 +97,12 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      is the review request for THIS head: the `review` check is required on main, it runs only on
      a label event, and a later push leaves it stale — so a re-review is remove + add the label
      at the next «final», never per push (each run is ~13 min of opus on dima's own window).
+     **Before every label, read the round counter** — `gh api
+     'repos/<o>/<r>/actions/workflows/review.yml/runs?branch=<head>' --jq '[.workflow_runs[] |
+     select(.conclusion=="success")] | length'` — never a tally kept in your head: at 1, tell
+     the coordinator BEFORE the label goes on (a third round is dima's word); at 2, the label
+     does nothing. A green `review:clean` means «a review ran», not «no findings» — read the
+     reviewer's comment either way.
      The tracking comment shows progress; the check goes green only on a clean review, red on
      findings. **Read the reviewer's output from the pr, never the run**: `issues/N/comments`,
      `pulls/N/reviews`, `pulls/N/comments` — it posts to a different one per round. Fix what is
@@ -143,11 +151,14 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
     -d '{"query":"mutation { commentCreate(input: { issueId: \"<uuid>\", body: \"…\" }) { success } }"}'
   ```
   issue uuid: `linear api 'query { issue(id: "<id>") { id } }'`.
-- Your GitHub identity is the app `x-coder-bot`. Every PR comment, review reply and PR body you
-  write goes through it, never as Dima — prefix the `gh` call, nothing else changes:
+- Your GitHub identity is the app `x-coder-cc`. **Every `gh` call that WRITES** (comment, reply,
+  label, pr body, review request) wears it, never Dima — through ONE wrapper script made at job
+  start, so the sandbox's script rule and the identity rule are the same motion:
   ```
-  GH_TOKEN=$(cd ~/dotfiles && pnpm --silent github:agent-token) gh api … / gh pr comment … / gh pr create …
+  printf '%s\n' '#!/usr/bin/env bash' 'export GH_TOKEN=$(cd ~/dotfiles && pnpm --silent github:agent-token)' 'exec gh "$@"' > /tmp/ghw && chmod +x /tmp/ghw
+  /tmp/ghw pr comment … / /tmp/ghw api …
   ```
+  a bare `gh` write posts as Dima (it happened on a probe pr, 2026-09-11).
   pushes stay on Dima's git auth (the app has no `contents: write`); only the API calls wear the bot.
 - **done-report: ONE comment per assignment, ≤20 lines** — shipped · left · measured numbers ·
   one line per defect. **Facts a future reader of the repo needs** (an api that lies, a setting
