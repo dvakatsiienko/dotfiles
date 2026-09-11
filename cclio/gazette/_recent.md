@@ -26,6 +26,31 @@
 - dotfiles: 12 uncommitted edits (rules, brief 0.11.58, conventions, prefetch, shape hook, root claude.md testing), flushed at this checkpoint; bytes `4d880195` clean, ci green, coder `b7b0d883` idle at root, warm for the gate fix
 - next: the gate-fix brief (one batch) → BYT-91 → BYT-86 map draft → the english trainer, ralph, 🧹/pm rebalance from the inbox
 
+⸻ upd 22:40
+
+## shipped (evening)
+
+- **the merge gate is real** — bytes #75 ([BYT-91](https://linear.app/x-com/issue/BYT-91)'s neighbour, no ticket): the guard publishes its own check run `review:clean`, `review` moved into its own label-only workflow, main requires `review:clean` — a head nobody reviewed is blocked instead of green. measured on the way: an unrelated label ERASED a red review (skipped replaced failure on the same head), and comments were never the door (an `issue_comment` run sits on the default-branch sha). the coder found the brief's premise false — a workflow file new to main reviews itself — and four defects came out of that. ⚠️ hole #2, measured on four rounds across two prs: the guard counts inline threads, a round filed in the sticky comment reads clean → [BYT-92](https://linear.app/x-com/issue/BYT-92), first tomorrow. and the structural one: the check is per head, the cap per branch, so a pr whose last round found something cannot go green on its own — #75 and #76 both merged past a pending gate; the answer-check job in BYT-92 closes it.
+- **the hoist sweep, reversed mid-pr on dima's criterion** — #76 / [BYT-91](https://linear.app/x-com/issue/BYT-91) done: the root manifest holds the shared toolchain only (typescript, vitest, biome, the `@types`, tailwind + postcss, tsx — 24 names); a tool a subset of apps chose stays in those apps. the reason is measured, not taste: a root bump moves 32/32 turbo hashes and deploys all six apps. one-version-per-name moved into the shape test (dotfiles `aea6e2f`, red first), which found a graphql 16/17 drift between two talking apps on its first run — closed. `scratch/*` joined the vercel gates after a probe branch burned six deploys; the daily cap hit 100 and three prod fan-outs failed — [BYT-84](https://linear.app/x-com/issue/BYT-84) moves up, a two-week counter watch follows it. [BYT-93](https://linear.app/x-com/issue/BYT-93): the clean-clone filtered install as a ci step + three ci riders (80 s of a 175 s run is not the work).
+- **english, live** — dima's shape: not a halt summary, a turn-by-turn `🎙️ tune-up: yours «…» → mine «…» — why` line, ~1 in 10 messages, `🎸 slang:` for the native-dev way, `🔁 again:` for a recurring one, his `⌨️ <sentence>` echo as practice (mechanical retyping is the lever). [claude-english-buddy](https://github.com/xiaolai/claude-english-buddy-for-claude) installed after a hunt of the field, run quietly through a wrapper hook (the desktop app printed its diff raw; cross-session messages were getting corrected) — [issue #19](https://github.com/xiaolai/claude-english-buddy-for-claude/issues/19) upstream asks for a quiet flag, signed «printed by Claude Code, signed by me», now the fleet footer for anything posted under his name outside our repos.
+- **checkpoint, first run scored** — 10/10 facts, dima 6.7: the KEEP list paraphrased his asks. `cclio:checkpoint` 0.3.38: inbox items ✅-marked in place and never cleared, the resume diffs inbox vs flowlog, details kept and fluff dropped.
+- **smaller**: the 🧹 broom dropped (label, boot step, memory section — zero tickets since its first day); `x:pm` framework paragraph trimmed to four lines; ralph loop pre-researched (go, narrow: the guard fixture tests, coder-hosted, `--max-iterations 8`; the state file needs a gitignore line); knip researched and dry-run (21 files · 15 deps · 42 dead exports on bytes; proto-lab excluded by design, no blind `--fix`); [BYT-70](https://linear.app/x-com/issue/BYT-70) gains the fleet-avatar set as the first image-gen candidate; [DOT-26](https://linear.app/x-com/issue/DOT-26) gains an images pre-research line.
+
+## tricks gained (evening)
+
+- a green status answers «did this fail», never «did this run» — github's skipped job, vercel's skipped deploy («success»), our own `review:clean` with no inline threads, all in one day
+- a cap is real only if something reads the counter before acting: the coder tracked rounds by recall, cclio counted a workflow-wide run list — both wrong; `workflows/<file>/runs?branch=<head>` is the count
+- a claude-code-action pr self-skips only for a workflow already on the default branch; a new file reviews itself
+- an `issue_comment` run carries the default-branch sha — its skipped jobs never touch a pr head
+- every `gh` write in a coder job goes through one wrapper script made at job start (zero identity slips after it); the sandbox refuses any TEXT containing `git`, heredocs included
+- `settings.json` hooks load at session start; a plugin's `UserPromptSubmit` hook fires on cross-session messages too
+- ci on bytes: ~2.9 min, review round ~8; actions are free on public repos, the quota you burn per round is anthropic's
+
+## state (evening)
+
+- dotfiles `eba4693` + the halt flush, bytes `f5b0f0c7` — both clean on origin after the push; coder `b7b0d883` idle and warm for BYT-92; no worktrees
+- tomorrow: [BYT-92](https://linear.app/x-com/issue/BYT-92) (+ [BYT-93](https://linear.app/x-com/issue/BYT-93)) → the ralph run on the guard fixtures → [BYT-84](https://linear.app/x-com/issue/BYT-84) → the knip report for dima's keep/delete pass → [BYT-86](https://linear.app/x-com/issue/BYT-86) map draft → [DOT-26](https://linear.app/x-com/issue/DOT-26) with him
+
 ### 2026-09-10-the-measured-day.md
 # 🗞️ cclio's gazette · the measured day — six note channels on one suite, five reviewers on one pull request, the eye beats them all
 

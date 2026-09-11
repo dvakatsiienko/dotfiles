@@ -98,3 +98,9 @@ per pr while the github app is on trial (to ~09-16): greptile cli (greploop) and
 - greptile ci — 1 finding P2 (cleanup can erase rounds), confidence 4/5, diagram ✓ (dima: useful, ugly) · chat: not yet counted
 - coderabbit / matt's / greptile cli — the coder's report did not tally them; fold when the done-comment lands
 - idea (dima, 2026-09-11): the diagram need not come from greptile — the ci reviewer (`claude-code-action`) can be told to end its round with a mermaid flow of the change, or the coder can put one in the pr body at final. either decouples greptile's ci presence from its diagramming. measure after the trial: which of the three draws the more readable flow, and does dima open it.
+
+## pr 6 — bytes #76 / BYT-91 (2026-09-11), coder's tally, cclio verified the rounds
+- ci `@claude` — round 1: 6 real (one production break: `tsx` was space-explorer-api's runtime, hoisted away) · round 2: 3 real (a wrong react-compiler rule, a dead biome exemption, an overstated claim) · every finding fixed or declined with a reason on the thread
+- greptile ci — 1 (P2), plus the diagram
+- `review:clean`: false green on 4 of 4 rounds across #75 + #76 — the guard counts inline threads, the reviewer filed in the sticky comment every time → BYT-92
+- the cap/check tension: per-head check, per-branch cap → #75 and #76 both merged past a pending gate → BYT-92's answer-check job

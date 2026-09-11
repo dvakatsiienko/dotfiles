@@ -2,8 +2,7 @@
 
 ## queue
 
-- 🔑 **first tomorrow: [BYT-85](linear://linear.app/issue/BYT-85) npsso auto-renewal** — dima's order. 1password sign-in path (cw connector / `op`), refresh-grant instrument, refresh token in kv on the daily cron. then DOT-26 with him on fable (ask first; postponed twice).
-- 🧭 **checkpoint test** — first `/cclio:checkpoint` at a real boundary (DOT-26 → the map grill), then the ten-probe recall. suggest the boundary; he warns on topic switches.
+- 🥇 **first tomorrow: [BYT-92](linear://linear.app/issue/BYT-92) the gate's verdict marker + answer-check job** (+ [BYT-93](linear://linear.app/issue/BYT-93) riders) → same coder `b7b0d883`, warm. then the **ralph first run** on the guard fixture tests (coder-hosted, `--max-iterations 8`, gitignore `.claude/*.local.md` first; measure iterations, context, hooks per lap, promise honesty) → [BYT-84](linear://linear.app/issue/BYT-84) vercel zero (git deploys off, main from ci) → knip report for dima's keep/delete pass (proto-lab excluded).
 - 🗺️ **the product map** — grill [DOT-244](linear://linear.app/issue/DOT-244)'s shape → [BYT-86](linear://linear.app/issue/BYT-86) trophy-sys map (the feature review, `x:step-by-step`, stats on trial) → atelier `~/projects/atelier` → [BYT-75](linear://linear.app/issue/BYT-75) redesign with the lane measurement. bmad steal-list fork. naming: product vs brand docs, his call.
 - 🧪 **review-stack measurement — pr 1 scored (bytes #67): matt → ci @claude → coderabbit → greptile (cli-only now). pr 2 = BYT-81 decides the local order; then the brief switches to the fallback chain.** sheets: `cclio/docs/review-stack-measurement.md`.
 - 🧬 **evergreen — daily at boot.** read the dependency dashboards too (dotfiles #34, bytes #55: pending-status prs hide there — npm-run-all2, jotai 3). brew + skills lanes weekly. `cmdstats` read ~2026-09-22.
