@@ -73,20 +73,12 @@ call and is always cheaper than a wrong guess.
   project descriptions cap at 255 characters — the pattern text lives in the ticket, the
   description points at it.
 
-## The framework underneath — matt's pipeline, and what we bent
+## The framework underneath
 
-Our pm layer rides on matt pocock's engineering framework. His chain:
-`grilling` (stress-test the idea) → `domain-modeling` (CONTEXT.md vocabulary + ADRs) →
-`to-spec` (conversation → spec) → `to-tickets` (spec → tracer-bullet tickets with blocking
-edges) → `triage` (role state machine: category `bug`/`enhancement` + state `needs-triage` /
-`needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix`) → `implement` → `code-review`.
-The role mapping to our linear lives in `~/dotfiles/docs/tracker/CONTEXT.md` (produced by his
-setup skill) — absolute on purpose: the tracker is ONE domain, this file governs linear ops from
-any repo; a repo's own CONTEXT.md governs only its code domain.
-What we bent, deliberately: roles became our label family (`agent`/`human`/`needs *`), kinds
-replaced categories, tickets are born fully fielded (inline triage) yet still land in Triage as
-dima's review gate, and `wontfix`/`.out-of-scope` became Canceled-with-closing-word. Reach for
-his skills by name when a stage's depth is needed — they load on demand.
+Matt Pocock's pipeline (`grilling` → `domain-modeling` → `to-spec` → `to-tickets` → `triage` →
+`implement` → `code-review`) is the spine; the role mapping onto our linear lives in
+`~/dotfiles/docs/tracker/CONTEXT.md` — absolute on purpose, the tracker is ONE domain from any
+repo. Reach for his skills by name when a stage's depth is needed.
 
 ## The two jobs
 

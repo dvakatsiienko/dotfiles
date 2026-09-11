@@ -54,3 +54,14 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
 done when the PR or issue is in the state the request named — labeled, templated, and you have
 said which state that is. a PR left open when the request said merge-when-green is not done,
 and neither is one merged when the request said report and ask.
+
+## posting under dima's account outside our repos
+
+an issue, pr or comment on a repo we do not own, written by an agent and posted with dima's `gh`,
+ends with one footer line so the maintainer knows who typed it and that dima stands behind it:
+
+    — written by Claude Code at my request; I read it and stand behind it.
+
+his account carries the accountability, the footer carries the honesty. never a `[bot]`
+impersonation, never silent. inside our own repos the app identities (`x-coder-cc`,
+`x-reviewer-cc`) do this job instead.

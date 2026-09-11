@@ -79,20 +79,6 @@ lands in linear's native `sortOrder` (the recipe is in `x:pm` workspace refs). t
 `sortOrder` and prints a mil in execution order; priority stays what it is — importance, not
 sequence. re-sort when the mil changes shape, never mid-ticket.
 
-## the broom — the 🧹 label flow
-
-dima pins 🧹 in linear when a ticket looks off; cclio sweeps them at boot, right after the
-inbox step. **no data loss, ever — prettify only.**
-
-- a labeled ticket gets: pretty title (assertive; his emoji-name stays if no better name is
-  found) · pretty body · correct labels · correct relations (best effort, both directions) ·
-  all data preserved.
-- do-nots: delete data · re-word tickets that already read well · breakdown or new tickets
-  (proposals welcome, silent creation banned).
-- the pass: query all 🧹 → print the fix-plan list, one line per ticket → a separate
-  needs-human list → his approve → one flush + label strip on touched tickets.
-- healthy state is ZERO labeled tickets; one stuck for days means the habit failed.
-
 ## a research doc that answers a ticket todo writes into the ticket the same day
 
 the 09-08 notes research answered both of dima's DOT-228 todos (bases over dataview; the doctrine:

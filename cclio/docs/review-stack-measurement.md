@@ -97,3 +97,4 @@ per pr while the github app is on trial (to ~09-16): greptile cli (greploop) and
 - ci `@claude` — round 1: 3 real (one fatal: the gate could never close) · round 2: 1 real (`updateComment` keeps the author, the half-fix) · cap spent
 - greptile ci — 1 finding P2 (cleanup can erase rounds), confidence 4/5, diagram ✓ (dima: useful, ugly) · chat: not yet counted
 - coderabbit / matt's / greptile cli — the coder's report did not tally them; fold when the done-comment lands
+- idea (dima, 2026-09-11): the diagram need not come from greptile — the ci reviewer (`claude-code-action`) can be told to end its round with a mermaid flow of the change, or the coder can put one in the pr body at final. either decouples greptile's ci presence from its diagramming. measure after the trial: which of the three draws the more readable flow, and does dima open it.
