@@ -23,6 +23,8 @@ comes first, not after — a CST saved and then followed by more work in the sam
 tokens and a stale file. `/x:handoff` writes, `/x:handoff-ingest` reads, against
 `~/.claude/shelf/handoffs/`.
 
+📌 **After a halt the window is cleared, never compacted.** The CST already carries the boot; a compact block adds ~5k resident tokens of «current work: print the confirmation» and re-fires the prefetch hook (measured 2026-09-11, the halt14 boot). `/compact` belongs to the checkpoint, where the message replay is the point.
+
 📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
 run. The command file carries the phases; do not restate them here.
 
