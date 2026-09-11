@@ -69,6 +69,9 @@ call and is always cheaper than a wrong guess.
 - **archiving** — no CLI verb. `linear api 'mutation { issueArchive(id: "<uuid>") { success } }'`,
   uuid from `linear api 'query { issue(id: "DOT-3") { id } }'`.
 - **hanging >15s** — likely a hidden keychain prompt. Tell Dima to check the screen.
+- **labels via the api**: names take no emoji (`Label names cannot contain emojis`); label and
+  project descriptions cap at 255 characters — the pattern text lives in the ticket, the
+  description points at it.
 
 ## The framework underneath — matt's pipeline, and what we bent
 

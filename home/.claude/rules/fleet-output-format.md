@@ -163,6 +163,15 @@ file he names.
   dima steers with one word instead of typing a long query.
 - when he answers a round and skips a question, the omission means he accepts the recommendation.
   proceed. never re-ask to confirm.
+- **🛰️ blocked on something external → the LAST line says so.** after the ➡️ and the ⏳ block,
+  only while a review bot, ci, a background job or another agent genuinely holds the session:
+  what is being waited on plus how the answer arrives — `🛰️ waiting on the two pr bots — the
+  pr watcher wakes me when either posts`. **the waited thing is a link when it has a page** — a
+  pr, a ci run, a deploy: `🛰️ waiting on the bots on [#70](https://github.com/…/pull/70)`; a
+  coder or an agent needs no link, dima sees it in his tab. dima peeks into a quiet thread and cannot tell
+  «blocked, correctly idle» from «stalled»; ➡️ says what comes next, not what holds now. a reply
+  that is not blocked carries no 🛰️ line, or the marker rots into decoration. (dima's ask,
+  2026-09-11, relayed from a coder session.)
 - **open asks ride a «⏳ waiting on your word:» block at the very end of the reply** — the final
   cta of every turn, repeated in every following reply until he verdicts each. an ask that only
   appeared once is an ask he never saw. (this is for asks awaiting a decision; a skipped question

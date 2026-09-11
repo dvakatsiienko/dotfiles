@@ -14,6 +14,8 @@ Anything we create should not just work well. It should be approachable and easy
 - typesafety is useful, take advantage of it.
 - don't be scared to propose bold ideas if they can meaningfully benefit
 - tests are good! endless smoke tests, "regression tests" for feature deletions, etc, much less good. tests should be focused, not slop.
+  - **what earns a test** (vitest's own practice guide, adopted 2026-09-11): test the contract, never the internals — if a refactor keeps the output and the test breaks, it tested implementation. one behaviour per test, no «and» in a name. mock only what is slow, flaky or side-effecty, never the thing under test. a mechanical migration writes, per mapping, what the failure will print (`assert.ok` → `toBeTruthy` prints nothing useful). **a test is proven by making it fail**: for a test reading a rendered value, delete its input (the stylesheet, the attribute, the variant) and watch it go red — five «green» tests shipped hollow in one day because only the pass was ever checked.
+  - **vitest is the runner** in every ts repo (`vitest run`, `tree` reporter locally); a component test runs in browser mode, not jsdom. `node:test` is not used.
 - don't hesitate to delete dead code (obvious or not) during task execution
 - never spin up a local dev server (e.g. `next dev`) after finishing a task — I do this myself if needed
 

@@ -89,7 +89,9 @@ one message, short lines, **no queries here — pure assembly**:
 - healthcheck verdict (one line if green)
 - ⏰📌 stuck reminders, own line each (omit if none)
 - inbox status · handoffs pending · queue depth + top item
-- 📋 the proposed processing order — the flowlog checklist, lanes marked, sub-batches labeled;
+- 📋 the proposed processing order — a numbered session plan, one line per item, with a
+  `checkpoint` line placed where a topic boundary earns one (only when it helps; dima,
+  2026-09-11: «keep this habit») — the flowlog checklist, lanes marked, sub-batches labeled;
   **the board ends here and waits for dima's word.** he corrects the parse before any work runs;
   a skipped question means the recommendation is accepted
 - ✍️ prompt coaching, 1–2 lines max: the ONE thing in today's inbox that made parsing harder,

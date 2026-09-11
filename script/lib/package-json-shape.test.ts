@@ -17,11 +17,14 @@ describe('the rules', () => {
     it('reads the scripts block as the engineering loop, not the alphabet', () => {
         expect(
             sortScriptNames([
+                'format',
                 'typecheck',
                 'build:web',
+                'check',
                 'lint',
                 'trophies',
                 'dev',
+                'test',
                 'build',
                 'postinstall',
                 'preview',
@@ -37,6 +40,9 @@ describe('the rules', () => {
             'postinstall',
             'lint',
             'typecheck',
+            'test',
+            'check',
+            'format',
         ]);
     });
 

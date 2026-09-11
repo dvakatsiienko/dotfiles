@@ -17,7 +17,10 @@ to drop, or i suggest and drop only what he confirms.
 - mark my drop suggestions 🗑️ with the file that already holds the outcome (a doc, a ticket, the
   flawlog); nothing drops unconfirmed
 - with args (`/cclio:checkpoint drop notes bench, the #67 rounds`): his list wins, no proposal
-  round — go straight to 2
+  round — go straight to 2. still add my own 🗑️ suggestions under his list in the landing
+  message: he may have forgotten a finished topic (dima, 2026-09-11)
+- the two verbs, his framing: `/compact` describes what to **keep**, `/checkpoint` describes
+  what to **drop** — everything useful carries over, only fluff goes
 - always kept, unlisted: the boot ingest, the inbox items and their homes, every open ask in his
   words, the coder roster, my own pending suggestions, the flowlog and queue state
 

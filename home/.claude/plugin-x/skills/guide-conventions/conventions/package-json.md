@@ -64,6 +64,17 @@ named for what they are, not for a key.
 of the entity; the family already says where it runs, and the tail names the artifact, never the
 verb (`mirror`, `snapshot`, `store` — not `render`, `compile`, `sync`).
 
+## the placement — tools at the workspace root
+
+In a monorepo a tool-shaped devDependency (types, a compiler, a bundler and its plugins, a test
+runner, css tooling, codegen) goes into the **root** manifest, once, one version; an app's
+manifest lists only what its own code imports at runtime. `pnpm run` puts the root
+`node_modules/.bin` on every package's PATH, node's module walk from `apps/x` reaches the root
+`node_modules`, and a filtered install (`pnpm i -F 'app...'`) still installs the root devDeps
+(measured on bytes, 2026-09-11). One renovate PR per bump instead of one per app. A tool that
+loads plugins from its own package location (eslint-style) gets a `public-hoist-pattern[]` line
+in `.npmrc`, never a copy into the app.
+
 ## the versions — exact, and looked up
 
 Every dependency is an exact pin, never `^`/`~` — when hand-authoring a manifest too

@@ -34,4 +34,4 @@ if (($(wc -l <"$seen") > 200)); then
 fi
 
 printf '%s  SubagentStart  %s\n' "$(date +%H:%M:%S)" "$key" >>"$HOME/.claude/hook-trace.log"
-afplay -v 0.5 "$HOME/.claude/shelf/sounds/bg-mage-male-evocation.mp3" >/dev/null 2>&1 &
+afplay -v 0.5 "$HOME/.claude/shelf/sounds/bg-mage-male-evocation.m4a" >/dev/null 2>&1 &

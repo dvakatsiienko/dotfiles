@@ -30,7 +30,11 @@ import {
 } from '../../../../script/lib/package-json-shape.ts';
 
 const root = resolve(process.argv[2] ?? '.');
-const manifests = findManifestPaths(root);
+// ? Extra args narrow the check to those manifests — a pre-commit hook passes
+// ? its staged files, so one drifting manifest elsewhere never blocks an
+// ? unrelated commit; the repo-wide sweep belongs to ci.
+const only = process.argv.slice(3).filter((path) => path.endsWith('package.json'));
+const manifests = only.length > 0 ? only : findManifestPaths(root);
 
 if (manifests.length === 0) {
     console.error(`no package.json found under ${root}`);
