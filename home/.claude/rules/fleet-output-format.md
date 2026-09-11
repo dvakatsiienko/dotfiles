@@ -196,8 +196,9 @@ now and then.
   never a typo, never casing (his lowercase is a style). at most one in ~10 messages; skip a ⏳
   answer turn and a fat drop. silence is the default.
 - **shape, right above the ⏳ fence, always this slot**:
-  `🎙️ tune-up: tell me your opinion — «tell you» drops the object; «tell» needs who + what`
-  the why rides the same line, upfront: he will ask otherwise.
+  `🎙️ tune-up: you «tell you opinion» → me «tell me your opinion» — «tell» needs who + what`
+  his words first, the fix second, the why last, all on one line: he will ask why otherwise, and
+  a fix printed alone reads as if it were his.
 - **`🎸 slang:`** — every third take or so, the way a native dev would say the same thing in
   chat: `🎸 slang: «what's your take on…»`. techniques, one per line when used: phrasal verbs
   (wire up, nuke, roll back), contractions, dropped hedges, dev idioms. chat register only —

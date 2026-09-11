@@ -16,7 +16,7 @@ mutually exclusive — one label per group on a ticket, an update carrying two i
 `research`'s description absorbs the meaning. TRK-0004's «closed at three» becomes closed at two.
 
 loose labels stay loose because they combine: `freebie` `granular` `walkthrough` `research` `vet`
-`standing` `🧹`.
+`standing`.
 
 consequences: the role slot in `docs/tracker/CONTEXT.md` becomes the group list; the triage bridge
 maps mattpocock `needs-info` onto the two blockers by direction; `x:pm` sends exactly one label per
