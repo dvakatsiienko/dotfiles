@@ -25,6 +25,7 @@ import { resolve } from 'node:path';
 /* Instruments */
 import {
     checkManifest,
+    checkVersionAgreement,
     findManifestPaths,
     readManifest,
 } from '../../../../script/lib/package-json-shape.ts';
@@ -52,11 +53,27 @@ for (const rel of manifests) {
     for (const problem of problems) console.error(`  ${problem}`);
 }
 
+// ? One version per name is the only rule a single manifest cannot answer, so it
+// ? always compares the WHOLE workspace even when the args narrowed the rest.
+// ? `only` then narrows the reporting, so a stale drift elsewhere still never
+// ? blocks an unrelated commit — see checkVersionAgreement.
+const everyManifest = only.length > 0 ? findManifestPaths(root) : manifests;
+const disagreements = checkVersionAgreement(
+    everyManifest.map((rel) => ({ path: rel, manifest: readManifest(root, rel) })),
+    only.length > 0 ? only : undefined,
+);
+
+for (const problem of disagreements) console.error(`\n  ${problem}`);
+
 const scope = `${manifests.length} manifest${manifests.length === 1 ? '' : 's'}`;
 
-if (failed > 0) {
-    console.error(`\n${failed} of ${scope} off the convention shape`);
+if (failed > 0 || disagreements.length > 0) {
+    if (failed > 0) console.error(`\n${failed} of ${scope} off the convention shape`);
+    if (disagreements.length > 0) {
+        const count = disagreements.length;
+        console.error(`${count} name${count === 1 ? '' : 's'} pinned to more than one version`);
+    }
     process.exit(1);
 }
 
-console.log(`${scope} on the convention shape`);
+console.log(`${scope} on the convention shape, one version per name`);

@@ -194,6 +194,66 @@ export const checkManifest = (manifest: Manifest) => {
 };
 
 /**
+ * ? One version per name, across the whole workspace.
+ * ?
+ * ? The only rule here that a single manifest cannot answer: a disagreement
+ * ? exists between files, so the check takes the whole set. It is what holds the
+ * ? placement rule together — a tool a subset of apps uses stays in those apps,
+ * ? and the thing that used to make that dangerous was the versions drifting
+ * ? apart one renovate PR at a time. Hoisting to the root bought agreement by
+ * ? making there be one declaration; this buys it without moving anything.
+ * ?
+ * ? `touching` narrows the REPORT, never the comparison. A pre-commit hook
+ * ? passes its staged manifests, and a name is worth reporting only if one of
+ * ? them takes part in it — otherwise an old drift elsewhere blocks a commit
+ * ? that had nothing to do with it. The comparison stays repo-wide either way,
+ * ? because half the set cannot show a disagreement.
+ */
+export const checkVersionAgreement = (
+    entries: readonly ManifestEntry[],
+    touching?: readonly string[],
+) => {
+    const pins = new Map<string, Map<string, string[]>>();
+
+    for (const { path, manifest } of entries) {
+        for (const field of ['dependencies', 'devDependencies'] as const) {
+            for (const [pkg, spec] of Object.entries(manifest[field] ?? {})) {
+                // ? A protocol is not a version: `workspace:*` beside a pin is
+                // ? the normal shape for a package consumed both ways.
+                if (protocolPattern.test(spec)) continue;
+
+                const versions = pins.get(pkg) ?? new Map<string, string[]>();
+                versions.set(spec, [...(versions.get(spec) ?? []), path]);
+                pins.set(pkg, versions);
+            }
+        }
+    }
+
+    const problems: string[] = [];
+
+    for (const [pkg, versions] of [...pins].sort(([left], [right]) =>
+        left < right ? -1 : 1,
+    )) {
+        if (versions.size < 2) continue;
+
+        const paths = [...versions.values()].flat();
+        if (touching && !paths.some((path) => touching.includes(path)))
+            continue;
+
+        const detail = [...versions]
+            .sort(([left], [right]) => (left < right ? -1 : 1))
+            .map(([spec, where]) => `      ${spec} in ${where.join(', ')}`)
+            .join('\n');
+
+        problems.push(
+            `${pkg} is pinned to ${versions.size} versions — one version per name\n${detail}`,
+        );
+    }
+
+    return problems;
+};
+
+/**
  * ? The `packages:` entries of a pnpm workspace, and only those.
  * ?
  * ? Reading every `- ` line is the obvious shortcut and it is wrong: dotfiles'
@@ -274,4 +334,8 @@ export interface Manifest {
     devDependencies?: Record<string, string>;
     peerDependencies?: Record<string, string>;
     scripts?: Record<string, string>;
+}
+export interface ManifestEntry {
+    manifest: Manifest;
+    path: string;
 }

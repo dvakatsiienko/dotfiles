@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
     checkManifest,
+    checkVersionAgreement,
     findManifestPaths,
     isExactVersion,
     readWorkspaceGlobs,
@@ -177,6 +178,96 @@ describe('the bin', () => {
         expect(code).toBe(1);
         expect(stderr).toContain('scripts out of order');
         expect(stderr).toContain('1 of 1 manifest off the convention shape');
+    });
+});
+
+describe('one version per name', () => {
+    const twoPins = [
+        {
+            manifest: { devDependencies: { vite: '8.2.2' } },
+            path: 'apps/a/package.json',
+        },
+        {
+            manifest: { dependencies: { vite: '8.1.0' } },
+            path: 'apps/b/package.json',
+        },
+    ];
+
+    it('reports a name pinned to two versions, and says where each lives', () => {
+        const problems = checkVersionAgreement(twoPins);
+
+        expect(problems).toHaveLength(1);
+        expect(problems[0]).toContain('vite');
+        expect(problems[0]).toContain('8.2.2');
+        expect(problems[0]).toContain('8.1.0');
+        expect(problems[0]).toContain('apps/a/package.json');
+        expect(problems[0]).toContain('apps/b/package.json');
+    });
+
+    it('says nothing when a name is declared many times at one version', () => {
+        expect(
+            checkVersionAgreement([
+                {
+                    manifest: { devDependencies: { vite: '8.2.2' } },
+                    path: 'apps/a/package.json',
+                },
+                {
+                    manifest: { dependencies: { vite: '8.2.2' } },
+                    path: 'apps/b/package.json',
+                },
+                {
+                    manifest: { devDependencies: { vite: '8.2.2' } },
+                    path: 'apps/c/package.json',
+                },
+            ]),
+        ).toEqual([]);
+    });
+
+    // ? A protocol is not a version — `workspace:*` beside a pin is the normal
+    // ? shape for a package consumed both ways, not a disagreement.
+    it('ignores pnpm protocols', () => {
+        expect(
+            checkVersionAgreement([
+                {
+                    manifest: { devDependencies: { kit: 'workspace:*' } },
+                    path: 'a/package.json',
+                },
+                {
+                    manifest: { dependencies: { kit: '1.0.0' } },
+                    path: 'b/package.json',
+                },
+            ]),
+        ).toEqual([]);
+    });
+
+    // ? The hook narrows to staged manifests so an unrelated drift never blocks a
+    // ? commit. Agreement can only be judged across the whole set, so the compare
+    // ? stays repo-wide and only the REPORTING narrows.
+    it('when narrowed, reports only names the named manifests take part in', () => {
+        const manifests = [
+            ...twoPins,
+            {
+                manifest: { devDependencies: { zod: '4.0.0' } },
+                path: 'apps/c/package.json',
+            },
+            {
+                manifest: { devDependencies: { zod: '3.0.0' } },
+                path: 'apps/d/package.json',
+            },
+        ];
+
+        expect(
+            checkVersionAgreement(manifests, ['apps/a/package.json']),
+        ).toHaveLength(1);
+        expect(
+            checkVersionAgreement(manifests, ['apps/a/package.json'])[0],
+        ).toContain('vite');
+        expect(
+            checkVersionAgreement(manifests, ['apps/c/package.json'])[0],
+        ).toContain('zod');
+        expect(
+            checkVersionAgreement(manifests, ['apps/e/package.json']),
+        ).toEqual([]);
     });
 });
 
