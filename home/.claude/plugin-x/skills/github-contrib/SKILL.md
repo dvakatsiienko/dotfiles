@@ -62,6 +62,7 @@ ends with one footer line so the maintainer knows who typed it and that dima sta
 
     — written by Claude Code at my request; I read it and stand behind it.
 
-his account carries the accountability, the footer carries the honesty. never a `[bot]`
+his account carries the accountability, the footer carries the honesty. the text itself is
+written through `x:writing-for-humans` — load it before the first draft. never a `[bot]`
 impersonation, never silent. inside our own repos the app identities (`x-coder-cc`,
 `x-reviewer-cc`) do this job instead.
