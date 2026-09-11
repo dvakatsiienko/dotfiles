@@ -126,6 +126,9 @@ double-runs the work.
 - **a rename of a name a live session uses** (a label, a github app, a branch) is relayed to
   that session the same minute — a coder cannot infer it from its own tool output; every review
   request failed for an hour after `x-coder-bot` → `x-coder-cc` (2026-09-11).
+- **a cap is real only if something reads the counter before acting** — the actor never keeps
+  the tally from memory; the brief names the api call and the moment (#76: the coder tracked
+  rounds by recall, i counted a workflow-wide list; both wrong, 2026-09-11).
 - **known items go in ONE batched brief** — ten items dripped over a session re-shaped the same
   predicate four times; hold a pr ten minutes rather than drip.
 - the merge monitor's «coder idle» guard reads the live session cwds against the worktree path,
