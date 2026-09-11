@@ -35,7 +35,7 @@ jobs:
 
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 24.0.2
           cache: pnpm
 
       # GitHub Actions sets CI=true itself, which is what makes lefthook's
