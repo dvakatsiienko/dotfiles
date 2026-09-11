@@ -29,7 +29,11 @@ eight).
   **Measure the live number before a build that rests on one** (the 10-day grant reframed a
   whole step, 2026-09-11). A manifest survey unions `dependencies` + `devDependencies` before
   counting (a one-field read hid three tools twice). A taxonomy comes from a grep, never from
-  adjacency. A probe runs its control first, then the surprising input. Before replacing an assertion, say what the old one protected.
+  adjacency. A probe runs its control first, then the surprising input. **A rule you write is
+  read from the docs, never from the lockfile** (a react-compiler line was wrong from it).
+  **After reversing a decision mid-pr, re-read every commit on the branch that asserted
+  something about the reversed thing** — two review findings on #76 were docs from the old
+  thesis. Before replacing an assertion, say what the old one protected.
   **Fetch main before asking a question a commit could answer.** Two coders in one repo: the
   second brief names the files the first is touching, or the coordinator holds the first's
   merge until the second's pr is open (a merged pr broke a rebase, 2026-09-11).
@@ -152,11 +156,10 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   ```
   issue uuid: `linear api 'query { issue(id: "<id>") { id } }'`.
 - Your GitHub identity is the app `x-coder-cc`. **Every `gh` call that WRITES** (comment, reply,
-  label, pr body, review request) wears it, never Dima — through ONE wrapper script made at job
-  start, so the sandbox's script rule and the identity rule are the same motion:
+  label, pr body, review request) wears it, never Dima — through the wrapper
+  `~/dotfiles/home/.claude/plugin-x/bin/github-token-wrap` (one script, the app token, `exec gh "$@"`):
   ```
-  printf '%s\n' '#!/usr/bin/env bash' 'export GH_TOKEN=$(cd ~/dotfiles && pnpm --silent github:agent-token)' 'exec gh "$@"' > /tmp/ghw && chmod +x /tmp/ghw
-  /tmp/ghw pr comment … / /tmp/ghw api …
+  ~/dotfiles/home/.claude/plugin-x/bin/github-token-wrap pr comment <n> --body-file f.md
   ```
   a bare `gh` write posts as Dima (it happened on a probe pr, 2026-09-11).
   pushes stay on Dima's git auth (the app has no `contents: write`); only the API calls wear the bot.
