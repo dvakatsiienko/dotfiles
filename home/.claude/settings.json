@@ -51,6 +51,11 @@
           {
             "type": "command",
             "command": "bash ~/.claude/shelf/hooks/opus-register.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/english-tune.sh",
+            "timeout": 60
           }
         ]
       }
@@ -111,9 +116,9 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/worktree-seed.sh",
             "timeout": 600,
-            "statusMessage": "worktree seed",
-            "command": "bash ~/.claude/shelf/hooks/worktree-seed.sh"
+            "statusMessage": "worktree seed"
           }
         ]
       }
@@ -136,7 +141,8 @@
     "x@x": true,
     "ralph-loop@claude-plugins-official": true,
     "linear-cli@linear-cli": false,
-    "impeccable@impeccable": true
+    "impeccable@impeccable": true,
+    "claude-english-buddy@xiaolai": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -163,6 +169,12 @@
       "source": {
         "source": "github",
         "repo": "pbakaus/impeccable"
+      }
+    },
+    "xiaolai": {
+      "source": {
+        "source": "github",
+        "repo": "xiaolai/claude-plugin-marketplace"
       }
     }
   },

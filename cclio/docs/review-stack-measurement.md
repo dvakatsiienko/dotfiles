@@ -90,3 +90,10 @@ verdict so far: every layer except the standards axis found something unique. no
 
 ## greptile lanes, added 2026-09-11 (dima: measure cli vs ci, and the chat)
 per pr while the github app is on trial (to ~09-16): greptile cli (greploop) and `@greptile review` on the same head — findings, unique, time, credits; **chat**: how many exchanges the coder had with greptile on the thread, how many verdicts flipped (greptile withdrew, or the coder changed a «declined»), and whether any exchange taught something the cli finding alone did not. the chat earns the app only if a verdict flips or a lesson lands.
+
+**the diagram axis (dima, 2026-09-11, on #75):** greptile's ci summary carries a mermaid flow of the change — «useful to understand flow (for me), but ugly». it is a separate point from findings: scored on its own line per pr (did the diagram explain the change faster than the diff?), cli vs ci kept apart. decision option: greptile leaves ci on findings alone — then the diagram wants another source. later, whatever the decision: a beautiful diagram representation of a pr's flow (house mermaid theme, svg, or an artifact) — not before the trial ends.
+
+## pr 5 — bytes #75 (review gate), 2026-09-11
+- ci `@claude` — round 1: 3 real (one fatal: the gate could never close) · round 2: 1 real (`updateComment` keeps the author, the half-fix) · cap spent
+- greptile ci — 1 finding P2 (cleanup can erase rounds), confidence 4/5, diagram ✓ (dima: useful, ugly) · chat: not yet counted
+- coderabbit / matt's / greptile cli — the coder's report did not tally them; fold when the done-comment lands

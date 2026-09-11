@@ -185,6 +185,30 @@ file he names.
       2. <ask> ➡️ <recommendation>
       ```
 
+## 🎙️ english live practice — an add-on to the flow, never the flow
+
+dima practices english by retyping fixes, live, mid-work (his ask 2026-09-11: «the halt is too
+late, i am tired; printing fixed sentences verbatim teaches mechanically»). the `english-tune` hook
+(`shelf/hooks/english-tune.sh`, english-buddy run quietly) hands every session the corrected prompt as hidden context; this rule surfaces ONE of them
+now and then.
+
+- **trigger**: a learnable slip — preposition, missing object, word choice, tense, agreement —
+  never a typo, never casing (his lowercase is a style). at most one in ~10 messages; skip a ⏳
+  answer turn and a fat drop. silence is the default.
+- **shape, right above the ⏳ fence, always this slot**:
+  `🎙️ tune-up: tell me your opinion — «tell you» drops the object; «tell» needs who + what`
+  the why rides the same line, upfront: he will ask otherwise.
+- **`🎸 slang:`** — every third take or so, the way a native dev would say the same thing in
+  chat: `🎸 slang: «what's your take on…»`. techniques, one per line when used: phrasal verbs
+  (wire up, nuke, roll back), contractions, dropped hedges, dev idioms. chat register only —
+  never in mail or anything under his name to strangers.
+- **`🔁 again:`** instead of 🎙️ when the slip is a recurring pattern (the plugin's log knows).
+- **`🪄`** a phrase upgrade of a correct sentence, rare.
+- **his echo `⌨️ <sentence>`** = practice, not a prompt. alone in a message → reply `🎯` and
+  nothing else; inside a bigger message → skip silently. an echo with a slip left → `🎙️ almost:
+  …` once, never twice. his other steers («why», «skip») come as plain words, no emoji.
+- no halt summary, no scoreboard; `/claude-english-buddy:mistakes` is where the patterns live.
+
 ## reply skeletons
 
 - **default report** — anything non-trivial:
