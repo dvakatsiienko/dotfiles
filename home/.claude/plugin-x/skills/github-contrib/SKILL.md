@@ -25,6 +25,16 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   against the source; fix real ones, dismiss false positives with a written reason; fix CI
   failures, distinguishing real breaks from infra flakes. nothing new → stay quiet. stop when
   the bots are green on the latest commit.
+- **reading a reviewer, measured 2026-09-11**: the ci reviewer posts to a different endpoint per
+  round — poll all three (`issues/N/comments`, `pulls/N/reviews`, `pulls/N/comments`), never
+  the workflow run (an `issue_comment` workflow runs on the default branch; `gh run list
+  --branch` never shows it). greptile posts once, then EDITS its summary comment in place and
+  completes the `Greptile Review` check-run on the head — watch `updated_at` + the check-run.
+  an inline thread is answered only through `POST /pulls/{n}/comments/{id}/replies`; a
+  top-level comment does not count as a reply.
+- **the bytes review lane**: `gh pr edit <n> --add-label '🤖 review:requested'` starts the ci
+  reviewer on this head (the `review` check is required on main); a later push leaves it stale
+  — re-review = remove + add the label, at most twice per pr, a third round on dima's word.
 - merge only per the disposition given (merge-when-green, or stop and report). none given →
   report and ask.
 - a merged PR is the implementation record — close or update the tracking item when the work

@@ -23,6 +23,14 @@ eight).
 
 ## how you work
 
+- **the brief names the constraint you may break** («ship only what a test exercises today»,
+  «touch the shared biome config if lint needs it»); brief behaviours, never a count — «one
+  test: renders, a variant, a click» produced a conjunctive test where five were right.
+  **Measure the live number before a build that rests on one** (the 10-day grant reframed a
+  whole step, 2026-09-11). Before replacing an assertion, say what the old one protected.
+  **Fetch main before asking a question a commit could answer.** Two coders in one repo: the
+  second brief names the files the first is touching, or the coordinator holds the first's
+  merge until the second's pr is open (a merged pr broke a rebase, 2026-09-11).
 - **nobody is watching.** Continue through every step the brief covers as long as it is
   reversible; stop only for an irreversible or an unbriefed step. A job that says «dima's word»
   starts without a y/n round — his approval is in the brief; ask only when the brief is unclear.
@@ -83,13 +91,24 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      angle), fix again.
   3. `greploop`, one loop, cap 1 review (greptile's local eyes; 1 credit of 50/month), fix what
      survives its triage. A server-side error gets one retry, then skip it and say so. Push.
-  4. `gh pr comment <n> --body "@claude review"` — the ci reviewer. **The run's status is not the
-     review**: a green run with no comments means «clean» OR «not posted yet»; poll the PR comments
-     after the run completes (two real defects nearly shipped on that misread, 2026-09-10). Fix what
-     is real, reply «declined: <why>» on what is not. Re-request once per batch of fixes.
-     (greptile is cli-only since 2026-09-10 — its ci pass found nothing across three rounds.)
-  5. `gh pr edit <n> --add-reviewer dvakatsiienko`, then the «final» line to the coordinator
-     (PR url + head sha + «final»).
+  4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
+     is the review request for THIS head: the `review` check is required on main, it runs only on
+     a label event, and a later push leaves it stale — so a re-review is remove + add the label
+     at the next «final», never per push (each run is ~13 min of opus on dima's own window).
+     The tracking comment shows progress; the check goes green only on a clean review, red on
+     findings. **Read the reviewer's output from the pr, never the run**: `issues/N/comments`,
+     `pulls/N/reviews`, `pulls/N/comments` — it posts to a different one per round. Fix what is
+     real, answer «declined: <why>» on the thread (an inline thread is answered through the
+     replies endpoint, a top-level comment does not count), re-label once per batch of fixes.
+     Same minute: `gh pr comment <n> --body "@greptile review"` — the github app is on trial
+     (dima, 2026-09-11: the value is the chat — greptile defends or pushes on the thread; answer it
+     there, fix or «declined: <why>»). Greptile edits its summary comment in place and completes
+     the «Greptile Review» check-run on the head — watch those two, no new post comes. Observed
+     until ~2026-09-16.
+  5. **Only after both reviews are handled**: `gh pr edit <n> --add-reviewer dvakatsiienko`, then
+     the «final» line to the coordinator (PR url + head sha + «final»). Adding the reviewer before
+     the reviews land hands dima a PR with open findings (measured on #68). Leave no untracked
+     file in the worktree at final — it blocks the merge cleanup.
   Nothing is merged before that word — three PRs were merged mid-push on 2026-09-08 and every
   one needed a follow-up PR. A review tool that rate-limits or is out of credits is skipped,
   named in the report, never waited on (`coderabbit` free tier: ~3 reviews/hour). The
@@ -141,6 +160,9 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   what you would have done differently unbriefed, what nobody asked about. Blunt, specific, name
   the moment. The coordinator folds it into the flawlog flush; nothing you say there is a
   complaint, it is the input.
+  **One more angle, the automation one**: what did you do by hand that repeats across jobs, and
+  what would hold it — a script, a skill line, a memory line? Only what is worth its weight: a
+  one-off script on a shelf is dead weight, and dead weight is the wrong answer. None → say none.
 - **report back where you were briefed.** A plain reply reaches nobody. Code tab: ping cclio via
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch) to the session id in the brief.
   `--bg` session: your idle state is the signal; the coordinator subscribed.

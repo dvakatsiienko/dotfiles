@@ -120,7 +120,16 @@ double-runs the work.
 
 **One agent per repo where possible; parallelism goes ACROSS repos.** When two share:
 
-- state file ownership at spawn; stage **explicit paths only**, never `git add -A`.
+- state file ownership at spawn; stage **explicit paths only**, never `git add -A`. two coders
+  live at once: the second brief names the first's files, or cclio holds the first's merge until
+  the second's pr is open (a merge mid-flight broke a rebase, 2026-09-11).
+- **a rename of a name a live session uses** (a label, a github app, a branch) is relayed to
+  that session the same minute — a coder cannot infer it from its own tool output; every review
+  request failed for an hour after `x-coder-bot` → `x-coder-cc` (2026-09-11).
+- **known items go in ONE batched brief** — ten items dripped over a session re-shaped the same
+  predicate four times; hold a pr ten minutes rather than drip.
+- the merge monitor's «coder idle» guard reads the live session cwds against the worktree path,
+  never a session name (a name-wired guard pruned under a live coder, 2026-09-11).
 - `git status` before staging; anything modified that is not yours stays untouched.
 - 🚨 **a worktree is pruned only when no live session sits in it** — `jq -r .cwd ~/.claude/sessions/*.json` lists every live cwd; a match means hands off, whatever `git status` says (two prunes under a live push, 2026-09-08; the merge monitor now waits for the coder to be idle, this is the check for a hand-run `scout`).
 - `index.lock` means a peer is committing — wait, retry, **never delete a lock**.

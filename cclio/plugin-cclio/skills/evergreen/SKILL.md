@@ -97,6 +97,9 @@ a plain «approve evergreen» (or «ok» on the ⏳ fence) means: **every ➡️
 `brew upgrade` (all outdated, pinned never) run now, by cclio, no second ask.** steers inside the
 same message («hold #61») subtract from the round.
 
+- **the round ends with a loot in every repo it merged into** (`git pull --ff-only`, or a
+  proposed rebase when the tree is ahead too) — patches automerge without anyone saying so, and
+  the boot prefetch's ahead/behind line is the tell: behind-only = loot as a freebie at boot.
 - **merge** → `gh pr merge <n> -R dvakatsiienko/<repo> --squash --delete-branch` — the title
   already wears `🌲 evergreen:`. one back-to-back round per day: each bytes merge costs 6 prod
   deploys, so never one per PR across the day.

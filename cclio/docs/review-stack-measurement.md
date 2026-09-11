@@ -76,3 +76,17 @@ DOT-26.
 
 ---
 
+
+## pr 2 — bytes #68 / BYT-85 (2026-09-11), coder's own tally, cclio verified the ci rounds
+
+per layer, on the same job, unique = found by no other layer:
+- coderabbit — 2 minor, 1 unique (row + note guarding the record separately)
+- matt's `code-review` — spec axis 1 (the grant row could not take its own reading — five other layers passed it) · standards axis 0 hard, 3 smells, 2 taken
+- greptile cli (greploop) — 3 real, 3 unique (best: an npsso paste undone by a refresh in flight)
+- ci `@claude review` — round 1: 1 inline, real, unique (the coder's own epoch fix ordered backwards) · round 2: clean, ~13.5 min per round, the action step alone
+- the coder's own run: the 10-day non-resetting grant, from one live call — no reviewer could have
+
+verdict so far: every layer except the standards axis found something unique. nothing cuttable on two prs. the spec axis is the one that earned its place.
+
+## greptile lanes, added 2026-09-11 (dima: measure cli vs ci, and the chat)
+per pr while the github app is on trial (to ~09-16): greptile cli (greploop) and `@greptile review` on the same head — findings, unique, time, credits; **chat**: how many exchanges the coder had with greptile on the thread, how many verdicts flipped (greptile withdrew, or the coder changed a «declined»), and whether any exchange taught something the cli finding alone did not. the chat earns the app only if a verdict flips or a lesson lands.

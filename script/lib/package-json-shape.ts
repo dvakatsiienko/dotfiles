@@ -100,11 +100,25 @@ export const scriptSection = (name: string): ScriptSection => {
 // ? `preview`, with no per-repo list to maintain. The space separator is safe
 // ? because scriptNamePattern forbids one inside a name, and it sorts below every
 // ? character a name may contain.
-export const scriptSortKey = (name: string) => {
-    const section = scriptSectionList.indexOf(scriptSection(name));
-    const isVariant = name.includes(':') ? '1' : '0';
+// ? The service tail is the one section with a fixed order, the convention's
+// ? `lint, typecheck, test, check, format` — the loop's own sequence, not the
+// ? alphabet (the hook once rejected a manifest sorted by the convention).
+const serviceOrder = ['lint', 'typecheck', 'test', 'check', 'format'] as const;
 
-    return `${section} ${familyOf(name)} ${isVariant} ${name}`;
+export const scriptSortKey = (name: string) => {
+    const sectionName = scriptSection(name);
+    const section = scriptSectionList.indexOf(sectionName);
+    const isVariant = name.includes(':') ? '1' : '0';
+    const family =
+        sectionName === 'service'
+            ? String(
+                  serviceOrder.indexOf(
+                      familyOf(name) as (typeof serviceOrder)[number],
+                  ),
+              )
+            : familyOf(name);
+
+    return `${section} ${family} ${isVariant} ${name}`;
 };
 
 export const sortScriptNames = (names: readonly string[]) => {

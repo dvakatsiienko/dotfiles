@@ -31,6 +31,13 @@ awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
 echo "-- stuck reminders (raise every one in the opening board) --"
 grep '^⏰📌' "$HOME/dotfiles/cclio/memory/_reminders.md" 2>/dev/null || echo "none"
 
+echo "-- repos vs origin (behind-only → loot as a freebie; ahead+behind → propose the rebase) --"
+for repo in "$HOME/dotfiles" "$HOME/projects/bytes"; do
+  git -C "$repo" fetch -q 2>/dev/null
+  counts=$(git -C "$repo" rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
+  echo "$(basename "$repo"): ahead ${counts%%	*} · behind ${counts##*	}"
+done
+
 echo "-- settings.json symlink --"
 if [ -L "$HOME/.claude/settings.json" ]; then
   echo "symlink OK"
