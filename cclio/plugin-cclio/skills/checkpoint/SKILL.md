@@ -26,7 +26,10 @@ to drop, or i suggest and drop only what he confirms.
 
 ## 2. land, same as a halt's middle
 
-- inbox: every item has a home, content cleared, headers stay (halt phase 1.5)
+- inbox: every item has a flowlog line — then it gets a `✅ ` prefix IN PLACE, text and headers
+  intact, nothing deleted (dima, 2026-09-11: the inbox survives a checkpoint so he can diff it;
+  the halt clears only `✅` lines). the mark tells him what is handled; the resume diff below
+  tells me what is missing
 - flawlog flush: one batched proposal, his one approve, execute (halt phase 3); stories appended
 - milestones refreshed (halt phase 3.5)
 - gazette: `/cclio:gazette` writes the ⸻ upd block; **no wire** unless he says so
@@ -37,7 +40,9 @@ to drop, or i suggest and drop only what he confirms.
 
 `/x:handoff` to the store, slug `<runid>-checkpoint-<n>`. on top of the halt CST:
 
-- **the keep list verbatim**: each inbox item and where it went, each open ask in dima's words,
+- **the keep list verbatim**: each inbox item and where it went, each open ask in dima's words
+  — the details that matter and his stylistic asks kept, typos and sleepy slips fixed, fluff
+  dropped (probe 1 scored 6.7: facts kept, details trimmed),
   each hot topic with its current state and next move
 - **the drop list as pointers**: one line per dropped topic naming the file that holds it — a
   dropped topic is reachable, never remembered
@@ -56,7 +61,9 @@ to drop, or i suggest and drop only what he confirms.
 ✂️ **end** ✂️
 
 the first thins the thread with the hint as the steer; the second restores the precise state on
-top of what the compact kept. the prefetch hook re-runs on compact by itself (queue, roadmap,
+top of what the compact kept. **after the ingest, before anything else: re-read `inbox.md` and
+diff it against the flowlog** — every inbox item must carry the `✅` mark AND a flowlog line with
+its details; an unmarked or detail-less one is restored from the inbox on the spot, out loud. the prefetch hook re-runs on compact by itself (queue, roadmap,
 handoffs, reminders).
 
 ## 5. the probe — first runs only
