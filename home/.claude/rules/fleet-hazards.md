@@ -56,6 +56,14 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   — `pnpm github:agent-token` included — and `eval` outright (an agent-browser verb). both go
   into a scratch script and run from there
 
+## green statuses
+
+- **a green status answers «did this fail», never «did this run»** — three systems in one day
+  (2026-09-11): github counts a skipped job as satisfying a required check, vercel reports a
+  skipped deploy as `success`, our own `review:clean` went green when the reviewer filed its
+  findings in one comment and no inline thread. before trusting a green, ask what would have
+  been red if the thing had not run at all
+
 ## github api reads
 
 - `gh api --paginate` emits one json array PER PAGE — `.[0]` reads the first 30 items and looks
