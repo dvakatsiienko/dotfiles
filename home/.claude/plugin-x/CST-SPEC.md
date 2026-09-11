@@ -39,6 +39,7 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
   - Cap C at ~12 entries; over cap evict oldest-dated first. C is a transfer buffer, not a database — monotonic growth is its failure mode.
 - **P**: pointers — paths, branches, commands, URLs, session refs, doc names. Pointers only, NEVER file/log/diff contents; the consumer re-reads from source. Specs/plans/ADRs/issues/commits live where they live — reference, don't copy. A CST ballooning past ~8k tokens is a content-dump smell — audit it and convert dumps to pointers; conversation-derived substance stays.
 - **K**: suggested skills/agents/tools the continuation should reach for (only non-obvious ones). Omit in frontends without tooling context.
+- **E**: errors and fixes — the tool gotchas the thread paid for, one line each, `<what broke> → <the invocation that worked>`. Cap 8; a gotcha that already reached a rule, a skill, or a hazards file is omitted. The section a built-in `/compact` carries and a CST used to drop (measured 2026-09-11: 16 such lines in the compact block, zero in the CST, half of them re-payable the next day).
 
 Omit anything re-derivable from repo/git/files.
 
