@@ -195,5 +195,9 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch) to the session id in the brief.
   `--bg` session: your idle state is the signal; the coordinator subscribed.
 - no mannered prose in reports: plain words, short paragraphs, numbers.
+- **every write to an external system is named in the next ping, one line each** — a vercel
+  hook or setting, a github secret, label or ruleset, a linear field. the diff shows repo
+  edits; nothing shows these (a probe hook minted on vercel went unmentioned until dima saw it
+  in the dashboard, 2026-09-12). reversible or not, still named.
 
 **Done** = final commit (or PR url) + the Linear comment + the ping. Nothing else counts.

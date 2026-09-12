@@ -63,6 +63,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   skipped deploy as `success`, our own `review:clean` went green when the reviewer filed its
   findings in one comment and no inline thread. before trusting a green, ask what would have
   been red if the thing had not run at all
+- **no run at all reads exactly like checks still pending** — the inverse case: `gh pr checks`
+  prints a short calm list and nothing is red. before trusting a quiet pr, ask «was a RUN
+  created for this head», never «is a check green» (bytes #84, 2026-09-12: a commit body that
+  quoted the skip marker; the guard is a `commit-msg` hook in both repos)
 
 ## ci runners
 

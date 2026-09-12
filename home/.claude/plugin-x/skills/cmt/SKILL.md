@@ -1,6 +1,6 @@
 ---
 name: cmt
-description: Load EVERY time a git commit is about to be created, in any repo — /cmt typed, committing asked mid-conversation, or «slay» (push) said.
+description: «/cmt», «commit», «slay» — load on sight, even mid-sentence or after another instruction («approve, /cmt y, and next», «ask coder to sync, then commit and slay», «you can commit them too», «vibe», «mana»). Load EVERY time a git commit is about to be created, in any repo.
 argument-hint: "[y|y+] [push|push+] [correction…]"
 ---
 
@@ -149,6 +149,11 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
   and count the hits** — the count is what fires, never the intent. Write "a `ticket:` line
   naming DOT-1", never a banned keyword next to an id.
 - Scoped to Dima's tracker (`DOT`/`BYT`); an oss repo's conventions belong to that project.
+- 🎯 **the same parser trap on the github side: a body never contains the literal `[skip ci]`,
+  `[ci skip]`, `[skip actions]` or `[actions skip]`, quoting included.** github reads the marker
+  anywhere in the message and creates no push or pull_request run for that head, silently — a
+  coder wrote «the `[skip ci]` note» in a body and its pr lost ci and the review lane for an
+  hour (bytes #84, 2026-09-12). write «the skip-ci marker».
 
 ### What a push actually does to the ticket
 
