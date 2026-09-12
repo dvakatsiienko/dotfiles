@@ -64,6 +64,14 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   findings in one comment and no inline thread. before trusting a green, ask what would have
   been red if the thing had not run at all
 
+## ci runners
+
+- a jq program is proven when ci compiles it — ubuntu runners ship jq 1.7, the mac 1.8; `a + b`
+  as a bare object value parses locally and fails on the runner (bytes #79, 2026-09-12). a job
+  that runs jq prints `jq --version` first
+- `sd` / `sed` silently drop `${{ … }}` from a workflow line — a workflow file is edited with the
+  Edit tool only (two expressions eaten on #79, caught only by printing the result)
+
 ## github api reads
 
 - `gh api --paginate` emits one json array PER PAGE — `.[0]` reads the first 30 items and looks

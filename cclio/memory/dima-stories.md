@@ -1,8 +1,7 @@
 The rules memories say *what to do*. This one says *what happened*, so the rules keep their reasons.
 Append short entries; never rewrite an old one into a rule — link to the rule instead.
 Date every new entry in its heading (`· yyyy-mm-dd`); entries without a date predate 2026-08-24.
-Cap ~12: a story is dropped when the rule it backs no longer needs the reason — age alone never
-kills one. Suggest drops at the cap; Dima decides.
+Cap ~12: at the cap, cclio drops the oldest story itself, no ask (Dima, 2026-09-12).
 
 ## why he wants the stories kept
 His reason, in his words: «because of even moments like now — realizing that i do wrong thing but
@@ -23,13 +22,6 @@ context had grown 50k → 67k in a week, unopened. → the coordinator migration
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
 he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
-
-## the retirement he reversed
-The plan said dpatch retires and cclio takes over. He stopped it: «the replace decision was rushed
-by dispatch because of overconfidence. we have to build an mvp at least, before deleting someone.»
-The plan had been written *by dpatch, about dpatch* — an agent confidently proposing its own
-retirement. He kept both alive and turned it into an A/B he judges himself, by which one he
-reaches for. → the coordinator migration
 
 ## the audit i relayed without reading
 Ran a subagent over the memory store, then patched leaves from its report without opening them. One
