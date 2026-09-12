@@ -58,3 +58,13 @@ commit-msg:
       # settings.json does not cover it. {1} is the message file; this is the
       # one hook that edits, and it edits only that file.
       run: sed -i '' -e '/^Claude-Session:/d' {1}
+    no-ci-skip-marker:
+      # GitHub honours a CI-skip marker anywhere in a commit message, body
+      # included, and creates no push or pull_request run for that head — the
+      # PR then sits blocked with nothing red. Writing ABOUT the marker is using
+      # it (bytes #84, 2026-09-12, twenty minutes). Say «the skip directive».
+      run: |
+        if grep -qiE '\[(skip[ -]?(ci|actions)|(ci|actions)[ -]?skip|no[ -]?ci)\]|skip-checks:[[:space:]]*true' {1}; then
+          echo "commit-msg: this message contains a CI-skip marker; write «the skip directive» in prose instead."
+          exit 1
+        fi
