@@ -76,3 +76,11 @@ He dropped it in the inbox with no evidence, only the feel: «can't believe in d
 
 ## the token panel and the eye · 2026-09-10
 A coder built the admin's token panel the way the brief asked: a comparison row, a «which one is live» row, a note on the fallback, a button to undo it. Five reviewers over three rounds and 61 tests found one defect between them and said nothing about the shape. He looked at it once and said «i can't read this, make this for user», then «after vc cut, is this field still needed?», then «field + btn up, text below». Three rounds, each one deleting interface, none of them from a tool. The panel ended at four things. His felt sense was the reading order of a screen; the coder's own lesson was «when the ui grows faster than the behaviour, stop and ask» — now in the brief. → `x:coder-brief`, the run-it-first step
+
+## the gate rethink · 2026-09-12
+He looked at a measured, working 1,300-line review gate — 20 fixture cases, every path proven red
+and green on real prs — and said «somewhere from yesterday i lost track of how pr merge protection
+is driven… overcomplicated». The rethink's native replacement (github approvals + thread
+resolution) died on one probe: an app's approval is recorded and counts for nothing. The same
+rethink found the 887 lines to delete — the answer lane, 5 of the 12 defects. The felt sense was
+right about the size and wrong about the door; the fix was a probe, not a rewrite. → BYT-94

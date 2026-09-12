@@ -68,7 +68,10 @@ one short message, then straight into phase 1:
 - name every **live** thread: a ticket In Progress, an unlanded edit, a spawned session, an
   unanswered question put to dima, an unpushed commit
 - **the coder roster, two questions per coder: retro received? `claude stop <id>` done?** a coder
-  has outlived a halt before; `claude agents --json` is the check, never memory
+  has outlived a halt before; `claude agents --json` is the check, never memory. **a coder the CST
+  calls «warm» is verified alive at write time** (a registry entry in `~/.claude/sessions/` +
+  `kill -0 <pid>`) and written as dead when dead — halt15 promised a warm coder that was gone
+  at boot (2026-09-12)
 - sort each into **can land now** (small, finishable here) · **must park** (needs a resume
   note) · **already done**
 - state the order you are taking, as a fact rather than a proposal

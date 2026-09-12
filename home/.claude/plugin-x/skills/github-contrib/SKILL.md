@@ -38,8 +38,17 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   at most twice per pr (read the counter: `workflows/review.yml/runs?branch=<head>`), a third
   round on dima's word. 📌 a green `review:clean` means a review ran; until the reviewer's
   own verdict marker gates it, the findings live in its comment — read that.
-- a claude-code-action pr editing a workflow ALREADY on the default branch self-skips
-  (anti-tamper); a workflow file new to main reviews itself, twice if labeled twice.
+- a claude-code-action pr that edits a workflow already on the default branch IS reviewed
+  (measured 2026-09-12: #79 got two rounds with verdict lines; the «self-skips» belief in
+  older comments was wrong). only a pr that edits `claude.yml` itself is unproven.
+- `performed_via_github_app` exists on issue comments only — absent on `pulls/N/comments` and
+  `pulls/N/reviews`; identity of an inline thread comes from `user.login` + `user.type`.
+- a `gh api …/runs` waiter keys on `id > <last seen>`, never on `status == completed` with
+  `per_page=1` — that matches the PREVIOUS run and returns instantly (two false «done» reads).
+- `gh pr review …` without a checkout needs `--repo <o>/<r>`, or it dies on «not a git
+  repository».
+- **`--delete-branch` on a merge auto-closes every pr based on that branch** — `gh pr list
+  --base <branch>` before the merge; retarget the stacked prs first (#80 died this way).
 - merge only per the disposition given (merge-when-green, or stop and report). none given →
   report and ask.
 - a merged PR is the implementation record — close or update the tracking item when the work

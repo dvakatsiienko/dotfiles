@@ -24,6 +24,9 @@ The four failure shapes, each measured here:
   for a researcher's claim. 5 of 8 catches on 2026-09-05 were this shape (cron POST, `waitUntil`,
   refresh rotation, `3h` ttl, a gateway's schema); `/insights` named the pattern the same day.
   the label «verified» is earned by the probe, never by confidence.
+- 🚨 **one observation carries more than one meaning.** before reporting a run as proof of X,
+  ask what else it is evidence of — the greptile skip on bytes #83 was reported as «the owner
+  test works» and was also the concurrency-cancel bug, missing damage by seconds (2026-09-12).
 
 Smaller, same root: a probe run while a human edits the system is not controlled — two of your own
 measurements disagreeing means the environment moved · a table reads as measured whether or not it

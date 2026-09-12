@@ -84,5 +84,5 @@ approved 2026-08-26); fix what reality disagrees with the same session it disagr
 
 ## 👁️ ingest side (for reference)
 
-after writing the post, run `.claude/hooks/gazette-recent.sh` — it regenerates `gazette/_recent.md`, which the memory barrel imports into every cclio boot (hook stdout is size-capped; imports are not). multi-day arcs may
+after writing the post, run `cclio/.claude/hooks/gazette-recent.sh` (from the dotfiles root) — it regenerates `gazette/_recent.md`, which the memory barrel imports into every cclio boot (hook stdout is size-capped; imports are not). multi-day arcs may
 warrant reading further back — the boot judges, this file just notes the knob.

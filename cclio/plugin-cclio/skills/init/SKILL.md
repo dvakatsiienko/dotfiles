@@ -1,5 +1,5 @@
 ---
-description: boot ritual for cclio — light by default; add «board» / «full» for the tracker picture
+description: boot ritual for cclio — light by default; «mini» for a one-ask night, «board» / «full» for the tracker picture
 disable-model-invocation: true
 ---
 
@@ -92,6 +92,26 @@ one message, short lines, **no queries here — pure assembly**:
 ## 8. flaw capture 📝
 open the per-session log at `~/.claude/shelf/flawlog/<YYYY-MM-DD>-<topic-slug>.md` — naming rule
 and habits live in `/cclio:flawlog`, which loads alongside this boot.
+
+---
+
+## mini mode — `/cclio:init mini`
+
+the late-night boot: dima has one or two surgical asks, not a session. same silence, one opening
+message, **no cst ingest, no flowlog** — the inbox stays his file.
+
+1. healthcheck (step 1, unchanged)
+2. inbox: read only, propose the order of what he names; an item done in this session gets a ✅
+   in place. nothing copied into `flowlog.md`, nothing folded
+3. merge monitor — only when a coder with an open `coder/*` pr is alive (step 4's monitor line)
+4. x-queue head + open renovate count (step 4's last two lines; the digest waits for his word)
+5. stuck reminders (step 5)
+6. self-grill (step 6)
+7. flawlog file for the day (step 8; `/cclio:flawlog` loads alongside, as in a full boot)
+
+skipped on purpose: the roadmap block, handoff ingest, the run-id continuity (a pending cst stays
+pending and is named in the board, never pulled). the board ends with his asks in his order and
+stops.
 
 ---
 

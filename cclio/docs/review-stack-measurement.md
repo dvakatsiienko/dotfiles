@@ -104,3 +104,9 @@ per pr while the github app is on trial (to ~09-16): greptile cli (greploop) and
 - greptile ci — 1 (P2), plus the diagram
 - `review:clean`: false green on 4 of 4 rounds across #75 + #76 — the guard counts inline threads, the reviewer filed in the sticky comment every time → BYT-92
 - the cap/check tension: per-head check, per-branch cap → #75 and #76 both merged past a pending gate → BYT-92's answer-check job
+
+## pr 7 — bytes #79 / BYT-92 (the verdict gate) + pr 8 — #82 / #83 (2026-09-12), coder's tally, cclio verified the rounds
+- unique findings across both: ci `@claude` **6** (the three sharpest: phantom round, the answer path re-opening #76, pr-controlled gate scripts) · matt's standards **5** · matt's spec **4** · greptile ci **3** · coderabbit **0** (~40 min per review, one review on a stale head)
+- rounds on #79 were all red on the gate's own bootstrap (unjudgeable, uncounted); the contract measured end to end on #82: findings → red + counted (run 9), clean → green + counted (run 11); owner approval → green on #83's own lane
+- **decision: coderabbit is cut from the coder chain** (the brief's own rule: two real prs, zero unique) — `x:coder-brief` 0.11.66. the local order is now matt's code-review → greploop → push → label
+- open: greptile ci vs cli, decided with the trial (~09-16) → BYT-94 revisits the gate with one reviewer
