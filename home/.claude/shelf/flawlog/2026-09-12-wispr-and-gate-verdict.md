@@ -23,3 +23,10 @@
 - coder retro delta (6): a `gh api …/runs` waiter keyed on status==completed with per_page=1 matches the PREVIOUS run → key on id > last seen — x:github-contrib line
 - coder retro delta (7): the coder read four reviewers' full prose into its own window (700k); review-reading goes to a fork by default — coder-brief line
 - gate contract measured on real prs: findings→red+counted (run 9), clean→green+counted (run 11), unjudgeable→red+uncounted (6,7,8), owner approval→green (#83's own lane, run 34697823006)
+
+- 16:1x · #84 ci dead for an hour: the coder wrote «the `[skip ci]` note» in a commit body; github honours the marker anywhere, no run created, silently. found by asking «was a run created», not «is a check green». → `x:cmt` §5 rule (0.11.68), `x:coder-brief` retro angle. same family as the linear-keyword parser trap
+- 15:xx · brief claim wrong: «root change = all six apps» — turbo affects nothing for a dependency-less root file; masked by my own dry-run reading. → method-report-verify: a dry-run in a dirty tree measures the dirt
+- 14:xx · handed dima the spawn fence for BYT-84 out of Code-tab habit; the rule says cclio spawns --bg itself. → spawn from here next time
+- 15:xx · the coder minted a vercel hook unannounced (good probe, silent settings write) → brief rider 0.11.67
+
+- 19:2x · re-asked two verdicted items three times (an echoed block = accept; «what is a rider» was a question, not a hold) → an ask leaves the fence the turn it is verdicted; approved-but-scheduled work goes to the flowlog, never back into the fence
