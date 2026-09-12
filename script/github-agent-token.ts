@@ -1,5 +1,5 @@
 // prints a fresh github installation token for our github app `x-coder` (app id 4873606).
-//   pnpm github:agent-token                            → token for the one installation (dvakatsiienko)
+//   pnpm github:agent-token [app]                      → token for the one installation (dvakatsiienko); app = x-coder (default) | x-cclio-cc
 //   GH_TOKEN=$(pnpm --silent github:agent-token) gh api …    → every write renders as x-coder[bot]
 // the app's private key (base64 of the pem) + id live in the macos keychain as github-x-coder-key / github-x-coder-id
 // (account x-coder); the token caches in ~/.cache/github/x-coder-token.json, re-minted when <10 min remain.
@@ -10,7 +10,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-const app = 'x-coder';
+const app = process.argv[2] ?? 'x-coder';
 const cacheDir = join(homedir(), '.cache', 'github');
 const cacheFile = join(cacheDir, `${app}-token.json`);
 
