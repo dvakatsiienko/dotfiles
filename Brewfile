@@ -72,6 +72,8 @@ brew "gron"                      # JSON → greppable path=value lines; schema d
 brew "yq"                        # jq-syntax for YAML/TOML — settings.toml, lefthook configs
 brew "sd"                        # sed replacement without the macos -i '' quoting traps
 brew "ffmpeg"
+brew "vhs"                       # charm terminal recorder → gif from a .tape script
+brew "gifski"                    # high-quality gif encoder for browser recordings
 brew "yt-dlp"
 brew "whisper-cpp"               # local speech-to-text — mcp-x-cw transcripts pipeline calls it
 brew "poppler"                   # PDF tooling
