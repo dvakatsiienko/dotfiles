@@ -195,6 +195,19 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch) to the session id in the brief.
   `--bg` session: your idle state is the signal; the coordinator subscribed.
 - no mannered prose in reports: plain words, short paragraphs, numbers.
+- **github is a ledger, not a chat** (bytes #84, 2026-09-12: one pr's review volume took most
+  of a five-hour window, because every line written there is read back into your context on
+  every later turn). the pr body is ≤ ~25 lines — what changed, what was measured, links to
+  the runs; a reviewer thread is answered in ≤ 3 lines (fixed in `<sha>` / declined: why /
+  answered: fact), never a restatement of the diff; the retro goes to the coordinator, not
+  the pr.
+- **a diagnostic spiral runs in a subagent** — «why is X not happening» with more than one
+  probe script goes into an `Agent` call that returns a verdict and the one command that
+  proved it; the scripts and their output die with it instead of living in your context
+  (six scripts, ~60M cache reads on #84).
+- **review payloads are read filtered** — `gh api … --jq` or `jq -f` for the fields you act on
+  (path, line, body, author), never a raw comments dump into context; the same payload that
+  filled your window overflowed the guard's argv.
 - **every write to an external system is named in the next ping, one line each** — a vercel
   hook or setting, a github secret, label or ruleset, a linear field. the diff shows repo
   edits; nothing shows these (a probe hook minted on vercel went unmentioned until dima saw it

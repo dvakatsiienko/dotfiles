@@ -2,7 +2,7 @@
 date: 2026-09-12
 slug: the-verdict-day
 tickets: [BYT-92, BYT-93, BYT-94, DOT-26, DOT-237, DOT-243]
-posted: {health: no}
+posted: {health: yes}
 cw: |
   the merge gate on bytes now reads the reviewer's own verdict instead of guessing from silence, and it was proven on real pull requests the same afternoon: findings go red, a clean round goes green, and a round nobody could judge goes red without spending the budget. dima's approval past the cap is the one human click left, and the lane that used to guess at it is deleted.
   live / next: dima called the gate overcomplicated and a probe agreed it cannot be replaced by github's own approvals, so the simplification waits for the greptile-on-ci decision on 2026-09-16; before that, wispr flow snippets, the ralph loop first run, and the vercel deploy zero.
