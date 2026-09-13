@@ -84,7 +84,6 @@ brew "teamookla/speedtest/speedtest"
 brew "duti"                             # sets the default app per file type
 brew "tree-sitter-cli"                  # was an npm global; brew owns it now
 brew "vercel"                           # vercel/vc — deploys; was a pnpm global that broke
-brew "notion-cli"                       # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
 brew "mole"                             # `mo` — uninstall + clean + disk treemap; every destructive verb takes --dry-run
 
 # ── Casks ───────────────────────────────────────────────────────────────────
@@ -96,6 +95,7 @@ cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, gl
 cask "font-ia-writer-duo"        # cursor markdown font (iA Writer DuoS)
 cask "font-ia-writer-quattro"    # proportional sibling, for prose without tables
 cask "mole-app"                  # mole's native gui ($19, lifetime); separate build from the `mole` formula, auto-updates itself
+cask "notion-cli"                # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
 cask "keka"                      # archiver — bundles its own 7zz/unar/unrar/zstd, so no archive CLIs are needed alongside it
 cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
 cask "wispr-flow"                # voice-to-text dictation, ai auto-edit; auto_updates, brew only installs

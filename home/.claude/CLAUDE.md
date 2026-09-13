@@ -121,6 +121,7 @@ Anything we create should not just work well. It should be approachable and easy
 - **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
 - **gron / yq / sd** — json-path discovery (`gron file | grep value` beats jq-guessing an unknown schema) · yaml/toml read-write (`settings.toml`, lefthook) · in-place text replace without sed's macos `-i ''` traps. ⏳ vet until 2026-09-15 — usage measured from transcripts, unused → dropped
 - **trash over rm** — `trash <path>` moves to the recoverable macos trash; prefer it wherever a deletion is approved but regret is possible (same 2026-09-15 vet)
+- **archives → keka's bundled binaries**, `/Applications/Keka.app/Contents/MacOS/Keka --cli <bin>` — `7z` `7zz` `unar` `unrar` `tar` `xz` `zstd` `brotli` `lz4` `lzip` `pigz` and friends. macos ships no `unrar` and no 7z at all, so this is the only door to those; plain `zip`/`tar`/`ditto` still handle the ordinary cases
 - **uv** — the Python package manager here; pip in any form is not used
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
 
