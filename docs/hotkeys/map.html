@@ -1,0 +1,248 @@
+<title>Hotkey Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #eceef2; --board: #dfe2e8; --cap: #f8f9fb; --cap-edge: #c9cdd6; --cap-free: #e4e7ec;
+  --ink: #171a20; --ink-2: #5b6170; --ink-3: #8b91a0; --line: #cfd3db; --accent: #2f6df6; --sel: #cfe0ff;
+  --raycast: #ff5c5c; --magnet: #3b82f6; --wispr: #8b5cf6; --cleanshot: #0ea5a3; --cursor: #f59e0b;
+  --onepass: #4f6df5; --bartender: #22c55e; --macos: #6b7280;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #15171b; --board: #1e2126; --cap: #2a2e35; --cap-edge: #0d0f12; --cap-free: #202329;
+    --ink: #eef0f4; --ink-2: #a3a9b6; --ink-3: #6e7482; --line: #30343c; --accent: #6b9bff; --sel: #243a6b;
+    --raycast: #ff6b6b; --magnet: #5b9cff; --wispr: #a78bfa; --cleanshot: #2dd4bf; --cursor: #fbbf24;
+    --onepass: #7b91ff; --bartender: #4ade80; --macos: #9ca3af;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #15171b; --board: #1e2126; --cap: #2a2e35; --cap-edge: #0d0f12; --cap-free: #202329;
+  --ink: #eef0f4; --ink-2: #a3a9b6; --ink-3: #6e7482; --line: #30343c; --accent: #6b9bff; --sel: #243a6b;
+  --raycast: #ff6b6b; --magnet: #5b9cff; --wispr: #a78bfa; --cleanshot: #2dd4bf; --cursor: #fbbf24;
+  --onepass: #7b91ff; --bartender: #4ade80; --macos: #9ca3af;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 15px/1.5 "IBM Plex Sans", system-ui, sans-serif; padding-block: 28px 56px; padding-inline: 20px; margin: 0; }
+::selection { background: var(--sel); }
+.wrap { max-width: 1180px; margin-inline: auto; display: grid; gap: 22px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+h1 { font: 600 22px/1.2 "IBM Plex Sans", system-ui, sans-serif; margin: 0; text-wrap: balance; }
+.meta { color: var(--ink-3); font-size: 13px; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tab { font: 500 13px "IBM Plex Mono", ui-monospace, monospace; padding: 6px 11px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--ink-2); cursor: pointer; user-select: none; display: flex; gap: 8px; align-items: center; }
+.tab b { font-weight: 600; color: var(--ink); }
+.tab .n { color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+.tab[aria-selected="true"] { border-color: var(--accent); background: var(--sel); color: var(--ink); }
+.tab:focus-visible, .key:focus-visible, textarea:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.board { background: var(--board); border-radius: 14px; padding: 14px; overflow-x: auto; }
+.rows { display: grid; gap: 6px; min-width: 760px; }
+.row { display: grid; grid-template-columns: repeat(64, 1fr); gap: 6px; }
+.key { position: relative; min-height: 46px; border: 0; border-radius: 6px; background: var(--cap); box-shadow: 0 2px 0 var(--cap-edge); color: var(--ink); cursor: pointer; user-select: none; padding: 5px 7px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; font: 500 12px/1.15 "IBM Plex Mono", ui-monospace, monospace; }
+.key .cap { font-size: 13px; }
+.key .act { font: 400 10.5px/1.15 "IBM Plex Sans", system-ui, sans-serif; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.key.free { background: var(--cap-free); color: var(--ink-3); box-shadow: 0 2px 0 var(--cap-edge); }
+.key.bound { border-top: 4px solid var(--app); }
+.key.want::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.key[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.key.mod { color: var(--ink-3); }
+.key.mod.lit { color: var(--ink); background: var(--sel); }
+.gap { visibility: hidden; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+.panel { display: grid; gap: 10px; align-content: start; }
+.panel h2 { font: 600 13px "IBM Plex Sans", system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
+.list { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.list li { display: grid; grid-template-columns: 9px 128px 1fr; gap: 10px; align-items: baseline; font-size: 13.5px; padding: 3px 0; border-bottom: 1px solid var(--line); }
+.list li .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--app); position: relative; top: 1px; }
+.list li .chord { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.list li .who { color: var(--ink-3); font-size: 12px; margin-left: 6px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--app); margin-right: 5px; }
+.sel { font: 600 16px "IBM Plex Mono", ui-monospace, monospace; }
+.sel small { font: 400 13px "IBM Plex Sans", system-ui, sans-serif; color: var(--ink-3); margin-left: 8px; }
+textarea { width: 100%; min-height: 72px; resize: vertical; border: 1px solid var(--line); border-radius: 6px; background: var(--cap); color: var(--ink); font: 14px/1.45 "IBM Plex Sans", system-ui, sans-serif; padding: 8px 10px; }
+.btnrow { display: flex; gap: 8px; align-items: center; }
+.btn { font: 500 13px "IBM Plex Sans", system-ui, sans-serif; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+.btn.quiet { background: transparent; color: var(--ink-2); border-color: var(--line); }
+.status { font-size: 12.5px; color: var(--ink-3); }
+.free { }
+.freelist { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; color: var(--ink-2); line-height: 1.9; }
+.freelist kbd { display: inline-block; border: 1px solid var(--line); border-radius: 4px; padding: 0 6px; margin: 0 3px 3px 0; background: var(--cap); color: var(--ink); font: inherit; }
+footer { color: var(--ink-3); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 12px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Hotkey Map</h1>
+    <span class="meta">NuPhy Air75 · <span id="count"></span> bindings · scanned <span id="scanned" class="mono"></span></span>
+  </header>
+
+  <div class="tabs" id="tabs" role="tablist"></div>
+
+  <div class="board"><div class="rows" id="rows"></div></div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="two">
+    <section class="panel">
+      <h2>Selected key</h2>
+      <div class="sel" id="selName">click a key</div>
+      <ul class="list" id="selBinds"></ul>
+      <textarea id="want" placeholder="what you want on this chord — a note for the rebind session. saved to this page only, never written into any app." aria-label="want"></textarea>
+      <div class="btnrow">
+        <button class="btn" id="save" type="button">Save note</button>
+        <button class="btn quiet" id="clear" type="button">Clear</button>
+        <span class="status" id="status"></span>
+      </div>
+      <h2>Free keys on this layer</h2>
+      <div class="freelist" id="free"></div>
+    </section>
+    <section class="panel">
+      <h2>All bindings on this layer</h2>
+      <ul class="list" id="all"></ul>
+      <h2>Notes</h2>
+      <ul class="list" id="wants"></ul>
+    </section>
+  </div>
+
+  <footer>seeded by <span class="mono">pnpm hotkeys:scan</span> in dotfiles — wispr flow, magnet, bartender, cursor and macos are read from their files; raycast, cleanshot and 1password are typed by hand in <span class="mono">script/lib/hotkeys-manual.ts</span>. a republish pulls the new scan; notes live only here.</footer>
+</div>
+
+<script>
+const appColor = { raycast: 'var(--raycast)', magnet: 'var(--magnet)', 'wispr flow': 'var(--wispr)', cleanshot: 'var(--cleanshot)', cursor: 'var(--cursor)', '1password': 'var(--onepass)', bartender: 'var(--bartender)', macos: 'var(--macos)' };
+const layerOrder = ['hyper', 'ctrl+opt', 'opt', 'cmd', 'ctrl+cmd', 'shift+cmd', 'ctrl', 'ctrl+shift', 'shift', 'ctrl+opt+cmd', ''];
+const layout = [
+  [['esc',4],['f1',4],['f2',4],['f3',4],['f4',4],['f5',4],['f6',4],['f7',4],['f8',4],['f9',4],['f10',4],['f11',4],['f12',4],['del',4],['',8]],
+  [['`',4],['1',4],['2',4],['3',4],['4',4],['5',4],['6',4],['7',4],['8',4],['9',4],['0',4],['-',4],['=',4],['backspace',8],['pgup',4]],
+  [['tab',6],['q',4],['w',4],['e',4],['r',4],['t',4],['y',4],['u',4],['i',4],['o',4],['p',4],['[',4],[']',4],['\\',6],['pgdn',4]],
+  [['caps',7],['a',4],['s',4],['d',4],['f',4],['g',4],['h',4],['j',4],['k',4],['l',4],[';',4],["'",4],['return',9],['home',4]],
+  [['shift',9],['z',4],['x',4],['c',4],['v',4],['b',4],['n',4],['m',4],[',',4],['.',4],['/',4],['shift',7],['up',4],['end',4]],
+  [['ctrl',5],['opt',5],['cmd',5],['space',25],['cmd',4],['fn',4],['',4],['left',4],['down',4],['right',4]],
+];
+const modKeys = new Set(['ctrl','opt','cmd','shift','fn','caps']);
+const layerMods = (layer) => layer === 'hyper' ? new Set(['caps']) : new Set(layer.split('+').filter(Boolean));
+const layerName = (l) => l === '' ? 'no modifier' : l;
+const chord = (h) => (h.mods ? `${h.mods}+` : '') + h.key;
+
+let data = { hotkeys: [], scannedAt: '' };
+let layer = 'hyper';
+let selected = null;
+let wants = {};
+let db = null;
+
+const $ = (id) => document.getElementById(id);
+const byLayer = () => data.hotkeys.filter((h) => h.mods === layer);
+const layers = () => {
+  const present = [...new Set(data.hotkeys.map((h) => h.mods))];
+  return present.sort((a, b) => (layerOrder.indexOf(a) + 1 || 99) - (layerOrder.indexOf(b) + 1 || 99));
+};
+const wantId = (l, k) => `${l || 'none'}__${k}`.replace(/[^A-Za-z0-9_\-+.]/g, (c) => `~${c.charCodeAt(0)}`);
+
+function renderTabs() {
+  $('tabs').innerHTML = '';
+  for (const l of layers()) {
+    const b = document.createElement('button');
+    b.className = 'tab'; b.role = 'tab'; b.type = 'button';
+    b.setAttribute('aria-selected', String(l === layer));
+    b.innerHTML = `<b>${layerName(l)}</b><span class="n">${data.hotkeys.filter((h) => h.mods === l).length}</span>`;
+    b.onclick = () => { layer = l; selected = null; render(); };
+    $('tabs').appendChild(b);
+  }
+}
+
+function renderBoard() {
+  const bound = new Map();
+  for (const h of byLayer()) { if (!bound.has(h.key)) bound.set(h.key, []); bound.get(h.key).push(h); }
+  const lit = layerMods(layer);
+  $('rows').innerHTML = '';
+  for (const row of layout) {
+    const r = document.createElement('div'); r.className = 'row';
+    for (const [label, w] of row) {
+      const k = document.createElement('button');
+      k.type = 'button';
+      k.style.gridColumn = `span ${w}`;
+      if (!label) { k.className = 'key gap'; k.tabIndex = -1; r.appendChild(k); continue; }
+      const binds = bound.get(label) ?? [];
+      const isMod = modKeys.has(label);
+      k.className = 'key' + (binds.length ? ' bound' : ' free') + (isMod ? ' mod' : '') + (isMod && lit.has(label) ? ' lit' : '') + (wants[wantId(layer, label)] ? ' want' : '');
+      if (binds.length) k.style.setProperty('--app', appColor[binds[0].app] ?? 'var(--macos)');
+      k.setAttribute('aria-pressed', String(selected === label));
+      k.title = binds.map((b) => `${b.app}: ${b.action}`).join('\n') || `${chord({ mods: layer, key: label })} — free`;
+      k.innerHTML = `<span class="cap">${label === 'caps' && layer === 'hyper' ? 'hyper' : label}</span><span class="act">${binds.length ? binds[0].action + (binds.length > 1 ? ` +${binds.length - 1}` : '') : ''}</span>`;
+      k.onclick = () => { selected = label; render(); $('want').focus(); };
+      r.appendChild(k);
+    }
+    $('rows').appendChild(r);
+  }
+}
+
+function bindItem(h) {
+  return `<li style="--app:${appColor[h.app] ?? 'var(--macos)'}"><span class="dot"></span><span class="chord">${chord(h)}</span><span>${h.action}<span class="who">${h.app}${h.note ? ' · ' + h.note : ''}</span></span></li>`;
+}
+
+function renderPanels() {
+  const binds = byLayer();
+  $('all').innerHTML = binds.map(bindItem).join('') || '<li><span></span><span></span><span class="status">nothing on this layer</span></li>';
+  const taken = new Set(binds.map((h) => h.key));
+  const free = layout.flat().map(([l]) => l).filter((l) => l && !modKeys.has(l) && !taken.has(l));
+  $('free').innerHTML = free.map((l) => `<kbd>${l}</kbd>`).join('');
+  $('legend').innerHTML = [...new Set(binds.map((h) => h.app))].map((a) => `<span style="--app:${appColor[a] ?? 'var(--macos)'}">${a}</span>`).join('');
+  if (selected) {
+    const sel = binds.filter((h) => h.key === selected);
+    $('selName').innerHTML = `${chord({ mods: layer, key: selected })}<small>${sel.length ? '' : 'free'}</small>`;
+    $('selBinds').innerHTML = sel.map(bindItem).join('');
+    $('want').value = wants[wantId(layer, selected)]?.text ?? '';
+  } else {
+    $('selName').textContent = 'click a key';
+    $('selBinds').innerHTML = '';
+    $('want').value = '';
+  }
+  const entries = Object.entries(wants).sort(([, a], [, b]) => (b.updatedAt ?? '').localeCompare(a.updatedAt ?? ''));
+  $('wants').innerHTML = entries.map(([, w]) => `<li style="--app:var(--accent)"><span class="dot"></span><span class="chord">${chord({ mods: w.layer, key: w.key })}</span><span>${escapeHtml(w.text)}</span></li>`).join('') || '<li><span></span><span></span><span class="status">no notes yet</span></li>';
+}
+
+function escapeHtml(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+
+function render() { renderTabs(); renderBoard(); renderPanels(); }
+
+const local = {
+  read() { try { return JSON.parse(localStorage.getItem('wants') ?? '{}'); } catch { return {}; } },
+  write() { try { localStorage.setItem('wants', JSON.stringify(wants)); } catch {} },
+};
+
+async function saveWant(text) {
+  if (!selected) return;
+  const id = wantId(layer, selected);
+  const doc = { layer, key: selected, text, updatedAt: new Date().toISOString() };
+  if (text.trim() === '') delete wants[id]; else wants[id] = doc;
+  render();
+  if (db) {
+    try { text.trim() === '' ? await db.doc(`wants/${id}`).delete() : await db.doc(`wants/${id}`).set(doc); $('status').textContent = 'saved'; }
+    catch (e) { $('status').textContent = `not saved: ${e.code ?? e.message}`; }
+  } else { local.write(); $('status').textContent = 'saved in this browser only'; }
+  setTimeout(() => { $('status').textContent = ''; }, 2500);
+}
+
+$('save').onclick = () => saveWant($('want').value);
+$('clear').onclick = () => saveWant('');
+$('want').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) saveWant($('want').value); });
+
+async function start() {
+  data = await (await fetch('hotkeys.json')).json();
+  $('count').textContent = data.hotkeys.length;
+  $('scanned').textContent = data.scannedAt.slice(0, 16).replace('T', ' ');
+  wants = local.read();
+  render();
+  db = await window.claude?.use?.('db').catch(() => null) ?? null;
+  if (!db) return;
+  db.collection('wants').onSnapshot((snap) => {
+    wants = Object.fromEntries(snap.docs.filter((d) => d.exists).map((d) => [d.id, d.data()]));
+    render();
+  });
+}
+start();
+</script>
