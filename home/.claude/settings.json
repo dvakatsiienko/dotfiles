@@ -3,7 +3,8 @@
   "skillListingBudgetFraction": 0.025,
   "env": {
     "EDITOR": "nvim",
-    "CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT": "0"
+    "CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT": "0",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "opus"
   },
   "attribution": {
     "commit": "",
