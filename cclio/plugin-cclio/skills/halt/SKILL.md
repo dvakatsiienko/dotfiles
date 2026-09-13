@@ -67,6 +67,12 @@ turn — never stop to ask. He invoked a halt; asking «shall I halt?» makes hi
 one short message, then straight into phase 1:
 - name every **live** thread: a ticket In Progress, an unlanded edit, a spawned session, an
   unanswered question put to dima, an unpushed commit
+- **the lingering-ticket sweep** — query, never recall (dima, 2026-09-13: two tickets sat In
+  Review two days past their merge; no linear automation, a merge is not a done):
+  `linear api 'query { issues(filter: { state: { name: { in: ["In Progress","In Review"] } } }, first: 50) { nodes { identifier title state { name } labels { nodes { name } } } } }'`
+  — every hit without the `standing` label gets one line: «closable, because …» (his word
+  closes, with a closing word in the body) or «stays, because …». a ticket whose pr merged
+  with asks left open moves to Todo, never closes
 - **the coder roster, two questions per coder: retro received? `claude stop <id>` done?** a coder
   has outlived a halt before; `claude agents --json` is the check, never memory. **a coder the CST
   calls «warm» is verified alive at write time** (a registry entry in `~/.claude/sessions/` +
