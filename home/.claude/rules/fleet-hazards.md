@@ -40,6 +40,19 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   rebase is dragged forward with the rewrite and stops being a recovery point — a tag or the
   reflog is the net (a coder lost its net on a reword, 2026-09-05)
 
+## brew casks
+
+- `brew install --cask --adopt` is the way to bring a hand-installed app under brew, and it has
+  two teeth. it **refuses a bundle missing a binary the cask links, and removes the app** before a
+  plain install follows (2026-09-08). and it needs a **tty** whenever the bundle is root-owned —
+  an agent shell has none, so it dies at the password prompt (keka, 2026-09-13: it bailed before
+  touching anything, but the next one may not). check `ls -ld /Applications/<App>.app` first;
+  `root wheel` means hand dima the command instead of running it
+- a brew-installed app is uninstalled with `brew uninstall --zap --cask <name>`, never with an
+  uninstaller app — the cask's hand-written zap stanza beats any heuristic scanner, and it clears
+  the Caskroom entry an external uninstaller would orphan (measured on pearcleaner, 2026-09-13:
+  zap found `Group Containers`, `Saved Application State` and a `bin/` symlink that mole missed)
+
 ## the bash sandbox
 
 - 🎯 **in a worktree session, any command that mentions `gh`, `git`, a token script or `eval`
