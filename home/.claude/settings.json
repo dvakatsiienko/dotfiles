@@ -52,11 +52,6 @@
           {
             "type": "command",
             "command": "bash ~/.claude/shelf/hooks/opus-register.sh"
-          },
-          {
-            "type": "command",
-            "command": "bash ~/.claude/shelf/hooks/english-tune.sh",
-            "timeout": 60
           }
         ]
       }
@@ -122,6 +117,16 @@
             "statusMessage": "worktree seed"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/biome-format.sh",
+            "timeout": 15
+          }
+        ]
       }
     ]
   },
@@ -141,8 +146,7 @@
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "linear-cli@linear-cli": false,
-    "impeccable@impeccable": true,
-    "claude-english-buddy@xiaolai": true
+    "impeccable@impeccable": false
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
