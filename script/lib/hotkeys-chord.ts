@@ -1,6 +1,6 @@
 // One spelling for one chord, shared by the scanner (what is bound) and the reader (what was
 // pressed) so the two can be joined. The swift daemon builds the same string independently —
-// see the modifier order note in script/hotkey-stats/main.swift.
+// see the modifier order note in script/x-hotkey-stats-monitor/main.swift.
 import type { Hotkey } from './hotkeys-manual.ts';
 
 export const modOrder = ['hyper', 'ctrl', 'opt', 'shift', 'cmd'];

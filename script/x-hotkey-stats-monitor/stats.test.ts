@@ -1,0 +1,198 @@
+import { describe, expect, it } from 'vitest';
+
+import type { Hotkey } from '../lib/hotkeys-manual.ts';
+import {
+    byApp,
+    byChord,
+    ofKind,
+    parseEvents,
+    selectEvents,
+    tally,
+    unpressed,
+} from './stats.ts';
+
+const chord = (iso: string, chord: string, app = 'com.apple.finder') =>
+    JSON.stringify({ app, chord, kind: 'chord', ts: iso });
+
+const activate = (iso: string, app: string) =>
+    JSON.stringify({ app, kind: 'activate', ts: iso });
+
+const NOW = new Date('2026-09-14T12:00:00Z');
+
+describe('parseEvents', () => {
+    it('reads a line written before app events existed as a chord', () => {
+        const legacy =
+            '{"ts":"2026-09-14T10:00:00Z","chord":"cmd+c","app":"a"}';
+        expect(parseEvents(legacy)).toEqual([
+            {
+                app: 'a',
+                chord: 'cmd+c',
+                kind: 'chord',
+                ts: '2026-09-14T10:00:00Z',
+            },
+        ]);
+    });
+
+    it('keeps the whole lines around a torn one', () => {
+        const jsonl = [
+            chord('2026-09-14T10:00:00Z', 'cmd+c'),
+            '{"ts":"2026-09-14T10:01:00Z","chord":"cmd',
+            chord('2026-09-14T10:02:00Z', 'hyper+a'),
+            '',
+        ].join('\n');
+        expect(parseEvents(jsonl).map((e) => e.chord)).toEqual([
+            'cmd+c',
+            'hyper+a',
+        ]);
+    });
+
+    it('drops a chord line with no chord', () => {
+        expect(parseEvents('{"ts":"2026-09-14T10:00:00Z","app":"a"}')).toEqual(
+            [],
+        );
+    });
+
+    it('reads an activate line without requiring a chord', () => {
+        expect(
+            parseEvents(activate('2026-09-14T10:00:00Z', 'com.raycast.macos')),
+        ).toEqual([
+            {
+                app: 'com.raycast.macos',
+                kind: 'activate',
+                ts: '2026-09-14T10:00:00Z',
+            },
+        ]);
+    });
+
+    it('falls back to chord for an unknown kind', () => {
+        const odd =
+            '{"ts":"2026-09-14T10:00:00Z","kind":"wat","chord":"cmd+c","app":"a"}';
+        expect(parseEvents(odd)[0]?.kind).toBe('chord');
+    });
+});
+
+describe('selectEvents', () => {
+    it('excludes an event older than the window', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-10T12:00:00Z', 'old'),
+                chord('2026-09-13T12:00:00Z', 'new'),
+            ].join('\n'),
+        );
+        expect(
+            selectEvents(events, { days: 2, now: NOW }).map((e) => e.chord),
+        ).toEqual(['new']);
+    });
+
+    it('matches the app filter on a case-insensitive substring', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-14T11:00:00Z', 'cmd+c', 'com.todesktop.Cursor'),
+                chord('2026-09-14T11:00:00Z', 'cmd+v', 'com.google.Chrome'),
+            ].join('\n'),
+        );
+        expect(
+            selectEvents(events, { app: 'cursor', now: NOW }).map(
+                (e) => e.chord,
+            ),
+        ).toEqual(['cmd+c']);
+    });
+
+    it('drops an ignored chord', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-14T11:00:00Z', 'opt+esc'),
+                chord('2026-09-14T11:01:00Z', 'cmd+c'),
+            ].join('\n'),
+        );
+        expect(
+            selectEvents(events, { ignore: ['opt+esc'], now: NOW }).map(
+                (e) => e.chord,
+            ),
+        ).toEqual(['cmd+c']);
+    });
+
+    it('keeps app events when a chord is ignored', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-14T11:00:00Z', 'opt+esc'),
+                activate('2026-09-14T11:01:00Z', 'com.apple.Safari'),
+            ].join('\n'),
+        );
+        expect(
+            selectEvents(events, { ignore: ['opt+esc'], now: NOW }),
+        ).toHaveLength(1);
+    });
+
+    it('keeps every event when no window is given', () => {
+        const events = parseEvents(chord('2020-01-01T00:00:00Z', 'ancient'));
+        expect(selectEvents(events, { now: NOW })).toHaveLength(1);
+    });
+});
+
+describe('ofKind', () => {
+    it('separates app switches from chords', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-14T11:00:00Z', 'cmd+c'),
+                activate('2026-09-14T11:01:00Z', 'com.apple.Safari'),
+                activate('2026-09-14T11:02:00Z', 'com.apple.Safari'),
+            ].join('\n'),
+        );
+        expect(ofKind(events, 'activate')).toHaveLength(2);
+        expect(ofKind(events, 'chord')).toHaveLength(1);
+    });
+});
+
+describe('tally', () => {
+    it('ranks the most pressed chord first', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-14T11:00:00Z', 'cmd+c'),
+                chord('2026-09-14T11:01:00Z', 'hyper+a'),
+                chord('2026-09-14T11:02:00Z', 'cmd+c'),
+            ].join('\n'),
+        );
+        expect(tally(events, byChord)).toEqual([
+            { count: 2, name: 'cmd+c' },
+            { count: 1, name: 'hyper+a' },
+        ]);
+    });
+
+    it('counts activations per app', () => {
+        const events = parseEvents(
+            [
+                activate('2026-09-14T11:00:00Z', 'com.apple.Safari'),
+                activate('2026-09-14T11:01:00Z', 'com.apple.Safari'),
+                activate('2026-09-14T11:02:00Z', 'com.raycast.macos'),
+            ].join('\n'),
+        );
+        expect(tally(events, byApp)).toEqual([
+            { count: 2, name: 'com.apple.Safari' },
+            { count: 1, name: 'com.raycast.macos' },
+        ]);
+    });
+});
+
+describe('unpressed', () => {
+    const bindings: Hotkey[] = [
+        { action: 'Claude', app: 'raycast', key: 'a', mods: 'hyper' },
+        { action: 'Copy', app: 'macos', key: 'c', mods: 'cmd' },
+        { action: 'push to talk', app: 'wispr flow', key: 'ctrl', mods: '' },
+    ];
+
+    it('returns only the bindings whose chord never appears', () => {
+        const events = parseEvents(chord('2026-09-14T11:00:00Z', 'hyper+a'));
+        expect(unpressed(bindings, events).map((h) => h.action)).toEqual([
+            'Copy',
+            'push to talk',
+        ]);
+    });
+
+    it('matches a bare-modifier binding against a bare-modifier press', () => {
+        const events = parseEvents(chord('2026-09-14T11:00:00Z', 'ctrl'));
+        expect(unpressed(bindings, events).map((h) => h.action)).not.toContain(
+            'push to talk',
+        );
+    });
+});
