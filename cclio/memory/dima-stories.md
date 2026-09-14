@@ -76,3 +76,6 @@ is driven… overcomplicated». The rethink's native replacement (github approva
 resolution) died on one probe: an app's approval is recorded and counts for nothing. The same
 rethink found the 887 lines to delete — the answer lane, 5 of the 12 defects. The felt sense was
 right about the size and wrong about the door; the fix was a probe, not a rewrite. → BYT-94
+
+## «is shortcuts as useless as Reminders?» · 2026-09-14
+Three research rounds had produced a ranked list of apple shortcuts for his profile. He read it and said all of them looked useless — the top pick would append to an inbox he keeps structured by hand — and asked a different question: is the feature itself Reminders-grade, present but not good? The fourth round, on what power users actually conclude, said keep-minimal: policy ceiling, yearly reliability bugs, worth it only for the phone's action button. The felt sense was about the category, not the list. Same day, smaller: «you will forget to disable impeccable» — right about who owns a toggle before the rule was written. → DOT-237 apple-shortcuts vector, `craft-spawning`
