@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
+import { canonical } from './lib/hotkeys-chord.ts';
 import { type Hotkey, manualHotkeys } from './lib/hotkeys-manual.ts';
 
 const home = homedir();
@@ -256,15 +257,6 @@ const scanned = [wispr, magnet, bartender, cursor, macos].flatMap((scan) => {
         console.error(`skipped ${scan.name}: ${(error as Error).message}`);
         return [];
     }
-});
-
-const modOrder = ['hyper', 'ctrl', 'opt', 'shift', 'cmd'];
-const canonical = (h: Hotkey): Hotkey => ({
-    ...h,
-    mods: h.mods
-        .split('+')
-        .sort((a, z) => modOrder.indexOf(a) - modOrder.indexOf(z))
-        .join('+'),
 });
 
 console.log(

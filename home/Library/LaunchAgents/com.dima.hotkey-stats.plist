@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  hotkey-stats — counts keyboard shortcuts, never keystrokes.
+
+  WHAT IT RECORDS: one line per chord press, holding only the timestamp, the chord
+  (for example "hyper+a") and the frontmost app's bundle id.
+
+  WHAT IT NEVER RECORDS: plain typing. An event is discarded inside the tap callback
+  unless cmd, ctrl or opt is held, so letters, numbers, shift+letter and everything
+  entered into a password field are dropped before any text is formed. The tap is
+  listen-only and alters nothing.
+
+  Source: ~/dotfiles/script/hotkey-stats/main.swift · reader: pnpm hotkeys:top
+  Needs Input Monitoring, granted once to the binary named below.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.hotkey-stats</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- launchd does not expand ~, so this path is absolute by necessity.
+             Build it first: pnpm hotkeys:build -->
+        <string>/Users/dima/dotfiles/script/hotkey-stats/bin/hotkey-stats</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- A tap refused for want of permission exits at once; without this the
+         relaunch turns into a spin. -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/hotkey-stats/daemon.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/hotkey-stats/daemon.err.log</string>
+</dict>
+</plist>

@@ -6,7 +6,9 @@
     "scripts": {
         "dotfiles:link": "node ./script/dotfiles-link.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
+        "hotkeys:build": "mkdir -p ./script/hotkey-stats/bin && swiftc -O ./script/hotkey-stats/main.swift -o ./script/hotkey-stats/bin/hotkey-stats",
         "hotkeys:scan": "node ./script/hotkeys-scan.ts",
+        "hotkeys:top": "node ./script/hotkeys-top.ts",
         "linear:agent-token": "node ./script/linear-agent-token.ts",
         "linear:push": "node ./script/linear-push.ts",
         "macos:setup": "node ./script/macos-setup.ts",
