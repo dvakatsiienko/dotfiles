@@ -1,8 +1,9 @@
-// hotkey-stats — counts which chords actually get pressed, per app.
+// x-hotkey-stats-monitor — counts which chords actually get pressed, per app.
 //
-// Privacy by construction: an event reaches disk only when cmd, ctrl or opt is held.
+// Privacy by construction: a KEY event reaches disk only when cmd, ctrl or opt is held.
 // Plain typing, shift+letter and every password field are dropped inside the callback,
-// before anything is formatted. Nothing but {ts, chord, app} is ever written.
+// before anything is formatted. App switches carry a bundle id and nothing else — no
+// window title, no document name. Nothing but {ts, kind, chord?, app} is ever written.
 //
 // Tap placement is .cgSessionEventTap, measured on 2026-09-14: raycast's hyper key swallows
 // the physical press at the HID layer and re-posts a synthetic ⌃⌥⇧⌘ event into the session.
@@ -63,7 +64,7 @@ final class Log {
 
     init() {
         dir = FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent(".local/share/hotkey-stats")
+            .appendingPathComponent(".local/share/x-hotkey-stats-monitor")
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         stamp = ISO8601DateFormatter()
         stamp.formatOptions = [.withInternetDateTime]
@@ -77,7 +78,7 @@ final class Log {
             let path = dir.appendingPathComponent("\(m).jsonl").path
             let fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0o600)
             guard fd >= 0 else {
-                FileHandle.standardError.write(Data("hotkey-stats: cannot open \(path)\n".utf8))
+                FileHandle.standardError.write(Data("x-hotkey-stats-monitor: cannot open \(path)\n".utf8))
                 return nil
             }
             handle = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
@@ -86,10 +87,13 @@ final class Log {
         return handle
     }
 
-    func append(chord: String, app: String) {
+    // A line written before app events existed carries no "kind"; the reader treats
+    // a missing one as a chord, so today's log stays readable.
+    func append(kind: String, chord: String?, app: String) {
         let now = Date()
         guard let out = handle(for: now) else { return }
-        let line = #"{"ts":"\#(stamp.string(from: now))","chord":"\#(esc(chord))","app":"\#(esc(app))"}"# + "\n"
+        let chordField = chord.map { #""chord":"\#(esc($0))","# } ?? ""
+        let line = #"{"ts":"\#(stamp.string(from: now))","kind":"\#(kind)",\#(chordField)"app":"\#(esc(app))"}"# + "\n"
         try? out.write(contentsOf: Data(line.utf8))
     }
 
@@ -130,7 +134,7 @@ let handler: CGEventTapCallBack = { _, type, event, _ in
             keyPressedSinceCtrlDown = false
         } else if !ctrl {
             if bareCtrlPending && !keyPressedSinceCtrlDown {
-                log.append(chord: "ctrl", app: frontApp())
+                log.append(kind: "chord", chord: "ctrl", app: frontApp())
             }
             bareCtrlPending = false
         } else {
@@ -147,7 +151,7 @@ let handler: CGEventTapCallBack = { _, type, event, _ in
     }
 
     if let chord = chordFor(flags, event.getIntegerValueField(.keyboardEventKeycode)) {
-        log.append(chord: chord, app: frontApp())
+        log.append(kind: "chord", chord: chord, app: frontApp())
     }
     return Unmanaged.passUnretained(event)
 }
@@ -164,13 +168,27 @@ guard let tap = CGEvent.tapCreate(
     userInfo: nil
 ) else {
     FileHandle.standardError.write(Data(
-        "hotkey-stats: tap refused — grant Input Monitoring to this binary\n".utf8))
+        "x-hotkey-stats-monitor: tap refused — grant Input Monitoring to this binary\n".utf8))
     exit(1)
+}
+
+// cmd-tab, a dock click, a window click and a raycast hotkey all land here, so a
+// switch is counted however it was made.
+let workspace = NSWorkspace.shared.notificationCenter
+let watch = [
+    (NSWorkspace.didActivateApplicationNotification, "activate"),
+    (NSWorkspace.didLaunchApplicationNotification, "launch"),
+]
+for (name, kind) in watch {
+    workspace.addObserver(forName: name, object: nil, queue: .main) { note in
+        let running = note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication
+        log.append(kind: kind, chord: nil, app: running?.bundleIdentifier ?? "unknown")
+    }
 }
 
 tapPort = tap
 let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
 CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
 CGEvent.tapEnable(tap: tap, enable: true)
-print("hotkey-stats: session tap live, chords only")
+print("x-hotkey-stats-monitor: session tap live — chords and app switches")
 CFRunLoopRun()

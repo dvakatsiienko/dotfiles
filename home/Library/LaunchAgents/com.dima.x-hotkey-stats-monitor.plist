@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  hotkey-stats — counts keyboard shortcuts, never keystrokes.
+  x-hotkey-stats-monitor — counts keyboard shortcuts, never keystrokes.
 
   WHAT IT RECORDS: one line per chord press, holding only the timestamp, the chord
   (for example "hyper+a") and the frontmost app's bundle id.
@@ -11,19 +11,19 @@
   entered into a password field are dropped before any text is formed. The tap is
   listen-only and alters nothing.
 
-  Source: ~/dotfiles/script/hotkey-stats/main.swift · reader: pnpm hotkeys:top
+  Source: ~/dotfiles/script/x-hotkey-stats-monitor/main.swift · reader: pnpm hotkey-monitor:top
   Needs Input Monitoring, granted once to the binary named below.
 -->
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.dima.hotkey-stats</string>
+    <string>com.dima.x-hotkey-stats-monitor</string>
 
     <key>ProgramArguments</key>
     <array>
         <!-- launchd does not expand ~, so this path is absolute by necessity.
-             Build it first: pnpm hotkeys:build -->
-        <string>/Users/dima/dotfiles/script/hotkey-stats/bin/hotkey-stats</string>
+             Build it first: pnpm hotkey-monitor:build -->
+        <string>/Users/dima/dotfiles/script/x-hotkey-stats-monitor/bin/x-hotkey-stats-monitor</string>
     </array>
 
     <key>RunAtLoad</key>
@@ -41,9 +41,9 @@
     <string>Background</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/dima/.local/share/hotkey-stats/daemon.log</string>
+    <string>/Users/dima/.local/share/x-hotkey-stats-monitor/daemon.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/dima/.local/share/hotkey-stats/daemon.err.log</string>
+    <string>/Users/dima/.local/share/x-hotkey-stats-monitor/daemon.err.log</string>
 </dict>
 </plist>
