@@ -69,6 +69,16 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   — `pnpm github:agent-token` included — and `eval` outright (an agent-browser verb). both go
   into a scratch script and run from there
 
+## the bash tool
+
+- a trailing `&` inside a Bash tool call is safe only when something after it keeps the shell
+  alive (`wait`, a `sleep`) — the wrapper exits and kills the child, exit 0, empty log, and it
+  reads as «feature broken» (twice in one day, 2026-09-14). in a `run_in_background` call the
+  wrapper IS the backgrounding
+- renaming a `.gitignore` path un-ignores whatever the OLD path still holds — `git add -A`
+  staged a compiled binary right after a rename (2026-09-14); read the staged list before the
+  commit
+
 ## green statuses
 
 - **a green status answers «did this fail», never «did this run»** — three systems in one day

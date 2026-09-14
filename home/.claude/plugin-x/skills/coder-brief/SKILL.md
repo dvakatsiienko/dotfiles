@@ -29,7 +29,7 @@ eight).
   **Measure the live number before a build that rests on one** (the 10-day grant reframed a
   whole step, 2026-09-11). A manifest survey unions `dependencies` + `devDependencies` before
   counting (a one-field read hid three tools twice). A taxonomy comes from a grep, never from
-  adjacency. A probe runs its control first, then the surprising input. **A rule you write is
+  adjacency. A probe runs its control first, then the surprising input. **A probe that needs dima's hands asks first and launches on his word** — «he is at the keyboard» is never a guarantee (two wasted probe rounds, 2026-09-14). **A grep done-criterion is run once before it enters a brief** — «old name absent» can never be empty when the new name contains the old. **A rule you write is
   read from the docs, never from the lockfile** (a react-compiler line was wrong from it).
   **After reversing a decision mid-pr, re-read every commit on the branch that asserted
   something about the reversed thing** — two review findings on #76 were docs from the old
