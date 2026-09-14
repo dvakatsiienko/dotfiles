@@ -8,7 +8,7 @@ import { execFileSync } from 'node:child_process';
 /* Core */
 import { readFileSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 
 /* Instruments */
 import { chordOf } from '../lib/hotkeys-chord.ts';
@@ -95,15 +95,50 @@ const readBindings = (): Hotkey[] => {
     }
 };
 
+// Bundle ids are unreadable — com.todesktop.230313mzl4w4u92 is Cursor. LaunchServices knows
+// the display name, and mdfind reads its index without launching the app or asking for any
+// permission (~25 ms per id, resolved once per run). osascript's inverse lookup would launch
+// apps, so it is not used. An id Spotlight cannot place prints as it is.
+const appName = (() => {
+    const cache = new Map<string, string>();
+    // Bundle ids arrive from a file on disk and are spliced into an mdfind query, so anything
+    // outside the characters a real bundle id uses is refused rather than escaped.
+    const plain = /^[A-Za-z0-9._-]+$/;
+    return (id: string) => {
+        const hit = cache.get(id);
+        if (hit !== undefined) return hit;
+        let name = id;
+        if (plain.test(id)) {
+            try {
+                const found = execFileSync(
+                    'mdfind',
+                    [`kMDItemCFBundleIdentifier == '${id}'`],
+                    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
+                )
+                    .split('\n')[0]
+                    ?.trim();
+                if (found) name = basename(found, '.app');
+            } catch {
+                // Spotlight off or the app is gone — the id is still a usable label.
+            }
+        }
+        cache.set(id, name);
+        return name;
+    };
+})();
+
 const bar = (count: number, top: number) =>
     '█'.repeat(Math.max(1, Math.round((count / top) * 18)));
 
-const table = (rows: Tally[]) => {
+const table = (
+    rows: Tally[],
+    label: (name: string) => string = (name) => name,
+) => {
     const top = rows[0]?.count ?? 1;
     const pad = String(top).length;
     for (const row of rows.slice(0, limit)) {
         console.log(
-            `  ${bold(String(row.count).padStart(pad))} ${dim(bar(row.count, top).padEnd(18))} ${row.name}`,
+            `  ${bold(String(row.count).padStart(pad))} ${dim(bar(row.count, top).padEnd(18))} ${label(row.name)}`,
         );
     }
     if (rows.length > limit) note(`… ${rows.length - limit} more`);
@@ -137,11 +172,11 @@ step(`chords  ${dim(`${chords.length} presses`)}`);
 table(tally(chords, byChord));
 
 step('chords per app');
-table(tally(chords, byApp));
+table(tally(chords, byApp), appName);
 
 if (switches.length > 0) {
     step(`switches per app  ${dim(`${switches.length} activations`)}`);
-    table(tally(switches, byApp));
+    table(tally(switches, byApp), appName);
 }
 
 const bindings = readBindings();
