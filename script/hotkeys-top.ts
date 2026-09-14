@@ -118,11 +118,12 @@ if (bindings.length === 0) {
     if (cold.length > limit) note(`… ${cold.length - limit} more`);
 }
 
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const plural = (n: number, one: string, many: string) =>
+    `${n} ${n === 1 ? one : many}`;
 done(
     [
-        plural(window.length, 'press'),
-        plural(tally(window, byChord).length, 'chord'),
-        plural(tally(window, byApp).length, 'app'),
+        plural(window.length, 'press', 'presses'),
+        plural(tally(window, byChord).length, 'chord', 'chords'),
+        plural(tally(window, byApp).length, 'app', 'apps'),
     ].join(' · '),
 );
