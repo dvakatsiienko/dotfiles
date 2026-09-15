@@ -39,7 +39,7 @@ hotkey-monitor:top — read the chord and app-switch log
   --ignore <chord> drop a chord from the window entirely;
                    repeatable, or comma-separated          (default none)
                    e.g. --ignore opt+esc,shift+cmd+4
-  --limit <n>      rows per section                        (default 15)
+  --limit <n>      rows per section, 0 for every row        (default 15)
   --help           this text
 
   Log: ~/.local/share/x-hotkey-stats-monitor/YYYY-MM.jsonl
@@ -62,13 +62,22 @@ const flagAll = (name: string) =>
 
 const days = flag('days') ? Number(flag('days')) : 30;
 const app = flag('app');
-const limit = flag('limit') ? Number(flag('limit')) : 15;
+// A section truncates by default, so every row past the cap is unreachable at
+// any terminal height — `--limit 0` is the way to see all of them.
+const capped = Number(flag('limit') ?? 15);
 const ignore = flagAll('ignore');
 
 if (!Number.isFinite(days) || days <= 0) {
     console.error('--days wants a positive number');
     process.exit(1);
 }
+
+if (!Number.isInteger(capped) || capped < 0) {
+    console.error('--limit wants a whole number, 0 or more');
+    process.exit(1);
+}
+
+const limit = capped === 0 ? Number.POSITIVE_INFINITY : capped;
 
 const readLog = (): LogEvent[] => {
     let files: string[];
