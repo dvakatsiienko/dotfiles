@@ -50,7 +50,9 @@ pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
   `script/lib/` is library code, never invoked directly.
 - Formatter and linter is **biome** (`pnpm check`). Git hooks run through **lefthook** — biome on
   staged files plus `pnpm typecheck` and `pnpm test` at commit, `dotfiles-link` at push. Nothing in
-  a hook writes to your files.
+  a hook writes to your files. 📌 `pnpm check` itself WRITES repo-wide — run biome on your own
+  paths only; lefthook already formats what you stage (it reformatted `docs/hotkeys/map.html`
+  under a coder, 2026-09-15).
 
 ## what lives in `home/.claude/` that `ls` does not explain
 
