@@ -21,6 +21,7 @@ import {
     mkdir,
     readFile,
     readdir,
+    rename as renameFile,
     rm,
     stat,
     writeFile,
@@ -43,8 +44,16 @@ const FILE_MODE = 0o600;
 const SHARED = '-shared';
 const TIMESTAMP = /^\d{8}T\d{4,6}Z$/;
 
+/** Fields are cut on `--`, so a single `-` stays free inside any one of them. */
+const SEP = '--';
+const BY = 'by-';
+/** One token for "not stated", shared by audience, lane and author alike. */
+const UNSET = 'any';
+
 export type Name = {
     audience: Audience;
+    author: string;
+    lane: string;
     shared: boolean;
     slug: string;
     ts: string;
@@ -69,9 +78,10 @@ export function isAudience(token: string): token is Audience {
 }
 
 /**
- * ? `<audience>-<slug>-<utc-ts>[-shared].md`, and the two legacy shapes still
- * ? sitting in the store: a timestamp-first name, and a two-segment name with
- * ? no audience at all. Both read as `any`, which is what they always meant.
+ * ? `<for>--<lane>--<topic>--by-<author>--<utc-ts>[-shared].md`, and the two
+ * ? legacy shapes still sitting in the store: `<audience>-<slug>-<ts>`, and a
+ * ? timestamp-first name. Neither carries a lane or an author, so both read as
+ * ? `any` — which is what they always meant.
  * ?
  * ? Tolerant on purpose — a name it cannot fully parse still lists, because the
  * ? alternative is a stray file no frontend can see or delete.
@@ -83,6 +93,30 @@ export function parseName(name: string): Name | null {
     const shared = stem.endsWith(SHARED);
     if (shared) stem = stem.slice(0, -SHARED.length);
 
+    return parseCurrent(stem, shared) ?? parseLegacy(stem, shared);
+}
+
+function parseCurrent(stem: string, shared: boolean): Name | null {
+    const parts = stem.split(SEP);
+    const ts = parts[4];
+    if (parts.length !== 5 || ts === undefined || !TIMESTAMP.test(ts))
+        return null;
+
+    const audience = parts[0] ?? '';
+    const author = parts[3] ?? '';
+
+    return {
+        audience: isAudience(audience) ? audience : UNSET,
+        author:
+            (author.startsWith(BY) ? author.slice(BY.length) : author) || UNSET,
+        lane: parts[1] || UNSET,
+        shared,
+        slug: parts[2] || 'handoff',
+        ts,
+    };
+}
+
+function parseLegacy(stem: string, shared: boolean): Name | null {
     const parts = stem.split('-').filter(Boolean);
     const first = parts[0];
     const last = parts.at(-1);
@@ -93,7 +127,9 @@ export function parseName(name: string): Name | null {
         const head = rest[0];
         const audience = head !== undefined && isAudience(head) ? head : null;
         return {
-            audience: audience ?? 'any',
+            audience: audience ?? UNSET,
+            author: UNSET,
+            lane: UNSET,
             shared,
             slug: (audience === null ? rest : rest.slice(1)).join('-'),
             ts: first,
@@ -109,7 +145,9 @@ export function parseName(name: string): Name | null {
         body.length > 1 && head !== undefined && isAudience(head) ? head : null;
 
     return {
-        audience: audience ?? 'any',
+        audience: audience ?? UNSET,
+        author: UNSET,
+        lane: UNSET,
         shared,
         slug: (audience === null ? body : body.slice(1)).join('-'),
         ts: hasTs ? last : '',
@@ -117,7 +155,15 @@ export function parseName(name: string): Name | null {
 }
 
 export function buildName(parts: Name) {
-    return `${parts.audience}-${sanitizeSlug(parts.slug)}-${parts.ts}${parts.shared ? SHARED : ''}.md`;
+    const stem = [
+        parts.audience,
+        sanitizeSlug(parts.lane || UNSET),
+        sanitizeSlug(parts.slug),
+        `${BY}${sanitizeSlug(parts.author || UNSET)}`,
+        parts.ts,
+    ].join(SEP);
+
+    return `${stem}${parts.shared ? SHARED : ''}.md`;
 }
 
 export function sanitizeSlug(slug: string) {
@@ -231,7 +277,7 @@ export function describe(entries: Entry[], now: number = Date.now()) {
     return entries
         .map(
             (entry) =>
-                `- ${entry.slug} — for ${entry.audience} · ${ageOf(entry.mtimeMs, now).label} old`,
+                `- ${entry.slug} — for ${entry.audience} · ${entry.lane} lane · by ${entry.author} · ${ageOf(entry.mtimeMs, now).label} old`,
         )
         .join('\n');
 }
@@ -246,7 +292,9 @@ export type WritePlan = { name: string; remove: Entry[]; shared: boolean };
  */
 export function planWrite(options: {
     audience: Audience;
+    author?: string | undefined;
     entries: Entry[];
+    lane?: string | undefined;
     replaces?: string | undefined;
     shared?: boolean | undefined;
     slug: string;
@@ -255,6 +303,8 @@ export function planWrite(options: {
     const name = (shared: boolean) =>
         buildName({
             audience: options.audience,
+            author: options.author ?? UNSET,
+            lane: options.lane ?? UNSET,
             shared,
             slug: options.slug,
             ts: options.ts,
@@ -277,7 +327,9 @@ export function planWrite(options: {
 
 export async function writeHandoff(options: {
     audience: Audience;
+    author?: string | undefined;
     body: string;
+    lane?: string | undefined;
     replaces?: string | undefined;
     root?: string;
     shared?: boolean | undefined;
@@ -287,7 +339,9 @@ export async function writeHandoff(options: {
     const root = options.root ?? defaultRoot;
     const planned = planWrite({
         audience: options.audience,
+        author: options.author,
         entries: await listStore({ root }),
+        lane: options.lane,
         replaces: options.replaces,
         shared: options.shared,
         slug: options.slug,
@@ -340,6 +394,44 @@ export async function ingestHandoff(options: {
     if (!picked.value.shared) await rmOrIgnore(picked.value.path);
 
     return ok({ body, entry: picked.value, kept: picked.value.shared });
+}
+
+/**
+ * ? Re-derives a name from the store's own grammar, for the files written
+ * ? before a field existed. It renames rather than rewrites, so the timestamp,
+ * ? the mtime and the body all survive — a rewrite would reset the mtime and
+ * ? report a three-day-old CST as fresh, which is the one fact age flagging has.
+ */
+export async function renameHandoff(options: {
+    audience?: Audience | undefined;
+    author?: string | undefined;
+    lane?: string | undefined;
+    root?: string;
+    slug: string;
+    to?: string | undefined;
+}): Promise<Result<{ from: Entry; to: string }>> {
+    const root = options.root ?? defaultRoot;
+    const picked = pick(options.slug, await listStore({ root }));
+    if (picked.error !== null)
+        return err(`${picked.error}\nnothing was renamed.`);
+
+    const from = picked.value;
+    if (from.ts === '')
+        return err(
+            `${from.name} carries no timestamp, and the store will not invent one. rename it by hand or delete it.`,
+        );
+
+    const to = buildName({
+        audience: options.audience ?? from.audience,
+        author: options.author ?? from.author,
+        lane: options.lane ?? from.lane,
+        shared: from.shared,
+        slug: options.to ?? from.slug,
+        ts: from.ts,
+    });
+    if (to !== from.name) await renameFile(from.path, join(root, to));
+
+    return ok({ from, to });
 }
 
 export async function peekHandoff(options: {

@@ -4,9 +4,13 @@
  * ?
  * ?   skill:handoff-store list [--for <audience>]        # read-only, age-flagged
  * ?   skill:handoff-store peek <slug>                    # META block only
- * ?   skill:handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]
+ * ?   skill:handoff-store write --audience <a> --slug <s> [--lane <l>] [--author <who>] [--shared] [--replaces <slug>]
  * ?   skill:handoff-store ingest [<slug>] [--for <a>]    # prints the CST, deletes the file
+ * ?   skill:handoff-store rename <slug> [--audience <a>] [--lane <l>] [--author <who>] [--to <topic>]
  * ?   skill:handoff-store delete <slug> | --all
+ * ?
+ * ? A file is named `<for>--<lane>--<topic>--by-<author>--<utc-ts>[-shared].md`.
+ * ? `--lane` and `--author` default to `any` when the writer does not say.
  * ?
  * ? `write` takes the CST body on stdin. `--replaces` is the upmerge: the named
  * ? sibling goes away and this handoff takes its place, so one thread leaves one
@@ -30,6 +34,7 @@ import {
     isAudience,
     listStore,
     peekHandoff,
+    renameHandoff,
     runIdOf,
     sizeLabel,
     writeHandoff,
@@ -46,8 +51,9 @@ const USAGE = [
     'usage:',
     '  skill:handoff-store list [--for <audience>]',
     '  skill:handoff-store peek [<slug>]',
-    '  skill:handoff-store write --audience <a> --slug <s> [--shared] [--replaces <slug>]',
+    '  skill:handoff-store write --audience <a> --slug <s> [--lane <l>] [--author <who>] [--shared] [--replaces <slug>]',
     '  skill:handoff-store ingest [<slug>] [--for <audience>]',
+    '  skill:handoff-store rename <slug> [--audience <a>] [--lane <l>] [--author <who>] [--to <topic>]',
     '  skill:handoff-store delete <slug> | --all',
     '',
     `audiences: ${AUDIENCES.join(', ')}`,
@@ -64,6 +70,7 @@ if (verb === 'list') await list();
 else if (verb === 'peek') await peek();
 else if (verb === 'write') await write();
 else if (verb === 'ingest') await ingest();
+else if (verb === 'rename') await move();
 else if (verb === 'delete') await remove();
 else if (verb === 'help' || zx.argv.help) zx.echo(USAGE);
 else fail(`unknown verb: ${verb}\n\n${USAGE}`);
@@ -97,7 +104,11 @@ async function list() {
             ),
         );
         for (const entry of others)
-            zx.echo(dim(`  · ${entry.slug} → for ${entry.audience}`));
+            zx.echo(
+                dim(
+                    `  · ${entry.slug} → for ${entry.audience} · by ${entry.author}`,
+                ),
+            );
     }
 }
 
@@ -130,7 +141,9 @@ async function write() {
 
     const written = await writeHandoff({
         audience,
+        author: optional('author'),
         body,
+        lane: optional('lane'),
         replaces: optional('replaces'),
         root,
         shared: zx.argv.shared === true ? true : undefined,
@@ -161,6 +174,31 @@ async function ingest() {
     zx.echo(body);
 }
 
+/**
+ * ? The one door for re-naming a file already in the store — `mv` would put a
+ * ? name in there that the grammar never produced.
+ */
+async function move() {
+    if (slug === undefined) fail(`rename needs a slug\n\n${USAGE}`);
+
+    const renamed = await renameHandoff({
+        audience: audienceFlag('audience'),
+        author: optional('author'),
+        lane: optional('lane'),
+        root,
+        slug,
+        to: optional('to'),
+    });
+    if (renamed.error !== null) fail(renamed.error);
+
+    const { from, to } = renamed.value;
+    zx.echo(
+        from.name === to
+            ? dim(`${to} already carries that name.`)
+            : `${gb('renamed')} ${from.name}\n     ${dim('→')} ${to}`,
+    );
+}
+
 async function remove() {
     const all = zx.argv.all === true;
     if (!all && slug === undefined)
@@ -182,7 +220,7 @@ async function row(entry: Entry) {
     const runId = await runIdOf(entry);
     const head = `  ${bb(entry.slug)}${entry.shared ? dim(' (shared)') : ''}`;
     const facts = dim(
-        ` — for ${entry.audience} · ${age.label} · ${sizeLabel(entry.size)} · run ${runId ?? 'unknown'}`,
+        ` — for ${entry.audience} · ${entry.lane} lane · by ${entry.author} · ${age.label} · ${sizeLabel(entry.size)} · run ${runId ?? 'unknown'}`,
     );
 
     // ? Mild on purpose. Age is information Dima acts on, never a thing this

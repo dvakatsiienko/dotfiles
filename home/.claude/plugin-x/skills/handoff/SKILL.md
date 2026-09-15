@@ -18,7 +18,7 @@ Counterpart: `handoff-ingest`.
 ```bash
 node ~/dotfiles/script/skill-handoff-store.ts list --for <audience>
 node ~/dotfiles/script/skill-handoff-store.ts peek <slug>
-node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <s> [--shared] [--replaces <slug>]
+node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <s> --lane <l> --author <who> [--shared] [--replaces <slug>]
 node ~/dotfiles/script/skill-handoff-store.ts delete <slug> | --all
 ```
 
@@ -28,6 +28,10 @@ timestamp; never build a path by hand. `--help` prints the rest.
 `<audience>` = who the CST is FOR: nobody in particular → `any`; a specific agent → its token
 (`cclio` for a coordinator session, `ccli` for a plain one, `cw`, `dpatch`). `--shared` when
 several threads will pull it.
+
+`--author` = who is WRITING it — this session's own token, always passed. `--lane` = the kind of
+work this thread was, one token: `pm`, `code`, `research`, `design`, `ops`. Both default to `any`,
+and a pending list that says `any lane · by any` is a writer that skipped them.
 
 ## Before writing any CST
 
@@ -93,7 +97,7 @@ it was. Bounce → the rule above.
 Sibling check, compose, then write:
 
 ```bash
-node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <topic> <<'CST'
+node ~/dotfiles/script/skill-handoff-store.ts write --audience <a> --slug <topic> --lane <l> --author <this session's token> <<'CST'
 <the composed CST>
 CST
 ```

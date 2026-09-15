@@ -9,13 +9,28 @@ found=0
 for f in "$HOME"/.claude/shelf/handoffs/*.md; do
   [ -e "$f" ] || continue
   base=$(basename "$f")
-  audience=$(echo "$base" | cut -d- -f2)
+  stem=${base%.md}; stem=${stem%-shared}
+  # `<for>--<lane>--<topic>--by-<author>--<stamp>`; a legacy name has no `--` at
+  # all, and only its first field ever meant an audience.
+  if [[ "$stem" == *--*--*--*--* ]]; then
+    rest="$stem"
+    audience=${rest%%--*}; rest=${rest#*--}
+    lane=${rest%%--*};     rest=${rest#*--}
+    topic=${rest%%--*};    rest=${rest#*--}
+    author=${rest%%--*};   author=${author#by-}
+    line="$lane lane · by $author · $topic"
+  else
+    audience=${stem%%-*}
+    line="$base (legacy name — no lane, no author)"
+  fi
+  # A whitelist, so an unparsed field can never wrongly claim a file is someone
+  # else's and get it left behind forever.
   case "$audience" in
-    cclio|any) tag="" ;;
-    *) tag=" [addressed to: $audience — leave it]" ;;
+    cw|ccli|dpatch) tag=" [for $audience — leave it]" ;;
+    *) tag="" ;;
   esac
   age_min=$(( ( $(date +%s) - $(stat -f %m "$f") ) / 60 ))
-  echo "$base (${age_min}m old)$tag"
+  echo "$line (${age_min}m old)$tag"
   found=1
 done
 [ "$found" = 0 ] && echo "none"

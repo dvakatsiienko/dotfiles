@@ -29,6 +29,20 @@ const SPEC_PATH = join(CLAUDE_HOME, 'plugin-x', 'CST-SPEC.md');
 /** Which agent this server reads for. The x-cw server is the desktop door. */
 const READER = 'cw';
 
+const AUTHOR = z
+    .string()
+    .optional()
+    .describe(
+        'Which agent WROTE this CST — "cw" from here. It lands in the filename as by-<author>, so a reader sees who to ask about it.',
+    );
+
+const LANE = z
+    .string()
+    .optional()
+    .describe(
+        'The work lane this thread ran in, one kebab-case token — e.g. "pm", "code", "research", "design". It lands in the filename, so a listing groups by kind of work.',
+    );
+
 const AUDIENCE = z
     .enum(['any', 'cw', 'cclio', 'dpatch', 'ccli'])
     .optional()
@@ -48,11 +62,13 @@ export function registerHandoffTools(server: McpServer) {
                 `Compose it as machine-optimized telegraphic text with light markdown structure, per the compression contract below. The META section is the exception: it is formatted for a human and goes first.\n\n${loadSpec()}`,
             inputSchema: {
                 audience: AUDIENCE,
+                author: AUTHOR,
                 cst: z
                     .string()
                     .describe(
                         'The complete CST document composed per the spec',
                     ),
+                lane: LANE,
                 shared: z
                     .boolean()
                     .optional()
@@ -67,7 +83,7 @@ export function registerHandoffTools(server: McpServer) {
             },
             title: 'Save handoff (CST)',
         },
-        async ({ cst, slug, shared, audience }) => {
+        async ({ cst, slug, shared, audience, author, lane }) => {
             const written = cli(
                 [
                     'write',
@@ -75,6 +91,10 @@ export function registerHandoffTools(server: McpServer) {
                     audience ?? 'any',
                     '--slug',
                     slug,
+                    '--lane',
+                    lane ?? 'any',
+                    '--author',
+                    author ?? READER,
                     ...(shared ? ['--shared'] : []),
                 ],
                 cst,
@@ -97,11 +117,13 @@ export function registerHandoffTools(server: McpServer) {
                 "Compose the CST exactly as handoff_save's description specifies; the spec lives there and is not repeated here.",
             inputSchema: {
                 audience: AUDIENCE,
+                author: AUTHOR,
                 cst: z
                     .string()
                     .describe(
                         "The complete CST document, composed per the spec in handoff_save's description",
                     ),
+                lane: LANE,
                 shared: z
                     .boolean()
                     .optional()
@@ -116,7 +138,7 @@ export function registerHandoffTools(server: McpServer) {
             },
             title: 'Supersede handoff (CST)',
         },
-        async ({ cst, slug, shared, audience }) => {
+        async ({ cst, slug, shared, audience, author, lane }) => {
             const written = cli(
                 [
                     'write',
@@ -124,6 +146,10 @@ export function registerHandoffTools(server: McpServer) {
                     audience ?? 'any',
                     '--slug',
                     slug,
+                    '--lane',
+                    lane ?? 'any',
+                    '--author',
+                    author ?? READER,
                     '--replaces',
                     slug,
                     ...(shared ? ['--shared'] : []),
@@ -142,7 +168,7 @@ export function registerHandoffTools(server: McpServer) {
         'handoff_list',
         {
             description:
-                'List the pending CSTs in the shared handoff store — slug, age, size, and tracker run id per entry — WITHOUT ingesting or deleting any of them. ' +
+                'List the pending CSTs in the shared handoff store — topic, who it is for, which lane it ran in, who wrote it, age, size, and tracker run id per entry — WITHOUT ingesting or deleting any of them. ' +
                 "Use when the user asks what handoffs are pending, and ALWAYS before saving one, to find this thread's own sibling. Entries listed separately as addressed to another agent must not be pulled. " +
                 'A handoff older than 7 days is flagged. The flag is information for the user — nothing is deleted by age, here or anywhere else. ' +
                 "Read-only: no file is consumed and no CST content enters this thread. handoff_peek shows one entry's META; handoff_ingest is the one that ingests.",
