@@ -100,6 +100,8 @@ cask "mole-app"                  # mole's native gui ($19, lifetime); separate b
 cask "notion-cli"                # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
 # NOT a cask on purpose: ilya-birman-typography-layout downloads from ilyabirman.ru, which does not resolve on this network (2026-09-14). the bundle is hand-installed in ~/Library/Keyboard Layouts, static since 2023
 cask "keka"                      # archiver — bundles its own 7zz/unar/unrar/zstd, so no archive CLIs are needed alongside it
+brew "mas"                       # app store cli — the door for App-Store-only apps below; an app must be «gotten» once on the account first
+mas "Marco", id: 6746069877      # email client on trial (free, native, no AI); newton is a direct download from newtonhq.com, no cask, no mas
 cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
 cask "wispr-flow"                # voice-to-text dictation, ai auto-edit; auto_updates, brew only installs
 cask "superwhisper"              # dictation, local whisper/parakeet models + llm reformat; auto_updates, adopted 2026-09-12
