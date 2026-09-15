@@ -95,8 +95,10 @@ cask "iterm2"                    # terminal — fallback; its prefs live in impo
 cask "font-hack-nerd-font"       # the font iTerm2 profiles name; without it, glyphs render as boxes
 cask "font-ia-writer-duo"        # cursor markdown font (iA Writer DuoS)
 cask "font-ia-writer-quattro"    # proportional sibling, for prose without tables
+cask "homebrew-app"              # BrewUI (Homebrew.app) — brew's official gui; installed 2026-09-14, the pretty face over `brew outdated`
 cask "mole-app"                  # mole's native gui ($19, lifetime); separate build from the `mole` formula, auto-updates itself
 cask "notion-cli"                # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
+# NOT a cask on purpose: ilya-birman-typography-layout downloads from ilyabirman.ru, which does not resolve on this network (2026-09-14). the bundle is hand-installed in ~/Library/Keyboard Layouts, static since 2023
 cask "keka"                      # archiver — bundles its own 7zz/unar/unrar/zstd, so no archive CLIs are needed alongside it
 cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
 cask "wispr-flow"                # voice-to-text dictation, ai auto-edit; auto_updates, brew only installs
