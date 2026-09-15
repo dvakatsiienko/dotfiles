@@ -40,7 +40,7 @@ const LANE = z
     .string()
     .optional()
     .describe(
-        'The work lane this thread ran in, one kebab-case token — e.g. "pm", "code", "research", "design". It lands in the filename, so a listing groups by kind of work.',
+        'The work lane this thread ran in, one of "pm", "code", "research", "design". It lands in the filename, so a listing groups by kind of work.',
     );
 
 const AUDIENCE = z

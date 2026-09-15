@@ -91,7 +91,7 @@ in skill bodies use bare skill names; translate with your own prefix.
 
 - **Filename** — `<for>--<lane>--<topic>--by-<author>--<utc-ts>[-shared].md`. Fields are cut on
   `--`, so a single `-` stays free inside any one of them — a topic keeps its own dashes.
-  `<lane>` is the kind of work the thread was (`pm`, `code`, `research`, `design`); `<author>` is
+  `<lane>` is the kind of work the thread was — one of `pm`, `code`, `research`, `design`; `<author>` is
   the agent that WROTE it, so a reader knows whose thread this was and who to ask. Both are `any`
   when the writer did not say. A listing reads it back as `<lane> lane · by <author> · <topic>`.
   - Two legacy shapes still parse: `<audience>-<topic>-<ts>` and a timestamp-first name. Neither
