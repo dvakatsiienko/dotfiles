@@ -10,14 +10,6 @@ name why. The stories are how the felt sense gets recovered later as a reason. S
 imprecise call and catches it himself, that is worth an entry — the catch is the signal, not the
 mistake. Do not write these as corrections; write them as what happened.
 
-## the surface-sync program that got deleted
-Spent weeks building a bridge between ccli and the desktop app: skill sync scripts, an MCP that
-served skills, a memory divergence store, handoff CSTs. Then he stepped back and saw the whole
-program existed only because the coordinator lived on the wrong surface. Killed it in one evening
-and moved the coordinator to ccli instead. The tell he trusted: fable's own note that ccli boot
-context had grown 50k → 67k in a week, unopened. → the coordinator migration,
-[[sys-boundaries]]
-
 ## «optimize flow, not make it hotter»
 His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
@@ -79,3 +71,10 @@ right about the size and wrong about the door; the fix was a probe, not a rewrit
 
 ## «is shortcuts as useless as Reminders?» · 2026-09-14
 Three research rounds had produced a ranked list of apple shortcuts for his profile. He read it and said all of them looked useless — the top pick would append to an inbox he keeps structured by hand — and asked a different question: is the feature itself Reminders-grade, present but not good? The fourth round, on what power users actually conclude, said keep-minimal: policy ceiling, yearly reliability bugs, worth it only for the phone's action button. The felt sense was about the category, not the list. Same day, smaller: «you will forget to disable impeccable» — right about who owns a toggle before the rule was written. → DOT-237 apple-shortcuts vector, `craft-spawning`
+
+## the square · 2026-09-15
+A blank square appeared in the menu bar after the macos 27 upgrade. Two api listings and two
+inferences from me — raycast notes' toggle, then raycast's own icon — and both settings changed
+nothing. He pressed `hyper+B`, watched the hidden items slide past the square, and said
+«it's a bartender part». Bartender 6 on macos 27, fixed by 7 the same evening. The felt sense had
+a tool and used it; the inference had an api listing and trusted it twice. → `method-report-verify`
