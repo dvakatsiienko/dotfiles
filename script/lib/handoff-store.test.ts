@@ -25,6 +25,7 @@ import {
     peekHandoff,
     planWrite,
     readableBy,
+    renameHandoff,
     sanitizeSlug,
     utcTs,
     writeHandoff,
@@ -44,17 +45,21 @@ afterEach(async () => {
 });
 
 describe('the filename grammar', () => {
-    test('audience, slug and timestamp round-trip', () => {
+    test('every field round-trips, and a topic keeps its own dashes', () => {
         const name = buildName({
             audience: 'cclio',
+            author: 'ccli',
+            lane: 'pm',
             shared: false,
             slug: 'pm-overhaul',
             ts: TS,
         });
 
-        expect(name).toBe(`cclio-pm-overhaul-${TS}.md`);
+        expect(name).toBe(`cclio--pm--pm-overhaul--by-ccli--${TS}.md`);
         expect(parseName(name)).toEqual({
             audience: 'cclio',
+            author: 'ccli',
+            lane: 'pm',
             shared: false,
             slug: 'pm-overhaul',
             ts: TS,
@@ -64,19 +69,49 @@ describe('the filename grammar', () => {
     test('-shared sits between the timestamp and the extension', () => {
         const name = buildName({
             audience: 'any',
+            author: 'cw',
+            lane: 'probe',
             shared: true,
             slug: 'sline-probe',
             ts: TS,
         });
 
-        expect(name).toBe(`any-sline-probe-${TS}-shared.md`);
+        expect(name).toBe(`any--probe--sline-probe--by-cw--${TS}-shared.md`);
         expect(parseName(name)?.shared).toBe(true);
         expect(parseName(name)?.slug).toBe('sline-probe');
+    });
+
+    test('the current shape carries lane and author', () => {
+        expect(
+            parseName(`cclio--pm--memory-bridge--by-ccli--${TS}.md`),
+        ).toEqual({
+            audience: 'cclio',
+            author: 'ccli',
+            lane: 'pm',
+            shared: false,
+            slug: 'memory-bridge',
+            ts: TS,
+        });
+    });
+
+    test('a legacy audience-topic-timestamp name has no lane or author', () => {
+        expect(
+            parseName('cclio-cclio-memory-bridge-halt16-20260912T215406Z.md'),
+        ).toEqual({
+            audience: 'cclio',
+            author: 'any',
+            lane: 'any',
+            shared: false,
+            slug: 'cclio-memory-bridge-halt16',
+            ts: '20260912T215406Z',
+        });
     });
 
     test('a legacy timestamp-first name still parses', () => {
         expect(parseName(`${TS}-cw-old-thread.md`)).toEqual({
             audience: 'cw',
+            author: 'any',
+            lane: 'any',
             shared: false,
             slug: 'old-thread',
             ts: TS,
@@ -86,6 +121,8 @@ describe('the filename grammar', () => {
     test('a two-segment legacy name has no audience, so it is `any`', () => {
         expect(parseName(`sline-${TS}.md`)).toEqual({
             audience: 'any',
+            author: 'any',
+            lane: 'any',
             shared: false,
             slug: 'sline',
             ts: TS,
@@ -162,7 +199,9 @@ describe('write', () => {
     test('writes the CST under the built name, private to the user', async () => {
         const written = await writeHandoff({
             audience: 'cw',
+            author: 'cclio',
             body: CST,
+            lane: 'pm',
             root,
             slug: 'probe',
             ts: TS,
@@ -170,10 +209,12 @@ describe('write', () => {
 
         expect(written.error).toBeNull();
         expect(path.basename(written.value?.path ?? '')).toBe(
-            `cw-probe-${TS}.md`,
+            `cw--pm--probe--by-cclio--${TS}.md`,
         );
 
-        const stats = await fs.stat(`${root}/cw-probe-${TS}.md`);
+        const stats = await fs.stat(
+            `${root}/cw--pm--probe--by-cclio--${TS}.md`,
+        );
         expect(stats.mode & 0o777).toBe(0o600);
     });
 
@@ -206,7 +247,7 @@ describe('replace — the upmerge', () => {
 
         expect(written.error).toBeNull();
         expect((await listStore({ root })).map((one) => one.name)).toEqual([
-            'cclio-pm-20260831T130000Z.md',
+            'cclio--any--pm--by-any--20260831T130000Z.md',
         ]);
     });
 
@@ -236,7 +277,7 @@ describe('replace — the upmerge', () => {
                 slug: 'probe',
                 ts: TS,
             }).value?.name,
-        ).toBe(`cw-probe-${TS}-shared.md`);
+        ).toBe(`cw--any--probe--by-any--${TS}-shared.md`);
     });
 
     test('replacing nothing is an error, never a quiet second file', async () => {
@@ -322,6 +363,45 @@ describe('ingest', () => {
 
         expect(taken.error).toMatch(/several pending handoffs match/);
         expect((await listStore({ root })).length).toBe(2);
+    });
+});
+
+describe('rename', () => {
+    test('a legacy name takes the current shape, keeping its timestamp', async () => {
+        await seed(`cclio-memory-bridge-${TS}.md`, { minutesAgo: 90 });
+        const before = await fs.stat(
+            path.join(root, `cclio-memory-bridge-${TS}.md`),
+        );
+
+        const renamed = await renameHandoff({
+            author: 'cclio',
+            lane: 'pm',
+            root,
+            slug: 'memory-bridge',
+        });
+
+        expect(renamed.value?.to).toBe(
+            `cclio--pm--memory-bridge--by-cclio--${TS}.md`,
+        );
+        const after = await fs.stat(
+            path.join(root, `cclio--pm--memory-bridge--by-cclio--${TS}.md`),
+        );
+        expect(after.mtimeMs).toBe(before.mtimeMs);
+    });
+
+    test('a name with no timestamp refuses rather than inventing one', async () => {
+        await seed('cclio-stray.md');
+
+        const renamed = await renameHandoff({
+            lane: 'pm',
+            root,
+            slug: 'stray',
+        });
+
+        expect(renamed.error).toMatch(/carries no timestamp/);
+        expect((await listStore({ root })).map((one) => one.name)).toEqual([
+            'cclio-stray.md',
+        ]);
     });
 });
 
