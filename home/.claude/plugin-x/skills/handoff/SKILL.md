@@ -30,7 +30,7 @@ timestamp; never build a path by hand. `--help` prints the rest.
 several threads will pull it.
 
 `--author` = who is WRITING it — this session's own token, always passed. `--lane` = the kind of
-work this thread was, one token: `pm`, `code`, `research`, `design`, `ops`. Both default to `any`,
+work this thread was, one of `pm`, `code`, `research`, `design`. Both default to `any`,
 and a pending list that says `any lane · by any` is a writer that skipped them.
 
 ## Before writing any CST
