@@ -52,6 +52,9 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   uninstaller app — the cask's hand-written zap stanza beats any heuristic scanner, and it clears
   the Caskroom entry an external uninstaller would orphan (measured on pearcleaner, 2026-09-13:
   zap found `Group Containers`, `Saved Application State` and a `bin/` symlink that mole missed)
+- a gui uninstall that moves the bundle to the Trash leaves its login items alive — appcleaner's
+  `SmartDelete` helper ran out of `~/.Trash` for two days and popped on every later deletion
+  (2026-09-15). after any app removal: `sfltool dumpbtm | grep -i <name>` and empty the Trash
 
 ## the bash sandbox
 

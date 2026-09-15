@@ -140,6 +140,7 @@ double-runs the work.
 - 🚨 **verify the hash after every commit** (`git log -1`) — the real risks are a silent no-op and
   a silent sweep, both observed.
 - 🚨 **bytes is ONE shared checkout: a coder's `git switch` moves every session's tree** (measured 2026-09-07 — the prettify branch took the dev servers with it). the PR lane makes every coder concurrent, so **a `coder/*` branch lives in its own worktree** (`git worktree add .claude/worktrees/BYT-N-<slug> -b coder/BYT-N-<slug> main` — `<repo>/.claude/worktrees/` is the one location, cc's own default and where `EnterWorktree` puts its trees; dima's call 2026-09-08 after two locations produced drift); the main checkout stays on `main`. `pnpm worktree:seed` makes a fresh tree runnable (`CI=1` install, env copies, port offset).
+- 📌 **a `--bg` coder briefed into a shared main checkout is refused `Edit`/`Write` by the bg-isolation guard** — it edits through Bash and works, but the brief names it: either `"worktree": {"bgIsolation": "none"}` in the spawn, or a worktree (handoff-shape coder, 2026-09-15).
 - Worktrees at ~5+ agents or genuine concurrent edits, not before. a worktree brief's step 0 is
   `CI=1 pnpm install` (inline, that command only) — kills the shared-hooks rewrite
   (`rules/fleet-hazards.md`, git hooks).

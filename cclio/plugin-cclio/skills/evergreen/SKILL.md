@@ -19,6 +19,7 @@ light.
 gh pr list -R dvakatsiienko/<repo> --search 'author:app/renovate' --json number,title,headRefName,createdAt,statusCheckRollup,body
 brew outdated --json=v2 --greedy   # the brew lane, same digest
 brew list --pinned
+brew --version                     # brew ITSELF — a major is a digest line; auto-update jumped 4 → 7 unseen (2026-09-14)
 ```
 
 tier from the branch (`renovate/<pkg>-<major>.x` = major; grouped titles say `patch` / `minor`),
