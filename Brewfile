@@ -99,6 +99,7 @@ cask "homebrew-app"              # BrewUI (Homebrew.app) — brew's official gui
 cask "mole-app"                  # mole's native gui ($19, lifetime); separate build from the `mole` formula, auto-updates itself
 cask "notion-cli"                # `ntn` — notion's official cli; the agent channel for notion, token from ~/.zshenv.local
 # NOT a cask on purpose: ilya-birman-typography-layout downloads from ilyabirman.ru, which does not resolve on this network (2026-09-14). the bundle is hand-installed in ~/Library/Keyboard Layouts, static since 2023
+cask "battle-net"                # blizzard launcher — the cask is an INSTALLER (Battle.net-Setup.app), run it once; intel-only, needs rosetta until blizzard ships silicon
 cask "keka"                      # archiver — bundles its own 7zz/unar/unrar/zstd, so no archive CLIs are needed alongside it
 brew "mas"                       # app store cli — the door for App-Store-only apps below; an app must be «gotten» once on the account first
 mas "Marco", id: 6746069877      # email client on trial (free, native, no AI); newton is a direct download from newtonhq.com, no cask, no mas
