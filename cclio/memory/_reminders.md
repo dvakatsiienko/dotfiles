@@ -16,8 +16,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 ⏰ 🦊👁️ initiatives vet — on/after 2026-09-17: did the linear initiative «roadmap» answer «what's next» at every boot for two weeks, without the md file? measure: the flawlog + CSTs of the window name no «re-read the roadmap» moment, and the step named at boot matched what dima did. yes → the vault copy `prompts/dima-roadmap.md` retires on his word. no → revert: `ln -s "…/prompts/dima-roadmap.md" cclio/memory/dima-roadmap.md` + the one barrel import line back, the strategy section stays — set 2026-09-03
 
-⏰ 🦊👁️ brew-picks vet — on/after 2026-09-15: measure gron/yq/sd usage across the fleet — `grep -lE '\bgron |yq |sd ' ~/.claude/projects/*/*.jsonl` (channel proven at set time); a tool with no real hits → drop its Brewfile line + its root CLAUDE.md tooling mention. hyperfine already dropped at pick time (occasional-use, dima's bar was regular) — set 2026-09-01
-
 ⏰ 🦊📜 spawn-mechanics artifact freshness — `docs/knowledge/spawn-mechanics.md` verified against cc 2.1.258 (2026-09-02, run #2 of `refresh-spawn-mechanics`); re-run the procedure when the cc version changes, or when a spawn behaves against a [verified] row. the subagent stack row is [volatile] — the first thing run #3 probes — set 2026-08-30
 
 
