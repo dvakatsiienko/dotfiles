@@ -115,7 +115,16 @@ same message («hold #61») subtract from the round.
   carries it.
 - **brew** → `brew upgrade` in the background (a long run), the result line in the next reply.
 - after the round: `git pull` both mains, then `pnpm install` in each (his tree is stale until then; lockfile-driven, fast); a merged bytes round redeploys prod, say so. `pnpm dedupe` is its own deliberate commit once in a while, never a reinstall — a wipe re-resolves peers and floats transitives, which is the «different lockfile» he noticed.
-- **skills lane, weekly with brew** — the agent skills renovate cannot see: `npx skills update` in bytes and dotfiles (vercel's `skills` cli; `skills-lock.json` knows the sources — the convex set in `apps/x-com-chat` sat 5 months stale because nobody looks there), and `greptile skills update`. one line in the digest per repo when something moved.
+- **skills lane, weekly with brew** — the agent skills renovate cannot see. the `skills` cli has no
+  machine-wide list and no check command: `list`/`update` see the cwd's project OR global (`-g`),
+  never both, so every scope runs on its own. the three lockfiles are the source of truth:
+  `npx -y skills@latest update -p -y` in `~/projects/bytes` (`skills-lock.json`: next.js, shadcn,
+  turborepo) and in `~/projects/bytes/apps/x-com-chat` (the convex set — sat 5 months stale
+  because nobody looked there), then `npx -y skills@latest update -g -y` once
+  (`~/.agents/.skill-lock.json`, untracked — snapshot it to the scratchpad first). dotfiles has
+  no project skills. `greptile skills update` rides the same lane. the digest line per scope is
+  the lockfile diff (`git diff -- '**/skills-lock.json'` in bytes, a byte-compare for global);
+  a moved hash names the skill.
 
 ## completion criterion
 
