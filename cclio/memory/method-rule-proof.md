@@ -20,6 +20,10 @@ it — «inferred» as a label does not help; a rule reads as a rule regardless.
 🚫 Never sweep existing rules to add commands — that fabricates tests nobody ran. Add the line
 when a rule is touched anyway.
 
+🎯 **A probe of a door names a target KNOWN to work through that door first.** `raycast://confetti`
+was a disabled command and «no confetti» read as a dead url scheme — a reinstall later, the app's own
+log said `No enabled command` (2026-09-16, second sighting of the shape). No positive control, no verdict.
+
 🎯 **The command must exercise the thing claimed.** A probe measures the path it runs, not the
 concept it is named after: `cat` via Bash and the `Read` tool are different events to the harness,
 and only one fires a scoped rule. A null result is a claim about your instrument first
