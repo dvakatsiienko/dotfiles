@@ -120,10 +120,10 @@ failing `$(...)` leaves `DIR="$SHELF/"` and the download lands in the store root
 python3 "$SCRIPTS/clean_captions.py" captions.vtt transcript.txt "$WORK/meta.json"
 
 jq -n --slurpfile m "$WORK/meta.json" --arg url "$URL" --arg lang '<the one code>' \
-      --arg at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+      --arg at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg mode '<fetch|transit>' \
   '{url: $url, video_id: $m[0].id, title: $m[0].title,
     channel: ($m[0].channel // $m[0].uploader), duration_seconds: $m[0].duration,
-    upload_date: $m[0].upload_date, source: "captions", caption_lang: $lang, fetched_at: $at}' \
+    upload_date: $m[0].upload_date, source: "captions", caption_lang: $lang, fetched_at: $at, mode: $mode}' \
   > metadata.json
 
 rm -rf "$WORK"
@@ -150,7 +150,8 @@ ls "$SHELF"
 ```
 
 Delete only AFTER the transcript is in the conversation; the `ls` is the receipt — confirm the
-dir is gone. 🚫 Never delete anything but this video's dir. 🚫 `transit` never applies in recall.
+dir is gone. A dir whose `metadata.json` says `mode: transit` is a transit that died
+before this step — delete it on sight and say so; `mode: fetch` dirs are kept on purpose. 🚫 Never delete anything but this video's dir. 🚫 `transit` never applies in recall.
 
 ## Recall
 
