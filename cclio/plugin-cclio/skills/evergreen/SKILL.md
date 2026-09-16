@@ -125,6 +125,11 @@ same message («hold #61») subtract from the round.
   no project skills. `greptile skills update` rides the same lane. the digest line per scope is
   the lockfile diff (`git diff -- '**/skills-lock.json'` in bytes, a byte-compare for global);
   a moved hash names the skill.
+- **plugins lane, same weekly slot** — a marketplace refreshes itself only where
+  `known_marketplaces.json` says `autoUpdate: true` (`x`, warp today); the rest, and a disabled
+  plugin, sit still (measured 2026-09-16: impeccable cached 4.2.1, upstream 4.3.1, disabled).
+  `claude plugin marketplace update` then `claude plugin update <name>` for those; a bump is one
+  digest line and binds next session.
 
 ## completion criterion
 
