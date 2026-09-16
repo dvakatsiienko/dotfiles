@@ -68,7 +68,6 @@ brew "docker-compose"
 
 # ── Media and data ──────────────────────────────────────────────────────────
 brew "jq"                        # JSON on the command line
-brew "gron"                      # JSON → greppable path=value lines; schema discovery in one pipe
 brew "yq"                        # jq-syntax for YAML/TOML — settings.toml, lefthook configs
 brew "sd"                        # sed replacement without the macos -i '' quoting traps
 brew "ffmpeg"
