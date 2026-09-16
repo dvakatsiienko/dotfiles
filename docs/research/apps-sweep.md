@@ -19,6 +19,18 @@ carries the command or the measurement it came from.
 - 4 hand-installed and **not** hoistable by adopt — 3 pkg casks, 1 cask mismatch
 - 21 remaining have no cask at all or are app-store-only
 
+## applied 2026-09-16 (dima's picks, first pass)
+
+- 🗑️ trashed: `GitHub Desktop` (+ its Application Support), `Otter`, `Sherlock`. `github` leaves the hoist list
+- 🗑️ OpenVPN orphan: daemon booted out, plist + both frameworks removed by dima (sudo). the `dumpbtm` rows are stale database entries pointing at a deleted plist; they clear on the next reboot or `sfltool resetbtm`
+- ⏸️ `Google Docs/Sheets/Slides` launchers are `root:wheel` (installed by drive's pkg) — `trash` refused; `sudo rm -rf` is dima's. drive for desktop has no «desktop shortcuts» preference on this build; expect them back after a drive update
+- 🚫 not deletable, SIP: Image Capture, Automator, Chess, Games, Home, Journal, News, Photo Booth, Reminders, Stickies, Stocks live in `/System/Applications`; finder overlays them. hidden from raycast instead (Settings → Extensions → Applications, uncheck)
+- keep: Warcraft III (dima's game)
+- 🗑️ second pass: Comet (+ support dir), ComfyUI app + `~/Documents/ComfyUI` (1.2 GB) + logs, the Draw Things model container (16 GB, `~/Library/Containers/com.liuliu.draw-things`); the root-owned `Draw Things.app` bundle is dima's sudo
+- 🗑️ 28 steam shortcut launchers in `~/Applications` (`run.sh` → `steam://rungameid`), the tails every cleaner skips because they are valid bundles in a user folder. games untouched, steam recreates a launcher on request. untick «add desktop shortcut» on future installs; the evergreen brew step diffs `~/Applications` launchers against `steamapps/common`
+- ✅ adopt run 2026-09-16: 25 casks adopted (`macvim-app`, `neovide-app` under their renamed casks), Brewfile section added; `nuphyio` refused at 2.2.6, adopted after dima updated it to 2.2.7 (26 total); cleanshot's accidental 5.0 receipt removed from the Caskroom, app stays 4.8.10 unmanaged. google launchers removed by dima (sudo). every other delete candidate stays by dima's word
+- cleanshot: never adopt — cask is 5.0 with a licence wall, installed 4.8.10 stays hand-managed
+
 ## 1. hoist under brew
 
 all 32 below are owned by `dima`, so none needs a tty. checked with

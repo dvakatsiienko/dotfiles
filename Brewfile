@@ -106,3 +106,32 @@ mas "Marco", id: 6746069877      # email client on trial (free, native, no AI); 
 cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
 cask "wispr-flow"                # voice-to-text dictation, ai auto-edit; auto_updates, brew only installs
 cask "superwhisper"              # dictation, local whisper/parakeet models + llm reformat; auto_updates, adopted 2026-09-12
+
+# ── Apps hoisted from /Applications (the 2026-09-16 sweep) ──────────────────
+cask "1password"                 # password manager, the SSH signing agent lives here
+cask "bartender"                 # menu bar — v7
+cask "betterdisplay"             # display control + `betterdisplaycli`
+cask "claude"                    # claude desktop
+cask "conductor"                 # parallel coder workspaces
+cask "cursor"                    # the editor
+cask "discord"
+cask "figma"
+cask "firefox"
+cask "google-chrome"             # the browser
+cask "granola"                   # meeting notes
+cask "linear"                    # the tracker's desktop app
+cask "loom"
+cask "macvim-app"                # gui vim
+cask "neovide-app"               # gui neovim
+cask "notion"
+cask "notion-calendar"
+cask "nuphyio"                   # nuphy keyboard config
+cask "perplexity"
+cask "slack"
+cask "spotify"
+cask "steam"
+cask "t3-code"
+cask "tunnelbear"                # the vpn
+cask "viber"
+cask "visual-studio-code"
+# cleanshot — adopted by accident with a 5.0 receipt over a licensed 4.8.10; NOT listed until resolved
