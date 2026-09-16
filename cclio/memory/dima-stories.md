@@ -78,3 +78,12 @@ inferences from me — raycast notes' toggle, then raycast's own icon — and bo
 nothing. He pressed `hyper+B`, watched the hidden items slide past the square, and said
 «it's a bartender part». Bartender 6 on macos 27, fixed by 7 the same evening. The felt sense had
 a tool and used it; the inference had an api listing and trusted it twice. → `method-report-verify`
+
+## the subtle flicker · 2026-09-16
+He switched the AW3225QF from fixed 120 Hz to variable and said: «sometimes observe a strange effect. it is
+very hard to notice … the parts that have a lot of solid color in the background a bit flicker … hard to
+explain verbally why it happens.» No reason, only the feel and the place it showed (a beige app
+background). The research named it in one pass: QD-OLED gamma spikes at particular frame rates under
+VRR, worst on flat mid-tones, apple's own page says «choose a fixed refresh rate instead». The felt
+sense had the mechanism's fingerprint — solid colour, subtle, not distortion — before any of us had
+the word for it. → DOT-237 session notes, fixed 120 Hz
