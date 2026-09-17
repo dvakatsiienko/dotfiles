@@ -4,6 +4,8 @@ import type { Hotkey } from '../lib/hotkeys-manual.ts';
 import {
     byApp,
     byChord,
+    byLabelledChord,
+    labelAt,
     ofKind,
     parseEvents,
     selectEvents,
@@ -194,5 +196,46 @@ describe('unpressed', () => {
         expect(unpressed(bindings, events).map((h) => h.action)).not.toContain(
             'push to talk',
         );
+    });
+});
+
+describe('labelAt', () => {
+    const bindings: Hotkey[] = [
+        { action: 'All-In-One', app: 'cleanshot', key: '5', mods: 'cmd+shift' },
+        {
+            action: 'Scrolling Capture',
+            app: 'cleanshot',
+            key: '5',
+            mods: 'cmd+shift',
+            since: '2026-09-17',
+        },
+    ];
+
+    it('keeps the older meaning for a press before the reshuffle', () => {
+        expect(
+            labelAt(bindings, 'shift+cmd+5', '2026-09-10T10:00:00Z')?.action,
+        ).toBe('All-In-One');
+    });
+
+    it('uses the dated meaning for a press after it', () => {
+        expect(
+            labelAt(bindings, 'shift+cmd+5', '2026-09-18T10:00:00Z')?.action,
+        ).toBe('Scrolling Capture');
+    });
+
+    it('tallies a swapped chord as one row per meaning', () => {
+        const events = parseEvents(
+            [
+                chord('2026-09-10T10:00:00Z', 'shift+cmd+5'),
+                chord('2026-09-18T10:00:00Z', 'shift+cmd+5'),
+                chord('2026-09-18T11:00:00Z', 'shift+cmd+5'),
+            ].join('\n'),
+        );
+        expect(
+            tally(events, byLabelledChord(bindings)).map((row) => row.name),
+        ).toEqual([
+            'shift+cmd+5\tScrolling Capture\tcleanshot',
+            'shift+cmd+5\tAll-In-One\tcleanshot',
+        ]);
     });
 });

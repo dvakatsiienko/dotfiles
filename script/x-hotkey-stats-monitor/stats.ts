@@ -87,6 +87,37 @@ export const tally = (
 };
 
 export const byChord = (event: LogEvent) => event.chord ?? '';
+
+// The label a chord carried when it was pressed: the binding for that chord whose `since` is the
+// latest one not after the press (a row without `since` is the oldest meaning). A reshuffle
+// then adds a dated row and the history stays honest instead of being relabelled.
+export const labelAt = (
+    hotkeys: readonly Hotkey[],
+    chord: string,
+    ts: string,
+): Hotkey | undefined =>
+    hotkeys
+        .filter(
+            (hotkey) =>
+                chordOf(hotkey) === chord &&
+                (hotkey.since === undefined || hotkey.since <= ts),
+        )
+        .sort((a, z) => (a.since ?? '').localeCompare(z.since ?? ''))
+        .at(-1);
+
+export const LABEL_SEPARATOR = '\t';
+
+// Tally key for the chords table: the chord plus the label it had at press time, so a swapped
+// chord shows one row per meaning.
+export const byLabelledChord =
+    (hotkeys: readonly Hotkey[]) =>
+    (event: LogEvent): string => {
+        const chord = event.chord ?? '';
+        const hotkey = labelAt(hotkeys, chord, event.ts);
+        return hotkey
+            ? `${chord}${LABEL_SEPARATOR}${hotkey.action}${LABEL_SEPARATOR}${hotkey.app}`
+            : chord;
+    };
 export const byApp = (event: LogEvent) => event.app;
 
 // Bound somewhere, never pressed in the window — the rebind candidates.

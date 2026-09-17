@@ -122,28 +122,31 @@ const wispr = (): Hotkey[] => {
     );
     const binds: { shortcut: number[]; value: string }[] =
         config.prefs.cache.splitKeybinds;
-    return binds.map(({ shortcut, value }) => {
-        const mods = shortcut
-            .filter((c) => modifierCodes.has(c))
-            .map((c) => keyCap[c]);
-        const keys = shortcut
-            .filter((c) => !modifierCodes.has(c))
-            .map((c) => keyCap[c] ?? String(c));
-        return keys.length === 0
-            ? {
-                  action: value,
-                  app: 'wispr flow',
-                  key: mods.join('+'),
-                  mods: '',
-                  note: 'bare modifier',
-              }
-            : {
-                  action: value,
-                  app: 'wispr flow',
-                  key: keys.join('+'),
-                  mods: mods.join('+'),
-              };
-    });
+    // `paste_event` is wispr's hook on the system paste chord, not a binding of its own
+    return binds
+        .filter(({ value }) => value !== 'paste_event')
+        .map(({ shortcut, value }) => {
+            const mods = shortcut
+                .filter((c) => modifierCodes.has(c))
+                .map((c) => keyCap[c]);
+            const keys = shortcut
+                .filter((c) => !modifierCodes.has(c))
+                .map((c) => keyCap[c] ?? String(c));
+            return keys.length === 0
+                ? {
+                      action: value,
+                      app: 'wispr flow',
+                      key: mods.join('+'),
+                      mods: '',
+                      note: 'bare modifier',
+                  }
+                : {
+                      action: value,
+                      app: 'wispr flow',
+                      key: keys.join('+'),
+                      mods: mods.join('+'),
+                  };
+        });
 };
 
 const magnet = (): Hotkey[] => {

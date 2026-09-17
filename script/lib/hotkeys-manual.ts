@@ -7,6 +7,7 @@ export const manualHotkeys = [
             ['x', 'Calculator'],
             ['k', 'Calendar'],
             ['a', 'Claude'],
+            ['b', 'Bartender toggle'],
             ['2', 'Cursor'],
             ['3', 'Figma'],
             ['f', 'Finder'],
@@ -52,6 +53,20 @@ export const manualHotkeys = [
         key: '3',
         mods: 'opt',
     },
+    // cleanshot commands, bound in raycast's cleanshot extension (sealed 2026-09-17; reshuffle from the monitor in ~2 weeks)
+    {
+        action: 'Capture Window',
+        app: 'cleanshot',
+        key: '1',
+        mods: 'cmd+shift',
+        since: '2026-09-17',
+    },
+    {
+        action: 'Capture Text (OCR)',
+        app: 'cleanshot',
+        key: '2',
+        mods: 'cmd+shift',
+    },
     {
         action: 'Capture Fullscreen',
         app: 'cleanshot',
@@ -59,7 +74,92 @@ export const manualHotkeys = [
         mods: 'cmd+shift',
     },
     { action: 'Capture Area', app: 'cleanshot', key: '4', mods: 'cmd+shift' },
-    { action: 'All-In-One', app: 'cleanshot', key: '5', mods: 'cmd+shift' },
+    {
+        action: 'Scrolling Capture',
+        app: 'cleanshot',
+        key: '5',
+        mods: 'cmd+shift',
+    },
+    {
+        action: 'All-In-One',
+        app: 'cleanshot',
+        key: '6',
+        mods: 'cmd+shift',
+        since: '2026-09-17',
+    },
+    {
+        action: 'Open History',
+        app: 'cleanshot',
+        key: '7',
+        mods: 'cmd+shift',
+        since: '2026-09-17',
+    },
+    {
+        action: 'Annotate',
+        app: 'cleanshot',
+        key: '8',
+        mods: 'cmd+shift',
+        since: '2026-09-17',
+    },
+    {
+        action: 'Record Screen',
+        app: 'cleanshot',
+        key: '9',
+        mods: 'cmd+shift',
+        since: '2026-09-17',
+    },
+    {
+        action: 'Open from Clipboard',
+        app: 'cleanshot',
+        key: '0',
+        mods: 'cmd+shift',
+    },
+    // system settings → accessibility → read & speak → speak selection (siri voice 4); hotkey buried in its ⓘ sheet
+    {
+        action: 'Speak selection (read aloud)',
+        app: 'macos',
+        key: 'esc',
+        mods: 'opt',
+    },
+    // system chords — obvious, but a labelled row beats a bare one in `hk`
+    ...(
+        [
+            ['tab', 'switch app'],
+            ['v', 'paste'],
+            ['c', 'copy'],
+            ['a', 'select all'],
+            ['w', 'close window'],
+            ['q', 'quit app'],
+            ['k', 'app command palette / link'],
+            [',', 'app settings'],
+            ['left', 'line start'],
+            ['right', 'line end'],
+            ['esc', 'accessibility reader (read & speak)'],
+        ] as const
+    ).map(
+        ([key, action]): Hotkey => ({ action, app: 'macos', key, mods: 'cmd' }),
+    ),
+    ...(
+        [
+            ['left', 'word left'],
+            ['right', 'word right'],
+            ['backspace', 'delete word'],
+        ] as const
+    ).map(
+        ([key, action]): Hotkey => ({ action, app: 'macos', key, mods: 'opt' }),
+    ),
+    {
+        action: 'select word left',
+        app: 'macos',
+        key: 'left',
+        mods: 'opt+shift',
+    },
+    {
+        action: 'select word right',
+        app: 'macos',
+        key: 'right',
+        mods: 'opt+shift',
+    },
     { action: 'Autofill', app: '1password', key: '\\', mods: 'cmd' },
     { action: 'Lock 1Password', app: '1password', key: 'l', mods: 'cmd+shift' },
 ] satisfies readonly Hotkey[];
@@ -71,4 +171,6 @@ export interface Hotkey {
     key: string;
     action: string;
     note?: string;
+    // ISO date the binding took this meaning; a press before it keeps the older row's label
+    since?: string;
 }
