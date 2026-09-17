@@ -36,6 +36,13 @@ pick per op is the cheapest lane that does not break the vault; nothing here is 
   throttles and drops results. every call `</dev/null` — `ntn api` hangs on an open stdin.
 - `ntn api` needs `-X PATCH|POST` and a bare `/v1/…` path; `ntn pages trash` needs `--yes`
   non-interactively; writes echo the whole page — `| jq -r .id` to keep the reply small.
+- **access is by nesting, never by link**: the `ntn-agent` integration reaches a page only under a
+  root it was granted (games · job · dev · cooking · cool names, 2026-09-17); a page merely
+  mentioned on a granted page 404s. grant a root once, nest under it; notion has no workspace-wide grant.
+- `ntn pages edit --content` replaces the whole page — block-level patching goes through `ntn api`.
+  an icon is `ntn api /v1/pages/<id> -X PATCH -d '{"icon":{"type":"emoji","emoji":"📷"}}'`
+  (`pages create` has no icon flag; dima wants every page iconed).
+- `WebFetch` on a notion url returns the app shell, never content — notion is `ntn`-only.
 - 🚫 the notion connector (hosted mcp) for edits: one appended paragraph cost 23 s, 5 tool calls
   and 1 % of a 5-hour window; `ntn` did it in 0.7 s and 271 bytes. it is disconnected.
 
