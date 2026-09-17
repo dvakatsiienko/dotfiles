@@ -15,10 +15,12 @@ import { chordOf } from '../lib/hotkeys-chord.ts';
 import type { Hotkey } from '../lib/hotkeys-manual.ts';
 import { bold, dim, done, note, step, title, warn, yb } from '../lib/print.ts';
 import {
+    LABEL_SEPARATOR,
     type LogEvent,
     type Tally,
     byApp,
     byChord,
+    byLabelledChord,
     ofKind,
     parseEvents,
     selectEvents,
@@ -177,8 +179,15 @@ if (all.length === 0) {
     process.exit(0);
 }
 
+const bindings = readBindings();
+
+const chordLabel = (name: string) => {
+    const [chord, action, app] = name.split(LABEL_SEPARATOR);
+    return chord && action ? `${chord}  ${dim(`${action} · ${app}`)}` : name;
+};
+
 step(`chords  ${dim(`${chords.length} presses`)}`);
-table(tally(chords, byChord));
+table(tally(chords, byLabelledChord(bindings)), chordLabel);
 
 step('chords per app');
 table(tally(chords, byApp), appName);
@@ -188,7 +197,6 @@ if (switches.length > 0) {
     table(tally(switches, byApp), appName);
 }
 
-const bindings = readBindings();
 if (bindings.length === 0) {
     step('bound but never pressed');
     warn('hotkeys:scan returned nothing — skipping the join');
