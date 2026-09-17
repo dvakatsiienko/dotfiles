@@ -107,6 +107,7 @@ cask "battle-net"                # blizzard launcher — the cask is an INSTALLE
 cask "keka"                      # archiver — bundles its own 7zz/unar/unrar/zstd, so no archive CLIs are needed alongside it
 brew "mas"                       # app store cli — the door for App-Store-only apps below; an app must be «gotten» once on the account first
 mas "Marco", id: 6746069877      # email client on trial (free, native, no AI); newton is a direct download from newtonhq.com, no cask, no mas
+mas "hide.me VPN", id: 953040671     # free vpn with a real country picker; tunnelbear free lost the pick 2026-01
 cask "coderabbit"                # `coderabbit` cli — local ai code review; the gh app is retired, cli only
 cask "wispr-flow"                # voice-to-text dictation, ai auto-edit; auto_updates, brew only installs
 cask "superwhisper"              # dictation, local whisper/parakeet models + llm reformat; auto_updates, adopted 2026-09-12
