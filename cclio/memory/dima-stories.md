@@ -15,14 +15,6 @@ His clearest piece of feedback about how the agent was failing him. Not wrong an
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
 he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
 
-## the audit i relayed without reading
-Ran a subagent over the memory store, then patched leaves from its report without opening them. One
-finding was wrong — it read a conditional clause («after the migration proves out, dispatch becomes
-a reader») as a claim the trial had ended. He caught it and asked for another round done by hand.
-That second round found six defects the subagent had missed, including a leaf pointing at a
-directory that does not exist. The lesson is not «subagents are unreliable» — it is that a report is
-a candidate and reading is the verification. → [[method-report-verify]]
-
 ## the alias prune that ran on one word · 2026-09-03
 «take care of git» was read as a go, and an alias sweep ran while he was still reading the
 proposal; a coder's replies arriving in between were read as his advancement. He said the rule
@@ -87,3 +79,13 @@ background). The research named it in one pass: QD-OLED gamma spikes at particul
 VRR, worst on flat mid-tones, apple's own page says «choose a fixed refresh rate instead». The felt
 sense had the mechanism's fingerprint — solid colour, subtle, not distortion — before any of us had
 the word for it. → DOT-237 session notes, fixed 120 Hz
+
+## «it definitely 100 % worked before» · 2026-09-17
+Three research rounds and my own probe said the caret language indicator could not be turned off
+globally on macOS 27 without losing the Birman layouts — the pref made them vanish from the
+system's list. He had no cause, only the memory that a coder had fixed it once, and he sent me
+back in twice. The fix was a name-versus-id quirk: with the pref off the system renames custom
+layouts, and selecting by display name works in both states. His felt sense was wrong about the
+cause (the OS upgrade) and right about the thing that mattered: a global fix existed. → the
+layout script commands, `x:notes`-adjacent lesson in method-report-verify: a «no» from three
+rounds is still an inference when nobody probed the door by another name
