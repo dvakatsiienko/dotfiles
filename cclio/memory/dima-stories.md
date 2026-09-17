@@ -87,5 +87,5 @@ system's list. He had no cause, only the memory that a coder had fixed it once, 
 back in twice. The fix was a name-versus-id quirk: with the pref off the system renames custom
 layouts, and selecting by display name works in both states. His felt sense was wrong about the
 cause (the OS upgrade) and right about the thing that mattered: a global fix existed. → the
-layout script commands, `x:notes`-adjacent lesson in method-report-verify: a «no» from three
-rounds is still an inference when nobody probed the door by another name
+layout script commands; the method-report-verify lesson: a «no» from three rounds is still an
+inference while a door stays unprobed by another name
