@@ -41,3 +41,7 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰ cleanshotx raycast ext — revisit once the `cleanshot://capture-area` quicklink + hotkey exists (DOT-237 phase 5): if the quicklink covers «capture area» (99 % of dima's captures), delete the ext. also mind the chord depth: cleanshot native = `cmd+shift+4`, raycast = modifier+key only — set 2026-09-16
 
 ⏰ github raycast ext — at the next open pr (a coder's or renovate's): dima tests `My Pull Requests` (open only, by category) vs `Search Pull Requests` (all states, query-driven) and keeps ONE; the other command gets disabled. dima 2026-09-16: «i don't need two very similar commands at once» — set 2026-09-16
+
+⏰ 🦊👁️ cleanshot hotkey reshuffle — on/after 2026-10-01: `hk --days 14` → which of `⇧⌘0–9` got pressed (1 window · 2 ocr · 3 full · 4 area · 5 scroll · 6 aio · 7 history · 8 annotate · 9 record · 0 clipboard); propose the reshuffle to dima, then dated `since` rows in `script/lib/hotkeys-manual.ts` — set 2026-09-17
+
+⏰ node pin drift — `.node-version` is `24` in dotfiles and bytes (fnm resolves the installed major); a `Can't find an installed Node version` prompt in any shell means a pin drifted back to a patch — repin to the major, never install the patch — set 2026-09-17
