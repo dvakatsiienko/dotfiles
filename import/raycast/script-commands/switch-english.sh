@@ -8,4 +8,5 @@
 # @raycast.keyword eng
 
 # a lib to switch keyboard layouts — https://github.com/Lutzifer/keyboardSwitcher
-/opt/homebrew/bin/keyboardSwitcher select "org.sil.ukelele.keyboardlayout.t.english–ilyabirmantypography"
+# selects by display NAME on purpose: with TSMLanguageIndicatorEnabled=0 macos derives different ids for custom layouts and select-by-id fails
+/opt/homebrew/bin/keyboardSwitcher select "English – Ilya Birman Typography" >/dev/null 2>&1 && echo "🇺🇸 english"
