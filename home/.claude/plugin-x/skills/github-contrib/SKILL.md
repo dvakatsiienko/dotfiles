@@ -60,6 +60,9 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   `gh label list`, search open issues for a dupe. dupe found → comment there instead.
 - **labels are mandatory** — pick from the repo's actual set, or say in the issue why none
   fits. never file bare.
+- on a repo we do not own, labels are the maintainers' to set: `gh issue edit --add-label`
+  answers «failed to update» without saying why. name the labels you would pick in the body
+  instead, and never report them as set.
 - fill the template's fields; a bug report carries repro steps and a version/environment block.
 - write it easy to read by a human and easy to resolve by an agent.
 
