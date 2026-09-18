@@ -11,7 +11,7 @@
         {
             "name": "linear-query-wide",
             "title": "linear query wide",
-            "subtitle": "Linear",
+            "subtitle": "x-ray",
             "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
             "keywords": [
                 "linear",
@@ -45,7 +45,7 @@
         {
             "name": "handoffs",
             "title": "handoffs",
-            "subtitle": "x-com",
+            "subtitle": "x-ray",
             "description": "Read the handoff shelf, paste an ingest command, or open a transcript in Cursor.",
             "keywords": [
                 "handoff",
@@ -54,7 +54,8 @@
                 "claude",
                 "ingest",
                 "session",
-                "transcript"
+                "transcript",
+                "x-com"
             ],
             "icon": "handoffs.png",
             "mode": "view"
@@ -62,7 +63,7 @@
         {
             "name": "schedule",
             "title": "schedule",
-            "subtitle": "launchd",
+            "subtitle": "x-ray",
             "description": "What our launch agents do, when they next fire, and how the last run ended.",
             "keywords": [
                 "schedule",
@@ -80,7 +81,7 @@
         {
             "name": "currency",
             "title": "currency",
-            "subtitle": "monobank",
+            "subtitle": "x-ray",
             "description": "monobank buy and sell rates for the hryvnia — type an amount to convert it at the sell rate.",
             "keywords": [
                 "currency",
