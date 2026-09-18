@@ -17,14 +17,14 @@ export const readHandoffList = async (): Promise<Handoff[]> => {
 
 export const readHandoffBody = (path: string) => readFile(path, 'utf8');
 
-// `/x:handoff-ingest <topic>` picks this file out of the shelf. A handoff addressed to the
-// coordinator also needs `/cclio:init` in front, because the session reading it has to boot
-// as cclio first; every other audience ingests into a session that is already itself.
-export const toIngestCommand = (handoff: Handoff) => {
-    const ingest = `/x:handoff-ingest ${handoff.topic}`;
+// `/x:handoff-ingest <topic>` picks this file out of the shelf; `/cclio:init` in front boots
+// the reading session as the coordinator first. Which one is wanted depends on the session
+// being pasted into, not on the file, so both lines are offered and the choice is the keypress.
+export const toIngestLine = (handoff: Handoff) =>
+    `/x:handoff-ingest ${handoff.topic}`;
 
-    return handoff.audience === 'cclio' ? `/cclio:init ${ingest}` : ingest;
-};
+export const toCclioInitLine = (handoff: Handoff) =>
+    `/cclio:init ${toIngestLine(handoff)}`;
 
 export const toAge = (modifiedAt: number) => {
     const minutes = Math.max(0, Math.round((Date.now() - modifiedAt) / 60_000));
