@@ -88,6 +88,9 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - renaming a `.gitignore` path un-ignores whatever the OLD path still holds — `git add -A`
   staged a compiled binary right after a rename (2026-09-14); read the staged list before the
   commit
+- an `sd` replacement never carries a `$` — inside a double-quoted argument the shell expands
+  `$dir` / `$line` to nothing and the line ships hollow (three sightings, 2026-09-17/18). that
+  edit goes through the Edit tool or a python literal
 
 ## green statuses
 

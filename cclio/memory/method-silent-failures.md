@@ -46,6 +46,9 @@ passes; assert what must REMAIN** — pointer count, byte count, a known-good li
 `echo ===DIVIDER===` in a chained command aborts the WHOLE chain — zsh equals-expansion tries to
 resolve `==DIVIDER==` as a command path, fails, and everything after the `&&` never runs (`(eval):1:
 ==DIVIDER== not found`). bit twice in one day. **quote separators, or drop the flair.**
+same class: an unquoted `*` inside an option value — `grep --include=*.md` — is a glob, and with
+nothing to match zsh aborts the whole chain (`no matches found`); the next command then read a
+file the aborted one never wrote (2026-09-18). **quote it: `--include='*.md'`.**
 
 ## ❗ a truncated read recorded as a truncated source
 
