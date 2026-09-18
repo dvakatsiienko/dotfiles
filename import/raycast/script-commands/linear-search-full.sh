@@ -25,5 +25,5 @@ case "$count" in
   1) echo "$json" | "$JQ" -r '.data.issues.nodes[0] | "\(.identifier)  \(.title)"'
      url=$(echo "$json" | "$JQ" -r '.data.issues.nodes[0].url'); open "${url/https:\/\//linear://}" ;;
   *) echo "$count hits for: $1"; echo
-     echo "$json" | "$JQ" -r '.data.issues.nodes[] | "\(.identifier)  https://linear.app/x-com/issue/\(.identifier)  —  \(.title)"' ;;
+     echo "$json" | "$JQ" -r '.data.issues.nodes[] | "\(.identifier)  \(.title)\n         https://linear.app/x-com/issue/\(.identifier)\n"' ;;
 esac
