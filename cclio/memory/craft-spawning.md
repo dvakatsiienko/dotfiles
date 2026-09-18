@@ -42,10 +42,10 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
 2. **name + argv** — the template, literal, prompt BEFORE `--remote-control` (measured 2026-09-07: the flag ate a 1.5 kB brief as its rc label → 400, idle child):
-   `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort high '/x:coder-brief BYT-N <job> coordinator: <session id>' --remote-control`
+   `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort high '/x:coder-brief BYT-N <job> coordinator: <cclio registry name>' --remote-control`
    **a pr-lane coder spawns with its verifier** (dima 2026-09-18, spec = `x:verifier-brief`): the ticket carries an `exit` section (given/when/then, 3–6 lines, written at spawn, approved in the same ⏳ block — no exit lines, no spawn); after the coder's pr exists:
-   `cd <repo> && claude --bg -n '🔎 verify: BYT-N' --model opus --effort high '/x:verifier-brief BYT-N <pr url> <coder session id> <cclio session id>' --remote-control`
-   the coder's brief carries the verifier's session id; freebies and `dima`-mode coders get no verifier. model tier is a trial, not a decision: pr 1 opus high, pr 2 sonnet high, compare unique findings; the ci reviewer stays for those two prs as the control, then earns its place or goes.
+   `cd <repo> && claude --bg -n '🔎 verify: BYT-N' --model opus --effort high '/x:verifier-brief BYT-N <pr url> <coder registry name> <cclio registry name>' --remote-control`
+   the coder's brief names the verifier by its registry name (`🔎 verify: BYT-N`), never a session id — the verifier is spawned after the pr opens, and a session id was unreachable by `SendMessage` on 2026-09-18 while the name resolved; freebies and `dima`-mode coders get no verifier. model tier is a trial, not a decision: pr 1 opus high, pr 2 sonnet high, compare unique findings; the ci reviewer stays for those two prs as the control, then earns its place or goes.
    type-first (`🔧 code:` · `🔬 research:` · `🧪 probe:` · `⏰ area:` · `🔎 verify:`), `-n` typed BEFORE the prompt, every child, probes included. `-n` is the registry name; `--remote-control <name>` labels only the rc card, and an unnamed session names itself (measured: `da9590aa` → «git hook dispatcher diagnosis»). a rename is a typed `/rename` inside that session (`claude attach <id>`); a coder has no tool for it. the `Agent` tool's `name` regex bans emoji/colons/spaces. dima steers running sessions by name in the desktop Code tab.
 3. **cwd** — a coder is launched as `cd <target repo> && claude --bg …` in one command: the only
    door that derives its stack from cwd (2/2 clean on 2.1.258). a subagent inherits the

@@ -36,7 +36,7 @@ that read prose and ran nothing.
 
 the coder reads no reviewer. you do.
 
-- `gh pr edit <n> --add-label '🤖 review:requested'` (bytes) — the ci reviewer. before every label read the round counter: `gh api 'repos/<o>/<r>/actions/workflows/review.yml/runs?branch=<head>' --jq '[.workflow_runs[] | select(.conclusion=="success")] | length'`; at 2 the label does nothing.
+- `github-token-wrap gh pr edit <n> --add-label '🤖 review:requested'` (bytes; the wrapper, or the label posts as Dima) — the ci reviewer. before every label read the round counter: `gh api 'repos/<o>/<r>/actions/workflows/review.yml/runs?branch=<head>' --jq '[.workflow_runs[] | select(.conclusion=="success")] | length'`; at 2 the label does nothing.
 - read its output **filtered, in a fork** that returns findings only (`issues/N/comments`, `pulls/N/reviews`, `pulls/N/comments` — `--jq` for path, line, body): four reviewers read raw cost a coder 700k on #79.
 - triage every finding as you triage your own: reproduce it or refute it. a reviewer's finding you could not reproduce is reported as `unconfirmed`, never relayed as fact.
 - **gate before triage**: read greptile's `--json` severities and the ci reviewer's findings P0/P1 first, the rest only if the P0/P1 set is empty — 56 % of agentic review comments are rejected by developers as false, redundant or out of scope (arXiv:2607.03316). round 2 reads P0 only.
