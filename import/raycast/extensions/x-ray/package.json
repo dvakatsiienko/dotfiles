@@ -31,15 +31,6 @@
                     "placeholder": "query",
                     "required": false
                 }
-            ],
-            "preferences": [
-                {
-                    "name": "linearApiKey",
-                    "title": "Linear API Key",
-                    "description": "Personal API key: linear.app → Settings → Security & access → Personal API keys.",
-                    "type": "password",
-                    "required": true
-                }
             ]
         },
         {
@@ -58,6 +49,22 @@
                 "x-com"
             ],
             "icon": "handoffs.png",
+            "mode": "view"
+        },
+        {
+            "name": "projects",
+            "title": "projects",
+            "subtitle": "x-ray",
+            "description": "Every linear project with its progress, team, priority and lead — open one to read its issues.",
+            "keywords": [
+                "project",
+                "projects",
+                "linear",
+                "roadmap",
+                "milestone",
+                "initiative"
+            ],
+            "icon": "projects.png",
             "mode": "view"
         },
         {
@@ -98,6 +105,15 @@
             "mode": "view"
         }
     ],
+    "preferences": [
+        {
+            "name": "linearApiKey",
+            "title": "Linear API Key",
+            "description": "Personal API key: linear.app → Settings → Security & access → Personal API keys.",
+            "type": "password",
+            "required": true
+        }
+    ],
     "scripts": {
         "dev": "ray develop",
         "build": "ray build",
@@ -105,6 +121,7 @@
     },
     "dependencies": {
         "@raycast/api": "2.4.1",
-        "@raycast/utils": "2.3.1"
+        "@raycast/utils": "2.3.1",
+        "node-emoji": "2.2.0"
     }
 }
