@@ -96,7 +96,7 @@ const searchIssues = async (term: string): Promise<Issue[]> => {
     const response = await fetch(linearApi, {
         method: "POST",
         headers: {
-            Authorization: getPreferenceValues<SearchPreferences>().linearApiKey,
+            Authorization: getPreferenceValues<Preferences>().linearApiKey,
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ query: searchQuery, variables: { term, first: resultLimit } }),
@@ -120,10 +120,6 @@ const searchIssues = async (term: string): Promise<Issue[]> => {
 const toAppUrl = (url: string) => url.replace(/^https:\/\//, "linear://");
 
 /* Types */
-interface SearchPreferences {
-    linearApiKey: string;
-}
-
 interface Issue {
     id: string;
     identifier: string;
