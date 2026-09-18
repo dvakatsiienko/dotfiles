@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  screenshots-autoclean — every day at 12:00 moves screenshots older than 30 days from
+  ~/Desktop/screenshots to the Trash. /usr/bin/trash ships with macOS and needs no
+  Finder automation grant, which a Finder AppleScript from launchd would. A slot slept
+  through runs at the next wake (launchd coalesces missed intervals, unlike cron).
+  .DS_Store stays. Recoverable from the Trash for as long as the Trash keeps it.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.screenshots-autoclean</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/find</string>
+        <string>/Users/dima/Desktop/screenshots</string>
+        <string>-type</string>
+        <string>f</string>
+        <string>-not</string>
+        <string>-name</string>
+        <string>.DS_Store</string>
+        <string>-mtime</string>
+        <string>+30</string>
+        <string>-exec</string>
+        <string>/usr/bin/trash</string>
+        <string>{}</string>
+        <string>+</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>12</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/screenshots-autoclean/run.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/screenshots-autoclean/run.err.log</string>
+</dict>
+</plist>
