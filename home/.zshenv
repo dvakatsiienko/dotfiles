@@ -20,7 +20,7 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 # =============================================================================
 
 # Default editor
-export EDITOR=vim
+export EDITOR=nvim
 
 # =============================================================================
 # Tool Configuration
