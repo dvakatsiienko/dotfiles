@@ -33,6 +33,7 @@ const Handoffs = () => {
                 }
                 icon={handoff.isForeign ? Icon.PersonCircle : Icon.Envelope}
                 key={handoff.fileName}
+                keywords={toKeywordList(handoff)}
                 subtitle={handoff.isShared ? 'shared' : undefined}
                 title={handoff.topic}
             />
@@ -108,6 +109,18 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
 export default Handoffs;
 
 /* Helpers */
+// Raycast's own filtering reads the title and these keywords, and nothing else — lane
+// and author live in accessories, which are not indexed, so the search bar would
+// otherwise promise a filter that hides every row.
+const toKeywordList = (handoff: Handoff) => {
+    return [
+        handoff.lane,
+        handoff.author,
+        handoff.audience,
+        handoff.fileName,
+    ].filter((keyword) => keyword !== null);
+};
+
 const toAccessoryList = (handoff: Handoff): List.Item.Accessory[] => {
     const laneAccessory: List.Item.Accessory[] = handoff.lane
         ? [{ tag: handoff.lane, tooltip: 'lane' }]

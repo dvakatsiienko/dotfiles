@@ -5,13 +5,14 @@ import { join } from 'node:path';
 export const handoffDir = join(homedir(), '.claude', 'shelf', 'handoffs');
 
 export const readHandoffList = async (): Promise<Handoff[]> => {
-    // The shelf directory only exists once something has been handed off.
-    const entries = await readdir(handoffDir).catch(() => [] as string[]);
+    const entries = await readdir(handoffDir).catch(onShelfReadError);
     const handoffList = await Promise.all(
         entries.filter((name) => name.endsWith('.md')).map(readHandoff),
     );
 
-    return handoffList.sort((a, b) => b.modifiedAt - a.modifiedAt);
+    return handoffList
+        .filter((handoff) => handoff !== null)
+        .sort((a, b) => b.modifiedAt - a.modifiedAt);
 };
 
 export const readHandoffBody = (path: string) => readFile(path, 'utf8');
@@ -80,10 +81,23 @@ const parseFileName = (fileName: string) => {
 // and get it left behind forever.
 const foreignAudienceList = ['cw', 'ccli', 'dpatch'] as const;
 
-const readHandoff = async (fileName: string): Promise<Handoff> => {
+// The shelf directory only exists once something has been handed off, so a missing one is
+// an empty shelf. Anything else — this directory is 0700, and an i/o fault is possible —
+// has to reach the failure toast instead of rendering as "the shelf is empty".
+const onShelfReadError = (error: NodeJS.ErrnoException): string[] => {
+    if (error.code === 'ENOENT') return [];
+
+    throw error;
+};
+
+// `/x:handoff-ingest` deletes a file the moment it succeeds, so one can disappear between
+// the readdir and this stat. That file is gone, not a reason to fail the whole list.
+const readHandoff = async (fileName: string): Promise<Handoff | null> => {
     const path = join(handoffDir, fileName);
     const parsed = parseFileName(fileName);
-    const { mtimeMs } = await stat(path);
+    const stats = await stat(path).catch(() => null);
+
+    if (!stats) return null;
 
     return {
         ...parsed,
@@ -91,7 +105,7 @@ const readHandoff = async (fileName: string): Promise<Handoff> => {
         isForeign: foreignAudienceList.some(
             (audience) => audience === parsed.audience,
         ),
-        modifiedAt: mtimeMs,
+        modifiedAt: stats.mtimeMs,
         path,
     };
 };

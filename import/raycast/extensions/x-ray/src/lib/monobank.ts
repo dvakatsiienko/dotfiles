@@ -89,7 +89,11 @@ const readCache = async (): Promise<Snapshot | null> => {
     try {
         const parsed = JSON.parse(raw) as Snapshot;
 
-        return Array.isArray(parsed.quoteList) ? parsed : null;
+        const isUsable =
+            Array.isArray(parsed.quoteList) &&
+            Number.isFinite(parsed.fetchedAt);
+
+        return isUsable ? parsed : null;
     } catch {
         return null;
     }
