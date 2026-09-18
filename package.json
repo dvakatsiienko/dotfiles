@@ -31,9 +31,9 @@
         "@biomejs/biome": "2.5.13",
         "@types/node": "26.2.0",
         "biome-config-polished": "0.0.8",
-        "lefthook": "2.1.12",
+        "lefthook": "2.1.14",
         "typescript": "7.0.2",
-        "vitest": "5.0.0"
+        "vitest": "5.0.1"
     },
     "devEngines": {
         "runtime": {
