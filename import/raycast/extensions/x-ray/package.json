@@ -28,7 +28,7 @@
                 {
                     "name": "query",
                     "type": "text",
-                    "placeholder": "term",
+                    "placeholder": "query",
                     "required": false
                 }
             ],
