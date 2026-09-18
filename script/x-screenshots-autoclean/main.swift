@@ -5,9 +5,9 @@
 // "find: /Users/dima/Desktop/screenshots: Operation not permitted" and stops there. This one
 // is ad-hoc signed with a stable identifier, so the grant survives every rebuild.
 //
-// 📌 ~/Desktop is iCloud-managed here (Desktop & Documents in iCloud), so a trashed file
-// lands in the iCloud Drive trash — Finder → iCloud Drive → Recently Deleted — and NOT in
-// ~/.Trash. Recoverable either way, just not where you would first look.
+// 📌 ~/Desktop is iCloud-managed here (Desktop & Documents in iCloud). Files land in the
+// ordinary ~/.Trash because this moves them there itself; macOS's own trash call would have
+// put them in the iCloud Drive trash instead, which is a different place to go looking.
 //
 // 📌 It reports what it SCANNED, not only what it trashed. A folder holding nothing old
 // enough and a folder it was refused both trash zero files, and that ambiguity is exactly
@@ -24,6 +24,32 @@ let cutoff = Date().addingTimeInterval(TimeInterval(-maxAgeDays * 24 * 60 * 60))
 
 func log(_ line: String) {
     print(line)
+}
+
+// FileManager.trashItem is REFUSED under launchd even with Full Disk Access granted to this
+// exact binary — measured 2026-09-18, and `isWritableFile` reported true on the same folder in
+// the same instant, so it is the trash call that is brokered, not the file. An ordinary move
+// into ~/.Trash is allowed, lands the file where Finder shows it, and behaves identically
+// whether a human or launchd runs it. Finder's own " 2" numbering is mirrored so a repeated
+// screenshot name never collides with one already sitting in the trash.
+func trashDestination(for name: String) -> URL {
+    let trash = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent(".Trash")
+    let candidate = trash.appendingPathComponent(name)
+
+    guard FileManager.default.fileExists(atPath: candidate.path) else { return candidate }
+
+    let stem = (name as NSString).deletingPathExtension
+    let ext = (name as NSString).pathExtension
+
+    for index in 2...99 {
+        let suffixed = ext.isEmpty ? "\(stem) \(index)" : "\(stem) \(index).\(ext)"
+        let next = trash.appendingPathComponent(suffixed)
+
+        if !FileManager.default.fileExists(atPath: next.path) { return next }
+    }
+
+    // Every name taken is not a real state; the move then throws and the file gets logged.
+    return candidate
 }
 
 func fail(_ line: String) -> Never {
@@ -71,8 +97,9 @@ for entry in entryList {
     guard modifiedAt < cutoff else { continue }
 
     do {
-        var trashedURL: NSURL?
-        try fileManager.trashItem(at: entry, resultingItemURL: &trashedURL)
+        try fileManager.moveItem(
+            at: entry, to: trashDestination(for: entry.lastPathComponent)
+        )
         trashedCount += 1
         log("trashed \(entry.lastPathComponent)")
     } catch {
