@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
-  screenshots-autoclean — every day at 12:00 moves screenshots older than 30 days from
-  ~/Desktop/screenshots to the Trash, recoverable for as long as the Trash keeps them.
+  x-screenshots-autoclean — every day at 12:00 moves screenshots older than 30 days from
+  ~/Desktop/screenshots to the trash. ~/Desktop is iCloud-managed, so they land in the
+  iCloud Drive trash (Finder → iCloud Drive → Recently Deleted), not ~/.Trash.
   Hidden files, .DS_Store included, are left alone. A slot slept through runs at the next
   wake: launchd coalesces missed intervals, unlike cron.
 
@@ -14,18 +15,18 @@
   Needs Files and Folders → Desktop (or Full Disk Access), granted once to the binary named
   below, in System Settings → Privacy & Security.
 
-  Source: ~/dotfiles/script/screenshots-autoclean/main.swift · build: pnpm autoclean:build
+  Source: ~/dotfiles/script/x-screenshots-autoclean/main.swift · build: pnpm autoclean:build
 -->
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.dima.screenshots-autoclean</string>
+    <string>com.dima.x-screenshots-autoclean</string>
 
     <key>ProgramArguments</key>
     <array>
         <!-- launchd does not expand ~, so this path is absolute by necessity.
              Build it first: pnpm autoclean:build -->
-        <string>/Users/dima/dotfiles/script/screenshots-autoclean/bin/screenshots-autoclean</string>
+        <string>/Users/dima/dotfiles/script/x-screenshots-autoclean/bin/x-screenshots-autoclean</string>
     </array>
 
     <key>StartCalendarInterval</key>
@@ -40,9 +41,9 @@
     <string>Background</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/dima/.local/share/screenshots-autoclean/run.log</string>
+    <string>/Users/dima/.local/share/x-screenshots-autoclean/run.log</string>
 
     <key>StandardErrorPath</key>
-    <string>/Users/dima/.local/share/screenshots-autoclean/run.err.log</string>
+    <string>/Users/dima/.local/share/x-screenshots-autoclean/run.err.log</string>
 </dict>
 </plist>
