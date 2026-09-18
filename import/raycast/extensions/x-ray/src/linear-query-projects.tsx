@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Action, ActionPanel, Icon, List } from '@raycast/api';
 import { getProgressIcon, useCachedPromise } from '@raycast/utils';
 
@@ -73,8 +72,6 @@ const LinearQueryProjects = () => {
 };
 
 const ProjectIssues = (props: ProjectIssuesProps) => {
-    const [isShowingDetail, setIsShowingDetail] = useState(false);
-
     const { data, isLoading } = useCachedPromise(
         readProjectIssueList,
         [props.project.id],
@@ -87,20 +84,12 @@ const ProjectIssues = (props: ProjectIssuesProps) => {
     );
 
     const issueListJSX = data.map((issue) => {
-        return (
-            <IssueListItem
-                isShowingDetail={isShowingDetail}
-                issue={issue}
-                key={issue.id}
-                onToggleDetail={() => setIsShowingDetail(!isShowingDetail)}
-            />
-        );
+        return <IssueListItem issue={issue} key={issue.id} />;
     });
 
     return (
         <List
             isLoading={isLoading}
-            isShowingDetail={isShowingDetail && issueListJSX.length > 0}
             navigationTitle={props.project.name}
             searchBarPlaceholder={`search inside ${props.project.name}…`}>
             {issueListJSX.length === 0 ? (

@@ -23,7 +23,6 @@ import {
 const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     const argument = props.arguments.query ?? '';
     const [searchText, setSearchText] = useState(argument);
-    const [isShowingDetail, setIsShowingDetail] = useState(false);
     const term = searchText.trim();
     const isSearching = term.length > 0;
 
@@ -70,14 +69,7 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     const isLoading = isSearchLoading || isRecentLoading || isResolvingShortcut;
 
     const issueListJSX = issueList.map((issue) => {
-        return (
-            <IssueListItem
-                isShowingDetail={isShowingDetail}
-                issue={issue}
-                key={issue.id}
-                onToggleDetail={() => setIsShowingDetail(!isShowingDetail)}
-            />
-        );
+        return <IssueListItem issue={issue} key={issue.id} />;
     });
 
     const emptyViewJSX = (
@@ -95,7 +87,6 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     return (
         <List
             isLoading={isLoading}
-            isShowingDetail={isShowingDetail && issueListJSX.length > 0}
             onSearchTextChange={setSearchText}
             searchBarPlaceholder='search titles, bodies and comments…'
             searchText={searchText}

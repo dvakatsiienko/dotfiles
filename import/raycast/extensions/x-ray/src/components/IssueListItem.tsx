@@ -8,13 +8,12 @@ import {
     toStateIcon,
     toUserIcon,
 } from '../lib/linear-ui';
+import { IssueDetail } from './IssueDetail';
 
 export const IssueListItem = (props: IssueListItemProps) => {
     return (
         <List.Item
-            accessories={
-                props.isShowingDetail ? undefined : toAccessoryList(props.issue)
-            }
+            accessories={toAccessoryList(props.issue)}
             actions={
                 <ActionPanel>
                     <Action.Open
@@ -22,15 +21,11 @@ export const IssueListItem = (props: IssueListItemProps) => {
                         target={toLinearAppUrl(props.issue.url)}
                         title='open in linear'
                     />
-                    <Action
+                    <Action.Push
                         icon={Icon.Sidebar}
-                        onAction={props.onToggleDetail}
                         shortcut={{ key: 'd', modifiers: ['cmd', 'shift'] }}
-                        title={
-                            props.isShowingDetail
-                                ? 'hide details'
-                                : 'show details'
-                        }
+                        target={<IssueDetail issue={props.issue} />}
+                        title='show details'
                     />
                     <Action.CopyToClipboard
                         content={props.issue.identifier.toUpperCase()}
@@ -43,7 +38,6 @@ export const IssueListItem = (props: IssueListItemProps) => {
                     />
                 </ActionPanel>
             }
-            detail={<IssueDetail issue={props.issue} />}
             icon={{
                 tooltip: `priority: ${toPriorityName(props.issue.priority)}`,
                 value: toPriorityIcon(props.issue.priority),
@@ -52,86 +46,6 @@ export const IssueListItem = (props: IssueListItemProps) => {
             keywords={toKeywordList(props.issue)}
             subtitle={props.issue.title}
             title={props.issue.identifier}
-        />
-    );
-};
-
-const IssueDetail = (props: IssueDetailProps) => {
-    const labelList = props.issue.labels.nodes;
-    const linkCount = props.issue.attachments.nodes.length;
-    const cycle = props.issue.cycle;
-
-    const labelTagJSX = labelList.map((label) => {
-        return (
-            <List.Item.Detail.Metadata.TagList.Item
-                color={label.color}
-                key={label.id}
-                text={label.name}
-            />
-        );
-    });
-
-    return (
-        <List.Item.Detail
-            markdown={toMarkdown(props.issue)}
-            metadata={
-                <List.Item.Detail.Metadata>
-                    <List.Item.Detail.Metadata.Label
-                        icon={toStateIcon(props.issue.state)}
-                        text={props.issue.state.name}
-                        title='status'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        icon={toPriorityIcon(props.issue.priority)}
-                        text={toPriorityName(props.issue.priority)}
-                        title='priority'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        icon={toUserIcon(props.issue.assignee)}
-                        text={props.issue.assignee?.displayName ?? 'unassigned'}
-                        title='assignee'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        text={
-                            props.issue.estimate === null
-                                ? 'none'
-                                : `${props.issue.estimate} points`
-                        }
-                        title='estimate'
-                    />
-                    <List.Item.Detail.Metadata.Separator />
-                    {labelList.length === 0 ? (
-                        <List.Item.Detail.Metadata.Label
-                            text='none'
-                            title='labels'
-                        />
-                    ) : (
-                        <List.Item.Detail.Metadata.TagList title='labels'>
-                            {labelTagJSX}
-                        </List.Item.Detail.Metadata.TagList>
-                    )}
-                    <List.Item.Detail.Metadata.Label
-                        text={String(linkCount)}
-                        title='links'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        text={
-                            cycle
-                                ? `cycle ${cycle.number}${cycle.name ? ` · ${cycle.name}` : ''}`
-                                : 'no cycle'
-                        }
-                        title='cycle'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        text={props.issue.project?.name ?? 'no project'}
-                        title='project'
-                    />
-                    <List.Item.Detail.Metadata.Label
-                        text={props.issue.team.key}
-                        title='team'
-                    />
-                </List.Item.Detail.Metadata>
-            }
         />
     );
 };
@@ -181,19 +95,7 @@ const toAccessoryList = (issue: LinearIssue): List.Item.Accessory[] => {
     ];
 };
 
-const toMarkdown = (issue: LinearIssue) => {
-    const body = issue.description?.trim();
-
-    return `# ${issue.title}\n\n${body || '_no description._'}`;
-};
-
 /* Types */
 interface IssueListItemProps {
-    isShowingDetail: boolean;
-    issue: LinearIssue;
-    onToggleDetail: () => void;
-}
-
-interface IssueDetailProps {
     issue: LinearIssue;
 }
