@@ -154,6 +154,6 @@ the CST slug once, nothing more.
 
 ## standing rules
 - unpushed commits get ONE final push ask, unless `slay` is standing
-- reminders queued for the halt fire before the boot prompt
+- reminders queued for the halt fire before the CST
 - any phase finding something big → do not fix it. park it and name it. a halt that grows into
   a work session has failed at its one job.
