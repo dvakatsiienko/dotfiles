@@ -106,9 +106,11 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      angle), fix what it finds. **Read every reviewer's output in a fork that returns the
      findings, never into your own window** — four reviewers' prose read raw cost 700k of
      context on #79.
-  2. `coderabbit` is cut from the chain (two real prs, 0 unique findings, ~40 min each, one
-     stale head — measured 2026-09-12). Skip it.
-  3. `greploop`, one loop, cap 1 review (greptile's local eyes; 1 credit of 50/month), fix what
+  2. `coderabbit` first while its quota lasts (`coderabbit review --plain`, one run); no quota
+     left → step 3 instead. the fallback is silent: prefer coderabbit, greptile when no coderabbit
+     review is possible. (dima's call 2026-09-18; the 09-12 measurement was 0 unique findings
+     on two prs — the trial re-measures.)
+  3. `greploop`, one loop, cap 1 review, only when step 2 had no quota (greptile's local eyes; 1 credit of 50/month), fix what
      survives its triage. A server-side error gets one retry, then skip it and say so. Push.
   3b. **A verifier session id in the brief changes the rest of the chain**: skip steps 4 and 5.
      «final» is a `SendMessage` to the verifier (pr url + head sha), it owns the ci reviewer and
