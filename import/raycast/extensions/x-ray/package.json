@@ -1,0 +1,83 @@
+{
+    "$schema": "https://www.raycast.com/schemas/extension.json",
+    "name": "x-ray",
+    "title": "X-Ray",
+    "description": "x-com on raycast — full-text linear search, the handoff shelf, and monobank rates.",
+    "icon": "icon.png",
+    "author": "dvakatsiienko",
+    "categories": ["Productivity"],
+    "license": "MIT",
+    "commands": [
+        {
+            "name": "linear-search-wide",
+            "title": "Linear Search Wide",
+            "subtitle": "Linear",
+            "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
+            "keywords": [
+                "linear",
+                "issue",
+                "ticket",
+                "search",
+                "fulltext",
+                "dot",
+                "byt"
+            ],
+            "icon": "linear.png",
+            "mode": "view",
+            "preferences": [
+                {
+                    "name": "linearApiKey",
+                    "title": "Linear API Key",
+                    "description": "Personal API key: linear.app → Settings → Security & access → Personal API keys.",
+                    "type": "password",
+                    "required": true
+                }
+            ]
+        },
+        {
+            "name": "handoffs",
+            "title": "Handoffs",
+            "subtitle": "x-com",
+            "description": "Read the handoff shelf, paste an ingest command, or open a transcript in Cursor.",
+            "keywords": [
+                "handoff",
+                "cst",
+                "shelf",
+                "claude",
+                "ingest",
+                "session",
+                "transcript"
+            ],
+            "icon": "handoffs.png",
+            "mode": "view"
+        },
+        {
+            "name": "currency",
+            "title": "Currency",
+            "subtitle": "monobank",
+            "description": "monobank buy and sell rates for the hryvnia — type an amount to convert it at the sell rate.",
+            "keywords": [
+                "currency",
+                "rate",
+                "exchange",
+                "convert",
+                "uah",
+                "usd",
+                "eur",
+                "monobank",
+                "hryvnia"
+            ],
+            "icon": "currency.png",
+            "mode": "view"
+        }
+    ],
+    "scripts": {
+        "dev": "ray develop",
+        "build": "ray build",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@raycast/api": "2.4.1",
+        "@raycast/utils": "2.3.1"
+    }
+}

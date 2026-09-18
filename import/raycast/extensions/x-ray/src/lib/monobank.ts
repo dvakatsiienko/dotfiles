@@ -1,0 +1,137 @@
+import { LocalStorage } from '@raycast/api';
+
+// https://api.monobank.ua/bank/currency — public, no token, and cached five minutes
+// server-side: asking more often answers 429. The LocalStorage copy keeps the command
+// inside that budget however often raycast refreshes, and stands in when the network is gone.
+const monobankApi = 'https://api.monobank.ua/bank/currency';
+const cacheKey = 'monobank-currency';
+const maxAgeMs = 5 * 60 * 1000;
+
+export const currency = {
+    EUR: { code: 978, symbol: '€' },
+    UAH: { code: 980, symbol: '₴' },
+    USD: { code: 840, symbol: '$' },
+} as const;
+
+export const readRateList = async (): Promise<RateSnapshot> => {
+    const cached = await readCache();
+
+    if (cached && Date.now() - cached.fetchedAt < maxAgeMs) {
+        return { ...cached, isStale: false };
+    }
+
+    try {
+        const snapshot: Snapshot = {
+            fetchedAt: Date.now(),
+            quoteList: await fetchQuoteList(),
+        };
+        await LocalStorage.setItem(cacheKey, JSON.stringify(snapshot));
+
+        return { ...snapshot, isStale: false };
+    } catch (error) {
+        // A throttled or offline refresh keeps the previous copy rather than replacing live
+        // rates with an error. Nothing cached yet is the only hard failure.
+        if (!cached) throw error;
+
+        return { ...cached, isStale: true };
+    }
+};
+
+export const toRateList = (quoteList: Quote[]): Rate[] => {
+    return pairList.flatMap((pair) => {
+        const quote = quoteList.find((candidate) => {
+            return (
+                candidate.currencyCodeA === currency[pair.from].code &&
+                candidate.currencyCodeB === currency[pair.to].code
+            );
+        });
+
+        // monobank drops a pair from the feed rather than sending a stale one, and a pair
+        // quoted only as a cross rate carries no buy/sell for us to show.
+        if (!quote?.rateBuy || !quote.rateSell) return [];
+
+        return [
+            {
+                buy: quote.rateBuy,
+                from: pair.from,
+                sell: quote.rateSell,
+                to: pair.to,
+            },
+        ];
+    });
+};
+
+// "1k" and "10k" are how the amount actually gets typed; a bare number is the rest of it.
+export const parseAmount = (searchText: string) => {
+    const match = /^(\d+(?:[.,]\d+)?)\s*(k?)$/i.exec(searchText.trim());
+
+    if (!match) return null;
+
+    const amount = Number(match[1]?.replace(',', '.')) * (match[2] ? 1000 : 1);
+
+    return amount > 0 ? amount : null;
+};
+
+/* Helpers */
+const pairList = [
+    { from: 'USD', to: 'UAH' },
+    { from: 'EUR', to: 'UAH' },
+    { from: 'EUR', to: 'USD' },
+] as const satisfies readonly Pair[];
+
+const readCache = async (): Promise<Snapshot | null> => {
+    const raw = await LocalStorage.getItem<string>(cacheKey);
+
+    if (!raw) return null;
+
+    // LocalStorage outlives any shape this module ever had, so a copy written by an older
+    // version is treated as no cache rather than trusted into the ui.
+    try {
+        const parsed = JSON.parse(raw) as Snapshot;
+
+        return Array.isArray(parsed.quoteList) ? parsed : null;
+    } catch {
+        return null;
+    }
+};
+
+const fetchQuoteList = async (): Promise<Quote[]> => {
+    const response = await fetch(monobankApi);
+
+    if (!response.ok) {
+        throw new Error(
+            `monobank replied ${response.status} ${response.statusText}`,
+        );
+    }
+
+    return (await response.json()) as Quote[];
+};
+
+/* Types */
+export interface Rate extends Pair {
+    buy: number;
+    sell: number;
+}
+
+export interface RateSnapshot extends Snapshot {
+    isStale: boolean;
+}
+
+interface Pair {
+    from: CurrencyName;
+    to: CurrencyName;
+}
+
+interface Snapshot {
+    fetchedAt: number;
+    quoteList: Quote[];
+}
+
+interface Quote {
+    currencyCodeA: number;
+    currencyCodeB: number;
+    rateBuy?: number;
+    rateSell?: number;
+}
+
+type CurrencyName = keyof typeof currency;
