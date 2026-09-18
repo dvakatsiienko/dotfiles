@@ -3,6 +3,7 @@ import {
     Icon,
     type LaunchProps,
     List,
+    PopToRootType,
     closeMainWindow,
     getSelectedText,
     open,
@@ -32,7 +33,16 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     useEffect(() => {
         if (!shortcutId) return;
 
-        open(toIssueAppUrl(shortcutId)).then(() => closeMainWindow());
+        // Closing with the default pop behaviour leaves this command's view alive, so the
+        // NEXT press of the hotkey re-enters that list instead of mounting the command —
+        // no effect runs, nothing opens, and raycast appears to have swallowed the press.
+        // Popping to root immediately makes every launch a fresh one.
+        open(toIssueAppUrl(shortcutId)).then(() =>
+            closeMainWindow({
+                clearRootSearch: true,
+                popToRootType: PopToRootType.Immediate,
+            }),
+        );
     }, [shortcutId]);
 
     const isReadable = !isResolvingShortcut && !shortcutId;
@@ -68,6 +78,11 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     const issueListJSX = issueList.map((issue) => {
         return <IssueListItem issue={issue} key={issue.id} />;
     });
+
+    // The shortcut lane is meant to be invisible: while the selection is being read, and
+    // once an id is found, the window is on its way out — rendering the search prompt in
+    // that gap is what makes a hotkey press look like "raycast opened instead".
+    if (isResolvingShortcut || shortcutId) return <List isLoading />;
 
     const emptyViewJSX = (
         <List.EmptyView
