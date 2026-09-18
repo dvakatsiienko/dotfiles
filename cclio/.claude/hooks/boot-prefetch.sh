@@ -93,7 +93,7 @@ for repo in "$HOME/dotfiles" "$HOME/projects/bytes"; do
 done
 
 echo "-- ci + vercel reds, 48 h (ci-watch.sh --boot; --watch is the in-session monitor) --"
-"$(dirname "$0")/ci-watch.sh" --boot
+"$(dirname "$0")/ci-watch.sh" --boot || fail "ci-watch could not query gh or vercel"
 
 echo "-- settings.json symlink --"
 if [ -L "$HOME/.claude/settings.json" ]; then

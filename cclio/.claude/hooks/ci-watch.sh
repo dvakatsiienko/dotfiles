@@ -18,20 +18,21 @@ reds() {
   since_ms=$(( ( $(date +%s) - 48 * 3600 ) * 1000 ))
   for r in $REPOS; do
     gh api "repos/$r/actions/runs?created=>$since_iso&per_page=100" \
-      --jq '.workflow_runs[] | select(.conclusion != null and .conclusion != "success" and .conclusion != "skipped")
+      --jq '.workflow_runs[] | select(.conclusion != null and .conclusion != "success" and .conclusion != "skipped" and .conclusion != "cancelled")
             | "gh:\(.id)\t\(.repository.name) · \(.name) · \(.head_branch) · \(.conclusion) · \(.html_url)"' 2>/dev/null \
-      || echo "fail:gh:$r\t🚨 gh unreachable for $r"
+      || printf 'fail:gh:%s\t🚨 gh unreachable for %s\n' "$r" "$r"
   done
   timeout 30 vercel ls --all --status ERROR --limit 20 --json 2>/dev/null \
     | jq -r --argjson s "$since_ms" '.deployments[] | select(.createdAt > $s)
         | "vc:\(.url)\t\(.name) · vercel \(.target) · ERROR · https://\(.url)"' 2>/dev/null \
-    || echo "fail:vercel\t🚨 vercel unreachable"
+    || printf 'fail:vercel\t🚨 vercel unreachable\n'
 }
 
 case "$MODE" in
   --boot)
     out=$(reds); n=$(printf '%s' "$out" | grep -c .)
     [ "$n" -eq 0 ] && echo "ci + vercel: no reds in 48 h" || printf '%s\n' "$out" | cut -f2
+    printf '%s' "$out" | grep -q '^fail:' && exit 1
     ;;
   --watch)
     while true; do

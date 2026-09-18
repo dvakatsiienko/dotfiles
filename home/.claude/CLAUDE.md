@@ -114,6 +114,7 @@ Anything we create should not just work well. It should be approachable and easy
 ## tooling
 
 - **pnpm** — preferred package manager for node/typescript/javascript projects
+- **install order for any tool** — `brew` (formula or cask) first; not in brew → `pnpm add -g`; never `npm -g` (dima, 2026-09-18)
 - **fnm** — node version manager, use if needed
 - **package.json** — exact pins, `npm view` before any version, script order and `family:name` keys: the whole shape is `x:guide-conventions` → `conventions/package-json.md`, read before printing or editing any manifest
 - **cli over mcp, whenever possible** — an mcp only earns its place in a complex multi-surface,
