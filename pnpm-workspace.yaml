@@ -1,7 +1,9 @@
 packages:
   - home/.claude/mcp-x-cw
+  - import/raycast/extensions/x-ray
 
 allowBuilds:
+  esbuild: true
   lefthook: true
 
 minimumReleaseAgeExclude:

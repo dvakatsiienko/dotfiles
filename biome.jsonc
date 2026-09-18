@@ -18,6 +18,16 @@
       // hook, which fails without printing an error. Globbed rather than
       // enumerated so the next such file needs no edit here.
       "!**/import",
+      // …except the raycast extensions under it: those are source we write here, not
+      // config consumed verbatim. The blanket above had silently excluded them.
+      //
+      // The ancestors are listed one by one on purpose: biome stops descending at an
+      // excluded DIRECTORY, so a lone `import/raycast/extensions/**` never matches —
+      // each directory on the way down has to win a later pattern first.
+      "import",
+      "import/raycast",
+      "import/raycast/extensions",
+      "import/raycast/extensions/**",
       "!home/.claude/themes",
       "!**/.claude/*.json",
       "!**/.claude-plugin",
@@ -36,6 +46,21 @@
       "!home/.config/nvim"
     ]
   },
+
+  // Two raycast contracts the default rules read as mistakes: a command file is an entry
+  // point raycast loads by default export, and react is supplied by the raycast runtime
+  // rather than bundled, so the official extension template never declares it.
+  "overrides": [
+    {
+      "includes": ["import/raycast/extensions/**"],
+      "linter": {
+        "rules": {
+          "correctness": { "noUndeclaredDependencies": "off" },
+          "style": { "noDefaultExport": "off" }
+        }
+      }
+    }
+  ],
 
   "vcs": {
     "clientKind": "git",
