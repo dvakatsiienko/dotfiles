@@ -215,5 +215,7 @@
   "inputNeededNotifEnabled": false,
   "agentPushNotifEnabled": false,
   "voiceEnabled": true,
-  "leftArrowOpensAgents": false
+  "leftArrowOpensAgents": false,
+  "syncClaudeAiPlugins": false,
+  "syncClaudeAiSkills": false
 }

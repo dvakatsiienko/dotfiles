@@ -16,14 +16,10 @@
 # Relative paths are resolved from this config file's directory.
 # Priority: --theme flag > LEAF_THEME > this setting > ocean
 # Default: ocean
-theme = "ocean"
+theme = "themes/gruvbox.toml"
 
 # Custom theme example:
 # theme = "/path/to/custom-theme.toml"
-#
-# On Windows, use single quotes to avoid escaping backslashes:
-# theme = 'C:\path\to\custom-theme.toml'
-#
 # See gruvbox.toml in the repository for a complete example.
 
 # Default editor for Ctrl+E
@@ -57,7 +53,7 @@ editor = 'nvim +{$line}'
 # Watch mode: automatically reload when the file changes
 # Only applies when opening a file (ignored for stdin)
 # Default: false
-watch = false
+watch = true
 
 # Extra file types shown in the file picker
 # Add other extensions to also show them (without the dot).
@@ -82,7 +78,7 @@ watch = false
 # Priority: LEAF_CODE_LINE_NUMBERS > this setting > default (true)
 # Accepted env values: 1 = true, 0 = false (other values ignored)
 # Default: true
-# code-line-numbers = true
+code-line-numbers = true
 
 # Maximum tab title length (in characters)
 # Controls the tab title of the terminal: "leaf: <filename>".
@@ -96,4 +92,4 @@ watch = false
 # History is stored in "history.toml" next to this config file.
 # Maximum accepted: 50. Values above are clamped.
 # Default: 0 (disables history recording)
-# file-history-length = 0
+file-history-length = 50
