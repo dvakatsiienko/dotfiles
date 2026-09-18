@@ -2,10 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
   screenshots-autoclean — every day at 12:00 moves screenshots older than 30 days from
-  ~/Desktop/screenshots to the Trash. /usr/bin/trash ships with macOS and needs no
-  Finder automation grant, which a Finder AppleScript from launchd would. A slot slept
-  through runs at the next wake (launchd coalesces missed intervals, unlike cron).
-  .DS_Store stays. Recoverable from the Trash for as long as the Trash keeps it.
+  ~/Desktop/screenshots to the Trash, recoverable for as long as the Trash keeps them.
+  Hidden files, .DS_Store included, are left alone. A slot slept through runs at the next
+  wake: launchd coalesces missed intervals, unlike cron.
+
+  WHY A BINARY OF OUR OWN: TCC gates ~/Desktop per executable, and a system binary cannot be
+  granted — /usr/bin/find under launchd answered "Operation not permitted" and did nothing.
+  The binary below is ad-hoc signed with a stable identifier, so the one grant dima gives it
+  survives every rebuild.
+
+  Needs Files and Folders → Desktop (or Full Disk Access), granted once to the binary named
+  below, in System Settings → Privacy & Security.
+
+  Source: ~/dotfiles/script/screenshots-autoclean/main.swift · build: pnpm autoclean:build
 -->
 <plist version="1.0">
 <dict>
@@ -14,19 +23,9 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/find</string>
-        <string>/Users/dima/Desktop/screenshots</string>
-        <string>-type</string>
-        <string>f</string>
-        <string>-not</string>
-        <string>-name</string>
-        <string>.DS_Store</string>
-        <string>-mtime</string>
-        <string>+30</string>
-        <string>-exec</string>
-        <string>/usr/bin/trash</string>
-        <string>{}</string>
-        <string>+</string>
+        <!-- launchd does not expand ~, so this path is absolute by necessity.
+             Build it first: pnpm autoclean:build -->
+        <string>/Users/dima/dotfiles/script/screenshots-autoclean/bin/screenshots-autoclean</string>
     </array>
 
     <key>StartCalendarInterval</key>

@@ -7,6 +7,7 @@
         "dotfiles:link": "node ./script/dotfiles-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
+        "autoclean:build": "mkdir -p ./script/screenshots-autoclean/bin && swiftc -O ./script/screenshots-autoclean/main.swift -o ./script/screenshots-autoclean/bin/screenshots-autoclean && codesign --force --sign - --identifier com.dima.screenshots-autoclean ./script/screenshots-autoclean/bin/screenshots-autoclean",
         "hotkey-monitor:build": "mkdir -p ./script/x-hotkey-stats-monitor/bin && swiftc -O ./script/x-hotkey-stats-monitor/main.swift -o ./script/x-hotkey-stats-monitor/bin/x-hotkey-stats-monitor && codesign --force --sign - --identifier com.dima.x-hotkey-stats-monitor ./script/x-hotkey-stats-monitor/bin/x-hotkey-stats-monitor",
         "hotkey-monitor:top": "node ./script/x-hotkey-stats-monitor/top.ts",
         "hotkeys:scan": "node ./script/hotkeys-scan.ts",
