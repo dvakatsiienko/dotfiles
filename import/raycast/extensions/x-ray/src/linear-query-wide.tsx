@@ -42,7 +42,7 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
 
     const { data, isLoading } = useCachedPromise(searchIssues, [term], {
         execute: term.length > 0 && !isResolvingShortcut && !shortcutId,
-        failureToastOptions: { title: 'Linear search failed' },
+        failureToastOptions: { title: 'linear search failed' },
         initialData: [],
         keepPreviousData: true,
     });
@@ -62,7 +62,7 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
                         <Action.Open
                             icon={Icon.ArrowRight}
                             target={toLinearAppUrl(issue.url)}
-                            title='Open in Linear'
+                            title='open in linear'
                         />
                         <Action
                             icon={Icon.Sidebar}
@@ -72,18 +72,18 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
                             shortcut={{ key: 'd', modifiers: ['cmd', 'shift'] }}
                             title={
                                 isShowingDetail
-                                    ? 'Hide Details'
-                                    : 'Show Details'
+                                    ? 'hide details'
+                                    : 'show details'
                             }
                         />
                         <Action.CopyToClipboard
                             content={issue.identifier.toUpperCase()}
                             shortcut={{ key: '.', modifiers: ['cmd'] }}
-                            title='Copy Identifier'
+                            title='copy id'
                         />
                         <Action.CopyToClipboard
                             content={issue.url}
-                            title='Copy Issue URL'
+                            title='copy issue url'
                         />
                     </ActionPanel>
                 }
@@ -102,11 +102,11 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
         <List.EmptyView
             description={
                 isPrompting
-                    ? "Reads titles, bodies and comments — Linear's own search reads titles only."
-                    : `Nothing in this workspace contains "${term}".`
+                    ? "reads titles, bodies and comments — linear's own search reads titles only."
+                    : `nothing in this workspace contains "${term}".`
             }
             icon={Icon.MagnifyingGlass}
-            title={isPrompting ? 'Search Linear' : 'No matches'}
+            title={isPrompting ? 'search linear' : 'no matches'}
         />
     );
 
@@ -115,7 +115,7 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
             isLoading={isLoading || isResolvingShortcut}
             isShowingDetail={isShowingDetail && issueListJSX.length > 0}
             onSearchTextChange={setSearchText}
-            searchBarPlaceholder='Search titles, bodies and comments…'
+            searchBarPlaceholder='search titles, bodies and comments…'
             searchText={searchText}
             throttle>
             {issueListJSX.length === 0 ? emptyViewJSX : issueListJSX}
@@ -144,23 +144,23 @@ const IssueDetail = (props: IssueDetailProps) => {
                     <List.Item.Detail.Metadata.Label
                         icon={toStateIcon(props.issue)}
                         text={props.issue.state.name}
-                        title='State'
+                        title='state'
                     />
                     <List.Item.Detail.Metadata.Label
                         text={props.issue.team.name}
-                        title='Team'
+                        title='team'
                     />
                     <List.Item.Detail.Metadata.Label
                         text={props.issue.assignee?.displayName ?? 'unassigned'}
-                        title='Assignee'
+                        title='assignee'
                     />
                     {labelList.length === 0 ? (
                         <List.Item.Detail.Metadata.Label
                             text='none'
-                            title='Labels'
+                            title='labels'
                         />
                     ) : (
-                        <List.Item.Detail.Metadata.TagList title='Labels'>
+                        <List.Item.Detail.Metadata.TagList title='labels'>
                             {labelTagJSX}
                         </List.Item.Detail.Metadata.TagList>
                     )}
@@ -268,7 +268,7 @@ const toAccessoryList = (issue: LinearIssue): List.Item.Accessory[] => {
 const toBodyPreview = (issue: LinearIssue) => {
     const body = issue.description?.trim();
 
-    if (!body) return `## ${issue.title}\n\n_No description._`;
+    if (!body) return `## ${issue.title}\n\n_no description._`;
 
     const lineList = body.split('\n');
     const preview = lineList.slice(0, bodyPreviewLineCount).join('\n');

@@ -69,7 +69,7 @@ const Currency = () => {
         <List.EmptyView
             description='monobank sent no usd or eur pair, and nothing was cached.'
             icon={Icon.Coins}
-            title={isLoading ? 'Reading monobank…' : 'No rates'}
+            title={isLoading ? 'reading monobank…' : 'no rates'}
         />
     );
 
@@ -77,13 +77,13 @@ const Currency = () => {
         <List
             isLoading={isLoading || isPinnedLoading}
             onSearchTextChange={setSearchText}
-            searchBarPlaceholder='An amount to convert at the sell rate — 250, 1k, 10k'>
+            searchBarPlaceholder='an amount to convert at the sell rate — 250, 1k, 10k'>
             {rateList.length === 0 && emptyViewJSX}
             {pinnedListJSX.length > 0 && (
-                <List.Section title='Pinned'>{pinnedListJSX}</List.Section>
+                <List.Section title='pinned'>{pinnedListJSX}</List.Section>
             )}
             {restListJSX.length > 0 && (
-                <List.Section title='All'>{restListJSX}</List.Section>
+                <List.Section title='all'>{restListJSX}</List.Section>
             )}
         </List>
     );
@@ -102,22 +102,22 @@ const RateRow = (props: RateRowProps) => {
                         <Action.CopyToClipboard
                             content={converted.toFixed(2)}
                             icon={Icon.Clipboard}
-                            title='Copy Converted Amount'
+                            title='copy converted amount'
                         />
                     )}
                     <Action.CopyToClipboard
                         content={String(props.rate.sell)}
-                        title='Copy Sell Rate'
+                        title='copy sell rate'
                     />
                     <Action.CopyToClipboard
                         content={String(props.rate.buy)}
-                        title='Copy Buy Rate'
+                        title='copy buy rate'
                     />
                     <Action
                         icon={props.isPinned ? Icon.PinDisabled : Icon.Pin}
                         onAction={() => props.onPin(props.rate)}
                         shortcut={{ key: 'p', modifiers: ['cmd', 'shift'] }}
-                        title={props.isPinned ? 'Unpin Pair' : 'Pin Pair'}
+                        title={props.isPinned ? 'unpin pair' : 'pin pair'}
                     />
                 </ActionPanel>
             }
