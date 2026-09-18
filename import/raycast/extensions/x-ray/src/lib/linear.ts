@@ -20,8 +20,18 @@ const searchQuery = `
         identifier
         title
         url
+        priority
+        labels {
+          nodes {
+            id
+            name
+            color
+          }
+        }
         state {
           name
+          type
+          color
         }
       }
     }
@@ -73,9 +83,26 @@ interface LinearPreferences {
 export interface LinearIssue {
     id: string;
     identifier: string;
-    state: { name: string };
+    labels: { nodes: LinearLabel[] };
+    priority: number;
+    state: LinearState;
     title: string;
     url: string;
+}
+
+export interface LinearLabel {
+    color: string;
+    id: string;
+    name: string;
+}
+
+export interface LinearState {
+    color: string;
+    name: string;
+    // Linear's workflow-state category — triage, backlog, unstarted, started, completed,
+    // canceled. Left as a string because it arrives over the wire: a category added later
+    // must fall back to a plain circle, not crash the row.
+    type: string;
 }
 
 interface SearchPayload {

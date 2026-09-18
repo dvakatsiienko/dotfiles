@@ -10,7 +10,7 @@
     "commands": [
         {
             "name": "linear-search-wide",
-            "title": "Linear Search Wide",
+            "title": "linear search wide",
             "subtitle": "Linear",
             "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
             "keywords": [
@@ -24,6 +24,14 @@
             ],
             "icon": "linear.png",
             "mode": "view",
+            "arguments": [
+                {
+                    "name": "query",
+                    "type": "text",
+                    "placeholder": "term",
+                    "required": false
+                }
+            ],
             "preferences": [
                 {
                     "name": "linearApiKey",
@@ -36,7 +44,7 @@
         },
         {
             "name": "handoffs",
-            "title": "Handoffs",
+            "title": "handoffs",
             "subtitle": "x-com",
             "description": "Read the handoff shelf, paste an ingest command, or open a transcript in Cursor.",
             "keywords": [
@@ -53,7 +61,7 @@
         },
         {
             "name": "currency",
-            "title": "Currency",
+            "title": "currency",
             "subtitle": "monobank",
             "description": "monobank buy and sell rates for the hryvnia — type an amount to convert it at the sell rate.",
             "keywords": [
