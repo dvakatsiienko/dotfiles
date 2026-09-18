@@ -80,7 +80,6 @@ brew "poppler"                   # PDF tooling
 # ── Test drives (DOT-250, 2026-09-16) ──────────────────────────────────────
 brew "leaf-markdown-viewer"      # tui markdown reader — mermaid, latex, watch, `--inline` to stdout
 brew "glow"                      # charm's markdown reader — the charm stack we plan the cli on
-brew "tuxedo"                    # todo.txt tui, dima's test drive
 
 # ── Odds and ends ───────────────────────────────────────────────────────────
 brew "lutzifer/tap/keyboardswitcher"    # drives the Raycast layout switcher

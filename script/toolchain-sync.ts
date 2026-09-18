@@ -1,0 +1,65 @@
+/**
+ * toolchain-sync — the installed node and pnpm are the source of truth for every
+ * repo's runtime pins: `.node-version` (major only, so fnm resolves whatever patch is
+ * installed), `packageManager` and `engines`. Renovate is told to leave those alone.
+ * `--check` reports drift and exits 1; without it the files are rewritten.
+ */
+import { execFileSync } from 'node:child_process';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+
+const repos = [join(homedir(), 'dotfiles'), join(homedir(), 'projects/bytes')];
+const check = process.argv.includes('--check');
+
+const nodeMajor = process.version.slice(1).split('.')[0];
+const pnpmVersion = execFileSync('pnpm', ['--version'], {
+    encoding: 'utf8',
+}).trim();
+const want = {
+    engines: { node: `>=${nodeMajor}`, pnpm: `>=${pnpmVersion}` },
+    nodeVersion: `${nodeMajor}\n`,
+    packageManager: `pnpm@${pnpmVersion}`,
+};
+
+let drift = 0;
+for (const repo of repos) {
+    const nodeFile = join(repo, '.node-version');
+    const manifestFile = join(repo, 'package.json');
+    const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
+    const diffs: string[] = [];
+
+    const nodeNow = readFileSync(nodeFile, 'utf8');
+    if (nodeNow !== want.nodeVersion)
+        diffs.push(`.node-version: ${nodeNow.trim()} → ${nodeMajor}`);
+    if (manifest.packageManager !== want.packageManager)
+        diffs.push(
+            `packageManager: ${manifest.packageManager} → ${want.packageManager}`,
+        );
+    if (JSON.stringify(manifest.engines) !== JSON.stringify(want.engines))
+        diffs.push(
+            `engines: ${JSON.stringify(manifest.engines)} → ${JSON.stringify(want.engines)}`,
+        );
+
+    const name = repo.split('/').at(-1);
+    if (diffs.length === 0) {
+        console.log(
+            `${name}: in sync (node ${nodeMajor}, pnpm ${pnpmVersion})`,
+        );
+        continue;
+    }
+    drift += diffs.length;
+    for (const d of diffs)
+        console.log(`${name}: ${check ? 'drift' : 'fix'} ${d}`);
+    if (check) continue;
+    writeFileSync(nodeFile, want.nodeVersion);
+    // the tech zone reads devEngines · engines · packageManager · pnpm (conventions/package-json.md)
+    const { engines: _e, packageManager: _p, ...rest } = manifest;
+    const sorted = {
+        ...rest,
+        engines: want.engines,
+        packageManager: want.packageManager,
+    };
+    writeFileSync(manifestFile, `${JSON.stringify(sorted, null, 2)}\n`);
+}
+process.exit(check && drift > 0 ? 1 : 0);
