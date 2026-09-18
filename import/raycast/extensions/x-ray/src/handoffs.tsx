@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Detail, Icon, List } from '@raycast/api';
+import { Action, ActionPanel, Color, Detail, Icon, List } from '@raycast/api';
 import { useCachedPromise, usePromise } from '@raycast/utils';
 
 import {
@@ -131,27 +131,66 @@ const toKeywordList = (handoff: Handoff) => {
     ].filter((keyword) => keyword !== null);
 };
 
+// The four lanes are a closed set in CST-SPEC, so the colours are named rather than derived:
+// a lane always reads the same colour, and one the spec never defined falls back to plain
+// text instead of being given a meaning it does not have.
+const laneColor: Record<string, Color> = {
+    code: Color.Blue,
+    design: Color.Magenta,
+    pm: Color.Purple,
+    research: Color.Yellow,
+};
+
 const toAccessoryList = (handoff: Handoff): List.Item.Accessory[] => {
-    const laneAccessory: List.Item.Accessory[] = handoff.lane
-        ? [{ tag: handoff.lane, tooltip: 'lane' }]
-        : [{ tag: 'legacy', tooltip: 'legacy filename — no lane, no author' }];
     const authorAccessory: List.Item.Accessory[] = handoff.author
-        ? [{ text: `by ${handoff.author}` }]
-        : [];
-    const foreignAccessory: List.Item.Accessory[] = handoff.isForeign
         ? [
               {
-                  icon: Icon.Lock,
-                  tooltip: `addressed to ${handoff.audience} — leave it`,
+                  text: {
+                      color: Color.SecondaryText,
+                      value: `by ${handoff.author}`,
+                  },
+                  tooltip: 'author',
               },
           ]
         : [];
 
+    // Orange is the one warning in the row: this handoff is addressed to someone else and
+    // ingesting it takes it away from them. It replaces the lock icon, which said the same
+    // thing without naming who.
+    const audienceAccessory: List.Item.Accessory[] = [
+        {
+            text: {
+                color: handoff.isForeign ? Color.Orange : Color.Green,
+                value: `for ${handoff.audience}`,
+            },
+            tooltip: handoff.isForeign
+                ? `addressed to ${handoff.audience} — leave it`
+                : 'audience',
+        },
+    ];
+
+    const laneAccessory: List.Item.Accessory[] = handoff.lane
+        ? [
+              {
+                  tag: {
+                      color: laneColor[handoff.lane] ?? Color.SecondaryText,
+                      value: handoff.lane,
+                  },
+                  tooltip: 'lane',
+              },
+          ]
+        : [
+              {
+                  tag: { color: Color.SecondaryText, value: 'legacy' },
+                  tooltip: 'legacy filename — no lane, no author',
+              },
+          ];
+
     return [
-        ...laneAccessory,
         ...authorAccessory,
+        ...audienceAccessory,
+        ...laneAccessory,
         { text: toAge(handoff.modifiedAt), tooltip: 'age' },
-        ...foreignAccessory,
     ];
 };
 
