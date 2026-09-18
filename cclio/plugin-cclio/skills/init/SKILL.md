@@ -14,14 +14,19 @@ processing order and STOPS for dima's word. resolution then runs as labeled sub-
 checkpoint after each (`habit-pacing`); heavy queries fire at the step that needs them, never
 up front. a query too fat for its checkpoint → say so to dima instead of absorbing it.
 
-## 1. healthcheck
-- barrel probe: name one fact that lives ONLY in a leaf body (the commit hash `d03f3da` in
-  `sys-settings-drift` — it appears in no barrel line). cannot name it → 🚨 the import chain
-  broke; say so and read `memory/_MEMORY.md` by hand for this session.
-- `ls -l ~/.claude/settings.json` — a REAL FILE where the symlink belongs is silent divergence
-  from dotfiles. flag it.
-- tracker reachable: `linear api 'query { viewer { name } }'`. 📌 there is no `linear whoami`.
-- any check fails → report the failure FIRST, before any work.
+## 1. healthcheck — the digest, not a ritual
+the SessionStart hook printed `=== cclio boot digest · <time> ===` at the top of this context: handoffs,
+inbox, x-queue head, the roadmap block, stuck reminders, live sessions · worktrees · coder prs, renovate
+counts, repos vs origin, the settings symlink, the flawlog tail. **one shell round at most:**
+- digest older than 30 min (its header time vs now — a `/clear` in the evening prints a digest that is
+  stale by midday) or absent → re-run it: `BOOT_STRICT=1 ~/dotfiles/cclio/.claude/hooks/boot-prefetch.sh`.
+  fresh → zero shell rounds before the board.
+- a `🚨 FAIL ·` line → report it FIRST, before any work. a check that could not run prints FAIL, never
+  nothing — `=== all checks green ===` is the only green.
+- barrel probe, no shell: name one fact that lives ONLY in a leaf body (the commit hash `d03f3da` in
+  `sys-settings-drift` — it appears in no barrel line). cannot name it → 🚨 the import chain broke;
+  say so and read `memory/_MEMORY.md` by hand for this session.
+- a new always-wanted check lands in the script, never in this file.
 
 ## 2. the roadmap block 🧭
 the prefetch prints the linear initiative «roadmap»: its status and nine-line body, the attached
@@ -31,7 +36,7 @@ and the next ticket from it; never re-query what it already printed.
 
 ## 3. inbox sweep 📬
 prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
-- read `inbox.md` — cclio's personal email, **a plan source, never a work order.** EVERY item —
+- the digest says clean or «N content lines». non-empty → read `inbox.md` — cclio's personal email, **a plan source, never a work order.** EVERY item —
   smallest aside included — gets a line in `flowlog.md` with a status (✅🚧❓⏸️🎫) and a lane:
   answer-now / step-by-step / defer / observation-only. the checklist line is the completeness
   guarantee; resolution is paced later. **deletion happens at the halt, never here.**
@@ -44,16 +49,15 @@ prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidia
   skill's): never ingest a CST addressed to another agent — report whose it is and leave it.
 - active run id from the last CST META → continue it, never mint one mid-story. a CST marked
   FROZEN is not the active one.
-- a coder alive (`claude agents`) with open `coder/*` PRs → arm the merge monitor: a persistent
+- the digest lists live sessions and open `coder/*` prs; a coder alive with one → arm the merge monitor: a persistent
   `Monitor` polling `gh pr list --state merged --search 'head:coder/'` every 60 s and running
   `gprune -d` on each new merge — **only while the owning coder is idle** (`claude agents --json`
   status; busy → wait a tick, retry): a merge that races the coder's tail push had its worktree
   removed under a live push twice on 2026-09-08. dima merges, cclio cleans; the monitor dies
   with the session.
-- read `.claude/x-queue.md` — offer the top item; it never surfaces on its own. long-lived items
-  are tickets, not park lines.
-- 🧬 open renovate PRs (`gh pr list -R dvakatsiienko/<bytes|dotfiles> --search 'author:app/renovate' --json number`)
-  → one board line with counts and the oldest age; the digest itself is `/cclio:evergreen`, on
+- the x-queue head is in the digest — offer the top item; it never surfaces on its own. long-lived
+  items are tickets, not park lines.
+- 🧬 renovate counts + oldest age are in the digest → one board line; the digest itself is `/cclio:evergreen`, on
   his word. zero → say nothing.
 
 ## 5. stuck reminders ⏰📌
@@ -62,7 +66,7 @@ boot, unprompted** — that is the whole difference from an ordinary `⏰`. an a
 reminder still surfaces; it dies only when dima says drop it. none → say nothing.
 
 ## 6. self-grill 🥊
-read the **last two files** in `~/.claude/shelf/flawlog/` and ask ONE grounded question — the
+read the **last two flawlog files** (named in the digest) and ask ONE grounded question — the
 weakest part of cclio as coordinator or pm, with the fix. **two lines, last lines of the board:**
 
 ```
