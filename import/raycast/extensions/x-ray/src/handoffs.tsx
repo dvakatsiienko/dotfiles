@@ -7,7 +7,8 @@ import {
     readHandoffBody,
     readHandoffList,
     toAge,
-    toIngestCommand,
+    toCclioInitLine,
+    toIngestLine,
 } from './lib/handoffs';
 
 const Handoffs = () => {
@@ -83,10 +84,16 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
     return (
         <ActionPanel.Section>
             <Action.Paste
-                content={toIngestCommand(props.handoff)}
+                content={toCclioInitLine(props.handoff)}
                 icon={Icon.Terminal}
                 shortcut={{ key: 'return', modifiers: ['cmd'] }}
-                title='Paste Init Line'
+                title='Paste Cclio Init Line'
+            />
+            <Action.Paste
+                content={toIngestLine(props.handoff)}
+                icon={Icon.Terminal}
+                shortcut={{ key: 'return', modifiers: ['cmd', 'shift'] }}
+                title='Paste Ingest Line'
             />
             <Action.Open
                 application='Cursor'
@@ -96,10 +103,10 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
                 title='Open in Cursor'
             />
             <Action.CopyToClipboard
-                content={toIngestCommand(props.handoff)}
+                content={toCclioInitLine(props.handoff)}
                 icon={Icon.Clipboard}
                 shortcut={{ key: 'c', modifiers: ['cmd'] }}
-                title='Copy Init Line'
+                title='Copy Cclio Init Line'
             />
         </ActionPanel.Section>
     );

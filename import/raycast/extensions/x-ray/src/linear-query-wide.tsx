@@ -1,3 +1,5 @@
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { useEffect, useState } from 'react';
 import {
     Action,
@@ -6,6 +8,7 @@ import {
     Icon,
     type LaunchProps,
     List,
+    LocalStorage,
     closeMainWindow,
     getSelectedText,
     open,
@@ -34,7 +37,7 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
     useEffect(() => {
         if (!shortcutId) return;
 
-        open(toIssueAppUrl(shortcutId)).then(() => closeMainWindow());
+        openIssue(shortcutId).then(() => closeMainWindow());
     }, [shortcutId]);
 
     const { data, isLoading } = useCachedPromise(searchIssues, [term], {
@@ -172,6 +175,28 @@ export default LinearQueryWide;
 /* Helpers */
 const issueIdPattern = /^(DOT|BYT)-\d+$/i;
 const bodyPreviewLineCount = 12;
+const linearBundleId = 'com.linear';
+const lastOpenedKey = 'linear-last-opened-id';
+
+const run = promisify(execFile);
+
+// Firing the deep link for an issue linear already shows opens a second tab for it. Measured:
+// activating by bundle id leaves the window count untouched and brings the existing window
+// forward, so a repeat press reuses the tab the last press opened.
+// 📌 The memory is only as true as the app's state — quit linear between presses and the
+// repeat lands on whatever it restores instead of the issue.
+const openIssue = async (identifier: string) => {
+    const lastOpened = await LocalStorage.getItem<string>(lastOpenedKey);
+
+    if (lastOpened === identifier) {
+        await run('open', ['-b', linearBundleId]);
+
+        return;
+    }
+
+    await open(toIssueAppUrl(identifier));
+    await LocalStorage.setItem(lastOpenedKey, identifier);
+};
 
 // The argument wins; a bare launch falls back to whatever is selected in the frontmost app,
 // which is how the `ql` quicklink was used. getSelectedText throws when nothing is selected
