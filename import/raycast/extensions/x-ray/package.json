@@ -9,8 +9,8 @@
     "license": "MIT",
     "commands": [
         {
-            "name": "linear-search-wide",
-            "title": "linear search wide",
+            "name": "linear-query-wide",
+            "title": "linear query wide",
             "subtitle": "Linear",
             "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
             "keywords": [

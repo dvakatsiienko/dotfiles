@@ -21,6 +21,15 @@ const searchQuery = `
         title
         url
         priority
+        updatedAt
+        description
+        assignee {
+          displayName
+        }
+        team {
+          key
+          name
+        }
         labels {
           nodes {
             id
@@ -72,8 +81,13 @@ export const searchIssues = async (term: string): Promise<LinearIssue[]> => {
 export const toLinearAppUrl = (url: string) =>
     url.replace(/^https:\/\//, 'linear://');
 
+// The shortcut lane never sees an api url — an identifier typed or selected is the whole
+// input — so this is the one place the workspace slug has to be spelled out.
+export const toIssueAppUrl = (identifier: string) =>
+    `linear://linear.app/x-com/issue/${identifier}`;
+
 /* Types */
-// Declared here rather than taken from the generated `Preferences.LinearSearchWide`:
+// Declared here rather than taken from the generated `Preferences.LinearQueryWide`:
 // raycast-env.d.ts is gitignored, so that namespace does not exist on a fresh checkout
 // and ci would typecheck red. Mirrors the command preference in package.json.
 interface LinearPreferences {
@@ -81,13 +95,26 @@ interface LinearPreferences {
 }
 
 export interface LinearIssue {
+    assignee: LinearUser | null;
+    description: string | null;
     id: string;
     identifier: string;
     labels: { nodes: LinearLabel[] };
     priority: number;
     state: LinearState;
+    team: LinearTeam;
     title: string;
+    updatedAt: string;
     url: string;
+}
+
+export interface LinearTeam {
+    key: string;
+    name: string;
+}
+
+export interface LinearUser {
+    displayName: string;
 }
 
 export interface LinearLabel {
