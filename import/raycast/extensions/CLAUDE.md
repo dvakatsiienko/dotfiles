@@ -12,4 +12,4 @@
 - biome only (root `biome.jsonc` re-includes this path); no eslint, no prettier, no `ray lint`.
 - icons: 512×512 png, rounded-square tile (~22 % radius), transparent outside the tile; an emoji
   string is a valid raycast image source — flags and glyphs need no png.
-- command titles and the extension title are lowercase.
+- everything a user reads is lowercase: the extension title, command titles, action titles, section headers, placeholders, toasts. identifiers and urls keep their case.
