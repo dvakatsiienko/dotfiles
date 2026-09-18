@@ -43,3 +43,5 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰ 🦊👁️ cleanshot hotkey reshuffle — on/after 2026-10-01: `hk --days 14` → which of `⇧⌘0–9` got pressed (1 window · 2 ocr · 3 full · 4 area · 5 scroll · 6 aio · 7 history · 8 annotate · 9 record · 0 clipboard); propose the reshuffle to dima, then dated `since` rows in `script/lib/hotkeys-manual.ts` — set 2026-09-17
 
 ⏰ node pin drift — `.node-version` is `24` in dotfiles and bytes (fnm resolves the installed major); a `Can't find an installed Node version` prompt in any shell means a pin drifted back to a patch — repin to the major, never install the patch — set 2026-09-17
+
+⏰ 🦊👁️ jev (typesafe ai «system one» model: typed questions → calibrated answers, http api, classifier-grade) — dima 2026-09-18: «park as a monitoring reminder, until it gets into a fleet or falls off». waitlist at console.typesafe.ai; raise at the first sighting of a claude-code hook/plugin or a ci pre-filter built on it, or when it leaves early access — then a probe as the ci review pre-filter, never in front of anything that blocks — set 2026-09-18
