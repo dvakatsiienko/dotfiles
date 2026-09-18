@@ -53,14 +53,14 @@ export const toRateList = (quoteList: Quote[]): Rate[] => {
         // quoted only as a cross rate carries no buy/sell for us to show.
         if (!quote?.rateBuy || !quote.rateSell) return [];
 
-        return [
-            {
-                buy: quote.rateBuy,
-                from: pair.from,
-                sell: quote.rateSell,
-                to: pair.to,
-            },
-        ];
+        const rate: Rate = {
+            buy: quote.rateBuy,
+            from: pair.from,
+            sell: quote.rateSell,
+            to: pair.to,
+        };
+
+        return [rate, toInverseRate(rate)];
     });
 };
 
@@ -76,6 +76,16 @@ export const parseAmount = (searchText: string) => {
 };
 
 /* Helpers */
+// monobank quotes a pair in one direction only and never sends the reverse, so the other
+// side is derived. Inverting a buy/sell quote swaps the two columns as well as the two
+// currencies: the rate the bank buys usd at is the rate it sells hryvnia at.
+const toInverseRate = (rate: Rate): Rate => ({
+    buy: 1 / rate.sell,
+    from: rate.to,
+    sell: 1 / rate.buy,
+    to: rate.from,
+});
+
 const pairList = [
     { from: 'USD', to: 'UAH' },
     { from: 'EUR', to: 'UAH' },
