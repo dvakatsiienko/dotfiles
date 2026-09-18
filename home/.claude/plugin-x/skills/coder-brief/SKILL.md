@@ -80,7 +80,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 
 ## the git lane
 
-- **PR by default in `bytes`.** Before any edit: `git worktree add .claude/worktrees/<ticket>-<slug>
+- **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through a python script that asserts its anchor before writing, never `sd` with a `$` in the replacement. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
   -b coder/<ticket>-<slug> main`, then `pnpm worktree:seed <path>` (env copies, `CI=1` install, a
   port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it
   for a tree it made). Worktrees live under `<repo>/.claude/worktrees/` — cc's own default, gitignored,
@@ -106,7 +106,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      angle), fix what it finds. **Read every reviewer's output in a fork that returns the
      findings, never into your own window** — four reviewers' prose read raw cost 700k of
      context on #79.
-  2. `coderabbit` first while its quota lasts (`coderabbit review --plain`, one run); no quota
+  2. `coderabbit` first while its quota lasts (`coderabbit review --agent` for structured findings — `--plain` does not exist in cli 0.7.6; one run); no quota
      left → step 3 instead. the fallback is silent: prefer coderabbit, greptile when no coderabbit
      review is possible. (dima's call 2026-09-18; the 09-12 measurement was 0 unique findings
      on two prs — the trial re-measures.)
