@@ -1,7 +1,7 @@
 {
     "$schema": "https://www.raycast.com/schemas/extension.json",
     "name": "x-ray",
-    "title": "X-Ray",
+    "title": "x-ray",
     "description": "x-com on raycast — full-text linear search, the handoff shelf, and monobank rates.",
     "icon": "icon.png",
     "author": "dvakatsiienko",
