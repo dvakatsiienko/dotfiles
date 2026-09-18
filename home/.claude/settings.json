@@ -1,5 +1,7 @@
 {
   "cleanupPeriodDays": 90,
+  "syncClaudeAiSkills": false,
+  "syncClaudeAiPlugins": false,
   "skillListingBudgetFraction": 0.025,
   "env": {
     "EDITOR": "nvim",
@@ -215,7 +217,5 @@
   "inputNeededNotifEnabled": false,
   "agentPushNotifEnabled": false,
   "voiceEnabled": true,
-  "leftArrowOpensAgents": false,
-  "syncClaudeAiPlugins": false,
-  "syncClaudeAiSkills": false
+  "leftArrowOpensAgents": false
 }
