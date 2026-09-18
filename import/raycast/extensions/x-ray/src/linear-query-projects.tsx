@@ -16,7 +16,7 @@ import {
     toUserIcon,
 } from './lib/linear-ui';
 
-const Projects = () => {
+const LinearQueryProjects = () => {
     const { data, isLoading } = useCachedPromise(readProjectList, [], {
         failureToastOptions: { title: 'could not read the projects' },
         initialData: [],
@@ -127,7 +127,7 @@ const ProjectIssues = (props: ProjectIssuesProps) => {
     );
 };
 
-export default Projects;
+export default LinearQueryProjects;
 
 /* Helpers */
 // Raycast indexes the title and these keywords only, and the row's right-hand side is not

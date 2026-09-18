@@ -133,15 +133,32 @@ const request = async <T>(
     query: string,
     variables: Record<string, unknown>,
 ): Promise<T> => {
+    // A missing key and a rejected key both come back as 401, and "401 Unauthorized" sends
+    // you looking at linear when the answer is an empty field in raycast. Checked here so
+    // the two say different things.
+    const apiKey =
+        getPreferenceValues<LinearPreferences>().linearApiKey?.trim();
+
+    if (!apiKey) {
+        throw new Error(
+            'no linear api key — set it in raycast settings → extensions → x-ray',
+        );
+    }
+
     const response = await fetch(linearApi, {
         body: JSON.stringify({ query, variables }),
         headers: {
-            Authorization:
-                getPreferenceValues<LinearPreferences>().linearApiKey,
+            Authorization: apiKey,
             'Content-Type': 'application/json',
         },
         method: 'POST',
     });
+
+    if (response.status === 401) {
+        throw new Error(
+            'linear rejected the api key — check it in raycast settings → extensions → x-ray',
+        );
+    }
 
     if (!response.ok) {
         throw new Error(
@@ -159,7 +176,7 @@ const request = async <T>(
 };
 
 /* Types */
-// Declared here rather than taken from the generated `Preferences.LinearQueryWide`:
+// Declared here rather than taken from the generated `Preferences` namespace:
 // raycast-env.d.ts is gitignored, so that namespace does not exist on a fresh checkout
 // and ci would typecheck red. Mirrors the command preference in package.json.
 interface LinearPreferences {
