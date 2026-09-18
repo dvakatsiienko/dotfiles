@@ -38,3 +38,9 @@ cw: |
 - dotfiles 31 commits unpushed by Dima's standing word, tree clean after the flush; bytes untouched; no coders (df518a23 stopped after four jobs and a retro), no worktrees
 - dima's tools · next overhaul · 21/25 — DOT-237 stays In Progress at the store round
 - reminders: hotkey refresh + skippable checkpoint at the meta boundary; bartender 7 under brew when the cask moves; the /Applications-vs-brew sweep plus a delete pass on apps and macos built-ins next session
+
+## trail
+
+- shipped: raycast built-ins verdicted top to bottom, store items owned (1password ext out, linear trimmed), handoff filename with lanes + `rename` verb, bartender/currency script commands, 4 mail apps out (marco + newton on trial), gmail backlog archived, cleanshot cloud off
+- open: store research round, hotkey round after the settings walkthrough
+- state: dotfiles 31 unpushed by his word; no coders

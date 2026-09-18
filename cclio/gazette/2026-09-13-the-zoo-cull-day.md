@@ -36,3 +36,9 @@ cw: |
 - dima's tools · next overhaul · 19/25 — DOT-247 joined it, DOT-237 keeps its place in the order
 - two handoffs pending on purpose: halt16 parks the github ci and pull request plan, today's parks the hotkeys and cleaners thread. a pickup names its slug, never bare
 - next: the rebind session on DOT-237 needs the natural-key research first; [DOT-248](https://linear.app/x-com/issue/DOT-248) (kb layout alternatives) arrived from dima and is unread
+
+## trail
+
+- shipped: the hotkey map (`pnpm hotkeys:scan` + the artifact page), opt+2 clash closed, cleaner zoo six → one (mole), keka + SiriAUSP reversals on evidence, halt sweeps lingering tickets (cclio 0.3.41), DOT-247 born, `CLAUDE_CODE_SUBAGENT_MODEL=opus`
+- open: DOT-237 rebind session needs natural-key research; DOT-248 unread
+- state: dotfiles 6 unpushed; two handoffs pending on purpose (halt16, hotkeys)

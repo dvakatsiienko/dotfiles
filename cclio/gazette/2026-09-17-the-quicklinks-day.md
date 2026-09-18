@@ -39,3 +39,9 @@ cw: |
 - dima's tools · next overhaul · 21/25 — DOT-237 In Progress, phase 4 aliases slice next (pre-research first)
 - no coders, no worktrees; halt16 CST still parked; x-com-chat prod red still parked
 - reminders born: cleanshot reshuffle on/after 2026-10-01, node pin drift
+
+## trail
+
+- shipped: 7 raycast quicklinks (`q`+letters grammar), cleanshot ext under `⇧⌘0–9`, caret indicator off globally (select layout by name), `hk` chord labels, cursor projects.json as the one project list, BYT-102 game-notes model folded
+- open: DOT-237 phase 4 aliases slice (pre-research first), then snippets, script commands, phase 5 hotkeys
+- state: dotfiles 5 unpushed, bytes 1 unpushed on a tree 2 behind; no coders

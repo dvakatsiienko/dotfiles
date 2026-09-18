@@ -39,3 +39,9 @@ cw: |
 - dima's tools · next overhaul · 21/25 — DOT-237 stays In Progress; phase 4 opens with the pre-research rounds tomorrow
 - no coders (the sweep coder stopped after its retro), no worktrees, halt16 CST still parked
 - reminders due: greptile-ci decision + BYT-94 (deferred by dima), hotkey refresh at the phase 5 boundary
+
+## trail
+
+- shipped: raycast store round (github, translate, gif, kill-process, vercel configured; 6 exts deleted), /Applications sweep (26 casks adopted, 28 steam launchers gone), AW3225QF flicker = OLED VRR → fixed 120 Hz, evergreen skills + plugins lanes, DOT-250 + DOT-251 born, ghgrab dropped
+- open: greptile-ci decision (due 09-16), x-com-chat prod red parked to the next bytes session
+- state: dotfiles pushed at e0c057a; no coders

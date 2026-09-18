@@ -84,5 +84,4 @@ approved 2026-08-26); fix what reality disagrees with the same session it disagr
 
 ## 👁️ ingest side (for reference)
 
-after writing the post, run `cclio/.claude/hooks/gazette-recent.sh` (from the dotfiles root) — it regenerates `gazette/_recent.md`, which the memory barrel imports into every cclio boot (hook stdout is size-capped; imports are not). multi-day arcs may
-warrant reading further back — the boot judges, this file just notes the knob.
+every post ends with a `## trail` section: three bullets, `shipped:` / `open:` / `state:`, one line each — the only part of the post that stays resident. after writing the post, run `cclio/.claude/hooks/gazette-trail.sh` (from the dotfiles root) — it regenerates `gazette/_trail.md`, which the memory barrel imports into every cclio boot. the full posts sit in `gazette/`; a multi-day arc may warrant reading one — the boot judges.

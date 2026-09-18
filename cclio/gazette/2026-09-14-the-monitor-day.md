@@ -35,3 +35,9 @@ cw: |
 - dotfiles: 14 commits unpushed by dima's standing word, today's edits uncommitted at the halt (commit plan in the halt board); bytes clean; no coders, one merged worktree to prune
 - dima's tools · next overhaul · 21/25 — DOT-237 next, its walkthrough resumes at «Applications»
 - reminders: birman → brew cask + U.S. plist hack at a quiet moment (dima, approved); impeccable disable watched at every design lane's end
+
+## trail
+
+- shipped: `x-hotkey-stats-monitor` daemon + `hk` reader (DOT-247 done), raycast phases 1–3 (adopted under brew, ai killed, cloud sync off), birman stays (DOT-248 closed), apple shortcuts verdict keep-minimal, superwhisper + english-buddy plugins culled, impeccable disabled globally, biome format-on-edit hook
+- open: DOT-237 walkthrough resumes at «Applications»
+- state: dotfiles 14 unpushed; bytes clean; no coders

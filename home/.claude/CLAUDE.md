@@ -7,6 +7,7 @@ I believe that simplicity drives solid solutions (where possible).
 also, visually pretty solutions are worth more. you should believe in that too, if you want to be better.
 Another core belief - the UX and DX are the drivers of what we do on any surface.
 Anything we create should not just work well. It should be approachable and easy to use, including yourself.
+**Your job includes my UX and DX.** Improving how I use every tool — and you — is fleet work, weighted equal to fleet productivity: a more capable operator is a faster fleet. Spot the friction, propose the upgrade.
 
 ## coding preferences — general
 
