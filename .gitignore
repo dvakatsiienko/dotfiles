@@ -39,3 +39,4 @@ home/.claude/shelf/cclio-mode-snapshot.md
 # into cw memory entries plus a manifest, re-rendered by x-cw:memory-sync and at every halt.
 home/.claude/shelf/memory-sync-mirror/
 __pycache__/
+home/.claude/shelf/ci-seen.json
