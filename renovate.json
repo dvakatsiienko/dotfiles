@@ -2,14 +2,22 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "commitMessagePrefix": "🌲 evergreen:",
     "extends": ["config:recommended"],
-
     "gomod": {
         "enabled": true
     },
     "internalChecksFilter": "strict",
     "minimumReleaseAge": "3 days",
-
     "packageRules": [
+        {
+            "description": "toolchain pins are owned by `pnpm toolchain:sync` (installed node + pnpm are the truth): .node-version, packageManager and engines never move here — #41 re-pinned node to a patch fnm did not have",
+            "enabled": false,
+            "matchManagers": ["nodenv", "nvm"]
+        },
+        {
+            "description": "same contract for the manifest fields",
+            "enabled": false,
+            "matchDepTypes": ["packageManager", "engines"]
+        },
         {
             "automerge": true,
             "automergeType": "pr",
@@ -33,11 +41,8 @@
         }
     ],
     "prCreation": "not-pending",
-
     "rangeStrategy": "bump",
-
     "semanticCommits": "disabled",
-
     "separateMajorMinor": true,
     "separateMinorPatch": true,
     "timezone": "Europe/Kyiv"

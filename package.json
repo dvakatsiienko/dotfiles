@@ -5,6 +5,7 @@
     "type": "module",
     "scripts": {
         "dotfiles:link": "node ./script/dotfiles-link.ts",
+        "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
         "hotkey-monitor:build": "mkdir -p ./script/x-hotkey-stats-monitor/bin && swiftc -O ./script/x-hotkey-stats-monitor/main.swift -o ./script/x-hotkey-stats-monitor/bin/x-hotkey-stats-monitor && codesign --force --sign - --identifier com.dima.x-hotkey-stats-monitor ./script/x-hotkey-stats-monitor/bin/x-hotkey-stats-monitor",
         "hotkey-monitor:top": "node ./script/x-hotkey-stats-monitor/top.ts",
@@ -42,6 +43,10 @@
             "version": ">=24.0.0",
             "onFail": "error"
         }
+    },
+    "engines": {
+        "node": ">=24",
+        "pnpm": ">=12.3.4"
     },
     "packageManager": "pnpm@12.3.4"
 }
