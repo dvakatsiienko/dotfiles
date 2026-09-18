@@ -11,7 +11,7 @@ sorts and names it into this.
 3. `dependencies`
 4. `devDependencies`
 5. `peerDependencies`
-6. **tech** — `devEngines`, `engines`, `packageManager`, `pnpm`, `browserslist`, the rest that rarely changes
+6. **tech** — `engines`, `devEngines`, `packageManager`, `pnpm`, `browserslist`, the rest that rarely changes — the newer, more modern field first, the older after (bytes' `package-json-shape` gate enforces this order)
 
 A manifest reads naturally: what you open it for sits on top, what you set once sits at the
 bottom. Printed randomly, `scripts` lands under `devEngines` and the reader scrolls for the
