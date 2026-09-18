@@ -8,10 +8,13 @@ const cacheKey = 'monobank-currency';
 const maxAgeMs = 5 * 60 * 1000;
 
 export const currency = {
-    EUR: { code: 978, symbol: '€' },
-    UAH: { code: 980, symbol: '₴' },
-    USD: { code: 840, symbol: '$' },
+    EUR: { code: 978, flag: '🇪🇺', name: 'Euro', symbol: '€' },
+    UAH: { code: 980, flag: '🇺🇦', name: 'Hryvnia', symbol: '₴' },
+    USD: { code: 840, flag: '🇺🇸', name: 'US Dollar', symbol: '$' },
 } as const;
+
+// The pin list is stored as these ids, so a pin survives a reorder of `pairList`.
+export const toRateId = (pair: Pair) => `${pair.from}-${pair.to}`;
 
 export const readRateList = async (): Promise<RateSnapshot> => {
     const cached = await readCache();
@@ -121,7 +124,7 @@ export interface RateSnapshot extends Snapshot {
     isStale: boolean;
 }
 
-interface Pair {
+export interface Pair {
     from: CurrencyName;
     to: CurrencyName;
 }

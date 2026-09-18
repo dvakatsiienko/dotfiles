@@ -31,7 +31,7 @@ const Handoffs = () => {
                         <HandoffShelfActions handoff={handoff} />
                     </ActionPanel>
                 }
-                icon={handoff.isForeign ? Icon.PersonCircle : Icon.Envelope}
+                icon={scrollEmoji}
                 key={handoff.fileName}
                 keywords={toKeywordList(handoff)}
                 subtitle={handoff.isShared ? 'shared' : undefined}
@@ -109,6 +109,10 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
 export default Handoffs;
 
 /* Helpers */
+// The command icon is this same scroll rendered to a png — the emoji is the shelf's mark on
+// both surfaces. A foreign handoff is already called out by its Lock accessory.
+const scrollEmoji = '📜';
+
 // Raycast's own filtering reads the title and these keywords, and nothing else — lane
 // and author live in accessories, which are not indexed, so the search bar would
 // otherwise promise a filter that hides every row.
