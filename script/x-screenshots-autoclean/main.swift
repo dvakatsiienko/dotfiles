@@ -1,9 +1,13 @@
-// screenshots-autoclean — moves screenshots older than 30 days to the Trash, once a day.
+// x-screenshots-autoclean — moves screenshots older than 30 days to the Trash, once a day.
 //
 // A binary of our own rather than /usr/bin/find, because TCC gates ~/Desktop per executable
 // and a system binary can never be granted: find under launchd answers
 // "find: /Users/dima/Desktop/screenshots: Operation not permitted" and stops there. This one
 // is ad-hoc signed with a stable identifier, so the grant survives every rebuild.
+//
+// 📌 ~/Desktop is iCloud-managed here (Desktop & Documents in iCloud), so a trashed file
+// lands in the iCloud Drive trash — Finder → iCloud Drive → Recently Deleted — and NOT in
+// ~/.Trash. Recoverable either way, just not where you would first look.
 //
 // 📌 It reports what it SCANNED, not only what it trashed. A folder holding nothing old
 // enough and a folder it was refused both trash zero files, and that ambiguity is exactly
@@ -30,6 +34,8 @@ func fail(_ line: String) -> Never {
 func stamp() -> String {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withFullDate, .withTime, .withColonSeparatorInTime]
+    // Default is GMT, and the log is read next to `ls` output and Console — both local.
+    formatter.timeZone = TimeZone.current
 
     return formatter.string(from: Date())
 }
