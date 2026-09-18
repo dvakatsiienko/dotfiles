@@ -1,11 +1,8 @@
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
 import { useEffect, useState } from 'react';
 import {
     Icon,
     type LaunchProps,
     List,
-    LocalStorage,
     closeMainWindow,
     getSelectedText,
     open,
@@ -35,7 +32,7 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     useEffect(() => {
         if (!shortcutId) return;
 
-        openIssue(shortcutId).then(() => closeMainWindow());
+        open(toIssueAppUrl(shortcutId)).then(() => closeMainWindow());
     }, [shortcutId]);
 
     const isReadable = !isResolvingShortcut && !shortcutId;
@@ -108,10 +105,6 @@ export default LinearQueryTickets;
 
 /* Helpers */
 const issueIdPattern = /^(DOT|BYT)-\d+$/i;
-const linearBundleId = 'com.linear';
-const lastOpenedKey = 'linear-last-opened-id';
-
-const run = promisify(execFile);
 
 const toCountText = (count: number) =>
     count === 1 ? '1 issue' : `${count} issues`;
@@ -127,23 +120,6 @@ const toShortcutId = async (argument: string) => {
     const selected = (await getSelectedText().catch(() => '')).trim();
 
     return issueIdPattern.test(selected) ? selected.toUpperCase() : null;
-};
-
-// Firing the deep link for an issue linear already shows opens a second tab for it. Activating
-// by bundle id brings the existing window forward instead — measured: window count unchanged.
-// 📌 The memory is only as true as the app's state — quit linear between presses and the
-// repeat lands on whatever it restores instead of the issue.
-const openIssue = async (identifier: string) => {
-    const lastOpened = await LocalStorage.getItem<string>(lastOpenedKey);
-
-    if (lastOpened === identifier) {
-        await run('open', ['-b', linearBundleId]);
-
-        return;
-    }
-
-    await open(toIssueAppUrl(identifier));
-    await LocalStorage.setItem(lastOpenedKey, identifier);
 };
 
 // useCachedPromise builds its cache key from the arguments alone — the function body is not
