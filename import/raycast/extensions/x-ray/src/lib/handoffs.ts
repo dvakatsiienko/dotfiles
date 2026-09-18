@@ -17,16 +17,13 @@ export const readHandoffList = async (): Promise<Handoff[]> => {
 
 export const readHandoffBody = (path: string) => readFile(path, 'utf8');
 
-// `/cclio:init` boots the successor, `/x:handoff-ingest <topic>` picks this file out of the shelf.
-export const toIngestCommand = (handoff: Handoff) =>
-    `/cclio:init /x:handoff-ingest ${handoff.topic}`;
+// `/x:handoff-ingest <topic>` picks this file out of the shelf. A handoff addressed to the
+// coordinator also needs `/cclio:init` in front, because the session reading it has to boot
+// as cclio first; every other audience ingests into a session that is already itself.
+export const toIngestCommand = (handoff: Handoff) => {
+    const ingest = `/x:handoff-ingest ${handoff.topic}`;
 
-export const toPointerLine = (handoff: Handoff) => {
-    const origin = handoff.lane
-        ? `${handoff.lane} lane · by ${handoff.author}`
-        : 'legacy name';
-
-    return `${handoff.topic} — ${origin} · ~/.claude/shelf/handoffs/${handoff.fileName}`;
+    return handoff.audience === 'cclio' ? `/cclio:init ${ingest}` : ingest;
 };
 
 export const toAge = (modifiedAt: number) => {

@@ -8,7 +8,6 @@ import {
     readHandoffList,
     toAge,
     toIngestCommand,
-    toPointerLine,
 } from './lib/handoffs';
 
 const Handoffs = () => {
@@ -87,7 +86,7 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
                 content={toIngestCommand(props.handoff)}
                 icon={Icon.Terminal}
                 shortcut={{ key: 'return', modifiers: ['cmd'] }}
-                title='Paste Ingest Command'
+                title='Paste Init Line'
             />
             <Action.Open
                 application='Cursor'
@@ -97,10 +96,10 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
                 title='Open in Cursor'
             />
             <Action.CopyToClipboard
-                content={toPointerLine(props.handoff)}
+                content={toIngestCommand(props.handoff)}
                 icon={Icon.Clipboard}
                 shortcut={{ key: 'c', modifiers: ['cmd'] }}
-                title='Copy Pointer Line'
+                title='Copy Init Line'
             />
         </ActionPanel.Section>
     );
