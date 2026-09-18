@@ -1,7 +1,31 @@
 import { getPreferenceValues } from '@raycast/api';
 
 const linearApi = 'https://api.linear.app/graphql';
-const resultLimit = 20;
+const searchLimit = 20;
+const recentLimit = 25;
+const projectIssueLimit = 50;
+const projectLimit = 50;
+
+// One shape for every issue this extension renders, so a row reads the same whether it came
+// from a search, from the recent list, or from inside a project.
+const issueFields = `
+  id
+  identifier
+  title
+  url
+  priority
+  priorityLabel
+  estimate
+  updatedAt
+  description
+  assignee { displayName avatarUrl }
+  team { key name }
+  project { name icon color }
+  cycle { number name }
+  attachments(first: 50) { nodes { id } }
+  labels { nodes { id name color } }
+  state { name type color }
+`;
 
 const searchQuery = `
   query FullTextSearch($term: String!, $first: Int!) {
@@ -15,44 +39,102 @@ const searchQuery = `
         ]
       }
     ) {
+      nodes { ${issueFields} }
+    }
+  }
+`;
+
+const recentQuery = `
+  query RecentIssues($first: Int!) {
+    issues(first: $first, orderBy: updatedAt) {
+      nodes { ${issueFields} }
+    }
+  }
+`;
+
+const projectIssueQuery = `
+  query ProjectIssues($projectId: ID!, $first: Int!) {
+    issues(
+      first: $first
+      orderBy: updatedAt
+      filter: { project: { id: { eq: $projectId } } }
+    ) {
+      nodes { ${issueFields} }
+    }
+  }
+`;
+
+const projectQuery = `
+  query Projects($first: Int!) {
+    projects(first: $first, orderBy: updatedAt) {
       nodes {
         id
-        identifier
-        title
-        url
-        priority
-        updatedAt
+        name
         description
-        assignee {
-          displayName
-        }
-        team {
-          key
-          name
-        }
-        labels {
-          nodes {
-            id
-            name
-            color
-          }
-        }
-        state {
-          name
-          type
-          color
-        }
+        icon
+        color
+        priority
+        progress
+        url
+        status { name type color }
+        lead { displayName avatarUrl }
+        teams(first: 5) { nodes { key } }
       }
     }
   }
 `;
 
-export const searchIssues = async (term: string): Promise<LinearIssue[]> => {
+export const searchIssues = async (term: string) => {
+    const data = await request<IssueListPayload>(searchQuery, {
+        first: searchLimit,
+        term,
+    });
+
+    return data.issues.nodes;
+};
+
+export const readRecentIssueList = async () => {
+    const data = await request<IssueListPayload>(recentQuery, {
+        first: recentLimit,
+    });
+
+    return data.issues.nodes;
+};
+
+export const readProjectIssueList = async (projectId: string) => {
+    const data = await request<IssueListPayload>(projectIssueQuery, {
+        first: projectIssueLimit,
+        projectId,
+    });
+
+    return data.issues.nodes;
+};
+
+export const readProjectList = async () => {
+    const data = await request<{ projects: { nodes: LinearProject[] } }>(
+        projectQuery,
+        { first: projectLimit },
+    );
+
+    return data.projects.nodes;
+};
+
+// The api hands back the web url; the same path under the linear:// scheme opens the desktop app.
+export const toLinearAppUrl = (url: string) =>
+    url.replace(/^https:\/\//, 'linear://');
+
+// The shortcut lane never sees an api url — an identifier typed or selected is the whole
+// input — so this is the one place the workspace slug has to be spelled out.
+export const toIssueAppUrl = (identifier: string) =>
+    `linear://linear.app/x-com/issue/${identifier}`;
+
+/* Helpers */
+const request = async <T>(
+    query: string,
+    variables: Record<string, unknown>,
+): Promise<T> => {
     const response = await fetch(linearApi, {
-        body: JSON.stringify({
-            query: searchQuery,
-            variables: { first: resultLimit, term },
-        }),
+        body: JSON.stringify({ query, variables }),
         headers: {
             Authorization:
                 getPreferenceValues<LinearPreferences>().linearApiKey,
@@ -67,24 +149,14 @@ export const searchIssues = async (term: string): Promise<LinearIssue[]> => {
         );
     }
 
-    const payload = (await response.json()) as SearchPayload;
+    const payload = (await response.json()) as Payload<T>;
     const firstError = payload.errors?.[0];
 
-    if (firstError) {
-        throw new Error(firstError.message);
-    }
+    if (firstError) throw new Error(firstError.message);
+    if (!payload.data) throw new Error('Linear returned no data');
 
-    return payload.data?.issues.nodes ?? [];
+    return payload.data;
 };
-
-// The api hands back the web url; the same path under the linear:// scheme opens the desktop app.
-export const toLinearAppUrl = (url: string) =>
-    url.replace(/^https:\/\//, 'linear://');
-
-// The shortcut lane never sees an api url — an identifier typed or selected is the whole
-// input — so this is the one place the workspace slug has to be spelled out.
-export const toIssueAppUrl = (identifier: string) =>
-    `linear://linear.app/x-com/issue/${identifier}`;
 
 /* Types */
 // Declared here rather than taken from the generated `Preferences.LinearQueryWide`:
@@ -96,11 +168,16 @@ interface LinearPreferences {
 
 export interface LinearIssue {
     assignee: LinearUser | null;
+    attachments: { nodes: { id: string }[] };
+    cycle: LinearCycle | null;
     description: string | null;
+    estimate: number | null;
     id: string;
     identifier: string;
     labels: { nodes: LinearLabel[] };
     priority: number;
+    priorityLabel: string;
+    project: LinearIssueProject | null;
     state: LinearState;
     team: LinearTeam;
     title: string;
@@ -108,13 +185,18 @@ export interface LinearIssue {
     url: string;
 }
 
-export interface LinearTeam {
-    key: string;
+export interface LinearProject {
+    color: string | null;
+    description: string | null;
+    icon: string | null;
+    id: string;
+    lead: LinearUser | null;
     name: string;
-}
-
-export interface LinearUser {
-    displayName: string;
+    priority: number;
+    progress: number;
+    status: LinearState;
+    teams: { nodes: { key: string }[] };
+    url: string;
 }
 
 export interface LinearLabel {
@@ -132,7 +214,32 @@ export interface LinearState {
     type: string;
 }
 
-interface SearchPayload {
-    data?: { issues: { nodes: LinearIssue[] } };
+export interface LinearTeam {
+    key: string;
+    name: string;
+}
+
+export interface LinearUser {
+    avatarUrl: string | null;
+    displayName: string;
+}
+
+interface LinearCycle {
+    name: string | null;
+    number: number;
+}
+
+interface LinearIssueProject {
+    color: string | null;
+    icon: string | null;
+    name: string;
+}
+
+interface IssueListPayload {
+    issues: { nodes: LinearIssue[] };
+}
+
+interface Payload<T> {
+    data?: T;
     errors?: { message: string }[];
 }
