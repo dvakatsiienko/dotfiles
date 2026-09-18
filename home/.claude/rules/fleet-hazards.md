@@ -79,6 +79,25 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   — `pnpm github:agent-token` included — and `eval` outright (an agent-browser verb). both go
   into a scratch script and run from there
 
+## launchd + tcc
+
+- **FDA on an ad-hoc-signed launchd binary does not unlock `FileManager.trashItem` on an iCloud-managed
+  folder** (`~/Desktop` with Desktop & Documents in iCloud): reads and a plain `moveItem` into `~/.Trash`
+  work, the trash call is brokered and refused — read + a `folder writable` line in the error path told
+  it apart from a permission deny in one run (2026-09-18). a bare «trashed 0 / exit 0» on a folder with
+  nothing old enough reads identical to a deny: log the scanned count
+- `plutil -convert json` drops xml comments — prose in a plist is read from the raw file; `launchctl
+  print` repeats `state =` in nested blocks — anchor the parse on the top-level line
+- `pnpm dotfiles:link apply` links new leaves and never prunes a dangling old symlink after a rename
+
+## raycast extensions
+
+- `ray build` registers nothing new and skips tsc under typescript 7 (native, no compiler api): a new
+  extension needs one `ray develop`; the type gate is `pnpm typecheck`; raycast caches ext titles and
+  icons until a relaunch
+- a `pnpm install` inside a non-workspace-member subdir climbs to the root and rewrites the root
+  lockfile — a member joins `pnpm-workspace.yaml` or carries its own
+
 ## the bash tool
 
 - a trailing `&` inside a Bash tool call is safe only when something after it keeps the shell
