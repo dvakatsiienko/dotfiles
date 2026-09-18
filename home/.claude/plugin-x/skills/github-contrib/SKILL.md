@@ -49,6 +49,9 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   repository».
 - **`--delete-branch` on a merge auto-closes every pr based on that branch** — `gh pr list
   --base <branch>` before the merge; retarget the stacked prs first (#80 died this way).
+- **a push to main after a pr opened does not refresh that pr's base** — the diff keeps showing the
+  coordinator's commits (#42: 46 files for a 7-file change) until `gh api -X PATCH repos/<o>/<r>/pulls/<n>
+  -f base=main` nudges github to recompute; run it after every main push while a pr is open.
 - merge only per the disposition given (merge-when-green, or stop and report). none given →
   report and ask.
 - a merged PR is the implementation record — close or update the tracking item when the work
