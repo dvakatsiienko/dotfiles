@@ -10,7 +10,7 @@ const maxAgeMs = 5 * 60 * 1000;
 export const currency = {
     EUR: { code: 978, flag: '🇪🇺', name: 'euro', symbol: '€' },
     UAH: { code: 980, flag: '🇺🇦', name: 'hryvnia', symbol: '₴' },
-    USD: { code: 840, flag: '🇺🇸', name: 'us dollar', symbol: '$' },
+    USD: { code: 840, flag: '🇺🇸', name: 'US dollar', symbol: '$' },
 } as const;
 
 // The pin list is stored as these ids, so a pin survives a reorder of `pairList`.
