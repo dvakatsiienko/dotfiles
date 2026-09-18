@@ -46,6 +46,9 @@ pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
   owns, `duti` bindings, vim-plug. Packages live in the `Brewfile`, never in the script.
 - **Scripts are `.ts`, run by node 24 directly** — no `tsx`, no build. `tsconfig.json` sets
   `erasableSyntaxOnly`, which bans any syntax needing real compilation. `pnpm typecheck` checks.
+- **`pnpm typecheck` is the type gate, never a build** — `ray build` bundles with esbuild and reports success over type errors (typescript 7 is the native port, ray finds no compiler api to call); root typecheck recurses into every workspace member.
+- **`biome.jsonc` stops descending at an excluded directory** — re-including anything under `!**/import` names every ancestor; and probe the real config, never a minimal repro, because `extends` supplies patterns a repro lacks.
+- **`pnpm toolchain:sync`** writes `.node-version` (major), `packageManager` and `engines` in dotfiles + bytes from the installed node and pnpm; renovate is told off those pins. run it after any `fnm install` or pnpm bump.
 - Anything directly under `script/` is a runnable entrypoint with a matching `pnpm` script;
   `script/lib/` is library code, never invoked directly.
 - Formatter and linter is **biome** (`pnpm check`). Git hooks run through **lefthook** — biome on
