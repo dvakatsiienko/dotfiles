@@ -13,7 +13,7 @@ import {
 
 const Handoffs = () => {
     const { data, isLoading } = useCachedPromise(readHandoffList, [], {
-        failureToastOptions: { title: 'Could not read the handoff shelf' },
+        failureToastOptions: { title: 'could not read the handoff shelf' },
         initialData: [],
     });
 
@@ -26,7 +26,7 @@ const Handoffs = () => {
                         <Action.Push
                             icon={Icon.Book}
                             target={<HandoffDetail handoff={handoff} />}
-                            title='Read Handoff'
+                            title='read handoff'
                         />
                         <HandoffShelfActions handoff={handoff} />
                     </ActionPanel>
@@ -42,16 +42,16 @@ const Handoffs = () => {
 
     const emptyViewJSX = (
         <List.EmptyView
-            description={`Nothing in ${handoffDir} — a /handoff is what writes one.`}
+            description={`nothing in ${handoffDir} — a /handoff is what writes one.`}
             icon={Icon.Tray}
-            title='The shelf is empty'
+            title='the shelf is empty'
         />
     );
 
     return (
         <List
             isLoading={isLoading}
-            searchBarPlaceholder='Search by topic, lane or author…'>
+            searchBarPlaceholder='search by topic, lane or author…'>
             {handoffListJSX.length === 0 ? emptyViewJSX : handoffListJSX}
         </List>
     );
@@ -62,7 +62,7 @@ const HandoffDetail = (props: HandoffDetailProps) => {
         readHandoffBody,
         [props.handoff.path],
         {
-            failureToastOptions: { title: 'Could not read the transcript' },
+            failureToastOptions: { title: 'could not read the transcript' },
         },
     );
 
@@ -87,26 +87,26 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
                 content={toCclioInitLine(props.handoff)}
                 icon={Icon.Terminal}
                 shortcut={{ key: 'return', modifiers: ['cmd'] }}
-                title='Paste Cclio Init Line'
+                title='paste cclio init line'
             />
             <Action.Paste
                 content={toIngestLine(props.handoff)}
                 icon={Icon.Terminal}
                 shortcut={{ key: 'return', modifiers: ['cmd', 'shift'] }}
-                title='Paste Ingest Line'
+                title='paste ingest line'
             />
             <Action.Open
                 application='Cursor'
                 icon={Icon.Code}
                 shortcut={{ key: 'return', modifiers: ['opt'] }}
                 target={props.handoff.path}
-                title='Open in Cursor'
+                title='open in cursor'
             />
             <Action.CopyToClipboard
                 content={toCclioInitLine(props.handoff)}
                 icon={Icon.Clipboard}
                 shortcut={{ key: 'c', modifiers: ['cmd'] }}
-                title='Copy Cclio Init Line'
+                title='copy cclio init line'
             />
         </ActionPanel.Section>
     );
