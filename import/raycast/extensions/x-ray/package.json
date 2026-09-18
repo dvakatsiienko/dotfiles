@@ -9,8 +9,8 @@
     "license": "MIT",
     "commands": [
         {
-            "name": "linear-query-wide",
-            "title": "linear query wide",
+            "name": "linear-query-tickets",
+            "title": "linear query tickets",
             "subtitle": "x-ray",
             "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
             "keywords": [
@@ -52,8 +52,8 @@
             "mode": "view"
         },
         {
-            "name": "projects",
-            "title": "projects",
+            "name": "linear-query-projects",
+            "title": "linear query projects",
             "subtitle": "x-ray",
             "description": "Every linear project with its progress, team, priority and lead — open one to read its issues.",
             "keywords": [
@@ -64,7 +64,7 @@
                 "milestone",
                 "initiative"
             ],
-            "icon": "projects.png",
+            "icon": "linear.png",
             "mode": "view"
         },
         {

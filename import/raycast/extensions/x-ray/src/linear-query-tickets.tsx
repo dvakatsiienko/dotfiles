@@ -20,7 +20,7 @@ import {
     toIssueAppUrl,
 } from './lib/linear';
 
-const LinearQueryWide = (props: LinearQueryWideProps) => {
+const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
     const argument = props.arguments.query ?? '';
     const [searchText, setSearchText] = useState(argument);
     const [isShowingDetail, setIsShowingDetail] = useState(false);
@@ -113,7 +113,7 @@ const LinearQueryWide = (props: LinearQueryWideProps) => {
     );
 };
 
-export default LinearQueryWide;
+export default LinearQueryTickets;
 
 /* Helpers */
 const issueIdPattern = /^(DOT|BYT)-\d+$/i;
@@ -169,7 +169,7 @@ const isCurrentShape = (issue: LinearIssue) => {
 };
 
 /* Types */
-// The generated `Arguments.LinearQueryWide` is not used here: raycast-env.d.ts is gitignored,
+// The generated `Arguments.LinearQueryTickets` is not used here: raycast-env.d.ts is gitignored,
 // so that namespace is missing on a fresh checkout and ci would typecheck red.
 // Mirrors the command argument in package.json.
-type LinearQueryWideProps = LaunchProps<{ arguments: { query?: string } }>;
+type LinearQueryTicketsProps = LaunchProps<{ arguments: { query?: string } }>;
