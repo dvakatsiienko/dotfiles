@@ -13,7 +13,11 @@ const SearchLinear = () => {
         failureToastOptions: { title: "Linear search failed" },
     });
 
-    const issueListJSX = data.map((issue) => {
+    // keepPreviousData holds the last result after `execute` goes false, so an emptied
+    // search bar would otherwise keep rendering the hits of the term the user just cleared.
+    const hits = term.length === 0 ? [] : data;
+
+    const issueListJSX = hits.map((issue) => {
         return (
             <List.Item
                 key={issue.id}
