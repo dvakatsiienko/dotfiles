@@ -110,6 +110,11 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      stale head — measured 2026-09-12). Skip it.
   3. `greploop`, one loop, cap 1 review (greptile's local eyes; 1 credit of 50/month), fix what
      survives its triage. A server-side error gets one retry, then skip it and say so. Push.
+  3b. **A verifier session id in the brief changes the rest of the chain**: skip steps 4 and 5.
+     «final» is a `SendMessage` to the verifier (pr url + head sha), it owns the ci reviewer and
+     reads every reviewer for you — you read none. Its reply is one prompt per round, ≤12 lines,
+     with a `verdict:` line; fix what it lists, push, message it «round 2». After its `clean`
+     the coordinator tells you to add Dima as reviewer. Two rounds, then the coordinator decides.
   4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
      is the review request for THIS head: the `review` check is required on main, it runs only on
      a label event, and a later push leaves it stale — so a re-review is remove + add the label
