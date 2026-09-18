@@ -139,9 +139,19 @@ const rateFormat = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 4,
     minimumFractionDigits: 2,
 });
+// An inverted pair quotes in hundredths — four decimals would print 0.0223 and throw away
+// the digits that tell two rates apart, so a sub-1 rate is formatted by significant digits.
+const smallRateFormat = new Intl.NumberFormat('en-US', {
+    maximumSignificantDigits: 5,
+    minimumSignificantDigits: 5,
+});
+
+const formatRate = (value: number) => {
+    return value < 1 ? smallRateFormat.format(value) : rateFormat.format(value);
+};
 
 const toRateText = (rate: Rate) => {
-    return `${rateFormat.format(rate.buy)} / ${rateFormat.format(rate.sell)}`;
+    return `${formatRate(rate.buy)} / ${formatRate(rate.sell)}`;
 };
 
 const toConversion = (rate: Rate, amount: number) => {
