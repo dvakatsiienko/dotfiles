@@ -45,7 +45,7 @@ skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
 7. **CST, slug `<runid-topic>-stop`.** terse is fine; state beats prose.
 
 then report in under 10 lines: what landed · what is parked and where the note is · anything left
-genuinely unsafe, named plainly and never softened · the boot line to resume.
+genuinely unsafe, named plainly and never softened · the CST slug.
 
 🚫 **in the stop lane, do not:** start work however small it looks · refactor or clean up on the
 way out · batch a decision to dima and act on the assumed answer · spend the minute writing a
@@ -143,11 +143,12 @@ auto-save via the handoff store; a halt implies a fresh thread next, so no here-
 question. slug `<runid-topic>-halt`. a previous CST marked FROZEN is never superseded — save
 alongside and say which is which.
 
-## phase 6 — boot prompt
-hand dima a copy-paste block for the fresh thread. 🚨 **line 1 is the literal `/cclio:init`** —
-it is user-invocation only, so the agent cannot run it for him; a prompt without it boots
-blind (measured 2026-08-28, twice). then: the CST pull by slug (`/x:handoff-ingest <slug>`),
-the first moves, and the run id — continue it, never mint a new one.
+## phase 6 — no boot prompt
+the halt reply prints NO boot block (dima, 2026-09-18: «i'll use the command now»). the x-ray
+`handoffs` command pastes `/cclio:init /x:handoff-ingest <slug>` on ⌘⏎, so everything the
+next session must know lives in the CST META first-acts — run id, the first moves, the pending
+decision. a steer that would have gone into the prompt goes into META instead. the reply names
+the CST slug once, nothing more.
 
 ## phase 7 — one earned joke. never skip it.
 
