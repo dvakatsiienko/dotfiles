@@ -60,6 +60,24 @@
             "mode": "view"
         },
         {
+            "name": "schedule",
+            "title": "schedule",
+            "subtitle": "launchd",
+            "description": "What our launch agents do, when they next fire, and how the last run ended.",
+            "keywords": [
+                "schedule",
+                "launchd",
+                "launchagent",
+                "agent",
+                "cron",
+                "daemon",
+                "job",
+                "timer"
+            ],
+            "icon": "schedule.png",
+            "mode": "view"
+        },
+        {
             "name": "currency",
             "title": "currency",
             "subtitle": "monobank",

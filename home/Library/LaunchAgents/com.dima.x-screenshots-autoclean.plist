@@ -2,8 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
   x-screenshots-autoclean — every day at 12:00 moves screenshots older than 30 days from
-  ~/Desktop/screenshots to the trash. ~/Desktop is iCloud-managed, so they land in the
-  iCloud Drive trash (Finder → iCloud Drive → Recently Deleted), not ~/.Trash.
+  ~/Desktop/screenshots to ~/.Trash, recoverable until the trash is emptied.
   Hidden files, .DS_Store included, are left alone. A slot slept through runs at the next
   wake: launchd coalesces missed intervals, unlike cron.
 
