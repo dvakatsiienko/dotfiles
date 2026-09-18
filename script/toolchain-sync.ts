@@ -53,11 +53,12 @@ for (const repo of repos) {
         console.log(`${name}: ${check ? 'drift' : 'fix'} ${d}`);
     if (check) continue;
     writeFileSync(nodeFile, want.nodeVersion);
-    // the tech zone reads devEngines · engines · packageManager · pnpm (conventions/package-json.md)
-    const { engines: _e, packageManager: _p, ...rest } = manifest;
+    // the tech zone reads engines · devEngines · packageManager (bytes' package-json-shape gate)
+    const { devEngines, engines: _e, packageManager: _p, ...rest } = manifest;
     const sorted = {
         ...rest,
         engines: want.engines,
+        ...(devEngines ? { devEngines } : {}),
         packageManager: want.packageManager,
     };
     writeFileSync(manifestFile, `${JSON.stringify(sorted, null, 2)}\n`);
