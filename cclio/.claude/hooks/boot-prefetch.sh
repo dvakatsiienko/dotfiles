@@ -92,6 +92,9 @@ for repo in "$HOME/dotfiles" "$HOME/projects/bytes"; do
   echo "$(basename "$repo"): ahead ${counts%%	*} · behind ${counts##*	}"
 done
 
+echo "-- ci + vercel reds, 48 h (ci-watch.sh --boot; --watch is the in-session monitor) --"
+"$(dirname "$0")/ci-watch.sh" --boot
+
 echo "-- settings.json symlink --"
 if [ -L "$HOME/.claude/settings.json" ]; then
   echo "symlink OK"
