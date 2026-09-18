@@ -11,3 +11,8 @@
 - GOOD: the coder's «folder writable: true» diagnostic cracked the launchd/TCC deny in one line where a second grant would have failed; and its «trashed 0 / exit 0 looks like a deny» instrumentation
 - GOOD: ci-watch caught two real reds (renovate branch) within an hour of being armed; the plugin monitor bound on reload and delivered without a re-arm
 - GOOD: DOT-252 + the hoist habit — six guessed candidates declined in one go, the rule «a repeat, never a guess» was written from that
+- (halt addendum) the job-6 brief asserted a CAUSE («a per-command key still exists») that was false; three curl calls found the empty header. a brief carries the symptom + evidence, a guessed cause says «guess» → craft-spawning line
+- (coder, halt) a raycast hotkey command that acts and vanishes needs `popToRootType: Immediate`, or the next press re-enters the warm view → extensions CLAUDE.md
+- (coder, halt) the emoji→png + corner-mask pipeline ran four times as a throwaway; earns `pnpm x-ray:icon <emoji> <name>` → flowlog carry-over, next raycast session
+- (coder, halt) line-offset edits deleted a whole swift block once; exact-string anchors with a count assert never failed in 24 commits — already the rule, the coder named it
+- GOOD (coder): three 1–3-line instrumentation lines (scanned count, folder writable, empty-key check) replaced three rounds of guessing
