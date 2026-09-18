@@ -24,7 +24,7 @@ const LinearSearchWide = (props: LinearSearchWideProps) => {
 
     // keepPreviousData holds the last result after `execute` goes false, so an emptied
     // search bar would otherwise keep rendering the hits of the term the user just cleared.
-    const hits = term.length === 0 ? [] : data;
+    const hits = term.length === 0 ? [] : data.filter(isCurrentShape);
 
     const issueListJSX = hits.map((issue) => {
         return (
@@ -80,6 +80,15 @@ const LinearSearchWide = (props: LinearSearchWideProps) => {
 export default LinearSearchWide;
 
 /* Helpers */
+// useCachedPromise builds its cache key from the arguments alone — the function body is not
+// part of it, so a payload written by an older version of this command survives every change
+// to the query, and gets rendered before the refetch behind it lands. The version that
+// shipped before labels existed crashes the row that renders them, so a hit that does not
+// carry the current shape is dropped rather than shown.
+const isCurrentShape = (issue: LinearIssue) => {
+    return Array.isArray(issue.labels?.nodes);
+};
+
 const stateIcon: Record<string, Icon> = {
     backlog: Icon.CircleEllipsis,
     canceled: Icon.XMarkCircle,
