@@ -148,7 +148,7 @@
     "mattpocock-skills@claude-plugins-official": true,
     "x@x": true,
     "linear-cli@linear-cli": false,
-    "impeccable@impeccable": false
+    "impeccable@impeccable": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
