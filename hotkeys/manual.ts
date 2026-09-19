@@ -4,17 +4,14 @@ export const manualHotkeys = [
     ...(
         [
             ['r', '1Password'],
-            ['x', 'Calculator'],
             ['k', 'Calendar'],
             ['a', 'Claude'],
             ['b', 'Bartender toggle'],
             ['2', 'Cursor'],
-            ['3', 'Figma'],
             ['f', 'Finder'],
             ['1', 'Google Chrome'],
             ['e', 'Linear'],
             ['n', 'Notion'],
-            ['z', 'Numi'],
             ['d', 'Obsidian'],
             ['c', 'Slack'],
             ['s', 'Spark'],
@@ -64,7 +61,7 @@ export const manualHotkeys = [
     {
         action: 'Self-Timer',
         app: 'cleanshot',
-        key: '\\',
+        key: '`',
         mods: 'cmd+shift',
         since: '2026-09-19',
     },
