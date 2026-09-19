@@ -106,11 +106,21 @@ final class Log {
 let log = Log()
 var tapPort: CFMachPort?
 
-// A bare ctrl tap is wispr flow's push-to-talk, and it never produces a keyDown.
-// It is recorded only when ctrl goes down alone and comes back up with no key pressed
-// in between — so ctrl held as part of ctrl+c is not double counted.
-var bareCtrlPending = false
-var keyPressedSinceCtrlDown = false
+// A modifier pressed alone can be a binding in its own right — wispr flow's push-to-talk is
+// bare right cmd, and its previous one was bare ctrl. Those never produce a keyDown, so the
+// chord has to be read from the flagsChanged stream instead: which physical key moved, and
+// did it come back up with no key pressed in between. That last part is what keeps the cmd of
+// cmd+c from counting twice.
+//
+// The keycode is the only thing that tells left from right. CGEventFlags cannot: maskCommand
+// is identical for both cmd keys, which is why this is keyed on the code and not the flags.
+let modifierName: [Int64: String] = [
+    54: "rcmd", 55: "cmd", 56: "shift", 58: "opt",
+    59: "ctrl", 60: "rshift", 61: "ropt", 62: "rctrl",
+]
+
+var bareModifierPending: String?
+var keyPressedSinceModifierDown = false
 
 func frontApp() -> String {
     NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? "unknown"
@@ -126,24 +136,27 @@ let handler: CGEventTapCallBack = { _, type, event, _ in
     let flags = event.flags
 
     if type == .flagsChanged {
-        let ctrl = flags.contains(.maskControl)
-        let others = flags.contains(.maskAlternate) || flags.contains(.maskShift)
-            || flags.contains(.maskCommand)
-        if ctrl && !others {
-            bareCtrlPending = true
-            keyPressedSinceCtrlDown = false
-        } else if !ctrl {
-            if bareCtrlPending && !keyPressedSinceCtrlDown {
-                log.append(kind: "chord", chord: "ctrl", app: frontApp())
+        let held = [CGEventFlags.maskControl, .maskAlternate, .maskShift, .maskCommand]
+            .filter { flags.contains($0) }
+        let code = event.getIntegerValueField(.keyboardEventKeycode)
+
+        if held.count == 1, let name = modifierName[code] {
+            bareModifierPending = name
+            keyPressedSinceModifierDown = false
+        } else if held.isEmpty {
+            if let pending = bareModifierPending, !keyPressedSinceModifierDown {
+                log.append(kind: "chord", chord: pending, app: frontApp())
             }
-            bareCtrlPending = false
+            bareModifierPending = nil
         } else {
-            bareCtrlPending = false
+            // A second modifier joined the first: this is the start of a real chord, not a
+            // binding on the modifier itself.
+            bareModifierPending = nil
         }
         return Unmanaged.passUnretained(event)
     }
 
-    keyPressedSinceCtrlDown = true
+    keyPressedSinceModifierDown = true
 
     // Holding a chord fires keyDown repeatedly; one press must count once.
     guard event.getIntegerValueField(.keyboardEventAutorepeat) == 0 else {
