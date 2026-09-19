@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { Action, ActionPanel, Color, Icon, List } from '@raycast/api';
 import { useCachedPromise } from '@raycast/utils';
 
-import { type Agent, readAgentList, toNextFire } from './lib/launchd';
+import {
+    type Agent,
+    type AgentSource,
+    type Health,
+    readAgentList,
+    toHealth,
+    toNextFire,
+} from './lib/launchd';
 
 const Schedule = () => {
     const [isShowingDetail, setIsShowingDetail] = useState(false);
@@ -55,11 +62,10 @@ const Schedule = () => {
                     </ActionPanel>
                 }
                 detail={<AgentDetail agent={agent} />}
-                icon={{ source: Icon.Clock, tintColor: toStateColor(agent) }}
                 key={agent.label}
                 keywords={[agent.label, agent.schedule]}
                 subtitle={agent.what ?? undefined}
-                title={agent.name}
+                title={`${agent.emoji ?? fallbackGlyph} ${agent.name}`}
             />
         );
     });
@@ -87,9 +93,14 @@ const AgentDetail = (props: AgentDetailProps) => {
 
     return (
         <List.Item.Detail
-            markdown={props.agent.whatFull ?? '_no description in the plist._'}
+            markdown={toDetailMarkdown(props.agent)}
             metadata={
                 <List.Item.Detail.Metadata>
+                    <List.Item.Detail.Metadata.Label
+                        icon={sourceBadge[props.agent.source]}
+                        text={sourceTooltip[props.agent.source]}
+                        title='source'
+                    />
                     <List.Item.Detail.Metadata.Label
                         text={props.agent.schedule}
                         title='schedule'
@@ -103,9 +114,9 @@ const AgentDetail = (props: AgentDetailProps) => {
                     <List.Item.Detail.Metadata.Label
                         icon={{
                             source: Icon.Dot,
-                            tintColor: toStateColor(props.agent),
+                            tintColor: healthColor[toHealth(props.agent)],
                         }}
-                        text={`${props.agent.state} · ${props.agent.runs} run(s)`}
+                        text={`${props.agent.state} · ${toStateNote(props.agent)}`}
                         title='state'
                     />
                     <List.Item.Detail.Metadata.Separator />
@@ -134,37 +145,142 @@ const AgentDetail = (props: AgentDetailProps) => {
 export default Schedule;
 
 /* Helpers */
-// A daily job spends almost all its life "not running", which is health, not a fault — so
-// grey is the resting colour and only an agent launchd does not hold at all reads red.
-const toStateColor = (agent: Agent) => {
-    if (agent.state === 'not loaded') return Color.Red;
+// The badge answers "can this row be trusted live?" — a launchd job is polled from launchctl
+// every open, a cloud job is only as true as the last heartbeat it left behind.
+const sourceBadge = { cowork: '☁️', launchd: '🖥️' } satisfies Record<
+    AgentSource,
+    string
+>;
 
-    return agent.state === 'running' ? Color.Green : Color.SecondaryText;
+const sourceTooltip = {
+    cowork: 'runs in the cloud — state inferred from its heartbeat file',
+    launchd: 'runs on this mac — state polled from launchctl',
+} satisfies Record<AgentSource, string>;
+
+// The job emoji rides in the TITLE, not the icon slot: raycast renders an emoji passed as an
+// icon through its template pipeline and drains the colour out of it, while title and accessory
+// text leave it alone. A job that declared none still gets a glyph, so every title lines up.
+const fallbackGlyph = '⏰';
+
+// `toHealth` picks the word; these two only draw it. 💤 is dima's pick over a white dot, which
+// vanished into raycast's light background — it means nothing has run yet, not switched off.
+// The off state is `not loaded`, and that one is already red.
+const healthGlyph = {
+    dead: '🔴',
+    idle: '💤',
+    ok: '✅',
+    running: '🟢',
+    unknown: '❓',
+} satisfies Record<Health, string>;
+
+// A daily job spends almost all its life between slots, which is health, not a fault — so grey
+// is the resting colour and only a genuinely dead job reads red.
+const healthColor = {
+    dead: Color.Red,
+    idle: Color.SecondaryText,
+    ok: Color.Green,
+    running: Color.Green,
+    unknown: Color.SecondaryText,
+} satisfies Record<Health, Color>;
+
+// The pane used to print the raw plist comment, which markdown collapses into one run-on
+// paragraph. The heading carries the name, an italic line carries the timing, and the body is
+// rebuilt below so a hand-wrapped comment survives the trip.
+const toDetailMarkdown = (agent: Agent) => {
+    const nextFire = toNextFire(agent);
+    const next = nextFire ? nextFire.toLocaleString() : 'on demand';
+    const body = agent.whatFull
+        ? toBodyMarkdown(agent.whatFull, agent.name)
+        : '_no description in the plist._';
+
+    const heading = agent.emoji ? `${agent.emoji} ${agent.name}` : agent.name;
+
+    return `# ${heading}\n\n_${agent.schedule} · next ${next}_\n\n${body}`;
 };
 
-const toAccessoryList = (agent: Agent): List.Item.Accessory[] => {
-    const exitAccessoryList: List.Item.Accessory[] =
-        agent.lastExit === null
-            ? []
-            : [
-                  {
-                      text: {
-                          color: agent.lastExit === 0 ? Color.Green : Color.Red,
-                          value: `exit ${agent.lastExit}`,
-                      },
-                      tooltip: 'last exit code',
-                  },
-              ];
+const toBodyMarkdown = (comment: string, name: string) =>
+    comment
+        .split(/\n{2,}/)
+        .map((paragraph) => toParagraphMarkdown(paragraph, name))
+        .filter((paragraph) => paragraph.length > 0)
+        .join('\n\n');
 
+const toParagraphMarkdown = (paragraph: string, name: string) => {
+    // The heading already prints the name, so a comment opening with it says it twice.
+    if (paragraph.startsWith(`${name} — `)) {
+        return toProse(paragraph.slice(name.length + 3));
+    }
+
+    const lineList = paragraph.split('\n');
+
+    return lineList.every(isListLine)
+        ? lineList.map(toBulletMarkdown).join('\n')
+        : toProse(paragraph);
+};
+
+// A hard wrap inside a paragraph is the author's line length, not a line break — markdown
+// honours it only inside a list, so prose is rejoined into one line.
+const toProse = (paragraph: string) => paragraph.replace(/\s+/g, ' ').trim();
+
+// A list line is either literal (`- …`) or a short `key — value` head. The bound on the key is
+// what keeps a wrapped prose line that happens to carry an em dash out of the list.
+const isListLine = (line: string) => /^-\s+\S|^\S[^—\n]{0,20} — \S/.test(line);
+
+const toBulletMarkdown = (line: string) => {
+    const pair = /^-?\s*([^—]+?) — (.+)$/.exec(line);
+    const key = pair?.[1];
+    const value = pair?.[2];
+
+    if (!key || !value) return `- ${line.replace(/^-\s+/, '')}`;
+
+    return `- **${key}** — ${value}`;
+};
+
+// `exit 0` only ever repeated what a healthy state already said, and a cowork row's exit code is
+// synthesised from its heartbeat rather than measured — so only a real failure earns a slot.
+const toAccessoryList = (agent: Agent): List.Item.Accessory[] => {
+    const hasFailed =
+        agent.source === 'launchd' &&
+        agent.lastExit !== null &&
+        agent.lastExit !== 0;
+    const exitAccessoryList: List.Item.Accessory[] = hasFailed
+        ? [
+              {
+                  tag: { color: Color.Red, value: `exit ${agent.lastExit}` },
+                  tooltip: 'the last run ended badly',
+              },
+          ]
+        : [];
+
+    // Raycast packs accessories from the RIGHT edge at their own width, so the order is chosen
+    // from that edge inwards: the two rightmost are single glyphs of fixed width, which pins the
+    // schedule's right edge to the same column on every row. Put a variable-width word out there
+    // instead and everything to its left drifts — `not running` is four characters wider than
+    // `running`, which was the whole problem.
+    //
+    // The state word is not lost: it is in the tooltip and spelled out in the detail pane.
+    //
+    // Emoji go through `text`, never `icon` — raycast tints an accessory ICON to secondary grey,
+    // which drains the colour straight out of them.
     return [
-        { text: agent.schedule, tooltip: 'schedule' },
-        {
-            text: { color: toStateColor(agent), value: agent.state },
-            tooltip: `${agent.runs} run(s) this boot`,
-        },
+        { tag: agent.schedule, tooltip: 'schedule' },
         ...exitAccessoryList,
+        {
+            text: healthGlyph[toHealth(agent)],
+            tooltip: `${agent.state} — ${toStateNote(agent)}`,
+        },
+        {
+            text: sourceBadge[agent.source],
+            tooltip: sourceTooltip[agent.source],
+        },
     ];
 };
+
+// A cloud job has no boot and no run count — saying "0 run(s)" about one is just wrong.
+const toStateNote = (agent: Agent) =>
+    agent.source === 'cowork'
+        ? 'derived from the heartbeat, not measured'
+        : `${agent.runs} run(s) this boot`;
 
 /* Types */
 interface AgentDetailProps {
