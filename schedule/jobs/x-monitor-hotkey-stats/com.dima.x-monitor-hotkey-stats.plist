@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  ⌨️ x-monitor-hotkey-stats — counts keyboard shortcuts, never keystrokes.
+
+  - schedule — always on: RunAtLoad plus KeepAlive, relaunch throttled to one start per 30s
+  - records — one line per chord press: timestamp, chord (say "hyper+a"), frontmost bundle id
+  - never records — plain typing; an event without cmd, ctrl or opt is dropped inside the tap
+  - privacy — letters, numbers, shift+letter and password fields die before any text is formed
+  - the tap — listen-only, alters nothing that passes through it
+  - output — ~/.local/share/x-monitor-hotkey-stats/daemon.log, daemon.err.log for stderr
+  - reader — pnpm monitor-hotkey:top
+  - source — ~/dotfiles/schedule/jobs/x-monitor-hotkey-stats/main.swift
+  - gotcha — needs Input Monitoring, granted once to the binary below; a refused tap exits at once
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.x-monitor-hotkey-stats</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- launchd does not expand ~, so this path is absolute by necessity.
+             Build it first: pnpm monitor-hotkey:build -->
+        <string>/Users/dima/dotfiles/schedule/jobs/x-monitor-hotkey-stats/bin/x-monitor-hotkey-stats</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- A tap refused for want of permission exits at once; without this the
+         relaunch turns into a spin. -->
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/x-monitor-hotkey-stats/daemon.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/x-monitor-hotkey-stats/daemon.err.log</string>
+</dict>
+</plist>

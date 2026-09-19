@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  📷 x-autoclean-screenshots — trashes screenshots older than 30 days, recoverably.
+
+  - schedule — daily at 12:00; a slot slept through runs at the next wake, unlike cron
+  - moves — files under ~/Desktop/screenshots aged past 30 days, into ~/.Trash
+  - spares — hidden files, .DS_Store included
+  - output — ~/.local/share/x-autoclean-screenshots/run.log, run.err.log for stderr
+  - source — ~/dotfiles/schedule/jobs/x-autoclean-screenshots/main.swift
+  - build — pnpm autoclean-screenshots:build
+  - gotcha — needs Files and Folders → Desktop, or Full Disk Access, granted to the binary below
+
+  Why a binary of our own: TCC gates ~/Desktop per executable, and a system binary cannot be
+  granted. /usr/bin/find under launchd answered "Operation not permitted" and did nothing. The
+  binary below is ad-hoc signed with a stable identifier, so the one grant dima gives it
+  survives every rebuild.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.x-autoclean-screenshots</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- launchd does not expand ~, so this path is absolute by necessity.
+             Build it first: pnpm autoclean-screenshots:build -->
+        <string>/Users/dima/dotfiles/schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>12</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/x-autoclean-screenshots/run.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/x-autoclean-screenshots/run.err.log</string>
+</dict>
+</plist>
