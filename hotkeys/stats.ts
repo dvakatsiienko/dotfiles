@@ -1,7 +1,7 @@
 // Aggregation over the jsonl the x-monitor-hotkey-stats daemon appends. Pure functions on plain
 // arrays — reading the file and printing the tables is the entrypoint's job (top.ts).
-import { chordOf } from '../../../script/lib/hotkeys-chord.ts';
-import type { Hotkey } from '../../../script/lib/hotkeys-manual.ts';
+import { chordOf } from './chord.ts';
+import type { Hotkey } from './manual.ts';
 
 export const eventKinds = ['chord', 'activate', 'launch'] as const;
 export type EventKind = (typeof eventKinds)[number];

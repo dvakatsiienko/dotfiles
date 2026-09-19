@@ -47,8 +47,8 @@ home/.claude/shelf/jev/route.log
 # is written on anthropic's machines and lands here; nothing in the repo produces it.
 schedule/state/
 
-# Seed for docs/hotkeys/map.html, rewritten by `pnpm hotkeys:scan`. A snapshot of this mac's
+# Seed for hotkeys/map.html, rewritten by `pnpm hotkeys:scan`. A snapshot of this mac's
 # app preferences, not source — and biome reformats it while the generator re-emits raw json,
 # so committing it means a tree that is dirty after every scan. The page names the command
 # when it is absent.
-docs/hotkeys/hotkeys.js
+hotkeys/hotkeys.js
