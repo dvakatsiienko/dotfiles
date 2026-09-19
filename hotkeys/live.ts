@@ -10,14 +10,17 @@
 // this file, the page, or the seed format — everything the map shows is derived here, from the
 // log it already writes. A page format that reached into main.swift would need a swift rebuild,
 // a codesign and an Input Monitoring re-grant every time the map wanted a new number.
+import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
+import { sourceList } from './sources.ts';
 import { parseEvents } from './stats.ts';
 
 const DATA = join(homedir(), '.local/share/x-monitor-hotkey-stats');
 const SEED = join(import.meta.dirname, 'presses.js');
+const SCAN = join(import.meta.dirname, 'scan.ts');
 const EVERY_MS = 2000;
 
 const readCounts = () => {
@@ -55,15 +58,47 @@ const logSignature = () =>
         .map((name) => `${name}:${statSync(join(DATA, name)).mtimeMs}`)
         .join('|');
 
+// The bindings go stale too: dima rebinds something in wispr or cursor and the map keeps
+// drawing yesterday's keyboard until someone remembers `pnpm hotkeys:scan`. Same trick,
+// different files — the scan's own source list, stat'd, and a change reruns it.
+const sourceSignature = () =>
+    sourceList
+        .map(
+            (path) =>
+                `${path}:${statSync(path, { throwIfNoEntry: false })?.mtimeMs ?? 0}`,
+        )
+        .join('|');
+
+// Run out of process: the scan opens five app config files through plutil, and a throw from
+// any of them must not take the watcher down with it. scan.ts rewrites hotkeys.js as it runs.
+const rescan = () => {
+    try {
+        execFileSync(process.execPath, [SCAN], {
+            stdio: ['ignore', 'ignore', 'inherit'],
+        });
+        console.log(`bindings rescanned — ${new Date().toISOString()}`);
+    } catch (error) {
+        console.error(`scan failed — ${(error as Error).message}`);
+    }
+};
+
+let lastSources = sourceSignature();
 let lastSignature = logSignature();
 const chordCount = writeSeed();
 
 if (process.argv.includes('--watch')) {
     console.log(
-        `watching ${DATA} — presses.js on every new press, checked every ${EVERY_MS / 1000}s`,
+        `watching ${DATA} and ${sourceList.length} config sources — checked every ${EVERY_MS / 1000}s`,
     );
 
     setInterval(() => {
+        const sources = sourceSignature();
+
+        if (sources !== lastSources) {
+            lastSources = sources;
+            rescan();
+        }
+
         const signature = logSignature();
 
         if (signature === lastSignature) return;

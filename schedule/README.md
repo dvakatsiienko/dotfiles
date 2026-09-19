@@ -26,9 +26,10 @@ the installer is idempotent, and it waits for a job to actually leave the domain
 rebootstrapping it. `bootout` returns before the teardown finishes, and a bootstrap that races
 it is refused.
 
-## the two local jobs
+## the three local jobs
 
 - `x-monitor-hotkey-stats` — always on, counts chord presses, never keystrokes
+- `x-monitor-hotkey-live` — always on, keeps the hotkey map's data current
 - `x-autoclean-screenshots` — daily 12:00, trashes screenshots older than 30 days
 
 each plist opens with a comment describing itself; the raycast `schedule` command renders it.
@@ -36,7 +37,8 @@ each plist opens with a comment describing itself; the raycast `schedule` comman
 ⚠️ **both binaries hold a TCC grant, and it is keyed on the codesign identifier, not the path.**
 measured 2026-09-19: moving a job to a new directory and rebuilding kept both grants, because
 `--identifier com.dima.<name>` stayed the same. **renaming a job breaks them**, because the
-identifier is part of the name.
+identifier is part of the name. `x-monitor-hotkey-live` is exempt: it runs node, holds no
+grant, and was renamed on 2026-09-19 with nothing to re-grant.
 
 after a rename, the grant has to be given again in System Settings, and then:
 
@@ -92,6 +94,7 @@ one rule, both sources: the first line of a plist's `<!-- -->` comment, or the h
 `what`. the reader strips it before rendering the text, so it never shows up twice.
 
 - `⌨️ x-monitor-hotkey-stats — counts keyboard shortcuts, never keystrokes.`
+- `📡 x-monitor-hotkey-live — keeps the hotkey map's data current, with no terminal open.`
 - `📷 x-autoclean-screenshots — trashes screenshots older than 30 days, recoverably.`
 - `📜 gazette-sync — folds the day's fleet activity into cclio's gazette.`
 

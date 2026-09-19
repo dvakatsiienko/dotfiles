@@ -9,28 +9,22 @@
 // <script src> is exempt from that rule, so the seed has to arrive as a script.
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { homedir } from 'node:os';
 import { join } from 'node:path';
 
 import { canonical } from './chord.ts';
 import { type Hotkey, manualHotkeys } from './manual.ts';
+import {
+    bartenderPreference,
+    cursorKeybindings,
+    macosPreference,
+    magnetPreference,
+    wisprConfig,
+} from './sources.ts';
 
-const home = homedir();
-const plistJson = (bundle: string, key: string) =>
-    execFileSync(
-        'plutil',
-        [
-            '-extract',
-            key,
-            'raw',
-            '-o',
-            '-',
-            join(home, 'Library/Preferences', `${bundle}.plist`),
-        ],
-        {
-            encoding: 'utf8',
-        },
-    );
+const plistJson = (path: string, key: string) =>
+    execFileSync('plutil', ['-extract', key, 'raw', '-o', '-', path], {
+        encoding: 'utf8',
+    });
 
 // carbon key codes → key caps (us layout)
 const keyCap: Record<number, string> = {
@@ -124,12 +118,7 @@ const nxMods = (mask: number) =>
     ]);
 
 const wispr = (): Hotkey[] => {
-    const config = JSON.parse(
-        readFileSync(
-            join(home, 'Library/Application Support/Wispr Flow/config.json'),
-            'utf8',
-        ),
-    );
+    const config = JSON.parse(readFileSync(wisprConfig, 'utf8'));
     const binds: { shortcut: number[]; value: string }[] =
         config.prefs.cache.splitKeybinds;
     // `paste_event` is wispr's hook on the system paste chord, not a binding of its own
@@ -161,7 +150,7 @@ const wispr = (): Hotkey[] => {
 
 const magnet = (): Hotkey[] => {
     const raw = Buffer.from(
-        plistJson('com.crowdcafe.windowmagnet', 'horizontalCommands'),
+        plistJson(magnetPreference, 'horizontalCommands'),
         'base64',
     ).toString();
     const commands: {
@@ -189,10 +178,7 @@ const magnet = (): Hotkey[] => {
 
 const bartender = (): Hotkey[] => {
     const { carbonKeyCode, carbonModifiers } = JSON.parse(
-        plistJson(
-            'com.surteesstudios.Bartender',
-            'KeyboardShortcuts_showAllItems',
-        ),
+        plistJson(bartenderPreference, 'KeyboardShortcuts_showAllItems'),
     );
     const mods = carbonMods(carbonModifiers);
     return [
@@ -206,10 +192,7 @@ const bartender = (): Hotkey[] => {
 };
 
 const cursor = (): Hotkey[] => {
-    const text = readFileSync(
-        join(home, 'Library/Application Support/Cursor/User/keybindings.json'),
-        'utf8',
-    )
+    const text = readFileSync(cursorKeybindings, 'utf8')
         .replace(/\/\*[\s\S]*?\*\//g, '')
         .replace(/^\s*\/\/.*$/gm, '');
     const binds: { key: string; command: string }[] = JSON.parse(text);
@@ -231,13 +214,7 @@ const cursor = (): Hotkey[] => {
 const macos = (): Hotkey[] => {
     const plist = execFileSync(
         'plutil',
-        [
-            '-convert',
-            'json',
-            '-o',
-            '-',
-            join(home, 'Library/Preferences/com.apple.symbolichotkeys.plist'),
-        ],
+        ['-convert', 'json', '-o', '-', macosPreference],
         { encoding: 'utf8' },
     );
     const all: Record<
