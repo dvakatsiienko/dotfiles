@@ -261,7 +261,7 @@ function readPresses() {
   const at = window.hotkeyPresses?.updatedAt;
   const cold = data.hotkeys.filter((h) => !(presses[chord(h)] ?? 0)).length;
   $('live').textContent = at
-    ? `${cold} never pressed · live ${new Date(at).toLocaleTimeString()}`
+    ? `${cold} never pressed · last press ${new Date(at).toLocaleTimeString()}`
     : 'no press data — run pnpm hotkeys:live';
 }
 
