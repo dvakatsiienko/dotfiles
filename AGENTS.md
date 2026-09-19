@@ -37,6 +37,14 @@ pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 
 `package.json` `scripts` is the full list — read it rather than a copy here.
 
+## one home per feature
+
+**a feature lives in ONE directory named after it** — `schedule/` owns every scheduled job,
+`hotkeys/` owns every hotkey tool. before adding a file, ask which feature it belongs to and put
+it in that home; `script/`, `docs/` and `lib/` are not homes, they are where scatter starts (hotkeys
+sat in four places on 2026-09-19). the one crossing: a feature's scheduled **daemon** lives under
+`schedule/jobs/<name>/` (plist, source, `bin/`), its readers and tools stay in the feature's home.
+
 ## scripts
 
 - **`script/lib/manifest.ts`** decides (walks `home/`, derives the expected link set), `dotfiles-link.ts`
@@ -54,7 +62,7 @@ pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 - Formatter and linter is **biome** (`pnpm check`). Git hooks run through **lefthook** — biome on
   staged files plus `pnpm typecheck` and `pnpm test` at commit, `dotfiles-link` at push. Nothing in
   a hook writes to your files. 📌 `pnpm check` itself WRITES repo-wide — run biome on your own
-  paths only; lefthook already formats what you stage (it reformatted `docs/hotkeys/map.html`
+  paths only; lefthook already formats what you stage (it reformatted `hotkeys/map.html`
   under a coder, 2026-09-15).
 
 ## what lives in `home/.claude/` that `ls` does not explain

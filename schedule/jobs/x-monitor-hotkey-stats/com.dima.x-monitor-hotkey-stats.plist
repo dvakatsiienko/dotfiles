@@ -9,7 +9,7 @@
   - privacy — letters, numbers, shift+letter and password fields die before any text is formed
   - the tap — listen-only, alters nothing that passes through it
   - output — ~/.local/share/x-monitor-hotkey-stats/daemon.log, daemon.err.log for stderr
-  - reader — pnpm monitor-hotkey:top
+  - reader — pnpm hotkeys:top
   - source — ~/dotfiles/schedule/jobs/x-monitor-hotkey-stats/main.swift
   - gotcha — needs Input Monitoring, granted once to the binary below; a refused tap exits at once
 -->

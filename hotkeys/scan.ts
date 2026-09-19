@@ -1,9 +1,9 @@
 // prints every hotkey the machine will tell us about, as json: wispr flow, magnet, bartender,
-// cursor, macos, plus the hand-kept list in lib/hotkeys-manual.ts.
-//   node ./script/hotkeys-scan.ts
+// cursor, macos, plus the hand-kept list in manual.ts.
+//   node ./hotkeys/scan.ts
 //
-// stdout is an api — schedule/jobs/x-monitor-hotkey-stats/top.ts parses it — so it stays json.
-// the same payload is also written beside docs/hotkeys/map.html as JS rather than JSON: that
+// stdout is an api — top.ts parses it — so it stays json. the same payload is also written
+// beside map.html as JS rather than JSON: that
 // page is opened straight off disk, and chrome refuses `fetch` of a sibling file over file://
 // (measured: TypeError: Failed to fetch, with the json sitting right there). a classic
 // <script src> is exempt from that rule, so the seed has to arrive as a script.
@@ -12,8 +12,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-import { canonical } from './lib/hotkeys-chord.ts';
-import { type Hotkey, manualHotkeys } from './lib/hotkeys-manual.ts';
+import { canonical } from './chord.ts';
+import { type Hotkey, manualHotkeys } from './manual.ts';
 
 const home = homedir();
 const plistJson = (bundle: string, key: string) =>
@@ -278,7 +278,7 @@ const payload = JSON.stringify(
 );
 
 writeFileSync(
-    join(import.meta.dirname, '..', 'docs', 'hotkeys', 'hotkeys.js'),
+    join(import.meta.dirname, 'hotkeys.js'),
     `window.hotkeyData = ${payload};\n`,
 );
 

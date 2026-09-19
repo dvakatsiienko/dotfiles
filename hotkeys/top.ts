@@ -1,5 +1,5 @@
 /**
- * monitor-hotkey:top — what the x-monitor-hotkey-stats daemon recorded. Top chords, the apps they
+ * hotkeys:top — what the x-monitor-hotkey-stats daemon recorded. Top chords, the apps they
  * were pressed in, app switches, and the bindings that exist but never get pressed.
  * Aggregation lives in `stats.ts`; the daemon that fills the log is `main.swift`.
  */
@@ -10,9 +10,6 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { basename, join } from 'node:path';
 
-/* Instruments */
-import { chordOf } from '../../../script/lib/hotkeys-chord.ts';
-import type { Hotkey } from '../../../script/lib/hotkeys-manual.ts';
 import {
     bold,
     dim,
@@ -22,7 +19,10 @@ import {
     title,
     warn,
     yb,
-} from '../../../script/lib/print.ts';
+} from '../script/lib/print.ts';
+/* Instruments */
+import { chordOf } from './chord.ts';
+import type { Hotkey } from './manual.ts';
 import {
     LABEL_SEPARATOR,
     type LogEvent,
@@ -106,16 +106,7 @@ const readBindings = (): Hotkey[] => {
     try {
         const raw = execFileSync(
             process.execPath,
-            [
-                join(
-                    import.meta.dirname,
-                    '..',
-                    '..',
-                    '..',
-                    'script',
-                    'hotkeys-scan.ts',
-                ),
-            ],
+            [join(import.meta.dirname, 'scan.ts')],
             { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
         );
         return JSON.parse(raw).hotkeys as Hotkey[];

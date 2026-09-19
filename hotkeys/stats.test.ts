@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { Hotkey } from '../../../script/lib/hotkeys-manual.ts';
+import type { Hotkey } from './manual.ts';
 import {
     byApp,
     byChord,

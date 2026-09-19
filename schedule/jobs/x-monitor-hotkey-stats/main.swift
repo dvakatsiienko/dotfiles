@@ -11,7 +11,7 @@
 
 import Cocoa
 
-// US-layout virtual keycodes. The TypeScript twin is `keyCap` in script/hotkeys-scan.ts —
+// US-layout virtual keycodes. The TypeScript twin is `keyCap` in hotkeys/scan.ts —
 // same numbering, kept in step by hand because the two live on opposite sides of a language line.
 let keyCap: [Int64: String] = [
     0: "a", 1: "s", 2: "d", 3: "f", 4: "h", 5: "g", 6: "z", 7: "x", 8: "c", 9: "v",
@@ -30,7 +30,7 @@ let keyCap: [Int64: String] = [
     121: "pagedown", 122: "f1", 123: "left", 124: "right", 125: "down", 126: "up",
 ]
 
-// Canonical modifier order, identical to `modOrder` in script/lib/hotkeys-chord.ts:
+// Canonical modifier order, identical to `modOrder` in hotkeys/chord.ts:
 // hyper, ctrl, opt, shift, cmd. All four together collapse to `hyper`.
 // `fn` and caps lock are deliberately absent — fn rides every arrow and function key, and
 // caps lock is a lock state, so either one would fork one chord into two spellings.
