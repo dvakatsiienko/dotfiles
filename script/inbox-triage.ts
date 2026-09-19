@@ -31,27 +31,30 @@ function parseInbox(md: string) {
     return items.map((i) => ({ ...i, text: i.text.trim() }));
 }
 
+const runs = Number(process.env.RUNS ?? 1);
 const items = parseInbox(readFileSync(inboxPath, 'utf8'));
 let tokens = 0;
 for (const item of items) {
-    const res = await judge(
-        { item: `${item.title}: ${item.text}`, section: item.section },
-        inboxQuestions,
-    );
-    tokens += res.usage.input_tokens;
-    const { lane, needsVerdict } = res.answers;
-    const p = Object.entries(lane.probabilities)
-        .sort((a, b) => b[1] - a[1])
-        .map(([k, v]) => `${k} ${Math.round(v * 100)}`)
-        .join(' · ');
-    const band =
-        needsVerdict.noul > verdictBand.high
-            ? '⏳ dima'
-            : needsVerdict.noul < verdictBand.low
-              ? 'agent'
-              : '~ unsure';
-    console.log(
-        `${item.title.padEnd(14)} → ${lane.choice.padEnd(8)} conf ${Math.round(lane.confidence * 100)}  [${p}]  verdict ${needsVerdict.noul.toFixed(2)} ${band}`,
-    );
+    for (let run = 0; run < runs; run++) {
+        const res = await judge(
+            { item: `${item.title}: ${item.text}`, section: item.section },
+            inboxQuestions,
+        );
+        tokens += res.usage.input_tokens;
+        const { lane, needsVerdict } = res.answers;
+        const p = Object.entries(lane.probabilities)
+            .sort((a, b) => b[1] - a[1])
+            .map(([k, v]) => `${k} ${Math.round(v * 100)}`)
+            .join(' · ');
+        const band =
+            needsVerdict.noul > verdictBand.high
+                ? '⏳ dima'
+                : needsVerdict.noul < verdictBand.low
+                  ? 'agent'
+                  : '~ unsure';
+        console.log(
+            `${item.title.padEnd(14)} → ${lane.choice.padEnd(8)} conf ${Math.round(lane.confidence * 100)}  [${p}]  verdict ${needsVerdict.noul.toFixed(2)} ${band}`,
+        );
+    }
 }
 console.log(`\n${items.length} items · ${tokens} input tokens`);
