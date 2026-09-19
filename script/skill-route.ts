@@ -25,16 +25,20 @@ const routeThreshold = 0.6;
 const logPath = `${process.env.HOME}/.claude/shelf/jev/route.log`;
 mkdirSync(`${process.env.HOME}/.claude/shelf/jev`, { recursive: true });
 
-const skillsDir = `${process.env.HOME}/dotfiles/home/.claude/plugin-x/skills`;
+const pluginDirs = {
+    cclio: `${process.env.HOME}/dotfiles/cclio/plugin-cclio/skills`,
+    x: `${process.env.HOME}/dotfiles/home/.claude/plugin-x/skills`,
+};
 
-const skills = readdirSync(skillsDir, { withFileTypes: true }).flatMap(
-    (entry) => {
+const skills = Object.entries(pluginDirs).flatMap(([prefix, dir]) =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
         if (!entry.isDirectory()) return [];
-        const name = entry.name;
-        const md = readFileSync(`${skillsDir}/${name}/SKILL.md`, 'utf8');
+        const md = readFileSync(`${dir}/${entry.name}/SKILL.md`, 'utf8');
         const description = readDescription(md);
-        return description ? [{ description, name }] : [];
-    },
+        return description
+            ? [{ description, name: `${prefix}:${entry.name}` }]
+            : [];
+    }),
 );
 
 const questions = Object.fromEntries(
@@ -52,12 +56,15 @@ const questions = Object.fromEntries(
 ) as Record<string, Question>;
 
 const probes = [
-    ['commit this and slay', 'cmt'],
-    ['walk me through the rubric on real inbox lines', 'walkthrough'],
-    ['read BYT-41 and fold today’s state into the body', 'pm'],
-    ['does the chart render at mobile width?', 'browser-headless'],
+    ['commit this and slay', 'x:cmt'],
+    ['walk me through the rubric on real inbox lines', 'x:walkthrough'],
+    ['read BYT-41 and fold today’s state into the body', 'x:pm'],
+    ['does the chart render at mobile width?', 'x:browser-headless'],
     ['what entry options do i have in 1p?', '—'],
-    ['append to inbox: try windscribe as the vpn fallback', 'notes'],
+    ['append to inbox: try windscribe as the vpn fallback', 'x:notes'],
+    ['1. flawlog flush, four lines ➡️ yes', 'cclio:flawlog'],
+    ['park the rule for the week, then checkpoint', 'cclio:checkpoint'],
+    ['sup, where are we', 'cclio:report'],
 ] as const;
 
 const live = process.argv[2];
@@ -66,9 +73,7 @@ if (live) {
     const ranked = Object.entries(res.answers)
         .map(([name, a]) => [name, 'noul' in a ? a.noul : 0] as const)
         .sort((a, b) => b[1] - a[1]);
-    const loads = ranked
-        .filter(([, p]) => p >= routeThreshold)
-        .map(([n]) => `x:${n}`);
+    const loads = ranked.filter(([, p]) => p >= routeThreshold).map(([n]) => n);
     const top = ranked[0];
     appendFileSync(
         logPath,
