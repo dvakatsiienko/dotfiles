@@ -1,4 +1,4 @@
-// x-hotkey-stats-monitor — counts which chords actually get pressed, per app.
+// x-monitor-hotkey-stats — counts which chords actually get pressed, per app.
 //
 // Privacy by construction: a KEY event reaches disk only when cmd, ctrl or opt is held.
 // Plain typing, shift+letter and every password field are dropped inside the callback,
@@ -64,7 +64,7 @@ final class Log {
 
     init() {
         dir = FileManager.default.homeDirectoryForCurrentUser
-            .appendingPathComponent(".local/share/x-hotkey-stats-monitor")
+            .appendingPathComponent(".local/share/x-monitor-hotkey-stats")
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         stamp = ISO8601DateFormatter()
         stamp.formatOptions = [.withInternetDateTime]
@@ -78,7 +78,7 @@ final class Log {
             let path = dir.appendingPathComponent("\(m).jsonl").path
             let fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0o600)
             guard fd >= 0 else {
-                FileHandle.standardError.write(Data("x-hotkey-stats-monitor: cannot open \(path)\n".utf8))
+                FileHandle.standardError.write(Data("x-monitor-hotkey-stats: cannot open \(path)\n".utf8))
                 return nil
             }
             handle = FileHandle(fileDescriptor: fd, closeOnDealloc: true)
@@ -168,7 +168,7 @@ guard let tap = CGEvent.tapCreate(
     userInfo: nil
 ) else {
     FileHandle.standardError.write(Data(
-        "x-hotkey-stats-monitor: tap refused — grant Input Monitoring to this binary\n".utf8))
+        "x-monitor-hotkey-stats: tap refused — grant Input Monitoring to this binary\n".utf8))
     exit(1)
 }
 
@@ -190,5 +190,5 @@ tapPort = tap
 let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
 CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
 CGEvent.tapEnable(tap: tap, enable: true)
-print("x-hotkey-stats-monitor: session tap live — chords and app switches")
+print("x-monitor-hotkey-stats: session tap live — chords and app switches")
 CFRunLoopRun()

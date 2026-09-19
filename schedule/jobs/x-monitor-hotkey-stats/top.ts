@@ -1,5 +1,5 @@
 /**
- * hotkey-monitor:top — what the x-hotkey-stats-monitor daemon recorded. Top chords, the apps they
+ * monitor-hotkey:top — what the x-monitor-hotkey-stats daemon recorded. Top chords, the apps they
  * were pressed in, app switches, and the bindings that exist but never get pressed.
  * Aggregation lives in `stats.ts`; the daemon that fills the log is `main.swift`.
  */
@@ -11,9 +11,18 @@ import { homedir } from 'node:os';
 import { basename, join } from 'node:path';
 
 /* Instruments */
-import { chordOf } from '../lib/hotkeys-chord.ts';
-import type { Hotkey } from '../lib/hotkeys-manual.ts';
-import { bold, dim, done, note, step, title, warn, yb } from '../lib/print.ts';
+import { chordOf } from '../../../script/lib/hotkeys-chord.ts';
+import type { Hotkey } from '../../../script/lib/hotkeys-manual.ts';
+import {
+    bold,
+    dim,
+    done,
+    note,
+    step,
+    title,
+    warn,
+    yb,
+} from '../../../script/lib/print.ts';
 import {
     LABEL_SEPARATOR,
     type LogEvent,
@@ -28,12 +37,12 @@ import {
     unpressed,
 } from './stats.ts';
 
-const DATA = join(homedir(), '.local/share/x-hotkey-stats-monitor');
+const DATA = join(homedir(), '.local/share/x-monitor-hotkey-stats');
 
 const HELP = `
-hotkey-monitor:top — read the chord and app-switch log
+monitor-hotkey:top — read the chord and app-switch log
 
-  pnpm hotkey-monitor:top [options]
+  pnpm monitor-hotkey:top [options]
 
   --days <n>       how far back to look, in days           (default 30)
   --app <text>     only events whose bundle id contains    (default all apps)
@@ -44,7 +53,7 @@ hotkey-monitor:top — read the chord and app-switch log
   --limit <n>      rows per section, 0 for every row        (default 15)
   --help           this text
 
-  Log: ~/.local/share/x-hotkey-stats-monitor/YYYY-MM.jsonl
+  Log: ~/.local/share/x-monitor-hotkey-stats/YYYY-MM.jsonl
 `;
 
 if (process.argv.includes('--help')) {
@@ -168,12 +177,12 @@ const subtitle = [
     .filter(Boolean)
     .join(' · ');
 
-title('hotkey-monitor:top', subtitle);
+title('monitor-hotkey:top', subtitle);
 
 if (all.length === 0) {
     warn('nothing logged yet', DATA.replace(homedir(), '~'));
     note(
-        'is the daemon up?  launchctl print gui/$UID/com.dima.x-hotkey-stats-monitor',
+        'is the daemon up?  launchctl print gui/$UID/com.dima.x-monitor-hotkey-stats',
     );
     done('nothing to report', { clean: false });
     process.exit(0);
