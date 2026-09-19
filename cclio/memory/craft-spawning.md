@@ -50,7 +50,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 3. **cwd** — a coder is launched as `cd <target repo> && claude --bg …` in one command: the only
    door that derives its stack from cwd (2/2 clean on 2.1.258). a subagent inherits the
    coordinator's brain whatever the cwd — fine for a probe, wrong for a coder. the brief asks the
-   coder to name its loaded CLAUDE.md paths in its first reply — the bleed detector.
+   coder to name its loaded AGENTS.md paths in its first reply — the bleed detector.
 4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
    word — **cclio verifies, then closes.**
 5. **identity (vet)** — the brief carries `LINEAR_TOKEN=$(pnpm --silent linear:agent-token coder)` and
@@ -112,9 +112,10 @@ Message the coder whenever; it answers **once** per assignment, blocked or done.
 cwd beats any message. Doneness is a **written marker** (final commit + report), never transcript
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
 
+**A brief carries the symptom + the evidence; a guessed cause says «guess»** — the job-6 brief asserted «a per-command key still exists» as the cause of a 401, and three curl calls found an empty header instead (2026-09-18).
 **A coder's report is a candidate, not a finding** — check its claims before relaying.
 **A relay to a coder names the source it was read from** — and a claim about a repo's behaviour
-opens that repo's `CLAUDE.md` first: «gitignore handler.js, the build regenerates it» was
+opens that repo's `AGENTS.md` first: «gitignore handler.js, the build regenerates it» was
 reasoned from `vercel.json` alone; the repo's own docs said vercel picks functions at clone time,
 and the coder held (2026-09-04).
 **A timeout is not proof of failure** — verify with `ListAgents` before respawning; a blind retry
