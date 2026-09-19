@@ -10,7 +10,7 @@
 // this file, the page, or the seed format — everything the map shows is derived here, from the
 // log it already writes. A page format that reached into main.swift would need a swift rebuild,
 // a codesign and an Input Monitoring re-grant every time the map wanted a new number.
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -45,13 +45,32 @@ const writeSeed = () => {
     return Object.keys(counts).length;
 };
 
+// This runs as an always-on launchd job, so the idle path has to cost nothing: the log is a
+// month of lines (27k by mid-september) and re-parsing it every 2s to learn that nothing
+// happened would burn cpu forever. One stat per file per tick answers that instead, and the
+// seed is only rewritten when a press actually landed.
+const logSignature = () =>
+    readdirSync(DATA)
+        .filter((name) => name.endsWith('.jsonl'))
+        .map((name) => `${name}:${statSync(join(DATA, name)).mtimeMs}`)
+        .join('|');
+
+let lastSignature = logSignature();
 const chordCount = writeSeed();
 
 if (process.argv.includes('--watch')) {
     console.log(
-        `watching ${DATA} — presses.js every ${EVERY_MS / 1000}s, ctrl-c to stop`,
+        `watching ${DATA} — presses.js on every new press, checked every ${EVERY_MS / 1000}s`,
     );
-    setInterval(writeSeed, EVERY_MS);
+
+    setInterval(() => {
+        const signature = logSignature();
+
+        if (signature === lastSignature) return;
+
+        lastSignature = signature;
+        writeSeed();
+    }, EVERY_MS);
 } else {
     console.log(`presses.js — ${chordCount} chords pressed so far`);
 }

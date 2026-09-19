@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  📡 x-hotkeys-live — keeps the hotkey map's press counts current, with no terminal open.
+
+  - schedule — always on: RunAtLoad plus KeepAlive, relaunch throttled to one start per 10s
+  - reads — the jsonl x-monitor-hotkey-stats appends; this job never touches the keyboard
+  - writes — ~/dotfiles/hotkeys/presses.js, and only when a press actually landed
+  - idle cost — one stat per log file every 2s; the month's log is reparsed only after a change
+  - output — ~/.local/share/x-hotkeys-live/daemon.log, daemon.err.log for stderr
+  - source — ~/dotfiles/hotkeys/live.ts
+  - reader — pnpm hotkeys:top
+  - open — file:///Users/dima/dotfiles/hotkeys/map.html
+  - manual — pnpm hotkeys:live runs the same watcher in a terminal
+  - setup — mkdir -p ~/.local/share/x-hotkeys-live; launchd will not create a missing log dir
+  - gotcha — needs no permission of any kind: it reads one file we already own and writes one
+
+  Why the node path below is fnm's `default` alias and not `which node`: a shell's node lives
+  under ~/.local/state/fnm_multishells/<pid>_<stamp>, which dies with that shell, and launchd
+  has no shell to ask. The alias is a stable symlink fnm repoints on every version bump, so a
+  node upgrade needs no edit here.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.x-hotkeys-live</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- launchd does not expand ~, so both paths are absolute by necessity. -->
+        <string>/Users/dima/.local/share/fnm/aliases/default/bin/node</string>
+        <string>/Users/dima/dotfiles/hotkeys/live.ts</string>
+        <string>--watch</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- A missing node or a syntax error exits at once; without this the relaunch spins. -->
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/x-hotkeys-live/daemon.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/x-hotkeys-live/daemon.err.log</string>
+</dict>
+</plist>
