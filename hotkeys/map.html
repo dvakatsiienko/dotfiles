@@ -129,10 +129,13 @@ const layout = [
   [['`',4],['1',4],['2',4],['3',4],['4',4],['5',4],['6',4],['7',4],['8',4],['9',4],['0',4],['-',4],['=',4],['backspace',8],['pgup',4]],
   [['tab',6],['q',4],['w',4],['e',4],['r',4],['t',4],['y',4],['u',4],['i',4],['o',4],['p',4],['[',4],[']',4],['\\',6],['pgdn',4]],
   [['caps',7],['a',4],['s',4],['d',4],['f',4],['g',4],['h',4],['j',4],['k',4],['l',4],[';',4],["'",4],['return',9],['home',4]],
-  [['shift',9],['z',4],['x',4],['c',4],['v',4],['b',4],['n',4],['m',4],[',',4],['.',4],['/',4],['shift',7],['up',4],['end',4]],
-  [['ctrl',5],['opt',5],['cmd',5],['space',25],['cmd',4],['fn',4],['',4],['left',4],['down',4],['right',4]],
+  [['shift',9],['z',4],['x',4],['c',4],['v',4],['b',4],['n',4],['m',4],[',',4],['.',4],['/',4],['rshift',7],['up',4],['end',4]],
+  [['ctrl',5],['opt',5],['cmd',5],['space',25],['rcmd',4],['fn',4],['rctrl',4],['left',4],['down',4],['right',4]],
 ];
-const modKeys = new Set(['ctrl','opt','cmd','shift','fn','caps']);
+const modKeys = new Set(['ctrl','opt','cmd','shift','fn','caps','rctrl','ropt','rcmd','rshift']);
+// The right-hand modifiers need their own identity for the binding lookup — wispr's
+// push-to-talk lives on right cmd alone — but the keycap is printed the same on both sides.
+const capLabel = { rcmd: 'cmd', rctrl: 'ctrl', ropt: 'opt', rshift: 'shift' };
 const layerMods = (layer) => layer === 'hyper' ? new Set(['caps']) : new Set(layer.split('+').filter(Boolean));
 const layerName = (l) => l === '' ? 'no modifier' : l;
 const chord = (h) => (h.mods ? `${h.mods}+` : '') + h.key;
@@ -184,7 +187,7 @@ function renderBoard() {
       k.title = binds.map((b) => `${b.app}: ${b.action}`).join('\n') || `${chord({ key: label, mods: layer })} — free`;
       const hits = binds.length ? (presses[chord({ key: label, mods: layer })] ?? 0) : 0;
       if (binds.length) k.classList.add(hits ? 'hit' : 'cold');
-      k.innerHTML = `<span class="cap">${label === 'caps' && layer === 'hyper' ? 'hyper' : label}</span><span class="act">${binds.length ? binds[0].action + (binds.length > 1 ? ` +${binds.length - 1}` : '') : ''}</span>${binds.length ? `<span class="hits">${hits || '—'}</span>` : ''}`;
+      k.innerHTML = `<span class="cap">${label === 'caps' && layer === 'hyper' ? 'hyper' : (capLabel[label] ?? label)}</span><span class="act">${binds.length ? binds[0].action + (binds.length > 1 ? ` +${binds.length - 1}` : '') : ''}</span>${binds.length ? `<span class="hits">${hits || '—'}</span>` : ''}`;
       k.onclick = () => { selected = label; render(); $('want').focus(); };
       r.appendChild(k);
     }
