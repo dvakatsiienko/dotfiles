@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SpokenUIUseSpeakingHotKeyFlag</key>
+	<true/>
+	<key>TalkingAlertsPhraseSelectionStrategy</key>
+	<integer>1</integer>
+	<key>TalkingAlertsSelectedPhraseIndex</key>
+	<integer>0</integer>
+	<key>TalkingAlertsSelectedVoiceCreator</key>
+	<integer>875705394</integer>
+	<key>TalkingAlertsSelectedVoiceID</key>
+	<integer>1316653039</integer>
+	<key>TalkingAlertsSpeakPhraseFlag</key>
+	<false/>
+	<key>TalkingAlertsStartDelay</key>
+	<real>20</real>
+	<key>TimeAnnouncementPrefs</key>
+	<dict>
+		<key>TimeAnnouncementsEnabled</key>
+		<false/>
+		<key>TimeAnnouncementsIntervalIdentifier</key>
+		<string>EveryHourInterval</string>
+		<key>TimeAnnouncementsPhraseIdentifier</key>
+		<string>ShortTime</string>
+		<key>TimeAnnouncementsVoiceSettings</key>
+		<dict>
+			<key>CustomVolume</key>
+			<real>0.5</real>
+		</dict>
+	</dict>
+</dict>
+</plist>
