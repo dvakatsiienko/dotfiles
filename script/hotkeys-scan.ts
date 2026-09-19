@@ -1,8 +1,14 @@
 // prints every hotkey the machine will tell us about, as json: wispr flow, magnet, bartender,
 // cursor, macos, plus the hand-kept list in lib/hotkeys-manual.ts.
-//   node ./script/hotkeys-scan.ts > hotkeys.json
+//   node ./script/hotkeys-scan.ts
+//
+// stdout is an api — schedule/jobs/x-monitor-hotkey-stats/top.ts parses it — so it stays json.
+// the same payload is also written beside docs/hotkeys/map.html as JS rather than JSON: that
+// page is opened straight off disk, and chrome refuses `fetch` of a sibling file over file://
+// (measured: TypeError: Failed to fetch, with the json sitting right there). a classic
+// <script src> is exempt from that rule, so the seed has to arrive as a script.
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -262,13 +268,18 @@ const scanned = [wispr, magnet, bartender, cursor, macos].flatMap((scan) => {
     }
 });
 
-console.log(
-    JSON.stringify(
-        {
-            hotkeys: [...manualHotkeys, ...scanned].map(canonical),
-            scannedAt: new Date().toISOString(),
-        },
-        null,
-        2,
-    ),
+const payload = JSON.stringify(
+    {
+        hotkeys: [...manualHotkeys, ...scanned].map(canonical),
+        scannedAt: new Date().toISOString(),
+    },
+    null,
+    2,
 );
+
+writeFileSync(
+    join(import.meta.dirname, '..', 'docs', 'hotkeys', 'hotkeys.js'),
+    `window.hotkeyData = ${payload};\n`,
+);
+
+console.log(payload);
