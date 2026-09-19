@@ -10,9 +10,9 @@ export const inboxQuestions = {
             answer: 'Dima wants a reply: a question, or an idea filed under the `💡` ideas section, where he expects a reaction and a suggestion, not a build.',
             drop: 'Nothing to do and nothing to record: an observation or a thought with no action wanted.',
             flowlog:
-                'A freebie: a small, concrete todo an agent resolves in place this session, including an fyi that updates a file, a map, or a list the fleet keeps. Logged in the flowlog with a status.',
+                'A concrete todo an agent can finish this session or the next, alongside other work, with no plan and no decision from dima: a freebie, a check, a leftovers sweep, or an fyi whose only action is updating a file, a map, or a list the fleet keeps. Logged in the flowlog with a status.',
             fold: 'Attaches to an existing ticket or a thread already tracked: the text names or links the ticket, or says «+1», «add this», «fold». No new ticket.',
-            ticket: 'New work too large or too uncertain for one pass: needs a plan, a decision from dima, or a coder session. Becomes a new linear ticket.',
+            ticket: 'New work that needs its own session: a plan, a design, a decision from dima, or a coder spawned for it. Becomes a new linear ticket.',
         },
         instructions:
             'Which lane should the coordinator route `item` to? `section` is the inbox heading dima filed it under and says what he expects back. A freebie is a small change an agent can finish in one pass without approval.',
