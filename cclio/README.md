@@ -15,7 +15,7 @@ cd ~/dotfiles/cclio && claude
 ```
 
 ## layout
-- `CLAUDE.md` — the coordinator memfile
+- `AGENTS.md` — the coordinator memfile
 - `memory/_MEMORY.md` — barrel index; leaves hold content
 - `plugin-cclio/skills/init/SKILL.md` — the `/cclio:init` boot ritual
 - `.claude/x-queue.md` — `/queue`'s store · `ROLLBACK.md` — how to undo this

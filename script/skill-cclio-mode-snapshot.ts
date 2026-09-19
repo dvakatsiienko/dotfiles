@@ -61,7 +61,7 @@ const fleet = [
         .map((f) => join(CLAUDE_HOME, 'rules', f)),
 ];
 const cclio = [
-    join(CCLIO, 'CLAUDE.md'),
+    join(CCLIO, 'AGENTS.md'),
     ...importWalk(join(CCLIO, 'memory/_MEMORY.md')),
 ];
 const live = [join(CCLIO, '.claude/x-queue.md')];

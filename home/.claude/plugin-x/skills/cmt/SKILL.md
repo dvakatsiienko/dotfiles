@@ -56,7 +56,7 @@ Emoji canon (stable, never random):
 - 📦 — dependency bumps, lockfile refreshes (scope always `deps`)
 - 🎨 — themes, styles, visual/display formatting
 - 📡 — networking
-- 📜 — docs: README, CLAUDE.md, specs, ADRs, skill instructions
+- 📜 — docs: README, AGENTS.md, specs, ADRs, skill instructions
 - 🍱 — multi-scope bulk commit: several unrelated areas at once
 
 RETIRED — never emit: ⚙️ 🧹 ♻️ 🐛 📝 📖 🔥 🚀 🔨 🔼 ⬆️ 🌟 ✂️

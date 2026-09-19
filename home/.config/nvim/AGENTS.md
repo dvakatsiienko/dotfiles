@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 Neovim configuration based on **LazyVim** (v16+). Dual-mode: native Neovim and VSCode-Neovim (`vim.g.vscode`).
 
