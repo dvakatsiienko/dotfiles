@@ -32,6 +32,12 @@ const coworkStaleMs = 26 * 60 * 60 * 1000;
 // selector keeps a glyph like ⌨️ from being cut in half.
 const emojiHead = /^(\p{Extended_Pictographic}️?)\s+/u;
 
+// A job may name one thing worth opening — a page it feeds, a dashboard. It says so in its
+// plist comment, in the same `key — value` shape as every other line there, and the row turns
+// that into its primary action. Nothing here knows what the target is: macOS `open` routes a
+// file:// url to the browser and an https one to the same place, so the reader stays dumb.
+const openLine = /^-\s*open\s+—\s+(\S+)\s*$/m;
+
 export const readAgentList = async (): Promise<Agent[]> => {
     const [nameList, coworkList] = await Promise.all([
         readdir(agentDir).catch(onAgentDirError),
@@ -131,6 +137,7 @@ const readAgent = async (plistPath: string): Promise<Agent | null> => {
         emoji: toEmoji(comment ?? undefined),
         label: plist.Label,
         name,
+        openTarget: comment ? (openLine.exec(comment)?.[1] ?? null) : null,
         plistPath,
         programPath: plist.ProgramArguments?.[0] ?? null,
         schedule: toScheduleText(plist, calendar),
@@ -198,6 +205,7 @@ const readCoworkAgent = async (beatPath: string): Promise<Agent | null> => {
         emoji: toEmoji(beat.what),
         label: beat.label,
         name: beat.name,
+        openTarget: null,
         // No plist and no log exist for a cloud job, so both open actions land on the
         // heartbeat itself — the only file here that says anything about it.
         plistPath: beatPath,
@@ -317,6 +325,7 @@ export interface Agent extends LiveState {
     emoji: string | null;
     label: string;
     name: string;
+    openTarget: string | null;
     plistPath: string;
     programPath: string | null;
     schedule: string;

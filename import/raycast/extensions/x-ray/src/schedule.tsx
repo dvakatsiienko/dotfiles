@@ -27,10 +27,22 @@ const Schedule = () => {
                 }
                 actions={
                     <ActionPanel>
+                        {agent.openTarget && (
+                            <Action.Open
+                                icon={Icon.Globe}
+                                target={agent.openTarget}
+                                title='open'
+                            />
+                        )}
                         {agent.stdoutPath && (
                             <Action.Open
                                 application='Cursor'
                                 icon={Icon.Document}
+                                shortcut={
+                                    agent.openTarget
+                                        ? { key: 'return', modifiers: ['cmd'] }
+                                        : undefined
+                                }
                                 target={agent.stdoutPath}
                                 title='open the log'
                             />
@@ -38,7 +50,12 @@ const Schedule = () => {
                         <Action.Open
                             application='Cursor'
                             icon={Icon.Cog}
-                            shortcut={{ key: 'return', modifiers: ['cmd'] }}
+                            shortcut={{
+                                key: 'return',
+                                modifiers: agent.openTarget
+                                    ? ['cmd', 'shift']
+                                    : ['cmd'],
+                            }}
                             target={agent.plistPath}
                             title='open the plist'
                         />
