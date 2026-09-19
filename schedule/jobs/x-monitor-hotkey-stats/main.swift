@@ -4,6 +4,11 @@
 // listen-only tap without Input Monitoring is created fine and then receives nothing, silently.
 // Not done yet only because building costs a re-grant, so it rides the next planned one.
 //
+// 📌 NEXT REBUILD: a modifier HELD past ~300 ms with key events arriving while it is down should
+// count once on release. That is wispr's push-to-talk on rcmd — it types the transcript while the
+// key is still held, and the current down-then-up-with-no-key-between rule cancels the press.
+// Same planned re-grant as the line above.
+//
 // Privacy by construction: a KEY event reaches disk only when cmd, ctrl or opt is held.
 // Plain typing, shift+letter and every password field are dropped inside the callback,
 // before anything is formatted. App switches carry a bundle id and nothing else — no
