@@ -54,6 +54,14 @@ tell is that `kind: chord` lines stop while `kind: activate` lines continue. aft
 swift file: re-grant in System Settings → Privacy & Security → Input Monitoring, then prove it
 with one real keypress before believing anything else.
 
+🎯 **the order is the whole trick: edit → build → re-grant → RESTART.** a tap created before the
+grant stays deaf for the life of that process, so restarting first and re-granting second leaves
+a job that can never see its own permission — it looks identical to a job that was never granted.
+measured 2026-09-19, and getting the two steps backwards is what cost the afternoon, not the
+grant itself. if a plain off/on in the pane does not take, remove the row with `−` and add the
+binary back with `+` from `schedule/jobs/<name>/bin/<name>`: that forces a record against the
+cdhash that exists now, and a stale entry looks the same in the list either way.
+
 after a rename, the grant has to be given again in System Settings, and then:
 
 - 📌 **the job must be restarted** — `launchctl kickstart -k gui/$UID/com.dima.<name>`. a tap

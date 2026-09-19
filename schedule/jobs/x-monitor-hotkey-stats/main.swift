@@ -1,5 +1,9 @@
 // x-monitor-hotkey-stats — counts which chords actually get pressed, per app.
 //
+// 📌 NEXT REBUILD: add `CGPreflightListenEventAccess()` before the tap and log the refusal. A
+// listen-only tap without Input Monitoring is created fine and then receives nothing, silently.
+// Not done yet only because building costs a re-grant, so it rides the next planned one.
+//
 // Privacy by construction: a KEY event reaches disk only when cmd, ctrl or opt is held.
 // Plain typing, shift+letter and every password field are dropped inside the callback,
 // before anything is formatted. App switches carry a bundle id and nothing else — no
