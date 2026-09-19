@@ -106,11 +106,23 @@ const readBindings = (): Hotkey[] => {
     try {
         const raw = execFileSync(
             process.execPath,
-            [join(import.meta.dirname, '..', 'hotkeys-scan.ts')],
+            [
+                join(
+                    import.meta.dirname,
+                    '..',
+                    '..',
+                    '..',
+                    'script',
+                    'hotkeys-scan.ts',
+                ),
+            ],
             { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
         );
         return JSON.parse(raw).hotkeys as Hotkey[];
-    } catch {
+    } catch (error) {
+        // Silence here cost a day: the move into schedule/ left this path one level short, and
+        // the join simply stopped happening behind the tidy "skipping" line below.
+        console.error(`hotkeys:scan failed — ${(error as Error).message}`);
         return [];
     }
 };
