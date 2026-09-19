@@ -20,5 +20,5 @@ rule is one line; the correction was a full router rewrite.
 
 ## where else this is written
 
-`~/projects/bytes/CLAUDE.md` carries the same rule for that repo, so it fires there without this
+`~/projects/bytes/AGENTS.md` carries the same rule for that repo, so it fires there without this
 skill loading at all.

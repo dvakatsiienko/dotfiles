@@ -12,4 +12,5 @@
 - biome only (root `biome.jsonc` re-includes this path); no eslint, no prettier, no `ray lint`.
 - icons: 512×512 png, rounded-square tile (~22 % radius), transparent outside the tile; an emoji
   string is a valid raycast image source — flags and glyphs need no png.
+- a hotkey command that acts and vanishes closes with `popToRootType: PopToRootType.Immediate`, or the next press re-enters the warm view
 - everything a user reads is lowercase: the extension title, command titles, action titles, section headers, placeholders, toasts. identifiers, urls, currency codes and acronyms inside names («US dollar») keep their case.
