@@ -62,6 +62,13 @@ export const manualHotkeys = [
         since: '2026-09-17',
     },
     {
+        action: 'Self-Timer',
+        app: 'cleanshot',
+        key: '\\',
+        mods: 'cmd+shift',
+        since: '2026-09-19',
+    },
+    {
         action: 'Capture Text (OCR)',
         app: 'cleanshot',
         key: '2',
