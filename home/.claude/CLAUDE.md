@@ -123,6 +123,7 @@ Anything we create should not just work well. It should be approachable and easy
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
 - **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
 - **yq / sd** — yaml/toml read-write (`settings.toml`, lefthook) · in-place text replace without sed's macos `-i ''` traps. measured in use 2026-09-16; gron was not, and is gone
+- **app removal** — a cask: `brew uninstall --zap --cask <name>`; anything else (app store, dmg): `mo uninstall` (mole, installed) — it takes the root-owned bundle and its residue in one pass; `trash` on a root-owned `.app` is refused (magnet, 2026-09-19)
 - **trash over rm** — `trash <path>` moves to the recoverable macos trash; prefer it wherever a deletion is approved but regret is possible
 - **archives → keka's bundled binaries**, `/Applications/Keka.app/Contents/MacOS/Keka --cli <bin>` — `7z` `7zz` `unar` `unrar` `tar` `xz` `zstd` `brotli` `lz4` `lzip` `pigz` and friends. macos ships no `unrar` and no 7z at all, so this is the only door to those; plain `zip`/`tar`/`ditto` still handle the ordinary cases
 - **uv** — the Python package manager here; pip in any form is not used
