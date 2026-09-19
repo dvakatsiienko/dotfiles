@@ -20,6 +20,16 @@
           }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/skill-route.sh"
+          }
+        ]
+      }
     ]
   }
 }
