@@ -32,6 +32,7 @@ header { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
 h1 { margin: 0; font: 600 22px/1.2 "IBM Plex Sans", system-ui, sans-serif; text-wrap: balance; }
 .meta { font-size: 13px; color: var(--ink-3); }
 .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.loadfail { padding: 10px 12px; font-size: 13.5px; line-height: 1.5; color: var(--ink); background: var(--cap); border: 1px solid var(--accent); border-left-width: 4px; border-radius: 8px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
 .tab { display: flex; gap: 8px; align-items: center; padding: 6px 11px; font: 500 13px "IBM Plex Mono", ui-monospace, monospace; color: var(--ink-2); cursor: pointer; user-select: none; background: transparent; border: 1px solid var(--line); border-radius: 6px; }
 .tab b { font-weight: 600; color: var(--ink); }
@@ -81,6 +82,8 @@ footer { padding-top: 12px; font-size: 12.5px; color: var(--ink-3); border-top: 
     <span class="meta">NuPhy Air75 · <span id="count"></span> bindings · scanned <span class="mono" id="scanned" ></span></span>
   </header>
 
+  <p class="loadfail" hidden id="loadfail" ></p>
+
   <div class="tabs" id="tabs" role="tablist"></div>
 
   <div class="board"><div class="rows" id="rows"></div></div>
@@ -112,6 +115,7 @@ footer { padding-top: 12px; font-size: 12.5px; color: var(--ink-3); border-top: 
   <footer>seeded by <span class="mono">pnpm hotkeys:scan</span> in dotfiles — wispr flow, magnet, bartender, cursor and macos are read from their files; raycast, cleanshot and 1password are typed by hand in <span class="mono">script/lib/hotkeys-manual.ts</span>. a republish pulls the new scan; notes live only here.</footer>
 </div>
 
+<script src="hotkeys.js"></script>
 <script>
 const appColor = { '1password': 'var(--onepass)', bartender: 'var(--bartender)', cleanshot: 'var(--cleanshot)', cursor: 'var(--cursor)', macos: 'var(--macos)', magnet: 'var(--magnet)', raycast: 'var(--raycast)', 'wispr flow': 'var(--wispr)' };
 const layerOrder = ['hyper', 'ctrl+opt', 'opt', 'cmd', 'ctrl+cmd', 'shift+cmd', 'ctrl', 'ctrl+shift', 'shift', 'ctrl+opt+cmd', ''];
@@ -231,8 +235,19 @@ $('save').onclick = () => saveWant($('want').value);
 $('clear').onclick = () => saveWant('');
 $('want').addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) saveWant($('want').value); });
 
+// The seed arrives as a <script> rather than a fetch because this page is opened off disk:
+// chrome blocks fetch of a sibling file over file://, which drew an empty keyboard and left
+// nothing in the console to explain it.
+function showLoadFail() {
+  $('loadfail').innerHTML = 'no hotkey data — <span class="mono">hotkeys.js</span> is missing beside this page. run <span class="mono">pnpm hotkeys:scan</span> in dotfiles to write it.';
+  $('loadfail').hidden = false;
+  $('count').textContent = '0';
+  $('scanned').textContent = 'never';
+}
+
 async function start() {
-  data = await (await fetch('hotkeys.json')).json();
+  if (!window.hotkeyData) return showLoadFail();
+  data = window.hotkeyData;
   $('count').textContent = data.hotkeys.length;
   $('scanned').textContent = data.scannedAt.slice(0, 16).replace('T', ' ');
   wants = local.read();
