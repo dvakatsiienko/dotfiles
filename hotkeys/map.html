@@ -32,6 +32,10 @@ header { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
 h1 { margin: 0; font: 600 22px/1.2 "IBM Plex Sans", system-ui, sans-serif; text-wrap: balance; }
 .meta { font-size: 13px; color: var(--ink-3); }
 .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.key .hits { position: absolute; right: 5px; bottom: 4px; font: 500 9.5px/1 "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.key.hit .hits { color: var(--accent); }
+.key.bound .act { padding-right: 20px; }
+.key.cold { box-shadow: 0 2px 0 var(--cap-edge), inset 0 0 0 1.5px var(--ink-3); }
 .loadfail { padding: 10px 12px; font-size: 13.5px; line-height: 1.5; color: var(--ink); background: var(--cap); border: 1px solid var(--accent); border-left-width: 4px; border-radius: 8px; }
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
 .tab { display: flex; gap: 8px; align-items: center; padding: 6px 11px; font: 500 13px "IBM Plex Mono", ui-monospace, monospace; color: var(--ink-2); cursor: pointer; user-select: none; background: transparent; border: 1px solid var(--line); border-radius: 6px; }
@@ -79,7 +83,7 @@ footer { padding-top: 12px; font-size: 12.5px; color: var(--ink-3); border-top: 
 <div class="wrap">
   <header>
     <h1>Hotkey Map</h1>
-    <span class="meta">NuPhy Air75 · <span id="count"></span> bindings · scanned <span class="mono" id="scanned" ></span></span>
+    <span class="meta">NuPhy Air75 · <span id="count"></span> bindings · scanned <span class="mono" id="scanned" ></span> · <span id="live">no press data</span></span>
   </header>
 
   <p class="loadfail" hidden id="loadfail" ></p>
@@ -116,6 +120,7 @@ footer { padding-top: 12px; font-size: 12.5px; color: var(--ink-3); border-top: 
 </div>
 
 <script src="hotkeys.js"></script>
+<script src="presses.js"></script>
 <script>
 const appColor = { '1password': 'var(--onepass)', bartender: 'var(--bartender)', cleanshot: 'var(--cleanshot)', cursor: 'var(--cursor)', macos: 'var(--macos)', magnet: 'var(--magnet)', raycast: 'var(--raycast)', 'wispr flow': 'var(--wispr)' };
 const layerOrder = ['hyper', 'ctrl+opt', 'opt', 'cmd', 'ctrl+cmd', 'shift+cmd', 'ctrl', 'ctrl+shift', 'shift', 'ctrl+opt+cmd', ''];
@@ -133,6 +138,7 @@ const layerName = (l) => l === '' ? 'no modifier' : l;
 const chord = (h) => (h.mods ? `${h.mods}+` : '') + h.key;
 
 let data = { hotkeys: [], scannedAt: '' };
+let presses = window.hotkeyPresses?.counts ?? {};
 let layer = 'hyper';
 let selected = null;
 let wants = {};
@@ -176,7 +182,9 @@ function renderBoard() {
       if (binds.length) k.style.setProperty('--app', appColor[binds[0].app] ?? 'var(--macos)');
       k.setAttribute('aria-pressed', String(selected === label));
       k.title = binds.map((b) => `${b.app}: ${b.action}`).join('\n') || `${chord({ key: label, mods: layer })} — free`;
-      k.innerHTML = `<span class="cap">${label === 'caps' && layer === 'hyper' ? 'hyper' : label}</span><span class="act">${binds.length ? binds[0].action + (binds.length > 1 ? ` +${binds.length - 1}` : '') : ''}</span>`;
+      const hits = binds.length ? (presses[chord({ key: label, mods: layer })] ?? 0) : 0;
+      if (binds.length) k.classList.add(hits ? 'hit' : 'cold');
+      k.innerHTML = `<span class="cap">${label === 'caps' && layer === 'hyper' ? 'hyper' : label}</span><span class="act">${binds.length ? binds[0].action + (binds.length > 1 ? ` +${binds.length - 1}` : '') : ''}</span>${binds.length ? `<span class="hits">${hits || '—'}</span>` : ''}`;
       k.onclick = () => { selected = label; render(); $('want').focus(); };
       r.appendChild(k);
     }
@@ -245,13 +253,35 @@ function showLoadFail() {
   $('scanned').textContent = 'never';
 }
 
+// presses.js is RE-INSERTED rather than fetched: this page runs off disk, where chrome blocks
+// fetch of a sibling file but not a script tag. The query string is what stops it handing back
+// the copy it already parsed.
+function readPresses() {
+  presses = window.hotkeyPresses?.counts ?? {};
+  const at = window.hotkeyPresses?.updatedAt;
+  const cold = data.hotkeys.filter((h) => !(presses[chord(h)] ?? 0)).length;
+  $('live').textContent = at
+    ? `${cold} never pressed · live ${new Date(at).toLocaleTimeString()}`
+    : 'no press data — run pnpm hotkeys:live';
+}
+
+function pollPresses() {
+  const tag = document.createElement('script');
+  tag.src = `presses.js?t=${Date.now()}`;
+  tag.onload = () => { tag.remove(); readPresses(); renderBoard(); renderPanels(); };
+  tag.onerror = () => tag.remove();
+  document.head.append(tag);
+}
+
 async function start() {
   if (!window.hotkeyData) return showLoadFail();
   data = window.hotkeyData;
   $('count').textContent = data.hotkeys.length;
   $('scanned').textContent = data.scannedAt.slice(0, 16).replace('T', ' ');
   wants = local.read();
+  readPresses();
   render();
+  setInterval(pollPresses, 2000);
   db = await window.claude?.use?.('db').catch(() => null) ?? null;
   if (!db) return;
   db.collection('wants').onSnapshot((snap) => {
