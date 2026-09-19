@@ -613,23 +613,23 @@
 		<key>0</key>
 		<dict>
 			<key>X</key>
-			<real>1321.7734375</real>
+			<real>82.94140625</real>
 			<key>Y</key>
 			<real>1080</real>
 		</dict>
 		<key>1</key>
 		<dict>
 			<key>X</key>
-			<real>-125.57421875</real>
+			<real>-68.65625</real>
 			<key>Y</key>
-			<real>493.8828125</real>
+			<real>329.9453125</real>
 		</dict>
 		<key>2</key>
 		<dict>
 			<key>X</key>
-			<real>1556.52734375</real>
+			<real>727.6640625</real>
 			<key>Y</key>
-			<real>542.5</real>
+			<real>753.45703125</real>
 		</dict>
 	</dict>
 	<key>dwellEnabled</key>
