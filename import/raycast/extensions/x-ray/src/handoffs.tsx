@@ -80,35 +80,56 @@ const HandoffDetail = (props: HandoffDetailProps) => {
     );
 };
 
+// Three sections, because the verbs are three: paste into the session in front of you, copy
+// for somewhere else, open the file. Within each the cclio line leads — it is the one that
+// boots a coordinator, and the plain ingest line is the fallback for a session already booted.
 const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
     return (
-        <ActionPanel.Section>
-            <Action.Paste
-                content={toCclioInitLine(props.handoff)}
-                icon={Icon.Terminal}
-                shortcut={{ key: 'return', modifiers: ['cmd'] }}
-                title='paste cclio init line'
-            />
-            <Action.Paste
-                content={toIngestLine(props.handoff)}
-                icon={Icon.Terminal}
-                shortcut={{ key: 'return', modifiers: ['cmd', 'shift'] }}
-                title='paste ingest line'
-            />
-            <Action.Open
-                application='Cursor'
-                icon={Icon.Code}
-                shortcut={{ key: 'return', modifiers: ['opt'] }}
-                target={props.handoff.path}
-                title='open in cursor'
-            />
-            <Action.CopyToClipboard
-                content={toCclioInitLine(props.handoff)}
-                icon={Icon.Clipboard}
-                shortcut={{ key: 'c', modifiers: ['cmd'] }}
-                title='copy cclio init line'
-            />
-        </ActionPanel.Section>
+        <>
+            <ActionPanel.Section>
+                <Action.Paste
+                    content={toCclioInitLine(props.handoff)}
+                    icon={Icon.Terminal}
+                    shortcut={{ key: 'return', modifiers: ['cmd'] }}
+                    title='paste cclio init line'
+                />
+                <Action.Paste
+                    content={toIngestLine(props.handoff)}
+                    icon={Icon.Terminal}
+                    shortcut={{ key: 'return', modifiers: ['cmd', 'shift'] }}
+                    title='paste ingest line'
+                />
+            </ActionPanel.Section>
+            <ActionPanel.Section>
+                <Action.CopyToClipboard
+                    content={toCclioInitLine(props.handoff)}
+                    icon={Icon.Clipboard}
+                    shortcut={{ key: 'c', modifiers: ['cmd'] }}
+                    title='copy cclio init line'
+                />
+                <Action.CopyToClipboard
+                    content={toIngestLine(props.handoff)}
+                    icon={Icon.Clipboard}
+                    shortcut={{ key: 'c', modifiers: ['cmd', 'shift'] }}
+                    title='copy ingest line'
+                />
+                <Action.CopyToClipboard
+                    content={props.handoff.path}
+                    icon={Icon.Finder}
+                    shortcut={{ key: '.', modifiers: ['cmd'] }}
+                    title='copy file path'
+                />
+            </ActionPanel.Section>
+            <ActionPanel.Section>
+                <Action.Open
+                    application='Cursor'
+                    icon={Icon.Code}
+                    shortcut={{ key: 'return', modifiers: ['opt'] }}
+                    target={props.handoff.path}
+                    title='open in cursor'
+                />
+            </ActionPanel.Section>
+        </>
     );
 };
 
