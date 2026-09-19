@@ -89,3 +89,11 @@ layouts, and selecting by display name works in both states. His felt sense was 
 cause (the OS upgrade) and right about the thing that mattered: a global fix existed. → the
 layout script commands; the method-report-verify lesson: a «no» from three rounds is still an
 inference while a door stays unprobed by another name
+
+## «should be green» · 2026-09-19
+He sent one screenshot of the raycast schedule command with an arrow at a sleeping glyph on a
+cloud job that had run fine an hour earlier: «should be green». The code was correct by its own
+rule — 🟢 meant «executing now», 💤 meant «idle and fine» — and a scheduled job is idle almost all
+its life, so no daily job could ever be green. The bug was the glance question the glyph answered:
+«is it running» where he asks «did the last run go ok». One row, one arrow, and the semantic was
+wrong for every job on the list. → the ✅ glyph, `toHealth` in x-ray's launchd.ts

@@ -113,6 +113,8 @@ cwd beats any message. Doneness is a **written marker** (final commit + report),
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
 
 **A brief carries the symptom + the evidence; a guessed cause says «guess»** — the job-6 brief asserted «a per-command key still exists» as the cause of a 401, and three curl calls found an empty header instead (2026-09-18).
+**A move is proven by executing every moved entrypoint** — a grep for the moved names missed a second relative import and the move died at runtime with typecheck green (2026-09-19).
+**A brief whose proof needs dima's hands says so at the TOP** and asks up front — the rcmd count needed three of his presses, discovered one at a time at the end (2026-09-19).
 **A coder's report is a candidate, not a finding** — check its claims before relaying.
 **A relay to a coder names the source it was read from** — and a claim about a repo's behaviour
 opens that repo's `AGENTS.md` first: «gitignore handler.js, the build regenerates it» was

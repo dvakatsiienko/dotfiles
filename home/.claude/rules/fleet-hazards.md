@@ -26,6 +26,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 
 ## git hooks
 
+- a gitignore pattern with a `/` in the middle is anchored to the ignore file's directory — `.impeccable/x.json` at a repo root never matches `apps/web/.impeccable/x.json`; `**/` in front makes it match at any depth (measured with `git check-ignore -v`, 2026-09-19; impeccable's readme has it wrong, #841)
 - a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout)
 - worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
@@ -81,6 +82,8 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 
 ## launchd + tcc
 
+- **an ad-hoc-signed binary's tcc grant is pinned to its cdhash** — any source change moves the hash and Input Monitoring silently stops applying; a listen-only tap still «succeeds» and hears nothing (chord lines stop, app-switch lines continue — the tell). the order is edit → build → **re-grant** → restart; a tap created before the grant stays deaf. a plain off/on of the row can re-authorise the old hash — remove the row and add the binary back (2026-09-19)
+- **PlistBuddy cannot `Set` array elements past index 0** in these prefs (`Cannot Perform Set On Containers`; index 0 works, which makes it look transient) — write with python `plistlib` and assert the value's type first (2026-09-19)
 - **FDA on an ad-hoc-signed launchd binary does not unlock `FileManager.trashItem` on an iCloud-managed
   folder** (`~/Desktop` with Desktop & Documents in iCloud): reads and a plain `moveItem` into `~/.Trash`
   work, the trash call is brokered and refused — read + a `folder writable` line in the error path told

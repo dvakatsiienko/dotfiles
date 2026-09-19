@@ -31,4 +31,6 @@ pointer; every steer goes into the CST META first-acts. The reply names the slug
 📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
 run. The command file carries the phases; do not restate them here.
 
+📌 **A CST first-act that is a memory line is applied at the halt that writes it**, never deferred to a boot — two such lines sat unapplied through a whole session because the next boot ingested a different CST (2026-09-19).
+
 Related: [craft-pm](craft-pm.md)

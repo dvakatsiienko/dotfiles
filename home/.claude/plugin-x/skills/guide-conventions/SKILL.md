@@ -1,6 +1,6 @@
 ---
 name: guide-conventions
-description: Load BEFORE designing any shape that is expensive to change later — a route or url, an api surface, a file layout, a naming scheme — and whenever a review comment sounds like "we don't do it that way here".
+description: Load BEFORE designing a shape that is expensive to change later — «new route», «url shape», «api surface», «where should this file live», «package.json shape», «rename the family» — and whenever a review comment sounds like "we don't do it that way here". Not for a hotkey, a setting, or a tool pick.
 ---
 
 # Conventions — the umbrella
