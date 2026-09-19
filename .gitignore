@@ -52,3 +52,4 @@ schedule/state/
 # so committing it means a tree that is dirty after every scan. The page names the command
 # when it is absent.
 hotkeys/hotkeys.js
+hotkeys/presses.js
