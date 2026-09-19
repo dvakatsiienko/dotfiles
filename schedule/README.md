@@ -40,6 +40,20 @@ measured 2026-09-19: moving a job to a new directory and rebuilding kept both gr
 identifier is part of the name. `x-monitor-hotkey-live` is exempt: it runs node, holds no
 grant, and was renamed on 2026-09-19 with nothing to re-grant.
 
+⚠️ **changing a binary's SOURCE breaks the grant too, and the earlier test could not see it.**
+that measurement rebuilt unchanged source, so the ad-hoc cdhash came out identical and there was
+nothing for TCC to notice. when the hotkey daemon's swift actually changed on 2026-09-19 the
+cdhash moved and Input Monitoring stopped applying — an ad-hoc signature has no team id, so the
+grant is pinned to the hash of the binary itself.
+
+📌 **a lost Input Monitoring grant is silent, which is the trap.** `CGEvent.tapCreate` with
+`.listenOnly` still returns a live tap, so the daemon's own "tap refused" path never fires: it
+starts, logs nothing, stays `state = running`, and receives no events at all. app-switch events
+keep arriving, because those come from NSWorkspace and not the tap, so the log looks alive. the
+tell is that `kind: chord` lines stop while `kind: activate` lines continue. after editing either
+swift file: re-grant in System Settings → Privacy & Security → Input Monitoring, then prove it
+with one real keypress before believing anything else.
+
 after a rename, the grant has to be given again in System Settings, and then:
 
 - 📌 **the job must be restarted** — `launchctl kickstart -k gui/$UID/com.dima.<name>`. a tap
