@@ -314,8 +314,10 @@ const snapshot = (scratch: string) => {
     for (const domain of DOMAIN_LIST) {
         const target = join(SNAPSHOT_DIR, `${domain}.plist`);
 
-        exportDomain(domain, scratch);
         execFileSync('defaults', ['export', domain, target]);
+        // `defaults export` writes a binary plist, and a binary blob in git is a diff nobody
+        // can read — the whole point of committing these is that a change is legible in review.
+        execFileSync('plutil', ['-convert', 'xml1', target]);
         note(`${domain} — snapshot rewritten`);
     }
 
