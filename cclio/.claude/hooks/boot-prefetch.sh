@@ -48,6 +48,8 @@ if [ -r "$VAULT/inbox.md" ]; then
   n=$(grep -vc '^## \|^---$\|^> \|^\s*$' "$VAULT/inbox.md")
   [ "$n" = 0 ] && echo "clean" || echo "$n content lines — parse into flowlog before any work"
   grep -q 'FROZEN' "$VAULT/inbox.md" && echo "FROZEN marker present — do not touch"
+  echo "-- inbox, laned by jev (script/lib/jev-questions.ts; ⏳ = band 0.30–0.70, dima's call) --"
+  timeout 25 ~/dotfiles/script/op-run.sh node ~/dotfiles/script/inbox-triage.ts 2>/dev/null || echo "jev triage unavailable — lane by hand"
 else
   fail "inbox unreadable (icloud not mounted?)"
 fi

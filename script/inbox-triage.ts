@@ -57,4 +57,4 @@ for (const item of items) {
         );
     }
 }
-console.log(`\n${items.length} items · ${tokens} input tokens`);
+console.log(`${items.length} items · ${tokens} input tokens`);

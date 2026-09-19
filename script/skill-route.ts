@@ -1,6 +1,7 @@
 // probe: can jev pick the x:* skill a prompt needs, from the skills' own descriptions?
-// usage: script/op-run.sh node script/skill-route.ts
-import { readFileSync, readdirSync } from 'node:fs';
+// usage: script/op-run.sh node script/skill-route.ts            → the probe set
+//        script/op-run.sh node script/skill-route.ts '<prompt>' → live: prints the loads, logs the pick
+import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
@@ -19,6 +20,10 @@ function readDescription(md: string) {
     }
     return folded.join(' ');
 }
+
+const routeThreshold = 0.6;
+const logPath = `${process.env.HOME}/.claude/shelf/jev/route.log`;
+mkdirSync(`${process.env.HOME}/.claude/shelf/jev`, { recursive: true });
 
 const skillsDir = `${process.env.HOME}/dotfiles/home/.claude/plugin-x/skills`;
 
@@ -54,6 +59,24 @@ const probes = [
     ['what entry options do i have in 1p?', '—'],
     ['append to inbox: try windscribe as the vpn fallback', 'notes'],
 ] as const;
+
+const live = process.argv[2];
+if (live) {
+    const res = await judge({ prompt: live }, questions);
+    const ranked = Object.entries(res.answers)
+        .map(([name, a]) => [name, 'noul' in a ? a.noul : 0] as const)
+        .sort((a, b) => b[1] - a[1]);
+    const loads = ranked
+        .filter(([, p]) => p >= routeThreshold)
+        .map(([n]) => `x:${n}`);
+    const top = ranked[0];
+    appendFileSync(
+        logPath,
+        `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\n`,
+    );
+    if (loads.length) console.log(`skills (jev router): ${loads.join(', ')}`);
+    process.exit(0);
+}
 
 for (const [prompt, expected] of probes) {
     const res = await judge({ prompt }, questions);

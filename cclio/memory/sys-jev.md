@@ -1,0 +1,29 @@
+# jev — the fleet's classifier, and how it stays sharp
+
+`jev` (typesafe.ai) answers typed questions about a `state`: no tools, no memory, no generation.
+we pull, it judges, we write back. two lanes live, both from 2026-09-19:
+
+- **inbox lanes** — the boot digest prints every inbox item with a lane (ticket · fold · flowlog ·
+  answer · drop) and a `needsVerdict` band. it pre-sorts; the flowlog parse is still mine.
+- **skill router** — a `UserPromptSubmit` hook (cclio scope for now) prints `skills (jev router): …`
+  for every skill ≥ 0.6. the built-in router still runs; jev stops the misses. log:
+  `~/.claude/shelf/jev/route.log` (time · top pick · loads · prompt).
+
+**the rules that came out of the first day**
+- the criteria ARE the prompt. jev knows no fleet word we do not define; `null` criteria gave
+  73 % ticket, defined ones 89 % flowlog on the same line. a skill's description is its routability.
+- every rubric lives in `script/lib/jev-questions.ts`, model pinned to `jev-1.13.0`. sharpening
+  is a commit with a diff, never an inline edit in a caller.
+- low confidence is the feature: a three-way split (hkeys, conf 25) is the item to hand dima, not
+  to decide. the 0.30–0.70 band on `needsVerdict` is the ⏳ detector.
+- prove a wording with `RUNS=3`: ±3 points across repeats is the measured wobble; a threshold
+  tuned on one run is a guess.
+
+**the sharpening loop, run at every halt**
+1. inbox: compare the boot's jev lanes with the lanes i actually gave at the parse. a
+   disagreement is either my miss (say so) or a criterion to reword; reword in the same halt.
+2. router: `grep -c` the flawlog's «skill not loaded» lines vs `route.log`'s picks for the day.
+   a skill that never routes gets its description sharpened («magic keywords»), not the threshold.
+3. any change → `RUNS=3` on the live inbox, then commit with the numbers in the body.
+
+keys and the call path: `x-fleet` service account → vault `dev` → `script/op-run.sh`, no touch id.
