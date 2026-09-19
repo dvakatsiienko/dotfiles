@@ -6,7 +6,7 @@ moment to reach for it.
 
 ## load `writing-for-agents` BEFORE the edit
 
-editing any skill, rule, `CLAUDE.md`, or memory file → invoke `mattpocock-skills:writing-for-agents`
+editing any skill, rule, `AGENTS.md`, or memory file → invoke `mattpocock-skills:writing-for-agents`
 first, then open the target. its own description says exactly this and still fails to fire —
 measured: a dozen edits in one session, zero loads. marketplace skill, so the fix lives here, never
 as an edit to the skill itself (update drift).
@@ -19,16 +19,16 @@ whose whole audience benefits. wrong-bucket placement is the mistake this map ki
 - **root `~/.claude/CLAUDE.md`** — the entire fleet benefits: every session, every project.
 - **`~/.claude/rules/*`** — same global audience as root: each file one granular area (output
   format, voice, linear floor, …), split so root stays lean.
-- **`~/projects/CLAUDE.md`** — every coding session, no coordinator: true in every repo under
+- **`~/projects/AGENTS.md`** — every coding session, no coordinator: true in every repo under
   `~/projects` and nowhere else. cclio fills it. currently a deliberate stub.
-- **project-level `CLAUDE.md`** — sessions in that one project only. cclio fills these too.
+- **project-level `AGENTS.md`** — sessions in that one project only. cclio fills these too.
 - **`cclio/memory/*`** — the coordinator only; a coder reading it would be misled.
 - **skills** — any audience, but loaded on demand, never resident. a memory that reads like
   steps wants to be a skill.
 - **`docs/`** — read on demand: long, occasional, or a lookup.
 
 📌 **the worked example — how the audience test runs:** pnpm FEELS coder-specific (topic: package
-management), so the reflex says `~/projects/CLAUDE.md`. but ask who benefits: any session may run
+management), so the reflex says `~/projects/AGENTS.md`. but ask who benefits: any session may run
 pnpm, even in non-coding projects like `~/dotfiles` — so it parks in root. run every placement
 through this shape: name the audience, ignore the topic.
 
@@ -52,7 +52,7 @@ is fat or unstructured and needs the bigger picture of how one is written.
    resident; a doc costs nothing until read
 3. **does it already exist somewhere?** a second copy is worse than none — the two drift
 4. **is it a fact, a rule, or a story?** different homes, different decay rates
-5. **is it a measurement or a standing fact?** a dated «as of» line in a `CLAUDE.md` or doc is a
+5. **is it a measurement or a standing fact?** a dated «as of» line in an `AGENTS.md` or doc is a
    measurement and belongs in the commit that measured it; two such lines went stale within a day
    and each cost a false finding (2026-09-08). docs state what does not expire
 6. **can the agent find it by looking?** scripts, layout, `--help` — a doc restating those is a
