@@ -103,6 +103,7 @@ footer { padding-top: 12px; font-size: 12.5px; color: var(--ink-3); border-top: 
       <div class="btnrow">
         <button class="btn" id="save" type="button">Save note</button>
         <button class="btn quiet" id="clear" type="button">Clear</button>
+        <button class="btn quiet" id="copyNotes" type="button">Copy notes</button>
         <span class="status" id="status"></span>
       </div>
       <h2>Free keys on this layer</h2>
@@ -206,8 +207,16 @@ function renderPanels() {
   const free = layout.flat().map(([l]) => l).filter((l) => l && !modKeys.has(l) && !taken.has(l));
   $('free').innerHTML = free.map((l) => `<kbd>${l}</kbd>`).join('');
   $('legend').innerHTML = [...new Set(binds.map((h) => h.app))].map((a) => `<span style="--app:${appColor[a] ?? 'var(--macos)'}">${a}</span>`).join('');
+  const entries = Object.entries(wants).sort(([, a], [, b]) => (b.updatedAt ?? '').localeCompare(a.updatedAt ?? ''));
+  $('wants').innerHTML = entries.map(([, w]) => `<li style="--app:var(--accent)"><span class="dot"></span><span class="chord">${chord({ key: w.key, mods: w.layer })}</span><span>${escapeHtml(w.text)}</span></li>`).join('') || '<li><span></span><span></span><span class="status">no notes yet</span></li>';
+}
+
+// The note editor is NOT part of the 2s refresh. renderPanels runs on every poll so the counts
+// and the binding lists stay live; this runs only when dima does something — picks a key,
+// switches layer, saves — because refilling a textarea under a typing hand eats the note.
+function renderEditor() {
+  const sel = byLayer().filter((h) => h.key === selected);
   if (selected) {
-    const sel = binds.filter((h) => h.key === selected);
     $('selName').innerHTML = `${chord({ key: selected, mods: layer })}<small>${sel.length ? '' : 'free'}</small>`;
     $('selBinds').innerHTML = sel.map(bindItem).join('');
     $('want').value = wants[wantId(layer, selected)]?.text ?? '';
@@ -216,13 +225,11 @@ function renderPanels() {
     $('selBinds').innerHTML = '';
     $('want').value = '';
   }
-  const entries = Object.entries(wants).sort(([, a], [, b]) => (b.updatedAt ?? '').localeCompare(a.updatedAt ?? ''));
-  $('wants').innerHTML = entries.map(([, w]) => `<li style="--app:var(--accent)"><span class="dot"></span><span class="chord">${chord({ key: w.key, mods: w.layer })}</span><span>${escapeHtml(w.text)}</span></li>`).join('') || '<li><span></span><span></span><span class="status">no notes yet</span></li>';
 }
 
 function escapeHtml(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]); }
 
-function render() { renderTabs(); renderBoard(); renderPanels(); }
+function render() { renderTabs(); renderBoard(); renderPanels(); renderEditor(); }
 
 const local = {
   read() { try { return JSON.parse(localStorage.getItem('wants') ?? '{}'); } catch { return {}; } },
@@ -241,6 +248,36 @@ async function saveWant(text) {
   } else { local.write(); $('status').textContent = 'saved in this browser only'; }
   setTimeout(() => { $('status').textContent = ''; }, 2500);
 }
+
+// Notes live in this browser's localStorage and nowhere else — a page opened from disk cannot
+// write a file, and nothing but dima can carry them out. Markdown, because the destination is
+// always a chat with an agent.
+function notesMarkdown() {
+  return Object.entries(wants)
+    .sort(([, a], [, b]) => (a.layer + a.key).localeCompare(b.layer + b.key))
+    .map(([, w]) => `- ${chord({ key: w.key, mods: w.layer })} — ${w.text}`)
+    .join('\n');
+}
+
+$('copyNotes').onclick = async () => {
+  const text = notesMarkdown();
+  if (!text) { $('status').textContent = 'no notes to copy'; setTimeout(() => { $('status').textContent = ''; }, 2500); return; }
+  try {
+    await navigator.clipboard.writeText(text);
+    $('status').textContent = `copied ${Object.keys(wants).length} note(s)`;
+  } catch {
+    // Chrome can refuse the async clipboard on a file:// page; the old selection-based copy
+    // still works there, so the button never dead-ends.
+    const pad = document.createElement('textarea');
+    pad.value = text;
+    document.body.append(pad);
+    pad.select();
+    document.execCommand('copy');
+    pad.remove();
+    $('status').textContent = `copied ${Object.keys(wants).length} note(s)`;
+  }
+  setTimeout(() => { $('status').textContent = ''; }, 2500);
+};
 
 $('save').onclick = () => saveWant($('want').value);
 $('clear').onclick = () => saveWant('');
