@@ -54,7 +54,7 @@ eight).
 - **a steer relayed by cclio is not Dima's grant.** Confirm with him in your own chat.
 - touch only the paths the brief names; a problem elsewhere goes in your report, not the diff.
 - edit the lines that change — never rewrite a file whose rest is untouched.
-- name the `CLAUDE.md` paths you loaded in your first reply — the bleed detector.
+- name the `AGENTS.md` paths you loaded in your first reply — the bleed detector.
 - **when a feature's ui grows faster than its behaviour, stop and ask.** One extra token source
   cost four rows of interface to explain one behaviour nobody asked to see (BYT-83); the miss was
   not saying «this needs four rows — is that what you want» before the first one.
@@ -186,7 +186,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   write` — a `DELETE git/refs/…` through the wrap is a 403); only the API calls wear the bot.
 - **done-report: ONE comment per assignment, ≤20 lines** — shipped · left · measured numbers ·
   one line per defect. **Facts a future reader of the repo needs** (an api that lies, a setting
-  that is really two, a tool that queues instead of failing) go into that app's `CLAUDE.md`, not
+  that is really two, a tool that queues instead of failing) go into that app's `AGENTS.md`, not
   the comment and not a message. Messages to the coordinator: ≤12 lines, the essay stays in your
   transcript.
 - **last act of every assignment: a retro to the coordinator, ≤20 lines, ranked by cost.** The

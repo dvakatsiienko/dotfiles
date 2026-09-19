@@ -34,7 +34,7 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 - **`cute`** — Claude.
 - **`cc or ccli`** — the local CLI on the mac.
 - **`cclio`** — **the** coordinator. A `cc` session booted in `~/dotfiles/cclio` with its own
-  `CLAUDE.md`, memory barrel and boot ritual. It orchestrates; it rarely writes product code.
+  `AGENTS.md`, memory barrel and boot ritual. It orchestrates; it rarely writes product code.
 - **`cc cloud`** — Claude Code on Anthropic's machines. Survives the app closing. ⚠️ **Nobody in the
   fleet can spawn one — only Dima.**
 - **`cw`** — Cowork, reaching the mac over the device bridge. A peer: either side may open the

@@ -23,7 +23,7 @@ Anything we create should not just work well. It should be approachable and easy
 ## coding preferences (typescript focused)
 
 - `any` is the enemy. inferred types are our friend. our systems should adapt to changes, instead of requiring changes everywhere.
-- use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their CLAUDE.md will say so. prefer IDE type info when connected to Cursor.
+- use tsc to catch type errors where the project's TypeScript is healthy (script name varies); skip it for projects with broken TS — their AGENTS.md will say so. prefer IDE type info when connected to Cursor.
 - if your TS code looks like a Python dev wrote it, it is bad TS code.
 - avoid one-line functions that are just casting wrappers.
 - if not already specified in project, I generally like to use the following tech: TypeScript, React, Next.js, Tailwind, Vite, Convex, pnpm (considering bun)
@@ -64,10 +64,10 @@ Anything we create should not just work well. It should be approachable and easy
 - **Dima's instruction in the room outranks every file, always.**
 - delete stale info on sight — outdated content is worse than missing content; this file reflects the current state of the system, not its history
 - 🚫 never edit `~/.claude/…` directly — edit `home/.claude/…` in `~/dotfiles` and the symlink carries it
-- edit only the CLAUDE.md matching the current working scope: project dir → project CLAUDE.md, `~/.claude` → this file
+- edit only the AGENTS.md matching the current working scope: project dir → project AGENTS.md, `~/.claude` → this file
 - modifying this file or anything in `rules/` from a project context requires an explicit request
 - two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. the full precedence chain is in the authoring docs
-- editing any CLAUDE.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/knowledge/authoring-memory.md` and `authoring-skill.md`
+- editing any AGENTS.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/knowledge/authoring-memory.md` and `authoring-skill.md`
 
 ## global naming conventions
 
@@ -76,7 +76,7 @@ Anything we create should not just work well. It should be approachable and easy
   - ❌ `delete-handoff`, `create-handoff`, `x-plugin`, `desktop-plugin-x`
 - applies to anything that can grow into a family: variables, folders, skills, commands, tools. siblings then sort and group by subject.
 - `entity-first <scope>` is the keyword. do the rename, report what changed, skip the explanation.
-- **one name on every layer.** a feature's name is the same string in its dir, binary, launchd label, codesign id, script names, log strings, data dir and docs. a rename moves all of them in one change; done = `grep -rn '<old name>'` prints nothing, and the report says so. a pnpm script family may carry a short alias of the name when the full one is hostile to type (`hotkey-monitor:top` for `x-hotkey-stats-monitor`).
+- **one name on every layer.** a feature's name is the same string in its dir, binary, launchd label, codesign id, script names, log strings, data dir and docs. a rename moves all of them in one change; done = `grep -rn '<old name>'` prints nothing, and the report says so. a pnpm script family may carry a short alias of the name when the full one is hostile to type (`monitor-hotkey:top` for `x-monitor-hotkey-stats`).
 
 ## byproducts and cleaning habits
 

@@ -1,4 +1,4 @@
-# CLAUDE.md: dotfiles
+# AGENTS.md: dotfiles
 
 Hey.
 Welcome to my repo with dotfiles. Here we improve the dotfiles by themselves, build other

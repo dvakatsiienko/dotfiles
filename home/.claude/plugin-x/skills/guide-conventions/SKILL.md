@@ -32,5 +32,5 @@ answer and is also said out loud.
 
 One file per rule, named for its subject (`routing-url-shape.md`, not `rule-1.md`): the rule,
 ✅/🚫 examples, and what the correction cost when it was learned. No frontmatter — read by path,
-not resolved as skills. A rule belonging to exactly one repo goes in that repo's `CLAUDE.md`
+not resolved as skills. A rule belonging to exactly one repo goes in that repo's `AGENTS.md`
 instead; this skill is for rules spanning repos.
