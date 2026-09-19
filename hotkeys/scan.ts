@@ -117,13 +117,25 @@ const nxMods = (mask: number) =>
         [0x100000, 'cmd'],
     ]);
 
+// wispr's config lists its in-app editing shortcuts beside its global ones, so a scan that
+// takes the file wholesale credits wispr with cmd+z and the rest of the system's chords. only
+// these six reach outside the app; everything else is macos, and the macos table already has
+// it. `paste_event` is wispr's hook on the system paste chord, not a binding of its own.
+const wisprGlobalActions = new Set([
+    'ptt',
+    'dismiss',
+    'lens',
+    'paste_last_text',
+    'copy_last_text',
+    'open_meeting_recorder',
+]);
+
 const wispr = (): Hotkey[] => {
     const config = JSON.parse(readFileSync(wisprConfig, 'utf8'));
     const binds: { shortcut: number[]; value: string }[] =
         config.prefs.cache.splitKeybinds;
-    // `paste_event` is wispr's hook on the system paste chord, not a binding of its own
     return binds
-        .filter(({ value }) => value !== 'paste_event')
+        .filter(({ value }) => wisprGlobalActions.has(value))
         .map(({ shortcut, value }) => {
             const mods = shortcut
                 .filter((c) => modifierCodes.has(c))
