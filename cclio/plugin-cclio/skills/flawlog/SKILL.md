@@ -1,5 +1,5 @@
 ---
-description: load the moment a mistake just happened — dima says «you goofed», «that was wrong», or you caught your own flaw. fix in place first, log only what survives the attempt.
+description: load on «flawlog», «flush the flawlog», «flaw», the moment a mistake just happened — dima says «you goofed», «that was wrong» — or you caught your own flaw. fix in place first, log only what survives the attempt.
 ---
 
 # /cclio:flawlog
