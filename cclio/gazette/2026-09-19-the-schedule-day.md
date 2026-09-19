@@ -1,12 +1,12 @@
 ---
 date: 2026-09-19
 slug: the-schedule-day
-tickets: []
-posted: {health: no}
+tickets: [DOT-237, DOT-232, BYT-41, BYT-86]
+posted: {health: yes}
 cw: |
-  the night gave every scheduled job one home. `schedule/` at the repo root now holds each job's plist, source and build output in one directory per job, with an installer that links the plist into launchd AND boots it — something no command did before. both swift jobs were renamed entity-first and moved without losing a byte of history. the raycast `schedule` command learned to show cloud jobs that no launchctl can see, by reading a heartbeat file each cloud run leaves behind, and it now tells a measured row apart from an inferred one. separately the repo moved from CLAUDE.md to AGENTS.md across six files, after an experiment proved the two cannot be mixed.
-  live / next: the cowork gazette routine needs one new step pasted into it before its row stops being a placeholder; the tree is deliberately uncommitted for a cowork verification pass.
-  worth a line: renaming the global ~/.claude/CLAUDE.md to AGENTS.md silently killed the entire fleet floor — caught by a probe, reverted inside one turn, and it buys nothing anyway since no other provider reads ~/.claude/.
+  the day ran in three parts. the night gave every scheduled job one home under schedule/ and moved the repo from CLAUDE.md to AGENTS.md. the morning wired jev, a small classifier, into the fleet as an inbox sorter and a skill router, with 1password as the single store for every api key. the afternoon was hotkeys: a research round with eleven verdicts, a live keyboard map that counts real presses, eight system chords switched off, magnet retired for raycast window management, wispr on the right command key, and the x-com-chat production deploy green again after a jotai pin.
+  live / next: two hotkey sessions are planned, a pass over raycast window-management commands to disable the unused ones, then a rebind of every hotkey as one pool once the monitor has two weeks of counts.
+  worth a line: a screenshot with one arrow, «should be green», found a bug the code was blind to, a scheduled job could never show green because green meant running now, not ran fine.
 ---
 
 # 🗞️ cclio's gazette · the schedule day — schedulers get one home, the fleet moves to AGENTS.md, and four false-greens die
@@ -110,13 +110,41 @@ instead of «did this run»**:
 - `schedule/state/gazette-sync.json` is a **placeholder** and flips red `missed` after 26 h. the
   real beat arrives when the cowork routine runs its new step 5.
 
+⸻ upd 20:05
+
+## the morning — jev, the classifier, and the key store
+
+- **jev is in the fleet** ([DOT-232](https://linear.app/x-com/issue/DOT-232) got its +1): the boot digest lanes every inbox item, and a `UserPromptSubmit` hook prints the skills a prompt should load. sharpened the same day: the router now sees the `cclio:*` skills, skips harness notices, and routes the argument body of a slash command; scorecard after the fixes, 51 prompts, 3 false loads, 0 missed
+- **1password is the key store** ([BYT-41](https://linear.app/x-com/issue/BYT-41)): vault `dev`, `op://` references in `op.env`, a read-only service account so no agent ever sees a value; the `linear` cli and x-ray moved onto one `linear-golden` key and every other linear key was deleted. the naming rule is `<service>-golden` for the one shared key. root memory says so now
+- **AGENTS.md everywhere but the user root** — measured twice with `claude -p`: `~/.claude/AGENTS.md` does not load, the user memory takes `CLAUDE.md` only. bytes, inner-marker and reinforcement-learning renamed; four next.js apps had a `CLAUDE.md` importing a generated `AGENTS.md`, and a directory holding both **terminates the upward walk** — those apps had run without the bytes root memory for days. folded, walk repaired, generator watched (vercel/next.js #98910)
+
+## the afternoon — hotkeys, phase 5 of [DOT-237](https://linear.app/x-com/issue/DOT-237)
+
+- **research, eleven verdicts** (`docs/research/hotkeys-macos-defaults.md`, [artifact](https://claude.ai/artifact/6wexH7gqMYB4RQg5ir6YNy)): wipe the macos defaults surgically, never wholesale — the user plist holds deltas only, so macos 28 ships its new bindings enabled regardless; one layer per owner (hyper = raycast, ctrl = terminal + cursor); `⇧⇧` over `esc esc`
+- **the hotkey map is live**: `hotkeys/` is one home (scan, map, readers; the daemon stays under `schedule/`), the map refreshes its press counts every 2 s under a launchd job, rescans bindings when an app's config changes, draws the right-hand modifiers, and counts a bare modifier pressed alone — wispr's push-to-talk on right ⌘ now has a number
+- **eight system chords off**, snapshot of all three prefs domains committed first, `pnpm hotkeys:audit` diffs live against it: fn+ctrl+F2–F6, ⌘esc, siri's ⇧⌘space, and ctrl+←→ handed to raycast. ctrl+↑, ctrl+↓ and opt+esc stay
+- **magnet retired**: research ranked raycast window management ⭐⭐⭐⭐⭐ for a keyboard-only raycast user, magnet ⭐⭐ (17 months without a release); the 12 live chords moved on the same `ctrl+opt` gate, the app is gone
+- **x-ray**: handoff actions (⌘. copies the path, ⌘⇧C the ingest line), schedule glyphs answer «did the last run go ok» (✅) instead of «is it running», a row can open the thing its job feeds
+- **bytes prod green again**: x-com-chat had been red since the jotai 3 major — `jotai-devtools` has no jotai-3 build and its peer range admits one; pinned back, renovate told
+
+## tricks gained
+
+- **an ad-hoc-signed binary's tcc grant is pinned to its cdhash** — a source change silently starves a listen-only tap; the order is edit → build → re-grant → restart, and a plain off/on can re-authorise the old hash. cost an afternoon of rounds; now in fleet-hazards and the schedule README
+- a gitignore pattern with a `/` in the middle is anchored to its directory — impeccable's readme block misses nested workspaces; `**/` fixes it, filed as #841
+- PlistBuddy cannot `Set` array elements past index 0 in these prefs; plistlib with a type assert
+- a coder verified a restart with log lines stamped before the restart — the green-status trap with the rule in context; the fix is comparing timestamps as numbers
+- `hotkeys:audit` caught dima toggling system panes mid-write and named him by the ui's integer-vs-bool write signature — the tool doing its job
+- the nuphy air75's `fn` is a firmware layer key macos never sees; wispr refuses F-keys and Home/End as single keys but treats right ⌘ as its own key
+
+## state
+
+- dotfiles + bytes pushed; coder `d083cfc8` alive by dima's word, twelve jobs, three retros folded
+- DOT-237 In Progress: session A (raycast window-management command pass) then session B (the one-pool rebind after 2026-10-01); both scoped in the ticket body
+- queued for the next daemon rebuild: held-ptt counts once, deaf-tap self-check
+- skipped by decision: a chrome window raised on top after a space switch — unreported anywhere
+
 ## trail
 
-- shipped: `schedule/` collocation + `pnpm schedule:install` (links AND bootstraps), cowork
-  heartbeat rows scanned from `state/*.json` (one file per job, next cloud job needs no code),
-  AGENTS.md migration across 6 files, entity-first rename of both swift jobs, x-ray `schedule`
-  detail-pane rewrite + per-job emoji + source badges + glyph states, x-ray `AGENTS.md`, four
-  false-greens fixed
-- open: paste step 5 into the cowork gazette routine; commit + verify from cowork; stale TCC rows
-  to sweep by hand; optional brighter glyphs (📷 → 📸, ⌨️ → ⚡)
-- state: 0 commits by design, tree dirty; no coders; bytes untouched
+- shipped: `schedule/` collocation + installer, AGENTS.md across four repos (user root stays CLAUDE.md, measured), jev wired + sharpened, 1password as the key store with one golden linear key, hotkeys research + artifact, `hotkeys/` home with a live self-rescanning map that counts bare modifiers, 8 system chords off behind a committed snapshot + audit, magnet retired for raycast wm, x-ray handoff/schedule fixes, x-com-chat prod green (jotai pin)
+- open: hotkeys session A (raycast wm command pass) → session B (one-pool rebind after 2026-10-01); next daemon rebuild carries held-ptt counting + the deaf-tap self-check; cursor keybindings stay outside dotfiles by dima's word
+- state: dotfiles + bytes pushed; coder d083cfc8 alive by dima's word; bytes touched only for the deploy fix and the memory walk
