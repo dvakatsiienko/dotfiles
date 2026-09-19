@@ -126,6 +126,7 @@ Anything we create should not just work well. It should be approachable and easy
 - **trash over rm** — `trash <path>` moves to the recoverable macos trash; prefer it wherever a deletion is approved but regret is possible
 - **archives → keka's bundled binaries**, `/Applications/Keka.app/Contents/MacOS/Keka --cli <bin>` — `7z` `7zz` `unar` `unrar` `tar` `xz` `zstd` `brotli` `lz4` `lzip` `pigz` and friends. macos ships no `unrar` and no 7z at all, so this is the only door to those; plain `zip`/`tar`/`ditto` still handle the ordinary cases
 - **uv** — the Python package manager here; pip in any form is not used
+- **1password is the source of truth for every api key** — vault `dev`, item `<service>-golden` (the one shared key) or `<service>-<purpose>` (a scoped one); configs carry `op://dev/<item>/credential` references, never a value. reads go through `script/op-run.sh` (the `x-fleet` service account, read-only, no touch id); a new item is dima's touch id, never the agent's. the contract and the dev-loop shape live in BYT-41
   - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
 
 ## tooling: notes
