@@ -31,7 +31,7 @@ export const BoardPage = (props: BoardPageProps) => {
     const [presses, setPresses] = useState<Record<string, number>>({});
     const [pressedAt, setPressedAt] = useState<string | null>(null);
     const [notes, setNotes] = useState<NoteStore>({});
-    // hk hands a chord back as ?layer=&key=, so a row there opens the board on that key. An
+    // stats hands a chord back as ?layer=&key=, so a row there opens the board on that key. An
     // absent param is not the same as an empty one: layer='' is the no-modifier layer.
     const [layer, setLayer] = useState(props.params.get('layer') ?? 'hyper');
     const [selected, setSelected] = useState<string | null>(

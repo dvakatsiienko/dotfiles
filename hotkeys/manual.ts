@@ -210,7 +210,7 @@ export const manualHotkeys = [
         key: 'esc',
         mods: 'opt',
     },
-    // system chords — obvious, but a labelled row beats a bare one in `hk`
+    // system chords — obvious, but a labelled row beats a bare one in the stats tables
     ...(
         [
             ['tab', 'switch app'],

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 // Something went wrong, said above the page rather than instead of it.
 //
-// 📌 The reason this is a component and not a paragraph in each route: /hk used to return the
+// 📌 The reason this is a component and not a paragraph in each route: /stats used to return the
 // error in place of the report, so killing the daemon and clicking a window tab threw away 402
 // rows that were still on screen and still true — they had only stopped being fresh. A failure
 // to refresh is not a reason to forget what was already fetched.

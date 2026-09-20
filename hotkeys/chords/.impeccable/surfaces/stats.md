@@ -1,4 +1,4 @@
-# Surface brief: hk
+# Surface brief: stats
 
 **Mode: Operate.** the visitor completes a task; scanability and the real usage scene outrank
 expression. brand lives in precise details.
@@ -6,7 +6,8 @@ expression. brand lives in precise details.
 ## job and audience
 
 dima, alone, at the moment he suspects a chord is in the wrong place. he arrives from the board,
-or out of the muscle memory that used to type `hk` in a terminal.
+or out of the muscle memory that types `hk` in a terminal, which is the same data printed by
+`pnpm hotkeys:top`.
 
 the terminal version already prints this data and is the reason the route exists: it streams, it
 truncates every table at 15 rows, and a `… 189 more` is not something you can read. the web's

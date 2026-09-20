@@ -33,7 +33,7 @@ const FOLD =
 const FOLD_TOP = 20;
 const FOLD_HEIGHT = 607;
 
-export const HkPage = () => {
+export const StatsPage = () => {
     const [window, setWindow] = useState<WindowName>('all');
     const [report, setReport] = useState<StatsReport | null>(null);
     const [error, setError] = useState<string | null>(null);

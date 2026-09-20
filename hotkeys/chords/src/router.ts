@@ -4,7 +4,7 @@
 // or a pasted url lands on the right page.
 import { useEffect, useState } from 'react';
 
-export const routes = ['/', '/hk'] as const;
+export const routes = ['/', '/stats'] as const;
 
 export const navigate = (to: string) => {
     window.history.pushState(null, '', to);

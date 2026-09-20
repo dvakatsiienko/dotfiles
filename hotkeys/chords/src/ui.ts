@@ -1,7 +1,7 @@
 // The class strings more than one surface spells. `TAB` and `H2` were byte-identical in
-// board.tsx and hk.tsx, and `NAV` in shell.tsx was `TAB` with the flex parts removed — a control
-// defined in three files drifts the first time one of them is touched, and adding a hover state
-// is exactly that kind of touch.
+// board.tsx and stats.tsx, and `NAV` in shell.tsx was `TAB` with the flex parts removed — a
+// control defined in three files drifts the first time one of them is touched, and adding a
+// hover state is exactly that kind of touch.
 //
 // These are strings rather than components on purpose: each call site still owns its selected
 // and unselected tones, which differ by surface, and a component would have to take them as

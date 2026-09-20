@@ -1,19 +1,19 @@
 /* Core */
 /* Components */
 import { BoardPage } from '@/board.tsx';
-import { HkPage } from '@/hk.tsx';
 /* Instruments */
 import { navigate, useRoute } from '@/router.ts';
+import { StatsPage } from '@/stats.tsx';
 import { TAB } from '@/ui.ts';
 
 const pages = [
     { label: 'board', path: '/' },
-    { label: 'hk', path: '/hk' },
+    { label: 'stats', path: '/stats' },
 ] as const;
 
 export const App = () => {
     const route = useRoute();
-    const path = route.path === '/hk' ? '/hk' : '/';
+    const path = route.path === '/stats' ? '/stats' : '/';
 
     const navJSX = pages.map((page) => {
         return (
@@ -37,7 +37,11 @@ export const App = () => {
                 <nav className='flex gap-1.5'>{navJSX}</nav>
             </header>
 
-            {path === '/hk' ? <HkPage /> : <BoardPage params={route.params} />}
+            {path === '/stats' ? (
+                <StatsPage />
+            ) : (
+                <BoardPage params={route.params} />
+            )}
 
             <footer className='border-t border-line pt-3 text-[12px] text-ink-3'>
                 seeded by <span className='font-mono'>pnpm hotkeys:scan</span>{' '}
