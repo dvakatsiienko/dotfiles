@@ -2,6 +2,9 @@ import { describe, expect, test } from 'vitest';
 
 import { type Registry, statusLines, verdictApply } from './jev-vet.ts';
 
+// biome-ignore lint/suspicious/noControlCharactersInRegex: the escape byte is the point
+const ANSI = /\x1b\[[0-9;]*m/g;
+
 const registry: Registry = {
     flows: {
         'inbox-lanes': {
@@ -49,7 +52,10 @@ describe('verdictApply', () => {
 
 describe('statusLines', () => {
     test('prints the clean streak against the window', () => {
-        expect(statusLines(registry, '2026-09-10')).toEqual([
+        const plain = statusLines(registry, '2026-09-10').map((l) =>
+            l.replace(ANSI, ''),
+        );
+        expect(plain).toEqual([
             '🟡 inbox-lanes — vetting 9/14 d clean · 3 verdicts, 0 misses',
         ]);
     });

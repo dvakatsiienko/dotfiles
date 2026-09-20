@@ -15,12 +15,12 @@
             "misses": 0,
             "what": "the UserPromptSubmit hook names the skills a prompt should load"
         },
-        "retro-triage": {
+        "flawlog-lanes": {
             "since": "2026-09-20",
             "state": "vetting",
             "verdicts": 1,
             "misses": 1,
-            "what": "every flawlog line laned memory · rule · ticket · drop before the halt flush"
+            "what": "every flawlog line laned memory · rule · story · ticket · drop before the halt flush (the coder retro is a separate, future flow)"
         }
     }
 }
