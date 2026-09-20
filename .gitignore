@@ -82,3 +82,6 @@ gmail/token.json
 **/.impeccable/live/deferred-svelte-component-accepts.json
 **/.impeccable/live/*.png
 # impeccable-ignore-end
+
+# coder worktrees (embedded checkouts), the same location cc uses
+.claude/worktrees/

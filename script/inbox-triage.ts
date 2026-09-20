@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 
 import { judge } from './lib/jev.ts';
-import { laneLine, tailLine } from './lib/jev-print.ts';
+import { laneCells, printTable, tailLine } from './lib/jev-print.ts';
 import { inboxQuestions, verdictBand } from './lib/jev-questions.ts';
 import { dim } from './lib/print.ts';
 
@@ -36,6 +36,7 @@ function parseInbox(md: string) {
 const runs = Number(process.env.RUNS ?? 1);
 const items = parseInbox(readFileSync(inboxPath, 'utf8'));
 let tokens = 0;
+const rows: string[][] = [];
 for (const item of items) {
     for (let run = 0; run < runs; run++) {
         const res = await judge(
@@ -50,8 +51,8 @@ for (const item of items) {
                 : needsVerdict.noul < verdictBand.low
                   ? 'agent'
                   : '~ unsure';
-        console.log(
-            laneLine(
+        rows.push(
+            laneCells(
                 lane.choice,
                 lane.confidence,
                 lane.probabilities,
@@ -61,4 +62,5 @@ for (const item of items) {
         );
     }
 }
+printTable(rows);
 console.log(tailLine(items.length, 'items', tokens));

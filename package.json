@@ -45,6 +45,7 @@
         "@types/react": "19.3.0",
         "biome-config-polished": "0.0.8",
         "lefthook": "2.1.14",
+        "string-width": "8.2.2",
         "typescript": "7.0.2",
         "vitest": "5.0.1"
     },

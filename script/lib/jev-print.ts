@@ -1,3 +1,6 @@
+/* Core */
+import stringWidth from 'string-width';
+
 /* Instruments */
 import { bb, bold, dim, gb, mb, rb, yb } from './print.ts';
 
@@ -15,8 +18,8 @@ const laneColor: Record<string, (text: string) => string> = {
 
 const confColor = (conf: number) => (conf >= 70 ? gb : conf >= 30 ? yb : rb);
 
-/** `lane  conf  [ranked probabilities]  text` — lane painted, conf bold, the rest dim */
-export const laneLine = (
+/** the cells of one judged line: painted lane · graded conf · dim probabilities · the text */
+export const laneCells = (
     lane: string,
     confidence: number,
     probabilities: Record<string, number>,
@@ -29,7 +32,32 @@ export const laneLine = (
         .map(([k, v]) => `${k} ${Math.round(v * 100)}`)
         .join('  ');
     const paint = laneColor[lane] ?? bb;
-    return `${paint(lane.padEnd(8))} ${confColor(conf)(bold(String(conf).padStart(3)))}  ${dim(`[${ranked}]`)}  ${text.slice(0, width)}`;
+    return [
+        paint(lane),
+        confColor(conf)(bold(String(conf))),
+        dim(`[${ranked}]`),
+        text.slice(0, width),
+    ];
+};
+
+/** pads every column to its widest cell by VISIBLE width, so colour codes and emoji do not skew it */
+export const printTable = (rows: string[][], gap = 2) => {
+    const widths = rows.reduce<number[]>((acc, row) => {
+        row.forEach((cell, i) => {
+            acc[i] = Math.max(acc[i] ?? 0, stringWidth(cell));
+        });
+        return acc;
+    }, []);
+    for (const row of rows) {
+        const line = row
+            .map((cell, i) =>
+                i === row.length - 1
+                    ? cell
+                    : cell + ' '.repeat((widths[i] ?? 0) - stringWidth(cell)),
+            )
+            .join(' '.repeat(gap));
+        console.log(line);
+    }
 };
 
 export const tailLine = (count: number, unit: string, tokens: number) =>
