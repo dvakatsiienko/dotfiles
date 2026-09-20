@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { apiTrouble } from '@/components/Notice.tsx';
 
-import { GHOST } from '@/ui.ts';
+import { GHOST, PRIMARY } from '@/ui.ts';
 
 export const NoteEditor = (props: NoteEditorProps) => {
     const [draft, setDraft] = useState(props.text);
@@ -84,7 +84,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
             />
             <div className='flex items-center gap-2'>
                 <button
-                    className={`${GHOST} border-accent bg-accent text-on-accent hover:border-accent hover:text-on-accent`}
+                    className={PRIMARY}
                     disabled={!armed || saving}
                     onClick={() => void save(draft)}
                     type='button'>

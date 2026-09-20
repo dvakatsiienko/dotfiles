@@ -99,6 +99,7 @@ export const StatsPage = () => {
     const windowTabListJSX = windowNames.map((name) => {
         return (
             <button
+                aria-controls='stats-panel'
                 aria-selected={name === window}
                 className={`${TAB} ${name === window ? 'border-accent bg-sel text-ink' : 'border-line bg-transparent text-ink-2'}`}
                 key={name}
@@ -137,7 +138,10 @@ export const StatsPage = () => {
             ) : null}
 
             <div className='flex flex-wrap items-center gap-x-[18px] gap-y-2'>
-                <div className='flex flex-wrap gap-1.5' role='tablist'>
+                <div
+                    aria-label='stats window'
+                    className='flex flex-wrap gap-1.5'
+                    role='tablist'>
                     {windowTabListJSX}
                 </div>
                 <SpanLabel span={report.span} />
@@ -169,7 +173,10 @@ export const StatsPage = () => {
               at 1024 and 30 at 900. So the second column is earned at 1024 and not before —
               a shorter page is not worth a third of the labels.
             */}
-            <div className='grid grid-cols-1 items-start gap-[22px] min-[1024px]:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]'>
+            <div
+                className='grid grid-cols-1 items-start gap-[22px] min-[1024px]:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]'
+                id='stats-panel'
+                role='tabpanel'>
                 <div className='grid gap-[22px]'>
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>chords</h2>
@@ -248,8 +255,8 @@ export const StatsPage = () => {
                         <h2 className={H2}>never pressed</h2>
                         <p className='text-[12px] text-ink-3'>
                             lifetime, whatever the window above says — a rebind
-                            candidate does not stop being one because you
-                            shortened the view.
+                            candidate does not stop being one because the view
+                            got shorter.
                         </p>
                         <ul className='m-0 grid list-none gap-1 p-0'>
                             {report.neverPressed.map((row) => {
@@ -305,7 +312,7 @@ const SpanLabel = (props: { span?: Span | null }) => {
     const short = asked !== null && days < asked;
 
     return (
-        <span className='text-[12px] text-ink-3'>
+        <span className='text-[12px] text-ink-2'>
             {short ? `last ${asked} days — the log starts ` : 'since '}
             <span className='font-mono'>{from}</span>
             {short ? null : ` · ${days} days`}
@@ -381,7 +388,7 @@ const Tile = (props: TileProps) => (
         <span className='font-mono text-[22px]/[1] font-semibold tabular-nums text-ink'>
             {props.value.toLocaleString()}
             {props.of === undefined ? null : (
-                <span className='text-[15px] font-normal text-ink-3'>
+                <span className='text-[15px] font-normal text-ink-2'>
                     {' '}
                     of {props.of}
                 </span>

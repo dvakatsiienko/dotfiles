@@ -275,10 +275,14 @@ export const BoardPage = (props: BoardPageProps) => {
                 </Notice>
             ) : null}
 
-            <div className='flex flex-wrap gap-1.5' role='tablist'>
+            <div
+                aria-label='modifier layer'
+                className='flex flex-wrap gap-1.5'
+                role='tablist'>
                 {layers.map((each) => {
                     return (
                         <button
+                            aria-controls='board-panel'
                             aria-selected={each === layer}
                             className={`${TAB} ${each === layer ? 'border-accent bg-sel text-ink' : 'border-line bg-transparent text-ink-2'}`}
                             key={each || 'none'}
@@ -291,7 +295,7 @@ export const BoardPage = (props: BoardPageProps) => {
                             <b className='font-semibold text-ink'>
                                 {layerName(each)}
                             </b>
-                            <span className='text-[12px] tabular-nums text-ink-3'>
+                            <span className='text-[12px] tabular-nums text-ink-2'>
                                 {
                                     hotkeys.filter(
                                         (hotkey) => hotkey.mods === each,
@@ -303,16 +307,20 @@ export const BoardPage = (props: BoardPageProps) => {
                 })}
             </div>
 
-            <Board
-                binds={binds}
-                layer={layer}
-                noted={noted}
-                onSelect={(key) =>
-                    moving ? setTarget({ key, layer }) : setSelected(key)
-                }
-                presses={presses}
-                selected={selected}
-            />
+            {/* The region the layer tabs switch. A tablist that controls nothing is a promise
+                to a screen reader that the page does not keep. */}
+            <div id='board-panel' role='tabpanel'>
+                <Board
+                    binds={binds}
+                    layer={layer}
+                    noted={noted}
+                    onSelect={(key) =>
+                        moving ? setTarget({ key, layer }) : setSelected(key)
+                    }
+                    presses={presses}
+                    selected={selected}
+                />
+            </div>
 
             <div className='flex flex-wrap gap-x-[14px] gap-y-1.5 text-[12px] text-ink-2'>
                 {apps.map((app) => {
