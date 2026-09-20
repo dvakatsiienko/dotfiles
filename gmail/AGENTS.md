@@ -18,7 +18,10 @@ filters nobody had folded in).
 
 📌 **a git worktree cannot check the encrypted file out** (the smudge filter finds no key under
 `.git/worktrees/<name>/`): add the worktree with `-c filter.git-crypt.smudge=cat -c
-filter.git-crypt.required=false`, then `git-crypt unlock <exported key>` inside it (measured 2026-09-20).
+filter.git-crypt.required=false`, then copy the key — `mkdir -p .git/worktrees/<name>/git-crypt/keys &&
+cp .git/git-crypt/keys/default .git/worktrees/<name>/git-crypt/keys/` — and `git checkout -- <encrypted
+paths>` inside the worktree. `git-crypt unlock` there fails on its own `git status` (the clean filter
+needs the key it is about to install); measured twice 2026-09-20.
 
 📌 a filter never touches mail that already arrived — after adding a sender, the sweep of old mail
 is one gmail search by hand. 📌 «delete» is gmail's trash, purged after 30 days; there is no
