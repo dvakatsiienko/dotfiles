@@ -20,7 +20,20 @@ gh pr list -R dvakatsiienko/<repo> --search 'author:app/renovate' --json number,
 brew outdated --json=v2 --greedy   # the brew lane, same digest
 brew list --pinned
 brew --version                     # brew ITSELF — a major is a digest line; auto-update jumped 4 → 7 unseen (2026-09-14)
+pnpm skill:evergreen-apps          # the apps lane — due when the boot digest says a monday passed since the last mark
 ```
+
+**the apps lane** — the self-updating apps neither renovate nor brew reads: raycast, claude code,
+wispr flow, cursor, linear, claude desktop / cowork, superwhisper, obsidian, notion, things,
+cleanshot x, 1password, bartender, newton, chrome. `cclio/evergreen/sources.json` is the index
+(one entry per app: changelog url, read shape, the `marker` = newest entry the last run saw); the
+reader prints every entry newer than its marker, the skill judges, then `pnpm skill:evergreen-apps
+--mark` advances the markers — **after the digest went out, never before.** the markers make the lane
+skip-proof: a run on any day prints everything since the last mark, and the boot digest's `apps
+lane` line says when it is due — **a monday has passed since the last mark** — so a missed monday
+is caught on the next boot, and a tuesday catch-up still leaves the next run on the coming monday. a dead url or a
+changed page shape is fixed in the index by hand, the run never searches. a new app = one hunted
+entry; a `⚠️ marker not found` line means the page changed shape — re-seed that marker.
 
 tier from the branch (`renovate/<pkg>-<major>.x` = major; grouped titles say `patch` / `minor`),
 age from `createdAt`, ci from `statusCheckRollup`.
@@ -37,7 +50,7 @@ gh api repos/<owner>/<repo>/releases --jq '.[] | select(.tag_name | test("^v?<fr
 read the whole range, not the head tag — a `4.1 → 5.0` jump carries every breaking change in
 between. a release post on the project's blog beats the github release body when both exist.
 
-## 3. judge — four answers per card
+## 3. judge — five answers per card
 
 - **brings** — the 1–2 facts he would use, numbers where the release gives them
 - **breaks** — two halves, both mandatory: (a) **peer ranges of every dependant** —
@@ -53,8 +66,15 @@ between. a release post on the project's blog beats the github release body when
   block: 2–4 lines of researched facts with the numbers, one source link. a perf claim
   **without** numbers → one line, flagged unmeasured, he asks to detail if he wants. **ci-only
   majors are interesting too** (postgres container, actions) — a card, never silent.
+- **💡 borrow** — the fifth answer, on every card that is not silent: what we could take from
+  this — a flow of ours it changes, a feature that replaces something we built, a setting that
+  shipped with a new default. one line; a card with nothing to borrow prints no borrow line.
+  **claude code and linear get the thought on every notable entry**, not only majors — they are
+  the tools we run all day (dima, 2026-09-20).
 - **silent** — patches, minors without a notable api, brew patch bumps, libs nobody drives by
-  hand. minors fold into one monday line: `k minors, notable: …`.
+  hand. minors fold into one monday line: `k minors, notable: …`. **the apps lane obeys the
+  same silence**: a fix-only release prints nothing, a feature change or a new feature is a
+  🟠 line, a rewrite or a capability we would use is a 🌟 card with the borrow line.
 
 ## 4. the report — cards, plain reply, never a fence
 
@@ -77,6 +97,12 @@ between. a release post on the project's blog beats the github release body when
 - 🟠 <formula> a → b — one line why (a major, or a tool he drives by hand with a notable change) [notes](url)
 - 🟡 <formula> a → b — same, for a notable minor
 - 🟢 silent — <the rest, names only, libs as a count>
+
+📲 apps — <n> apps read, <k> with something to say
+- 🌟 <app> <entry> — one line what changed [notes](url)
+  - 💡 **borrow** — …
+- 🟠 <app> <entry> — one line why he cares [notes](url)
+- 🟢 silent — <the rest, names only>
 
 📋 copy → terminal 📋   ```brew upgrade```   ✂️ end ✂️   ← kept for the day he wants his own hands on it
 
@@ -135,6 +161,7 @@ same message («hold #61») subtract from the round.
 ## completion criterion
 
 every open renovate PR is a card or in the silent line with a green ci; every card carries all
-four answers, the breaks answer names the peer-range check; every ➡️ is one of merge / coder /
-hold; on «approve evergreen» every merge and the brew upgrade ran and the reply names what
-landed, what waits on a rebase, and the new prod deploy count.
+five answers, the breaks answer names the peer-range check; every ➡️ is one of merge / coder /
+hold; on a monday every app in the index is a line or in the apps silent line, and the markers
+advanced after the digest; on «approve evergreen» every merge and the brew upgrade ran and the
+reply names what landed, what waits on a rebase, and the new prod deploy count.

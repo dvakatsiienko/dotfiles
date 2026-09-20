@@ -1,0 +1,134 @@
+[
+    {
+        "entry": "^v \\d+\\.\\d+ [A-Z][a-z]+ \\d{1,2}, \\d{4}$",
+        "markedAt": "2026-09-20",
+        "marker": "v 2.4",
+        "name": "raycast",
+        "note": "entries by version + date; window management, extensions api, ai",
+        "shape": "html",
+        "url": "https://www.raycast.com/changelog"
+    },
+    {
+        "markedAt": "2026-09-20",
+        "marker": "2.1.278",
+        "name": "claude-code",
+        "note": "several drops a day; new settings keys, hooks, skills, agents — every notable entry gets the borrow thought",
+        "shape": "github-changelog",
+        "url": "https://raw.githubusercontent.com/anthropics/claude-code/main/CHANGELOG.md"
+    },
+    {
+        "entry": "^[A-Z][a-z]+ \\d{1,2}, \\d{4}$",
+        "markedAt": "2026-09-20",
+        "marker": "September 17, 2026",
+        "name": "wispr-flow",
+        "note": "dated entries, desktop builds carry a version line; dictation + notetaker (installed 1.6.897)",
+        "shape": "html",
+        "url": "https://wisprflow.ai/whats-new"
+    },
+    {
+        "entry": "^[A-Z][a-z]{2} \\d{1,2}, \\d{4} · Changelog$",
+        "markedAt": "2026-09-20",
+        "marker": "Sep 10, 2026",
+        "name": "cursor",
+        "note": "dated entries, no version; agent features, models, keybindings",
+        "shape": "html",
+        "url": "https://cursor.com/changelog"
+    },
+    {
+        "entry": "^[A-Z][a-z]+ \\d{1,2}, \\d{4}$",
+        "markedAt": "2026-09-20",
+        "marker": "September 14, 2026",
+        "name": "linear",
+        "note": "dated titled entries; api + cli + pm features that could fold into x:pm — every notable entry gets the borrow thought",
+        "shape": "html",
+        "url": "https://linear.app/changelog"
+    },
+    {
+        "entry": "^[A-Z][a-z]+ \\d{1,2}, \\d{4}$",
+        "markedAt": "2026-09-20",
+        "marker": "September 15, 2026",
+        "name": "claude-desktop",
+        "note": "one page for every claude app; read the desktop + cowork lines only",
+        "shape": "html",
+        "url": "https://support.claude.com/en/articles/12138966-release-notes"
+    },
+    {
+        "entry": "^\\d+\\.\\d+\\.\\d+$",
+        "markedAt": "2026-09-20",
+        "marker": "2.18.3",
+        "name": "superwhisper",
+        "note": "version + date; modes, models",
+        "shape": "html",
+        "url": "https://superwhisper.com/changelog"
+    },
+    {
+        "markedAt": "2026-09-20",
+        "marker": "v1.13.8",
+        "name": "obsidian",
+        "note": "releases api tags the public desktop builds; the html page leads with catalyst + mobile",
+        "repo": "obsidianmd/obsidian-releases",
+        "shape": "github-releases",
+        "url": "https://obsidian.md/changelog/"
+    },
+    {
+        "entry": "^[A-Z][a-z]+ \\d{1,2}, \\d{4}",
+        "markedAt": "2026-09-20",
+        "marker": "September 15, 2026",
+        "name": "notion",
+        "note": "version + date; agents, api — relevant to ntn and x:notes",
+        "shape": "html",
+        "url": "https://www.notion.com/releases"
+    },
+    {
+        "markedAt": "2026-09-20",
+        "marker": "Things for OS 27",
+        "name": "things",
+        "note": "no release-notes page; the blog rss announces versions",
+        "shape": "rss",
+        "url": "https://culturedcode.com/things/blog/feed/rss.xml"
+    },
+    {
+        "entry": "^\\d+\\.\\d+(\\.\\d+)?$",
+        "markedAt": "2026-09-20",
+        "marker": "5.0.1",
+        "name": "cleanshot-x",
+        "note": "version + date; hotkey + capture changes feed hotkeys/manual.ts",
+        "shape": "html",
+        "url": "https://cleanshot.com/changelog"
+    },
+    {
+        "markedAt": "2026-09-20",
+        "marker": "8.12.36",
+        "name": "1password",
+        "note": "official stable rss",
+        "shape": "rss",
+        "url": "https://releases.1password.com/mac/stable/index.xml"
+    },
+    {
+        "entry": "^Bartender \\d+\\.\\d+\\.\\d+$",
+        "markedAt": "2026-09-20",
+        "marker": "Bartender 7.0.1",
+        "name": "bartender",
+        "note": "per-major url — bump the path on the next major; versions without dates",
+        "shape": "html",
+        "url": "https://www.macbartender.com/Bartender7/release_notes/"
+    },
+    {
+        "entry": "^[A-Z][a-z]+ \\d{1,2}, \\d{4}$",
+        "markedAt": "2026-09-20",
+        "marker": "September 3, 2026",
+        "name": "newton",
+        "note": "dated titled posts; dmg install, self-updates",
+        "shape": "html",
+        "url": "https://newton.userjot.com/updates"
+    },
+    {
+        "filter": "Stable Channel Update for Desktop",
+        "markedAt": "2026-09-20",
+        "marker": "2026-09-17T17:50",
+        "name": "chrome",
+        "note": "every channel mixed; titles repeat, so the marker is the entry date",
+        "shape": "rss",
+        "url": "http://feeds.feedburner.com/GoogleChromeReleases"
+    }
+]

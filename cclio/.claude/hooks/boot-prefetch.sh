@@ -86,6 +86,11 @@ for repo in bytes dotfiles; do
     | jq -r --arg r "$repo" 'if length == 0 then "\($r): 0" else "\($r): \(length) open · oldest \(min_by(.createdAt).createdAt[:10])" end' \
     || fail "gh unreachable for renovate/$repo"
 done
+jq -r --arg today "$(date +%Y-%m-%d)" '(map(.markedAt) | max) as $m
+  | ($today | strptime("%Y-%m-%d") | mktime) as $t
+  | ($t - (($t | strftime("%u") | tonumber) - 1) * 86400 | strftime("%Y-%m-%d")) as $monday
+  | "apps lane: \(length) apps · last marked \($m) · " + (if $m < $monday then "DUE (a monday passed) — pnpm skill:evergreen-apps" else "next monday" end)' \
+  "$HOME/dotfiles/cclio/evergreen/sources.json" || fail "apps lane index unreadable"
 
 echo "-- repos vs origin (behind-only → loot as a freebie; ahead+behind → propose the rebase) --"
 for repo in "$HOME/dotfiles" "$HOME/projects/bytes"; do
