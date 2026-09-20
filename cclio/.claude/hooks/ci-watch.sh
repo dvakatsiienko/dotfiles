@@ -33,6 +33,7 @@ case "$MODE" in
     out=$(reds); n=$(printf '%s' "$out" | grep -c .)
     [ "$n" -eq 0 ] && echo "ci + vercel: no reds in 48 h" || printf '%s\n' "$out" | cut -f2
     printf '%s' "$out" | grep -q '^fail:' && exit 1
+    exit 0
     ;;
   --watch)
     while true; do
