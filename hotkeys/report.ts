@@ -52,6 +52,7 @@ export const buildReport = (
             chord: chordOf(hotkey),
         })),
         presses: chords.length,
+        span: spanOf(selected, windowDays[window]),
         switches: switches.length,
         switchesPerApp: tally(switches, byApp).map(toAppRow),
         topChords: tally(chords, byLabelledChord(bindings)).map(toChordRow),
@@ -60,6 +61,32 @@ export const buildReport = (
 };
 
 /* Helpers */
+
+// What the window actually covers, which is not what it was asked for. The log began on
+// 2026-09-14, so `month` and `week` answer with the same rows as `all` and the control reads as
+// dead — this is the fact that says otherwise. One pass over the selection rather than a sort:
+// it runs per request over tens of thousands of events.
+const spanOf = (
+    events: readonly LogEvent[],
+    asked: number | undefined,
+): Span | null => {
+    let from: string | null = null;
+    let to: string | null = null;
+
+    for (const event of events) {
+        const day = event.ts.slice(0, 10);
+
+        if (from === null || day < from) from = day;
+        if (to === null || day > to) to = day;
+    }
+
+    if (from === null || to === null) return null;
+
+    const days =
+        Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000) + 1;
+
+    return { asked: asked ?? null, days, from, to };
+};
 
 // The log stores bundle ids, and nobody reads com.todesktop.230313mzl4w4u92 as Cursor. The id
 // travels beside the name because it is the stable key and the lookup is the thing that can fail.
@@ -114,8 +141,18 @@ export interface ColdRow {
     action: string;
     app: string;
 }
+export interface Span {
+    from: string;
+    to: string;
+    days: number;
+    // Days the window asked for, `null` for the lifetime view. The page compares it to `days`
+    // to tell "a week of log" from "a week of a longer log" — which is why a switch between
+    // two windows can change nothing at all without the control being broken.
+    asked: number | null;
+}
 export interface StatsReport {
     window: WindowName;
+    span: Span | null;
     presses: number;
     switches: number;
     boundCount: number;

@@ -6,9 +6,11 @@ import { StatRow } from '@/components/StatRow.tsx';
 
 /* Instruments */
 import {
+    type Span,
     type StatsReport,
     type WindowName,
     fetchStats,
+    subscribeLive,
     windowNames,
 } from '@/api.ts';
 import { colorOf } from '@/keyboard.ts';
@@ -18,12 +20,55 @@ const H2 =
     'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';
 const TAB =
     'flex cursor-pointer items-center gap-2 rounded-md border px-[11px] py-1.5 font-mono text-[13px]/[normal] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+const FOLD =
+    'cursor-pointer justify-self-start rounded-md border border-line bg-transparent px-3 py-1.5 font-sans text-[13px] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+
+// Two hundred rows are the point of this route — the terminal cuts them at fifteen and nothing
+// here may — but they are not the point of arriving on it. Each table opens at its head and
+// keeps whichever answer dima gave it last. `never pressed` has no fold: it is thirteen rows
+// and it is the list he came for.
+const FOLD_TOP = 20;
 
 export const HkPage = () => {
     const [window, setWindow] = useState<WindowName>('all');
     const [report, setReport] = useState<StatsReport | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [tick, setTick] = useState(0);
 
+    // The board has listened to this stream since it was built; this route was reading a
+    // snapshot taken when it mounted, so a press showed up only after switching the window.
+    // One EventSource for the life of the page, outside the fetch below, so changing the
+    // window does not tear the stream down and build it again.
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        // The daemon replays its current counts the instant the stream opens, and that is the
+        // same data the fetch below just asked for.
+        let replayed = false;
+
+        // One fetch per burst. /api/stats parses the whole log on every call and a held
+        // chord arrives as a run of events.
+        const soon = () => {
+            clearTimeout(timer);
+            timer = setTimeout(() => setTick((at) => at + 1), 1000);
+        };
+
+        const stop = subscribeLive({
+            onBindings: soon,
+            onPresses: () => {
+                if (replayed) soon();
+                replayed = true;
+            },
+        });
+
+        return () => {
+            clearTimeout(timer);
+            stop();
+        };
+    }, []);
+
+    // `tick` is the dependency, not a value: the press stream bumps it to re-run this fetch,
+    // and nothing inside the effect reads it.
+    // biome-ignore lint/correctness/useExhaustiveDependencies: the bump is the point
     useEffect(() => {
         let live = true;
 
@@ -39,7 +84,14 @@ export const HkPage = () => {
         return () => {
             live = false;
         };
-    }, [window]);
+    }, [window, tick]);
+
+    // Per table, because he expands the one he is reading and leaves the others alone.
+    // localStorage throws outright in a private window and a throw in render blanks the page,
+    // so both sides are guarded and an unreadable store simply means folded.
+    const chordsFold = useFold('chords');
+    const chordAppsFold = useFold('chords-per-app');
+    const switchAppsFold = useFold('switches-per-app');
 
     const windowTabListJSX = windowNames.map((name) => {
         return (
@@ -72,8 +124,11 @@ export const HkPage = () => {
 
     return (
         <div className='grid gap-[22px]'>
-            <div className='flex flex-wrap gap-1.5' role='tablist'>
-                {windowTabListJSX}
+            <div className='flex flex-wrap items-center gap-x-[18px] gap-y-2'>
+                <div className='flex flex-wrap gap-1.5' role='tablist'>
+                    {windowTabListJSX}
+                </div>
+                <SpanLabel span={report.span} />
             </div>
 
             <div className='flex flex-wrap gap-[22px]'>
@@ -106,59 +161,85 @@ export const HkPage = () => {
                 <section className='grid gap-2.5'>
                     <h2 className={H2}>chords</h2>
                     <ul className='m-0 grid list-none gap-1 p-0'>
-                        {report.topChords.map((row) => {
-                            return (
-                                <StatRow
-                                    count={row.count}
-                                    detail={
-                                        row.action
-                                            ? `${row.action} · ${row.app ?? ''}`
-                                            : undefined
-                                    }
-                                    dotColor={
-                                        row.app ? colorOf(row.app) : undefined
-                                    }
-                                    key={`${row.chord}-${row.action ?? ''}`}
-                                    label={row.chord}
-                                    onSelect={() => openOnBoard(row.chord)}
-                                    top={topOf(report.topChords)}
-                                />
-                            );
-                        })}
+                        {report.topChords
+                            .slice(0, chordsFold.open ? undefined : FOLD_TOP)
+                            .map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        detail={
+                                            row.action
+                                                ? `${row.action} · ${row.app ?? ''}`
+                                                : undefined
+                                        }
+                                        dotColor={
+                                            row.app
+                                                ? colorOf(row.app)
+                                                : undefined
+                                        }
+                                        key={`${row.chord}-${row.action ?? ''}`}
+                                        label={row.chord}
+                                        onSelect={() => openOnBoard(row.chord)}
+                                        top={topOf(report.topChords)}
+                                    />
+                                );
+                            })}
                     </ul>
+                    <FoldButton
+                        fold={chordsFold}
+                        total={report.topChords.length}
+                    />
                 </section>
 
                 <div className='grid gap-[22px]'>
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>chords per app</h2>
                         <ul className='m-0 grid list-none gap-1 p-0'>
-                            {report.chordsPerApp.map((row) => {
-                                return (
-                                    <StatRow
-                                        count={row.count}
-                                        key={row.bundleId}
-                                        label={row.app}
-                                        top={topOf(report.chordsPerApp)}
-                                    />
-                                );
-                            })}
+                            {report.chordsPerApp
+                                .slice(
+                                    0,
+                                    chordAppsFold.open ? undefined : FOLD_TOP,
+                                )
+                                .map((row) => {
+                                    return (
+                                        <StatRow
+                                            count={row.count}
+                                            key={row.bundleId}
+                                            label={row.app}
+                                            top={topOf(report.chordsPerApp)}
+                                        />
+                                    );
+                                })}
                         </ul>
+                        <FoldButton
+                            fold={chordAppsFold}
+                            total={report.chordsPerApp.length}
+                        />
                     </section>
 
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>switches per app</h2>
                         <ul className='m-0 grid list-none gap-1 p-0'>
-                            {report.switchesPerApp.map((row) => {
-                                return (
-                                    <StatRow
-                                        count={row.count}
-                                        key={row.bundleId}
-                                        label={row.app}
-                                        top={topOf(report.switchesPerApp)}
-                                    />
-                                );
-                            })}
+                            {report.switchesPerApp
+                                .slice(
+                                    0,
+                                    switchAppsFold.open ? undefined : FOLD_TOP,
+                                )
+                                .map((row) => {
+                                    return (
+                                        <StatRow
+                                            count={row.count}
+                                            key={row.bundleId}
+                                            label={row.app}
+                                            top={topOf(report.switchesPerApp)}
+                                        />
+                                    );
+                                })}
                         </ul>
+                        <FoldButton
+                            fold={switchAppsFold}
+                            total={report.switchesPerApp.length}
+                        />
                     </section>
 
                     <section className='grid gap-2.5'>
@@ -209,6 +290,64 @@ export const HkPage = () => {
 
 /* Helpers */
 
+// What the window actually covers, beside the control that set it. The log began six days
+// before this was written, so `all`, `month` and `week` answer with the same numbers and the
+// switch reads as dead — this line is the difference between a dead control and a short log.
+// Absent, not just null: `pnpm chords:dev` proxies /api to the always-on daemon, which runs
+// whatever is on main — so every field this app learns before a merge arrives undefined for a
+// while, and a page that blanks on one is worse than a page missing one line.
+const SpanLabel = (props: { span?: Span | null }) => {
+    if (!props.span) return null;
+
+    const { asked, days, from } = props.span;
+    const short = asked !== null && days < asked;
+
+    return (
+        <span className='text-[12.5px] text-ink-3'>
+            {short ? `last ${asked} days — the log starts ` : 'since '}
+            <span className='font-mono'>{from}</span>
+            {short ? null : ` · ${days} days`}
+        </span>
+    );
+};
+
+const foldKey = (id: string) => `chords:fold:${id}`;
+
+const useFold = (id: string): Fold => {
+    const [open, setOpen] = useState(() => {
+        try {
+            return localStorage.getItem(foldKey(id)) === 'all';
+        } catch {
+            return false;
+        }
+    });
+
+    return {
+        open,
+        toggle: () => {
+            const next = !open;
+
+            setOpen(next);
+            try {
+                localStorage.setItem(foldKey(id), next ? 'all' : 'top');
+            } catch {
+                // A private window refuses the write; the fold still works for this visit.
+            }
+        },
+    };
+};
+
+// Absent on a table already shorter than the fold: a control whose two states look identical
+// is worse than no control at all.
+const FoldButton = (props: { fold: Fold; total: number }) =>
+    props.total <= FOLD_TOP ? null : (
+        <button className={FOLD} onClick={props.fold.toggle} type='button'>
+            {props.fold.open
+                ? `show top ${FOLD_TOP}`
+                : `show all ${props.total.toLocaleString()}`}
+        </button>
+    );
+
 // A chord is `mods+key`, and the board wants the two apart: the layer to open and the key to
 // select. The last segment is the key, because a modifier never ends a chord.
 const openOnBoard = (chord: string) => {
@@ -239,6 +378,10 @@ const Tile = (props: TileProps) => (
 );
 
 /* Types */
+interface Fold {
+    open: boolean;
+    toggle: () => void;
+}
 interface TileProps {
     label: string;
     of?: number;

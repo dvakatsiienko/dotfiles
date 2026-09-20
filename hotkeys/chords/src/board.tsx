@@ -250,7 +250,7 @@ export const BoardPage = (props: BoardPageProps) => {
         });
 
     return (
-        <div className='mx-auto grid max-w-[1180px] gap-[22px]'>
+        <div className='grid gap-[22px]'>
             <header className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
                 <span className='text-[13px] text-ink-3'>
                     NuPhy Air75 · {hotkeys.length} bindings · scanned{' '}
@@ -454,16 +454,6 @@ export const BoardPage = (props: BoardPageProps) => {
                     </List>
                 </section>
             </div>
-
-            <footer className='border-t border-line pt-3 text-[12.5px] text-ink-3'>
-                seeded by <span className='font-mono'>pnpm hotkeys:scan</span>{' '}
-                in dotfiles — wispr flow, magnet, bartender, cursor and macos
-                are read from their files; raycast, cleanshot and 1password are
-                typed by hand in{' '}
-                <span className='font-mono'>hotkeys/manual.ts</span>. notes live
-                in <span className='font-mono'>hotkeys/notes.json</span>,
-                committed.
-            </footer>
         </div>
     );
 };

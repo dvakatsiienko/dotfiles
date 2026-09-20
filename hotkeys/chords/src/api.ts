@@ -83,8 +83,15 @@ export interface ColdStat {
     action: string;
     app: string;
 }
+export interface Span {
+    from: string;
+    to: string;
+    days: number;
+    asked: number | null;
+}
 export interface StatsReport {
     window: WindowName;
+    span: Span | null;
     presses: number;
     switches: number;
     boundCount: number;
