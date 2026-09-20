@@ -1,5 +1,5 @@
 /* Core */
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 /* Instruments */
 import { canonicalQuery, chordOf } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
@@ -8,6 +8,7 @@ import type { Hotkey } from '@hotkeys/manual.ts';
 import { Board } from '@/components/Board.tsx';
 import { List, ListEmpty, ListRow } from '@/components/List.tsx';
 import { NoteEditor } from '@/components/NoteEditor.tsx';
+import { Notice, apiTrouble } from '@/components/Notice.tsx';
 
 import {
     type NoteStore,
@@ -49,18 +50,21 @@ export const BoardPage = (props: BoardPageProps) => {
     const [opens, setOpens] = useState('');
     const [moveError, setMoveError] = useState<string | null>(null);
 
-    // Everything here is mount-scoped on purpose: one stream for the life of the page, and a
-    // rerun would open a second EventSource and leak the first.
-    useEffect(() => {
-        const loadScan = () => {
-            fetchScan()
-                .then((next) => {
-                    setScan(next);
-                    setScanError(null);
-                })
-                .catch((error: Error) => setScanError(error.message));
-        };
+    // Lifted out of the effect below so the retry in the notice can call the same function the
+    // stream calls. It has no dependencies, so the effect still runs exactly once and pressing
+    // retry re-fetches the scan without tearing the EventSource down and building it again.
+    const loadScan = useCallback(() => {
+        fetchScan()
+            .then((next) => {
+                setScan(next);
+                setScanError(null);
+            })
+            .catch((error: Error) => setScanError(error.message));
+    }, []);
 
+    // One stream for the life of the page: a rerun would open a second EventSource and leak
+    // the first.
+    useEffect(() => {
         loadScan();
         fetchNotes()
             .then(setNotes)
@@ -75,7 +79,7 @@ export const BoardPage = (props: BoardPageProps) => {
                 setPressedAt(payload.updatedAt);
             },
         });
-    }, []);
+    }, [loadScan]);
 
     const hotkeys = useMemo(() => scan?.hotkeys ?? [], [scan]);
     const binds = useMemo(
@@ -267,11 +271,11 @@ export const BoardPage = (props: BoardPageProps) => {
             </header>
 
             {scanError ? (
-                <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13px]/[1.5] text-ink'>
-                    no hotkey data — {scanError}. run{' '}
-                    <span className='font-mono'>pnpm hotkeys:scan</span> in
-                    dotfiles.
-                </p>
+                <Notice onRetry={loadScan}>
+                    no hotkey data — {apiTrouble(scanError)}. the scan behind it
+                    is <span className='font-mono'>pnpm hotkeys:scan</span>, run
+                    in dotfiles.
+                </Notice>
             ) : null}
 
             <div className='flex flex-wrap gap-1.5' role='tablist'>

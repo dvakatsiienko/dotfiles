@@ -8,12 +8,22 @@
 import { execFileSync } from 'node:child_process';
 import { basename } from 'node:path';
 
+// What the swift daemon writes when macos names no frontmost application: the gap between one
+// app quitting and the next taking focus, and the first moments after a login or a wake. It is
+// not a bundle id and Spotlight will never place it. Three of them in a month of log, all
+// app switches and never a chord — a real measurement of a switch that belonged to nothing, so
+// the page names the gap rather than dropping the row or letting it read as a deleted app.
+const NO_FRONTMOST = 'unknown';
+const NO_FRONTMOST_LABEL = 'no frontmost app';
+
 const cache = new Map<string, string>();
 // Bundle ids arrive from a file on disk and are spliced into an mdfind query, so anything
 // outside the characters a real bundle id uses is refused rather than escaped.
 const plain = /^[A-Za-z0-9._-]+$/;
 
 export const appName = (id: string) => {
+    if (id === NO_FRONTMOST) return NO_FRONTMOST_LABEL;
+
     const hit = cache.get(id);
 
     if (hit !== undefined) return hit;
@@ -45,7 +55,8 @@ export const appName = (id: string) => {
 // The first /api/stats after a daemon boot raced warmAppNames and resolved the remainder itself
 // — 2.5 s against 0.21 s warm. An always-on server may not block on Spotlight, so the cold
 // answer carries ids and the next request carries names.
-export const cachedAppName = (id: string) => cache.get(id) ?? id;
+export const cachedAppName = (id: string) =>
+    id === NO_FRONTMOST ? NO_FRONTMOST_LABEL : (cache.get(id) ?? id);
 
 // A cold cache costs about five seconds across the ~185 ids a month of log holds, and every
 // one of those is a synchronous mdfind. In an always-on daemon that belongs at boot rather

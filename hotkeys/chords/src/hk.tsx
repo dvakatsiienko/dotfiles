@@ -2,6 +2,7 @@
 import { type ReactNode, useEffect, useState } from 'react';
 
 /* Components */
+import { Notice, apiTrouble } from '@/components/Notice.tsx';
 import { StatRow } from '@/components/StatRow.tsx';
 
 /* Instruments */
@@ -113,15 +114,18 @@ export const HkPage = () => {
         );
     });
 
-    if (error) {
-        return (
-            <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13px]/[1.5] text-ink'>
-                no stats — {error}
-            </p>
-        );
-    }
+    const retry = () => setTick((at) => at + 1);
+
+    // A failure only takes the page over when there is nothing behind it. With a report already
+    // fetched the numbers are still true — they have only stopped being fresh — and throwing
+    // them away was the defect: killing the daemon and switching the window replaced 402 good
+    // rows with the browser's own «Failed to fetch».
     if (!report) {
-        return <p className='text-[13px] text-ink-3'>reading the log…</p>;
+        return error ? (
+            <Notice onRetry={retry}>no stats — {apiTrouble(error)}</Notice>
+        ) : (
+            <p className='m-0 text-[13px] text-ink-3'>reading the log…</p>
+        );
     }
 
     // The log is a month of lines and every table is ranked, so the first row is the scale for
@@ -130,6 +134,12 @@ export const HkPage = () => {
 
     return (
         <div className='grid gap-[22px]'>
+            {error ? (
+                <Notice onRetry={retry}>
+                    these numbers stopped refreshing — {apiTrouble(error)}
+                </Notice>
+            ) : null}
+
             <div className='flex flex-wrap items-center gap-x-[18px] gap-y-2'>
                 <div className='flex flex-wrap gap-1.5' role='tablist'>
                     {windowTabListJSX}
