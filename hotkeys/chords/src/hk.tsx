@@ -87,97 +87,122 @@ export const HkPage = () => {
                 />
             </div>
 
-            <section className='grid gap-2.5'>
-                <h2 className={H2}>chords</h2>
-                <ul className='m-0 grid list-none gap-1 p-0'>
-                    {report.topChords.map((row) => {
-                        return (
-                            <StatRow
-                                count={row.count}
-                                detail={
-                                    row.action
-                                        ? `${row.action} · ${row.app ?? ''}`
-                                        : undefined
-                                }
-                                dotColor={
-                                    row.app ? colorOf(row.app) : undefined
-                                }
-                                key={`${row.chord}-${row.action ?? ''}`}
-                                label={row.chord}
-                                onSelect={() => openOnBoard(row.chord)}
-                                top={topOf(report.topChords)}
-                            />
-                        );
-                    })}
-                </ul>
-            </section>
+            {/*
+              Four sections of very different length, and the shortest one — the rebind
+              candidates — used to sit 12,000px down a single column. The board already owns
+              this breakpoint and this grid, so the sections borrow it: the ranked chords lead
+              on the left, the three supporting lists stack on the right, and the page stops
+              being a scroll to reach its own conclusion. Reading order is unchanged — the dom
+              order is still the brief's order, and each column runs top to bottom.
 
-            <section className='grid gap-2.5'>
-                <h2 className={H2}>chords per app</h2>
-                <ul className='m-0 grid list-none gap-1 p-0'>
-                    {report.chordsPerApp.map((row) => {
-                        return (
-                            <StatRow
-                                count={row.count}
-                                key={row.bundleId}
-                                label={row.app}
-                                top={topOf(report.chordsPerApp)}
-                            />
-                        );
-                    })}
-                </ul>
-            </section>
+              The two columns are NOT equal, and the board's own 1fr 1fr is the wrong borrow
+              here: a chord row carries a chord, an action and an app; an app row carries a
+              name. Both numbers below were measured on the real 89 rows, not reasoned:
+              1fr 1fr at 768 truncates 79 of 89 details, 1.45fr truncates 0 at full width, 5
+              at 1024 and 30 at 900. So the second column is earned at 1024 and not before —
+              a shorter page is not worth a third of the labels.
+            */}
+            <div className='grid grid-cols-1 items-start gap-[22px] min-[1024px]:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]'>
+                <section className='grid gap-2.5'>
+                    <h2 className={H2}>chords</h2>
+                    <ul className='m-0 grid list-none gap-1 p-0'>
+                        {report.topChords.map((row) => {
+                            return (
+                                <StatRow
+                                    count={row.count}
+                                    detail={
+                                        row.action
+                                            ? `${row.action} · ${row.app ?? ''}`
+                                            : undefined
+                                    }
+                                    dotColor={
+                                        row.app ? colorOf(row.app) : undefined
+                                    }
+                                    key={`${row.chord}-${row.action ?? ''}`}
+                                    label={row.chord}
+                                    onSelect={() => openOnBoard(row.chord)}
+                                    top={topOf(report.topChords)}
+                                />
+                            );
+                        })}
+                    </ul>
+                </section>
 
-            <section className='grid gap-2.5'>
-                <h2 className={H2}>switches per app</h2>
-                <ul className='m-0 grid list-none gap-1 p-0'>
-                    {report.switchesPerApp.map((row) => {
-                        return (
-                            <StatRow
-                                count={row.count}
-                                key={row.bundleId}
-                                label={row.app}
-                                top={topOf(report.switchesPerApp)}
-                            />
-                        );
-                    })}
-                </ul>
-            </section>
-
-            <section className='grid gap-2.5'>
-                <h2 className={H2}>never pressed</h2>
-                <p className='text-[12.5px] text-ink-3'>
-                    lifetime, whatever the window above says — a rebind
-                    candidate does not stop being one because you shortened the
-                    view.
-                </p>
-                <ul className='m-0 grid list-none gap-1 p-0'>
-                    {report.neverPressed.map((row) => {
-                        return (
-                            <li
-                                className='grid grid-cols-[60px_1fr] items-baseline gap-2.5 border-b border-line py-[3px] text-[13px]'
-                                key={row.chord}>
-                                <span />
-                                <span className='flex items-baseline gap-2 overflow-hidden'>
-                                    <span
-                                        className='relative top-px size-[9px] shrink-0 rounded-full'
-                                        style={{ background: colorOf(row.app) }}
+                <div className='grid gap-[22px]'>
+                    <section className='grid gap-2.5'>
+                        <h2 className={H2}>chords per app</h2>
+                        <ul className='m-0 grid list-none gap-1 p-0'>
+                            {report.chordsPerApp.map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        key={row.bundleId}
+                                        label={row.app}
+                                        top={topOf(report.chordsPerApp)}
                                     />
-                                    <button
-                                        className='shrink-0 cursor-pointer border-0 bg-transparent p-0 font-mono text-[13px] text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
-                                        onClick={() => openOnBoard(row.chord)}
-                                        type='button'>
-                                        {row.chord}
-                                    </button>
-                                    <span className='truncate text-[12.5px] text-ink-3'>
-                                        {row.action} · {row.app}
-                                    </span>
-                                </span>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </section>
+                                );
+                            })}
+                        </ul>
+                    </section>
+
+                    <section className='grid gap-2.5'>
+                        <h2 className={H2}>switches per app</h2>
+                        <ul className='m-0 grid list-none gap-1 p-0'>
+                            {report.switchesPerApp.map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        key={row.bundleId}
+                                        label={row.app}
+                                        top={topOf(report.switchesPerApp)}
+                                    />
+                                );
+                            })}
+                        </ul>
+                    </section>
+
+                    <section className='grid gap-2.5'>
+                        <h2 className={H2}>never pressed</h2>
+                        <p className='text-[12.5px] text-ink-3'>
+                            lifetime, whatever the window above says — a rebind
+                            candidate does not stop being one because you
+                            shortened the view.
+                        </p>
+                        <ul className='m-0 grid list-none gap-1 p-0'>
+                            {report.neverPressed.map((row) => {
+                                return (
+                                    <li
+                                        className='grid grid-cols-[64px_1fr] items-baseline gap-2.5 border-b border-line py-[3px] text-[13px]'
+                                        key={row.chord}>
+                                        <span />
+                                        <span className='flex items-baseline gap-2 overflow-hidden'>
+                                            <span
+                                                className='relative top-px size-[9px] shrink-0 rounded-full'
+                                                style={{
+                                                    background: colorOf(
+                                                        row.app,
+                                                    ),
+                                                }}
+                                            />
+                                            <button
+                                                className='shrink-0 cursor-pointer border-0 bg-transparent p-0 font-mono text-[13px] text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                                                onClick={() =>
+                                                    openOnBoard(row.chord)
+                                                }
+                                                type='button'>
+                                                {row.chord}
+                                            </button>
+                                            <span className='truncate text-[12.5px] text-ink-3'>
+                                                {row.action} · {row.app}
+                                            </span>
+                                        </span>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 };
