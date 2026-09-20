@@ -56,6 +56,9 @@ hotkeys/chords/dist/
 # the A/B baseline: `pnpm chords:ab` rebuilds it from a git ref on demand, so it is a build
 # artifact twice over — of a commit that is already in history.
 hotkeys/chords/dist-before/
+# impeccable live resolves the app root from the repo root and leaves its manifest here. The
+# rest of its state is ignored by the .gitignore live writes and maintains inside the app.
+.impeccable/live/
 
 # gmailctl's oauth client and token live beside the config it reads; secrets, never source.
 gmail/credentials.json
