@@ -13,6 +13,11 @@ briefed you; the report goes back to whoever did.
 
 ## step 0 — load the sharpeners before the first file
 
+**a brief that names impeccable** (a verb, a pass, «refine with impeccable») → read
+`~/dotfiles/docs/knowledge/impeccable-refine.md` first and follow it; the tool's docs answer
+mechanics, that file answers order, gates and who runs what. no impeccable named → never load it.
+
+
 `x:guide-code` first, then **only the guides for the file types you actually touch** — `.ts` →
 `x:guide-typescript`, `.tsx` → plus `x:guide-react`, anything a human looks at → `x:guide-ui-ux`,
 a route/url/layout → `x:guide-conventions`, any ui check → `x:browser-headless` (headless, not the
@@ -118,10 +123,13 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      reads every reviewer for you — you read none. Its reply is one prompt per round, ≤12 lines,
      with a `verdict:` line; fix what it lists, push, message it «round N on <sha>». **the loop is
      yours and the verifier's — the coordinator reads one checkpoint line per round and nothing
-     else.** you report to the coordinator ONCE, on `clean`: the verdict object quoted, the round
-     count, the head sha. a finding you dispute goes to the coordinator with both sides in one
-     message, and the loop pauses until it answers. three rounds is the cap; after that the
-     coordinator decides. after `clean` the coordinator tells you to add Dima as reviewer.
+     else.** open the lane at your FIRST commit («round 1 on <sha>»), not at the end of the
+     assignment. you report to the coordinator ONCE, on `clean`: the verdict object quoted, the
+     round count, the head sha. a finding you dispute goes to the coordinator with both sides in
+     one message, and the loop pauses until it answers. the cap counts findings, not rounds — a
+     one-line round is free; after three rounds of new findings the coordinator decides. the
+     adversarial review lane (step 2/3) runs BEFORE the verifier's first round, never on reminder.
+     after `clean` the coordinator tells you to add Dima as reviewer.
   4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
      is the review request for THIS head: the `review` check is required on main, it runs only on
      a label event, and a later push leaves it stale — so a re-review is remove + add the label

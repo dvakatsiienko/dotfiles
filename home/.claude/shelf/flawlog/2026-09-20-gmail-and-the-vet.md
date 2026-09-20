@@ -59,3 +59,11 @@
 - the ci-reviewer comparison is unanswerable in dotfiles (no review workflow); run it in bytes if it still matters
 - exit lines re-read against the head when a pass removes something (line 6 outlived its subject)
 - a verifier that speaks only at the end of a round wastes the round it is halfway through
+- (coder p3) a stray daemon of his bound 7373 (`env X=… && cd && node` drops the variable past the `&&`) and squatted the launchd port during my reinstall → the transient EADDRINUSE; kill strays by the pid captured at spawn before a reinstall
+- (coder p3) `git add -A <path>` still scans the whole tree and trips on the git-crypt file in a locked worktree — pathspec commits only; the isolation guard in a worktree refuses `agent-browser eval` and any interpolated variable
+
+## the comms model, both members (verifier 8/10, coder 9/10 on the verifier's worth)
+- direct coder ↔ verifier beat the relay on all three counts: the relay compressed repros into prose the coder re-derived; direct carried the curl + file:line; disagreement survived (both corrected each other by measurement) where a relay flattens it into the coordinator's reading
+- cost of direct: the coder's diagnosis anchors the verifier — measure every stated number, never repeat one (explicit discipline now)
+- changes both asked for: open the lane at the end of the FIRST verb, not the phase (the HIGH sat four commits); the cap counts findings, not rounds (a one-line round should be free); the checkpoint line carries verdict · head sha · finding count by severity · whether any finding is a decision, nothing else
+- the dispute path never fired: both sides measured the same running app; escalation is for when that stops being true
