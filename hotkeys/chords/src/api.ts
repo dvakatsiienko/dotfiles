@@ -30,6 +30,15 @@ export const putNote = (note: NoteInput) =>
         method: 'PUT',
     });
 
+// A move is one request: the old row ends, the new one starts, and the daemon stamps the date
+// because a browser's clock is not a fact the server should take.
+export const postManualMove = (move: ManualMove) =>
+    json<{ ok: true }>('/api/manual', {
+        body: JSON.stringify({ ...move, op: 'move' }),
+        headers: { 'content-type': 'application/json' },
+        method: 'POST',
+    });
+
 export const postManualEdit = (edit: ManualEdit) =>
     json<{ ok: true }>('/api/manual', {
         body: JSON.stringify(edit),
@@ -103,6 +112,10 @@ export interface Note extends NoteInput {
 }
 export type NoteStore = Record<string, Note>;
 export interface ManualEdit {
+    from: { app: string; mods: string; key: string; action: string };
+    to: { mods: string; key: string; action: string };
+}
+export interface ManualMove {
     from: { app: string; mods: string; key: string; action: string };
     to: { mods: string; key: string; action: string };
 }

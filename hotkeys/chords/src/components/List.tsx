@@ -20,6 +20,7 @@ export const ListRow = (props: ListRowProps) => (
                     {props.who}
                 </span>
             ) : null}
+            {props.action}
         </span>
     </li>
 );
@@ -34,6 +35,9 @@ export const ListEmpty = (props: { children: ReactNode }) => (
 
 /* Types */
 interface ListRowProps {
+    // A trailing control, present only where the row can do something. A row read from another
+    // app's own config carries none, because nothing here may write it.
+    action?: ReactNode;
     children: ReactNode;
     chord: string;
     color: string;

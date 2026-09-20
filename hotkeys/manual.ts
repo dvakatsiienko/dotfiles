@@ -272,4 +272,8 @@ export interface Hotkey {
     // do cheaply — it runs once per event and the log is tens of thousands. Measured on a real
     // move: 66 of that day's presses landed on the wrong side.
     until?: string;
+    // Where this row came from, stamped by the scan. Only `manual` rows can be edited from the
+    // ui: everything else is read out of its own app's config, so a write here would be a lie
+    // the next scan erases. It is not written by hand — manual.ts never carries it in source.
+    source?: 'manual' | 'scan';
 }

@@ -261,7 +261,18 @@ const scanned = [wispr, magnet, bartender, cursor, macos].flatMap((scan) => {
 
 const payload = JSON.stringify(
     {
-        hotkeys: [...manualHotkeys, ...scanned].map(canonical),
+        // Stamped here rather than declared in manual.ts: the two lists are only
+        // distinguishable at the moment they are merged, and `macos` rows appear in both.
+        hotkeys: [
+            ...manualHotkeys.map((hotkey) => ({
+                ...hotkey,
+                source: 'manual' as const,
+            })),
+            ...scanned.map((hotkey) => ({
+                ...hotkey,
+                source: 'scan' as const,
+            })),
+        ].map(canonical),
         scannedAt: new Date().toISOString(),
     },
     null,

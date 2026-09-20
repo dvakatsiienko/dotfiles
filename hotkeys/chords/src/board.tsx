@@ -14,11 +14,14 @@ import {
     type ScanPayload,
     fetchNotes,
     fetchScan,
+    postManualMove,
     putNote,
     subscribeLive,
 } from '@/api.ts';
 import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
 
+const MOVE_BTN =
+    'cursor-pointer rounded-md border px-3 py-1 font-sans text-[13px] font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const H2 =
     'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';
 const TAB =
@@ -37,6 +40,14 @@ export const BoardPage = (props: BoardPageProps) => {
         props.params.get('key'),
     );
     const [noteFilter, setNoteFilter] = useState('');
+    // The move, in two clicks. `moving` is the row that left; `target` is where it went, and
+    // until that is set every click on the board picks a destination rather than a selection.
+    const [moving, setMoving] = useState<Hotkey | null>(null);
+    const [target, setTarget] = useState<{ layer: string; key: string } | null>(
+        null,
+    );
+    const [opens, setOpens] = useState('');
+    const [moveError, setMoveError] = useState<string | null>(null);
 
     // Everything here is mount-scoped on purpose: one stream for the life of the page, and a
     // rerun would open a second EventSource and leak the first.
@@ -109,6 +120,59 @@ export const BoardPage = (props: BoardPageProps) => {
         (note) => note.layer === layer && note.key === selected,
     );
 
+    const cancelMove = () => {
+        setMoving(null);
+        setTarget(null);
+        setMoveError(null);
+    };
+
+    const confirmMove = async () => {
+        if (!(moving && target)) return;
+
+        try {
+            await postManualMove({
+                from: {
+                    action: moving.action,
+                    app: moving.app,
+                    key: moving.key,
+                    mods: moving.mods,
+                },
+                to: {
+                    action: opens.trim() || moving.action,
+                    key: target.key,
+                    mods: target.layer,
+                },
+            });
+
+            // The note is about the meaning and not the keycap, so it travels with it
+            // (dima, 2026-09-20). Cleared from the old chord, written on the new one.
+            const note = Object.values(notes).find(
+                (each) => each.layer === moving.mods && each.key === moving.key,
+            );
+
+            if (note) {
+                await putNote({
+                    key: moving.key,
+                    layer: moving.mods,
+                    text: '',
+                });
+                setNotes(
+                    await putNote({
+                        key: target.key,
+                        layer: target.layer,
+                        text: note.text,
+                    }),
+                );
+            }
+
+            // Nothing refetches the scan here: manual.ts changed, the daemon sees its mtime
+            // move, reruns the scan and pushes `bindings` — the same road a hand edit takes.
+            cancelMove();
+        } catch (error) {
+            setMoveError((error as Error).message);
+        }
+    };
+
     const saveNote = async (text: string) => {
         if (!selected) return;
 
@@ -125,9 +189,27 @@ export const BoardPage = (props: BoardPageProps) => {
             )
             .join('\n');
 
-    const bindRowJSX = (hotkey: Hotkey, at: number) => {
+    // Only a row that lives in manual.ts can move. Everything else is read out of its own app's
+    // config, so a write here would be a lie the next scan erases — the action is absent rather
+    // than present-and-failing.
+    const bindRow = (hotkey: Hotkey, at: number, canMove = false) => {
         return (
             <ListRow
+                action={
+                    canMove && hotkey.source === 'manual' ? (
+                        <button
+                            className='ml-2 cursor-pointer rounded border border-line bg-transparent px-1.5 font-sans text-[11.5px] text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                            onClick={() => {
+                                setMoving(hotkey);
+                                setTarget(null);
+                                setOpens(hotkey.action);
+                                setMoveError(null);
+                            }}
+                            type='button'>
+                            moved
+                        </button>
+                    ) : null
+                }
                 chord={chordOf(hotkey)}
                 color={colorOf(hotkey.app)}
                 key={`${hotkey.app}-${hotkey.key}-${at}`}
@@ -167,9 +249,6 @@ export const BoardPage = (props: BoardPageProps) => {
     return (
         <div className='mx-auto grid max-w-[1180px] gap-[22px]'>
             <header className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
-                <h1 className='m-0 font-sans text-[22px]/[1.2] font-semibold text-balance'>
-                    chords
-                </h1>
                 <span className='text-[13px] text-ink-3'>
                     NuPhy Air75 · {hotkeys.length} bindings · scanned{' '}
                     <span className='font-mono'>
@@ -224,7 +303,9 @@ export const BoardPage = (props: BoardPageProps) => {
                 binds={binds}
                 layer={layer}
                 noted={noted}
-                onSelect={setSelected}
+                onSelect={(key) =>
+                    moving ? setTarget({ key, layer }) : setSelected(key)
+                }
                 presses={presses}
                 selected={selected}
             />
@@ -254,7 +335,71 @@ export const BoardPage = (props: BoardPageProps) => {
                             </small>
                         ) : null}
                     </div>
-                    <List>{selectedBinds.map(bindRowJSX)}</List>
+                    <List>
+                        {selectedBinds.map((hotkey, at) =>
+                            bindRow(hotkey, at, true),
+                        )}
+                    </List>
+                    {moving ? (
+                        <div className='grid gap-2 rounded-md border border-accent bg-cap px-3 py-2.5'>
+                            {target ? (
+                                <>
+                                    <div className='font-mono text-[13px] text-ink'>
+                                        {chordOf(moving)} →{' '}
+                                        {chordOf({
+                                            key: target.key,
+                                            mods: target.layer,
+                                        })}
+                                    </div>
+                                    <label className='grid gap-1 font-sans text-[12.5px] text-ink-3'>
+                                        opens
+                                        <input
+                                            className='rounded-md border border-line bg-cap px-2.5 py-1.5 font-sans text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                                            onChange={(event) =>
+                                                setOpens(event.target.value)
+                                            }
+                                            value={opens}
+                                        />
+                                    </label>
+                                    <div className='flex flex-wrap items-center gap-2'>
+                                        <button
+                                            className={`${MOVE_BTN} border-accent bg-accent text-white`}
+                                            onClick={() => void confirmMove()}
+                                            type='button'>
+                                            record the move
+                                        </button>
+                                        <button
+                                            className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
+                                            onClick={cancelMove}
+                                            type='button'>
+                                            cancel
+                                        </button>
+                                        {moveError ? (
+                                            <span className='text-[12.5px] text-ink-2'>
+                                                {moveError}
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                </>
+                            ) : (
+                                <div className='flex flex-wrap items-center gap-2 text-[13px] text-ink'>
+                                    <span>
+                                        click where{' '}
+                                        <span className='font-mono'>
+                                            {moving.action}
+                                        </span>{' '}
+                                        went — any key, any layer
+                                    </span>
+                                    <button
+                                        className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
+                                        onClick={cancelMove}
+                                        type='button'>
+                                        cancel
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : null}
                     <NoteEditor
                         chord={selectedChord}
                         notesMarkdown={notesMarkdown}
@@ -299,7 +444,7 @@ export const BoardPage = (props: BoardPageProps) => {
                     <h2 className={H2}>all bindings on this layer</h2>
                     <List>
                         {binds.length ? (
-                            binds.map(bindRowJSX)
+                            binds.map((hotkey, at) => bindRow(hotkey, at))
                         ) : (
                             <ListEmpty>nothing on this layer</ListEmpty>
                         )}
