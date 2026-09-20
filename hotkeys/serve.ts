@@ -14,10 +14,17 @@
 // content type a cross-origin page cannot send without a preflight this server never answers —
 // and refuses any Origin it does not serve. Anything running AS dima on this mac still has full
 // access by design; that is the boundary, not the port number.
-import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import {
+    existsSync,
+    readFileSync,
+    readdirSync,
+    statSync,
+    writeFileSync,
+} from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, relative, resolve } from 'node:path';
 
+import { warmAppNames } from './app-name.ts';
 import type { Hotkey } from './manual.ts';
 import {
     type ManualEdit,
@@ -26,11 +33,14 @@ import {
 } from './manual-edit.ts';
 import { type NoteInput, readNotes, saveNote } from './notes.ts';
 import { chordsDevPort, chordsPort } from './ports.ts';
+import { buildReport, isWindowName, windowDays } from './report.ts';
+import { parseEvents } from './stats.ts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const DIST = join(import.meta.dirname, 'chords/dist');
 const MANUAL = join(import.meta.dirname, 'manual.ts');
 const SCAN_SNAPSHOT = join(import.meta.dirname, 'hotkeys.json');
+const OLD_PAGE = join(import.meta.dirname, 'map.html');
 const MAX_BODY = 64 * 1024;
 // Both ports: vite proxies /api here without rewriting Origin, so the dev page's origin is the
 // dev server's, not this one's.
@@ -50,7 +60,7 @@ const MIME: Record<string, string> = {
     '.woff2': 'font/woff2',
 };
 
-export const startChordsServer = () => {
+export const startChordsServer = (options: ChordsServerOptions) => {
     const streams = new Set<ServerResponse>();
     let presses: PressPayload = { counts: {}, updatedAt: null };
 
@@ -61,15 +71,23 @@ export const startChordsServer = () => {
     };
 
     const server = createServer((request, response) => {
-        handle(request, response, { presses: () => presses, streams }).catch(
-            (error: unknown) => {
-                send(response, 500, { error: String(error) });
-            },
-        );
+        handle(request, response, {
+            dataDir: options.dataDir,
+            presses: () => presses,
+            streams,
+        }).catch((error: unknown) => {
+            send(response, 500, { error: String(error) });
+        });
     });
 
     server.listen(chordsPort, '127.0.0.1', () => {
         console.log(`chords served on http://localhost:${chordsPort}`);
+        // Off the request path: resolving a month of bundle ids is ~5s of synchronous mdfind,
+        // and an always-on daemon should spend it once at boot rather than inside whichever
+        // request happens to be first.
+        void warmAppNames(
+            readEvents(options.dataDir).map((event) => event.app),
+        ).then(() => console.log('app names resolved'));
     });
 
     return {
@@ -110,9 +128,6 @@ const readBody = (request: IncomingMessage) =>
         request.on('error', fail);
     });
 
-// The rows manual.ts exports, freshly read: the ui's edit is checked against them before a
-// single byte of that file moves. The mtime in the specifier is what gets past node's module
-// cache — the file changes under this process on every edit and every hand edit.
 // A sentinel rather than a throw: a malformed body is an ordinary 400, and letting it reach the
 // catch-all would answer it with a 500 carrying the parser's own message.
 const BAD_JSON = Symbol('bad json');
@@ -176,6 +191,18 @@ const manualEditError = (edit: unknown) => {
     return null;
 };
 
+// The whole log, parsed per request. It is 3 MB and a page load asks once, so a cache would be
+// a second source of truth for a cost nobody has measured as a problem.
+const readEvents = (dataDir: string) =>
+    readdirSync(dataDir)
+        .filter((name) => name.endsWith('.jsonl'))
+        .flatMap((name) =>
+            parseEvents(readFileSync(join(dataDir, name), 'utf8')),
+        );
+
+// The rows manual.ts exports, freshly read: the ui's edit is checked against them before a
+// single byte of that file moves. The mtime in the specifier is what gets past node's module
+// cache — the file changes under this process on every edit and every hand edit.
 const manualRows = async (): Promise<readonly Hotkey[]> => {
     const module = await import(`./manual.ts?at=${statSync(MANUAL).mtimeMs}`);
 
@@ -273,6 +300,31 @@ const api = async (
         return send(response, 200, { ok: true });
     }
 
+    if (url.pathname === '/api/stats') {
+        const asked = url.searchParams.get('window') ?? 'all';
+
+        // An allowlist, not a parse: the value picks a branch and never reaches a file path.
+        if (!isWindowName(asked)) {
+            return send(response, 400, {
+                error: `window must be one of ${Object.keys(windowDays).join(', ')}`,
+            });
+        }
+        if (!existsSync(SCAN_SNAPSHOT)) {
+            return send(response, 503, {
+                error: 'no scan yet — run pnpm hotkeys:scan',
+            });
+        }
+
+        const bindings = JSON.parse(readFileSync(SCAN_SNAPSHOT, 'utf8'))
+            .hotkeys as Hotkey[];
+
+        return send(
+            response,
+            200,
+            buildReport(readEvents(live.dataDir), bindings, asked),
+        );
+    }
+
     if (url.pathname === '/api/presses') {
         response.writeHead(200, {
             'cache-control': 'no-store',
@@ -291,6 +343,45 @@ const api = async (
     }
 
     return send(response, 404, { error: `no route for ${url.pathname}` });
+};
+
+// The page chords replaced, kept alive at /old/ so dima can hold the impeccable passes against
+// what they started from. It is served rather than opened off disk because its two seed scripts
+// no longer exist as files — scan.ts writes json now and the press counts live in this process —
+// so the daemon generates both on the fly and map.html itself is untouched. It leaves on his word.
+const serveOldPage = (
+    response: ServerResponse,
+    pathname: string,
+    live: LiveState,
+) => {
+    if (pathname === '/old/hotkeys.js') {
+        const data = existsSync(SCAN_SNAPSHOT)
+            ? readFileSync(SCAN_SNAPSHOT, 'utf8')
+            : '{"hotkeys":[],"scannedAt":""}';
+
+        return sendScript(response, `window.hotkeyData = ${data};`);
+    }
+    if (pathname === '/old/presses.js') {
+        return sendScript(
+            response,
+            `window.hotkeyPresses = ${JSON.stringify(live.presses())};`,
+        );
+    }
+
+    response.writeHead(200, {
+        'cache-control': 'no-store',
+        'content-type': MIME['.html'] as string,
+    });
+
+    return response.end(readFileSync(OLD_PAGE));
+};
+
+const sendScript = (response: ServerResponse, body: string) => {
+    response.writeHead(200, {
+        'cache-control': 'no-store',
+        'content-type': MIME['.js'] as string,
+    });
+    response.end(body);
 };
 
 const serveStatic = (response: ServerResponse, pathname: string) => {
@@ -330,15 +421,30 @@ const handle = async (
     if (url.pathname.startsWith('/api/'))
         return api(request, response, url, live);
 
+    // The trailing slash is load-bearing: map.html asks for `hotkeys.js` relatively, and at
+    // /old that resolves to the site root instead of to a file beside the page.
+    if (url.pathname === '/old') {
+        response.writeHead(302, { location: '/old/' });
+
+        return response.end();
+    }
+    if (url.pathname.startsWith('/old/')) {
+        return serveOldPage(response, url.pathname, live);
+    }
+
     return serveStatic(response, url.pathname);
 };
 
 /* Types */
+export interface ChordsServerOptions {
+    dataDir: string;
+}
 export interface PressPayload {
     counts: Record<string, number>;
     updatedAt: string | null;
 }
 interface LiveState {
+    dataDir: string;
     presses: () => PressPayload;
     streams: Set<ServerResponse>;
 }

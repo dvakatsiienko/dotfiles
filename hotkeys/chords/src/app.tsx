@@ -1,9 +1,14 @@
 /* Core */
 import { useEffect, useMemo, useState } from 'react';
-
 /* Instruments */
-import { chordOf } from '../../chord.ts';
-import type { Hotkey } from '../../manual.ts';
+import { chordOf } from '@hotkeys/chord.ts';
+import type { Hotkey } from '@hotkeys/manual.ts';
+
+/* Components */
+import { Board } from '@/components/Board.tsx';
+import { List, ListEmpty, ListRow } from '@/components/List.tsx';
+import { NoteEditor } from '@/components/NoteEditor.tsx';
+
 import {
     type NoteStore,
     type ScanPayload,
@@ -11,12 +16,8 @@ import {
     fetchScan,
     putNote,
     subscribeLive,
-} from './api.ts';
-/* Components */
-import { Board } from './components/Board.tsx';
-import { List, ListEmpty, ListRow } from './components/List.tsx';
-import { NoteEditor } from './components/NoteEditor.tsx';
-import { colorOf, layerName, layerOrder, layout, modKeys } from './keyboard.ts';
+} from '@/api.ts';
+import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
 
 const H2 =
     'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';

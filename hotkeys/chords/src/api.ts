@@ -1,6 +1,6 @@
 // The four things the daemon answers. Nothing here is cached: the scan is a file read, the
 // notes are a file read, and the presses arrive on their own.
-import type { Hotkey } from '../../manual.ts';
+import type { Hotkey } from '@hotkeys/manual.ts';
 
 const json = async <T>(input: string, init?: RequestInit): Promise<T> => {
     const response = await fetch(input, init);

@@ -100,7 +100,7 @@ let lastSources = sourceSignature();
 let lastSignature = logSignature();
 
 if (process.argv.includes('--watch')) {
-    const chords = startChordsServer();
+    const chords = startChordsServer({ dataDir: DATA });
 
     chords.pushPresses(readCounts());
     console.log(

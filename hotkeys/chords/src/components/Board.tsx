@@ -1,6 +1,7 @@
-import { chordOf } from '../../../chord.ts';
-import type { Hotkey } from '../../../manual.ts';
-import { capLabel, colorOf, layerMods, layout, modKeys } from '../keyboard.ts';
+import { chordOf } from '@hotkeys/chord.ts';
+import type { Hotkey } from '@hotkeys/manual.ts';
+
+import { capLabel, colorOf, layerMods, layout, modKeys } from '@/keyboard.ts';
 
 const BASE =
     'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:outline-2 aria-pressed:outline-offset-1 aria-pressed:outline-accent';

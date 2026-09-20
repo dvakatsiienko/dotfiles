@@ -15,6 +15,10 @@
         "strict": true,
         "target": "ES2023",
         "types": ["vite/client"],
+        "paths": {
+            "@/*": ["./src/*"],
+            "@hotkeys/*": ["../*"]
+        },
         "verbatimModuleSyntax": true
     },
     "include": [
