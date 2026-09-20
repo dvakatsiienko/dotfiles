@@ -36,6 +36,7 @@ export const BoardPage = (props: BoardPageProps) => {
     const [selected, setSelected] = useState<string | null>(
         props.params.get('key'),
     );
+    const [noteFilter, setNoteFilter] = useState('');
 
     // Everything here is mount-scoped on purpose: one stream for the life of the page, and a
     // rerun would open a second EventSource and leak the first.
@@ -138,7 +139,19 @@ export const BoardPage = (props: BoardPageProps) => {
         );
     };
 
-    const noteRowJSX = Object.values(notes)
+    // The filter reads the chord and the text, because dima looks for a note either way round —
+    // he remembers the key, or he remembers what he wrote. Case-insensitive, no other cleverness.
+    const needle = noteFilter.trim().toLowerCase();
+    const matchingNotes = Object.values(notes).filter(
+        (note) =>
+            needle === '' ||
+            note.text.toLowerCase().includes(needle) ||
+            chordOf({ key: note.key, mods: note.layer })
+                .toLowerCase()
+                .includes(needle),
+    );
+
+    const noteRowJSX = matchingNotes
         .sort((a, z) => z.updatedAt.localeCompare(a.updatedAt))
         .map((note) => {
             return (
@@ -264,11 +277,23 @@ export const BoardPage = (props: BoardPageProps) => {
 
                 <section className='grid content-start gap-2.5'>
                     <h2 className={H2}>notes</h2>
+                    <input
+                        aria-label='filter notes'
+                        className='w-full rounded-md border border-line bg-cap px-2.5 py-1.5 font-sans text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                        onChange={(event) => setNoteFilter(event.target.value)}
+                        placeholder='filter by chord or text'
+                        type='search'
+                        value={noteFilter}
+                    />
                     <List>
                         {noteRowJSX.length ? (
                             noteRowJSX
                         ) : (
-                            <ListEmpty>no notes yet</ListEmpty>
+                            <ListEmpty>
+                                {Object.keys(notes).length === 0
+                                    ? 'no notes yet'
+                                    : `no note matches ${noteFilter.trim()}`}
+                            </ListEmpty>
                         )}
                     </List>
                     <h2 className={H2}>all bindings on this layer</h2>
