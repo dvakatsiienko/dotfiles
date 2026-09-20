@@ -5,8 +5,6 @@
  */
 
 import { execFileSync } from 'node:child_process';
-/* Core */
-import { readFileSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
@@ -23,17 +21,16 @@ import {
 /* Instruments */
 import { appName } from './app-name.ts';
 import { chordOf } from './chord.ts';
+import { readLog } from './log.ts';
 import type { Hotkey } from './manual.ts';
 import {
     LABEL_SEPARATOR,
-    type LogEvent,
     type Tally,
     byApp,
     byChord,
     byLabelledChord,
     liveHotkeys,
     ofKind,
-    parseEvents,
     selectEvents,
     tally,
     unpressed,
@@ -96,18 +93,6 @@ if (!Number.isInteger(capped) || capped < 0) {
 
 const limit = capped === 0 ? Number.POSITIVE_INFINITY : capped;
 
-const readLog = (): LogEvent[] => {
-    let files: string[];
-    try {
-        files = readdirSync(DATA).filter((name) => name.endsWith('.jsonl'));
-    } catch {
-        return [];
-    }
-    return files.flatMap((name) =>
-        parseEvents(readFileSync(join(DATA, name), 'utf8')),
-    );
-};
-
 const readBindings = (): Hotkey[] => {
     try {
         const raw = execFileSync(
@@ -141,7 +126,7 @@ const table = (
     if (rows.length > limit) note(`… ${rows.length - limit} more`);
 };
 
-const all = readLog();
+const all = readLog(DATA);
 const window = selectEvents(all, { app, days, ignore });
 const chords = ofKind(window, 'chord');
 const switches = ofKind(window, 'activate');

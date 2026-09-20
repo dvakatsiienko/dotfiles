@@ -14,17 +14,12 @@
 // content type a cross-origin page cannot send without a preflight this server never answers —
 // and refuses any Origin it does not serve. Anything running AS dima on this mac still has full
 // access by design; that is the boundary, not the port number.
-import {
-    existsSync,
-    readFileSync,
-    readdirSync,
-    statSync,
-    writeFileSync,
-} from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, relative, resolve } from 'node:path';
 
 import { warmAppNames } from './app-name.ts';
+import { readLog } from './log.ts';
 import type { Hotkey } from './manual.ts';
 import {
     type ManualEdit,
@@ -36,7 +31,7 @@ import {
 import { type NoteInput, readNotes, saveNote } from './notes.ts';
 import { chordsDevPort, chordsPort } from './ports.ts';
 import { buildReport, isWindowName, windowDays } from './report.ts';
-import { liveHotkeys, parseEvents } from './stats.ts';
+import { liveHotkeys } from './stats.ts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const DIST = join(import.meta.dirname, 'chords/dist');
@@ -87,7 +82,7 @@ export const startChordsServer = (options: ChordsServerOptions) => {
         // and an always-on daemon should spend it once at boot rather than inside whichever
         // request happens to be first.
         void warmAppNames(
-            readEvents(options.dataDir).map((event) => event.app),
+            readLog(options.dataDir).map((event) => event.app),
         ).then(() => console.log('app names resolved'));
     });
 
@@ -197,15 +192,6 @@ const manualEditError = (edit: unknown) => {
 
     return null;
 };
-
-// The whole log, parsed per request. It is 3 MB and a page load asks once, so a cache would be
-// a second source of truth for a cost nobody has measured as a problem.
-const readEvents = (dataDir: string) =>
-    readdirSync(dataDir)
-        .filter((name) => name.endsWith('.jsonl'))
-        .flatMap((name) =>
-            parseEvents(readFileSync(join(dataDir, name), 'utf8')),
-        );
 
 // The rows manual.ts exports, freshly read: the ui's edit is checked against them before a
 // single byte of that file moves. The mtime in the specifier is what gets past node's module
@@ -352,7 +338,7 @@ const api = async (
         return send(
             response,
             200,
-            buildReport(readEvents(live.dataDir), bindings, asked),
+            buildReport(readLog(live.dataDir), bindings, asked),
         );
     }
 

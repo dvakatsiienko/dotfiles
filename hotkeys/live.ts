@@ -13,13 +13,13 @@
 // main.swift would need a swift rebuild, a codesign and an Input Monitoring re-grant every
 // time the map wanted a new number.
 import { execFileSync } from 'node:child_process';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { statSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
+import { logFiles, readLog } from './log.ts';
 import { startChordsServer } from './serve.ts';
 import { sourceList } from './sources.ts';
-import { parseEvents } from './stats.ts';
 
 // --data-dir aims the watcher at a fixture directory instead of the monitor's real log, so a
 // second daemon can be stood up around a press that never happened. It fails loud rather than
@@ -44,14 +44,10 @@ const EVERY_MS = 2000;
 const readCounts = () => {
     const counts: Record<string, number> = {};
 
-    for (const name of readdirSync(DATA).filter((n) => n.endsWith('.jsonl'))) {
-        for (const event of parseEvents(
-            readFileSync(join(DATA, name), 'utf8'),
-        )) {
-            if (event.kind !== 'chord' || !event.chord) continue;
+    for (const event of readLog(DATA)) {
+        if (event.kind !== 'chord' || !event.chord) continue;
 
-            counts[event.chord] = (counts[event.chord] ?? 0) + 1;
-        }
+        counts[event.chord] = (counts[event.chord] ?? 0) + 1;
     }
 
     return { counts, updatedAt: new Date().toISOString() };
@@ -62,8 +58,7 @@ const readCounts = () => {
 // happened would burn cpu forever. One stat per file per tick answers that instead, and the
 // counts are only rebuilt when a press actually landed.
 const logSignature = () =>
-    readdirSync(DATA)
-        .filter((name) => name.endsWith('.jsonl'))
+    logFiles(DATA)
         .map((name) => `${name}:${statSync(join(DATA, name)).mtimeMs}`)
         .join('|');
 
