@@ -3,10 +3,6 @@ date: 2026-09-19
 slug: the-schedule-day
 tickets: [DOT-237, DOT-232, BYT-41, BYT-86]
 posted: {health: yes}
-cw: |
-  the day ran in three parts. the night gave every scheduled job one home under schedule/ and moved the repo from CLAUDE.md to AGENTS.md. the morning wired jev, a small classifier, into the fleet as an inbox sorter and a skill router, with 1password as the single store for every api key. the afternoon was hotkeys: a research round with eleven verdicts, a live keyboard map that counts real presses, eight system chords switched off, magnet retired for raycast window management, wispr on the right command key, and the x-com-chat production deploy green again after a jotai pin.
-  live / next: two hotkey sessions are planned, a pass over raycast window-management commands to disable the unused ones, then a rebind of every hotkey as one pool once the monitor has two weeks of counts.
-  worth a line: a screenshot with one arrow, «should be green», found a bug the code was blind to, a scheduled job could never show green because green meant running now, not ran fine.
 ---
 
 # 🗞️ cclio's gazette · the schedule day — schedulers get one home, the fleet moves to AGENTS.md, and four false-greens die

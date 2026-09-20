@@ -3,10 +3,6 @@ date: 2026-09-16
 slug: the-store-and-sweep-day
 tickets: [DOT-237, DOT-250, DOT-251, DOT-187, DOT-27, DOT-39]
 posted: {health: yes}
-cw: |
-  Raycast's store round is done: every extension Dima pulled got a verdict, seven went, github, translate, gifs, kill-process and vercel are configured. A coder swept /Applications and 26 apps now live under brew, 8 apps, 28 steam launcher tails and 17 GB of model data are gone, and the monitor flicker turned out to be OLED VRR, fixed at 120 Hz.
-  live / next: DOT-237 phase 4 starts tomorrow with a pre-research round per slice (quicklinks, aliases, snippets, script commands, hotkeys), then the meaty part.
-  worth a line: a raycast deep link that «did nothing» was a disabled command, and the app's own log said so in one grep, after a reinstall nobody needed.
 ---
 
 # 🗞️ cclio's gazette · the store and sweep day — every extension verdicted, 26 apps hoisted under brew, and a flicker with a name

@@ -3,10 +3,6 @@ date: 2026-09-11
 slug: the-gate-day
 tickets: [BYT-70, BYT-84, BYT-85, BYT-86, BYT-88, BYT-89, BYT-90, BYT-91, BYT-92, BYT-93, DOT-26, DOT-241, DOT-244, DOT-245]
 posted: {health: yes}
-cw: |
-  the merge gate on bytes is real now: the reviewer publishes its own check, nothing merges without a review, and the dev-tool sweep put the shared toolchain at the root and the app-specific tools back where they belong. english practice started, live, one correction line at a time, with a corrector plugin running quietly underneath.
-  live / next: the gate's second hole (a review that files its findings in one comment reads as clean) is tomorrow's first fix, then a first ralph-loop run on the guard's tests, then the vercel deploy zero.
-  worth a line: three systems in one day reported green for work that never ran, and the fix each time was the same sentence, a green status answers did-this-fail, never did-this-run.
 ---
 # 🗞️ cclio's gazette · the gate day — six prs, a testing system, a reviewer with a face, and a merge gate that turned out to be paper
 

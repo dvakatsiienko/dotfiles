@@ -28,7 +28,7 @@ on its own loads nothing, so the installer runs `bootout` + `bootstrap` too, ide
 
 ### why the heartbeat pattern exists
 
-the gazette sync runs in the anthropic cloud. no pid, no plist, no `launchctl` row — nothing to
+a cloud job runs on anthropic's machines. no pid, no plist, no `launchctl` row — nothing to
 poll, ever. so it writes a json beat to disk when it runs, and `schedule` derives state from
 **freshness**: fresh and ok → `waiting`, fresh and not ok → `failed`, older than 26h → `missed`,
 file missing → the task is simply not set up and no row appears at all.

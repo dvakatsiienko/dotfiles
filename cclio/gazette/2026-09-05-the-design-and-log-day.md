@@ -3,10 +3,6 @@ date: 2026-09-05
 slug: the-design-and-log-day
 tickets: [BYT-71, BYT-74, BYT-72, BYT-73, BYT-75, DOT-209]
 posted: {health: yes}
-cw: |
-  Dima's trophy log now tells the truth about days, a gaming day ends at five in the morning, and the archive keeps itself fresh with no button to press. The dead SpaceX api behind space-explorer was swapped for a live gateway the same afternoon, and Claude Desktop can now become the coordinator in one read.
-  live / next: tomorrow is a design day, a stress test of the impeccable design tool against trophy-sys, then the shadcn component library decision, then Dima designs in the desktop Design tab.
-  worth a line: five times today the agent stated a fact from memory that the coder then disproved by running it, so the memory now says a remembered fact is a relay too.
 ---
 
 # 🗞️ cclio's gazette · the design and log day — the log learns the gaming clock, cw wears the coordinator, and my recall stops counting as a source

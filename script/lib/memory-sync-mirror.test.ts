@@ -11,12 +11,9 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 /* Instruments */
 import {
-    GAZETTE_DIR,
     MARK_END,
     MARK_START,
     compact,
-    cwBlock,
-    renderGazette,
     renderTarget,
     selectSections,
     tagBullets,
@@ -130,56 +127,16 @@ describe('renderTarget', () => {
     });
 });
 
-describe('gazette', () => {
-    const post = (cw: string[]) =>
-        `---\ntitle: t\ncw: |\n${cw.map((l) => `  ${l}`).join('\n')}\n---\n\nbody\n`;
-
-    test('cwBlock extracts the three lines verbatim', () => {
-        expect(
-            cwBlock(post(['one', 'live / next: two', 'worth a line: three'])),
-        ).toEqual(['one', 'live / next: two', 'worth a line: three']);
-        expect(cwBlock('---\ntitle: t\n---\n')).toEqual([]);
-    });
-
-    test('renders the 5 freshest, freshest first, with byte counts, and skips _recent.md', async () => {
-        for (let d = 1; d <= 9; d++)
-            await write(
-                `${GAZETTE_DIR}/2026-09-0${d}-day-${d}.md`,
-                post([`shipped ${d}`, 'l', 'w']),
-            );
-        await write(`${GAZETTE_DIR}/_recent.md`, 'not a post');
-        const r = renderGazette(root);
-        const headers = [...r.body.matchAll(/^## (\S+) · (\S+) · (\d+)b$/gm)];
-        expect(headers.map((h) => h[1])).toEqual([
-            '2026-09-09',
-            '2026-09-08',
-            '2026-09-07',
-            '2026-09-06',
-            '2026-09-05',
-        ]);
-        expect(headers[0]?.[3]).toBe(
-            String(Buffer.byteLength(post(['shipped 9', 'l', 'w']))),
-        );
-        expect(r.body).toContain('- [stated] shipped 9');
-        expect(r.body).not.toContain('shipped 2');
-    });
-});
-
 describe('manifest', () => {
     test('keys are cw paths, fragments suffixed with #name', async () => {
         for (const t of targets)
             for (const s of t.sources) await write(s, `# ${s}\n\n- l\n`);
-        await write(`${GAZETTE_DIR}/2026-09-01-a.md`, '---\ncw: |\n  a\n---\n');
-        const rendered = [
-            ...targets.map((t) => renderTarget(root, t)),
-            renderGazette(root),
-        ];
+        const rendered = targets.map((t) => renderTarget(root, t));
         const m = toManifest(rendered);
         expect(Object.keys(m)).toContain('/areas/fleet-identity.md');
         expect(Object.keys(m)).toContain(
             '/preferences.md#voice-and-formatting',
         );
-        expect(Object.keys(m)).toContain('/areas/fleet-cclio-gazette.md');
         expect(m['/preferences.md#voice-and-formatting']?.fragment).toBe(
             'voice-and-formatting',
         );

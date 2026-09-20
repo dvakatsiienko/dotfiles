@@ -20,13 +20,13 @@
 
 /* Core */
 import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
 export type Target = {
     /** cw memory path — `/areas/fleet-vibe.md` — or, for a fragment, the host entry */
     path: string;
-    /** master files under home/.claude (or the gazette dir), relative to the dotfiles root */
+    /** master files under home/.claude, relative to the dotfiles root */
     sources: string[];
     description: string;
     aliases?: string[];
@@ -165,10 +165,6 @@ export const targets: Target[] = [
     },
 ];
 
-export const GAZETTE_DIR = 'cclio/gazette';
-export const GAZETTE_PATH = '/areas/fleet-cclio-gazette.md';
-export const GAZETTE_WINDOW = 5;
-
 const sha = (text: string) => createHash('sha256').update(text).digest('hex');
 
 /**
@@ -253,70 +249,8 @@ export function renderTarget(root: string, target: Target): Rendered {
     };
 }
 
-/** the `cw:` block of a gazette post — cclio's three pre-digested lines for cw. */
-export const cwBlock = (post: string) => {
-    const m = /^cw: \|\n((?:[ \t]+.*\n?)+)/m.exec(post);
-    return m?.[1]
-        ? m[1]
-              .split('\n')
-              .map((l) => l.trim())
-              .filter(Boolean)
-        : [];
-};
-
-export function renderGazette(root: string): Rendered {
-    const dir = join(root, GAZETTE_DIR);
-    const files = readdirSync(dir)
-        .filter((f) => /^\d{4}-\d{2}-\d{2}-.+\.md$/.test(f))
-        .sort()
-        .reverse()
-        .slice(0, GAZETTE_WINDOW);
-    const posts = files.map((f) => {
-        const text = readFileSync(join(dir, f), 'utf8');
-        const date = f.slice(0, 10);
-        const slug = f.slice(11, -3);
-        return {
-            header: `## ${date} · ${slug} · ${Buffer.byteLength(text)}b`,
-            lines: cwBlock(text),
-        };
-    });
-    const sourceSha = sha(
-        posts.map((p) => p.header + p.lines.join('\n')).join('\n'),
-    );
-    const body = `${frontmatter([
-        ['name', 'fleet-cclio-gazette'],
-        [
-            'description',
-            "what dima and cclio shipped lately — a rolling window of the 5 freshest gazette posts, cclio's daily end-of-day summary. read when he asks what the two of them are up to, or for cv / recruiter / hr positioning («this week we shipped…»). refreshed only by `x-cw:memory-sync`.",
-        ],
-        ['sources', ['cowork']],
-        [
-            'aliases',
-            ['gazette', "cclio's gazette", 'cclio gazette', 'daily gazette'],
-        ],
-        ['derived-from', [`${GAZETTE_DIR}/*.md`]],
-        ['source-sha256', sourceSha],
-    ])}
-## how to read this entry
-
-- [stated] cclio prints her gazette at the end of each day — a summary of what they accomplished; master posts live in \`~/dotfiles/${GAZETTE_DIR}/\`
-- [stated] each section below is one post: \`<date> · <slug> · <bytes>b\`, freshest first; the three lines are cclio's pre-digest for cw (shipped · live / next · the one line worth repeating to a human)
-- [stated] this entry is a rolling window rendered by \`script/skill-memory-sync-mirror.ts\`, never edited by hand; see [[fleet-identity]] for who cclio is
-
-${posts.map((p) => `${p.header}\n\n${p.lines.map((l) => `- [stated] ${l}`).join('\n')}`).join('\n\n')}
-`;
-    return {
-        body,
-        bytes: Buffer.byteLength(body),
-        chars: body.length,
-        file: 'areas.fleet-cclio-gazette.md',
-        path: GAZETTE_PATH,
-        sha256: sourceSha,
-    };
-}
-
 export function renderAll(root: string): Rendered[] {
-    return [...targets.map((t) => renderTarget(root, t)), renderGazette(root)];
+    return targets.map((t) => renderTarget(root, t));
 }
 
 export function toManifest(rendered: Rendered[]): Manifest {
@@ -325,11 +259,12 @@ export function toManifest(rendered: Rendered[]): Manifest {
         const t = targets.find(
             (x) => x.path === r.path && x.fragment === r.fragment,
         );
+        if (!t) throw new Error(`no target for ${r.path}`);
         out[r.fragment ? `${r.path}#${r.fragment}` : r.path] = {
             bytes: r.bytes,
             file: r.file,
             sha256: r.sha256,
-            sources: t?.sources ?? [`${GAZETTE_DIR}/*.md`],
+            sources: t.sources,
             ...(r.fragment ? { fragment: r.fragment } : {}),
         };
     }

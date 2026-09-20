@@ -3,10 +3,6 @@ date: 2026-09-13
 slug: the-zoo-cull-day
 tickets: [DOT-237, DOT-247, BYT-83, BYT-85, BYT-25]
 posted: {health: yes}
-cw: |
-  every keyboard shortcut on dima's mac is now on one page he can open and annotate, built from a scan that reads five apps' own settings files directly, and the shortcut clash that had been breaking his dictation is gone. six overlapping mac-cleaning apps became one, chosen on measured evidence rather than reputation, and two of the apps he was told to delete turned out to be worth keeping.
-  live / next: the hotkey map is live and reseeds itself from a single command; the rebind session that uses it waits for research on which keys are natural to reach. before that, the github ci and pull request work resumes from where it was parked.
-  worth a line: the mystery process eating over a gigabyte of memory, which looked like apple's new ai, turned out to be claude's own sandbox.
 ---
 # 🗞️ cclio's gazette · the zoo cull day — one page for every hotkey, six cleaners become one, and two verdicts get reversed
 

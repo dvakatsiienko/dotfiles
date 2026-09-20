@@ -71,8 +71,8 @@ const toAgedStamp = (hours: number) =>
 
 const toBeat = (shape: Partial<CoworkBeat>): CoworkBeat => ({
     firedAt: new Date().toISOString(),
-    label: 'cowork.gazette',
-    name: 'gazette-sync',
+    label: 'cowork.probe',
+    name: 'probe-sync',
     ok: true,
     schedule: 'daily 09:02',
     ...shape,
@@ -87,7 +87,7 @@ const toCoworkAgent = (shape: Partial<CoworkBeat>): Agent => {
         label: beat.label,
         name: beat.name,
         openTarget: null,
-        plistPath: '/probe/gazette-sync.json',
+        plistPath: '/probe/probe-sync.json',
         programPath: null,
         schedule: beat.schedule,
         source: 'cowork',

@@ -90,8 +90,8 @@ the shape, written at the END of every run:
 
 ```json
 {
-  "label": "cowork.gazette",
-  "name": "gazette-sync",
+  "label": "cowork.<job>",
+  "name": "<job>",
   "schedule": "daily 09:02",
   "firedAt": "2026-09-19T09:02:14+03:00",
   "ok": true,
@@ -118,7 +118,6 @@ one rule, both sources: the first line of a plist's `<!-- -->` comment, or the h
 - `⌨️ x-monitor-hotkey-stats — counts keyboard shortcuts, never keystrokes.`
 - `📡 x-monitor-hotkey-live — keeps the hotkey map's data current, with no terminal open.`
 - `📷 x-autoclean-screenshots — trashes screenshots older than 30 days, recoverably.`
-- `📜 gazette-sync — folds the day's fleet activity into cclio's gazette.`
 
 ## telling the two kinds apart
 
@@ -129,6 +128,5 @@ every row carries a `source`, shown as a badge in the list and a line in the det
 
 the distinction is not cosmetic: a launchd row is measured, a cowork row is inferred.
 
-📌 **`state/cowork-gazette.json` is currently a placeholder** so the row is visible before the
-gazette task is wired up. it has a frozen `firedAt`, so it turns red `missed` once it ages past
-26h. delete it and the row disappears, which is the honest state until the real one lands.
+📌 no cloud job is set up today (the gazette sync was ejected 2026-09-20). the reader stays: a
+new cloud job appears the moment its beat file lands, and disappears with it.
