@@ -12,7 +12,7 @@ import { join } from 'node:path';
 
 /* Instruments */
 import { judge } from './lib/jev.ts';
-import { laneLine } from './lib/jev-print.ts';
+import { laneCells, printTable } from './lib/jev-print.ts';
 import { flawlogQuestions, inboxQuestions } from './lib/jev-questions.ts';
 import { bold, dim, gb, rb } from './lib/print.ts';
 
@@ -35,6 +35,7 @@ for (const name of names) {
         .map((l) => JSON.parse(l) as Fixture);
     const byLane: Record<string, { hit: number; total: number }> = {};
     console.log(`\n${bold(name)} ${dim(`· ${fixtures.length} fixtures`)}`);
+    const rows: string[][] = [];
     for (const fx of fixtures) {
         const res = await judge(fx.state, flow.questions);
         const lane = res.answers[flow.answer];
@@ -45,10 +46,18 @@ for (const name of names) {
             total: tally.total + 1,
         };
         const text = String(Object.values(fx.state)[0]);
-        console.log(
-            `${hit ? '✅' : '❌'} ${laneLine(lane.choice, lane.confidence, lane.probabilities, hit ? text : `${bold(`want ${fx.expect}`)}  ${text}`, 70)}`,
-        );
+        rows.push([
+            hit ? '✅' : '❌',
+            ...laneCells(
+                lane.choice,
+                lane.confidence,
+                lane.probabilities,
+                hit ? text : `${bold(`want ${fx.expect}`)}  ${text}`,
+                70,
+            ),
+        ]);
     }
+    printTable(rows);
     const total = Object.values(byLane).reduce((n, t) => n + t.total, 0);
     const hits = Object.values(byLane).reduce((n, t) => n + t.hit, 0);
     const perLane = Object.entries(byLane)

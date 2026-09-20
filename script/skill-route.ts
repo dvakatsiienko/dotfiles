@@ -5,6 +5,7 @@ import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
+import { printTable } from './lib/jev-print.ts';
 import { bb, bold, dim, gb, rb } from './lib/print.ts';
 
 // frontmatter description is one line, or a `>-` folded block of indented lines
@@ -84,6 +85,7 @@ if (live) {
     process.exit(0);
 }
 
+const rows: string[][] = [];
 for (const [prompt, expected] of probes) {
     const res = await judge({ prompt }, questions);
     const ranked = Object.entries(res.answers)
@@ -99,8 +101,14 @@ for (const [prompt, expected] of probes) {
                 ? `${(hit ? gb : rb)(bold(n))} ${bold(p.toFixed(2))}`
                 : dim(`${n} ${p.toFixed(2)}`),
         );
-    console.log(
-        `${hit ? '✅' : '❌'} ${prompt.padEnd(48)} ${dim('want')} ${bb(expected.padEnd(16))} ${dim('got')} ${top.join('  ')}`,
-    );
+    rows.push([
+        hit ? '✅' : '❌',
+        prompt,
+        dim('want'),
+        bb(expected),
+        dim('got'),
+        top.join('  '),
+    ]);
 }
+printTable(rows);
 console.log(dim(`\n${skills.length} skills as nouls per request`));

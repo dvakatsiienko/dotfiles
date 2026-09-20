@@ -3,7 +3,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 
 import { judge } from './lib/jev.ts';
-import { laneLine, tailLine } from './lib/jev-print.ts';
+import { laneCells, printTable, tailLine } from './lib/jev-print.ts';
 import { flawlogQuestions } from './lib/jev-questions.ts';
 
 const dir = `${process.env.HOME}/.claude/shelf/flawlog`;
@@ -20,6 +20,7 @@ const lines = readFileSync(path, 'utf8')
     .map((l) => l.slice(2));
 
 let tokens = 0;
+const rows: string[][] = [];
 for (const line of lines) {
     const res = await judge(
         { line, log: path.split('/').at(-1) },
@@ -27,8 +28,9 @@ for (const line of lines) {
     );
     tokens += res.usage.input_tokens;
     const { lane } = res.answers;
-    console.log(
-        laneLine(lane.choice, lane.confidence, lane.probabilities, line),
+    rows.push(
+        laneCells(lane.choice, lane.confidence, lane.probabilities, line),
     );
 }
+printTable(rows);
 console.log(tailLine(lines.length, 'lines', tokens));
