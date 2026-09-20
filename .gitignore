@@ -47,12 +47,12 @@ home/.claude/shelf/jev/route.log
 # is written on anthropic's machines and lands here; nothing in the repo produces it.
 schedule/state/
 
-# Seed for hotkeys/map.html, rewritten by `pnpm hotkeys:scan`. A snapshot of this mac's
-# app preferences, not source — and biome reformats it while the generator re-emits raw json,
-# so committing it means a tree that is dirty after every scan. The page names the command
-# when it is absent.
-hotkeys/hotkeys.js
-hotkeys/presses.js
+# The scan snapshot the daemon hands the chords app, rewritten by `pnpm hotkeys:scan`. A
+# picture of this mac's app preferences, not source — and biome reformats it while the
+# generator re-emits raw json, so committing it means a tree that is dirty after every scan.
+# The page says which command is missing when it is absent.
+hotkeys/hotkeys.json
+hotkeys/chords/dist/
 
 # gmailctl's oauth client and token live beside the config it reads; secrets, never source.
 gmail/credentials.json

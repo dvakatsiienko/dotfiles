@@ -1,0 +1,133 @@
+@import "tailwindcss";
+/*
+ * The static faces, not the variable one: `@fontsource-variable` registers the family as
+ * "IBM Plex Sans Variable", so a --font-sans naming "IBM Plex Sans" never matches it and the
+ * page falls back to system-ui without a word in the console. Measured on the port: the sans
+ * came out 7% narrower than the page it was copying.
+ */
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+
+/*
+ * The palette map.html wore, carried over value for value — this is a port, and the keyboard
+ * has to come back looking like the keyboard.
+ *
+ * Tailwind v4 bakes @theme values in at build time, so a token cannot be swapped at runtime.
+ * `@theme inline` maps every --color-* onto a raw --p-* variable instead, and only those raw
+ * variables are redefined per theme. Light is the base; dark arrives either by explicit
+ * attribute or by the system preference when no attribute is set.
+ */
+@theme inline {
+  --color-accent: var(--p-accent);
+  --color-board: var(--p-board);
+  --color-cap: var(--p-cap);
+  --color-cap-edge: var(--p-cap-edge);
+  --color-cap-free: var(--p-cap-free);
+  --color-ground: var(--p-ground);
+  --color-ink: var(--p-ink);
+  --color-ink-2: var(--p-ink-2);
+  --color-ink-3: var(--p-ink-3);
+  --color-line: var(--p-line);
+  --color-sel: var(--p-sel);
+
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+:root {
+  --p-ground: #eceef2;
+  --p-board: #dfe2e8;
+  --p-cap: #f8f9fb;
+  --p-cap-edge: #c9cdd6;
+  --p-cap-free: #e4e7ec;
+  --p-ink: #171a20;
+  --p-ink-2: #5b6170;
+  --p-ink-3: #8b91a0;
+  --p-line: #cfd3db;
+  --p-accent: #2f6df6;
+  --p-sel: #cfe0ff;
+
+  /* One colour per source, so a glance at the board says which app owns a key. */
+  --app-1password: #4f6df5;
+  --app-bartender: #22c55e;
+  --app-cleanshot: #0ea5a3;
+  --app-cursor: #f59e0b;
+  --app-macos: #6b7280;
+  --app-magnet: #3b82f6;
+  --app-raycast: #ff5c5c;
+  --app-wispr: #8b5cf6;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --p-ground: #15171b;
+    --p-board: #1e2126;
+    --p-cap: #2a2e35;
+    --p-cap-edge: #0d0f12;
+    --p-cap-free: #202329;
+    --p-ink: #eef0f4;
+    --p-ink-2: #a3a9b6;
+    --p-ink-3: #6e7482;
+    --p-line: #30343c;
+    --p-accent: #6b9bff;
+    --p-sel: #243a6b;
+
+    --app-1password: #7b91ff;
+    --app-bartender: #4ade80;
+    --app-cleanshot: #2dd4bf;
+    --app-cursor: #fbbf24;
+    --app-macos: #9ca3af;
+    --app-magnet: #5b9cff;
+    --app-raycast: #ff6b6b;
+    --app-wispr: #a78bfa;
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --p-ground: #15171b;
+  --p-board: #1e2126;
+  --p-cap: #2a2e35;
+  --p-cap-edge: #0d0f12;
+  --p-cap-free: #202329;
+  --p-ink: #eef0f4;
+  --p-ink-2: #a3a9b6;
+  --p-ink-3: #6e7482;
+  --p-line: #30343c;
+  --p-accent: #6b9bff;
+  --p-sel: #243a6b;
+
+  --app-1password: #7b91ff;
+  --app-bartender: #4ade80;
+  --app-cleanshot: #2dd4bf;
+  --app-cursor: #fbbf24;
+  --app-macos: #9ca3af;
+  --app-magnet: #5b9cff;
+  --app-raycast: #ff6b6b;
+  --app-wispr: #a78bfa;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    padding-block: 28px 56px;
+    padding-inline: 20px;
+    margin: 0;
+    font: 15px / 1.5 var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-ground);
+  }
+
+  /* Dark needs this stated: the ua default selection is unreadable on a dark surface. */
+  ::selection {
+    background: var(--color-sel);
+  }
+}

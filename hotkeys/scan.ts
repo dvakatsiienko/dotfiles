@@ -2,11 +2,9 @@
 // cursor, macos, plus the hand-kept list in manual.ts.
 //   node ./hotkeys/scan.ts
 //
-// stdout is an api — top.ts parses it — so it stays json. the same payload is also written
-// beside map.html as JS rather than JSON: that
-// page is opened straight off disk, and chrome refuses `fetch` of a sibling file over file://
-// (measured: TypeError: Failed to fetch, with the json sitting right there). a classic
-// <script src> is exempt from that rule, so the seed has to arrive as a script.
+// stdout is an api — top.ts parses it — so it stays json. the same payload is also dropped
+// beside this file as hotkeys.json, which is what the daemon hands the chords app over
+// /api/hotkeys; the scan is five plutil calls and the page must not wait on them.
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -270,9 +268,6 @@ const payload = JSON.stringify(
     2,
 );
 
-writeFileSync(
-    join(import.meta.dirname, 'hotkeys.js'),
-    `window.hotkeyData = ${payload};\n`,
-);
+writeFileSync(join(import.meta.dirname, 'hotkeys.json'), `${payload}\n`);
 
 console.log(payload);

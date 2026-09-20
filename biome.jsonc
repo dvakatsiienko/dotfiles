@@ -2,6 +2,11 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 
   "extends": ["biome-config-polished"],
+
+  // `@theme`, `@source`, `@custom-variant` and friends are tailwind v4 at-rules, and the css
+  // parser reads them as syntax errors until it is told. bytes gets this from ultracite;
+  // dotfiles extends only polished, so it says so itself.
+  "css": { "parser": { "tailwindDirectives": true } },
   "files": {
     "ignoreUnknown": false,
     "includes": [
@@ -47,11 +52,20 @@
     ]
   },
 
-  // Two raycast contracts the default rules read as mistakes: a command file is an entry
-  // point raycast loads by default export, and react is supplied by the raycast runtime
-  // rather than bundled, so the official extension template never declares it.
   "overrides": [
     {
+      // A bundler and its plugins are workspace-root devDependencies on purpose (one version,
+      // one renovate PR), so the app's own vite config imports what its package.json does not
+      // declare — which is the shape we want, not a mistake.
+      "includes": ["hotkeys/chords/vite.config.ts"],
+      "linter": {
+        "rules": { "correctness": { "noUndeclaredDependencies": "off" } }
+      }
+    },
+    {
+      // Two raycast contracts the default rules read as mistakes: a command file is an entry
+      // point raycast loads by default export, and react is supplied by the raycast runtime
+      // rather than bundled, so the official extension template never declares it.
       "includes": ["import/raycast/extensions/**"],
       "linter": {
         "rules": {

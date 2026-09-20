@@ -17,7 +17,9 @@ export const canonical = (hotkey: Hotkey): Hotkey => ({
     mods: canonicalMods(hotkey.mods),
 });
 
-export const chordOf = (hotkey: Hotkey) => {
+// Takes the two fields it reads rather than a whole Hotkey, so the map can spell a free key's
+// chord — a key with no binding has no row to hand over.
+export const chordOf = (hotkey: Pick<Hotkey, 'key' | 'mods'>) => {
     const mods = canonicalMods(hotkey.mods);
     return mods ? `${mods}+${hotkey.key}` : hotkey.key;
 };

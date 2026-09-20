@@ -4,13 +4,15 @@
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "type": "module",
     "scripts": {
+        "chords:dev": "pnpm --filter chords dev",
+        "chords:build": "pnpm --filter chords build",
         "dotfiles:link": "node ./script/dotfiles-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
         "autoclean-screenshots:build": "mkdir -p ./schedule/jobs/x-autoclean-screenshots/bin && swiftc -O ./schedule/jobs/x-autoclean-screenshots/main.swift -o ./schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots && codesign --force --sign - --identifier com.dima.x-autoclean-screenshots ./schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots",
         "monitor-hotkey:build": "mkdir -p ./schedule/jobs/x-monitor-hotkey-stats/bin && swiftc -O ./schedule/jobs/x-monitor-hotkey-stats/main.swift -o ./schedule/jobs/x-monitor-hotkey-stats/bin/x-monitor-hotkey-stats && codesign --force --sign - --identifier com.dima.x-monitor-hotkey-stats ./schedule/jobs/x-monitor-hotkey-stats/bin/x-monitor-hotkey-stats",
         "hotkeys:audit": "node ./hotkeys/macos-audit.ts",
-        "hotkeys:map": "open ./hotkeys/map.html",
+        "hotkeys:map": "open http://localhost:7373",
         "hotkeys:live": "node ./hotkeys/live.ts --watch",
         "hotkeys:scan": "node ./hotkeys/scan.ts",
         "hotkeys:top": "node ./hotkeys/top.ts",
@@ -40,11 +42,16 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.13",
+        "@tailwindcss/vite": "4.3.3",
         "@types/node": "26.2.0",
         "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "@vitejs/plugin-react": "6.1.1",
         "biome-config-polished": "0.0.8",
         "lefthook": "2.1.14",
+        "tailwindcss": "4.3.3",
         "typescript": "7.0.2",
+        "vite": "8.3.0",
         "vitest": "5.0.1"
     },
     "engines": {
