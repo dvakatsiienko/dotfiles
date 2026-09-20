@@ -54,6 +54,9 @@ else
   fail "inbox unreadable (icloud not mounted?)"
 fi
 
+echo "-- jev vet (pnpm jev:vet ok|miss <flow> <note> records a verdict; a miss restarts the window) --"
+node "$HOME/dotfiles/script/jev-vet.ts" 2>/dev/null || fail "jev vet registry unreadable"
+
 echo "-- x-queue head --"
 awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
   "$HOME/dotfiles/cclio/.claude/x-queue.md" 2>/dev/null || fail "no x-queue file"

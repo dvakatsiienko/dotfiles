@@ -108,8 +108,15 @@ offers left undecided, and verifications only he can run. print them as a short 
 halt report — he misses a few every session, and this is where they get caught.
 
 ## phase 3 — flawlog flush
-read the session's flawlog, cluster the catches, ONE batched proposal (memory / rules /
-tickets / drop), ONE approval, then execute and commit. see `/cclio:flawlog`.
+`pnpm jev:retro` first: jev lanes every line (memory / rule / story / ticket / drop) and the
+proposal starts from its lanes, not from a blank read. then cluster, ONE batched proposal, ONE
+approval, execute and commit. see `/cclio:flawlog`.
+**the vet verdicts, same phase, every halt:** each jev lane the flush disagreed with is
+`pnpm jev:vet miss retro-triage <why>`; a clean run is one `ok`. the same for the day's inbox
+lanes (`inbox-lanes`) and the router's loads (`skill-router`, from `shelf/jev/route.log` vs the
+flawlog's «skill not loaded» lines). a miss is also a criterion to reword in
+`script/lib/jev-questions.ts` in the same halt — the flow passes its window because it was
+sharpened, not because it was watched. the boot prints every flow's streak.
 **and the stories:** before the proposal, ask which catches were HIS felt sense arriving before
 the reason — those go to `memory/dima-stories.md` as appends (the leaf's own rule), not to the
 flawlog's drop pile. skipped for two weeks once (2026-09-05).

@@ -1,0 +1,26 @@
+{
+    "windowDays": 14,
+    "flows": {
+        "inbox-lanes": {
+            "since": "2026-09-20",
+            "state": "vetting",
+            "verdicts": 2,
+            "misses": 1,
+            "what": "the boot digest lanes every inbox item (ticket · fold · flowlog · answer · drop) before cclio parses it"
+        },
+        "skill-router": {
+            "since": "2026-09-19",
+            "state": "vetting",
+            "verdicts": 1,
+            "misses": 0,
+            "what": "the UserPromptSubmit hook names the skills a prompt should load"
+        },
+        "retro-triage": {
+            "since": "2026-09-20",
+            "state": "vetting",
+            "verdicts": 1,
+            "misses": 1,
+            "what": "every flawlog line laned memory · rule · ticket · drop before the halt flush"
+        }
+    }
+}

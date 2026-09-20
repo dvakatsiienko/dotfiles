@@ -1,0 +1,87 @@
+/**
+ * ? jev vet — a flow earns trust by running clean for a window. every verdict cclio gives on a
+ * ? jev answer lands in `shelf/jev/<flow>.log`; the registry keeps each flow's window start. a miss
+ * ? restarts the window from that day; `windowDays` clean days promote the flow to green, and a
+ * ? green flow that misses drops back to vetting. dima's model (2026-09-20), two-week window.
+ */
+
+/* Core */
+import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+
+export const VET_DIR = join(homedir(), '.claude', 'shelf', 'jev');
+const REGISTRY = join(VET_DIR, 'vet.json');
+const DAY = 86_400_000;
+
+export const registryRead = (path = REGISTRY): Registry =>
+    JSON.parse(readFileSync(path, 'utf8'));
+
+export const registryWrite = (registry: Registry, path = REGISTRY) =>
+    writeFileSync(path, `${JSON.stringify(registry, null, 4)}\n`);
+
+export const cleanDays = (flow: Flow, today: string) =>
+    Math.floor((Date.parse(today) - Date.parse(flow.since)) / DAY);
+
+/** the verdict moves the flow; the log line is the evidence the halt loop reads back */
+export const verdictApply = (
+    registry: Registry,
+    name: string,
+    verdict: Verdict,
+    today: string,
+): Registry => {
+    const flow = registry.flows[name];
+    if (!flow)
+        throw new Error(`unknown flow ${name} — add it to vet.json first`);
+    const missed = verdict === 'miss';
+    const since = missed ? today : flow.since;
+    const state: State = missed
+        ? 'vetting'
+        : cleanDays({ ...flow, since }, today) >= registry.windowDays
+          ? 'green'
+          : flow.state;
+    return {
+        ...registry,
+        flows: {
+            ...registry.flows,
+            [name]: {
+                ...flow,
+                misses: flow.misses + (missed ? 1 : 0),
+                since,
+                state,
+                verdicts: flow.verdicts + 1,
+            },
+        },
+    };
+};
+
+export const verdictLog = (name: string, verdict: Verdict, note: string) =>
+    appendFileSync(
+        join(VET_DIR, `${name}.log`),
+        `${new Date().toISOString()}\t${verdict}\t${note}\n`,
+    );
+
+export const statusLines = (registry: Registry, today: string) =>
+    Object.entries(registry.flows).map(([name, flow]) => {
+        const days = Math.min(cleanDays(flow, today), registry.windowDays);
+        const glyph = flow.state === 'green' ? '🟢' : '🟡';
+        const tail =
+            flow.state === 'green'
+                ? `green since ${flow.since}`
+                : `vetting ${days}/${registry.windowDays} d clean`;
+        return `${glyph} ${name} — ${tail} · ${flow.verdicts} verdicts, ${flow.misses} misses`;
+    });
+
+/* Types */
+export type State = 'vetting' | 'green';
+export type Verdict = 'ok' | 'miss';
+export type Flow = {
+    /** the day the current clean window started */
+    since: string;
+    state: State;
+    verdicts: number;
+    misses: number;
+    /** what the flow judges, one line */
+    what: string;
+};
+export type Registry = { windowDays: number; flows: Record<string, Flow> };
