@@ -59,7 +59,7 @@ const GmailBlockSender = () => {
             <Form.TextField
                 id='sender'
                 info='an address, a domain, or the display name spam keeps using'
-                placeholder='news@mailmono.digital'
+                placeholder='news@example.com'
                 title='Sender'
             />
             <Form.Dropdown
