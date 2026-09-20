@@ -124,6 +124,43 @@
   color-scheme: dark;
 }
 
+@layer components {
+  /*
+   * A folded stats list is a twenty-row window onto a two-hundred-row list, and its scrollbar
+   * is the only standing cue that the rest is there — so the bar has to be visible while the
+   * list is still, not appear once you are already scrolling.
+   *
+   * 📌 The standard `scrollbar-width` / `scrollbar-color` pair is deliberately NOT here, and
+   * leaving it in was the bug: chrome ignores every `::-webkit-scrollbar` rule on a scroller
+   * that also sets either standard property, so the two spellings cancel rather than back each
+   * other up. The first version set both and the bar still vanished at rest. The webkit trio
+   * is the one that forces a classic, always-painted bar on macos, so it stands alone.
+   *
+   * `overflow-y: scroll` reserves the gutter whether or not the content overflows. The colours
+   * are the same mark on the same track the ranked bars use, measured at 3.03:1 light and
+   * 4.36:1 dark, so the cue never enters the palette as a colour of its own.
+   *
+   * An expanded list does not carry this class and so carries no bar.
+   */
+  .fold-window {
+    overflow-y: scroll;
+  }
+
+  .fold-window::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .fold-window::-webkit-scrollbar-track {
+    background: var(--color-cap-free);
+    border-radius: 4px;
+  }
+
+  .fold-window::-webkit-scrollbar-thumb {
+    background: var(--color-bar);
+    border-radius: 4px;
+  }
+}
+
 @layer base {
   body {
     padding-block: 28px 56px;
