@@ -31,7 +31,7 @@ export const inboxQuestions = {
 
 // a flawlog line at the halt flush: where does it go? (the flawlog skill's own rule: fixed in place
 // → never logged; only what survives the attempt reaches the log, and the flush places each line)
-export const retroQuestions = {
+export const flawlogQuestions = {
     lane: {
         criteria: {
             drop: 'Already resolved, or a one-off with nothing transferable: the line names a fix that was applied, says «drop», or records a good find with no rule behind it.',

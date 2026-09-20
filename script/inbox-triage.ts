@@ -3,7 +3,9 @@
 import { readFileSync } from 'node:fs';
 
 import { judge } from './lib/jev.ts';
+import { laneLine, tailLine } from './lib/jev-print.ts';
 import { inboxQuestions, verdictBand } from './lib/jev-questions.ts';
+import { dim } from './lib/print.ts';
 
 const inboxPath = `${process.env.HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/inbox.md`;
 
@@ -42,10 +44,6 @@ for (const item of items) {
         );
         tokens += res.usage.input_tokens;
         const { lane, needsVerdict } = res.answers;
-        const p = Object.entries(lane.probabilities)
-            .sort((a, b) => b[1] - a[1])
-            .map(([k, v]) => `${k} ${Math.round(v * 100)}`)
-            .join(' · ');
         const band =
             needsVerdict.noul > verdictBand.high
                 ? '⏳ dima'
@@ -53,8 +51,14 @@ for (const item of items) {
                   ? 'agent'
                   : '~ unsure';
         console.log(
-            `${item.title.padEnd(14)} → ${lane.choice.padEnd(8)} conf ${Math.round(lane.confidence * 100)}  [${p}]  verdict ${needsVerdict.noul.toFixed(2)} ${band}`,
+            laneLine(
+                lane.choice,
+                lane.confidence,
+                lane.probabilities,
+                `${item.title}  ${dim(`verdict ${needsVerdict.noul.toFixed(2)} ${band}`)}`,
+                120,
+            ),
         );
     }
 }
-console.log(`${items.length} items · ${tokens} input tokens`);
+console.log(tailLine(items.length, 'items', tokens));

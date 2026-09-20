@@ -10,6 +10,9 @@ import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
+/* Instruments */
+import { bold, dim } from './print.ts';
+
 export const VET_DIR = join(homedir(), '.claude', 'shelf', 'jev');
 const REGISTRY = join(VET_DIR, 'vet.json');
 const DAY = 86_400_000;
@@ -69,7 +72,7 @@ export const statusLines = (registry: Registry, today: string) =>
             flow.state === 'green'
                 ? `green since ${flow.since}`
                 : `vetting ${days}/${registry.windowDays} d clean`;
-        return `${glyph} ${name} — ${tail} · ${flow.verdicts} verdicts, ${flow.misses} misses`;
+        return `${glyph} ${bold(name)} — ${tail} ${dim(`· ${flow.verdicts} verdicts, ${flow.misses} misses`)}`;
     });
 
 /* Types */

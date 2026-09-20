@@ -23,8 +23,8 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
 - every flow sits in `shelf/jev/vet.json`: `vetting` until 14 clean days, then `green`; a miss
   restarts the window from that day, and a green flow that misses drops back. verdicts are
   `pnpm jev:vet ok|miss <flow> <note>`, logged per flow in `shelf/jev/<flow>.log`; the boot
-  digest prints every streak. three flows today: `inbox-lanes`, `skill-router`, `retro-triage`
-  (`pnpm jev:retro`, lanes a flawlog before the flush).
+  digest prints every streak. three flows today: `inbox-lanes`, `skill-router`, `flawlog-lanes`
+  (`pnpm jev:flawlog`, lanes a flawlog before the flush).
 - a green flow is acted on without a second read; a vetting flow's answer is a proposal I check.
   a miss is never just recorded — the criterion is reworded in the same halt.
 
@@ -33,7 +33,7 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
    disagreement is either my miss (say so) or a criterion to reword; reword in the same halt.
 2. router: `grep -c` the flawlog's «skill not loaded» lines vs `route.log`'s picks for the day.
    a skill that never routes gets its description sharpened («magic keywords»), not the threshold.
-3. retro: `pnpm jev:retro` on the day's flawlog vs where the flush actually placed each line.
+3. flawlog: `pnpm jev:flawlog` on the day's flawlog vs where the flush actually placed each line.
 4. any change → `RUNS=3` on the live input, then commit with the numbers in the body.
 
 keys and the call path: `x-fleet` service account → vault `dev` → `script/op-run.sh`, no touch id.

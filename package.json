@@ -15,7 +15,7 @@
         "hotkeys:scan": "node ./hotkeys/scan.ts",
         "hotkeys:top": "node ./hotkeys/top.ts",
         "jev:inbox": "./script/op-run.sh node ./script/inbox-triage.ts",
-        "jev:retro": "./script/op-run.sh node ./script/retro-triage.ts",
+        "jev:flawlog": "./script/op-run.sh node ./script/flawlog-triage.ts",
         "jev:route": "./script/op-run.sh node ./script/skill-route.ts",
         "jev:vet": "node ./script/jev-vet.ts",
         "linear:agent-token": "node ./script/linear-agent-token.ts",
