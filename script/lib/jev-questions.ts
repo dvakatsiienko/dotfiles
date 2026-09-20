@@ -29,5 +29,22 @@ export const inboxQuestions = {
     },
 } as const satisfies Record<string, Question>;
 
+// a flawlog line at the halt flush: where does it go? (the flawlog skill's own rule: fixed in place
+// → never logged; only what survives the attempt reaches the log, and the flush places each line)
+export const retroQuestions = {
+    lane: {
+        criteria: {
+            drop: 'Already resolved, or a one-off with nothing transferable: the line names a fix that was applied, says «drop», or records a good find with no rule behind it.',
+            memory: 'A standing fact or habit one agent role keeps: a measured behaviour of a tool, a convention cclio or a coder must remember, a thing that belongs in a memory leaf, an AGENTS.md or a skill.',
+            rule: 'A hazard or floor that bites more than one surface and every session must know: it belongs in a fleet-wide rules file such as fleet-hazards.',
+            story: "A line marked GOOD, or a catch where dima's felt sense arrived before the reason: kept as a story in dima-stories, never as a rule.",
+            ticket: 'Needs code, a script, a build, or a decision from dima before it is closed: work with its own session, tracked in linear.',
+        },
+        instructions:
+            'Where should the coordinator place `line` at the flawlog flush? `log` is the session log it came from.',
+        type: 'choice',
+    },
+} as const satisfies Record<string, Question>;
+
 // bands from the self-consistency cookbook: below → act, between → dima's ⏳ block, above → act
 export const verdictBand = { high: 0.7, low: 0.3 } as const;
