@@ -303,11 +303,23 @@ const SpanLabel = (props: { span?: Span | null }) => {
 };
 
 // Folded is a window, not a truncation: every row is in the dom and the rest of the list is a
-// scroll away inside the section. The scrollbar is the browser's own, unstyled — dima's call,
-// and it overrides impeccable's craft floor, which wants browser surfaces themed.
+// scroll away inside the section.
+//
+// The scrollbar is named rather than left to the ua, and naming it is the whole point: macos
+// draws an overlay scrollbar that appears only once you are already scrolling, so the one cue
+// that a twenty-row window has two hundred rows behind it was invisible until you tried. A
+// named `scrollbar-color` turns the overlay off and the bar stands.
+//
+// The colours are the bar list's own pair — the same mark on the same track — so nothing new
+// enters the palette and the contrast is the one DESIGN.md already measured, 3.03:1 light and
+// 4.36:1 dark. A fade edge was the alternative and it is a gradient, which this world bans
+// outright.
+const SCROLLBAR =
+    '[scrollbar-color:var(--color-bar)_var(--color-cap-free)] [scrollbar-width:thin]';
+
 const StatList = (props: { fold: Fold; children: ReactNode }) => (
     <ul
-        className={`m-0 grid list-none gap-1 p-0 ${props.fold.open ? '' : 'overflow-y-auto'}`}
+        className={`m-0 grid list-none gap-1 p-0 ${props.fold.open ? '' : `overflow-y-auto ${SCROLLBAR}`}`}
         style={props.fold.open ? undefined : { maxHeight: FOLD_HEIGHT }}>
         {props.children}
     </ul>
