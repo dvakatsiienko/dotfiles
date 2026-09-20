@@ -10,12 +10,15 @@ verb's mechanics — this file says which verbs, in which order, with which gate
 1. **plugin + hooks**: `impeccable` is enabled at user scope; its hooks fire on every ui edit in any
    session. leave them for a design lane; `hook.quiet: true` in the app's `.impeccable/config.json`
    when their output floods.
-2. **`init` in the APP directory, dima's hands** — never the repo root of a multi-tool repo (one
-   product record over unrelated tools steers nothing). the six categories the README names are
+2. **`init` in the APP directory, run in the COORDINATOR's window with dima answering** — never
+   in the coder's session (dima 2026-09-20: the coder's noise and register made the interview
+   hard to follow; the coordinator's window is quiet and its answers land on his lane), never the
+   repo root of a multi-tool repo (one product record over unrelated tools steers nothing). the six categories the README names are
    all in the template under other headings; **voice is the one init tends to skip** — ask it.
    `buildPath: code` when no image generation exists. `PRODUCT.md` is init's file: hand edits are
    banned, a stale line waits for the next `init`.
-3. **`document` on the incumbent, dima's hands** — records the look as it is: tokens off `:root`,
+3. **`document` on the incumbent, the coordinator's window again, dima confirming** — records the
+   look as it is: tokens off `:root`,
    everything else sampled from computed style on the running page, never from the source the
    author wrote. re-run after `polish`, and whenever a pass changes what it describes.
 4. **`shape` per new surface** — an interview, 2–3 questions a round, then a brief the human
@@ -56,7 +59,8 @@ per pass:
 - harness affordances on day one: a port override and a `--data-dir` so a round never writes to
   dima's real data; a write-path probe uses a key nothing is filed under
 - the adversarial review lane (coderabbit, greptile fallback) runs before the verifier's first
-  round, not when someone remembers
+  round, not when someone remembers; a big PR runs **both** adversaries; a long-lived PR is a
+  reason for MORE review, never less
 
 ## what the tool fights, and who wins
 
