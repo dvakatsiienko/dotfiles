@@ -58,9 +58,12 @@ mac's press log.
 - **open — press history does not yet follow a binding across a rebind.** counts are keyed by the
   chord string, so moving Chrome from `hyper+1` to `hyper+7` today leaves its presses credited to
   the old chord. `manual.ts` already carries a `since` field for exactly this and nothing reads it
-- **open — a rebind is recorded one field at a time.** the described move (drop the old chord for
-  an app, claim a new one, name what it opens) is three edits, not one action
-- planned: a route rendering the `hotkeys:top` stats, which is the glancing half of the loop
+- **decided, not yet built — a rebind is one action, not three edits** (dima, 2026-09-20). moving
+  an app to a new chord drops the old row, claims the new one and names what it opens in a single
+  step, writing the old row's end and the new row's `since` so the counts split at the right
+  moment. today it is three independent field edits and nothing writes `since`
+- **planned, and first** — a route rendering the `hotkeys:top` stats. it is the glancing half of
+  the loop, so it comes before the editing half rather than after it (dima, 2026-09-20)
 
 ## Brand Commitments
 
@@ -69,6 +72,21 @@ is ⌨️. the repo's own prose is lowercase.
 
 the look is inherited from the `map.html` page this app replaced, and dima has asked for it to be
 **refined, never redesigned** — he likes the current one.
+
+**voice**, read off the shipped copy rather than confirmed in the interview:
+
+- it names the mechanism instead of reassuring. the note field says «saved to
+  `hotkeys/notes.json`, never written into any app», not «your notes are safe»; the footer names
+  `pnpm hotkeys:scan` as the thing that filled the page
+- an empty state is a bare statement, never an apology and never an invitation — «nothing on this
+  layer», «no notes yet», «click a key»
+- a status is one lowercase word with no punctuation — «saved», «copied»
+- headings and buttons are sentence case; prose is lowercase
+- no second person, no exclamation, no personality. the page does not talk about itself
+- file paths and commands appear literally, in mono, never paraphrased into a description
+
+📌 this describes what the page says today, carried over from `map.html`. dima has not confirmed
+it as binding, so a later `clarify` pass may change it — but it should change it on purpose.
 
 ## Evidence on Hand
 
