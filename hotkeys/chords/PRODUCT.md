@@ -60,9 +60,12 @@ mac's press log.
 - the board is drawn as a NuPhy Air75; the layout table is that keyboard, not a generic one
 - local only, no auth, no deployment target. the press log is a precise record of how dima works
   and never leaves the machine
-- **open — press history does not yet follow a binding across a rebind.** counts are keyed by the
-  chord string, so moving Chrome from `hyper+1` to `hyper+7` today leaves its presses credited to
-  the old chord. `manual.ts` already carries a `since` field for exactly this and nothing reads it
+- **half-built — press history follows a binding across a rebind in `hotkeys:top`, and nowhere
+  else.** the read path exists and is tested: `stats.ts` `labelAt` picks the row whose `since` is
+  the latest not after the press, `byLabelledChord` tallies by it, and `top.ts` uses that key — so
+  the terminal view already splits a swapped chord into one row per meaning. what is missing is
+  the other two thirds: the app's own per-key counts tally `event.chord` alone (`live.ts`), and
+  nothing anywhere WRITES `since` — every dated row in `manual.ts` was typed by hand
 - **decided, not yet built — a rebind is one action, not three edits** (dima, 2026-09-20). moving
   an app to a new chord drops the old row, claims the new one and names what it opens in a single
   step, writing the old row's end and the new row's `since` so the counts split at the right
