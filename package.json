@@ -6,7 +6,6 @@
     "scripts": {
         "chords:dev": "pnpm --filter chords dev",
         "chords:build": "pnpm --filter chords build",
-        "chords:ab": "pnpm --filter chords ab",
         "dotfiles:link": "node ./script/dotfiles-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",

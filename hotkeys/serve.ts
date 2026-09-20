@@ -40,10 +40,8 @@ import { liveHotkeys, parseEvents } from './stats.ts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const DIST = join(import.meta.dirname, 'chords/dist');
-const DIST_BEFORE = join(import.meta.dirname, 'chords/dist-before');
 const MANUAL = join(import.meta.dirname, 'manual.ts');
 const SCAN_SNAPSHOT = join(import.meta.dirname, 'hotkeys.json');
-const OLD_PAGE = join(import.meta.dirname, 'map.html');
 const MAX_BODY = 64 * 1024;
 // Both ports: vite proxies /api here without rewriting Origin, so the dev page's origin is the
 // dev server's, not this one's.
@@ -372,66 +370,23 @@ const api = async (
     return send(response, 404, { error: `no route for ${url.pathname}` });
 };
 
-// The page chords replaced, kept alive at /old/ so dima can hold the impeccable passes against
-// what they started from. It is served rather than opened off disk because its two seed scripts
-// no longer exist as files — scan.ts writes json now and the press counts live in this process —
-// so the daemon generates both on the fly and map.html itself is untouched. It leaves on his word.
-const serveOldPage = (
-    response: ServerResponse,
-    pathname: string,
-    live: LiveState,
-) => {
-    if (pathname === '/old/hotkeys.js') {
-        const data = existsSync(SCAN_SNAPSHOT)
-            ? readFileSync(SCAN_SNAPSHOT, 'utf8')
-            : '{"hotkeys":[],"scannedAt":""}';
-
-        return sendScript(response, `window.hotkeyData = ${data};`);
-    }
-    if (pathname === '/old/presses.js') {
-        return sendScript(
-            response,
-            `window.hotkeyPresses = ${JSON.stringify(live.presses())};`,
-        );
-    }
-
-    response.writeHead(200, {
-        'cache-control': 'no-store',
-        'content-type': MIME['.html'] as string,
-    });
-
-    return response.end(readFileSync(OLD_PAGE));
-};
-
-const sendScript = (response: ServerResponse, body: string) => {
-    response.writeHead(200, {
-        'cache-control': 'no-store',
-        'content-type': MIME['.js'] as string,
-    });
-    response.end(body);
-};
-
-const serveStatic = (
-    response: ServerResponse,
-    pathname: string,
-    tree: { dir: string; build: string },
-) => {
-    if (!existsSync(tree.dir)) {
+const serveStatic = (response: ServerResponse, pathname: string) => {
+    if (!existsSync(DIST)) {
         response.writeHead(503, { 'content-type': MIME['.html'] as string });
 
         return response.end(
-            `<h1>chords is not built</h1><p>run <code>${tree.build}</code></p>`,
+            '<h1>chords is not built</h1><p>run <code>pnpm chords:build</code></p>',
         );
     }
 
-    const wanted = resolve(tree.dir, `.${pathname}`);
-    const inside = !relative(tree.dir, wanted).startsWith('..');
-    // One page, so anything that is not a real file is the page — and anything outside the
-    // tree is someone walking up with ../, which gets the same answer as a typo.
+    const wanted = resolve(DIST, `.${pathname}`);
+    const inside = !relative(DIST, wanted).startsWith('..');
+    // One page, so anything that is not a real file is the page — and anything outside dist
+    // is someone walking up with ../, which gets the same answer as a typo.
     const file =
         inside && existsSync(wanted) && statSync(wanted).isFile()
             ? wanted
-            : join(tree.dir, 'index.html');
+            : join(DIST, 'index.html');
 
     response.writeHead(200, {
         'cache-control': file.endsWith('index.html')
@@ -452,37 +407,7 @@ const handle = async (
     if (url.pathname.startsWith('/api/'))
         return api(request, response, url, live);
 
-    // The trailing slash is load-bearing: map.html asks for `hotkeys.js` relatively, and at
-    // /old that resolves to the site root instead of to a file beside the page.
-    if (url.pathname === '/old') {
-        response.writeHead(302, { location: '/old/' });
-
-        return response.end();
-    }
-    if (url.pathname.startsWith('/old/')) {
-        return serveOldPage(response, url.pathname, live);
-    }
-
-    // The page the last refinement pass replaced, built beside the current one by
-    // `pnpm chords:ab`. Same origin as `/`, which is the point: one api, one press stream, one
-    // stored theme, so the two tabs differ by exactly the commit between them. The baseline's
-    // router is taught this prefix at build time — see chords/ab.ts.
-    if (url.pathname === '/before') {
-        response.writeHead(302, { location: '/before/' });
-
-        return response.end();
-    }
-    if (url.pathname.startsWith('/before/')) {
-        return serveStatic(response, url.pathname.slice('/before'.length), {
-            build: 'pnpm chords:ab',
-            dir: DIST_BEFORE,
-        });
-    }
-
-    return serveStatic(response, url.pathname, {
-        build: 'pnpm chords:build',
-        dir: DIST,
-    });
+    return serveStatic(response, url.pathname);
 };
 
 /* Types */

@@ -46,8 +46,7 @@ export const App = () => {
                 typed by hand in{' '}
                 <span className='font-mono'>hotkeys/manual.ts</span>. notes live
                 in <span className='font-mono'>hotkeys/notes.json</span>,
-                committed. the page this replaced is still at{' '}
-                <span className='font-mono'>/old/</span>.
+                committed.
             </footer>
         </div>
     );

@@ -13,7 +13,7 @@
 @import "@fontsource/ibm-plex-mono/600.css";
 
 /*
- * The palette map.html wore, carried over value for value — this is a port, and the keyboard
+ * The palette the page this replaced wore, carried over value for value — this was a port, and
  * has to come back looking like the keyboard.
  *
  * Tailwind v4 bakes @theme values in at build time, so a token cannot be swapped at runtime.

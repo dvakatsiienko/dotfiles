@@ -33,11 +33,5 @@ export default defineConfig({
         proxy: { '/api': `http://localhost:${chordsPort}` },
         // Fail rather than auto-bump: a silent bump leaves the page talking to nothing.
         strictPort: true,
-        // 📌 `pnpm chords:ab` writes a whole built tree — html, css, js and forty font files —
-        // into `dist-before/`, which sits inside this root. Vite ignores `dist` because it is
-        // the build outDir; it has never heard of `dist-before`, so every A/B rebuild landed as
-        // a burst of file events and the dev client full-reloaded through all of them. Dima's
-        // tab stopped keeping up during the refinement passes, which is how this was found.
-        watch: { ignored: ['**/dist/**', '**/dist-before/**'] },
     },
 });
