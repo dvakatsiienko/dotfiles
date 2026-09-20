@@ -350,6 +350,7 @@
             "ink-faint": {
                 "canonical": "#8b91a0",
                 "displayName": "Ink Faint",
+                "purpose": "the de-emphasis token, not a third text weight: a free key legend, a disabled control, the em dash where a count would be. 2.72:1 on the page and 3.00:1 on an unbound keycap, so it never carries information.",
                 "role": "neutral",
                 "tonalRamp": [
                     "#22252a",
@@ -483,7 +484,7 @@
             },
             "title": {
                 "displayName": "Title",
-                "purpose": "the four panel labels, uppercase and smaller than the body they introduce."
+                "purpose": "the four panel labels, in Ink Muted — a signpost is read, and Ink Faint does not clear the floor for anything that is."
             }
         }
     },
@@ -498,7 +499,8 @@
             "Don't animate anything. there is no motion vocabulary here and adding one would be a new world, not a refinement.",
             "tint a keycap on hover, or lift it. the lip is the only depth this system has.",
             "print below 12px. it is the floor for dense data here.",
-            "let an error replace what was already fetched, or report success for something that did not happen."
+            "let an error replace what was already fetched, or report success for something that did not happen.",
+            "set Ink Faint on anything a reader reads."
         ],
         "dos": [
             "Do keep every new surface inside the three-step tonal stack — Desk, Deck, Cap. a fourth tone has to displace one of them, not join them.",
@@ -547,6 +549,11 @@
                 "body": "a bound key nobody has pressed is outlined, not greyed. it is not disabled and it is not an error — it is a question about why the binding exists.",
                 "name": "The Cold Ring Rule",
                 "section": "elevation"
+            },
+            {
+                "body": "Ink Faint never carries information. it says absent — a free key legend, a disabled control, the em dash where a count would be — at 2.72:1, under the 4.5:1 any text owes. anything a reader reads is Ink or Ink Muted.",
+                "name": "The Faint Is Not Text Rule",
+                "section": "colors"
             }
         ]
     },

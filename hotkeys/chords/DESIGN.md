@@ -214,8 +214,10 @@ the eight **application tags**, each owning exactly one source: **Raycast Coral*
   3.03:1 light and 4.36:1 dark against that track, because a chart mark owes 3:1 and the
   surface first reached for managed 1.28:1 and inverted in dark.
 - **Rule Grey** (`#cfd3db`): hairlines — list dividers, field borders, the footer rule.
-- **Ink** (`#171a20`), **Ink Muted** (`#5b6170`), **Ink Faint** (`#8b91a0`): the three text
-  weights — a fact, its qualifier, and its label.
+- **Ink** (`#171a20`), **Ink Muted** (`#5b6170`), **Ink Faint** (`#8b91a0`): a fact, its
+  qualifier, and the de-emphasis token. 📌 the third is not a text weight. Ink Faint measures
+  **2.72:1** on the page and **3.00:1** on an unbound keycap, so it cannot legally carry anything
+  a reader is meant to read — see The Faint Is Not Text Rule below.
 
 ### Named Rules
 
@@ -226,6 +228,12 @@ second surface takes an app colour, the board stops reading as grey with tags on
 **The Earned Accent Rule.** Signal Blue marks exactly three states — chosen, pressed, annotated.
 a count of zero renders as an em dash in Ink Faint, not a blue nought. accent that was not
 earned by a measurement is a lie about the data.
+
+**The Faint Is Not Text Rule.** Ink Faint never carries information. it says *absent* — a free
+key's legend, a disabled control, the em dash where a count would be — and it says it at 2.72:1
+on the page, which is under the 4.5:1 any text owes. anything a reader reads is Ink or Ink
+Muted, including the panel labels, which the Title role once specified as Faint and no longer
+does. the palette did not change; the job of one token did.
 
 ## Typography
 
@@ -249,8 +257,10 @@ a half pixel cannot carry a different meaning, and two of the eight sat under th
   outranked it was the one hierarchy inversion this system had.
 - **Subject** (600, 16px, mono): the chord a panel is about, above the rows describing it. the one
   step between Display and Body, and the only role that owns it.
-- **Title** (600, 13px, `0.06em`, uppercase, Ink Faint): the four panel labels. deliberately
-  smaller than the body it introduces — it is a signpost, not a headline.
+- **Title** (600, 13px, `0.06em`, uppercase, Ink Muted): the four panel labels. deliberately
+  smaller than the body it introduces — it is a signpost, not a headline. Muted rather than the
+  Faint it was written as: a signpost is read, and Faint does not clear the floor for anything
+  that is.
 - **Body** (400, 15px, 1.5): the page default, carrying the footer, prose and the note field.
 - **Label** (400, 13px): a list row — an action and the app that owns it.
 - **Chord** (500, 13px, mono): a chord string anywhere it appears — tabs, list rows, free keys.
@@ -414,7 +424,7 @@ focus read as the same gesture at two distances.
 - **Do** keep every new surface inside the three-step tonal stack — Desk, Deck, Cap. a fourth
   tone has to displace one of them, not join them.
 - **Do** give a number `tabular-nums` whenever it can be compared to the number above it.
-- **Do** write the empty state as a bare fact in Ink Faint, in the same grid as the rows it
+- **Do** write the empty state as a bare fact in Ink Muted, in the same grid as the rows it
   replaces, so the column does not jump when data arrives.
 - **Do** use mono for a chord and sans for a sentence, without exception.
 - **Do** keep the accent to chosen, pressed and annotated. a fourth use has to retire one.
@@ -438,6 +448,8 @@ focus read as the same gesture at two distances.
   is enough; a second depth mechanism would be a second world.
 - **Don't** print below 12px. it is the floor for dense data here and two roles sat under it until
   they were measured.
+- **Don't** set Ink Faint on anything a reader reads. it is the absent token, not the third text
+  weight, and it fails the contrast floor on every surface in this system.
 - **Don't** let an error replace what was already fetched, or report success for something that
   did not happen. a control that cannot act is disabled, not silently inert.
 - **Don't** animate anything. there is no motion vocabulary here and adding one would be a new

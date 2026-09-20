@@ -121,7 +121,7 @@ export const StatsPage = () => {
         return error ? (
             <Notice onRetry={retry}>no stats — {apiTrouble(error)}</Notice>
         ) : (
-            <p className='m-0 text-[13px] text-ink-3'>reading the log…</p>
+            <p className='m-0 text-[13px] text-ink-2'>reading the log…</p>
         );
     }
 
@@ -253,7 +253,7 @@ export const StatsPage = () => {
 
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>never pressed</h2>
-                        <p className='text-[12px] text-ink-3'>
+                        <p className='text-[12px] text-ink-2'>
                             lifetime, whatever the window above says — a rebind
                             candidate does not stop being one because the view
                             got shorter.
@@ -282,7 +282,7 @@ export const StatsPage = () => {
                                                 type='button'>
                                                 {row.chord}
                                             </button>
-                                            <span className='truncate text-[12px] text-ink-3'>
+                                            <span className='truncate text-[12px] text-ink-2'>
                                                 {row.action} · {row.app}
                                             </span>
                                         </span>
@@ -394,7 +394,7 @@ const Tile = (props: TileProps) => (
                 </span>
             )}
         </span>
-        <span className='font-sans text-[12px] tracking-[.06em] text-ink-3 uppercase'>
+        <span className='font-sans text-[12px] tracking-[.06em] text-ink-2 uppercase'>
             {props.label}
         </span>
     </div>

@@ -103,7 +103,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
                     type='button'>
                     copy notes
                 </button>
-                <span className='text-[12px] text-ink-3'>{status}</span>
+                <span className='text-[12px] text-ink-2'>{status}</span>
             </div>
         </>
     );

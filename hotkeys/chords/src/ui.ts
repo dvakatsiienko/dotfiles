@@ -15,8 +15,13 @@ export const TAB =
 
 // A panel label: deliberately smaller than the body it introduces, because it is a signpost and
 // not a headline. The uppercase is dima's call, over the repo's own lowercase rule.
+//
+// 📌 Ink Muted, not Ink Faint, and that is the rule rather than this label's exception: Ink
+// Faint measures 2.72:1 on the page and 3.00:1 on an unbound keycap, so it cannot legally carry
+// anything a reader is meant to read. It is the de-emphasis token — a free key's legend, a
+// disabled control, an unpressed count's em dash — and nothing informational.
 export const H2 =
-    'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';
+    'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-2 uppercase';
 
 // 📌 A button's shape, type, focus ring and disabled treatment — and deliberately NOT its fill,
 // border colour or label colour. Those belong to the variant, because a variant cannot win them

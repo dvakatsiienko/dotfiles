@@ -253,7 +253,7 @@ export const BoardPage = (props: BoardPageProps) => {
     return (
         <div className='grid gap-[22px]'>
             <div className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
-                <span className='text-[13px] text-ink-3'>
+                <span className='text-[13px] text-ink-2'>
                     NuPhy Air75 · {hotkeys.length} bindings · scanned{' '}
                     <span className='font-mono'>
                         {scan
@@ -342,7 +342,7 @@ export const BoardPage = (props: BoardPageProps) => {
                     <div className='font-mono text-[16px] font-semibold'>
                         {selectedChord ?? 'no key selected'}
                         {selected && selectedBinds.length === 0 ? (
-                            <small className='ml-2 font-sans text-[13px] font-normal text-ink-3'>
+                            <small className='ml-2 font-sans text-[13px] font-normal text-ink-2'>
                                 free
                             </small>
                         ) : null}
@@ -363,7 +363,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                             mods: target.layer,
                                         })}
                                     </div>
-                                    <label className='grid gap-1 font-sans text-[12px] text-ink-3'>
+                                    <label className='grid gap-1 font-sans text-[12px] text-ink-2'>
                                         opens
                                         <input
                                             className='rounded-md border border-line bg-cap px-2.5 py-1.5 font-sans text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
