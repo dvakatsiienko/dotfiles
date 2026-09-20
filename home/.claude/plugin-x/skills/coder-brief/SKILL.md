@@ -128,7 +128,10 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      round count, the head sha. a finding you dispute goes to the coordinator with both sides in
      one message, and the loop pauses until it answers. the cap counts findings, not rounds — a
      one-line round is free; after three rounds of new findings the coordinator decides. the
-     adversarial review lane (step 2/3) runs BEFORE the verifier's first round, never on reminder.
+     adversarial review lane (step 2/3) runs BEFORE the verifier's first round, never on reminder;
+     **it runs on every assignment, the main-lane and worktree-less ones included** (dima
+     2026-09-20: a local adversary is worth it in most cases); a big PR runs both adversaries
+     (coderabbit AND greploop); a long-lived PR is a reason for more review, never less.
      after `clean` the coordinator tells you to add Dima as reviewer.
   4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
      is the review request for THIS head: the `review` check is required on main, it runs only on
