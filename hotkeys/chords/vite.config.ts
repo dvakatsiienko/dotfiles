@@ -12,7 +12,7 @@ const devTitle = (): Plugin => ({
     apply: 'serve',
     name: 'chords-dev-title',
     transformIndexHtml: (html) =>
-        html.replace('<title>chords</title>', '<title>⌨️ chords: dev</title>'),
+        html.replace('<title>chords</title>', '<title>chords: dev</title>'),
 });
 
 export default defineConfig({
