@@ -5,6 +5,8 @@ import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
+import { printTable } from './lib/jev-print.ts';
+import { bb, bold, dim, gb, rb } from './lib/print.ts';
 
 // frontmatter description is one line, or a `>-` folded block of indented lines
 function readDescription(md: string) {
@@ -83,17 +85,30 @@ if (live) {
     process.exit(0);
 }
 
+const rows: string[][] = [];
 for (const [prompt, expected] of probes) {
     const res = await judge({ prompt }, questions);
     const ranked = Object.entries(res.answers)
         .map(([name, a]) => [name, 'noul' in a ? a.noul : 0] as const)
         .sort((a, b) => b[1] - a[1]);
-    const top = ranked.slice(0, 3).map(([n, p]) => `${n} ${p.toFixed(2)}`);
     const hit =
         ranked[0]?.[0] === expected ||
         (expected === '—' && (ranked[0]?.[1] ?? 0) < 0.5);
-    console.log(
-        `${hit ? '✅' : '❌'} ${prompt.padEnd(48)} want ${expected.padEnd(16)} got ${top.join(' · ')}`,
-    );
+    const top = ranked
+        .slice(0, 3)
+        .map(([n, p], i) =>
+            i === 0
+                ? `${(hit ? gb : rb)(bold(n))} ${bold(p.toFixed(2))}`
+                : dim(`${n} ${p.toFixed(2)}`),
+        );
+    rows.push([
+        hit ? '✅' : '❌',
+        prompt,
+        dim('want'),
+        bb(expected),
+        dim('got'),
+        top.join('  '),
+    ]);
 }
-console.log(`\n${skills.length} skills as nouls per request`);
+printTable(rows);
+console.log(dim(`\n${skills.length} skills as nouls per request`));
