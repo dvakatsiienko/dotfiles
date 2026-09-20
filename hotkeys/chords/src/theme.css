@@ -23,6 +23,7 @@
  */
 @theme inline {
   --color-accent: var(--p-accent);
+  --color-on-accent: var(--p-on-accent);
   --color-board: var(--p-board);
   --color-cap: var(--p-cap);
   --color-cap-edge: var(--p-cap-edge);
@@ -49,7 +50,15 @@
   --p-ink-2: #5b6170;
   --p-ink-3: #8b91a0;
   --p-line: #cfd3db;
-  --p-accent: #2f6df6;
+  /* Deeper than the #2f6df6 the port wore. That blue carried the press count at 4.30:1 against
+   * a bound keycap and the floor for text is 4.5:1 — small and dim is the pair that fails. This
+   * one measures 5.55:1 there, 5.03:1 as a dot on the page, 4.51:1 as a focus ring on the deck,
+   * and 5.85:1 under a white button label. Same blue, one step down. */
+  --p-accent: #1d5ae0;
+  /* What is legible ON the accent. In light that is white; in dark the accent is a pale blue
+   * and white on it measured 2.71:1 — the save button's own label. The darkest surface reads
+   * 6.63:1 there. */
+  --p-on-accent: #ffffff;
   --p-sel: #cfe0ff;
   /* The stats bar fill. Its own token in each theme rather than a reused surface: cap-edge
    * is darker than cap-free in light and in dark, so reusing it made the dark bar read as a
@@ -82,6 +91,7 @@
     --p-ink-3: #6e7482;
     --p-line: #30343c;
     --p-accent: #6b9bff;
+    --p-on-accent: #15171b;
     --p-sel: #243a6b;
     --p-bar: #7f8798;
 
@@ -109,6 +119,7 @@
   --p-ink-3: #6e7482;
   --p-line: #30343c;
   --p-accent: #6b9bff;
+  --p-on-accent: #15171b;
   --p-sel: #243a6b;
   --p-bar: #7f8798;
 
@@ -147,17 +158,17 @@
   }
 
   .fold-window::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   .fold-window::-webkit-scrollbar-track {
     background: var(--color-cap-free);
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
   .fold-window::-webkit-scrollbar-thumb {
     background: var(--color-bar);
-    border-radius: 4px;
+    border-radius: 3px;
   }
 }
 

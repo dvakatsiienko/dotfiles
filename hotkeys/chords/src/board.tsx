@@ -366,7 +366,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                     </label>
                                     <div className='flex flex-wrap items-center gap-2'>
                                         <button
-                                            className={`${MOVE_BTN} border-accent bg-accent text-white`}
+                                            className={`${MOVE_BTN} border-accent bg-accent text-on-accent`}
                                             onClick={() => void confirmMove()}
                                             type='button'>
                                             record the move

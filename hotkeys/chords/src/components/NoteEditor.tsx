@@ -65,7 +65,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
             />
             <div className='flex items-center gap-2'>
                 <button
-                    className={`${BUTTON} border-accent bg-accent text-white`}
+                    className={`${BUTTON} border-accent bg-accent text-on-accent`}
                     onClick={() => void save(draft)}
                     type='button'>
                     save note
