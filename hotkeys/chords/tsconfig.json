@@ -23,6 +23,7 @@
     },
     "include": [
         "src",
+        "ab.ts",
         "vite.config.ts",
         "../ports.ts",
         "../chord.ts",

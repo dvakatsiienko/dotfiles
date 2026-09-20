@@ -34,6 +34,9 @@ localhost port from any page. the full reasoning is in `serve.ts`'s own header.
 
 - `pnpm chords:dev` — vite on 7374, proxying `/api` to the daemon on 7373
 - `pnpm chords:build` — writes `dist/`, which the daemon serves
+- `pnpm chords:ab [ref]` — builds `ref` (default `HEAD~1`) into `dist-before/` and the working
+  tree into `dist/`; the daemon serves the baseline at `/before`, same origin as `/`. the
+  mechanics and the two build-time patches are in `ab.ts`'s own header
 - `pnpm hotkeys:map` — opens the served page
 
 📌 vite does not rewrite `Origin` when it proxies, so a dev page's origin is 7374's. both ports
