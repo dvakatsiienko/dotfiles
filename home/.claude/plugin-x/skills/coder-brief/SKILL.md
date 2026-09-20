@@ -116,8 +116,12 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
   3b. **A verifier session id in the brief changes the rest of the chain**: skip steps 4 and 5.
      «final» is a `SendMessage` to the verifier (pr url + head sha), it owns the ci reviewer and
      reads every reviewer for you — you read none. Its reply is one prompt per round, ≤12 lines,
-     with a `verdict:` line; fix what it lists, push, message it «round 2». After its `clean`
-     the coordinator tells you to add Dima as reviewer. Two rounds, then the coordinator decides.
+     with a `verdict:` line; fix what it lists, push, message it «round N on <sha>». **the loop is
+     yours and the verifier's — the coordinator reads one checkpoint line per round and nothing
+     else.** you report to the coordinator ONCE, on `clean`: the verdict object quoted, the round
+     count, the head sha. a finding you dispute goes to the coordinator with both sides in one
+     message, and the loop pauses until it answers. three rounds is the cap; after that the
+     coordinator decides. after `clean` the coordinator tells you to add Dima as reviewer.
   4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
      is the review request for THIS head: the `review` check is required on main, it runs only on
      a label event, and a later push leaves it stale — so a re-review is remove + add the label

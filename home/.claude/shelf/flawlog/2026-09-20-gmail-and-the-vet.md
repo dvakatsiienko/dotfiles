@@ -10,3 +10,24 @@
 - ci-watch `--boot` exited 1 on every clean boot since 09-18 (grep's exit as the script's); one `exit 0`. the class: a script's last command decides its exit — end with an explicit `exit 0` when the last line is a test
 - GOOD: dima's «will you catch up a skipped monday» and «is the next one still monday» found two real gaps in the apps lane before it ran once (markers vs dates; monday-anchored due, not 7 days)
 - GOOD: the fixture suite on its first run showed the inbox rubric at 2/4 — the same two misses the vet log had; the criterion was reworded with the numbers in hand
+- (coder, chords) `hotkeys/*.ts` was typechecked by NOTHING — root tsconfig included only `script/**`, and the node-run hotkeys files sat in no config; a reverted interface field left the whole gate green (node strips types). found by accident, fixed on the branch (root include gains `hotkeys/*.ts`), proven by making the gate fail. fleet-hazards candidate beside green statuses: a green typecheck answers «did the configured files pass», never «are my files configured»
+- (coder, chords) three greens beaten by LOOKING at output in one day: the dark-mode bar inverted (a token reused across themes), a lowercase pass that matched nothing, `until` shipped as a no-op (added to the type, not to the printer's field order). the `sd`-hazard shape: a replacement that matches nothing reports success
+- (coder, chords) the move's dates are day-granular: presses earlier on the moving day are credited to nobody (66 on a real move). written at the field; instant comparison is the fix, not cheap (labelAt runs per event)
+- (cclio) ten PR heads got no CI run because the PR was conflicting — github creates no pull_request run without a merge ref; «no checks reported» read as calm. rule: main moves under an open PR → merge it in within the hour. x:github-contrib candidate
+- (coder, chords) `agent-browser fill <sel> ""` does NOT clear an input — the old value stays and it reports success; clearing needs the native value setter plus an input event. cost a wrong conclusion; x:browser-headless candidate
+
+## coder retro — DOT-254 phase 0–2 (c24a8636, 18 commits), ranked by the coder
+- ten commits ran no CI for hours: a conflicted PR creates no run; the coder checked for red, never for a run. fix: merge main the same hour it moves → x:github-contrib + x:coder-brief
+  - dima's correction: dotfiles has light CI by intent (no review workflow, no bot) — the complaint about «no reviewer» is a decision, not a gap; only the «was a run created» half survives
+- remote state asserted twice from `@{u}` instead of `ls-remote`; a worktree that cannot push asks the remote → x:coder-brief line
+- three silent no-op writes in one session (a field missing from a printer's order, a text pass matching nothing, `agent-browser fill ""`): every replacement asserts its anchor → x:coder-brief contract line
+- the typecheck hole (`hotkeys/*.ts` in no tsconfig) was found by luck; nothing in the method finds «are my files configured» → fleet-hazards green-statuses line
+- the dark bar inverted from a token reused across themes, twenty minutes after loading dataviz's «dark is selected, not flipped»; the light one was under contrast too → a rule read is not a rule applied; measure both themes
+- a duplicate h1 shipped four commits; a screenshot caught what a dozen `eval` reads did not → look at the top of the page once per commit
+- a first row design worse than the terminal's (8000 px of scroll) → start from the thing being replaced
+- an invented constraint (the 30-day window) handed back to dima as his → x:coder-brief: never present a carried default as a requirement
+- the brief scoped the move as three edits and missed that hk needed a new endpoint; named the move an `edit` route; asked for a root PRODUCT.md — wrong for a multi-tool repo
+- GOOD: unbriefed improvement — run `impeccable context` before writing shape questions; ask voice at init
+- AUTOMATION: a `commit-msg` hook rejecting a linear keyword adjacent to a ticket id (sibling of the ci-skip marker hook), ten lines, kills a hand-run scan on 18 bodies → ticket or freebie
+- NOBODY ASKED: `/old/` now shows live counts it never had off disk — phase 3's A/B compares against something slightly better than the original; say so when judging
+- (cclio) the verifier reported every round to me instead of the coder: my spawn note said «report to cclio-17 by SendMessage only» and overrode the skill, which already specified the direct loop. a spawn note never overrides a contract; the skills now say so

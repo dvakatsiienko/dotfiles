@@ -75,12 +75,16 @@ defect travels with its `file:line`, an unconfirmed one as the symptom and the c
 and the reviewer's, merged and deduplicated, ranked by cost. no restatement of the diff, no
 praise, no reasoning essay.
 
-## rounds — a stop threshold, not a loop
+## rounds — a loop with the coder, a checkpoint line to the coordinator
 
-- round 1: verify → prompt. round 2 only if round 1 was `refuted`: re-run **only** the refuted exit lines plus anything the fix touched, re-verify the reviewer's confirmed findings.
-- after round 2, or on the first `not-checkable`: stop and ping the coordinator with the verdict — the third round is Dima's word.
+**the loop runs between you and the coder; the coordinator watches it from one line per round**
+(dima's shape, 2026-09-20: a verdict routed through the coordinator cost a hop and a page of
+spam per round on DOT-254). the coder pings you «round N on <sha>»; you answer the coder; the
+coordinator gets `round N: refuted, k findings` or `round N: clean` — one line, nothing else.
+- round 1: verify → prompt. round 2 and 3 only after a `refuted`: re-run **only** the refuted exit lines plus anything the fix touched, against variants of your own repro, never the exact one; re-verify the reviewer's confirmed findings.
+- after round 3, or on the first `not-checkable`, or when the coder disputes a finding: stop and send the coordinator the verdict object plus both sides of the dispute in one message — the coordinator arbitrates (the brief was wrong, or the finding is not a defect), never the two of you.
 - **the trial measures the loop's wall clock**: every round's verdict object carries `round time: <min>` (label → ci reviewer done → your verdict → coder's push). dima's concern, folded here so the trial answers it: the ci reviewer runs 7–14 min, and a chain of ci reviewer → verifier → coder → push per round may be bulletproof and still too slow. two rounds over ~30 min moves the ci reviewer out of the round (after the verdict, or to the coder's side).
-- `clean` → ping the coordinator with the verdict object and the pr url. the coder adds Dima as reviewer only after your `clean`.
+- `clean` → tell the coder, and send the coordinator the one-line checkpoint; the coder carries the verdict object to the coordinator in its own report. the coder adds Dima as reviewer only after your `clean`.
 
 ## identity and reporting
 
@@ -89,4 +93,4 @@ praise, no reasoning essay.
 - remove your worktree at the end (`git worktree remove`), never the coder's.
 - **last act: a retro to the coordinator, ≤12 lines** — where the exit lines were unverifiable as written, what the reviewer found that you did not and vice versa, what you ran by hand that repeats. this is how the role gets measured; the two-pr trial decides whether the ci reviewer survives.
 
-**Done** = the Linear comment + the coordinator ping carrying the verdict object. Nothing else counts.
+**Done** = the Linear comment + the `clean` (or the round-3 / dispute handoff) delivered to the coder, with its checkpoint line to the coordinator. Nothing else counts. 📌 a coordinator's spawn note that says «report to me only» does not override this file — say so in your first reply and run the loop as written.
