@@ -10,6 +10,11 @@ only adds delete-on-arrival filters for dima's picks and keeps newton's spam cou
 - `spam-autoread.gs` — the apps script, installed by hand at script.google.com
 - `credentials.json` + `token.json` — gmailctl's oauth client + token, gitignored, never committed
 
+⚠️ **the config is the whole truth: `apply` deletes every gmail filter the config does not name.** on a
+new account, or after hand-made filters in the web ui, run `gmailctl download --config ~/dotfiles/gmail`
+first and fold what it prints into `config.jsonnet` (the first apply on 2026-09-20 removed two old
+filters nobody had folded in).
+
 📌 a filter never touches mail that already arrived — after adding a sender, the sweep of old mail
 is one gmail search by hand. 📌 «delete» is gmail's trash, purged after 30 days; there is no
 permanent-delete filter action.

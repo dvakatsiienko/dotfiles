@@ -9,13 +9,15 @@ display-name = "Dima Vakatsiienko"
 [accounts.gmail.imap]
 server = "imaps://imap.gmail.com:993"
 sasl.plain.username = "imagnum.satellite@gmail.com"
-sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya/credential"
+sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya-golden/credential"
 
 [accounts.gmail.smtp]
 server = "smtps://smtp.gmail.com:465"
 sasl.plain.username = "imagnum.satellite@gmail.com"
-sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya/credential"
+sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya-golden/credential"
 
 [mailbox.alias]
+inbox = "INBOX"
 sent = "[Gmail]/Sent Mail"
 trash = "[Gmail]/Trash"
+spam = "[Gmail]/Spam"
