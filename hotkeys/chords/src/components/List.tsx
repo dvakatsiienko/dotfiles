@@ -7,7 +7,7 @@ export const List = (props: { children: ReactNode }) => (
 );
 
 export const ListRow = (props: ListRowProps) => (
-    <li className='grid grid-cols-[9px_128px_1fr] items-baseline gap-2.5 border-b border-line py-[3px] text-[13.5px]'>
+    <li className='grid grid-cols-[9px_128px_1fr] items-baseline gap-2.5 border-b border-line py-[3px] text-[13px]'>
         <span
             className='relative top-px size-[9px] rounded-full'
             style={{ background: props.color }}
@@ -26,7 +26,7 @@ export const ListRow = (props: ListRowProps) => (
 );
 
 export const ListEmpty = (props: { children: ReactNode }) => (
-    <li className='grid grid-cols-[9px_128px_1fr] items-baseline gap-2.5 py-[3px] text-[12.5px] text-ink-3'>
+    <li className='grid grid-cols-[9px_128px_1fr] items-baseline gap-2.5 py-[3px] text-[12px] text-ink-3'>
         <span />
         <span />
         <span>{props.children}</span>

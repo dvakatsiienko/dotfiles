@@ -48,7 +48,7 @@ export const StatRow = (props: StatRowProps) => {
                 )}
                 {props.detail ? (
                     <span
-                        className='truncate text-[12.5px] text-ink-3'
+                        className='truncate text-[12px] text-ink-3'
                         title={props.detail}>
                         {props.detail}
                     </span>

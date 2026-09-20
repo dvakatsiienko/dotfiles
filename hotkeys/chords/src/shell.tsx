@@ -41,7 +41,7 @@ export const App = () => {
 
             {path === '/hk' ? <HkPage /> : <BoardPage params={route.params} />}
 
-            <footer className='border-t border-line pt-3 text-[12.5px] text-ink-3'>
+            <footer className='border-t border-line pt-3 text-[12px] text-ink-3'>
                 seeded by <span className='font-mono'>pnpm hotkeys:scan</span>{' '}
                 in dotfiles — wispr flow, magnet, bartender, cursor and macos
                 are read from their files; raycast, cleanshot and 1password are

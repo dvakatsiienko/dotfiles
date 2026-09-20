@@ -267,7 +267,7 @@ export const BoardPage = (props: BoardPageProps) => {
             </header>
 
             {scanError ? (
-                <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13.5px]/[1.5] text-ink'>
+                <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13px]/[1.5] text-ink'>
                     no hotkey data — {scanError}. run{' '}
                     <span className='font-mono'>pnpm hotkeys:scan</span> in
                     dotfiles.
@@ -313,7 +313,7 @@ export const BoardPage = (props: BoardPageProps) => {
                 selected={selected}
             />
 
-            <div className='flex flex-wrap gap-x-[14px] gap-y-1.5 text-[12.5px] text-ink-2'>
+            <div className='flex flex-wrap gap-x-[14px] gap-y-1.5 text-[12px] text-ink-2'>
                 {apps.map((app) => {
                     return (
                         <span className='flex items-center gap-1.5' key={app}>
@@ -354,7 +354,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                             mods: target.layer,
                                         })}
                                     </div>
-                                    <label className='grid gap-1 font-sans text-[12.5px] text-ink-3'>
+                                    <label className='grid gap-1 font-sans text-[12px] text-ink-3'>
                                         opens
                                         <input
                                             className='rounded-md border border-line bg-cap px-2.5 py-1.5 font-sans text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
@@ -378,7 +378,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                             cancel
                                         </button>
                                         {moveError ? (
-                                            <span className='text-[12.5px] text-ink-2'>
+                                            <span className='text-[12px] text-ink-2'>
                                                 {moveError}
                                             </span>
                                         ) : null}

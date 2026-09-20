@@ -74,26 +74,45 @@ export const Board = (props: BoardProps) => {
                         `${chord} — free`
                     }
                     type='button'>
-                    <span className='text-[13px]'>
-                        {label === 'caps' && props.layer === 'hyper'
-                            ? 'hyper'
-                            : (capLabel[label] ?? label)}
+                    {/*
+                      The count rides the legend line rather than the bottom-right corner it
+                      used to sit in. Both it and the action label owed 12px — the fleet floor
+                      for dense data — and at 12px in the corner the count's clearance ate the
+                      narrow keycaps' labels down to one character and an ellipsis: 19 of 34 on
+                      the cmd layer. Up here the legend is short and the count is short, the two
+                      of them fit the tightest 1u cap together, and the label gets the whole
+                      second line instead of two thirds of it.
+                    */}
+                    {/*
+                      The legend is 12px, which is what DESIGN.md's ramp always said a keycap
+                      was; the 13px it wore was drift from the port. On the tightest pairing the
+                      board can produce — `esc` beside a four-digit count on a 1u cap — the two
+                      of them come to 52.4px of a 52px box, so the legend may shrink by that
+                      fraction rather than the row escaping the key. A clip, not an ellipsis:
+                      at half a pixel an ellipsis costs more than it saves.
+                    */}
+                    <span className='flex items-baseline justify-between gap-1'>
+                        <span className='min-w-0 overflow-hidden'>
+                            {label === 'caps' && props.layer === 'hyper'
+                                ? 'hyper'
+                                : (capLabel[label] ?? label)}
+                        </span>
+                        {binds.length > 0 && (
+                            <span
+                                className={`font-mono text-[12px]/none font-medium tabular-nums ${hits ? 'text-accent' : 'text-ink-3'}`}>
+                                {hits || '—'}
+                            </span>
+                        )}
                     </span>
-                    <span
-                        className={`overflow-hidden font-sans text-[10.5px]/[1.15] font-normal text-ellipsis whitespace-nowrap text-ink-2 ${binds.length ? 'pr-5' : ''}`}>
+                    <span className='overflow-hidden font-sans text-[12px]/[1.15] font-normal text-ellipsis whitespace-nowrap text-ink-2'>
                         {binds[0]
                             ? binds[0].action +
                               (binds.length > 1 ? ` +${binds.length - 1}` : '')
                             : ''}
                     </span>
-                    {binds.length > 0 && (
-                        <span
-                            className={`absolute right-[5px] bottom-[4px] font-mono text-[9.5px]/none font-medium tabular-nums ${hits ? 'text-accent' : 'text-ink-3'}`}>
-                            {hits || '—'}
-                        </span>
-                    )}
+                    {/* The corner the count left. A 7px dot fits anywhere; the count did not. */}
                     {props.noted.has(label) && (
-                        <span className='absolute top-1.5 right-1.5 size-[7px] rounded-full bg-accent' />
+                        <span className='absolute right-1.5 bottom-1.5 size-[7px] rounded-full bg-accent' />
                     )}
                 </button>
             );

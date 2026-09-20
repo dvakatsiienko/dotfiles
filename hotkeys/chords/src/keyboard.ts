@@ -42,11 +42,19 @@ export const modKeys = new Set([
 
 // The right-hand modifiers need their own identity for the binding lookup — wispr's
 // push-to-talk lives on right cmd alone — but the keycap is printed the same on both sides.
+// What is printed on the cap, which is not always what the chord calls the key. The arrows are
+// the reason this map grew: `right` plus a three-digit count is 67px of content in a 52px 1u
+// cap and the text escaped the key. An Air75 prints an arrow there, and this board draws the
+// keyboard as the keyboard — the chord strings keep the words.
 export const capLabel: Record<string, string> = {
+    down: '↓',
+    left: '←',
     rcmd: 'cmd',
     rctrl: 'ctrl',
+    right: '→',
     ropt: 'opt',
     rshift: 'shift',
+    up: '↑',
 };
 
 const appColor: Record<string, string> = {

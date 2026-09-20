@@ -28,9 +28,10 @@ const FOLD =
 // window it can be scrolled inside, and keeps whichever answer dima gave it last. `never
 // pressed` has no fold: it is thirteen rows and it is the list he came for.
 //
-// 607px is twenty rows, measured in the browser on all three lists rather than derived on
-// paper: a row stands 27px and they sit 4px apart. 📌 `typeset` moves type sizes, so it
-// re-measures this number or "twenty rows" quietly stops being true.
+// 607px holds twenty rows with a pixel to spare. Measured in the browser on all three lists
+// rather than derived on paper, and re-measured after the typeset pass moved the ramp: twenty
+// rows came to 606px, and exactly twenty stand fully inside the cap. 📌 Any pass that moves a
+// type size measures this again, or "twenty rows" quietly stops being true.
 const FOLD_TOP = 20;
 const FOLD_HEIGHT = 607;
 
@@ -114,7 +115,7 @@ export const HkPage = () => {
 
     if (error) {
         return (
-            <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13.5px]/[1.5] text-ink'>
+            <p className='rounded-lg border border-l-4 border-accent bg-cap px-3 py-2.5 text-[13px]/[1.5] text-ink'>
                 no stats — {error}
             </p>
         );
@@ -235,7 +236,7 @@ export const HkPage = () => {
 
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>never pressed</h2>
-                        <p className='text-[12.5px] text-ink-3'>
+                        <p className='text-[12px] text-ink-3'>
                             lifetime, whatever the window above says — a rebind
                             candidate does not stop being one because you
                             shortened the view.
@@ -264,7 +265,7 @@ export const HkPage = () => {
                                                 type='button'>
                                                 {row.chord}
                                             </button>
-                                            <span className='truncate text-[12.5px] text-ink-3'>
+                                            <span className='truncate text-[12px] text-ink-3'>
                                                 {row.action} · {row.app}
                                             </span>
                                         </span>
@@ -294,7 +295,7 @@ const SpanLabel = (props: { span?: Span | null }) => {
     const short = asked !== null && days < asked;
 
     return (
-        <span className='text-[12.5px] text-ink-3'>
+        <span className='text-[12px] text-ink-3'>
             {short ? `last ${asked} days — the log starts ` : 'since '}
             <span className='font-mono'>{from}</span>
             {short ? null : ` · ${days} days`}
@@ -376,7 +377,7 @@ const openOnBoard = (chord: string) => {
 
 const Tile = (props: TileProps) => (
     <div className='grid gap-1'>
-        <span className='font-mono text-[26px]/[1] font-semibold tabular-nums text-ink'>
+        <span className='font-mono text-[22px]/[1] font-semibold tabular-nums text-ink'>
             {props.value.toLocaleString()}
             {props.of === undefined ? null : (
                 <span className='text-[15px] font-normal text-ink-3'>
@@ -385,7 +386,7 @@ const Tile = (props: TileProps) => (
                 </span>
             )}
         </span>
-        <span className='font-sans text-[12.5px] tracking-[.06em] text-ink-3 uppercase'>
+        <span className='font-sans text-[12px] tracking-[.06em] text-ink-3 uppercase'>
             {props.label}
         </span>
     </div>
