@@ -31,3 +31,31 @@
 - AUTOMATION: a `commit-msg` hook rejecting a linear keyword adjacent to a ticket id (sibling of the ci-skip marker hook), ten lines, kills a hand-run scan on 18 bodies → ticket or freebie
 - NOBODY ASKED: `/old/` now shows live counts it never had off disk — phase 3's A/B compares against something slightly better than the original; say so when judging
 - (cclio) the verifier reported every round to me instead of the coder: my spawn note said «report to cclio-17 by SendMessage only» and overrode the skill, which already specified the direct loop. a spawn note never overrides a contract; the skills now say so
+- (coder p3) the A/B `chords:ab` defaulted to HEAD~1, so after a multi-commit pass both tabs held the pass — «typeset looks identical» was a baseline error, not a subtle pass. a pass names its explicit baseline ref in every ping
+- (coder p3) a ping is the end of a step, never the end of the assignment: he ended his turn on «starting harden» and idled → x:coder-brief line
+- (coder p3) `dist-before/` inside the vite root made every A/B rebuild full-reload dima's dev tab until the hmr socket gave up — build output goes outside the watched root or into `server.watch.ignored`
+- (cclio + coder p3) the `audit` pass never ran: harden → polish, and my steers walked past it too; caught by the coder at the nits. every named pass in a brief gets a checkbox the coordinator ticks, not a memory
+- (coder p3) a write-path probe used dima's real note key (cmd+z, empty body = delete) and wiped notes.json; restored from git byte-identical. a probe writes only to a chord nothing is filed under, or to a fixture
+- (coder p3) ended a turn on a chat reply to dima twice, leaving a commit unpinged and edits half done → x:coder-brief: a turn ends on the ping to the coordinator
+- (coder p3) a structural change invalidates every layout number already banked: the `<main>` landmark added in audit made the board unshrinkable at ≤768, while «no overflow at 390/1024/1280» stood from before it. re-measure after any change above the measured element
+- (coder p3) his own rule «The Faint Is Not Text» listed four exempt places; two are operable buttons (free keys, unheld modifiers) and not exempt — a rule written in a hurry carries the case it was written for, not the cases it covers
+
+## coder retro — DOT-254 phase 3 (de1c2f21), ranked by the coder
+- banked measurements invalidated without re-running, twice (the `<main>` landmark vs «no overflow»; `chords:ab` HEAD~1 baseline) → x:guide-ui-ux: a structural change invalidates every layout number banked before it
+- the primary button verified only disabled; shipped invisible at 1.16:1 through polish → x:guide-ui-ux: a control is measured in its enabled state
+- `audit` skipped, step 0 counted as a verb — the coordinator's checklist miss too
+- turns ended on chat replies, twice → x:coder-brief: a turn ends on the ping
+- a probe deleted dima's only note → write-path probes use a key nothing is filed under
+- a rule authored the same evening had two wrong exemptions → a rule is tested, not written
+- unbriefed: audit before polish; open the verifier lane after the first pass, not the last
+- NOBODY ASKED: the `hk` shell alias calls `hotkey-monitor:top`, which does not exist — broken every time dima typed it → fix on main
+- the two numbers: impeccable ≈ 35k tokens ≈ 4.4 % of ~800k context (skill ×3, six references, context dump); one `layout` pass ≈ 25 tool calls, no instrumented token figure — the cost was the measuring, not the skill; the skill produced the two best findings (the 12px floor, the hover audit)
+
+## verifier retro — DOT-254 (89d2d47b), three phases, 11 findings, 1 high
+- exit lines improved every phase; concrete observables («204 chords, 82 + 103 apps») made an independent recount possible — write them so from the start
+- refusing green: `detect` returned [] until violations were planted; two heads with zero runs looked calm; the save button read right in the only state opened
+- its own two false greens (tailwind escaped selectors vs `el.matches()`; the disabled-state reading) caught by cross-check
+- cost: ~40 min per round, mostly setup; `CHORDS_PORT` + `--data-dir` cut round 2 to near zero → ship harness affordances on day one
+- the ci-reviewer comparison is unanswerable in dotfiles (no review workflow); run it in bytes if it still matters
+- exit lines re-read against the head when a pass removes something (line 6 outlived its subject)
+- a verifier that speaks only at the end of a round wastes the round it is halfway through

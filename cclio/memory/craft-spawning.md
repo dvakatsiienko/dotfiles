@@ -84,6 +84,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 - ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
   coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
   a separate check.
+- 🚨 **an idle notice is a check, never a «nothing new»** (dima 2026-09-20, after a coder stalled twice within minutes): on every idle notice run `git -C <worktree> status --short` + `git log -1` against the coder's last ping; a dirty tree, an unpinged commit or an open assignment → nudge in the same turn. the stall then lasts seconds, unattended
 - ⚠️ **`notify_when_idle` subscriptions die on a coordinator restart, silently** — re-subscribe
   after every restart; an empty `SendMessage` costs nothing.
 - ⏱️ **the idle notice is QUEUED, not immediate** — it drains at your next tool round, so it can
