@@ -85,4 +85,4 @@ alias tb='turbo'
 alias cc='claude'
 alias cclio='cd ~/dotfiles/cclio && claude --remote-control "🦊 cclio"'
 alias cclio-list='~/dotfiles/cclio/.claude/hooks/boot-prefetch.sh'
-alias hk='pnpm --dir ~/dotfiles --silent hotkey-monitor:top'   # which chords + apps i actually use
+alias hk='pnpm --dir ~/dotfiles --silent hotkeys:top'   # which chords + apps i actually use
