@@ -229,11 +229,19 @@ second surface takes an app colour, the board stops reading as grey with tags on
 a count of zero renders as an em dash in Ink Faint, not a blue nought. accent that was not
 earned by a measurement is a lie about the data.
 
-**The Faint Is Not Text Rule.** Ink Faint never carries information. it says *absent* — a free
-key's legend, a disabled control, the em dash where a count would be — and it says it at 2.72:1
-on the page, which is under the 4.5:1 any text owes. anything a reader reads is Ink or Ink
-Muted, including the panel labels, which the Title role once specified as Faint and no longer
-does. the palette did not change; the job of one token did.
+**The Faint Is Not Text Rule.** Ink Faint never carries information, and it never labels
+anything a hand can operate. it says *absent*, at 2.72:1 on the page, which is under the 4.5:1
+any text owes.
+
+it has exactly **two** places left: a **disabled control**, and the **em dash** standing where a
+count would be. both are inert, which is the whole exemption — WCAG asks nothing of text in a
+component that cannot be used.
+
+📌 it had four. a free key's legend and an unheld modifier were listed here and were wrong: both
+are focusable buttons, both report `disabled: false`, and clicking one selects it. a legend on
+an operable key is its accessible name. they carry Ink Muted now — 5.00:1 light and 6.68:1 dark
+on Unbound Grey — while the cap keeps its grey surface, because the surface is what says
+unbound and the label never was.
 
 ## Typography
 
@@ -359,9 +367,11 @@ focus read as the same gesture at two distances.
   label a whole line and **13 of 22** truncate instead of the 17 that did at 10.5px — more
   readable, at a larger size.
 - **Hover:** the Pressed lip. no tint, no lift, no motion.
-- **Free:** Unbound Grey, legend in Ink Faint, no edge, no count.
+- **Free:** Unbound Grey surface, legend in Ink Muted, no edge, no count. the surface carries
+  *unbound*; the legend is an operable button's name and is read, so it does not.
 - **Held modifier:** Held Blue surface with Ink legend, for the modifiers the current layer holds
-  down. a modifier not held reads as Ink Faint on its normal surface.
+  down. a modifier not held reads as Ink Muted on its normal surface — dimmer than held, and
+  still legible, because it is just as clickable.
 - **Never pressed:** the Cold Ring treatment, over whichever surface applies.
 - **Selected:** `2px` Signal Blue outline at `1px` offset. focus is the same outline at `2px`.
 

@@ -54,15 +54,20 @@ export const Board = (props: BoardProps) => {
             // A held modifier wins the surface even when something is bound to it, and a
             // modifier always reads dim unless this layer holds it down.
             const isLit = isMod && lit.has(label);
+            // 📌 The surface says unbound, the label does not. A free key and an unheld
+            // modifier are focusable, operable buttons — clicking one selects it — so their
+            // legend is an accessible name and owes 4.5:1, which Ink Faint never had here
+            // (2.55:1 light, 3.36:1 dark). The grey cap keeps carrying the meaning; only the
+            // text that has to be read moved.
             const tone = [
                 isLit ? 'bg-sel' : binds.length ? 'bg-cap' : 'bg-cap-free',
                 isMod
                     ? isLit
                         ? 'text-ink'
-                        : 'text-ink-3'
+                        : 'text-ink-2'
                     : binds.length
                       ? 'text-ink'
-                      : 'text-ink-3',
+                      : 'text-ink-2',
                 binds.length ? 'border-t-4' : '',
             ].join(' ');
 
