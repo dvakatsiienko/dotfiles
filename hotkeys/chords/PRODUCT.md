@@ -13,6 +13,11 @@ mac, with a NuPhy Air75. no second user exists and none is planned.
 
 ## Product Purpose
 
+represent dima's hotkey press stats via pretty UI. and provide a good UX of updating existing hotkeys.
+why? because i have hotkeys assigned via inaccessible places like raycast. so cc and app itself can not read them - the only way to update a changed hotkey in app is:
+- i tell cc about an update
+- i update myself in app UI
+
 chords is the one place that knows both halves of the keyboard: what is **bound**, read from six
 app config files, and what is actually **pressed**, counted by an always-on tap daemon. those two
 facts live apart on this machine, and the apps that own the most-used bindings — raycast,
@@ -73,20 +78,26 @@ is ⌨️. the repo's own prose is lowercase.
 the look is inherited from the `map.html` page this app replaced, and dima has asked for it to be
 **refined, never redesigned** — he likes the current one.
 
-**voice**, read off the shipped copy rather than confirmed in the interview:
+**voice** — confirmed by dima, 2026-09-20:
 
-- it names the mechanism instead of reassuring. the note field says «saved to
-  `hotkeys/notes.json`, never written into any app», not «your notes are safe»; the footer names
-  `pnpm hotkeys:scan` as the thing that filled the page
-- an empty state is a bare statement, never an apology and never an invitation — «nothing on this
-  layer», «no notes yet», «click a key»
+- **lowercase everywhere.** headings and buttons too, not only prose. an exclamation mark never
+- **an empty state is a bare fact** — «nothing on this layer», «no notes yet». never an
+  instruction, never an apology
+- **it names the mechanism and never says «you»** — «saved to `hotkeys/notes.json`, never written
+  into any app», not «your notes are safe». the footer names `pnpm hotkeys:scan` as the thing
+  that filled the page
 - a status is one lowercase word with no punctuation — «saved», «copied»
-- headings and buttons are sentence case; prose is lowercase
-- no second person, no exclamation, no personality. the page does not talk about itself
+- no personality, no second person. the page does not talk about itself
 - file paths and commands appear literally, in mono, never paraphrased into a description
 
-📌 this describes what the page says today, carried over from `map.html`. dima has not confirmed
-it as binding, so a later `clarify` pass may change it — but it should change it on purpose.
+📌 three shipped strings do not meet this yet, all carried over from `map.html`. recorded debt,
+not a decision, and a later `clarify` pass owns them:
+
+- the four panel headings and the three buttons are sentence case — «Selected key», «All bindings
+  on this layer», «Free keys on this layer», «Notes», «Save note», «Clear», «Copy notes»
+- «click a key» is an instruction standing where a bare fact belongs
+- the note field's placeholder and aria-label both open «what you want on this chord» — the one
+  «you» on the page
 
 ## Evidence on Hand
 
