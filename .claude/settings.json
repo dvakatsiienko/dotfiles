@@ -1,24 +1,27 @@
 {
-    "permissions": {
-        "allow": [
-            "Bash(pnpm test)",
-            "Bash(pnpm typecheck)",
-            "Bash(pnpm dotfiles:link)",
-            "Bash(defaults read:*)",
-            "mcp__computer-use__screenshot",
-            "mcp__computer-use__zoom"
+  "permissions": {
+    "allow": [
+      "Bash(pnpm test)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm dotfiles:link)",
+      "Bash(defaults read:*)",
+      "mcp__computer-use__screenshot",
+      "mcp__computer-use__zoom"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh .claude/hooks/session-start.sh"
+          }
         ]
-    },
-    "hooks": {
-        "SessionStart": [
-            {
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "sh .claude/hooks/session-start.sh"
-                    }
-                ]
-            }
-        ]
-    }
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "impeccable@impeccable": true
+  }
 }
