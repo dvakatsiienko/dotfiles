@@ -5,10 +5,8 @@
  */
 
 import { execFileSync } from 'node:child_process';
-/* Core */
-import { readFileSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { basename, join } from 'node:path';
+import { join } from 'node:path';
 
 import {
     bold,
@@ -21,17 +19,18 @@ import {
     yb,
 } from '../script/lib/print.ts';
 /* Instruments */
+import { appName } from './app-name.ts';
 import { chordOf } from './chord.ts';
+import { readLog } from './log.ts';
 import type { Hotkey } from './manual.ts';
 import {
     LABEL_SEPARATOR,
-    type LogEvent,
     type Tally,
     byApp,
     byChord,
     byLabelledChord,
+    liveHotkeys,
     ofKind,
-    parseEvents,
     selectEvents,
     tally,
     unpressed,
@@ -44,7 +43,7 @@ monitor-hotkey:top — read the chord and app-switch log
 
   pnpm monitor-hotkey:top [options]
 
-  --days <n>       how far back to look, in days           (default 30)
+  --days <n>       how far back to look, in days           (default all time)
   --app <text>     only events whose bundle id contains    (default all apps)
                    this text, case-insensitive
   --ignore <chord> drop a chord from the window entirely;
@@ -71,14 +70,18 @@ const flagAll = (name: string) =>
         arg === `--${name}` ? (process.argv[at + 1]?.split(',') ?? []) : [],
     );
 
-const days = flag('days') ? Number(flag('days')) : 30;
+// No default window: the lifetime record is what this is opened for, and it is the window
+// the chords app opens on. The two surfaces answer the same question, so they may not disagree
+// about which days that question covers.
+const daysFlag = flag('days');
+const days = daysFlag === undefined ? undefined : Number(daysFlag);
 const app = flag('app');
 // A section truncates by default, so every row past the cap is unreachable at
 // any terminal height — `--limit 0` is the way to see all of them.
 const capped = Number(flag('limit') ?? 15);
 const ignore = flagAll('ignore');
 
-if (!Number.isFinite(days) || days <= 0) {
+if (days !== undefined && (!Number.isFinite(days) || days <= 0)) {
     console.error('--days wants a positive number');
     process.exit(1);
 }
@@ -89,18 +92,6 @@ if (!Number.isInteger(capped) || capped < 0) {
 }
 
 const limit = capped === 0 ? Number.POSITIVE_INFINITY : capped;
-
-const readLog = (): LogEvent[] => {
-    let files: string[];
-    try {
-        files = readdirSync(DATA).filter((name) => name.endsWith('.jsonl'));
-    } catch {
-        return [];
-    }
-    return files.flatMap((name) =>
-        parseEvents(readFileSync(join(DATA, name), 'utf8')),
-    );
-};
 
 const readBindings = (): Hotkey[] => {
     try {
@@ -117,38 +108,6 @@ const readBindings = (): Hotkey[] => {
         return [];
     }
 };
-
-// Bundle ids are unreadable — com.todesktop.230313mzl4w4u92 is Cursor. LaunchServices knows
-// the display name, and mdfind reads its index without launching the app or asking for any
-// permission (~25 ms per id, resolved once per run). osascript's inverse lookup would launch
-// apps, so it is not used. An id Spotlight cannot place prints as it is.
-const appName = (() => {
-    const cache = new Map<string, string>();
-    // Bundle ids arrive from a file on disk and are spliced into an mdfind query, so anything
-    // outside the characters a real bundle id uses is refused rather than escaped.
-    const plain = /^[A-Za-z0-9._-]+$/;
-    return (id: string) => {
-        const hit = cache.get(id);
-        if (hit !== undefined) return hit;
-        let name = id;
-        if (plain.test(id)) {
-            try {
-                const found = execFileSync(
-                    'mdfind',
-                    [`kMDItemCFBundleIdentifier == '${id}'`],
-                    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
-                )
-                    .split('\n')[0]
-                    ?.trim();
-                if (found) name = basename(found, '.app');
-            } catch {
-                // Spotlight off or the app is gone — the id is still a usable label.
-            }
-        }
-        cache.set(id, name);
-        return name;
-    };
-})();
 
 const bar = (count: number, top: number) =>
     '█'.repeat(Math.max(1, Math.round((count / top) * 18)));
@@ -167,13 +126,13 @@ const table = (
     if (rows.length > limit) note(`… ${rows.length - limit} more`);
 };
 
-const all = readLog();
+const all = readLog(DATA);
 const window = selectEvents(all, { app, days, ignore });
 const chords = ofKind(window, 'chord');
 const switches = ofKind(window, 'activate');
 
 const subtitle = [
-    `${days} d`,
+    days === undefined ? 'all time' : `${days} d`,
     app ? `app ~ ${app}` : '',
     ignore.length > 0 ? `ignoring ${ignore.join(', ')}` : '',
 ]
@@ -192,6 +151,10 @@ if (all.length === 0) {
 }
 
 const bindings = readBindings();
+// The chords table joins a press to the meaning it had at the time, so it reads every row a
+// move ever ended. The never-pressed list asks what is on the keyboard today, so it reads only
+// what is still bound.
+const live = liveHotkeys(bindings);
 
 const chordLabel = (name: string) => {
     const [chord, action, app] = name.split(LABEL_SEPARATOR);
@@ -213,10 +176,8 @@ if (bindings.length === 0) {
     step('bound but never pressed');
     warn('hotkeys:scan returned nothing — skipping the join');
 } else {
-    const cold = unpressed(bindings, chords);
-    step(
-        `bound but never pressed  ${dim(`${cold.length} of ${bindings.length}`)}`,
-    );
+    const cold = unpressed(live, chords);
+    step(`bound but never pressed  ${dim(`${cold.length} of ${live.length}`)}`);
     for (const hotkey of cold.slice(0, limit)) {
         console.log(
             `  ${yb(chordOf(hotkey).padEnd(22))} ${hotkey.action} ${dim(hotkey.app)}`,

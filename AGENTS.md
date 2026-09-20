@@ -40,7 +40,8 @@ pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from 
 ## one home per feature
 
 **a feature lives in ONE directory named after it** — `schedule/` owns every scheduled job,
-`hotkeys/` owns every hotkey tool; a new feature or mini-app gets its own root directory the day it is born. before adding a file, ask which feature it belongs to and put
+`hotkeys/` owns every hotkey tool; its served app is `hotkeys/chords/` — read
+`hotkeys/AGENTS.md` before touching either; a new feature or mini-app gets its own root directory the day it is born. before adding a file, ask which feature it belongs to and put
 it in that home; `script/`, `docs/` and `lib/` are not homes, they are where scatter starts (hotkeys
 sat in four places on 2026-09-19). the one crossing: a feature's scheduled **daemon** lives under
 `schedule/jobs/<name>/` (plist, source, `bin/`), its readers and tools stay in the feature's home.

@@ -2,6 +2,11 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 
   "extends": ["biome-config-polished"],
+
+  // `@theme`, `@source`, `@custom-variant` and friends are tailwind v4 at-rules, and the css
+  // parser reads them as syntax errors until it is told. bytes gets this from ultracite;
+  // dotfiles extends only polished, so it says so itself.
+  "css": { "parser": { "tailwindDirectives": true } },
   "files": {
     "ignoreUnknown": false,
     "includes": [
@@ -47,11 +52,28 @@
     ]
   },
 
-  // Two raycast contracts the default rules read as mistakes: a command file is an entry
-  // point raycast loads by default export, and react is supplied by the raycast runtime
-  // rather than bundled, so the official extension template never declares it.
   "overrides": [
     {
+      // Two shapes the dependency rule cannot see.
+      //
+      // The vite config imports the bundler and its plugins, which are workspace-root
+      // devDependencies on purpose — one version, one renovate PR — so the app's own manifest
+      // does not declare them. That is the shape we want, not a mistake.
+      //
+      // `src` imports `@hotkeys/*`, a tsconfig path alias to the modules chord.ts and manual.ts,
+      // which the node side of this feature shares. In bytes the same ergonomic (`@ui/kit/*`)
+      // points at a real workspace package, so the rule is satisfied there; here the target is a
+      // plain directory and never can be. The cost is that a genuinely missing npm dependency in
+      // src would not be caught here — typecheck and the build both still catch it.
+      "includes": ["hotkeys/chords/vite.config.ts", "hotkeys/chords/src/**"],
+      "linter": {
+        "rules": { "correctness": { "noUndeclaredDependencies": "off" } }
+      }
+    },
+    {
+      // Two raycast contracts the default rules read as mistakes: a command file is an entry
+      // point raycast loads by default export, and react is supplied by the raycast runtime
+      // rather than bundled, so the official extension template never declares it.
       "includes": ["import/raycast/extensions/**"],
       "linter": {
         "rules": {
