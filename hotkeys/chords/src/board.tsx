@@ -252,7 +252,7 @@ export const BoardPage = (props: BoardPageProps) => {
 
     return (
         <div className='grid gap-[22px]'>
-            <header className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
+            <div className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
                 <span className='text-[13px] text-ink-3'>
                     NuPhy Air75 · {hotkeys.length} bindings · scanned{' '}
                     <span className='font-mono'>
@@ -265,7 +265,7 @@ export const BoardPage = (props: BoardPageProps) => {
                         ? `${coldCount} never pressed · last press ${new Date(pressedAt).toLocaleTimeString()}`
                         : 'no press data — run pnpm hotkeys:live'}
                 </span>
-            </header>
+            </div>
 
             {scanError ? (
                 <Notice onRetry={loadScan}>

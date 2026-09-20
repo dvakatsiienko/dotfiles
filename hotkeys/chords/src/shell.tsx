@@ -37,11 +37,13 @@ export const App = () => {
                 <nav className='flex gap-1.5'>{navJSX}</nav>
             </header>
 
-            {path === '/stats' ? (
-                <StatsPage />
-            ) : (
-                <BoardPage params={route.params} />
-            )}
+            <main className='grid gap-[22px]'>
+                {path === '/stats' ? (
+                    <StatsPage />
+                ) : (
+                    <BoardPage params={route.params} />
+                )}
+            </main>
 
             <footer className='border-t border-line pt-3 text-[12px] text-ink-3'>
                 seeded by <span className='font-mono'>pnpm hotkeys:scan</span>{' '}

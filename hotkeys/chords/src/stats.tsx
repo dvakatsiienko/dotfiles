@@ -268,7 +268,7 @@ export const StatsPage = () => {
                                                 }}
                                             />
                                             <button
-                                                className='shrink-0 cursor-pointer border-0 bg-transparent p-0 font-mono text-[13px] text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                                                className='shrink-0 cursor-pointer border-0 bg-transparent min-w-[24px] px-0 py-[3px] -my-[3px] font-mono text-[13px] text-ink underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
                                                 onClick={() =>
                                                     openOnBoard(row.chord)
                                                 }
