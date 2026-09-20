@@ -16,6 +16,10 @@ new account, or after hand-made filters in the web ui, run `gmailctl download --
 first and fold what it prints into `config.jsonnet` (the first apply on 2026-09-20 removed two old
 filters nobody had folded in).
 
+📌 **a git worktree cannot check the encrypted file out** (the smudge filter finds no key under
+`.git/worktrees/<name>/`): add the worktree with `-c filter.git-crypt.smudge=cat -c
+filter.git-crypt.required=false`, then `git-crypt unlock <exported key>` inside it (measured 2026-09-20).
+
 📌 a filter never touches mail that already arrived — after adding a sender, the sweep of old mail
 is one gmail search by hand. 📌 «delete» is gmail's trash, purged after 30 days; there is no
 permanent-delete filter action.
