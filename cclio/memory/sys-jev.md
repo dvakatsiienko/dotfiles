@@ -25,8 +25,10 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
   `pnpm jev:vet ok|miss <flow> <note>`, logged per flow in `shelf/jev/<flow>.log`; the boot
   digest prints every streak. three flows today: `inbox-lanes`, `skill-router`, `flawlog-lanes`
   (`pnpm jev:flawlog`, lanes a flawlog before the flush).
-- a green flow is acted on without a second read; a vetting flow's answer is a proposal I check.
-  a miss is never just recorded — the criterion is reworded in the same halt.
+- **dima's policy (2026-09-20): a vetting flow is observed, never trusted — every answer gets my
+  read. a green flow is trusted: acted on without a second read, and I stop observing it; the
+  fixture suite (`pnpm jev:test`) and a weekly spot-check are what keep it honest.** a miss is
+  never just recorded — the criterion is reworded in the same halt.
 
 **the sharpening loop, run at every halt**
 1. inbox: compare the boot's jev lanes with the lanes i actually gave at the parse. a
