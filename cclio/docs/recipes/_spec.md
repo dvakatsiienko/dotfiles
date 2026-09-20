@@ -1,24 +1,24 @@
-# procedure — the entity spec
+# recipe — the entity spec
 
-A **procedure** is a repeatable maintenance flow, run from time to time, owned jointly: Dima
+A **recipe** is a repeatable flow — a maintenance run with research vectors, or a plain execution script (`docs/knowledge/impeccable-refine.md` is one; it lives outside `cclio/` because coders read it), run from time to time, owned jointly: Dima
 owns the want and the research vectors, agents own the execution. Born 2026-08-27 from noticing
 that the writing-for-humans research, the memory-nurture flow, the gazette, and the model-kb
 refresh all share one skeleton.
 
 ## the fields, and who owns them
 
-- **the want** — WHY the procedure exists and what problem it solves. **Dima's, always.**
-  Creating a procedure without his stated want is not allowed: ask him for it, in his words,
-  before the procedure is real. An agent-invented want is a procedure serving nobody.
+- **the want** — WHY the recipe exists and what problem it solves. **Dima's, always.**
+  Creating a recipe without his stated want is not allowed: ask him for it, in his words,
+  before the recipe is real. An agent-invented want is a recipe serving nobody.
 - **research vectors** — the questions each run investigates against the OUTSIDE world, via
   web_search-armed researchers. **Dima's wording**, re-groomed with him at every run before
   spawning any researcher. Stale vectors produce confident answers to yesterday's questions.
 - **analysis vectors** — the same contract, different instrument: questions answered by LOCAL
   evidence — field reports, disk, git, the agent's own reasoning. No researcher spawns; the
-  running agent is the instrument. A procedure carries research vectors, analysis vectors, or
+  running agent is the instrument. A recipe carries research vectors, analysis vectors, or
   both.
-- **artifacts** — the pristine distilled docs this procedure maintains, listed by path.
-  📌 **The procedure points at its artifacts; it never houses them.** Artifacts live where
+- **artifacts** — the pristine distilled docs this recipe maintains, listed by path.
+  📌 **The recipe points at its artifacts; it never houses them.** Artifacts live where
   their READERS expect them (`docs/knowledge/models.md` beside its consumers, skills in their
   plugins). Raw research is transient: distilled into the artifacts, then deleted — a research
   doc kept beside its pristine version is sediment.
@@ -37,16 +37,16 @@ refresh all share one skeleton.
    **Noop is a first-class outcome** — a run that found nothing new applies nothing; tweaking
    afterward is never a must.
 
-## file shape — one flat file per procedure
+## file shape — one flat file per recipe
 
-`cclio/docs/procedures/<name>.md`, entity-first name. Sections: the want · research vectors ·
-artifacts · the run · cadence · last run. A folder appears only when a procedure needs its own
-assets (a bench corpus, samples) — then `<name>/procedure.md` plus the assets.
+`cclio/docs/recipes/<name>.md`, entity-first name. Sections: the want · research vectors ·
+artifacts · the run · cadence · last run. A folder appears only when a recipe needs its own
+assets (a bench corpus, samples) — then `<name>/recipe.md` plus the assets.
 
-«Run the refresh-writing-for-humans procedure» = open the file, follow it.
+«Run the refresh-writing-for-humans recipe» = open the file, follow it.
 
 ## why this exists
 
-Research docs were dead weight: written once, never revisited. A procedure turns research into
+Research docs were dead weight: written once, never revisited. A recipe turns research into
 pristine, maintained artifacts with an owner, a cadence, and a script that consumes them — and
 saves Dima re-printing the same asks each time.

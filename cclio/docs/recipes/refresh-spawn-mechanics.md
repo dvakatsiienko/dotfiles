@@ -1,6 +1,6 @@
-# refresh-spawn-mechanics — procedure
+# refresh-spawn-mechanics — recipe
 
-Keeps the spawn evidence base true against the current claude code build. Procedure entity per
+Keeps the spawn evidence base true against the current claude code build. Recipe entity per
 [_spec.md](_spec.md).
 
 ## the want (dima's, 2026-08-27)
@@ -34,7 +34,7 @@ Keeps the spawn evidence base true against the current claude code build. Proced
 ## artifacts (pointed at, never housed)
 
 - `docs/knowledge/spawn-mechanics.md` — the pristine evidence base: claim-tagged, and its
-  «the test suite» section IS this procedure's test suite. sits beside `models.md` because its
+  «the test suite» section IS this recipe's test suite. sits beside `models.md` because its
   readers are any session that spawns, not the coordinator alone.
 - `cclio/memory/craft-spawning.md` — the resident distillate; check it still agrees after
   every refresh

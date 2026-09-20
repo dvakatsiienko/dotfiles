@@ -1,7 +1,7 @@
-# refresh-model-knowledge — procedure
+# refresh-model-knowledge — recipe
 
 Keeps the model knowledge current across the fleet: which model does what best, at what price,
-spawned how. Lands what [DOT-130](https://linear.app/x-com/issue/DOT-130) asked for. Procedure
+spawned how. Lands what [DOT-130](https://linear.app/x-com/issue/DOT-130) asked for. Recipe
 entity per [_spec.md](_spec.md).
 
 ## the want (dima's, 2026-08-27)
@@ -52,5 +52,5 @@ stale. No timer.
 
 ## last run
 
-2026-08-27 — procedure created from the standing docs (models.md already pristine;
+2026-08-27 — recipe created from the standing docs (models.md already pristine;
 `claude-model-strengths.md` research doc retired into it). No fresh research spawned.

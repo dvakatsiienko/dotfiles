@@ -1,7 +1,7 @@
 ---
 researched: 2026-08-30
 method: anthropic primary sources only — claude.com blog, support.claude.com help center, official release notes. no execution, no third-party press.
-dies-when: the memory-bridge procedure (`cclio/docs/procedures/memory-bridge-refresh-cw.md`) encodes the verdict below
+dies-when: the memory-bridge procedure (`cclio/docs/recipes/memory-bridge-refresh-cw.md`) encodes the verdict below
 ---
 
 # cw memory regeneration — does anything rewrite our lines?

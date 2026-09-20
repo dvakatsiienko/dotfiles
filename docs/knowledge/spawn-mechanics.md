@@ -2,7 +2,7 @@
 verified-against: claude code 2.1.258, on this mac, 2026-09-02
 method: real spawns — bg sessions, subagents, a fork, worktree isolation, cross-session sends, forced tool calls, transcript + registry inspection. docs/schema only where execution was ruled out, and labelled so.
 refresh-when: the claude code minor version changes
-procedure: cclio/docs/procedures/refresh-spawn-mechanics.md
+procedure: cclio/docs/recipes/refresh-spawn-mechanics.md
 ---
 
 # spawn mechanics — what is actually true

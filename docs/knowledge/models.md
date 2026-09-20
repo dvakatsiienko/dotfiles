@@ -63,7 +63,7 @@ Launched 2025-10. The light and fast tier. **[dima]**
 - 📌 Its benchmarks compare it to the 4.x generation, never to the 5s. Do not read 73.3% as
   comparable to the numbers above.
 
-Maintained by the `refresh-model-knowledge` procedure (`cclio/docs/procedures/`) — raw research
+Maintained by the `refresh-model-knowledge` procedure (`cclio/docs/recipes/`) — raw research
 is transient; this file is the pristine result.
 
 ## spawn defaults — set by Dima, binding on every surface that spawns

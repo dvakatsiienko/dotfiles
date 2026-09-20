@@ -7,7 +7,7 @@
   a QUALITY bar, never a line cap.
 - «memory must be pretty» — useful for him (no re-asking obvious things) AND for the agent.
 - «no poems!» — binding on every model that runs the skills, opus included.
-- the procedure exists «so i won't explain you my wants about this again».
+- the recipe exists «so i won't explain you my wants about this again».
 
 ## analysis vectors (his wording, re-groom each run — local evidence, no web research)
 
@@ -24,7 +24,7 @@
 - `docs/knowledge/claude-fleet-capabilities.md` — cw platform facts land here (e.g. the
   device-bound scheduled-task limit)
 
-## retires — research docs this procedure's run kills
+## retires — research docs this recipe's run kills
 
 a `dies-when:` label fires only when someone opens the doc; this list is the check that runs.
 each run: for every doc here, ask whether its verdict is encoded in an artifact above — yes →

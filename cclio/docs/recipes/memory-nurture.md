@@ -5,10 +5,10 @@ refresh-when: a mechanical check is added or falsified, or the drift-latency fin
 ticket: DOT-216
 ---
 
-# memory-nurture — procedure
+# memory-nurture — recipe
 
-**run this instead of re-planning an inventory.** it is the procedure that came out of the first
-full sweep; the sweep itself was one execution of it. procedure entity per [_spec.md](_spec.md).
+**run this instead of re-planning an inventory.** it is the recipe that came out of the first
+full sweep; the sweep itself was one execution of it. recipe entity per [_spec.md](_spec.md).
 
 ## the want (dima's, 2026-08-27)
 
@@ -45,7 +45,7 @@ full sweep; the sweep itself was one execution of it. procedure entity per [_spe
 
 🔴 **LIVE during a sweep — this file is edited WHILE the work happens, not after.** every step that
 turns out wrong, every check that fires false, every thing the loop missed gets fixed here in the
-same session it was found. a procedure written up afterwards is a memory of a procedure; this one
+same session it was found. a recipe written up afterwards is a memory of a recipe; this one
 has to be the thing that was actually run.
 
 📌 **a skill candidate, not a skill yet.** it earns a trigger once it has run twice and the steps
@@ -184,7 +184,7 @@ read at runtime. Keep frontmatter only where something actually consumes it.
 
 - what else can take `paths:` once proven? (code-shaped conventions tied to a glob)
 - what should become a **doc reached by a pointer** instead of a resident rule?
-- what should become a **skill** — a procedure with a name someone would invoke?
+- what should become a **skill** — a recipe with a name someone would invoke?
 - ⚠️ what genuinely cannot defer: anything whose trigger is an **intention** rather than a file
 
 ### step 4.5 · the skills lane — same loop, two extra questions
@@ -229,7 +229,7 @@ reach **>99.88% verdict agreement** while their *reasoning* stability collapses 
 agree on the answer and fabricate different evidence for it each time. `Offscript` (CHIIR 2026) is
 the same shape: 84.6% of conversations flagged, **22.2% material after human review**.
 
-📌 that paper's own recommendation is this procedure, stated in its words: *«delegate all
+📌 that paper's own recommendation is this recipe, stated in its words: *«delegate all
 deterministically verifiable logic to code, reserve llms for semantic evaluation.»* step 0 is code,
 step 5 is human, and no step scores a rule's quality with a model.
 
@@ -260,7 +260,7 @@ inner-marker, rl, …) age separately and get their own pass at sweep end:
 4. 📌 measured en route: the `paths:` read-trigger does NOT fire on bash `cat` reads — batch
    file reading bypasses the authoring-trigger rule entirely
 
-## the leaf-by-leaf review — procedure, proven 2026-08-24
+## the leaf-by-leaf review — recipe, proven 2026-08-24
 
 🎓 **the round format lives in `x:step-by-step` — invoke it, do not re-invent it here.** the whole
 review runs through that skill (one item per round, four bullets, dima steers, «next» advances);

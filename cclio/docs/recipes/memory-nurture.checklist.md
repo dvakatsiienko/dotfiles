@@ -1,6 +1,6 @@
 # memory-nurture — the run checklist
 
-the complementary checklist of the [memory-nurture procedure](memory-nurture.md): a nurture run
+the complementary checklist of the [memory-nurture recipe](memory-nurture.md): a nurture run
 may span sessions or days (run #1 took four), so its state lives here, not in chat. this copy
 carries run #1's map and verdicts — a new run resets the checklist, keeps the shape.
 **dima's plan lives here**, moved out of [DOT-73](linear://linear.app/issue/DOT-73)'s body so a
@@ -339,9 +339,9 @@ the evidence). dima's vertical map landed in `rules/authoring-memory-and-skills.
 
 ---
 
-## 🔁 the reusable procedure — moved out
+## 🔁 the reusable recipe — moved out
 
-it lives at `cclio/docs/procedures/memory-nurture.md`, because it outlives this run. **this file is one
+it lives at `cclio/docs/recipes/memory-nurture.md`, because it outlives this run. **this file is one
 execution of it.**
 
 ## phase 4 · the system checkup — runs in parallel, from the start

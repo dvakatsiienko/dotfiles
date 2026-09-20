@@ -1,7 +1,7 @@
-# refresh-writing-for-humans — procedure
+# refresh-writing-for-humans — recipe
 
 Keeps the human-voice toolchain fresh: the distilled knowledge doc, the borrowed humanize
-skills, the detector lanes. First instance of the procedure entity ([spec](_spec.md)).
+skills, the detector lanes. First instance of the recipe entity ([spec](_spec.md)).
 
 ## the want (dima's, confirmed 2026-08-27)
 
