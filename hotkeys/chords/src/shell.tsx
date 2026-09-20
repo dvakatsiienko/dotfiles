@@ -29,7 +29,7 @@ export const App = () => {
     });
 
     return (
-        <div className='mx-auto grid max-w-[1180px] gap-[22px]'>
+        <div className='mx-auto grid max-w-[1180px] grid-cols-[minmax(0,1fr)] gap-[22px]'>
             <header className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
                 <h1 className='m-0 font-sans text-[22px]/[1.2] font-semibold text-balance'>
                     chords
@@ -37,7 +37,7 @@ export const App = () => {
                 <nav className='flex gap-1.5'>{navJSX}</nav>
             </header>
 
-            <main className='grid gap-[22px]'>
+            <main className='grid grid-cols-[minmax(0,1fr)] gap-[22px]'>
                 {path === '/stats' ? (
                     <StatsPage />
                 ) : (

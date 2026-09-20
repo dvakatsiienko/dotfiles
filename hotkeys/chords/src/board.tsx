@@ -251,7 +251,7 @@ export const BoardPage = (props: BoardPageProps) => {
         });
 
     return (
-        <div className='grid gap-[22px]'>
+        <div className='grid grid-cols-[minmax(0,1fr)] gap-[22px]'>
             <div className='flex flex-wrap items-baseline gap-x-[18px] gap-y-2'>
                 <span className='text-[13px] text-ink-2'>
                     NuPhy Air75 · {hotkeys.length} bindings · scanned{' '}
