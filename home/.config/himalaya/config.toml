@@ -1,0 +1,21 @@
+# himalaya — terminal mail for the agents (read, delete, archive, reply). one gmail account,
+# app password read from 1password through the x-fleet service account, never stored here.
+
+[accounts.gmail]
+default = true
+email = "imagnum.satellite@gmail.com"
+display-name = "Dima Vakatsiienko"
+
+[accounts.gmail.imap]
+server = "imaps://imap.gmail.com:993"
+sasl.plain.username = "imagnum.satellite@gmail.com"
+sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya/credential"
+
+[accounts.gmail.smtp]
+server = "smtps://smtp.gmail.com:465"
+sasl.plain.username = "imagnum.satellite@gmail.com"
+sasl.plain.password.command = "OP_SERVICE_ACCOUNT_TOKEN=$(security find-generic-password -s op-service-account-x-fleet -w) op read op://dev/gmail-himalaya/credential"
+
+[mailbox.alias]
+sent = "[Gmail]/Sent Mail"
+trash = "[Gmail]/Trash"

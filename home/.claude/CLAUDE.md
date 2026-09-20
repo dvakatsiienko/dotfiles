@@ -121,6 +121,7 @@ Anything we create should not just work well. It should be approachable and easy
   multi-person collab case, which is currently nowhere in this setup; everywhere else it only
   hurts (resident schemas, weaker ergonomics). settled on the vercel cli-vs-mcp research.
 - **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
+- **himalaya** — the mail cli (`himalaya envelope list`, `message read <id>`, `message delete`, `message reply`); one gmail account, app password from 1password `gmail-himalaya`, config in `home/.config/himalaya/`. filters are not its job — those are `gmailctl` over `gmail/blocklist.json`
 - **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
 - **yq / sd** — yaml/toml read-write (`settings.toml`, lefthook) · in-place text replace without sed's macos `-i ''` traps. measured in use 2026-09-16; gron was not, and is gone
 - **app removal** — a cask: `brew uninstall --zap --cask <name>`; anything else (app store, dmg): `mo uninstall` (mole, installed) — it takes the root-owned bundle and its residue in one pass; `trash` on a root-owned `.app` is refused (magnet, 2026-09-19)

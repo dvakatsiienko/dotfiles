@@ -53,3 +53,7 @@ schedule/state/
 # when it is absent.
 hotkeys/hotkeys.js
 hotkeys/presses.js
+
+# gmailctl's oauth client and token live beside the config it reads; secrets, never source.
+gmail/credentials.json
+gmail/token.json
