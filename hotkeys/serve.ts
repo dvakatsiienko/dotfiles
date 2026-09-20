@@ -36,7 +36,7 @@ import {
 import { type NoteInput, readNotes, saveNote } from './notes.ts';
 import { chordsDevPort, chordsPort } from './ports.ts';
 import { buildReport, isWindowName, windowDays } from './report.ts';
-import { parseEvents } from './stats.ts';
+import { liveHotkeys, parseEvents } from './stats.ts';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
 const DIST = join(import.meta.dirname, 'chords/dist');
@@ -245,11 +245,15 @@ const api = async (
             });
         }
 
-        return send(
-            response,
-            200,
-            JSON.parse(readFileSync(SCAN_SNAPSHOT, 'utf8')),
-        );
+        const snapshot = JSON.parse(readFileSync(SCAN_SNAPSHOT, 'utf8'));
+
+        // The board draws what is bound now. A row a move ended stays in the snapshot,
+        // because /api/stats still needs it to explain the presses it earned — but drawn on
+        // the keyboard it would read as a second live binding on a chord nobody holds.
+        return send(response, 200, {
+            ...snapshot,
+            hotkeys: liveHotkeys(snapshot.hotkeys as Hotkey[]),
+        });
     }
 
     if (url.pathname === '/api/notes') {

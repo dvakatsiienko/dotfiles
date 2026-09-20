@@ -1,7 +1,7 @@
 /* Core */
 import { useEffect, useMemo, useState } from 'react';
 /* Instruments */
-import { chordOf } from '@hotkeys/chord.ts';
+import { canonicalQuery, chordOf } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
 
 /* Components */
@@ -222,15 +222,18 @@ export const BoardPage = (props: BoardPageProps) => {
     };
 
     // The filter reads the chord and the text, because dima looks for a note either way round —
-    // he remembers the key, or he remembers what he wrote. Case-insensitive, no other cleverness.
+    // he remembers the key, or he remembers what he wrote. Two needles, not one: a chord is
+    // matched against the canonical spelling, so `cmd+shift+l` finds `shift+cmd+l`, while the
+    // prose keeps the raw text — a note that literally says `cmd+shift+l` is still findable.
     const needle = noteFilter.trim().toLowerCase();
+    const chordNeedle = canonicalQuery(needle);
     const matchingNotes = Object.values(notes).filter(
         (note) =>
             needle === '' ||
             note.text.toLowerCase().includes(needle) ||
             chordOf({ key: note.key, mods: note.layer })
                 .toLowerCase()
-                .includes(needle),
+                .includes(chordNeedle),
     );
 
     const noteRowJSX = matchingNotes

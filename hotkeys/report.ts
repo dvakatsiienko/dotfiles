@@ -2,7 +2,7 @@
 // aligned text. top.ts stays the terminal's formatter and the chords app is the page's; both
 // call the same primitives in stats.ts, so a number can only differ by the window it was asked
 // for. Nothing here re-implements an aggregation — it selects, tallies and reshapes.
-import { appName } from './app-name.ts';
+import { cachedAppName } from './app-name.ts';
 import { chordOf } from './chord.ts';
 import type { Hotkey } from './manual.ts';
 import {
@@ -10,6 +10,7 @@ import {
     type LogEvent,
     byApp,
     byLabelledChord,
+    liveHotkeys,
     ofKind,
     selectEvents,
     tally,
@@ -29,6 +30,10 @@ export const buildReport = (
     bindings: readonly Hotkey[],
     window: WindowName,
 ): StatsReport => {
+    // Two different questions over one list. The chords table asks what a press meant at the
+    // time, so it reads every row a move ever ended; the bound count and the never-pressed list
+    // ask what is on the keyboard today, so they read only the live ones.
+    const live = liveHotkeys(bindings);
     const selected = selectEvents(events, { days: windowDays[window] });
     const chords = ofKind(selected, 'chord');
     const switches = ofKind(selected, 'activate');
@@ -36,10 +41,10 @@ export const buildReport = (
     // Never pressed means never, on purpose, and so it reads the whole log rather than the
     // selection. It is the rebind-candidate list: one that shrank because the view got shorter
     // would be making a different claim in the same words.
-    const cold = unpressed(bindings, ofKind(events, 'chord'));
+    const cold = unpressed(live, ofKind(events, 'chord'));
 
     return {
-        boundCount: bindings.length,
+        boundCount: live.length,
         chordsPerApp: tally(chords, byApp).map(toAppRow),
         neverPressed: cold.map((hotkey) => ({
             action: hotkey.action,
@@ -65,7 +70,7 @@ const toAppRow = ({
     name: string;
     count: number;
 }): AppRow => ({
-    app: appName(name),
+    app: cachedAppName(name),
     bundleId: name,
     count,
 });

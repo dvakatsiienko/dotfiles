@@ -6,6 +6,7 @@ import {
     byChord,
     byLabelledChord,
     labelAt,
+    liveHotkeys,
     ofKind,
     parseEvents,
     selectEvents,
@@ -196,6 +197,36 @@ describe('unpressed', () => {
         expect(unpressed(bindings, events).map((h) => h.action)).not.toContain(
             'push to talk',
         );
+    });
+});
+
+describe('liveHotkeys', () => {
+    const bindings: Hotkey[] = [
+        { action: 'Things', app: 'raycast', key: 'v', mods: 'hyper' },
+        {
+            action: 'Things',
+            app: 'raycast',
+            key: '7',
+            mods: 'hyper',
+            since: '2026-09-20',
+        },
+    ];
+    const moved: Hotkey[] = [
+        { ...(bindings[0] as Hotkey), until: '2026-09-20' },
+        bindings[1] as Hotkey,
+    ];
+
+    it('drops a row on the day its meaning ended', () => {
+        expect(liveHotkeys(moved, '2026-09-20').map((row) => row.key)).toEqual([
+            '7',
+        ]);
+    });
+
+    it('keeps a row whose end is still ahead', () => {
+        expect(liveHotkeys(moved, '2026-09-19').map((row) => row.key)).toEqual([
+            'v',
+            '7',
+        ]);
     });
 });
 

@@ -41,6 +41,12 @@ export const appName = (id: string) => {
     return name;
 };
 
+// The read a request takes: whatever the warm-up has resolved, and the bundle id until it has.
+// The first /api/stats after a daemon boot raced warmAppNames and resolved the remainder itself
+// — 2.5 s against 0.21 s warm. An always-on server may not block on Spotlight, so the cold
+// answer carries ids and the next request carries names.
+export const cachedAppName = (id: string) => cache.get(id) ?? id;
+
 // A cold cache costs about five seconds across the ~185 ids a month of log holds, and every
 // one of those is a synchronous mdfind. In an always-on daemon that belongs at boot rather
 // than inside the first request — and it yields between ids so the server keeps answering

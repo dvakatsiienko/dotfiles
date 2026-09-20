@@ -108,6 +108,17 @@ export const labelAt = (
         .sort((a, z) => (a.since ?? '').localeCompare(z.since ?? ''))
         .at(-1);
 
+// What is bound right now. `until` is the day a meaning ended, read exclusively — the same
+// boundary labelAt uses — so a row past it is history: it still explains the presses it earned
+// and it is on nobody's keyboard. Every "what is bound" question filters through this, or a
+// move leaves its old row drawn on the board as a second live binding and the bound count
+// climbs by one per move forever.
+export const liveHotkeys = (
+    hotkeys: readonly Hotkey[],
+    on: string = new Date().toISOString().slice(0, 10),
+): Hotkey[] =>
+    hotkeys.filter((hotkey) => hotkey.until === undefined || hotkey.until > on);
+
 export const LABEL_SEPARATOR = '\t';
 
 // Tally key for the chords table: the chord plus the label it had at press time, so a swapped
