@@ -164,53 +164,35 @@ export const HkPage = () => {
               a shorter page is not worth a third of the labels.
             */}
             <div className='grid grid-cols-1 items-start gap-[22px] min-[1024px]:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]'>
-                <section className='grid gap-2.5'>
-                    <h2 className={H2}>chords</h2>
-                    <StatList fold={chordsFold}>
-                        {report.topChords.map((row) => {
-                            return (
-                                <StatRow
-                                    count={row.count}
-                                    detail={
-                                        row.action
-                                            ? `${row.action} · ${row.app ?? ''}`
-                                            : undefined
-                                    }
-                                    dotColor={
-                                        row.app ? colorOf(row.app) : undefined
-                                    }
-                                    key={`${row.chord}-${row.action ?? ''}`}
-                                    label={row.chord}
-                                    onSelect={() => openOnBoard(row.chord)}
-                                    top={topOf(report.topChords)}
-                                />
-                            );
-                        })}
-                    </StatList>
-                    <FoldButton
-                        fold={chordsFold}
-                        total={report.topChords.length}
-                    />
-                </section>
-
                 <div className='grid gap-[22px]'>
                     <section className='grid gap-2.5'>
-                        <h2 className={H2}>chords per app</h2>
-                        <StatList fold={chordAppsFold}>
-                            {report.chordsPerApp.map((row) => {
+                        <h2 className={H2}>chords</h2>
+                        <StatList fold={chordsFold}>
+                            {report.topChords.map((row) => {
                                 return (
                                     <StatRow
                                         count={row.count}
-                                        key={row.bundleId}
-                                        label={row.app}
-                                        top={topOf(report.chordsPerApp)}
+                                        detail={
+                                            row.action
+                                                ? `${row.action} · ${row.app ?? ''}`
+                                                : undefined
+                                        }
+                                        dotColor={
+                                            row.app
+                                                ? colorOf(row.app)
+                                                : undefined
+                                        }
+                                        key={`${row.chord}-${row.action ?? ''}`}
+                                        label={row.chord}
+                                        onSelect={() => openOnBoard(row.chord)}
+                                        top={topOf(report.topChords)}
                                     />
                                 );
                             })}
                         </StatList>
                         <FoldButton
-                            fold={chordAppsFold}
-                            total={report.chordsPerApp.length}
+                            fold={chordsFold}
+                            total={report.topChords.length}
                         />
                     </section>
 
@@ -231,6 +213,28 @@ export const HkPage = () => {
                         <FoldButton
                             fold={switchAppsFold}
                             total={report.switchesPerApp.length}
+                        />
+                    </section>
+                </div>
+
+                <div className='grid gap-[22px]'>
+                    <section className='grid gap-2.5'>
+                        <h2 className={H2}>chords per app</h2>
+                        <StatList fold={chordAppsFold}>
+                            {report.chordsPerApp.map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        key={row.bundleId}
+                                        label={row.app}
+                                        top={topOf(report.chordsPerApp)}
+                                    />
+                                );
+                            })}
+                        </StatList>
+                        <FoldButton
+                            fold={chordAppsFold}
+                            total={report.chordsPerApp.length}
                         />
                     </section>
 
