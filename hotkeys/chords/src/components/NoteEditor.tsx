@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { apiTrouble } from '@/components/Notice.tsx';
 
-const BUTTON =
-    'cursor-pointer rounded-md border px-3 py-1.5 font-sans text-[13px] font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-default disabled:border-line disabled:bg-cap-free disabled:text-ink-3';
+import { GHOST } from '@/ui.ts';
 
 export const NoteEditor = (props: NoteEditorProps) => {
     const [draft, setDraft] = useState(props.text);
@@ -68,7 +67,7 @@ export const NoteEditor = (props: NoteEditorProps) => {
     return (
         <>
             <textarea
-                aria-label='what you want on this chord'
+                aria-label='note for this chord'
                 className='min-h-[72px] w-full resize-y rounded-md border border-line bg-cap px-2.5 py-2 font-sans text-[15px]/[1.45] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
                 onChange={(event) => setDraft(event.target.value)}
                 onKeyDown={(event) => {
@@ -79,27 +78,27 @@ export const NoteEditor = (props: NoteEditorProps) => {
                         void save(draft);
                     }
                 }}
-                placeholder='what you want on this chord — a note for the rebind session. saved to hotkeys/notes.json, never written into any app.'
+                placeholder='a note for the rebind session — saved to hotkeys/notes.json, never written into any app'
                 ref={field}
                 value={draft}
             />
             <div className='flex items-center gap-2'>
                 <button
-                    className={`${BUTTON} border-accent bg-accent text-on-accent`}
+                    className={`${GHOST} border-accent bg-accent text-on-accent hover:border-accent hover:text-on-accent`}
                     disabled={!armed || saving}
                     onClick={() => void save(draft)}
                     type='button'>
                     {saving ? 'saving…' : 'save note'}
                 </button>
                 <button
-                    className={`${BUTTON} border-line bg-transparent text-ink-2`}
+                    className={GHOST}
                     disabled={!armed || saving}
                     onClick={() => void save('')}
                     type='button'>
                     clear
                 </button>
                 <button
-                    className={`${BUTTON} border-line bg-transparent text-ink-2`}
+                    className={GHOST}
                     onClick={() => void copy()}
                     type='button'>
                     copy notes

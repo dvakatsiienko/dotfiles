@@ -4,9 +4,7 @@ import { BoardPage } from '@/board.tsx';
 import { HkPage } from '@/hk.tsx';
 /* Instruments */
 import { navigate, useRoute } from '@/router.ts';
-
-const NAV =
-    'cursor-pointer rounded-md border px-[11px] py-1.5 font-mono text-[13px]/[normal] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+import { TAB } from '@/ui.ts';
 
 const pages = [
     { label: 'board', path: '/' },
@@ -21,7 +19,7 @@ export const App = () => {
         return (
             <button
                 aria-current={page.path === path ? 'page' : undefined}
-                className={`${NAV} ${page.path === path ? 'border-accent bg-sel text-ink' : 'border-line bg-transparent text-ink-2'}`}
+                className={`${TAB} ${page.path === path ? 'border-accent bg-sel text-ink' : 'border-line bg-transparent text-ink-2'}`}
                 key={page.path}
                 onClick={() => navigate(page.path)}
                 type='button'>

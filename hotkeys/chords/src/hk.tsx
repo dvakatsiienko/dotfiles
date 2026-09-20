@@ -16,11 +16,8 @@ import {
 } from '@/api.ts';
 import { colorOf } from '@/keyboard.ts';
 import { navigate } from '@/router.ts';
+import { H2, TAB } from '@/ui.ts';
 
-const H2 =
-    'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';
-const TAB =
-    'flex cursor-pointer items-center gap-2 rounded-md border px-[11px] py-1.5 font-mono text-[13px]/[normal] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 const FOLD =
     'cursor-pointer justify-self-start rounded-md border border-line bg-transparent px-3 py-1.5 font-sans text-[13px] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 

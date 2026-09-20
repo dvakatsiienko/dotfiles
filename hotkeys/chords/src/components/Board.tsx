@@ -5,11 +5,20 @@ import { capLabel, colorOf, layerMods, layout, modKeys } from '@/keyboard.ts';
 
 const BASE =
     'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:outline-2 aria-pressed:outline-offset-1 aria-pressed:outline-accent';
-const FLAT = 'shadow-[0_2px_0_var(--color-cap-edge)]';
+// Hover deepens the lip rather than tinting the cap. The lip is the only depth this world
+// carries, a firmer edge reads as a key taken under a finger, and no new tone or motion enters
+// the system to say it. Zero blur holds: the offset is still 2px and the radius still 0.
+//
+// Ink Muted rather than Ink Faint, measured against the deck the caps sit in: faint managed
+// 2.43:1 in light, which is under the 3:1 a mark owes and too quiet to read as an answer. This
+// pair is 4.78:1 light and 6.85:1 dark. The accent would have cleared too and is not available
+// — it marks chosen, pressed and annotated, and a pointer resting on a key is none of them.
+const FLAT =
+    'shadow-[0_2px_0_var(--color-cap-edge)] hover:shadow-[0_2px_0_var(--color-ink-2)]';
 // A bound key nobody has ever pressed is ringed rather than greyed: it is not disabled, it is
 // a question — why is this here.
 const COLD =
-    'shadow-[0_2px_0_var(--color-cap-edge),inset_0_0_0_1.5px_var(--color-ink-3)]';
+    'shadow-[0_2px_0_var(--color-cap-edge),inset_0_0_0_1.5px_var(--color-ink-3)] hover:shadow-[0_2px_0_var(--color-ink-2),inset_0_0_0_1.5px_var(--color-ink-3)]';
 
 export const Board = (props: BoardProps) => {
     const bound = new Map<string, Hotkey[]>();

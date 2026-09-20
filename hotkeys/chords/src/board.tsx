@@ -20,13 +20,10 @@ import {
     subscribeLive,
 } from '@/api.ts';
 import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
+import { H2, TAB } from '@/ui.ts';
 
 const MOVE_BTN =
-    'cursor-pointer rounded-md border px-3 py-1 font-sans text-[13px] font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
-const H2 =
-    'm-0 font-sans text-[13px] font-semibold tracking-[.06em] text-ink-3 uppercase';
-const TAB =
-    'flex cursor-pointer items-center gap-2 rounded-md border px-[11px] py-1.5 font-mono text-[13px]/[normal] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+    'cursor-pointer rounded-md border px-3 py-1 font-sans text-[13px] font-medium hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 export const BoardPage = (props: BoardPageProps) => {
     const [scan, setScan] = useState<ScanPayload | null>(null);
