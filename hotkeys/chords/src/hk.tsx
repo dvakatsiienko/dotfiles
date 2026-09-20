@@ -1,5 +1,5 @@
 /* Core */
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 /* Components */
 import { StatRow } from '@/components/StatRow.tsx';
@@ -24,10 +24,15 @@ const FOLD =
     'cursor-pointer justify-self-start rounded-md border border-line bg-transparent px-3 py-1.5 font-sans text-[13px] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
 // Two hundred rows are the point of this route — the terminal cuts them at fifteen and nothing
-// here may — but they are not the point of arriving on it. Each table opens at its head and
-// keeps whichever answer dima gave it last. `never pressed` has no fold: it is thirteen rows
-// and it is the list he came for.
+// here may — but they are not the point of arriving on it. Each table opens at a twenty-row
+// window it can be scrolled inside, and keeps whichever answer dima gave it last. `never
+// pressed` has no fold: it is thirteen rows and it is the list he came for.
+//
+// 607px is twenty rows, measured in the browser on all three lists rather than derived on
+// paper: a row stands 27px and they sit 4px apart. 📌 `typeset` moves type sizes, so it
+// re-measures this number or "twenty rows" quietly stops being true.
 const FOLD_TOP = 20;
+const FOLD_HEIGHT = 607;
 
 export const HkPage = () => {
     const [window, setWindow] = useState<WindowName>('all');
@@ -160,31 +165,27 @@ export const HkPage = () => {
             <div className='grid grid-cols-1 items-start gap-[22px] min-[1024px]:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)]'>
                 <section className='grid gap-2.5'>
                     <h2 className={H2}>chords</h2>
-                    <ul className='m-0 grid list-none gap-1 p-0'>
-                        {report.topChords
-                            .slice(0, chordsFold.open ? undefined : FOLD_TOP)
-                            .map((row) => {
-                                return (
-                                    <StatRow
-                                        count={row.count}
-                                        detail={
-                                            row.action
-                                                ? `${row.action} · ${row.app ?? ''}`
-                                                : undefined
-                                        }
-                                        dotColor={
-                                            row.app
-                                                ? colorOf(row.app)
-                                                : undefined
-                                        }
-                                        key={`${row.chord}-${row.action ?? ''}`}
-                                        label={row.chord}
-                                        onSelect={() => openOnBoard(row.chord)}
-                                        top={topOf(report.topChords)}
-                                    />
-                                );
-                            })}
-                    </ul>
+                    <StatList fold={chordsFold}>
+                        {report.topChords.map((row) => {
+                            return (
+                                <StatRow
+                                    count={row.count}
+                                    detail={
+                                        row.action
+                                            ? `${row.action} · ${row.app ?? ''}`
+                                            : undefined
+                                    }
+                                    dotColor={
+                                        row.app ? colorOf(row.app) : undefined
+                                    }
+                                    key={`${row.chord}-${row.action ?? ''}`}
+                                    label={row.chord}
+                                    onSelect={() => openOnBoard(row.chord)}
+                                    top={topOf(report.topChords)}
+                                />
+                            );
+                        })}
+                    </StatList>
                     <FoldButton
                         fold={chordsFold}
                         total={report.topChords.length}
@@ -194,23 +195,18 @@ export const HkPage = () => {
                 <div className='grid gap-[22px]'>
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>chords per app</h2>
-                        <ul className='m-0 grid list-none gap-1 p-0'>
-                            {report.chordsPerApp
-                                .slice(
-                                    0,
-                                    chordAppsFold.open ? undefined : FOLD_TOP,
-                                )
-                                .map((row) => {
-                                    return (
-                                        <StatRow
-                                            count={row.count}
-                                            key={row.bundleId}
-                                            label={row.app}
-                                            top={topOf(report.chordsPerApp)}
-                                        />
-                                    );
-                                })}
-                        </ul>
+                        <StatList fold={chordAppsFold}>
+                            {report.chordsPerApp.map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        key={row.bundleId}
+                                        label={row.app}
+                                        top={topOf(report.chordsPerApp)}
+                                    />
+                                );
+                            })}
+                        </StatList>
                         <FoldButton
                             fold={chordAppsFold}
                             total={report.chordsPerApp.length}
@@ -219,23 +215,18 @@ export const HkPage = () => {
 
                     <section className='grid gap-2.5'>
                         <h2 className={H2}>switches per app</h2>
-                        <ul className='m-0 grid list-none gap-1 p-0'>
-                            {report.switchesPerApp
-                                .slice(
-                                    0,
-                                    switchAppsFold.open ? undefined : FOLD_TOP,
-                                )
-                                .map((row) => {
-                                    return (
-                                        <StatRow
-                                            count={row.count}
-                                            key={row.bundleId}
-                                            label={row.app}
-                                            top={topOf(report.switchesPerApp)}
-                                        />
-                                    );
-                                })}
-                        </ul>
+                        <StatList fold={switchAppsFold}>
+                            {report.switchesPerApp.map((row) => {
+                                return (
+                                    <StatRow
+                                        count={row.count}
+                                        key={row.bundleId}
+                                        label={row.app}
+                                        top={topOf(report.switchesPerApp)}
+                                    />
+                                );
+                            })}
+                        </StatList>
                         <FoldButton
                             fold={switchAppsFold}
                             total={report.switchesPerApp.length}
@@ -310,6 +301,17 @@ const SpanLabel = (props: { span?: Span | null }) => {
         </span>
     );
 };
+
+// Folded is a window, not a truncation: every row is in the dom and the rest of the list is a
+// scroll away inside the section. The scrollbar is the browser's own, unstyled — dima's call,
+// and it overrides impeccable's craft floor, which wants browser surfaces themed.
+const StatList = (props: { fold: Fold; children: ReactNode }) => (
+    <ul
+        className={`m-0 grid list-none gap-1 p-0 ${props.fold.open ? '' : 'overflow-y-auto'}`}
+        style={props.fold.open ? undefined : { maxHeight: FOLD_HEIGHT }}>
+        {props.children}
+    </ul>
+);
 
 const foldKey = (id: string) => `chords:fold:${id}`;
 
