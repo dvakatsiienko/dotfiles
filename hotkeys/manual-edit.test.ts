@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import type { Hotkey } from './manual.ts';
-import { type ManualEdit, editManualText, printRow } from './manual-edit.ts';
+import {
+    type ManualEdit,
+    editManualText,
+    moveManualText,
+    printRow,
+} from './manual-edit.ts';
 
 const fixture = `export const manualHotkeys = [
     ...(
@@ -167,6 +172,82 @@ describe('editManualText escaping', () => {
         });
 
         expect(next).toContain("['n', \"only 'singles' here\"]");
+    });
+});
+
+describe('moveManualText', () => {
+    const move = (
+        from: Hotkey,
+        to: { mods: string; key: string; action: string },
+    ) => moveManualText(fixture, rows, { from, on: '2026-09-20', to });
+
+    // A row crosses 80 columns once it carries a date, so it prints multi-line. These assert
+    // the fields and their order, which is the contract, not where biome put the newlines.
+    const flat = (text: string) => text.replace(/\s+/g, ' ');
+
+    // The presses already on hyper+e were Linear's and stay Linear's; the chord itself stops
+    // meaning anything. Both halves, one action.
+    it('ends the old meaning and starts the new one', () => {
+        const next = move(rows[0] as Hotkey, {
+            action: 'Linear',
+            key: 'l',
+            mods: 'hyper',
+        });
+
+        expect(next).not.toContain("['e', 'Linear'],");
+        expect(flat(next)).toContain(
+            "action: 'Linear', app: 'raycast', key: 'e', mods: 'hyper', until: '2026-09-20',",
+        );
+        expect(flat(next)).toContain(
+            "action: 'Linear', app: 'raycast', key: 'l', mods: 'hyper', since: '2026-09-20',",
+        );
+    });
+
+    it('leaves an object row where it is and only dates its end', () => {
+        const next = move(rows[2] as Hotkey, {
+            action: 'Raycast',
+            key: 'space',
+            mods: 'ctrl',
+        });
+
+        // the ended row keeps its place, still ahead of the row that always followed it
+        expect(flat(next)).toContain(
+            "mods: 'cmd', until: '2026-09-20', }, { action: 'Switch Windows",
+        );
+        expect(flat(next)).toContain(
+            "key: 'space', mods: 'ctrl', since: '2026-09-20',",
+        );
+    });
+
+    it('carries the app across, because a move is the same binding on a new chord', () => {
+        const next = move(rows[1] as Hotkey, {
+            action: 'Notion',
+            key: 'm',
+            mods: 'hyper',
+        });
+
+        expect(flat(next)).toContain(
+            "action: 'Notion', app: 'raycast', key: 'm', mods: 'hyper', since: '2026-09-20',",
+        );
+    });
+
+    it('refuses a move that changes nothing', () => {
+        expect(() =>
+            move(rows[0] as Hotkey, {
+                action: 'Linear',
+                key: 'e',
+                mods: 'hyper',
+            }),
+        ).toThrow(/changes nothing/);
+    });
+
+    it('refuses a chord no hand-kept row carries', () => {
+        expect(() =>
+            move(
+                { action: 'Linear', app: 'raycast', key: 'z', mods: 'hyper' },
+                { action: 'Linear', key: 'q', mods: 'hyper' },
+            ),
+        ).toThrow(/no hand-kept row/);
     });
 });
 

@@ -89,8 +89,10 @@ export const tally = (
 export const byChord = (event: LogEvent) => event.chord ?? '';
 
 // The label a chord carried when it was pressed: the binding for that chord whose `since` is the
-// latest one not after the press (a row without `since` is the oldest meaning). A reshuffle
-// then adds a dated row and the history stays honest instead of being relabelled.
+// latest one not after the press (a row without `since` is the oldest meaning), and which had
+// not already ended. A reshuffle adds a dated row and the history stays honest instead of being
+// relabelled; a move ends the old row, so a press on the freed chord afterwards belongs to
+// nobody rather than to whatever used to be there.
 export const labelAt = (
     hotkeys: readonly Hotkey[],
     chord: string,
@@ -100,7 +102,8 @@ export const labelAt = (
         .filter(
             (hotkey) =>
                 chordOf(hotkey) === chord &&
-                (hotkey.since === undefined || hotkey.since <= ts),
+                (hotkey.since === undefined || hotkey.since <= ts) &&
+                (hotkey.until === undefined || ts < hotkey.until),
         )
         .sort((a, z) => (a.since ?? '').localeCompare(z.since ?? ''))
         .at(-1);

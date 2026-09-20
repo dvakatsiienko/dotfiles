@@ -1,12 +1,22 @@
 import { fileURLToPath } from 'node:url';
 import vitePluginTailwind from '@tailwindcss/vite';
 import vitePluginReact from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { type Plugin, defineConfig } from 'vite';
 
 import { chordsDevPort, chordsPort } from '../ports.ts';
 
+// Two tabs, two pages, one name — dima keeps the built page and the dev server open beside
+// each other. `apply: 'serve'` is what keeps this out of the build: the shipped title stays
+// `chords` and only the dev one wears the marker.
+const devTitle = (): Plugin => ({
+    apply: 'serve',
+    name: 'chords-dev-title',
+    transformIndexHtml: (html) =>
+        html.replace('<title>chords</title>', '<title>⌨️ chords: dev</title>'),
+});
+
 export default defineConfig({
-    plugins: [vitePluginReact(), vitePluginTailwind()],
+    plugins: [vitePluginReact(), vitePluginTailwind(), devTitle()],
     // `@/` is the house alias in every bytes app; `@hotkeys/` plays the role `@ui/kit/` does
     // there — a named door to code outside this package. Without it the same two modules wear
     // two spellings, `../../` from src and `../../../` from src/components.

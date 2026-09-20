@@ -29,7 +29,9 @@ import type { Hotkey } from './manual.ts';
 import {
     type ManualEdit,
     ManualEditError,
+    type ManualMove,
     editManualText,
+    moveManualText,
 } from './manual-edit.ts';
 import { type NoteInput, readNotes, saveNote } from './notes.ts';
 import { chordsDevPort, chordsPort } from './ports.ts';
@@ -209,9 +211,23 @@ const manualRows = async (): Promise<readonly Hotkey[]> => {
     return module.manualHotkeys as readonly Hotkey[];
 };
 
-const applyManualEdit = async (edit: ManualEdit) => {
+// Two operations, one file. `edit` rewrites a row in place — a surface rename, or a chord that
+// simply moved without the history mattering. `move` is the one dima asked for: the old meaning
+// ends on today's date and a new one starts, so the presses already recorded stay with whatever
+// earned them.
+//
+// The date is stamped here rather than taken from the body. A client's clock is not a fact this
+// server should accept, and the whole point of the field is that it is trustworthy.
+const applyManual = async (op: 'edit' | 'move', body: unknown) => {
     const text = readFileSync(MANUAL, 'utf8');
-    const next = editManualText(text, await manualRows(), edit);
+    const rows = await manualRows();
+    const next =
+        op === 'move'
+            ? moveManualText(text, rows, {
+                  ...(body as ManualMove),
+                  on: new Date().toISOString().slice(0, 10),
+              })
+            : editManualText(text, rows, body as ManualEdit);
 
     writeFileSync(MANUAL, next);
 };
@@ -283,10 +299,16 @@ const api = async (
 
         if (wrong) return send(response, 400, { error: wrong });
 
-        const edit = body as ManualEdit;
+        const op = (body as { op?: unknown }).op ?? 'edit';
+
+        if (op !== 'edit' && op !== 'move') {
+            return send(response, 400, {
+                error: "op must be 'edit' or 'move'",
+            });
+        }
 
         try {
-            await applyManualEdit(edit);
+            await applyManual(op, body);
         } catch (error) {
             if (error instanceof ManualEditError) {
                 return send(response, 409, { error: error.message });

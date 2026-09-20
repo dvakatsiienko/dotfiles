@@ -223,6 +223,40 @@ describe('labelAt', () => {
         ).toBe('Scrolling Capture');
     });
 
+    // A move ends the old meaning. Without that, every later press on the freed chord is still
+    // credited to the app that moved away, which is the opposite of what the move was for.
+    it('credits nobody for a press after the meaning ended', () => {
+        const moved: Hotkey[] = [
+            {
+                action: 'Google Chrome',
+                app: 'raycast',
+                key: '1',
+                mods: 'hyper',
+                until: '2026-09-19',
+            },
+            {
+                action: 'Google Chrome',
+                app: 'raycast',
+                key: '7',
+                mods: 'hyper',
+                since: '2026-09-19',
+            },
+        ];
+
+        expect(labelAt(moved, 'hyper+1', '2026-09-10T10:00:00Z')?.action).toBe(
+            'Google Chrome',
+        );
+        expect(
+            labelAt(moved, 'hyper+1', '2026-09-20T10:00:00Z'),
+        ).toBeUndefined();
+        expect(labelAt(moved, 'hyper+7', '2026-09-20T10:00:00Z')?.action).toBe(
+            'Google Chrome',
+        );
+        expect(
+            labelAt(moved, 'hyper+7', '2026-09-10T10:00:00Z'),
+        ).toBeUndefined();
+    });
+
     it('tallies a swapped chord as one row per meaning', () => {
         const events = parseEvents(
             [

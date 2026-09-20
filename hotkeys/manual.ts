@@ -262,4 +262,14 @@ export interface Hotkey {
     note?: string;
     // ISO date the binding took this meaning; a press before it keeps the older row's label
     since?: string;
+    // ISO date it stopped. The mirror of `since`, and the half a move needs: when a chord is
+    // freed its old meaning has to end, or every later press on that now-empty chord would
+    // still be credited to whatever used to live there.
+    //
+    // 📌 Both are DAY granularity and the split is only as sharp as that: presses made earlier
+    // on the same day a move is recorded fall on the new side of the line and are credited to
+    // nobody. Sharpening it means comparing instants rather than strings, which labelAt cannot
+    // do cheaply — it runs once per event and the log is tens of thousands. Measured on a real
+    // move: 66 of that day's presses landed on the wrong side.
+    until?: string;
 }
