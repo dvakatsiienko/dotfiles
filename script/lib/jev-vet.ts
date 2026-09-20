@@ -32,6 +32,7 @@ export const verdictApply = (
     name: string,
     verdict: Verdict,
     today: string,
+    lane?: string,
 ): Registry => {
     const flow = registry.flows[name];
     if (!flow)
@@ -43,12 +44,23 @@ export const verdictApply = (
         : cleanDays({ ...flow, since }, today) >= registry.windowDays
           ? 'green'
           : flow.state;
+    const tally = flow.lanes?.[lane ?? ''] ?? { hit: 0, total: 0 };
+    const lanes = lane
+        ? {
+              ...flow.lanes,
+              [lane]: {
+                  hit: tally.hit + (missed ? 0 : 1),
+                  total: tally.total + 1,
+              },
+          }
+        : flow.lanes;
     return {
         ...registry,
         flows: {
             ...registry.flows,
             [name]: {
                 ...flow,
+                ...(lanes ? { lanes } : {}),
                 misses: flow.misses + (missed ? 1 : 0),
                 since,
                 state,
@@ -57,6 +69,12 @@ export const verdictApply = (
         },
     };
 };
+
+/** a green flow is trusted, so nobody reads it — one random live item per week keeps it honest */
+export const spotCheckDue = (flow: Flow, today: string) =>
+    flow.state === 'green' &&
+    (!flow.spotCheckedAt ||
+        Date.parse(today) - Date.parse(flow.spotCheckedAt) >= 7 * DAY);
 
 export const verdictLog = (name: string, verdict: Verdict, note: string) =>
     appendFileSync(
@@ -72,7 +90,11 @@ export const statusLines = (registry: Registry, today: string) =>
             flow.state === 'green'
                 ? `green since ${flow.since}`
                 : `vetting ${days}/${registry.windowDays} d clean`;
-        return `${glyph} ${bold(name)} — ${tail} ${dim(`· ${flow.verdicts} verdicts, ${flow.misses} misses`)}`;
+        const perLane = Object.entries(flow.lanes ?? {})
+            .map(([l, t]) => `${l} ${t.hit}/${t.total}`)
+            .join('  ');
+        const spot = spotCheckDue(flow, today) ? ' · 🔎 spot-check due' : '';
+        return `${glyph} ${bold(name)} — ${tail} ${dim(`· ${flow.verdicts} verdicts, ${flow.misses} misses${perLane ? `  ${perLane}` : ''}`)}${spot}`;
     });
 
 /* Types */
@@ -86,5 +108,9 @@ export type Flow = {
     misses: number;
     /** what the flow judges, one line */
     what: string;
+    /** per-lane precision, filled by verdicts that name a lane (`lane=ticket`) */
+    lanes?: Record<string, { hit: number; total: number }>;
+    /** the day a green flow last had a live item re-verdicted at random */
+    spotCheckedAt?: string;
 };
 export type Registry = { windowDays: number; flows: Record<string, Flow> };

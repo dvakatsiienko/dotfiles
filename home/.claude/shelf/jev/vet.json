@@ -11,9 +11,15 @@
         "skill-router": {
             "since": "2026-09-19",
             "state": "vetting",
-            "verdicts": 1,
+            "verdicts": 3,
             "misses": 0,
-            "what": "the UserPromptSubmit hook names the skills a prompt should load"
+            "what": "the UserPromptSubmit hook names the skills a prompt should load",
+            "lanes": {
+                "x:guide-code": {
+                    "hit": 1,
+                    "total": 1
+                }
+            }
         },
         "flawlog-lanes": {
             "since": "2026-09-20",

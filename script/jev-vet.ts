@@ -18,12 +18,32 @@ const [verdict, flow, ...noteWords] = process.argv.slice(2);
 const today = new Date().toISOString().slice(0, 10);
 const registry = registryRead();
 
+// `lane=<x>` anywhere in the note credits that lane's precision; `spot` marks a spot-check
 if (verdict === 'ok' || verdict === 'miss') {
-    if (!flow) throw new Error('usage: jev:vet ok|miss <flow> <note>');
+    if (!flow)
+        throw new Error(
+            'usage: jev:vet ok|miss <flow> [lane=<x>] [spot] <note>',
+        );
+    const lane = noteWords.find((w) => w.startsWith('lane='))?.slice(5);
+    const isSpot = noteWords.includes('spot');
     const note = noteWords.join(' ') || '-';
-    registryWrite(verdictApply(registry, flow, verdict, today));
+    const next = verdictApply(registry, flow, verdict, today, lane);
+    const flowNext = next.flows[flow];
+    registryWrite(
+        isSpot && flowNext
+            ? {
+                  ...next,
+                  flows: {
+                      ...next.flows,
+                      [flow]: { ...flowNext, spotCheckedAt: today },
+                  },
+              }
+            : next,
+    );
     verdictLog(flow, verdict, note);
-    console.log(`${verdict} recorded for ${flow}`);
+    console.log(
+        `${verdict} recorded for ${flow}${lane ? ` (lane ${lane})` : ''}`,
+    );
 }
 
 for (const line of statusLines(registryRead(), today)) console.log(line);

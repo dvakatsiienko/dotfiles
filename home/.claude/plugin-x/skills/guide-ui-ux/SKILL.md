@@ -25,6 +25,11 @@ guides (`guide-react`) sit on top of this one.
 - **dark surface ≈ `#121212`, never `#000`** — elevation by lighter surface, accents
   desaturated
 - one spacing scale (4px base), never ad-hoc px
+- **a structural change invalidates every layout measurement banked before it** — a landmark, a
+  wrapper, a grid item added above the measured element re-runs the numbers (a `<main>` made a
+  board unshrinkable at 768 while «no overflow» stood from an earlier commit, 2026-09-20)
+- **a control is measured in its enabled state** — the disabled one is grey on purpose and hides
+  a primary button at 1.16:1 (shipped through a polish pass, 2026-09-20)
 - **a visual fix is measured, never eyeballed** — before the change, read the computed geometry of
   the element and its container (bounding boxes, at 390 / 768 / 1280); state the delta in px; make
   ONE change that closes it; re-measure. three guessed offsets on one emoji is the failure this kills

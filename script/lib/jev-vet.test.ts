@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest';
 
-import { type Registry, statusLines, verdictApply } from './jev-vet.ts';
+import {
+    type Registry,
+    spotCheckDue,
+    statusLines,
+    verdictApply,
+} from './jev-vet.ts';
 
 // biome-ignore lint/suspicious/noControlCharactersInRegex: the escape byte is the point
 const ANSI = /\x1b\[[0-9;]*m/g;
@@ -47,6 +52,47 @@ describe('verdictApply', () => {
         const green = verdictApply(registry, 'inbox-lanes', 'ok', '2026-09-15');
         const next = verdictApply(green, 'inbox-lanes', 'miss', '2026-09-16');
         expect(next.flows['inbox-lanes']?.state).toBe('vetting');
+    });
+});
+
+describe('lanes and spot-checks', () => {
+    test('a verdict naming a lane tallies that lane', () => {
+        const a = verdictApply(
+            registry,
+            'inbox-lanes',
+            'ok',
+            '2026-09-02',
+            'ticket',
+        );
+        const b = verdictApply(
+            a,
+            'inbox-lanes',
+            'miss',
+            '2026-09-03',
+            'ticket',
+        );
+        expect(b.flows['inbox-lanes']?.lanes).toEqual({
+            ticket: { hit: 1, total: 2 },
+        });
+    });
+
+    test('a green flow is due a spot-check after seven days', () => {
+        const green = verdictApply(registry, 'inbox-lanes', 'ok', '2026-09-15');
+        const flow = green.flows['inbox-lanes'];
+        if (!flow) throw new Error('flow missing');
+        expect(spotCheckDue(flow, '2026-09-16')).toBe(true);
+        expect(
+            spotCheckDue(
+                { ...flow, spotCheckedAt: '2026-09-14' },
+                '2026-09-16',
+            ),
+        ).toBe(false);
+        expect(
+            spotCheckDue(
+                { ...flow, spotCheckedAt: '2026-09-08' },
+                '2026-09-16',
+            ),
+        ).toBe(true);
     });
 });
 

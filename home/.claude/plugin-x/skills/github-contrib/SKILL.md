@@ -49,6 +49,12 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
   repository».
 - **`--delete-branch` on a merge auto-closes every pr based on that branch** — `gh pr list
   --base <branch>` before the merge; retarget the stacked prs first (#80 died this way).
+- **when main moves under an open pr, merge it into the branch within the hour** — github creates
+  no `pull_request` run while a pr is CONFLICTING (no merge ref), and `gh pr checks` reads «no
+  checks reported» as calm; ten heads ran nothing on dotfiles #45 (2026-09-20). a red run beats no run
+- **the pr body is the squash-merge commit message** — it describes what landed, never the plan,
+  and carries no session-url trailer (the commit contract bans it; the harness's pr-body ask would
+  smuggle it in through the squash)
 - **a push to main after a pr opened does not refresh that pr's base** — the diff keeps showing the
   coordinator's commits (#42: 46 files for a 7-file change) until `gh api -X PATCH repos/<o>/<r>/pulls/<n>
   -f base=main` nudges github to recompute; run it after every main push while a pr is open.

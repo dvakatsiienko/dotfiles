@@ -22,7 +22,7 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
 **the vet — a flow earns trust** (dima's model, 2026-09-20)
 - every flow sits in `shelf/jev/vet.json`: `vetting` until 14 clean days, then `green`; a miss
   restarts the window from that day, and a green flow that misses drops back. verdicts are
-  `pnpm jev:vet ok|miss <flow> <note>`, logged per flow in `shelf/jev/<flow>.log`; the boot
+  `pnpm jev:vet ok|miss <flow> [lane=<x>] [spot] <note>` (a lane tag credits that lane's precision; `spot` stamps a weekly spot-check on a green flow, the boot says when one is due), logged per flow in `shelf/jev/<flow>.log`; the boot
   digest prints every streak. three flows today: `inbox-lanes`, `skill-router`, `flawlog-lanes`
   (`pnpm jev:flawlog`, lanes a flawlog before the flush).
 - **dima's policy (2026-09-20): a vetting flow is observed, never trusted — every answer gets my
