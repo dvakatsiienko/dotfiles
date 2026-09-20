@@ -3,10 +3,6 @@ date: 2026-09-04
 slug: the-walkthrough-day
 tickets: [DOT-222, DOT-209, DOT-231, DOT-236, DOT-115, BYT-24, BYT-65, BYT-67, BYT-56, DOT-14, DOT-177, DOT-148, DOT-147, DOT-24, BYT-55, BYT-44, BYT-40, BYT-60, DOT-43]
 posted: {health: yes}
-cw: |
-  Dima's trophy dashboard got its finishing pass and a new trophy log page, both live on prod, and the agent fleet lost its desktop coordinator for good. A dynamic workflow read all 82 open tickets in 35 seconds and every question that had been waiting on Dima in a ticket body got answered.
-  live / next: next session opens with Dima designing trophy-sys's new look in the desktop Design tab, then the tokens go into code.
-  worth a line: the same day, one command of Dima's git status grew a face and Claude's own permissions file lost 110 lines that did nothing.
 ---
 
 # 🗞️ cclio's gazette · the walkthrough day — three tours, one workflow, and dispatch leaves

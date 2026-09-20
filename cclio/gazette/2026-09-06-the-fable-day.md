@@ -3,10 +3,6 @@ date: 2026-09-06
 slug: the-fable-day
 tickets: [BYT-75, BYT-25, BYT-30, BYT-36, BYT-76, BYT-77, BYT-78]
 posted: {health: yes}
-cw: |
-  the design stress test picked its tool, the shared ui kit was rebuilt from scratch on base ui, and space explorer got trophy-sys's look in one day, eight coders in a row.
-  live / next: the cv comp is approved and waits for its build, the trophy-sys redesign starts with the designer session, and a vercel install defect is the first fix tomorrow.
-  worth a line: five design skills given the same brief all chose green, because the brief carried two colour codes it called mere references.
 ---
 # 🗞️ cclio's gazette · the fable day — five lanes pick a tool, the kit is reborn, space explorer boards the ticket
 

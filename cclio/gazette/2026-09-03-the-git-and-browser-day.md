@@ -3,10 +3,6 @@ date: 2026-09-03
 slug: the-git-and-browser-day
 tickets: [DOT-159, DOT-38, DOT-17, DOT-14, DOT-39, DOT-187, BYT-59, BYT-65]
 posted: { health: yes }
-cw: |
-  the git overhaul is done in one sitting: dima's git config is modern and commented line by line, diffs are pretty, and a set of short recipes (what shipped today, branches by age, who wrote what) live in git itself. the branch cleanup tool got smart about squash merges and asks before anything risky. the fleet picked its headless browser, agent-browser, after two coders measured it against playwright and the desktop pane; playwright left the fleet. trophy-sys stats has all twelve charts on production, with a coder in the desktop app driving the polish.
-  live / next: dima judges the twelve charts tomorrow and prunes; the walkthrough evenings (shell internals, dynamic workflows) come next; then the rest of the overhaul milestone in the order he set.
-  worth a line: the agents now propose and wait on anything that touches dima's own tools, with a standing «waiting on your word» block at the end of every reply.
 ---
 
 # 🗞️ cclio's gazette · the git and browser day — the overhaul lands, playwright leaves, the agents learn to wait

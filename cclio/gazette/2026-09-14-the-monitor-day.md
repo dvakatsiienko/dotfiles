@@ -3,10 +3,6 @@ date: 2026-09-14
 slug: the-monitor-day
 tickets: [DOT-247, DOT-248, DOT-237, DOT-249, DOT-41, DOT-14, BYT-89]
 posted: {health: no}
-cw: |
-  dima's mac now counts which keyboard shortcuts and apps he actually uses, a small daemon built and live the same morning, with a one-word command that prints the top chords and app switches. raycast got its first real settings pass, the coder plugins that fired in the wrong sessions were removed, and apple shortcuts got an honest verdict after three research rounds: keep only the phone's action button, nothing on the mac.
-  live / next: the usage daemon accumulates for two weeks before the hotkey rebind session; the raycast walkthrough resumes at the applications entry; the birman keyboard layout moves under brew and the built-in U.S. source hack is tried at a quiet moment.
-  worth a line: the shortcut menu dima wanted on his phone was built by an agent and installed with one click, and then scrapped an hour later because one of the two dictation apps does not insert its text on toggle.
 ---
 # 🗞️ cclio's gazette · the monitor day — a daemon counts the chords, raycast gets its pass, apple shortcuts gets a verdict
 

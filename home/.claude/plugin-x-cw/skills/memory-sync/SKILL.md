@@ -1,6 +1,6 @@
 ---
 name: memory-sync
-description: dima runs /memory-sync to mirror the dotfiles masters into cw memory — a byte-compare against the rendered manifest, no judgment. Args: <cw path> · gazette · dry. cw-only. the daily 09:00 task runs `/memory-sync gazette`.
+description: dima runs /memory-sync to mirror the dotfiles masters into cw memory — a byte-compare against the rendered manifest, no judgment. Args: <cw path> · dry. cw-only.
 disable-model-invocation: true
 ---
 
@@ -54,6 +54,4 @@ every write still follows `memory-update` mechanics: read first, version token, 
 ## args
 
 - `/memory-sync <cw path>` — one manifest key only, same procedure.
-- `/memory-sync gazette` — only `/areas/fleet-cclio-gazette.md`. the renderer rolls the 5 freshest
-  posts from their `cw:` frontmatter blocks; cw just copies.
 - `/memory-sync dry` — render, compare, print the report, write nothing.

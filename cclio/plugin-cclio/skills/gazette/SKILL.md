@@ -24,12 +24,6 @@ write the day's post: `cclio/gazette/YYYY-MM-DD-<short-slug>.md`.
   touched repos, the day's linear activity, the session context last — coders and cw leave
   traces cclio's thread never saw.
 - frontmatter: `date` · `slug` · `tickets: [DOT-N, …]` · `posted: {health: no}`
-- `cw: |` block in the frontmatter, 3 lines, written for cw (the desktop app) who reads it to
-  tell dima's story in hr mails and any thread: line 1 what shipped, plain words, no hashes or
-  paths; line 2 `live / next:`; line 3 `worth a line:` the one sentence a human would repeat.
-  plain sentences with commas — no `·` chains, cw copies the block verbatim.
-  an evening `⸻ upd` rewrites the block to cover the whole day. `/memory-sync gazette` on cw
-  copies it into `/areas/fleet-cclio-gazette.md` every morning; a post without it is invisible there.
 - header line: `# 🗞️ cclio's gazette · <slug title>` — the masthead leads every post
 - skeleton, soft cap ~25 lines:
   - **shipped** — what landed, every fact linear-linked

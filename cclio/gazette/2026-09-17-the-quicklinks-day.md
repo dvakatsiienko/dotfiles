@@ -3,10 +3,6 @@ date: 2026-09-17
 slug: the-quicklinks-day
 tickets: [DOT-237, BYT-101, BYT-102, BYT-86]
 posted: {health: yes}
-cw: |
-  raycast quicklinks got their grammar and seven live links, the caret language indicator is gone for good, cleanshot moved under raycast hotkeys, screenshots stitch on mac and ios, and the hotkey monitor now names what each chord does.
-  live / next: aliases slice of the raycast overhaul, with a research round first; then snippets, script commands, and the hotkey phase with a pass over macos built-in shortcuts.
-  worth a line: the language indicator fix was a name-versus-id bug that three research rounds called unfixable, and dima's «it worked before» was right.
 ---
 
 # 🗞️ cclio's gazette · the quicklinks day — seven links with a grammar, the blue capsule dies, and every chord gets a name

@@ -3,10 +3,6 @@ date: 2026-09-08
 slug: the-evergreen-day
 tickets: [DOT-240, DOT-241, BYT-80, DOT-228, BYT-41, DOT-26]
 posted: {health: yes}
-cw: |
-  the freshness system dima asked for last night exists by tonight: a bot opens grouped dependency pull requests for both repos, ci builds and tests every app before anything merges, vercel no longer spends deploys on bot or coder branches, and a news layer tells him only what is worth reading. his steam library joined psn in trophy-sys, the coder got its own github identity, obsidian moved onto brew, and the notes-app question got measured on real vaults and a real notion workspace.
-  live / next: tomorrow after 17:30 the vercel cap resets and production redeploys, then five dependency pull requests wait for the first news digest; wednesday 16:00 kyiv is dima's g2i interview; the notes-app bench reruns with the obsidian cli and mcp before he picks.
-  worth a line: one coder shipped nine pull requests today, then wrote a nine-point retrospective on where the process itself wasted its time, and three of those points became rules the same evening.
 ---
 # 🗞️ cclio's gazette · the evergreen day — renovate takes the dependencies, the coder gets a name, the notes question gets numbers
 

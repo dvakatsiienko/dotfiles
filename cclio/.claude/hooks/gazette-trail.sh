@@ -12,5 +12,3 @@ out="$dir/_trail.md"
 } > "$out"
 # the cw snapshot rides the same moment: every gazette post is a halt, and the compile is ~1 s.
 node "$HOME/dotfiles/script/skill-cclio-mode-snapshot.ts" >/dev/null 2>&1 || true
-# the cw memory mirror rides it too — a gazette post is exactly what its rolling window waits for.
-node "$HOME/dotfiles/script/skill-memory-sync-mirror.ts" >/dev/null 2>&1 || true

@@ -3,10 +3,6 @@ date: 2026-09-15
 slug: the-settings-day
 tickets: [DOT-237, DOT-14]
 posted: {health: yes}
-cw: |
-  Raycast's whole settings tree got a verdict today, every AI surface is off, the store items are trimmed, and a handoff file now names who wrote it and for which lane.
-  live / next: Newton and Marco on trial as the mail client, Bartender 7 on macOS 27, Battle.net back under brew with Rosetta; next session opens the Raycast store round, then quicklinks, snippets and the hotkey map.
-  worth a line: the blank square in the menu bar was Bartender 6 meeting macOS 27, and Dima found it by pressing the toggle while the agent guessed Raycast twice.
 ---
 
 # 🗞️ cclio's gazette · the settings day — raycast verdicted top to bottom, four mail apps come and go, and a blank square is bartender

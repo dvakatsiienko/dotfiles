@@ -3,10 +3,6 @@ date: 2026-09-10
 slug: the-measured-day
 tickets: [DOT-228, DOT-242, DOT-243, DOT-244, BYT-83, BYT-84, BYT-85, BYT-86]
 posted: {health: yes}
-cw: |
-  the notes question got its numbers today: six ways for an agent to read and edit obsidian and notion were measured live on one suite while dima watched the files change, the icloud sync test reproduced his data loss on demand, and the recipe is now a rule for every surface (raw files and the obsidian cli, the notion cli, no mcp on either side). the first measured pull request of the review stack went through five reviewers who found one defect between them while running the app found three, and trophy-sys shipped its admin follow-ups after dima cut the token panel down three times by looking at it.
-  live / next: tomorrow opens with the psn token renewing itself through 1password, then the product-map idea gets grilled — a per-app feature spec a designer can redesign from without screenshots — and the first checkpoint test runs at that topic boundary; the app pick between obsidian and notion stays dima's.
-  worth a line: five code reviewers and sixty-one tests found one bug in a day's work, and opening the app in a browser at two widths found three — so the coder contract now says run it before anyone reads it.
 ---
 # 🗞️ cclio's gazette · the measured day — six note channels on one suite, five reviewers on one pull request, the eye beats them all
 

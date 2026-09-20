@@ -3,10 +3,6 @@ date: 2026-09-02
 slug: the-coder-gets-a-name
 tickets: [BYT-43, BYT-65, BYT-66, DOT-36, DOT-37, DOT-84, DOT-139, DOT-224, DOT-17, DOT-159]
 posted: { health: yes }
-cw: |
-  the background coder got its own linear identity, «cclio's pet», and used it the same day: two trophy-sys tickets shipped through it, the ux pass and a charting bake-off, with a comment on the ticket after every round. dima picked visx after a live test, recharts was deleted, and the new stats route is on production. the cw gazette bridge went live: cw now reads a rolling digest of these posts every morning. the shell got its vibe vocabulary as a fleet contract, twelve new words guarded by a test.
-  live / next: git overhaul is the next sitting, the coder resumes the full chart set, and a walkthrough evening is queued for the shell internals, dynamic workflows and boot context.
-  worth a line: dima's agents now sign their own work in the tracker, and his desktop assistant reads what the cli fleet shipped each morning.
 ---
 
 # 🗞️ cclio's gazette · the coder gets a name — an identity, a bake-off on prod, and the shell learns to speak

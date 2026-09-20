@@ -3,10 +3,6 @@ date: 2026-09-18
 slug: the-perf-mini-session
 tickets: [DOT-218, DOT-215, DOT-187, DOT-237, DOT-252, DOT-14]
 posted: {health: yes}
-cw: |
-  the afternoon turned the raycast overhaul's script-commands slice into a private raycast extension called x-ray: full-text linear search that opens a ticket from selected text, a handoff browser that pastes the next session's boot line, monobank rates with a typed amount, a projects view, and a schedule view of every background job the fleet runs. a signed helper now trashes screenshots older than thirty days every day at noon. the morning's verifier spec was rebalanced after research, ci failures now reach the coordinator on their own, node and pnpm pins are written by one script instead of by hand, and the claude.ai plugin sync into the terminal was switched off.
-  live / next: phase 5 of the raycast overhaul, the hotkeys, opens next with dima's current bindings and a research round; the verifier trial still waits for the next bytes coding job; bytes itself got no product work for another day.
-  worth a line: two extensions and three shortcuts died the same afternoon because one home-made extension did their jobs better, and a launchd permission puzzle was solved by one diagnostic line instead of a second grant.
 ---
 
 # 🗞️ cclio's gazette · the perf mini-session — the fleet measured, a verifier gets a spec, and the boot becomes one script
