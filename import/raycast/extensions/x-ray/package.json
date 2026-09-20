@@ -10,7 +10,7 @@
     "commands": [
         {
             "name": "linear-query-tickets",
-            "title": "linear query tickets",
+            "title": "linear: query tickets",
             "subtitle": "x-ray",
             "description": "Search linear issues across titles, descriptions and comments, then open the hit in the linear app.",
             "keywords": [
@@ -53,7 +53,7 @@
         },
         {
             "name": "linear-query-projects",
-            "title": "linear query projects",
+            "title": "linear: query projects",
             "subtitle": "x-ray",
             "description": "Every linear project with its progress, team, priority and lead — open one to read its issues.",
             "keywords": [
@@ -102,6 +102,21 @@
                 "hryvnia"
             ],
             "icon": "currency.png",
+            "mode": "view"
+        },
+        {
+            "name": "gmail-block-sender",
+            "title": "gmail: block sender",
+            "subtitle": "x-ray",
+            "description": "Add a sender, a domain or a display name to the gmail blocklist and apply the delete-on-arrival filter through gmailctl.",
+            "keywords": [
+                "gmail",
+                "block",
+                "spam",
+                "sender",
+                "filter",
+                "blocklist"
+            ],
             "mode": "view"
         }
     ],

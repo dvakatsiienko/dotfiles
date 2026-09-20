@@ -10,6 +10,8 @@ shelf, the schedulers, monobank rates. source lives here; the command runs out o
 - `handoffs` — the CST shelf: read one, paste an ingest command, open a transcript in cursor
 - `schedule` — what our scheduled jobs do, when they fire next, how the last run ended
 - `currency` — monobank buy/sell for the hryvnia, with an amount argument to convert
+- `gmail-block-sender` — appends a sender, domain or display name to `gmail/blocklist.json` and runs
+  `gmailctl apply`; the filter deletes on arrival, old mail is his one search by hand
 
 ## schedulers — the live thread
 
