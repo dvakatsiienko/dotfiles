@@ -213,6 +213,21 @@
                     "#eee7fe"
                 ]
             },
+            "bar-fill": {
+                "canonical": "#7c8496",
+                "displayName": "Bar Fill",
+                "role": "neutral",
+                "tonalRamp": [
+                    "#22252a",
+                    "#3c414b",
+                    "#565c6b",
+                    "#70788c",
+                    "#9097a6",
+                    "#b0b5c0",
+                    "#d0d3da",
+                    "#f1f2f4"
+                ]
+            },
             "cap-edge": {
                 "canonical": "#c9cdd6",
                 "displayName": "Cap Edge",

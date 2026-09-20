@@ -24,14 +24,18 @@ const H2 =
 const TAB =
     'flex cursor-pointer items-center gap-2 rounded-md border px-[11px] py-1.5 font-mono text-[13px]/[normal] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
 
-export const App = () => {
+export const BoardPage = (props: BoardPageProps) => {
     const [scan, setScan] = useState<ScanPayload | null>(null);
     const [scanError, setScanError] = useState<string | null>(null);
     const [presses, setPresses] = useState<Record<string, number>>({});
     const [pressedAt, setPressedAt] = useState<string | null>(null);
     const [notes, setNotes] = useState<NoteStore>({});
-    const [layer, setLayer] = useState('hyper');
-    const [selected, setSelected] = useState<string | null>(null);
+    // hk hands a chord back as ?layer=&key=, so a row there opens the board on that key. An
+    // absent param is not the same as an empty one: layer='' is the no-modifier layer.
+    const [layer, setLayer] = useState(props.params.get('layer') ?? 'hyper');
+    const [selected, setSelected] = useState<string | null>(
+        props.params.get('key'),
+    );
 
     // Everything here is mount-scoped on purpose: one stream for the life of the page, and a
     // rerun would open a second EventSource and leak the first.
@@ -228,9 +232,9 @@ export const App = () => {
 
             <div className='grid grid-cols-1 gap-[22px] min-[761px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]'>
                 <section className='grid content-start gap-2.5'>
-                    <h2 className={H2}>Selected key</h2>
+                    <h2 className={H2}>selected key</h2>
                     <div className='font-mono text-[16px] font-semibold'>
-                        {selectedChord ?? 'click a key'}
+                        {selectedChord ?? 'no key selected'}
                         {selected && selectedBinds.length === 0 ? (
                             <small className='ml-2 font-sans text-[13px] font-normal text-ink-3'>
                                 free
@@ -244,7 +248,7 @@ export const App = () => {
                         onSave={saveNote}
                         text={selectedNote?.text ?? ''}
                     />
-                    <h2 className={H2}>Free keys on this layer</h2>
+                    <h2 className={H2}>free keys on this layer</h2>
                     <div className='font-mono text-[13px]/[1.9] text-ink-2'>
                         {free.map((label) => {
                             return (
@@ -259,7 +263,7 @@ export const App = () => {
                 </section>
 
                 <section className='grid content-start gap-2.5'>
-                    <h2 className={H2}>Notes</h2>
+                    <h2 className={H2}>notes</h2>
                     <List>
                         {noteRowJSX.length ? (
                             noteRowJSX
@@ -267,7 +271,7 @@ export const App = () => {
                             <ListEmpty>no notes yet</ListEmpty>
                         )}
                     </List>
-                    <h2 className={H2}>All bindings on this layer</h2>
+                    <h2 className={H2}>all bindings on this layer</h2>
                     <List>
                         {binds.length ? (
                             binds.map(bindRowJSX)
@@ -290,3 +294,8 @@ export const App = () => {
         </div>
     );
 };
+
+/* Types */
+interface BoardPageProps {
+    params: URLSearchParams;
+}

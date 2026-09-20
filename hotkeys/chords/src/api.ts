@@ -18,6 +18,9 @@ const json = async <T>(input: string, init?: RequestInit): Promise<T> => {
 
 export const fetchScan = () => json<ScanPayload>('/api/hotkeys');
 
+export const fetchStats = (window: WindowName) =>
+    json<StatsReport>(`/api/stats?window=${window}`);
+
 export const fetchNotes = () => json<NoteStore>('/api/notes');
 
 export const putNote = (note: NoteInput) =>
@@ -49,6 +52,39 @@ export const subscribeLive = (handlers: LiveHandlers) => {
 };
 
 /* Types */
+// The wire shape of /api/stats. Declared here rather than imported from hotkeys/report.ts,
+// which reaches node:child_process through the app-name lookup and would drag node's types
+// into a tsconfig that only knows the browser.
+export const windowNames = ['all', 'month', 'week'] as const;
+export type WindowName = (typeof windowNames)[number];
+
+export interface ChordStat {
+    chord: string;
+    action: string | null;
+    app: string | null;
+    count: number;
+}
+export interface AppStat {
+    app: string;
+    bundleId: string;
+    count: number;
+}
+export interface ColdStat {
+    chord: string;
+    action: string;
+    app: string;
+}
+export interface StatsReport {
+    window: WindowName;
+    presses: number;
+    switches: number;
+    boundCount: number;
+    topChords: ChordStat[];
+    chordsPerApp: AppStat[];
+    switchesPerApp: AppStat[];
+    neverPressed: ColdStat[];
+}
+
 export interface ScanPayload {
     hotkeys: Hotkey[];
     scannedAt: string;

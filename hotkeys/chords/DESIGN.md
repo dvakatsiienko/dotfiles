@@ -4,6 +4,7 @@ description: the keyboard drawn as a keyboard — what is bound, and what is act
 colors:
   signal-blue: "#2f6df6"
   held-blue: "#cfe0ff"
+  bar-fill: "#7c8496"
   cap-white: "#f8f9fb"
   cap-edge: "#c9cdd6"
   unbound-grey: "#e4e7ec"
@@ -173,6 +174,10 @@ the eight **application tags**, each owning exactly one source: **Raycast Coral*
 - **Cap White** (`#f8f9fb`): a key that has something bound to it, one step lighter than the deck.
 - **Unbound Grey** (`#e4e7ec`): a key with nothing on it. reads as part of the deck, not as a cap.
 - **Cap Edge** (`#c9cdd6`): the 2px lip under every key. structural, never a fill.
+- **Bar Fill** (`#7c8496`): the filled part of a ranked bar on the stats route, on an
+  Unbound Grey track. its own step in each theme rather than a reused surface — measured at
+  3.03:1 light and 4.36:1 dark against that track, because a chart mark owes 3:1 and the
+  surface first reached for managed 1.28:1 and inverted in dark.
 - **Rule Grey** (`#cfd3db`): hairlines — list dividers, field borders, the footer rule.
 - **Ink** (`#171a20`), **Ink Muted** (`#5b6170`), **Ink Faint** (`#8b91a0`): the three text
   weights — a fact, its qualifier, and its label.

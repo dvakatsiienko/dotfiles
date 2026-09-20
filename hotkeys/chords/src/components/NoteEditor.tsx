@@ -68,19 +68,19 @@ export const NoteEditor = (props: NoteEditorProps) => {
                     className={`${BUTTON} border-accent bg-accent text-white`}
                     onClick={() => void save(draft)}
                     type='button'>
-                    Save note
+                    save note
                 </button>
                 <button
                     className={`${BUTTON} border-line bg-transparent text-ink-2`}
                     onClick={() => void save('')}
                     type='button'>
-                    Clear
+                    clear
                 </button>
                 <button
                     className={`${BUTTON} border-line bg-transparent text-ink-2`}
                     onClick={() => void copy()}
                     type='button'>
-                    Copy notes
+                    copy notes
                 </button>
                 <span className='text-[12.5px] text-ink-3'>{status}</span>
             </div>

@@ -26,6 +26,7 @@
   --color-board: var(--p-board);
   --color-cap: var(--p-cap);
   --color-cap-edge: var(--p-cap-edge);
+  --color-bar: var(--p-bar);
   --color-cap-free: var(--p-cap-free);
   --color-ground: var(--p-ground);
   --color-ink: var(--p-ink);
@@ -50,6 +51,11 @@
   --p-line: #cfd3db;
   --p-accent: #2f6df6;
   --p-sel: #cfe0ff;
+  /* The stats bar fill. Its own token in each theme rather than a reused surface: cap-edge
+   * is darker than cap-free in light and in dark, so reusing it made the dark bar read as a
+   * hole. Measured against its track — 3.03:1 light, 4.36:1 dark — because a chart mark owes
+   * 3:1 and the pair it replaced managed 1.28:1. */
+  --p-bar: #7c8496;
 
   /* One colour per source, so a glance at the board says which app owns a key. */
   --app-1password: #4f6df5;
@@ -77,6 +83,7 @@
     --p-line: #30343c;
     --p-accent: #6b9bff;
     --p-sel: #243a6b;
+    --p-bar: #7f8798;
 
     --app-1password: #7b91ff;
     --app-bartender: #4ade80;
@@ -103,6 +110,7 @@
   --p-line: #30343c;
   --p-accent: #6b9bff;
   --p-sel: #243a6b;
+  --p-bar: #7f8798;
 
   --app-1password: #7b91ff;
   --app-bartender: #4ade80;
