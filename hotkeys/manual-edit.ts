@@ -20,13 +20,26 @@ const TERMINATOR = '] satisfies readonly Hotkey[];';
 const LINE_WIDTH = 80;
 const FIELD_ORDER = ['action', 'app', 'key', 'mods', 'note', 'since'] as const;
 
-// biome's own string style: single quotes, doubles only when the value holds one.
+// biome's string style, measured rather than assumed (2026-09-20): single quotes win unless the
+// value holds MORE singles than doubles, and the losing mark is escaped rather than switched to.
+// Getting this wrong writes a file biome then refuses, which fails the next commit.
+//
+// The control characters are not paranoia about the api — that boundary rejects them. They can
+// arrive from manual.ts itself, where `'a\nb'` parses to a real newline, and re-emitting one raw
+// would end the string mid-line and take the rest of the file with it.
 const quote = (value: string) => {
-    const escaped = value.replace(/\\/g, '\\\\');
+    const mark =
+        (value.match(/'/g)?.length ?? 0) > (value.match(/"/g)?.length ?? 0)
+            ? '"'
+            : "'";
+    const body = value
+        .replace(/\\/g, '\\\\')
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t')
+        .replaceAll(mark, `\\${mark}`);
 
-    return escaped.includes("'")
-        ? `"${escaped.replace(/"/g, '\\"')}"`
-        : `'${escaped.replace(/'/g, "\\'")}'`;
+    return `${mark}${body}${mark}`;
 };
 
 const sameRow = (row: Hotkey, ref: ManualRowRef) =>

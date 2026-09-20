@@ -21,7 +21,23 @@ import { startChordsServer } from './serve.ts';
 import { sourceList } from './sources.ts';
 import { parseEvents } from './stats.ts';
 
-const DATA = join(homedir(), '.local/share/x-monitor-hotkey-stats');
+// --data-dir aims the watcher at a fixture directory instead of the monitor's real log, so a
+// second daemon can be stood up around a press that never happened. It fails loud rather than
+// falling back: a silent default here would test the wrong directory and still look green.
+const dataDir = () => {
+    const at = process.argv.indexOf('--data-dir');
+
+    if (at === -1)
+        return join(homedir(), '.local/share/x-monitor-hotkey-stats');
+
+    const path = process.argv[at + 1];
+
+    if (!path) throw new Error('--data-dir needs a path');
+
+    return path;
+};
+
+const DATA = dataDir();
 const SCAN = join(import.meta.dirname, 'scan.ts');
 const EVERY_MS = 2000;
 

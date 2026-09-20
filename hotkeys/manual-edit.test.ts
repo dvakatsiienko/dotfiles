@@ -123,6 +123,53 @@ describe('editManualText', () => {
     });
 });
 
+describe('editManualText escaping', () => {
+    // A raw newline ends the string literal mid-line and manual.ts stops parsing, which takes
+    // the daemon's own import of it down with the file.
+    it('writes a newline in an action as an escaped one, never as a line break', () => {
+        const next = edit(rows[1] as Hotkey, {
+            action: 'a\nb',
+            key: 'n',
+            mods: 'hyper',
+        });
+
+        expect(next).toContain("['n', 'a\\nb']");
+        expect(next).not.toContain("'a\nb'");
+    });
+
+    it('escapes a tab and a backslash the same way', () => {
+        const next = edit(rows[1] as Hotkey, {
+            action: 'a\tb\\c',
+            key: 'n',
+            mods: 'hyper',
+        });
+
+        expect(next).toContain("['n', 'a\\tb\\\\c']");
+    });
+
+    // biome's own rule, measured 2026-09-20: single quotes unless the value holds MORE singles
+    // than doubles. Writing the other form produces a file biome refuses, failing the next commit.
+    it('keeps single quotes when a value holds both kinds', () => {
+        const next = edit(rows[1] as Hotkey, {
+            action: 'it\'s a "thing"',
+            key: 'n',
+            mods: 'hyper',
+        });
+
+        expect(next).toContain("['n', 'it\\'s a \"thing\"']");
+    });
+
+    it('switches to double quotes only when singles outnumber doubles', () => {
+        const next = edit(rows[1] as Hotkey, {
+            action: "only 'singles' here",
+            key: 'n',
+            mods: 'hyper',
+        });
+
+        expect(next).toContain("['n', \"only 'singles' here\"]");
+    });
+});
+
 describe('printRow', () => {
     it('keeps a row on one line while it fits the 80-column budget', () => {
         expect(
