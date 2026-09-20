@@ -258,20 +258,20 @@ export const App = () => {
                 </section>
 
                 <section className='grid content-start gap-2.5'>
-                    <h2 className={H2}>All bindings on this layer</h2>
-                    <List>
-                        {binds.length ? (
-                            binds.map(bindRowJSX)
-                        ) : (
-                            <ListEmpty>nothing on this layer</ListEmpty>
-                        )}
-                    </List>
                     <h2 className={H2}>Notes</h2>
                     <List>
                         {noteRowJSX.length ? (
                             noteRowJSX
                         ) : (
                             <ListEmpty>no notes yet</ListEmpty>
+                        )}
+                    </List>
+                    <h2 className={H2}>All bindings on this layer</h2>
+                    <List>
+                        {binds.length ? (
+                            binds.map(bindRowJSX)
+                        ) : (
+                            <ListEmpty>nothing on this layer</ListEmpty>
                         )}
                     </List>
                 </section>
