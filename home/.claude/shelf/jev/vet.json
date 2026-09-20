@@ -4,7 +4,7 @@
         "inbox-lanes": {
             "since": "2026-09-20",
             "state": "vetting",
-            "verdicts": 2,
+            "verdicts": 3,
             "misses": 1,
             "what": "the boot digest lanes every inbox item (ticket · fold · flowlog · answer · drop) before cclio parses it"
         },
@@ -24,9 +24,19 @@
         "flawlog-lanes": {
             "since": "2026-09-20",
             "state": "vetting",
-            "verdicts": 1,
-            "misses": 1,
-            "what": "every flawlog line laned memory · rule · story · ticket · drop before the halt flush (the coder retro is a separate, future flow)"
+            "verdicts": 3,
+            "misses": 2,
+            "what": "every flawlog line laned memory · rule · story · ticket · drop before the halt flush (the coder retro is a separate, future flow)",
+            "lanes": {
+                "ticket": {
+                    "hit": 0,
+                    "total": 1
+                },
+                "rule": {
+                    "hit": 1,
+                    "total": 1
+                }
+            }
         }
     }
 }
