@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { GHOST } from '@/ui.ts';
+
 // Something went wrong, said above the page rather than instead of it.
 //
 // 📌 The reason this is a component and not a paragraph in each route: /stats used to return the
@@ -15,7 +17,7 @@ export const Notice = (props: NoticeProps) => (
         <span>{props.children}</span>
         {props.onRetry ? (
             <button
-                className='cursor-pointer rounded-md border border-line bg-transparent px-2.5 py-0.5 font-sans text-[13px] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                className={`${GHOST} py-0.5`}
                 onClick={props.onRetry}
                 type='button'>
                 try again

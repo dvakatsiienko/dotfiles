@@ -144,9 +144,15 @@ const readJson = async (request: IncomingMessage): Promise<unknown> => {
 // The lock the header describes. A refusal names its reason, because a bare 403 is exactly the
 // thing that costs an hour when the dev proxy's Origin turns out not to be the one you expected.
 const refuseMutation = (request: IncomingMessage) => {
-    if (
-        !(request.headers['content-type'] ?? '').startsWith('application/json')
-    ) {
+    // The media type alone. A real header carries `; charset=utf-8` after it, so the comparison
+    // cannot be an equality against the whole string — but `startsWith` is the other mistake:
+    // it accepts `application/jsonp` and anything else that opens with those sixteen characters.
+    const mediaType = (request.headers['content-type'] ?? '')
+        .split(';')[0]
+        ?.trim()
+        .toLowerCase();
+
+    if (mediaType !== 'application/json') {
         return 'this endpoint takes application/json';
     }
 

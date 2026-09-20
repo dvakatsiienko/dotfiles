@@ -16,10 +16,9 @@ import {
 } from '@/api.ts';
 import { colorOf } from '@/keyboard.ts';
 import { navigate } from '@/router.ts';
-import { H2, TAB } from '@/ui.ts';
+import { GHOST, H2, TAB } from '@/ui.ts';
 
-const FOLD =
-    'cursor-pointer justify-self-start rounded-md border border-line bg-transparent px-3 py-1.5 font-sans text-[13px] font-medium text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+const FOLD = `${GHOST} justify-self-start`;
 
 // Two hundred rows are the point of this route — the terminal cuts them at fifteen and nothing
 // here may — but they are not the point of arriving on it. Each table opens at a twenty-row
