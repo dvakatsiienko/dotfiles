@@ -89,7 +89,7 @@ export const targets: Target[] = [
         compact: true,
         fragment: 'formatting',
         injectedCap: 16_384,
-        nativeReserve: 3_884,
+        nativeReserve: 4_252,
         path: '/preferences.md',
         sources: [
             {
