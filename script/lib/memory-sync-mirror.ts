@@ -104,6 +104,8 @@ export const targets: Target[] = [
                     'never re-case, in any mode',
                     'questions, options, and the ➡️ cta',
                     'reply skeletons',
+                    'boards — status reports have ONE shape',
+                    'the output kit',
                     'a multi-item drop gets restated',
                 ],
             },
@@ -183,7 +185,6 @@ export function renderTarget(root: string, target: Target): Rendered {
     const masters = target.sources.map((s) =>
         readFileSync(join(root, s.file), 'utf8'),
     );
-    const sourceSha = sha(masters.join('\n'));
     const bodies = masters.map((m, i) => {
         const source = target.sources[i];
         if (!source) throw new Error(`no source ${i} for ${target.path}`);
@@ -195,6 +196,13 @@ export function renderTarget(root: string, target: Target): Rendered {
         );
         return `<!-- ${source.file} -->\n\n${trimmed}`;
     });
+    /**
+     * over the SELECTED, COMPACTED bodies — never the raw masters. a map change (a section added
+     * or dropped) alters the fragment without touching a master, and a masters-only sha left that
+     * change invisible: cw compared the stamp, saw no diff, and skipped the splice. found when
+     * `boards` and `the output kit` were added to the preferences fragment, 2026-09-21.
+     */
+    const sourceSha = sha(bodies.join('\n\n'));
     const body = `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from ${target.sources.map((s) => s.file).join(' + ')}${target.compact ? ' (compact: headers, bullets and marker-led paragraphs)' : ''} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
     return {
         body,
