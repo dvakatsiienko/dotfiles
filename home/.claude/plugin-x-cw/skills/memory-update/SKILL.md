@@ -1,6 +1,6 @@
 ---
 name: memory-update
-description: Load BEFORE any write to cw global memory — dima says «upd memory», «remember this», «save to memory», «prettify memory», or any memory_* write is about to happen. Args: prettify <entry|all> · dedupe [entry|all] · dry. cw-only; a cc session stops here (cc memory has its own procedure).
+description: Load BEFORE any memory_write, memory_str_replace, memory_append or memory_delete to cw global memory, and before creating any new memory entry — no exceptions, including a one-line edit and including a write dima did not ask for in those words. Also on «upd memory», «remember this», «save to memory», «prettify memory», «forget that». Owns the description grammar every entry is born with. Args: prettify <entry|all> · dedupe [entry|all] · dry. cw-only; a cc session stops here (cc memory has its own procedure).
 ---
 
 # memory-update — the shape of every cw memory edit
@@ -15,18 +15,42 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
 - `/areas/` = things with a lifecycle (a project, a hunt, a system) · `/topics/` = things that
   just are · `/profile.md` `/preferences.md` = fixed roots.
 - a genuinely new subject gets a new entry, never a section squatting in a neighbour file.
-- after any write that changes what an entry owns: refresh its `description` in the same run. the
-  description is a routing line — *what's inside · when to read it* — never a restatement of the
-  path, and never load-bearing: only `- [stated]` lines are stable across a prettify pass;
-  descriptions are prettify-owned and regenerable.
+- 📌 **a new entry is born with its description, in the same write that creates it** — written to
+  the grammar below, not left for a later prettify pass. an entry created without one is an entry
+  that cannot be found again, and the pass that would have fixed it has to notice it first.
+- after any write that changes what an entry owns: refresh its `description` in the same run.
+- 🚨 **the `description` is the most load-bearing line in the entry.** a leaf is never auto-loaded;
+  the listing shows its path and its description and nothing else, and that line is the only thing
+  deciding whether the file is ever read. it is not formatting and it is not «regenerable, so it
+  does not matter».
+- **trigger first, always** — `read before <the moment> — <what is inside>`, never the reverse.
+  the listing **truncates a description at 80 characters** (measured 2026-09-21), so a trigger
+  written last is a trigger that never arrives. 16 entries were found broken in exactly this way,
+  every one of them faithful to the «what is inside, then when to read it» order this skill used
+  to prescribe.
+- verify it, do not trust the draft: `memory_list` with `include_preview` prints what the listing
+  actually shows. no trailing `…` means it survived the cut.
 - no index file exists: entry `description`s in `memory_list` ARE the index — unsure where a
   fact goes, read the descriptions and the closest match owns it.
 - after moving a fact between entries: grep the OTHER entries for references to its old owner —
   a move silently stales any line that pointed there.
-- **retiring an entry has one safe order**: copy its content to the new owner → verify it landed →
-  empty the entry to a single «retired → <new owner>» line and name it in your reply for
-  dima's hand → dima deletes the file in claude.ai → re-read the listing.
-  any other order can lose data permanently (no history, no undo).
+- **retiring an entry has one safe order**: copy its content to the new owner → verify it landed
+  by re-reading the new owner → `memory_delete` the old entry → re-read the listing. any other
+  order can lose data permanently (no history, no undo). ⚠️ never delete before the new owner is
+  verified; a delete is final, and «i already wrote it» is not verification.
+
+### the description grammar
+
+- shape: `read before <the moment> — <what is inside>`. the moment is when a future session is
+  about to act, not a topic name.
+- 🚫 «dima's obsidian vault — where it lives, how he uses it … read before touching a vault file»
+  — the trigger is past the cut and the entry is invisible.
+- ✅ `read before any vault file read or write — path, sync hazards, house style` — 74 chars, the
+  trigger arrives first, the contents place it.
+- name the **moments that actually recur**, in his words, not a category: `any gmail, slack,
+  notion, 1password or shell call` beats `tooling`. a reader matches on the moment it is in.
+- `aliases:` carry the names a mention would use — `himalaya`, `slk`, `gmail` — so the entry is
+  reachable by the thing, not only by the topic.
 
 ## write mechanics — the tool contract
 
@@ -39,8 +63,29 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
   it lands outside every section.
 - a version conflict returns the current content in the error: merge and retry same turn.
 - a content-refused write (privacy filter) is a hard stop, never rewritten to slip past.
-- cw cannot delete an entry. a retired entry gets emptied to a «retired» line and named in the
-  reply for dima's hand.
+- **`memory_delete` exists and works from cw** — verified in a projectless thread, 2026-09-21.
+  it takes `if_version` from a fresh `memory_read`, so the pre-delete read is mandatory. never
+  tell dima that cw cannot delete an entry; that claim was wrong and he was told it more than once.
+- 📌 delete only on his explicit ask for that entry or that subject — never to tidy up, dedupe,
+  or drop a file that merely looks stale. unsure whether he means one fact or the whole entry:
+  ask before either.
+
+## the caps — what memory costs
+
+- **only `/profile.md` and `/preferences.md` are auto-loaded.** every other entry is a leaf: a
+  path and a description in the listing, read only when this skill's reader chooses to.
+- injected-char budgets per host, measured 2026-09-21. native content and any mirror block spend
+  the same budget:
+  - `/preferences.md` — 16 384
+  - `/profile.md` — 8 192
+  - a leaf — 49 152 bytes of storage, and it costs nothing at all until it is read
+- chars are not bytes: emoji and «» push the byte count ahead of the char count. every write
+  result reports both — read it, it is the only live measurement available.
+- 🚨 **the resident pair is a routing table, not a library.** detail belongs in a leaf. what must
+  stay resident is only what a leaf cannot rescue: that a door exists at all. a leaf is read only
+  when the reader already knows it is in that domain, so an unknown-unknown — gmail has a cli,
+  and no mcp — is lost unless it is resident. the doors live in `rules/fleet-doors.md` and reach
+  cw through `memory-sync`; never hand-write them into an entry.
 
 ## register — how memory prose reads
 
