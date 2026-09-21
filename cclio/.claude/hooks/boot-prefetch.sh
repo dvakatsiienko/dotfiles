@@ -121,8 +121,25 @@ for _ in 1 2 3 4 5 6; do
   case "$(ps -o args= -p "$pid" 2>/dev/null)" in claude\ *|*/bin/claude\ *|*/bin/claude|*/versions/[0-9]*) born=$(ps -o lstart= -p "$pid"); age=$(ps -o etime= -p "$pid" | tr -d ' '); break;; esac
 done
 [ -n "$born" ] && echo "process $pid up ${age} (since ${born}) · $(claude --version 2>/dev/null)" || echo "process: not found in the parent chain"
-probe=$(cd "$(dirname "$0")/../.." && BOOT_PROBE=1 timeout 60 claude -p 'reply with only the commit hash named in the sys-settings-drift memory leaf, or NONE' --model haiku 2>/dev/null | tail -1)
-case "$probe" in *d03f3da*) echo "barrel probe: a fresh process loads the chain (d03f3da)";; *) fail "barrel probe: a fresh process cannot name d03f3da — the import chain is broken (got: ${probe:-nothing})";; esac
+# measured 2026-09-21: the loaded chain spawns at ~75.6k prompt tokens, the same spawn with no cclio
+# barrel at ~46.5k (base prompt + global ~/.claude + plugins). 60k sits between them, so the logged
+# ctx is what separates «the model whiffed» from «the import chain broke» on the next red.
+probe_run() {
+  (cd "$(dirname "$0")/../.." && BOOT_PROBE=1 timeout 60 claude -p 'reply with only the commit hash named in the sys-settings-drift memory leaf, or NONE' --model haiku --output-format json 2>/dev/null) \
+    | jq -r '[(.result // "nothing"), ((.usage.input_tokens // 0) + (.usage.cache_read_input_tokens // 0) + (.usage.cache_creation_input_tokens // 0))] | @tsv'
+}
+for attempt in 1 2; do
+  IFS=$'\t' read -r probe ctx < <(probe_run)
+  printf '%s\tattempt=%s\tctx=%s\treply=%s\n' "$(date +%FT%T)" "$attempt" "${ctx:-0}" "${probe:-nothing}" >> "$HOME/.claude/shelf/barrel-probe.log"
+  case "$probe" in *d03f3da*) break;; esac
+done
+if case "$probe" in *d03f3da*) true;; *) false;; esac; then
+  echo "barrel probe: a fresh process loads the chain (d03f3da)"
+elif [ "${ctx:-0}" -ge 60000 ]; then
+  fail "barrel probe: the chain LOADED (ctx ${ctx}) yet two fresh calls answered '${probe}' — a model miss, not a broken import"
+else
+  fail "barrel probe: a fresh process cannot name d03f3da (ctx ${ctx:-0}, got: ${probe:-nothing}) — the import chain is broken"
+fi
 echo "📌 this hook proves the FILE chain in a fresh process; the running session proves itself at init step 1 — a stale gate in a parked process only that step sees"
 
 echo "-- flawlog (self-grill reads the last two) --"

@@ -42,6 +42,7 @@ home/.claude/shelf/memory-sync-mirror/
 __pycache__/
 home/.claude/shelf/ci-seen.json
 home/.claude/shelf/jev/route.log
+home/.claude/shelf/barrel-probe.log
 
 # Runtime state written by scheduled jobs, not source. The cowork gazette heartbeat
 # is written on anthropic's machines and lands here; nothing in the repo produces it.
