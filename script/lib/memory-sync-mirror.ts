@@ -120,11 +120,7 @@ export const targets: Target[] = [
         sources: [
             {
                 file: `${RULES}/fleet-identity.md`,
-                sections: [
-                    'The invariant',
-                    'The glossary',
-                    'The members — who acts',
-                ],
+                sections: ['The glossary', 'The members — who acts'],
             },
             { file: `${RULES}/fleet-voice.md` },
             { file: `${RULES}/dima-signals.md` },
@@ -141,7 +137,7 @@ const sha = (text: string) => createHash('sha256').update(text).digest('hex');
 
 /**
  * the compact shape for the capped preferences entry. blocks are separated by blank lines; a
- * block survives when its first line is a header, a bullet, or a paragraph led by a rule marker
+ * block survives when its first line is a header, a bullet, a numbered item, or a paragraph led by a rule marker
  * (bold, 🚫 🚨 📌 ⚠️). html comments, plain prose, indented examples and the file's own
  * `**scope:**` / `**not here**` navigation blocks are dropped. kept blocks stay byte-identical.
  */
@@ -152,7 +148,7 @@ export const compact = (body: string) =>
             const first = block.trimStart();
             if (first.startsWith('<!--')) return false;
             if (/^\*\*(scope|not here)/.test(first)) return false;
-            return /^(#|- |\*\*|🚫|🚨|📌|⚠|╭|╰|```)/.test(first);
+            return /^(#|- |\d+\. |\*\*|🚫|🚨|📌|⚠|╭|╰|```)/.test(first);
         })
         .join('\n\n');
 

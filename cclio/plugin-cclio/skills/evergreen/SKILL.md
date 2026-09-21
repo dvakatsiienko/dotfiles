@@ -71,7 +71,9 @@ between. a release post on the project's blog beats the github release body when
   shipped with a new default. one line; a card with nothing to borrow prints no borrow line.
   **claude code and linear get the thought on every notable entry**, not only majors — they are
   the tools we run all day (dima, 2026-09-20).
-- **silent** — patches, minors without a notable api, brew patch bumps, libs nobody drives by
+- **silent means absent** — a silent item is never printed, not even as a name (dima 2026-09-21: «if
+  formulas didn't update, do not print them»); a section with nothing notable is its header line
+  alone (`🍺 brew — 22 outdated, nothing notable`). silent: patches, minors without a notable api, brew patch bumps, libs nobody drives by
   hand. minors fold into one monday line: `k minors, notable: …`. **the apps lane obeys the
   same silence**: a fix-only release prints nothing, a feature change or a new feature is a
   🟠 line, a rewrite or a capability we would use is a 🌟 card with the borrow line.
@@ -96,13 +98,11 @@ between. a release post on the project's blog beats the github release body when
 🍺 brew — <n> formulae + <m> casks outdated, <pinned or none pinned>, <k> worth a look
 - 🟠 <formula> a → b — one line why (a major, or a tool he drives by hand with a notable change) [notes](url)
 - 🟡 <formula> a → b — same, for a notable minor
-- 🟢 silent — <the rest, names only, libs as a count>
 
 📲 apps — <n> apps read, <k> with something to say
 - 🌟 <app> <entry> — one line what changed [notes](url)
   - 💡 **borrow** — …
 - 🟠 <app> <entry> — one line why he cares [notes](url)
-- 🟢 silent — <the rest, names only>
 
 📋 copy → terminal 📋   ```brew upgrade```   ✂️ end ✂️   ← kept for the day he wants his own hands on it
 
@@ -160,8 +160,8 @@ same message («hold #61») subtract from the round.
 
 ## completion criterion
 
-every open renovate PR is a card or in the silent line with a green ci; every card carries all
+every open renovate PR is a card or silent with a green ci; every card carries all
 five answers, the breaks answer names the peer-range check; every ➡️ is one of merge / coder /
-hold; on a monday every app in the index is a line or in the apps silent line, and the markers
+hold; on a monday every app in the index was read and is a line or silent, and the markers
 advanced after the digest; on «approve evergreen» every merge and the brew upgrade ran and the
 reply names what landed, what waits on a rebase, and the new prod deploy count.

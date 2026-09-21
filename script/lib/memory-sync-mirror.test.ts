@@ -51,6 +51,7 @@ describe('compact', () => {
             '    ╰── ✂️ end ──╯',
             '    indented example',
             '👀 parsed:\n1. one',
+            '1. **Precision first.** a numbered invariant\n2. **Verified or labelled.**',
         ].join('\n\n');
         expect(compact(src)).toBe(
             [
@@ -61,6 +62,7 @@ describe('compact', () => {
                 '    ╭── 📋 copy ──╮',
                 '    ```\n    payload\n    ```',
                 '    ╰── ✂️ end ──╯',
+                '1. **Precision first.** a numbered invariant\n2. **Verified or labelled.**',
             ].join('\n\n'),
         );
     });

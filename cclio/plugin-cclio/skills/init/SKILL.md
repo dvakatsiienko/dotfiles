@@ -57,8 +57,11 @@ prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidia
   with the session.
 - the x-queue head is in the digest — offer the top item; it never surfaces on its own. long-lived
   items are tickets, not park lines.
-- 🧬 renovate counts + oldest age are in the digest → one board line; the digest itself is `/cclio:evergreen`, on
-  his word. zero → say nothing.
+- 🧬 renovate counts + oldest age are in the digest → one board line. **PRs open, or the apps lane
+  says DUE → fire the `/cclio:evergreen` digest as a fork DURING the boot**, report-only, and say
+  so on the board; the report lands as its own message and waits for his word. it never queues
+  behind the session plan (2026-09-21: it sat behind a 40-min flush until dima asked). zero and
+  not due → say nothing.
 
 ## 5. stuck reminders ⏰📌
 `/remind stick` writes `⏰📌` entries into the auto-memory store; **raise every one at every
