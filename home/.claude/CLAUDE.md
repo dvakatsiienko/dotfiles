@@ -111,29 +111,6 @@ Anything we create should not just work well. It should be approachable and easy
 - never print token estimates unprompted. sline shows burn ambiently. when I ask about cost, break
   down what the last exchange spent and why.
 
-## tooling
-
-- **pnpm** — preferred package manager for node/typescript/javascript projects
-- **install order for any tool** — `brew` (formula or cask) first; not in brew → `pnpm add -g`; never `npm -g` (dima, 2026-09-18)
-- **fnm** — node version manager, use if needed
-- **package.json** — exact pins, `npm view` before any version, script order and `family:name` keys: the whole shape is `x:guide-conventions` → `conventions/package-json.md`, read before printing or editing any manifest
-- **cli over mcp, whenever possible** — an mcp only earns its place in a complex multi-surface,
-  multi-person collab case, which is currently nowhere in this setup; everywhere else it only
-  hurts (resident schemas, weaker ergonomics). settled on the vercel cli-vs-mcp research.
-- **jq** — prefer it (via Bash) for JSON parsing, filtering, and transformation
-- **himalaya** — the mail cli (`himalaya envelope list`, `message read <id>`, `message delete`, `message reply`); one gmail account, app password from 1password `gmail-himalaya-golden`, config in `home/.config/himalaya/`. filters are not its job — those are `gmailctl` over `gmail/blocklist.json`
-- **slk** — slack cli (package `slkcli`; binary is `slk`, auth rides the slack desktop session; `slk --help` is the whole api)
-- **yq / sd** — yaml/toml read-write (`settings.toml`, lefthook) · in-place text replace without sed's macos `-i ''` traps. measured in use 2026-09-16; gron was not, and is gone
-- **app removal** — a cask: `brew uninstall --zap --cask <name>`; anything else (app store, dmg): `mo uninstall` (mole, installed) — it takes the root-owned bundle and its residue in one pass; `trash` on a root-owned `.app` is refused (magnet, 2026-09-19)
-- **trash over rm** — `trash <path>` moves to the recoverable macos trash; prefer it wherever a deletion is approved but regret is possible
-- **archives → keka's bundled binaries**, `/Applications/Keka.app/Contents/MacOS/Keka --cli <bin>` — `7z` `7zz` `unar` `unrar` `tar` `xz` `zstd` `brotli` `lz4` `lzip` `pigz` and friends. macos ships no `unrar` and no 7z at all, so this is the only door to those; plain `zip`/`tar`/`ditto` still handle the ordinary cases
-- **uv** — the Python package manager here; pip in any form is not used
-- **1password is the source of truth for every api key** — vault `dev`, item `<service>-golden` (the one shared key) or `<service>-<purpose>` (a scoped one); configs carry `op://dev/<item>/credential` references, never a value. reads go through `script/op-run.sh` (the `x-fleet` service account, read-only, no touch id); a new item is dima's touch id, never the agent's. the contract and the dev-loop shape live in BYT-41
-  - `uv pip install <package> --system --break-system-packages`, or `uv venv` + `uv pip install`
-
-## tooling: notes
-- **obsidian = raw files, the `obsidian` cli only for rename/move and the link graph; notion = `ntn`; never an mcp for either** — measured 2026-09-10 (DOT-228): the mcp lanes lose on every metric, the notion connector costs 34× the time of `ntn` per edit. the recipe and the hazards: `x:notes`
-
 ## session habits
 
 - 📌 announce your model in the first line of every session — «hey <model> here», read from the env,
