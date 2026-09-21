@@ -106,6 +106,7 @@ export const manualHotkeys = [
         key: 'backspace',
         mods: 'ctrl+opt',
         since: '2026-09-19',
+        until: '2026-09-21',
     },
     {
         action: 'Move to Previous Display',
@@ -134,6 +135,63 @@ export const manualHotkeys = [
         key: 'right',
         mods: 'ctrl',
         since: '2026-09-19',
+    },
+    // session A of the window-management pass (2026-09-21): the unused commands disabled, these added, Restore dropped
+    {
+        action: 'Almost Maximize',
+        app: 'raycast',
+        key: 'return',
+        mods: 'ctrl+opt+cmd',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Bottom Right Quarter',
+        app: 'raycast',
+        key: 'k',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Top Left Quarter',
+        app: 'raycast',
+        key: 'u',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Top Right Quarter',
+        app: 'raycast',
+        key: 'i',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Make Larger',
+        app: 'raycast',
+        key: '=',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Make Smaller',
+        app: 'raycast',
+        key: '-',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Minimize',
+        app: 'raycast',
+        key: 'm',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
+    },
+    {
+        action: 'Toggle Fullscreen',
+        app: 'raycast',
+        key: 'f',
+        mods: 'ctrl+opt',
+        since: '2026-09-21',
     },
     // cleanshot commands, bound in raycast's cleanshot extension (sealed 2026-09-17; reshuffle from the monitor in ~2 weeks)
     {
