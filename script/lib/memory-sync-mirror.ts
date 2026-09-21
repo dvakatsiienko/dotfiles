@@ -115,7 +115,7 @@ export const targets: Target[] = [
                 ],
             },
             {
-                file: `${RULES}/tooling.md`,
+                file: `${RULES}/fleet-tooling.md`,
                 sections: ['shared — cc and cw'],
             },
         ],
