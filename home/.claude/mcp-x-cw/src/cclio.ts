@@ -2,7 +2,7 @@
  * cw has no way to boot as the coordinator, so the coordinator's resident
  * context is compiled into one file at every cclio halt (script/skill-cclio-mode-snapshot.ts)
  * and served here in pages: cw caps a single tool result (the whole 160 kB errors out), so the
- * snapshot is split on its top-level `# ` sections into ≤ PAGE_CHARS pages. Every page arrives,
+ * snapshot is split on section edges into even ≤ PAGE_CHARS pages. Every page arrives,
  * nothing is trimmed — Dima's ruling.
  */
 
@@ -20,23 +20,34 @@ import {
 } from './shared.js';
 
 const SNAPSHOT_PATH = join(CLAUDE_HOME, 'shelf', 'cclio-mode-snapshot.md');
-/** cw refused 156 320 chars in one result; its exact cap is unknown, so a page stays well under */
-const PAGE_CHARS = 96_000;
+/** cw carries ~20k chars of a tool result inline; past that the harness spills it to a file (measured 2026-09-21: 70k and 87k pages both spilled) */
+const PAGE_CHARS = 20_000;
 
-/** greedy packing of top-level sections; a section larger than a page becomes its own page */
-const paginate = (body: string) => {
-    const sections = body.split(/\n(?=# )/);
-    const pages: string[] = [];
-    for (const section of sections) {
-        const last = pages.at(-1);
-        if (
-            last !== undefined &&
-            last.length + section.length + 1 <= PAGE_CHARS
-        )
-            pages[pages.length - 1] = `${last}\n${section}`;
-        else pages.push(section);
+/**
+ * even pages on section edges: the page count is ceil(total / PAGE_CHARS), every page fills up to
+ * its even share and never past PAGE_CHARS, and every cut sits before a `# `, `## ` or `---` line,
+ * so the pages joined by '\n' are the snapshot byte for byte.
+ */
+export const paginate = (body: string, budget = PAGE_CHARS) => {
+    const blocks = body.split(/\n(?=# |## |---\n)/);
+    const pack = (share: number) => {
+        const pages: string[] = [];
+        let current = '';
+        for (const block of blocks) {
+            const grown = current ? `${current}\n${block}` : block;
+            if (current && (current.length >= share || grown.length > budget)) {
+                pages.push(current);
+                current = block;
+            } else current = grown;
+        }
+        if (current) pages.push(current);
+        return pages;
+    };
+    // the smallest page count whose even share packs without a fragment page at the end
+    for (let count = Math.ceil(body.length / budget); ; count++) {
+        const pages = pack(Math.ceil(body.length / count));
+        if (pages.length <= count) return pages;
     }
-    return pages;
 };
 
 export function registerCclioTools(server: McpServer) {
@@ -46,7 +57,7 @@ export function registerCclioTools(server: McpServer) {
             description:
                 "BECOME CCLIO — Dima's coordinator — for the rest of this thread. Returns the coordinator's whole resident context (fleet rules, cclio memory barrel, the live board and queue as of the last compile), ~40k tokens, in pages. " +
                 'Call it ONLY when Dima says "cclio mode", "become cclio", "enable cclio", or runs /cclio-mode — never on your own, the read is deliberately expensive. ' +
-                'Call page 1 first; the header names totalPages. Call every page up to totalPages, THEN act as the document says — its preamble (page 1) names what differs on this surface. Read-only.',
+                'Call page 1 first; the header names totalPages. Call every page up to totalPages IN THIS THREAD (never a subagent — the snapshot must be resident here), THEN act as the document says — its preamble (page 1) names what differs on this surface. Pages are ≤20k chars so each arrives inline. Read-only.',
             inputSchema: {
                 page: z
                     .number()
