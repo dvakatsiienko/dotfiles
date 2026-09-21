@@ -38,10 +38,16 @@ every write still follows `memory-update` mechanics: read first, version token, 
 
 - the target map — which master, which sections, which host — lives in
   `script/lib/memory-sync-mirror.ts`. a new master, a rename, a section pick: edit the map, not memory.
-- `/preferences.md#formatting` — output-format, rendered **compact** (headers, bullets,
-  marker-led paragraphs) under the 16 384-char cap of the host.
-- `/profile.md#fleet` — identity, voice, signals, the fleet words, the vault hazards, the root
-  intro and the shared tooling, full text.
+- `/preferences.md#formatting` — output-format, compact.
+- `/profile.md#fleet` — identity (invariant + the members glossary), voice, signals, the fleet
+  words, and the doors routing table, compact.
+- ⚠️ **each host injects a fixed number of chars and truncates the tail SILENTLY above it** —
+  `/preferences.md` 16 384, `/profile.md` 8 192, with the host's native content eating the same
+  budget. the render aborts rather than hand cw an over-budget block, so a warn line is a stop.
+- the resident tier is a **routing table, not a library**: tooling detail and the vault hazards
+  live in the cw-native leaves (`/areas/tooling.md`, `/topics/obsidian.md`), and
+  `rules/fleet-doors.md` only makes cw know the door exists. 📌 a leaf `description` truncates at
+  80 chars in the listing — that line is the whole trigger.
 - cw-native entries — anything not in the manifest — are never written by this skill.
   `/areas/cw-delta.md` holds the surface differences; it is memory-owned, edited through `memory-update`.
 

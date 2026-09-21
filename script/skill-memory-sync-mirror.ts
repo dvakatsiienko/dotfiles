@@ -12,9 +12,9 @@ import { join } from 'node:path';
 
 /* Instruments */
 import {
-    FRAGMENT_CAP,
-    PROFILE_CAP,
+    budgetOf,
     renderAll,
+    targets,
     toManifest,
 } from './lib/memory-sync-mirror.ts';
 import { done, ok, step, title, warn } from './lib/print.ts';
@@ -30,14 +30,18 @@ const rendered = renderAll(ROOT);
 let oversized = 0;
 for (const r of rendered) {
     writeFileSync(join(OUT, r.file), r.body);
+    const target = targets.find(
+        (t) => t.path === r.path && t.fragment === r.fragment,
+    );
+    if (!target) throw new Error(`no target for ${r.path}`);
+    const budget = budgetOf(target);
     const label = `${r.path}#${r.fragment}`;
-    const size = `${r.chars} chars · ${r.bytes} b`;
-    const cap = r.path === '/preferences.md' ? FRAGMENT_CAP : PROFILE_CAP;
-    if (r.chars > cap) {
+    const size = `${r.chars} / ${budget} chars`;
+    if (r.chars > budget) {
         oversized++;
         warn(
             label,
-            `${size} — above the ${cap} cap; ${r.path} will refuse the splice`,
+            `${size} — ${r.chars - budget} over; cw stores it and truncates the tail silently at load`,
         );
     } else ok(label, size);
 }
@@ -49,3 +53,4 @@ writeFileSync(
 done(`${rendered.length} fragments · manifest.json`, {
     clean: oversized === 0,
 });
+if (oversized) process.exit(1);

@@ -13,6 +13,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 import {
     MARK_END,
     MARK_START,
+    budgetOf,
     compact,
     renderTarget,
     selectSections,
@@ -71,6 +72,14 @@ describe('selectSections', () => {
             '# root\n\nintro\n\n## keep me\n\n- a\n\n## cc only\n\n- b\n\n## also keep\n\n- c\n';
         expect(selectSections(src, ['also keep', 'keep me'])).toBe(
             '# root\n\nintro\n\n## keep me\n\n- a\n\n## also keep\n\n- c',
+        );
+    });
+
+    test('a subsection is selectable without its siblings', () => {
+        const src =
+            '# root\n\n## parent\n\n### keep\n\n- a\n\n### drop\n\n- b\n';
+        expect(selectSections(src, ['parent', 'keep'])).toBe(
+            '# root\n\n## parent\n\n### keep\n\n- a',
         );
     });
 });
@@ -166,9 +175,20 @@ describe('the live target map', () => {
                     'utf8',
                 );
                 for (const name of s.sections ?? [])
-                    expect(master, `${s.file} › ${name}`).toContain(
-                        `\n## ${name}\n`,
+                    expect(master, `${s.file} › ${name}`).toMatch(
+                        new RegExp(
+                            `^#{2,6} ${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`,
+                            'm',
+                        ),
                     );
             }
+    });
+
+    test('every fragment renders inside its host budget', () => {
+        for (const t of targets)
+            expect(
+                renderTarget(repo, t).chars,
+                `${t.path}#${t.fragment}`,
+            ).toBeLessThanOrEqual(budgetOf(t));
     });
 });
