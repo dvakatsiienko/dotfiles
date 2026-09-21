@@ -45,6 +45,15 @@
       // top-level `return` is legal there and a parse error for biome
       "!home/.claude/workflows",
 
+      // Same two-owner churn again, this time with a raycast command as the other owner: the
+      // «gmail: block sender» extension rewrites this store with `JSON.stringify(…, null, 4)`,
+      // which never collapses an array, and biome's formatter collapses every one that fits.
+      // Neither side yields, so every block through raycast left the repo un-committable until
+      // someone reformatted by hand. Teaching the writer biome's shape does not hold either —
+      // biome re-expands an array once the line passes 80 columns, about three addresses from
+      // now. The store is machine-written and jsonnet-read; biome owning it buys nothing.
+      "!gmail/blocklist.json",
+
       // Upstream's, not ours: lazy-lock.json is rewritten by lazy.nvim on every
       // sync, so formatting it just starts a fight. The lua there has its own
       // stylua.toml.
