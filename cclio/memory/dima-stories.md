@@ -15,27 +15,6 @@ His clearest piece of feedback about how the agent was failing him. Not wrong an
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
 he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
 
-## the alias prune that ran on one word · 2026-09-03
-«take care of git» was read as a go, and an alias sweep ran while he was still reading the
-proposal; a coder's replies arriving in between were read as his advancement. He said the rule
-himself afterwards: repeat what you want to do and ask until he approves, disapproves or steers.
-Origin of the «⏳ waiting on your word» block, the `granular` word, and «a coder's reply is never
-an advancement sign». → [[craft-pm]]
-
-## the midnight split · 2026-09-05
-He looked at the trophy log and said the day cut at midnight «somewhat does not land — feels off
-that a trophy past midnight goes into separate section», with no reason yet. The reason was three
-things at once: sittings anchored on their newest trophy, calendar midnight as the day edge, and a
-missing concept — the gaming day that ends at 05:00. He then dropped the sitting idea altogether.
-The felt sense was right and smaller than the fix it uncovered. → BYT-71
-
-## five relays in one day · 2026-09-05
-Vercel crons take POST, `waitUntil` is safe, the psn refresh token rotates, `promptCacheTtl` has a
-`3h`, the pipeworx gateway mirrors v4 — five facts stated from memory, each disproved by the coder
-running one command, or by the docs. His words: «not good, not the end of the world». `/insights`
-named the same pattern the same evening. Origin of «my own recall is a relay too».
-→ [[method-report-verify]]
-
 ## «yes they all went green, not very good» · 2026-09-06
 four design lanes, four different skills, one frozen brief — and every result came back green. he saw it in the tabs before any of us named the cause: two hex codes in the brief labelled «refs, not specs» had pulled every lane the same way. the test was «too narrow» in his words, and the fix was to strip the codes, not to add a rule. the felt sense arrived as a verdict on the output; the reason sat in the input. → BYT-75, the round-2 brief
 
@@ -97,3 +76,10 @@ rule — 🟢 meant «executing now», 💤 meant «idle and fine» — and a sc
 its life, so no daily job could ever be green. The bug was the glance question the glyph answered:
 «is it running» where he asks «did the last run go ok». One row, one arrow, and the semantic was
 wrong for every job on the list. → the ✅ glyph, `toHealth` in x-ray's launchd.ts
+
+## «will you catch up a skipped monday?» · 2026-09-20
+The apps lane of evergreen was built and about to run for the first time. He asked two questions
+in a row, neither about the code: «will you catch up a skipped monday» and «is the next one still
+monday». Each found a gap — the lane tracked dates where it needed markers, and «due» was seven
+days where it needed «a monday passed». Two real bugs before the lane ran once, found by asking
+what the thing does on the day it fails, not on the day it works. → DOT-232, the apps lane

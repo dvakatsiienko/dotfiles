@@ -40,6 +40,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - `rebase.updateRefs` is on since the git overhaul (2026-09-03): a safety BRANCH made before a
   rebase is dragged forward with the rewrite and stops being a recovery point — a tag or the
   reflog is the net (a coder lost its net on a reword, 2026-09-05)
+- `git worktree add` in a git-crypt repo dies on the smudge filter (no key under `.git/worktrees/<n>/`): add with `-c filter.git-crypt.smudge=cat -c filter.git-crypt.required=false`, copy the key into `.git/worktrees/<n>/git-crypt/keys/`, then `git-crypt unlock` inside the tree. `git add -A <path>` still scans the whole tree and trips on a locked file — pathspec commits only (2026-09-20)
 
 ## brew casks
 
@@ -125,6 +126,12 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   prints a short calm list and nothing is red. before trusting a quiet pr, ask «was a RUN
   created for this head», never «is a check green» (bytes #84, 2026-09-12: a commit body that
   quoted the skip marker; the guard is a `commit-msg` hook in both repos)
+- **a green typecheck answers «did the configured files pass», never «are my files configured»** — `hotkeys/*.ts` sat in no tsconfig for a week and a reverted interface field left the gate green (2026-09-20). a new dir of `.ts` is proven by planting a type error and watching `pnpm typecheck` go red
+- **a conflicting pr gets no `pull_request` run at all** — github creates none without a merge ref, and «no checks reported» reads calm. main moves under an open pr → merge it in within the hour (ten heads ran no ci, 2026-09-20)
+
+## declarative tools
+
+- **a tool that treats its config as the whole truth imports the live state before its first apply** — `gmailctl apply` deleted dima's two hand-made filters because `download` never ran first (2026-09-20). same shape: renovate's first run, `dotfiles:link apply`, a launchd bootstrap. the first apply on a live account is preceded by the tool's own import verb
 
 ## ci runners
 

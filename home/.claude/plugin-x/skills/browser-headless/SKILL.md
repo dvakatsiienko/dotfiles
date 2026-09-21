@@ -43,6 +43,8 @@ nobody reads `--help` twice: check the list once per session before improvising 
   first, then act.
 - **`eval` shares one page scope across calls** — a second `const p` dies as «already declared».
   wrap every eval in an IIFE.
+- **`fill <sel> ""` does NOT clear an input** — the old value stays and the verb reports success.
+  clearing is `eval` with the native value setter plus a dispatched `input` event.
 - **token bombs:** `network requests` unfiltered ≈ 11k tokens, `snapshot -i` ≈ 6.5k on a dense
   page. always `--filter`, always scope to a selector.
 

@@ -5,6 +5,8 @@
 # an agent reading a digest cannot tell a skipped check from a passed one.
 # BOOT_STRICT=1 → exit 1 on any FAIL (the by-hand mode); the hook mode always exits 0.
 
+# BOOT_PROBE=1 marks the hook's own nested `claude -p` — that process skips the digest, or the probe recurses
+[ -n "$BOOT_PROBE" ] && exit 0
 fails=0
 fail() { echo "🚨 FAIL · $1"; fails=$((fails + 1)); }
 STAMP="$HOME/.claude/shelf/boot-digest.stamp"
@@ -111,6 +113,17 @@ if [ -L "$HOME/.claude/settings.json" ]; then
 else
   fail "REAL FILE where the symlink belongs — silent divergence"
 fi
+
+echo "-- runtime (a parked session keeps its binary, plugins and feature gates until a restart) --"
+pid=$$; born=""
+for _ in 1 2 3 4 5 6; do
+  pid=$(ps -o ppid= -p "$pid" 2>/dev/null | tr -d ' '); [ -z "$pid" ] || [ "$pid" = 1 ] && break
+  case "$(ps -o args= -p "$pid" 2>/dev/null)" in claude\ *|*/bin/claude\ *|*/bin/claude|*/versions/[0-9]*) born=$(ps -o lstart= -p "$pid"); age=$(ps -o etime= -p "$pid" | tr -d ' '); break;; esac
+done
+[ -n "$born" ] && echo "process $pid up ${age} (since ${born}) · $(claude --version 2>/dev/null)" || echo "process: not found in the parent chain"
+probe=$(cd "$(dirname "$0")/../.." && BOOT_PROBE=1 timeout 60 claude -p 'reply with only the commit hash named in the sys-settings-drift memory leaf, or NONE' --model haiku 2>/dev/null | tail -1)
+case "$probe" in *d03f3da*) echo "barrel probe: a fresh process loads the chain (d03f3da)";; *) fail "barrel probe: a fresh process cannot name d03f3da — the import chain is broken (got: ${probe:-nothing})";; esac
+echo "📌 this hook proves the FILE chain in a fresh process; the running session proves itself at init step 1 — a stale gate in a parked process only that step sees"
 
 echo "-- flawlog (self-grill reads the last two) --"
 ls -t "$HOME/.claude/shelf/flawlog/"*.md 2>/dev/null | head -2 | xargs -n1 basename

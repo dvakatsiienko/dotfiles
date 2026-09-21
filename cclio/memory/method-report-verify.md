@@ -28,6 +28,10 @@ The four failure shapes, each measured here:
   ask what else it is evidence of — the greptile skip on bytes #83 was reported as «the owner
   test works» and was also the concurrency-cancel bug, missing damage by seconds (2026-09-12).
 
+- 🚨 **a claim about a tool's capability names the version and the doc line it was read from.**
+  «impeccable's monorepo config does not work as the docs say» stood a day; 4.3.1 discovers
+  workspaces fine, the wrong thing was the readme's gitignore anchoring (2026-09-20).
+
 Smaller, same root: a probe run while a human edits the system is not controlled — two of your own
 measurements disagreeing means the environment moved · a table reads as measured whether or not it
 is, tag provenance per cell or do not print it · «exhausted» describes a moment; a status

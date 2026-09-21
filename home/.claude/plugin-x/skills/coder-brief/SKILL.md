@@ -68,6 +68,12 @@ eight).
   code by a commit or two and are what the next reader learns from.
 - **a scripted deletion spanning more than a few lines verifies its end anchor before it runs** —
   one anchored on a doc comment took seven components with it.
+- **every replacement asserts its anchor** — a text pass that matches nothing, a field added to a
+  type but not to the printer's order, `agent-browser fill <sel> ""`: three silent no-op writes in
+  one session, each reported as success. after a scripted replace, grep for the new text; after a
+  data-shape change, run the printer and read the row.
+- **a write-path probe uses a key nothing is filed under, or a fixture** — one used dima's real note
+  key (empty body = delete) and wiped `notes.json`; restored from git, byte-identical.
 - **the brief names what dima sees, you find what is wrong.** «Verify the axes at two widths, fix
   what is wrong» beats «confirm the bottom clipping»: a named symptom narrows where you look, and a
   stored value can outrank the code default you were told to flip — check the observable, not the
@@ -85,6 +91,8 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 
 ## the git lane
 
+- **remote state comes from `git ls-remote`, never `@{u}`** — a worktree that cannot push asserted
+  «pushed» twice from a stale upstream ref.
 - **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through a python script that asserts its anchor before writing, never `sd` with a `$` in the replacement. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
   -b coder/<ticket>-<slug> main`, then `pnpm worktree:seed <path>` (env copies, `CI=1` install, a
   port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it
