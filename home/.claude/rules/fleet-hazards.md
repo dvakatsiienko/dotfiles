@@ -111,6 +111,8 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - renaming a `.gitignore` path un-ignores whatever the OLD path still holds — `git add -A`
   staged a compiled binary right after a rename (2026-09-14); read the staged list before the
   commit
+- **`CI=1 pnpm install` is frozen-lockfile** (pnpm's own CI detection) — a dep add or removal takes `--no-frozen-lockfile` beside it, or the lockfile never moves and the commit ships half; and pnpm 12 reads `overrides` from `pnpm-workspace.yaml` only, the `package.json#pnpm` field is ignored with a warning (2026-09-21)
+- **a delete names the file the grep proved, never its dir** — «TriangleSvg has no users» was true, `trash src/elements/icons` took the live `ExternalLinkSvg.tsx` with it (2026-09-21); the unit of a delete is the path the evidence named
 - an `sd` replacement never carries a `$` — inside a double-quoted argument the shell expands
   `$dir` / `$line` to nothing and the line ships hollow (three sightings, 2026-09-17/18). that
   edit goes through the Edit tool or a python literal
@@ -127,6 +129,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   created for this head», never «is a check green» (bytes #84, 2026-09-12: a commit body that
   quoted the skip marker; the guard is a `commit-msg` hook in both repos)
 - **a green typecheck answers «did the configured files pass», never «are my files configured»** — `hotkeys/*.ts` sat in no tsconfig for a week and a reverted interface field left the gate green (2026-09-20). a new dir of `.ts` is proven by planting a type error and watching `pnpm typecheck` go red
+- **github's `Deploy · success` is the hook trigger, never the build** — three production builds were red for 20 minutes behind a green Actions page (2026-09-21); the build state lives only in `vercel inspect <deploy url>` (`status ● Error`), and `vercel ls <project> --prod` names the newest one
 - **a conflicting pr gets no `pull_request` run at all** — github creates none without a merge ref, and «no checks reported» reads calm. main moves under an open pr → merge it in within the hour (ten heads ran no ci, 2026-09-20)
 
 ## declarative tools
@@ -138,6 +141,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - a jq program is proven when ci compiles it — ubuntu runners ship jq 1.7, the mac 1.8; `a + b`
   as a bare object value parses locally and fails on the runner (bytes #79, 2026-09-12). a job
   that runs jq prints `jq --version` first
+- **a lockfile change that reshapes the pnpm store needs a cache-less first vercel build** — vercel restores the previous `node_modules`, and pnpm keeps a stale hoisted link (`@types/react@19.2.18` after the override pinned 19.3.0, 2026-09-21). `vercel deploy --prod --force` from the REPO ROOT with the root `.vercel` link switched to the project; an app-dir deploy dies on «Root Directory does not exist», and `vercel link` writes an `.env.local` (oidc token) plus an `.env*` gitignore line — revert both
 - `sd` / `sed` silently drop `${{ … }}` from a workflow line — a workflow file is edited with the
   Edit tool only (two expressions eaten on #79, caught only by printing the result)
 

@@ -83,3 +83,11 @@ in a row, neither about the code: «will you catch up a skipped monday» and «i
 monday». Each found a gap — the lane tracked dates where it needed markers, and «due» was seven
 days where it needed «a monday passed». Two real bugs before the lane ran once, found by asking
 what the thing does on the day it fails, not on the day it works. → DOT-232, the apps lane
+
+## «not a fan of overrides» · 2026-09-21
+Three production builds were red after a react types bump; the fix that made them green was a
+pnpm override pinning `@types/react` to one copy. He read it and said «not a fan of overrides.
+how does it work and why is it needed? how to not forget to remove it?» — no argument against
+the fix, only a taste. The reason arrived while answering: an override hides a dependant whose
+range renovate will never lift, so the pin outlives its cause unless something reminds. The
+felt sense was about the shelf life, not the mechanism. → the override reminder in `_reminders.md`

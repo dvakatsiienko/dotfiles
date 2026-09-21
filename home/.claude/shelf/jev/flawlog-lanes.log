@@ -1,3 +1,4 @@
 2026-09-20T13:15:04.126Z	miss	first run on 2026-09-19 log: 4 GOOD lines had no lane (went drop/memory), the impeccable gitignore line went ticket where the flush put a fleet-hazards rule — story lane added
 2026-09-20T19:21:26.161Z	miss	lane=ticket 09-20 flush: the barrel-not-loading line and the day-granular-dates line laned ticket; both are notes to carry (memory/drop), no session of their own
 2026-09-20T19:21:26.247Z	ok	lane=rule 09-20 flush: every fleet-hazards candidate laned rule; the coder-retro lines laned memory/rule as placed
+2026-09-21T16:20:01.441Z	miss	lane=rule 7 of 12 lines laned memory were fleet-wide tool hazards (vercel cache, pnpm CI frozen lockfile, Deploy-success trigger, app-dir deploy) — rule; criteria reworded: any-session-any-repo → rule

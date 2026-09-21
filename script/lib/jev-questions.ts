@@ -35,8 +35,8 @@ export const flawlogQuestions = {
     lane: {
         criteria: {
             drop: 'Already resolved, or a one-off with nothing transferable: the line names a fix that was applied, says «drop», or records a good find with no rule behind it.',
-            memory: 'A standing fact or habit one agent role keeps: a measured behaviour of a tool, a convention cclio or a coder must remember, a thing that belongs in a memory leaf, an AGENTS.md or a skill.',
-            rule: 'A hazard or floor that bites more than one surface and every session must know: it belongs in a fleet-wide rules file such as fleet-hazards.',
+            memory: 'A standing fact or habit ONE agent role keeps — the coordinator, a coder, a cw thread: a convention that only that role meets, a thing that belongs in its memory leaf, an AGENTS.md or a skill. A tool behaviour any session in any repo could hit (pnpm, vercel, github, git, macos) is not memory, it is rule.',
+            rule: 'A hazard or floor that can bite ANY session in ANY repo — a measured tool behaviour (pnpm, vercel, github, git, macos, the bash sandbox), a trap that reads green, a delete or write shape that lost data: it belongs in a fleet-wide rules file such as fleet-hazards, whichever session found it.',
             story: "A line marked GOOD, or a catch where dima's felt sense arrived before the reason: kept as a story in dima-stories, never as a rule.",
             ticket: 'Needs code, a script, a build, or a decision from dima before it is closed: work with its own session, tracked in linear.',
         },
