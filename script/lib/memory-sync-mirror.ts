@@ -115,7 +115,7 @@ export const targets: Target[] = [
         compact: true,
         fragment: 'fleet',
         injectedCap: 8_192,
-        nativeReserve: 2_124,
+        nativeReserve: 1_987,
         path: '/profile.md',
         sources: [
             {
