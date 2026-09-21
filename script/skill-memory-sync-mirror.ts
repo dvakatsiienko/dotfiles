@@ -1,7 +1,7 @@
 /**
- * skill:memory-sync-mirror — renders the cc masters into cw memory entries under
+ * skill:memory-sync-mirror — renders the cc masters into the two cw memory fragments under
  * `home/.claude/shelf/memory-sync-mirror/` plus a `manifest.json`. cw's `x-cw:memory-sync` runs this,
- * reads the manifest, and overwrites every entry whose `source-sha256` moved. by hand:
+ * reads the manifest, and splices every fragment whose `source-sha256` moved. by hand:
  * `pnpm skill:memory-sync-mirror`. logic and the target map live in `script/lib/memory-sync-mirror.ts`.
  */
 
@@ -12,8 +12,8 @@ import { join } from 'node:path';
 
 /* Instruments */
 import {
-    CW_ENTRY_CAP,
     FRAGMENT_CAP,
+    PROFILE_CAP,
     renderAll,
     toManifest,
 } from './lib/memory-sync-mirror.ts';
@@ -25,22 +25,20 @@ const OUT = join(ROOT, 'home/.claude/shelf/memory-sync-mirror');
 title('skill:memory-sync-mirror', OUT.replace(homedir(), '~'));
 mkdirSync(OUT, { recursive: true });
 
-step('entries');
+step('fragments');
 const rendered = renderAll(ROOT);
 let oversized = 0;
 for (const r of rendered) {
     writeFileSync(join(OUT, r.file), r.body);
-    const label = `${r.path}${r.fragment ? `#${r.fragment}` : ''}`;
+    const label = `${r.path}#${r.fragment}`;
     const size = `${r.chars} chars · ${r.bytes} b`;
-    if (r.fragment && r.chars > FRAGMENT_CAP) {
+    const cap = r.path === '/preferences.md' ? FRAGMENT_CAP : PROFILE_CAP;
+    if (r.chars > cap) {
         oversized++;
         warn(
             label,
-            `${size} — above the fragment cap; /preferences.md will refuse the splice`,
+            `${size} — above the ${cap} cap; ${r.path} will refuse the splice`,
         );
-    } else if (r.bytes > CW_ENTRY_CAP) {
-        oversized++;
-        warn(label, `${size} — above the entry cap; cw will refuse the write`);
     } else ok(label, size);
 }
 
@@ -48,4 +46,6 @@ writeFileSync(
     join(OUT, 'manifest.json'),
     `${JSON.stringify(toManifest(rendered), null, 4)}\n`,
 );
-done(`${rendered.length} entries · manifest.json`, { clean: oversized === 0 });
+done(`${rendered.length} fragments · manifest.json`, {
+    clean: oversized === 0,
+});

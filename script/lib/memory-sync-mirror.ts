@@ -1,21 +1,17 @@
 /**
- * ? memory-sync mirror — renders the cc masters into cw memory entries.
+ * ? memory-sync mirror — renders the cc masters into the two auto-loaded cw memory entries.
  * ?
- * ? cw memory is a hosted store with no shell: one entry per master, body copied verbatim,
- * ? wrapped in the frontmatter cw expects. cw (`x-cw:memory-sync`) reads `manifest.json`,
- * ? compares the `source-sha256` stamped in each entry, and overwrites what changed.
- * ? no judgment on either side — the only transform is `- ` → `- [stated] ` on bullets,
- * ? which cw's memory guidance requires on fact lines.
+ * ? cw auto-loads only `/preferences.md` and `/profile.md`; every other entry is a listing line
+ * ? nobody reads (measured over three weeks, 2026-09-21). so the mirror is two FRAGMENTS, each
+ * ? spliced into its host between `<!-- mirror:start -->` / `<!-- mirror:end -->`. cw
+ * ? (`x-cw:memory-sync`) reads `manifest.json`, compares the `source-sha256` stamped in each
+ * ? block, and replaces what changed. no judgment on either side — the only transform is
+ * ? `- ` → `- [stated] ` on bullets, which cw's memory guidance requires on fact lines.
  * ?
- * ? two shapes: an ENTRY is a whole cw file; a FRAGMENT is spliced into a cw-native entry
- * ? between `<!-- mirror:start -->` / `<!-- mirror:end -->` (only `/preferences.md` today —
- * ? the one auto-loaded entry, so voice + output-format must live there).
- * ?
- * ? `/preferences.md` is injected into every cw conversation and capped at 16 384 chars
- * ? (measured 2026-09-07; the write error names it). the full masters do not fit next to the
- * ? cw-native sections, so the fragment is rendered COMPACT: headers, bullets and marker-led
- * ? paragraphs kept whole, plain prose and html comments dropped. the full text of both
- * ? masters is mirrored as its own entry for on-demand reads. a mechanical rule, no judgment.
+ * ? `/preferences.md` is capped at 16 384 chars (measured 2026-09-07; the write error names it),
+ * ? so its fragment is rendered COMPACT: headers, bullets and marker-led paragraphs kept whole,
+ * ? plain prose and html comments dropped. `/profile.md` has the room for full text. a source
+ * ? may name the `## ` sections that reach cw; the rest of that master is cc-only.
  */
 
 /* Core */
@@ -23,25 +19,26 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
-export type Target = {
-    /** cw memory path — `/areas/fleet-vibe.md` — or, for a fragment, the host entry */
-    path: string;
-    /** master files under home/.claude, relative to the dotfiles root */
-    sources: string[];
-    description: string;
-    aliases?: string[];
-    /** fragment targets splice into `path` instead of replacing it */
-    fragment?: string;
-    /** render with `compact()` — for the preferences fragment only */
-    compact?: boolean;
-    /** keep only these `## ` sections (plus the title block) — for masters that are partly cc-only */
+export type Source = {
+    /** master file, relative to the dotfiles root */
+    file: string;
+    /** keep only these `## ` sections (plus the title block); absent = the whole master */
     sections?: string[];
+};
+
+export type Target = {
+    /** the cw host entry the fragment splices into */
+    path: string;
+    fragment: string;
+    sources: Source[];
+    /** render with `compact()` — for the capped preferences host */
+    compact?: boolean;
 };
 
 export type Rendered = {
     file: string;
     path: string;
-    fragment?: string;
+    fragment: string;
     sha256: string;
     /** file size — the byte marker cw compares */
     bytes: number;
@@ -57,7 +54,7 @@ export type Manifest = Record<
         sha256: string;
         bytes: number;
         sources: string[];
-        fragment?: string;
+        fragment: string;
     }
 >;
 
@@ -68,100 +65,60 @@ export const MARK_END = '<!-- mirror:end -->';
 export const PREFERENCES_CAP = 16_384;
 /** the fragment must leave room for the cw-native sections of `/preferences.md` (~3 k chars). */
 export const FRAGMENT_CAP = 12_500;
-/** cw refuses any other entry above this many bytes (measured 2026-09-07: «memory files are capped at 32768 bytes»). */
-export const CW_ENTRY_CAP = 32_768;
+/** cw refuses any other entry above 32 768 bytes (measured 2026-09-07); the profile fragment leaves room for the cw-native profile body (~2.3 k chars). */
+export const PROFILE_CAP = 30_000;
 
 const CLAUDE = 'home/.claude';
 const RULES = `${CLAUDE}/rules`;
 
 export const targets: Target[] = [
     {
-        aliases: [
-            'identity',
-            'the invariant',
-            'the refusals',
-            'fleet contract',
-        ],
-        description:
-            'the fleet identity master, verbatim — the invariant, the refusals, the members and entities glossary, who edits it. read before acting on any request of his.',
-        path: '/areas/fleet-identity.md',
-        sources: [`${RULES}/fleet-identity.md`],
-    },
-    {
-        aliases: ['vibe', 'his words', 'shell words'],
-        description:
-            'his fleet words (slay, freebie, propose, pause) and the git shell words, verbatim from the master. read when he uses a one-word command.',
-        path: '/areas/fleet-vibe.md',
-        sources: [`${RULES}/fleet-vibe.md`],
-    },
-    {
-        aliases: ['signals', 'reading him'],
-        description:
-            'how to read his own messages — markers, casing, half-formed ideas, mid-turn corrections. verbatim master. read at session start.',
-        path: '/areas/dima-signals.md',
-        sources: [`${RULES}/dima-signals.md`],
-    },
-    {
-        aliases: ['the rails', 'bypass', 'restraint'],
-        description:
-            'what restraint looks like with approval prompts off — the never-without-a-named-target list. verbatim master. read before any delete, reset, overwrite or move.',
-        path: '/areas/fleet-bypass-restraint.md',
-        sources: [`${RULES}/fleet-bypass-restraint.md`],
-    },
-    {
-        aliases: ['hazards', 'vault hazards'],
-        description:
-            'fleet-wide pitfalls, verbatim master — the obsidian vault sync and rename hazards. read before touching a vault note.',
-        path: '/areas/fleet-hazards.md',
-        sections: ['the obsidian vault'],
-        sources: [`${RULES}/fleet-hazards.md`],
-    },
-    {
-        aliases: [
-            'CLAUDE.md',
-            'root claude md',
-            'coding preferences',
-            'tooling picks',
-        ],
-        description:
-            'his root CLAUDE.md, the sections that reach cw verbatim — coding preferences, questions are read-only, naming conventions, artifacts. read before any coding or design call.',
-        path: '/areas/claude-md.md',
-        sections: [
-            'coding preferences — general',
-            'coding preferences (typescript focused)',
-            'questions are read-only',
-            'visual and design work',
-            'global naming conventions',
-            'artifacts + dataviz — use proactively',
-        ],
-        sources: [`${CLAUDE}/CLAUDE.md`],
-    },
-    {
-        aliases: ['voice', 'the voice stack', 'manner'],
-        description:
-            'the voice master, verbatim — the voice stack, manner, corrections. the compact copy in /preferences.md is what applies; read this when a voice question needs the full text.',
-        path: '/areas/fleet-voice.md',
-        sources: [`${RULES}/fleet-voice.md`],
-    },
-    {
-        aliases: [
-            'output format',
-            'formatting',
-            'reply shapes',
-            'casing',
-            'copy blocks',
-        ],
-        description:
-            'the output-format master, verbatim — links, typography, emoji, casing, copy fences, skeletons, boards, the ➡️ cta. the compact copy in /preferences.md is what applies; read this when a formatting question needs the full text.',
-        path: '/areas/fleet-output-format.md',
-        sources: [`${RULES}/fleet-output-format.md`],
-    },
-    {
         compact: true,
-        description: '',
-        fragment: 'voice-and-formatting',
+        fragment: 'formatting',
         path: '/preferences.md',
-        sources: [`${RULES}/fleet-voice.md`, `${RULES}/fleet-output-format.md`],
+        sources: [
+            {
+                file: `${RULES}/fleet-output-format.md`,
+                sections: [
+                    'the shapes that keep breaking',
+                    'typography',
+                    'emoji',
+                    'links and paths — one click, always',
+                    'copy-paste blocks get visible ends 📋',
+                    'casing — lowercase sentence-initial capitals',
+                    'questions, options, and the ➡️ cta',
+                    'reply skeletons',
+                    'a multi-item drop gets restated',
+                ],
+            },
+        ],
+    },
+    {
+        fragment: 'fleet',
+        path: '/profile.md',
+        sources: [
+            { file: `${RULES}/fleet-identity.md` },
+            { file: `${RULES}/fleet-voice.md` },
+            { file: `${RULES}/dima-signals.md` },
+            {
+                file: `${RULES}/fleet-vibe.md`,
+                sections: ['fleet words — how he steers an agent'],
+            },
+            {
+                file: `${RULES}/fleet-hazards.md`,
+                sections: ['the obsidian vault'],
+            },
+            {
+                file: `${CLAUDE}/CLAUDE.md`,
+                sections: [
+                    'global Claude Code configuration, applies to all projects',
+                ],
+            },
+            {
+                file: `${RULES}/tooling.md`,
+                sections: ['shared — cc and cw'],
+            },
+        ],
     },
 ];
 
@@ -200,44 +157,26 @@ export const selectSections = (body: string, names: string[]) =>
 export const tagBullets = (body: string) =>
     body.replace(/^(\s*)- (?!\[stated\] )/gm, '$1- [stated] ');
 
-/** ordered tuples, not an object — the formatter sorts object keys and `name` must stay first. */
-const frontmatter = (fields: [string, string | string[] | undefined][]) =>
-    `---\n${fields
-        .filter(([, v]) => v !== undefined)
-        .map(([k, v]) => `${k}: ${Array.isArray(v) ? `[${v.join(', ')}]` : v}`)
-        .join('\n')}\n---\n`;
-
 const outName = (target: Target) =>
-    `${target.path.replace(/^\//, '').replace(/\//g, '.').replace(/\.md$/, '')}${
-        target.fragment ? `.${target.fragment}` : ''
-    }.md`;
+    `${basename(target.path, '.md')}.${target.fragment}.md`;
 
 export function renderTarget(root: string, target: Target): Rendered {
     const masters = target.sources.map((s) =>
-        readFileSync(join(root, s), 'utf8'),
+        readFileSync(join(root, s.file), 'utf8'),
     );
     const sourceSha = sha(masters.join('\n'));
     const bodies = masters.map((m, i) => {
-        const selected = target.sections
-            ? selectSections(m.trim(), target.sections)
+        const source = target.sources[i];
+        if (!source) throw new Error(`no source ${i} for ${target.path}`);
+        const selected = source.sections
+            ? selectSections(m.trim(), source.sections)
             : m.trim();
         const trimmed = tagBullets(
             target.compact ? compact(selected) : selected,
         );
-        return target.sources.length > 1
-            ? `<!-- ${target.sources[i]} -->\n\n${trimmed}`
-            : trimmed;
+        return `<!-- ${source.file} -->\n\n${trimmed}`;
     });
-    const body = target.fragment
-        ? `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from ${target.sources.join(' + ')}${target.compact ? ' (compact: headers, bullets and marker-led paragraphs; full text in the mirrored entries)' : ''} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`
-        : `${frontmatter([
-              ['name', basename(target.path, '.md')],
-              ['description', target.description],
-              ['sources', ['cowork']],
-              ['aliases', target.aliases],
-              ['derived-from', target.sources],
-              ['source-sha256', sourceSha],
-          ])}\n${bodies.join('\n\n')}\n`;
+    const body = `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from ${target.sources.map((s) => s.file).join(' + ')}${target.compact ? ' (compact: headers, bullets and marker-led paragraphs)' : ''} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
     return {
         body,
         bytes: Buffer.byteLength(body),
@@ -260,12 +199,12 @@ export function toManifest(rendered: Rendered[]): Manifest {
             (x) => x.path === r.path && x.fragment === r.fragment,
         );
         if (!t) throw new Error(`no target for ${r.path}`);
-        out[r.fragment ? `${r.path}#${r.fragment}` : r.path] = {
+        out[`${r.path}#${r.fragment}`] = {
             bytes: r.bytes,
             file: r.file,
+            fragment: r.fragment,
             sha256: r.sha256,
-            sources: t.sources,
-            ...(r.fragment ? { fragment: r.fragment } : {}),
+            sources: t.sources.map((s) => s.file),
         };
     }
     return out;

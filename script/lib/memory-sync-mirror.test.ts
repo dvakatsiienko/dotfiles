@@ -1,6 +1,6 @@
 /**
  * ? the memory-sync mirror renders against a fixture tree, never the live repo — except the
- * ? last block, which checks that every master the target map names exists here.
+ * ? last block, which checks that every master and section the target map names exists here.
  */
 
 /* Core */
@@ -86,60 +86,64 @@ describe('tagBullets', () => {
 });
 
 describe('renderTarget', () => {
-    test('an entry carries cw frontmatter, the source sha and the verbatim body', async () => {
-        const target = targets.find((t) => t.path === '/areas/fleet-vibe.md');
-        if (!target?.sources[0]) throw new Error('fleet-vibe target missing');
-        await write(target.sources[0], '# vibe\n\n- **slay** = push\n');
-        const r = renderTarget(root, target);
-        expect(r.file).toBe('areas.fleet-vibe.md');
-        expect(r.body).toMatch(/^---\nname: fleet-vibe\n/);
-        expect(r.body).toContain(`derived-from: [${target.sources[0]}]`);
-        expect(r.body).toContain(`source-sha256: ${r.sha256}`);
-        expect(
-            r.body.endsWith('\n# vibe\n\n- [stated] **slay** = push\n'),
-        ).toBe(true);
-        expect(r.bytes).toBe(Buffer.byteLength(r.body));
-    });
+    const prefs = targets.find((t) => t.path === '/preferences.md');
+    const profile = targets.find((t) => t.path === '/profile.md');
+    if (!prefs || !profile) throw new Error('fragment targets missing');
+    const seed = async (t: (typeof targets)[number]) => {
+        for (const [i, s] of t.sources.entries())
+            await write(s.file, `# m${i}\n\n- x${i}\n`);
+    };
 
-    test('the sha follows the master', async () => {
-        const target = targets.find((t) => t.path === '/areas/dima-signals.md');
-        if (!target?.sources[0]) throw new Error('dima-signals target missing');
-        await write(target.sources[0], 'v1\n');
-        const a = renderTarget(root, target).sha256;
-        await write(target.sources[0], 'v2\n');
-        expect(renderTarget(root, target).sha256).not.toBe(a);
-    });
-
-    test('a fragment is fenced by the mirror markers and names each master', async () => {
-        const target = targets.find((t) => t.fragment);
-        if (!target) throw new Error('fragment target missing');
-        for (const [i, s] of target.sources.entries())
-            await write(s, `# m${i}\n\n- x${i}\n`);
-        const r = renderTarget(root, target);
-        expect(r.file).toBe('preferences.voice-and-formatting.md');
+    test('a fragment is fenced by the mirror markers, names each master and tags bullets', async () => {
+        await seed(prefs);
+        const r = renderTarget(root, prefs);
+        expect(r.file).toBe('preferences.formatting.md');
         expect(r.body.startsWith(`${MARK_START}\n`)).toBe(true);
         expect(r.body).toContain('(compact:');
         expect(r.body.endsWith(`${MARK_END}\n`)).toBe(true);
-        expect(r.body).not.toMatch(/^---\n/);
-        for (const s of target.sources)
-            expect(r.body).toContain(`<!-- ${s} -->`);
-        expect(r.body).toContain('- [stated] x1');
+        for (const s of prefs.sources)
+            expect(r.body).toContain(`<!-- ${s.file} -->`);
+        expect(r.body).toContain('- [stated] x0');
+        expect(r.bytes).toBe(Buffer.byteLength(r.body));
+    });
+
+    test('sections are picked per source, the whole master reaches cw when none are named', async () => {
+        await seed(profile);
+        const whole = profile.sources.find((s) => !s.sections);
+        const picked = profile.sources.find((s) => s.sections?.[0]);
+        if (!whole || !picked?.sections?.[0]) throw new Error('shape missing');
+        await write(whole.file, '# w\n\n## cc only\n\n- keep-w\n');
+        await write(
+            picked.file,
+            `# p\n\n## ${picked.sections[0]}\n\n- keep-p\n\n## cc only\n\n- drop-p\n`,
+        );
+        const body = renderTarget(root, profile).body;
+        expect(body).toContain('- [stated] keep-w');
+        expect(body).toContain('- [stated] keep-p');
+        expect(body).not.toContain('drop-p');
+    });
+
+    test('the sha follows the master', async () => {
+        await seed(prefs);
+        const first = prefs.sources[0];
+        if (!first) throw new Error('source missing');
+        const a = renderTarget(root, prefs).sha256;
+        await write(first.file, 'v2\n');
+        expect(renderTarget(root, prefs).sha256).not.toBe(a);
     });
 });
 
 describe('manifest', () => {
-    test('keys are cw paths, fragments suffixed with #name', async () => {
+    test('keys are host paths suffixed with #fragment', async () => {
         for (const t of targets)
-            for (const s of t.sources) await write(s, `# ${s}\n\n- l\n`);
-        const rendered = targets.map((t) => renderTarget(root, t));
-        const m = toManifest(rendered);
-        expect(Object.keys(m)).toContain('/areas/fleet-identity.md');
-        expect(Object.keys(m)).toContain(
-            '/preferences.md#voice-and-formatting',
-        );
-        expect(m['/preferences.md#voice-and-formatting']?.fragment).toBe(
-            'voice-and-formatting',
-        );
+            for (const s of t.sources)
+                await write(s.file, `# ${s.file}\n\n- l\n`);
+        const m = toManifest(targets.map((t) => renderTarget(root, t)));
+        expect(Object.keys(m)).toEqual([
+            '/preferences.md#formatting',
+            '/profile.md#fleet',
+        ]);
+        expect(m['/profile.md#fleet']?.fragment).toBe('fleet');
         for (const v of Object.values(m))
             expect(v.sha256).toMatch(/^[0-9a-f]{64}$/);
     });
@@ -151,12 +155,20 @@ describe('the live target map', () => {
         for (const t of targets)
             for (const s of t.sources)
                 await expect(
-                    fs.access(path.join(repo, s)),
+                    fs.access(path.join(repo, s.file)),
                 ).resolves.toBeUndefined();
     });
-    test('every entry has a description; fragments have none', () => {
+    test('every named section exists in its master', async () => {
         for (const t of targets)
-            if (t.fragment) expect(t.description).toBe('');
-            else expect(t.description.length, t.path).toBeGreaterThan(20);
+            for (const s of t.sources) {
+                const master = await fs.readFile(
+                    path.join(repo, s.file),
+                    'utf8',
+                );
+                for (const name of s.sections ?? [])
+                    expect(master, `${s.file} › ${name}`).toContain(
+                        `\n## ${name}\n`,
+                    );
+            }
     });
 });
