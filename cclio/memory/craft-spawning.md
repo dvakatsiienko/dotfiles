@@ -66,6 +66,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   a `Workflow` `agent()` call honours its per-call `effort` too (2.1.258).
 - ✅ **`claude --bg '<prompt>'` RUNS the prompt** (re-verified 2.1.258; it came up idle on 2.1.239).
   `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
+- ⚠️ **a `--bg` session is a pre-warmed daemon spare, not a fresh process** — the pool keeps one `claude bg-spare` warm and re-warms on claim; a spare older than a day booted a coder WITHOUT the repo's root `AGENTS.md` (2026-09-22, coder ccbee7b0), a spare born minutes earlier loaded it. check: `ps -o pid,lstart,command -ax | grep '[b]g-spare'` — the brief's «name your loaded AGENTS.md paths» line is the belt, a yesterday-born spare is the tell
 - ⚠️ **a subagent starts in the parent's bash cwd and inherits cclio's whole stack regardless
   of it** (2.1.258; flipped on each of the last three builds — re-probe every build). keep every
   path in a brief absolute.
