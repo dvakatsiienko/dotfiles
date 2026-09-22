@@ -28,6 +28,7 @@ The four failure shapes, each measured here:
   ask what else it is evidence of — the greptile skip on bytes #83 was reported as «the owner
   test works» and was also the concurrency-cancel bug, missing damage by seconds (2026-09-12).
 
+- 🚨 **a version read off the disk is not the running process.** «cc 2.1.280 confirmed» came from `claude --version` (the binary) while this session ran 2.1.278 since the day before; the probe is `ps -o command -p <pid>` or the process start time, never the cli (2026-09-22). same shape: «1password swallows `⇧⌘L`» was a guess printed as a cause — the daemon had simply never seen a press
 - 🚨 **a claim about a tool's capability names the version and the doc line it was read from.**
   «impeccable's monorepo config does not work as the docs say» stood a day; 4.3.1 discovers
   workspaces fine, the wrong thing was the readme's gitignore anchoring (2026-09-20).

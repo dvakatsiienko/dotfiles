@@ -23,7 +23,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 ## picking the model — Dima's contract, never re-derived
 
-- **opus-5** — the default coder: hard multi-step engineering, **always `--effort high`** (cheap enough to squeeze; his 2026-09-06 word)
+- **opus-5.5** — the default coder since 2026-09-22 (`--model opus` resolves to `claude-opus-5-5` on cc 2.1.280, probed): **`--effort medium` for the trial** (dima 2026-09-22: «set default coder to opus 5.5 medium, let's explore how 5.5 performs»); the models.md refresh on 10-06 decides the standing effort. before it: opus-5 at `--effort high` (his 2026-09-06 word)
   (measured at only ~+10% weekly usage — do not revert on a hunch). ⚠️ **not a PM**: overlong
   prose, invented jargon, unasked docs.
 - 📌 **a `fork` always runs on the parent model** (fable in cclio) whatever `model` says — research and lookups go to a fresh agent (`general-purpose`, `haiku` for retrieval), forks only when the job needs this session's context. `CLAUDE_CODE_SUBAGENT_MODEL=opus` in settings.json makes opus the fresh-agent default (dima's yes, 2026-09-13, after two fable forks spent ~365k on web reading).
@@ -42,7 +42,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    worth ~50k.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
 2. **name + argv** — the template, literal, prompt BEFORE `--remote-control` (measured 2026-09-07: the flag ate a 1.5 kB brief as its rc label → 400, idle child):
-   `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort high '/x:coder-brief BYT-N <job> coordinator: <cclio registry name>' --remote-control`
+   `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort medium '/x:coder-brief BYT-N <job> coordinator: <cclio registry name>' --remote-control`
    **the verifier is dima's call, asked before EVERY coder spawn** (dima 2026-09-20): the spawn ask carries a proposed `exit` section (given/when/then, from the ticket's acceptance) and the question «verifier: yes/no?» — the exit lines are his to think through, so the ask never skips them and never decides alone; a coder spawned without the ask was the miss on DOT-254. **a pr-lane coder spawns with its verifier** (dima 2026-09-18, spec = `x:verifier-brief`): the ticket carries an `exit` section (given/when/then, 3–6 lines, written at spawn, approved in the same ⏳ block — no exit lines, no spawn); after the coder's pr exists:
    `cd <repo> && claude --bg -n '🔎 verify: BYT-N' --model opus --effort high '/x:verifier-brief BYT-N <pr url> <coder registry name> <cclio registry name>' --remote-control`
    **the loop runs coder ↔ verifier; cclio reads one checkpoint line per round, arbitrates a dispute or a round-3 stop, and gets the coder's single report on `clean`** (dima 2026-09-20 — the DOT-254 phase-0/2 rounds came to cclio because my spawn note said «report to me only», which overrode the skill and cost a hop plus a page per round; never write that note again). the coder's brief names the verifier by its registry name (`🔎 verify: BYT-N`), never a session id — the verifier is spawned after the pr opens, and a session id was unreachable by `SendMessage` on 2026-09-18 while the name resolved; freebies and `dima`-mode coders get no verifier. model tier is a trial, not a decision: pr 1 opus high, pr 2 sonnet high, compare unique findings; the ci reviewer stays for those two prs as the control, then earns its place or goes.
@@ -115,6 +115,10 @@ Message the coder whenever; it answers **once** per assignment, blocked or done.
 cwd beats any message. Doneness is a **written marker** (final commit + report), never transcript
 archaeology. Subscribe, never poll. Budget three round trips — more means the brief was wrong.
 
+**A visual spec names the artifact to match, never the recipe** — «22 % corner mask» cost three probe rounds; «match `handoffs.png`» would have been right and cheaper (2026-09-22).
+**A ui-shaped ask gets its data measured before anything is drawn** — «the history view reads them as one chain» named a view that did not exist; dima's real rows (7, 5 zero-length) shrank it to a writer seam (2026-09-22).
+**A script that narrows a shared file to HEAD reads HEAD at write time, never before the work** — a coder's package.json reset read HEAD before cclio's rename landed and shipped the pre-rename key (2026-09-22).
+**An AGENTS.md imperative about WHEN acts at read time** — «start `ray develop` first» was read, then recalled after the whole edit; dima caught it (2026-09-22).
 **A brief carries the symptom + the evidence; a guessed cause says «guess»** — the job-6 brief asserted «a per-command key still exists» as the cause of a 401, and three curl calls found an empty header instead (2026-09-18).
 **A move is proven by executing every moved entrypoint** — a grep for the moved names missed a second relative import and the move died at runtime with typecheck green (2026-09-19).
 **A brief whose proof needs dima's hands says so at the TOP** and asks up front — the rcmd count needed three of his presses, discovered one at a time at the end (2026-09-19).

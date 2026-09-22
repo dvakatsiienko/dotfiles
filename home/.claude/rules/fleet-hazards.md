@@ -26,7 +26,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 
 ## git hooks
 
-- a gitignore pattern with a `/` in the middle is anchored to the ignore file's directory — `.impeccable/x.json` at a repo root never matches `apps/web/.impeccable/x.json`; `**/` in front makes it match at any depth (measured with `git check-ignore -v`, 2026-09-19; impeccable's readme has it wrong, #841)
+- a gitignore pattern with a `/` in the middle is anchored to the ignore file's directory — `.impeccable/x.json` at a repo root never matches `apps/web/.impeccable/x.json`; `**/` in front makes it match at any depth (measured with `git check-ignore -v`, 2026-09-19)
 - a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout)
 - worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
@@ -93,6 +93,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - `plutil -convert json` drops xml comments — prose in a plist is read from the raw file; `launchctl
   print` repeats `state =` in nested blocks — anchor the parse on the top-level line
 - `pnpm dotfiles:link apply` links new leaves and never prunes a dangling old symlink after a rename
+
+## node
+
+- `.node-version` holds the MAJOR (`24`) in dotfiles and bytes; fnm resolves the installed one. a `Can't find an installed Node version` prompt means a pin drifted back to a patch — repin to the major, never install the patch (2026-09-17)
 
 ## raycast extensions
 
