@@ -25,6 +25,7 @@
         "jev:vet": "node ./script/jev-vet.ts",
         "linear:agent-token": "node ./script/linear-agent-token.ts",
         "linear:push": "node ./script/linear-push.ts",
+        "linear:read": "node ./script/linear-read.ts",
         "macos:setup": "node ./script/macos-setup.ts",
         "mcp:build": "pnpm --filter mcp-x-cw build",
         "plugin:release": "node ./script/plugin-release.ts",
