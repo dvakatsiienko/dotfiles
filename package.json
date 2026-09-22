@@ -26,6 +26,7 @@
         "macos:setup": "node ./script/macos-setup.ts",
         "mcp:build": "pnpm --filter mcp-x-cw build",
         "plugin:release": "node ./script/plugin-release.ts",
+        "rayconfig:decrypt": "node ./script/rayconfig-decrypt.ts",
         "schedule:install": "node ./schedule/install.ts",
         "skill:cclio-mode-snapshot": "node ./script/skill-cclio-mode-snapshot.ts",
         "skill:evergreen-apps": "node ./script/skill-evergreen-apps.ts",
