@@ -2,14 +2,14 @@
     "peacock.affectActivityBar": false,
     "peacock.affectStatusBar": false,
     "peacock.affectTitleBar": true,
-    "peacock.color": "#ece6da",
+    "peacock.color": "#bce466",
     "workbench.colorCustomizations": {
         "commandCenter.border": "#15202b99",
         "commandCenter.foreground": "#595959",
-        "sash.hoverBorder": "#fdfdfc",
-        "titleBar.activeBackground": "#ece6da",
+        "sash.hoverBorder": "#cfec91",
+        "titleBar.activeBackground": "#bce466",
         "titleBar.activeForeground": "#595959",
-        "titleBar.inactiveBackground": "#ece6da99",
+        "titleBar.inactiveBackground": "#bce46699",
         "titleBar.inactiveForeground": "#15202b99"
     }
 }

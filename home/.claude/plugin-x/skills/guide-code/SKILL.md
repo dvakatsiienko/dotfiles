@@ -1,6 +1,6 @@
 ---
 name: guide-code
-description: Load EVERY time you write, edit, or review code in any language, BEFORE the language-specific guides.
+description: Load EVERY time you are about to write, edit, refactor or review source code — a .ts/.tsx/.swift/.sh/.py file, a function, a test, a script, a hook — BEFORE the language-specific guides. Not for settings dialogs, hotkeys, snippets, raycast/app configuration, tickets or prose.
 ---
 
 # Code Guide
