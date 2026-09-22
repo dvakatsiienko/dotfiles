@@ -236,6 +236,25 @@ const dropTupleLine = (text: string, tupleAt: number) => {
     return text.slice(0, lineStart) + text.slice(lineEnd + 1);
 };
 
+// The same removal for a row that is already an object: it owns its whole line, or several of
+// them once biome has exploded it, and lifting the block alone would leave the indent, the
+// trailing comma and the newline behind — which does not parse.
+const dropRowBlock = (
+    text: string,
+    block: ReturnType<typeof objectBlockAt>,
+) => {
+    const lineStart = text.lastIndexOf('\n', block.open) + 1;
+    const lineEnd = text.indexOf('\n', block.close);
+
+    if (text.slice(lineStart, block.open).trim() !== '') {
+        throw new ManualEditError(
+            'that row shares its line — edit manual.ts by hand',
+        );
+    }
+
+    return text.slice(0, lineStart) + text.slice(lineEnd + 1);
+};
+
 const appendRow = (text: string, row: Hotkey) => {
     const at = text.lastIndexOf(TERMINATOR);
 
@@ -275,12 +294,21 @@ export const moveManualText = (
         throw new ManualEditError('that move changes nothing');
     }
 
+    // A chord taken and given back on one day never lived long enough to count a press, so a
+    // row claiming it did is noise in the history rather than a fact about it. It goes instead
+    // of being written out with a zero-length life — five of them survived one test session on
+    // 2026-09-22, and stats.ts would read every one as a real meaning this machine once had.
+    const isZeroLength =
+        ended.since !== undefined && ended.since === ended.until;
+
     const tuple = `[${quote(row.key)}, ${quote(row.action)}]`;
     const tupleAt = onlyIndex(text, tuple, `the pair ${tuple}`);
 
     if (tupleAt !== null) {
+        const dropped = dropTupleLine(text, tupleAt);
+
         return appendRow(
-            appendRow(dropTupleLine(text, tupleAt), ended),
+            isZeroLength ? dropped : appendRow(dropped, ended),
             started,
         );
     }
@@ -288,6 +316,9 @@ export const moveManualText = (
     // The old row stays exactly where it is, under whatever comment explains it, and only gains
     // its end date. Only the new row is appended.
     const block = liveBlockOf(text, row);
+
+    if (isZeroLength) return appendRow(dropRowBlock(text, block), started);
+
     const indent = ' '.repeat(
         block.open - text.lastIndexOf('\n', block.open) - 1,
     );

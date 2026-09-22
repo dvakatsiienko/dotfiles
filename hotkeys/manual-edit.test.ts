@@ -278,6 +278,42 @@ describe('moveManualText', () => {
         );
     });
 
+    // A chord that was left on the same day it was taken never lived long enough to count a
+    // press, so the row claiming it did is noise in the history. One test session on
+    // 2026-09-22 left five of them in manual.ts.
+    it('drops the row a same-day return leaves behind', () => {
+        const moved = move(rows[0] as Hotkey, {
+            action: 'Linear',
+            key: 'l',
+            mods: 'hyper',
+        });
+        const movedRows: Hotkey[] = [
+            { ...(rows[0] as Hotkey), until: '2026-09-20' },
+            {
+                action: 'Linear',
+                app: 'raycast',
+                key: 'l',
+                mods: 'hyper',
+                since: '2026-09-20',
+            },
+            ...rows.slice(1),
+        ];
+        const back = moveManualText(moved, movedRows, {
+            from: movedRows[1] as Hotkey,
+            on: '2026-09-20',
+            to: { action: 'Linear', key: 'e', mods: 'hyper' },
+        });
+
+        expect(back).not.toContain("key: 'l'");
+        // the move still happens, and the history it passed through stays
+        expect(flat(back)).toContain(
+            "key: 'e', mods: 'hyper', since: '2026-09-20',",
+        );
+        expect(flat(back)).toContain(
+            "key: 'e', mods: 'hyper', until: '2026-09-20',",
+        );
+    });
+
     it('refuses a chord no hand-kept row carries', () => {
         expect(() =>
             move(
