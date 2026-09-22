@@ -1,8 +1,21 @@
-import { Action, ActionPanel, Color, Detail, Icon, List } from '@raycast/api';
+import {
+    Action,
+    ActionPanel,
+    Alert,
+    Color,
+    Detail,
+    Icon,
+    List,
+    Toast,
+    confirmAlert,
+    showToast,
+    useNavigation,
+} from '@raycast/api';
 import { useCachedPromise, usePromise } from '@raycast/utils';
 
 import {
     type Handoff,
+    deleteHandoff,
     handoffDir,
     readHandoffBody,
     readHandoffList,
@@ -12,10 +25,16 @@ import {
 } from './lib/handoffs';
 
 const Handoffs = () => {
-    const { data, isLoading } = useCachedPromise(readHandoffList, [], {
-        failureToastOptions: { title: 'could not read the handoff shelf' },
-        initialData: [],
-    });
+    const { data, isLoading, revalidate } = useCachedPromise(
+        readHandoffList,
+        [],
+        {
+            failureToastOptions: {
+                title: 'could not read the handoff shelf',
+            },
+            initialData: [],
+        },
+    );
 
     const handoffListJSX = data.map((handoff) => {
         return (
@@ -25,10 +44,18 @@ const Handoffs = () => {
                     <ActionPanel>
                         <Action.Push
                             icon={Icon.Book}
-                            target={<HandoffDetail handoff={handoff} />}
+                            target={
+                                <HandoffDetail
+                                    handoff={handoff}
+                                    onDeleted={revalidate}
+                                />
+                            }
                             title='read handoff'
                         />
-                        <HandoffShelfActions handoff={handoff} />
+                        <HandoffShelfActions
+                            handoff={handoff}
+                            onDeleted={revalidate}
+                        />
                     </ActionPanel>
                 }
                 icon={scrollEmoji}
@@ -58,6 +85,7 @@ const Handoffs = () => {
 };
 
 const HandoffDetail = (props: HandoffDetailProps) => {
+    const { pop } = useNavigation();
     const { data, isLoading } = usePromise(
         readHandoffBody,
         [props.handoff.path],
@@ -66,11 +94,20 @@ const HandoffDetail = (props: HandoffDetailProps) => {
         },
     );
 
+    // This view is reading the file that just went away, so it leaves with it.
+    const handleDeleted = () => {
+        pop();
+        props.onDeleted();
+    };
+
     return (
         <Detail
             actions={
                 <ActionPanel>
-                    <HandoffShelfActions handoff={props.handoff} />
+                    <HandoffShelfActions
+                        handoff={props.handoff}
+                        onDeleted={handleDeleted}
+                    />
                 </ActionPanel>
             }
             isLoading={isLoading}
@@ -80,9 +117,10 @@ const HandoffDetail = (props: HandoffDetailProps) => {
     );
 };
 
-// Three sections, because the verbs are three: paste into the session in front of you, copy
-// for somewhere else, open the file. Within each the cclio line leads — it is the one that
-// boots a coordinator, and the plain ingest line is the fallback for a session already booted.
+// Four sections, because the verbs are four: paste into the session in front of you, copy
+// for somewhere else, open the file, throw it away. Within the first two the cclio line
+// leads — it is the one that boots a coordinator, and the plain ingest line is the fallback
+// for a session already booted. Delete sits alone at the bottom, far from the return key.
 const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
     return (
         <>
@@ -129,7 +167,58 @@ const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
                     title='open in cursor'
                 />
             </ActionPanel.Section>
+            <ActionPanel.Section>
+                <DeleteHandoffAction
+                    handoff={props.handoff}
+                    onDeleted={props.onDeleted}
+                />
+            </ActionPanel.Section>
         </>
+    );
+};
+
+// The shelf is gitignored and the store keeps no trash, so this is the extension's one
+// irreversible verb and the confirm is its only undo. It goes through the store cli rather
+// than unlinking the path it already holds: a non-zero exit is what proves the file is gone,
+// and a frontend that deletes behind the store's back is a second set of rules to keep true.
+const DeleteHandoffAction = (props: DeleteHandoffActionProps) => {
+    const handleDelete = async () => {
+        const isConfirmed = await confirmAlert({
+            icon: Icon.Trash,
+            message: toDeleteWarning(props.handoff),
+            primaryAction: {
+                style: Alert.ActionStyle.Destructive,
+                title: 'delete',
+            },
+            title: `delete «${props.handoff.topic}»?`,
+        });
+        if (!isConfirmed) return;
+
+        const toast = await showToast(
+            Toast.Style.Animated,
+            `deleting ${props.handoff.topic}`,
+        );
+
+        try {
+            await deleteHandoff(props.handoff);
+            toast.style = Toast.Style.Success;
+            toast.title = `deleted ${props.handoff.topic}`;
+            props.onDeleted();
+        } catch (error) {
+            toast.style = Toast.Style.Failure;
+            toast.title = 'nothing was deleted';
+            toast.message = (error as Error).message;
+        }
+    };
+
+    return (
+        <Action
+            icon={Icon.Trash}
+            onAction={handleDelete}
+            shortcut={{ key: 'x', modifiers: ['ctrl'] }}
+            style={Action.Style.Destructive}
+            title='delete handoff'
+        />
     );
 };
 
@@ -139,6 +228,16 @@ export default Handoffs;
 // The command icon is this same scroll rendered to a png — the emoji is the shelf's mark on
 // both surfaces. A foreign handoff is already called out by its Lock accessory.
 const scrollEmoji = '📜';
+
+// The row's orange "for cw" accessory is the standing warning, and the alert covers it —
+// so an audience that is not ours is restated here, where the keypress actually happens.
+const toDeleteWarning = (handoff: Handoff) => {
+    const owner = handoff.isForeign
+        ? `\n\naddressed to ${handoff.audience} — deleting it takes the thread away from them.`
+        : '';
+
+    return `${handoff.fileName}${owner}`;
+};
 
 // Raycast's own filtering reads the title and these keywords, and nothing else — lane
 // and author live in accessories, which are not indexed, so the search bar would
@@ -218,8 +317,15 @@ const toAccessoryList = (handoff: Handoff): List.Item.Accessory[] => {
 /* Types */
 interface HandoffDetailProps {
     handoff: Handoff;
+    onDeleted: () => void;
 }
 
 interface HandoffShelfActionsProps {
     handoff: Handoff;
+    onDeleted: () => void;
+}
+
+interface DeleteHandoffActionProps {
+    handoff: Handoff;
+    onDeleted: () => void;
 }

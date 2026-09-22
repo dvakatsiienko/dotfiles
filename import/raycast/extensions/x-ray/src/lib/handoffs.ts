@@ -1,6 +1,10 @@
+import { execFile } from 'node:child_process';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { promisify } from 'node:util';
+
+const run = promisify(execFile);
 
 export const handoffDir = join(homedir(), '.claude', 'shelf', 'handoffs');
 
@@ -16,6 +20,14 @@ export const readHandoffList = async (): Promise<Handoff[]> => {
 };
 
 export const readHandoffBody = (path: string) => readFile(path, 'utf8');
+
+// Reading the shelf straight off disk is harmless; deleting behind the store's back is not,
+// so the one destructive verb goes through the store cli like every other frontend does.
+// The file name is the slug: `pick` refuses an ambiguous one rather than guessing, and a
+// whole file name can only ever match its own file. A miss exits 1, which rejects here —
+// that non-zero exit is the only proof the row is really gone.
+export const deleteHandoff = (handoff: Handoff) =>
+    run('node', [storeCli, 'delete', handoff.fileName]);
 
 // `/x:handoff-ingest <topic>` picks this file out of the shelf; `/cclio:init` in front boots
 // the reading session as the coordinator first. Which one is wanted depends on the session
@@ -36,6 +48,16 @@ export const toAge = (modifiedAt: number) => {
 };
 
 /* Helpers */
+
+// Raycast resolves a bare command against its own PATH, which carries /opt/homebrew/bin —
+// the same assumption `gmail-block-sender` already makes for `gmailctl`. That node is not
+// the repo's fnm one, whose path is per-shell and so cannot be named from here.
+const storeCli = join(
+    homedir(),
+    'dotfiles',
+    'script',
+    'skill-handoff-store.ts',
+);
 
 // Mirrors cclio/.claude/hooks/boot-prefetch.sh. The grammar is
 // `<audience>--<lane>--<topic>--by-<author>--<stamp>`, optionally suffixed `-shared`;
