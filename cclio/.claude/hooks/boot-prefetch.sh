@@ -47,7 +47,7 @@ done
 
 echo "-- inbox --"
 if [ -r "$VAULT/inbox.md" ]; then
-  n=$(grep -vc '^## \|^---$\|^> \|^\s*$' "$VAULT/inbox.md")
+  n=$(grep -vc -e '^## ' -e '^---$' -e '^> ' -e '^[[:space:]]*$' "$VAULT/inbox.md")
   [ "$n" = 0 ] && echo "clean" || echo "$n content lines — parse into flowlog before any work"
   grep -q 'FROZEN' "$VAULT/inbox.md" && echo "FROZEN marker present — do not touch"
   echo "-- inbox, laned by jev (script/lib/jev-questions.ts; ⏳ = band 0.30–0.70, dima's call) --"
@@ -58,6 +58,7 @@ fi
 
 echo "-- jev vet (pnpm jev:vet ok|miss <flow> <note> records a verdict; a miss restarts the window) --"
 node "$HOME/dotfiles/script/jev-vet.ts" 2>/dev/null || fail "jev vet registry unreadable"
+health=$(timeout 15 "$HOME/dotfiles/script/op-run.sh" node "$HOME/dotfiles/script/jev-report.ts" --health 2>&1) && echo "jev health: $health" || fail "jev: ${health:-probe did not run}"
 
 echo "-- x-queue head --"
 awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
@@ -121,6 +122,19 @@ for _ in 1 2 3 4 5 6; do
   case "$(ps -o args= -p "$pid" 2>/dev/null)" in claude\ *|*/bin/claude\ *|*/bin/claude|*/versions/[0-9]*) born=$(ps -o lstart= -p "$pid"); age=$(ps -o etime= -p "$pid" | tr -d ' '); break;; esac
 done
 [ -n "$born" ] && echo "process $pid up ${age} (since ${born}) · $(claude --version 2>/dev/null)" || echo "process: not found in the parent chain"
+# a `--bg` coder claims the daemon's pre-warmed spare; a day-old spare booted one without the repo AGENTS.md (2026-09-22)
+live_pids=$(jq -r '.pid // empty' "$HOME"/.claude/sessions/*.json 2>/dev/null)
+spares=0
+while read -r spid slstart; do
+  [ -z "$spid" ] && continue
+  echo "$live_pids" | grep -qx "$spid" && continue
+  spares=$((spares + 1))
+  born_s=$(date -j -f '%a %b %d %T %Y' "$slstart" +%s 2>/dev/null || echo 0)
+  hours=$(( ( $(date +%s) - born_s ) / 3600 ))
+  flag=""; [ "$hours" -gt 6 ] && flag="⚠️ stale spare — a --bg coder claimed now boots without the repo AGENTS.md; refresh before spawning · "
+  echo "${flag}warm spare $spid · born $slstart · age ${hours}h"
+done < <(ps -o pid=,lstart=,command= -ax | awk '/claude bg-spare/ && !/awk/ {print $1, $2, $3, $4, $5, $6}')
+[ "$spares" = 0 ] && echo "no warm spare"
 # measured 2026-09-21: the loaded chain spawns at ~75.6k prompt tokens, the same spawn with no cclio
 # barrel at ~46.5k (base prompt + global ~/.claude + plugins). 60k sits between them, so the logged
 # ctx is what separates «the model whiffed» from «the import chain broke» on the next red.
