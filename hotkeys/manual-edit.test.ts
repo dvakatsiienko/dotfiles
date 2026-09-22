@@ -280,8 +280,9 @@ describe('moveManualText', () => {
 
     // A chord that was left on the same day it was taken never lived long enough to count a
     // press, so the row claiming it did is noise in the history. One test session on
-    // 2026-09-22 left five of them in manual.ts.
-    it('drops the row a same-day return leaves behind', () => {
+    // 2026-09-22 left five of them in manual.ts. Moving on to a THIRD chord rather than back
+    // keeps this about the zero-length row alone — the return is the next test's job.
+    it('drops a chord the same day it passed through', () => {
         const moved = move(rows[0] as Hotkey, {
             action: 'Linear',
             key: 'l',
@@ -301,17 +302,49 @@ describe('moveManualText', () => {
         const back = moveManualText(moved, movedRows, {
             from: movedRows[1] as Hotkey,
             on: '2026-09-20',
-            to: { action: 'Linear', key: 'e', mods: 'hyper' },
+            to: { action: 'Linear', key: 'm', mods: 'hyper' },
         });
 
         expect(back).not.toContain("key: 'l'");
-        // the move still happens, and the history it passed through stays
+        // the move still lands, and the meaning that really ended still says so
         expect(flat(back)).toContain(
-            "key: 'e', mods: 'hyper', since: '2026-09-20',",
+            "key: 'm', mods: 'hyper', since: '2026-09-20',",
         );
         expect(flat(back)).toContain(
             "key: 'e', mods: 'hyper', until: '2026-09-20',",
         );
+    });
+
+    // A chord taken and handed straight back changes nothing, so the file it started from is
+    // the file it has to end on. It used to leave a seam instead: the original row ended and
+    // an identical one started on the same day — two rows saying one thing, which is what a
+    // second rebind read as duplicates rather than as one chain.
+    it('leaves the file untouched when a same-day move returns', () => {
+        const away = move(rows[2] as Hotkey, {
+            action: 'Raycast',
+            key: 'space',
+            mods: 'ctrl',
+        });
+        const awayRows: Hotkey[] = [
+            rows[0] as Hotkey,
+            rows[1] as Hotkey,
+            { ...(rows[2] as Hotkey), until: '2026-09-20' },
+            rows[3] as Hotkey,
+            {
+                action: 'Raycast',
+                app: 'raycast',
+                key: 'space',
+                mods: 'ctrl',
+                since: '2026-09-20',
+            },
+        ];
+        const back = moveManualText(away, awayRows, {
+            from: awayRows[4] as Hotkey,
+            on: '2026-09-20',
+            to: { action: 'Raycast', key: 'space', mods: 'cmd' },
+        });
+
+        expect(back).toBe(fixture);
     });
 
     it('refuses a chord no hand-kept row carries', () => {

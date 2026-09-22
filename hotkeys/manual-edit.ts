@@ -99,18 +99,35 @@ const objectBlockAt = (text: string, fieldAt: number) => {
     return { close: close + 1, open, text: text.slice(open, close + 1) };
 };
 
-// After a move the file carries the ended row and the live one under the same action, so the
-// action alone names two places. The live row is the one whose block holds this key and mods
-// and no `until`.
-const liveBlockOf = (text: string, row: Hotkey) => {
-    const blocks = indexesOf(text, `action: ${quote(row.action)}`)
+// Every block whose action, key and mods read as this row. After a move the file carries the
+// ended row and the live one under the same action, so this alone names two places — the
+// callers below each add the half they mean.
+const blocksOf = (text: string, row: Hotkey) =>
+    indexesOf(text, `action: ${quote(row.action)}`)
         .map((at) => objectBlockAt(text, at))
         .filter(
             (block) =>
                 block.text.includes(`key: ${quote(row.key)}`) &&
-                block.text.includes(`mods: ${quote(row.mods)}`) &&
-                !/\buntil:/.test(block.text),
+                block.text.includes(`mods: ${quote(row.mods)}`),
         );
+
+// The one that ended on a given day — the row a same-day return brings back. liveBlockOf
+// cannot find it, since skipping rows that carry an `until` is that function's whole job.
+const endedBlockOf = (text: string, row: Hotkey, on: string) => {
+    const blocks = blocksOf(text, row).filter((block) =>
+        block.text.includes(`until: ${quote(on)}`),
+    );
+
+    return blocks.length === 1
+        ? (blocks[0] as ReturnType<typeof objectBlockAt>)
+        : undefined;
+};
+
+// The live row is the one whose block carries no `until`.
+const liveBlockOf = (text: string, row: Hotkey) => {
+    const blocks = blocksOf(text, row).filter(
+        (block) => !/\buntil:/.test(block.text),
+    );
 
     if (blocks.length === 0) {
         throw new ManualEditError(
@@ -301,33 +318,60 @@ export const moveManualText = (
     const isZeroLength =
         ended.since !== undefined && ended.since === ended.until;
 
+    // A chord handed back on the day it was taken never stopped meaning what it means. Day
+    // granularity cannot hold the gap — labelAt reads `until` exclusively, so no press was ever
+    // labelled by the absence — and two identical rows meeting at one date is the seam a second
+    // rebind reads as duplicates rather than as one chain. So the row that ended today simply
+    // stops having ended. Across two dates the chord really did mean nothing in between, and
+    // the rows stay apart.
+    const returning = rows.find(
+        (candidate) =>
+            candidate.until === move.on &&
+            candidate.app === started.app &&
+            candidate.action === started.action &&
+            chordOf(candidate) === chordOf(started),
+    );
+
+    // Either the new meaning starts as its own row, or it is the old one resuming.
+    const startRow = (into: string) => {
+        const ends = returning && endedBlockOf(into, returning, move.on);
+
+        if (!ends) return appendRow(into, started);
+
+        const indent = ' '.repeat(
+            ends.open - into.lastIndexOf('\n', ends.open) - 1,
+        );
+
+        return (
+            into.slice(0, ends.open) +
+            rowLiteral({ ...returning, until: undefined }, indent) +
+            into.slice(ends.close)
+        );
+    };
+
     const tuple = `[${quote(row.key)}, ${quote(row.action)}]`;
     const tupleAt = onlyIndex(text, tuple, `the pair ${tuple}`);
 
     if (tupleAt !== null) {
         const dropped = dropTupleLine(text, tupleAt);
 
-        return appendRow(
-            isZeroLength ? dropped : appendRow(dropped, ended),
-            started,
-        );
+        return startRow(isZeroLength ? dropped : appendRow(dropped, ended));
     }
 
     // The old row stays exactly where it is, under whatever comment explains it, and only gains
     // its end date. Only the new row is appended.
     const block = liveBlockOf(text, row);
 
-    if (isZeroLength) return appendRow(dropRowBlock(text, block), started);
+    if (isZeroLength) return startRow(dropRowBlock(text, block));
 
     const indent = ' '.repeat(
         block.open - text.lastIndexOf('\n', block.open) - 1,
     );
 
-    return appendRow(
+    return startRow(
         text.slice(0, block.open) +
             rowLiteral(ended, indent) +
             text.slice(block.close),
-        started,
     );
 };
 
