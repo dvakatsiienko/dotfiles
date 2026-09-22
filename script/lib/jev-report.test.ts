@@ -1,0 +1,119 @@
+import { describe, expect, it } from 'vitest';
+
+import { reportLines } from './jev-report.ts';
+import type { Registry } from './jev-vet.ts';
+
+const registry: Registry = {
+    flows: {
+        'inbox-lanes': {
+            misses: 1,
+            since: '2026-09-20',
+            state: 'vetting',
+            verdicts: 3,
+            what: '',
+        },
+        'skill-router': {
+            misses: 0,
+            since: '2026-09-08',
+            state: 'green',
+            verdicts: 20,
+            what: '',
+        },
+    },
+    windowDays: 14,
+};
+const today = '2026-09-22';
+
+describe('jev report', () => {
+    it('a vetting flow with runs today prints its window and the day', () => {
+        const lines = reportLines(
+            registry,
+            [
+                {
+                    flow: 'inbox-lanes',
+                    items: 4,
+                    picks: [
+                        { conf: 0.9, name: 'answer' },
+                        { conf: 0.45, name: 'fold' },
+                    ],
+                    tokens: 3200,
+                },
+            ],
+            [],
+            today,
+        );
+        expect(lines).toContain('🟡 **inbox-lanes** — 🧪 2/14 clean');
+        expect(lines).toContain(
+            '- today — **4** prompts, **1** loads, **0** false',
+        );
+        expect(lines).toContain('- watch — fold 0.45');
+        expect(lines).toContain('- verdicts — 2 ok, 1 misses');
+    });
+
+    it('a green flow prints no window and no verdicts line', () => {
+        const lines = reportLines(
+            registry,
+            [{ flow: 'skill-router', items: 12, picks: [], tokens: 800 }],
+            [],
+            today,
+        );
+        const at = lines.indexOf('🟢 **skill-router**');
+        expect(at).toBeGreaterThan(-1);
+        // the block runs to the 📊 line; inbox-lanes above it keeps its own 🧪 and verdicts
+        const block = lines.slice(
+            at,
+            lines.findIndex((l) => l.startsWith('📊')),
+        );
+        expect(block.some((l) => l.includes('🧪'))).toBe(false);
+        expect(block.some((l) => l.startsWith('- verdicts'))).toBe(false);
+    });
+
+    it('a miss verdict today turns the flow red and restarts the window', () => {
+        const lines = reportLines(
+            {
+                ...registry,
+                flows: {
+                    'inbox-lanes': {
+                        ...registry.flows['inbox-lanes']!,
+                        since: today,
+                    },
+                },
+            },
+            [],
+            [
+                {
+                    flow: 'inbox-lanes',
+                    note: 'chords laned ticket, was answer',
+                    verdict: 'miss',
+                },
+            ],
+            today,
+        );
+        expect(lines).toContain('🔴 **inbox-lanes** — 🧪 0/14 restarted today');
+        expect(lines).toContain('- miss — chords laned ticket, was answer');
+    });
+
+    it('a flow with nothing today is white and one line', () => {
+        const lines = reportLines(registry, [], [], today);
+        expect(lines[0]).toBe('⚪ **inbox-lanes** — 🧪 2/14 clean');
+        expect(lines[1]).toBe('- today — no runs');
+    });
+
+    it('the tail sums the session and names the flows without a verdict', () => {
+        const lines = reportLines(
+            registry,
+            [
+                { flow: 'inbox-lanes', items: 4, picks: [], tokens: 3200 },
+                { flow: 'skill-router', items: 12, picks: [], tokens: 800 },
+            ],
+            [{ flow: 'skill-router', note: '-', verdict: 'ok' }],
+            today,
+        );
+        expect(lines.at(-2)).toBe(
+            '📊 **session** — 2 flows, **16** items, **~4k** tokens (inbox-lanes 4, skill-router 12)',
+        );
+        expect(lines.at(-1)).toBe(
+            '🚦 **health** — api ok, key ok, fixture probe ok, verdicts missing: inbox-lanes',
+        );
+    });
+});

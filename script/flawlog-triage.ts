@@ -5,6 +5,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { judge } from './lib/jev.ts';
 import { laneCells, printTable, tailLine } from './lib/jev-print.ts';
 import { flawlogQuestions } from './lib/jev-questions.ts';
+import type { Pick } from './lib/jev-report.ts';
+import { runsLog } from './lib/jev-report.ts';
 
 const dir = `${process.env.HOME}/.claude/shelf/flawlog`;
 const path =
@@ -21,6 +23,7 @@ const lines = readFileSync(path, 'utf8')
 
 let tokens = 0;
 const rows: string[][] = [];
+const picks: Pick[] = [];
 for (const line of lines) {
     const res = await judge(
         { line, log: path.split('/').at(-1) },
@@ -28,9 +31,11 @@ for (const line of lines) {
     );
     tokens += res.usage.input_tokens;
     const { lane } = res.answers;
+    picks.push({ conf: lane.confidence, name: lane.choice });
     rows.push(
         laneCells(lane.choice, lane.confidence, lane.probabilities, line),
     );
 }
 printTable(rows);
 console.log(tailLine(lines.length, 'lines', tokens));
+runsLog('flawlog-lanes', lines.length, tokens, picks);

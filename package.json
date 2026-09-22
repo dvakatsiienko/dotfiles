@@ -20,6 +20,7 @@
         "jev:inbox": "./script/op-run.sh node ./script/inbox-triage.ts",
         "jev:flawlog": "./script/op-run.sh node ./script/flawlog-triage.ts",
         "jev:route": "./script/op-run.sh node ./script/skill-route.ts",
+        "jev:report": "./script/op-run.sh node ./script/jev-report.ts",
         "jev:test": "./script/op-run.sh node ./script/jev-test.ts",
         "jev:vet": "node ./script/jev-vet.ts",
         "linear:agent-token": "node ./script/linear-agent-token.ts",

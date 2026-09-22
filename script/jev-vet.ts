@@ -6,6 +6,7 @@
  */
 
 /* Instruments */
+import { lastVerdictDay } from './lib/jev-report.ts';
 import {
     registryRead,
     registryWrite,
@@ -46,4 +47,10 @@ if (verdict === 'ok' || verdict === 'miss') {
     );
 }
 
-for (const line of statusLines(registryRead(), today)) console.log(line);
+const current = registryRead();
+for (const line of statusLines(current, today)) console.log(line);
+for (const name of Object.keys(current.flows)) {
+    const last = lastVerdictDay(name);
+    if (last !== today)
+        console.log(`   ${name}: no verdict since ${last ?? 'ever'}`);
+}

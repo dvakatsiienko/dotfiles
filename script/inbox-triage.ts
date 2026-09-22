@@ -5,6 +5,8 @@ import { readFileSync } from 'node:fs';
 import { judge } from './lib/jev.ts';
 import { laneCells, printTable, tailLine } from './lib/jev-print.ts';
 import { inboxQuestions, verdictBand } from './lib/jev-questions.ts';
+import type { Pick } from './lib/jev-report.ts';
+import { runsLog } from './lib/jev-report.ts';
 import { dim } from './lib/print.ts';
 
 const inboxPath = `${process.env.HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/inbox.md`;
@@ -37,6 +39,7 @@ const runs = Number(process.env.RUNS ?? 1);
 const items = parseInbox(readFileSync(inboxPath, 'utf8'));
 let tokens = 0;
 const rows: string[][] = [];
+const picks: Pick[] = [];
 for (const item of items) {
     for (let run = 0; run < runs; run++) {
         const res = await judge(
@@ -45,6 +48,7 @@ for (const item of items) {
         );
         tokens += res.usage.input_tokens;
         const { lane, needsVerdict } = res.answers;
+        picks.push({ conf: lane.confidence, name: lane.choice });
         const band =
             needsVerdict.noul > verdictBand.high
                 ? '⏳ dima'
@@ -64,3 +68,4 @@ for (const item of items) {
 }
 printTable(rows);
 console.log(tailLine(items.length, 'items', tokens));
+runsLog('inbox-lanes', items.length, tokens, picks);

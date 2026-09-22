@@ -6,6 +6,7 @@ import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
 import { printTable } from './lib/jev-print.ts';
+import { runsLog } from './lib/jev-report.ts';
 import { bb, bold, dim, gb, rb } from './lib/print.ts';
 
 // frontmatter description is one line, or a `>-` folded block of indented lines
@@ -82,6 +83,13 @@ if (live) {
         `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\n`,
     );
     if (loads.length) console.log(`skills (jev router): ${loads.join(', ')}`);
+    // the top pick only — a whole prompt's 59 nouls would drown the report
+    runsLog(
+        'skill-router',
+        1,
+        res.usage.input_tokens,
+        top ? [{ conf: top[1], name: top[0] }] : [],
+    );
     process.exit(0);
 }
 
