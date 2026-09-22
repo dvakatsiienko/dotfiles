@@ -235,6 +235,11 @@ GraphQL for any read that will inform a decision**, and filter the JSON so only 
 enter context. Always fetch: `labels { nodes { name description } }` · `parent` + `children` ·
 `comments` · `attachments` · state, project, priority, assignee.
 
+- **on `cc`, one call prints the whole contract: `pnpm linear:read DOT-N`** (in `~/dotfiles`;
+  `--no-body` for a DOT-237-class body, `--no-comments`, `--json`). Reach for it on every
+  decision-informing read — comments included by default, both relation sides, `⚠️ capped` on any
+  paged list.
+
 - 🚨 **BOTH `relations` AND `inverseRelations`.** `relations` returns only the edges a ticket
   *declares* — a ticket that is **blocked by** something shows an empty list and looks unblocked.
   The inverse side exposes `issue`, not `relatedIssue`.
