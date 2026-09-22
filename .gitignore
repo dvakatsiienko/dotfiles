@@ -90,3 +90,4 @@ gmail/token.json
 
 # coder worktrees (embedded checkouts), the same location cc uses
 .claude/worktrees/
+import/raycast/backups/*.rayconfig
