@@ -42,6 +42,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   reflog is the net (a coder lost its net on a reword, 2026-09-05)
 - `git worktree add` in a git-crypt repo dies on the smudge filter (no key under `.git/worktrees/<n>/`): add with `-c filter.git-crypt.smudge=cat -c filter.git-crypt.required=false`, copy the key into `.git/worktrees/<n>/git-crypt/keys/`, then `git-crypt unlock` inside the tree. `git add -A <path>` still scans the whole tree and trips on a locked file — pathspec commits only (2026-09-20)
 
+## the shared working tree
+
+- **a parallel agent in a repo with a repo-wide commit gate writes to scratch until it compiles, then moves in** — per-path ownership does not hold against a per-repo typecheck hook: a coder's own subagent dropped a half-compiled `.ts` into the tree and blocked the coder's commits for two rounds (2026-09-22)
+
 ## brew casks
 
 - `brew install --cask --adopt` is the way to bring a hand-installed app under brew, and it has
@@ -136,6 +140,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - **a green typecheck answers «did the configured files pass», never «are my files configured»** — `hotkeys/*.ts` sat in no tsconfig for a week and a reverted interface field left the gate green (2026-09-20). a new dir of `.ts` is proven by planting a type error and watching `pnpm typecheck` go red
 - **github's `Deploy · success` is the hook trigger, never the build** — three production builds were red for 20 minutes behind a green Actions page (2026-09-21); the build state lives only in `vercel inspect <deploy url>` (`status ● Error`), and `vercel ls <project> --prod` names the newest one
 - **a conflicting pr gets no `pull_request` run at all** — github creates none without a merge ref, and «no checks reported» reads calm. main moves under an open pr → merge it in within the hour (ten heads ran no ci, 2026-09-20)
+
+## app exports
+
+- **an app export is a secrets container until decrypted or inspected** — a raycast `.rayconfig` held the whole clipboard history and every extension's stored keys behind the passphrase typed in the export dialog; a weak passphrase is plaintext. an export never enters a repo; it lives outside git and is read by a tool (2026-09-22: two exports sat in the public dotfiles repo for a week)
 
 ## declarative tools
 
