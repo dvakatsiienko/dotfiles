@@ -106,22 +106,42 @@ export const runsRead = (today: string, path = RUNS_LOG): Run[] =>
             };
         });
 
+/**
+ * a flow's verdict log: `ts · verdict · note · prompt` — the prompt column arrived 2026-09-22,
+ * so every line written before it has three columns and none
+ */
+export const verdictParse = (text: string): VerdictLine[] =>
+    text
+        .split('\n')
+        .filter(Boolean)
+        .map((l) => {
+            const [ts = '', verdict = 'ok', note = '-', prompt] = l.split('\t');
+            return { note, prompt, ts, verdict: verdict as Verdict };
+        });
+
+export const verdictsOf = (flow: string, dir = VET_DIR) => {
+    const path = join(dir, `${flow}.log`);
+    return verdictParse(existsSync(path) ? readFileSync(path, 'utf8') : '');
+};
+
+/** the last n prompts a miss recorded — what `jev:route --misses` replays */
+export const missPrompts = (rows: readonly VerdictLine[], n: number) =>
+    rows
+        .flatMap((row) =>
+            row.verdict === 'miss' && row.prompt ? [row.prompt] : [],
+        )
+        .slice(-n);
+
 export const verdictsRead = (
     registry: Registry,
     today: string,
     dir = VET_DIR,
 ): VerdictRow[] =>
-    Object.keys(registry.flows).flatMap((flow) => {
-        const path = join(dir, `${flow}.log`);
-        if (!existsSync(path)) return [];
-        return readFileSync(path, 'utf8')
-            .split('\n')
-            .filter((l) => dayOf(l) === today)
-            .map((l) => {
-                const [, verdict = 'ok', note = '-'] = l.split('\t');
-                return { flow, note, verdict: verdict as Verdict };
-            });
-    });
+    Object.keys(registry.flows).flatMap((flow) =>
+        verdictsOf(flow, dir)
+            .filter((row) => dayOf(row.ts) === today)
+            .map((row) => ({ flow, note: row.note, verdict: row.verdict })),
+    );
 
 /** the day a flow last heard a verdict, or undefined — the boot prints «no verdict since» off it */
 export const lastVerdictDay = (flow: string, dir = VET_DIR) => {
@@ -223,6 +243,12 @@ export type Run = {
     picks: Pick[];
 };
 export type VerdictRow = { flow: string; verdict: Verdict; note: string };
+export type VerdictLine = {
+    ts: string;
+    verdict: Verdict;
+    note: string;
+    prompt: string | undefined;
+};
 export type Health = {
     api: boolean;
     key: boolean;

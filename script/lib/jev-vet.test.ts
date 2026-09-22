@@ -5,6 +5,7 @@ import {
     spotCheckDue,
     statusLines,
     verdictApply,
+    verdictLine,
 } from './jev-vet.ts';
 
 // biome-ignore lint/suspicious/noControlCharactersInRegex: the escape byte is the point
@@ -104,5 +105,39 @@ describe('statusLines', () => {
         expect(plain).toEqual([
             '🟡 inbox-lanes — vetting 9/14 d clean · 3 verdicts, 0 misses',
         ]);
+    });
+});
+
+describe('the verdict record', () => {
+    const at = new Date('2026-09-22T10:00:00.000Z');
+
+    test('a miss carries the prompt that produced it', () => {
+        expect(
+            verdictLine(
+                'miss',
+                'loaded x:pm, wanted x:notes',
+                'append to inbox: windscribe',
+                at,
+            ),
+        ).toBe(
+            '2026-09-22T10:00:00.000Z\tmiss\tloaded x:pm, wanted x:notes\tappend to inbox: windscribe\n',
+        );
+    });
+
+    test('a verdict with no prompt keeps the three columns it always had', () => {
+        expect(verdictLine('ok', 'all four lanes matched', undefined, at)).toBe(
+            '2026-09-22T10:00:00.000Z\tok\tall four lanes matched\n',
+        );
+    });
+
+    test('a newline or a tab in the prompt collapses, so one verdict stays one line', () => {
+        const line = verdictLine(
+            'miss',
+            'note',
+            'read BYT-41\nand\tfold it',
+            at,
+        );
+        expect(line.split('\t')).toHaveLength(4);
+        expect(line).toContain('read BYT-41 and fold it');
     });
 });

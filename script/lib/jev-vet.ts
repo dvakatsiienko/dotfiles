@@ -76,11 +76,35 @@ export const spotCheckDue = (flow: Flow, today: string) =>
     (!flow.spotCheckedAt ||
         Date.parse(today) - Date.parse(flow.spotCheckedAt) >= 7 * DAY);
 
-export const verdictLog = (name: string, verdict: Verdict, note: string) =>
+/**
+ * ? one verdict, one line: `ts · verdict · note · prompt`. the prompt is what jev was answering
+ * ? when it missed, so `jev:route --misses` can replay the real thing instead of a hand-written
+ * ? probe; a verdict that names no prompt keeps the three columns the log always had. a tab or a
+ * ? newline inside either field would split the record, so both collapse to spaces.
+ */
+export const verdictLine = (
+    verdict: Verdict,
+    note: string,
+    prompt?: string,
+    at = new Date(),
+) => {
+    const tail = prompt ? `\t${oneLine(prompt)}` : '';
+
+    return `${at.toISOString()}\t${verdict}\t${oneLine(note)}${tail}\n`;
+};
+
+export const verdictLog = (
+    name: string,
+    verdict: Verdict,
+    note: string,
+    prompt?: string,
+) =>
     appendFileSync(
         join(VET_DIR, `${name}.log`),
-        `${new Date().toISOString()}\t${verdict}\t${note}\n`,
+        verdictLine(verdict, note, prompt),
     );
+
+const oneLine = (text: string) => text.replace(/\s+/g, ' ').trim();
 
 export const statusLines = (registry: Registry, today: string) =>
     Object.entries(registry.flows).map(([name, flow]) => {

@@ -1,13 +1,20 @@
 // probe: can jev pick the x:* skill a prompt needs, from the skills' own descriptions?
 // usage: script/op-run.sh node script/skill-route.ts                → the probe set
 //        script/op-run.sh node script/skill-route.ts --from-log [n]  → replay the last n near-misses from route.log
+//        script/op-run.sh node script/skill-route.ts --misses [n]     → replay the last n prompts cclio verdicted a miss
 //        script/op-run.sh node script/skill-route.ts '<prompt>'      → live: prints the loads, logs the pick + ms
 import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
 import { printTable } from './lib/jev-print.ts';
-import { nearMisses, routeRead, runsLog } from './lib/jev-report.ts';
+import {
+    missPrompts,
+    nearMisses,
+    routeRead,
+    runsLog,
+    verdictsOf,
+} from './lib/jev-report.ts';
 import { bb, bold, dim, gb, rb } from './lib/print.ts';
 
 // frontmatter description is one line, or a `>-` folded block of indented lines
@@ -72,7 +79,8 @@ const probes = [
 ] as const;
 
 const isFromLog = process.argv[2] === '--from-log';
-const live = isFromLog ? undefined : process.argv[2];
+const isMisses = process.argv[2] === '--misses';
+const live = isFromLog || isMisses ? undefined : process.argv[2];
 if (live) {
     const started = performance.now();
     const res = await judge({ prompt: live }, questions);
@@ -100,12 +108,17 @@ if (live) {
     process.exit(0);
 }
 
-// --from-log: yesterday's real near-misses replace the hand-written probes; dima fills `want`
-const replay = isFromLog
-    ? nearMisses(routeRead(), Number(process.argv[3] ?? 10)).map(
-          (r) => [r.prompt, '?'] as const,
+// --from-log: yesterday's real near-misses replace the hand-written probes; dima fills `want`.
+// --misses: the prompts cclio already called wrong (`jev:vet miss skill-router --last …`) — a
+// confident wrong pick never enters the band, so those are exactly what --from-log cannot see.
+const count = Number(process.argv[3] ?? 10);
+const replay = isMisses
+    ? missPrompts(verdictsOf('skill-router'), count).map(
+          (prompt) => [prompt, '?'] as const,
       )
-    : probes;
+    : isFromLog
+      ? nearMisses(routeRead(), count).map((r) => [r.prompt, '?'] as const)
+      : probes;
 const describe = (name: string) =>
     skills.find((s) => s.name === name)?.description.slice(0, 100) ?? '';
 

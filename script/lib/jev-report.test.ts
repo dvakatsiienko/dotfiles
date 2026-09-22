@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 
 import {
     latencyStats,
+    missPrompts,
     nearMisses,
     reportLines,
     routeParse,
     routerHealth,
+    verdictParse,
 } from './jev-report.ts';
 import type { Flow, Registry } from './jev-vet.ts';
 
@@ -161,5 +163,33 @@ describe('router latency', () => {
             'edge',
         ]);
         expect(nearMisses(rows, 1).map((r) => r.prompt)).toEqual(['edge']);
+    });
+});
+
+describe('recorded misses', () => {
+    const log = [
+        '2026-09-20T13:14:38.187Z\tmiss\tlaned ticket, was answer',
+        '2026-09-21T16:20:01.441Z\tok\tmatched\tsup, where are we',
+        '2026-09-21T16:21:01.441Z\tmiss\tloaded x:pm, wanted x:notes\tappend to inbox: windscribe',
+        '2026-09-22T10:00:00.000Z\tmiss\tno load at all\tdoes the chart render at mobile width?',
+    ].join('\n');
+
+    it('a line written before the prompt column carries none', () => {
+        expect(verdictParse(log).map((row) => row.prompt)).toEqual([
+            undefined,
+            'sup, where are we',
+            'append to inbox: windscribe',
+            'does the chart render at mobile width?',
+        ]);
+    });
+
+    it('only a miss that recorded its prompt is replayable', () => {
+        expect(missPrompts(verdictParse(log), 5)).toEqual([
+            'append to inbox: windscribe',
+            'does the chart render at mobile width?',
+        ]);
+        expect(missPrompts(verdictParse(log), 1)).toEqual([
+            'does the chart render at mobile width?',
+        ]);
     });
 });
