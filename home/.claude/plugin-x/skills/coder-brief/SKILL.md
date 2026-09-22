@@ -70,7 +70,7 @@ eight).
   one anchored on a doc comment took seven components with it.
 - **every replacement asserts its anchor** — a text pass that matches nothing, a field added to a
   type but not to the printer's order, `agent-browser fill <sel> ""`: three silent no-op writes in
-  one session, each reported as success. after a scripted replace, grep for the new text; after a
+  one session, each reported as success. the `edit-anchored` tool named below reads a text edit back for you; after a
   data-shape change, run the printer and read the row.
 - **a write-path probe uses a key nothing is filed under, or a fixture** — one used dima's real note
   key (empty body = delete) and wiped `notes.json`; restored from git, byte-identical.
@@ -93,7 +93,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 
 - **remote state comes from `git ls-remote`, never `@{u}`** — a worktree that cannot push asserted
   «pushed» twice from a stale upstream ref.
-- **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through a python script that asserts its anchor before writing, never `sd` with a `$` in the replacement. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
+- **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through `~/dotfiles/home/.claude/plugin-x/bin/edit-anchored <file> <anchor-file> <replacement-file>`: it writes only when the anchor matches exactly once, reads the bytes back, and prints `<file>:<line>`. The anchor and the replacement are files, so the shell never reaches them. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
   -b coder/<ticket>-<slug> main`, then `pnpm worktree:seed <path>` (env copies, `CI=1` install, a
   port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it
   for a tree it made). Worktrees live under `<repo>/.claude/worktrees/` — cc's own default, gitignored,

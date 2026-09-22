@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+/**
+ * ? edit-anchored — replace one exact stretch of text in a file, or write nothing.
+ * ?
+ * ?   edit-anchored <file> <anchor-file> <replacement-file>
+ * ?
+ * ? The anchor and the replacement are FILES, not arguments, because the shell is the thing
+ * ? that corrupts them: a `$` in a replacement expands to nothing, a quote ends the argument
+ * ? early, and both failures look like a successful edit. A heredoc into a scratch file
+ * ? carries the bytes intact, so that is what this reads.
+ * ?
+ * ? Exit codes are the api: 0 wrote it, 1 the anchor did not match exactly once and nothing
+ * ? was written, 2 the arguments are wrong. On success it prints `<file>:<line>`.
+ * ?
+ * ? No extension and no build on purpose: node 24 detects module syntax in an extensionless
+ * ? entry and strips types from the `.ts` it imports, so the file on PATH is the source.
+ */
+
+/* Core */
+import { readFileSync, writeFileSync } from 'node:fs';
+
+/* Instruments */
+import { editAnchored } from '../../../../script/lib/edit-anchored.ts';
+
+const [file, anchorFile, replacementFile] = process.argv.slice(2);
+
+if (!file || !anchorFile || !replacementFile) {
+    console.error('usage: edit-anchored <file> <anchor-file> <replacement-file>');
+    process.exit(2);
+}
+
+const edited = editAnchored(
+    readFileSync(file, 'utf8'),
+    readFileSync(anchorFile, 'utf8'),
+    readFileSync(replacementFile, 'utf8'),
+);
+
+if (edited.error !== null) {
+    console.error(`${file}: ${edited.error} — nothing written.`);
+    process.exit(1);
+}
+
+writeFileSync(file, edited.text);
+
+// ? The caller's own claim is "the edit landed", and until the bytes are read back that is a
+// ? guess. A full-file compare beats searching for the replacement: a replacement that quotes
+// ? its own anchor would find itself either way.
+if (readFileSync(file, 'utf8') !== edited.text) {
+    console.error(`${file}: the write did not land — read it before trusting anything.`);
+    process.exit(1);
+}
+
+console.log(`${file}:${edited.line}`);
