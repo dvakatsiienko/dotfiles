@@ -5,9 +5,12 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
 
 - **inbox lanes** — the boot digest prints every inbox item with a lane (ticket · fold · flowlog ·
   answer · drop) and a `needsVerdict` band. it pre-sorts; the flowlog parse is still mine.
-- **skill router** — a `UserPromptSubmit` hook (cclio scope for now) prints `skills (jev router): …`
-  for every skill ≥ 0.6. the built-in router still runs; jev stops the misses. log:
-  `~/.claude/shelf/jev/route.log` (time · top pick · loads · prompt).
+- **skill router** — a `UserPromptSubmit` hook (cclio scope for now) prints `skills (jev router):
+  x:pm 0.81, …` for every skill ≥ 0.6, score included. the built-in router still runs; jev stops
+  the misses. 📌 the hook is synchronous — every prompt in cclio waits for it (~0.8–1.8 s measured
+  2026-09-22). log: `~/.claude/shelf/jev/route.log` (time · top pick · loads · prompt · ms). kill
+  switch: `pnpm jev:router off|on|status` (a flag file, `router.off`); the digest and `jev:report`
+  print `router: OFF` or `router: on · avg · p95`.
 
 **the rules that came out of the first day**
 - the criteria ARE the prompt. jev knows no fleet word we do not define; `null` criteria gave
@@ -35,6 +38,9 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
    disagreement is either my miss (say so) or a criterion to reword; reword in the same halt.
 2. router: `grep -c` the flawlog's «skill not loaded» lines vs `route.log`'s picks for the day.
    a skill that never routes gets its description sharpened («magic keywords»), not the threshold.
+   `pnpm jev:route --from-log` replays the day's near-misses (0.30–0.70) with the description each
+   low pick carries — the rewrite candidates. then read the router latency off `jev:report`'s health
+   line: a rising avg or a p95 over 2 s is a finding, not noise — it is dima's typing that waits.
 3. flawlog: `pnpm jev:flawlog` on the day's flawlog vs where the flush actually placed each line.
 4. any change → `RUNS=3` on the live input, then commit with the numbers in the body.
 

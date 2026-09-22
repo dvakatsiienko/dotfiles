@@ -117,7 +117,7 @@ lanes (`inbox-lanes`) and the router's loads (`skill-router`, from `shelf/jev/ro
 flawlog's «skill not loaded» lines). a miss is also a criterion to reword in
 `script/lib/jev-questions.ts` in the same halt — the flow passes its window because it was
 sharpened, not because it was watched. the boot prints every flow's streak.
-**then `pnpm jev:report`**, printed right after the flush verdicts — one block per flow; a flow with a miss today gets its criterion sharpened in place, `RUNS=3`, same halt.
+**then `pnpm jev:report`**, printed right after the flush verdicts — one block per flow; a flow with a miss today gets its criterion sharpened in place, `RUNS=3`, same halt. its health line carries the router latency (`avg · p95`): a p95 over 2 s or a rising avg is a finding for the flush, since every prompt waits on it.
 **and the stories:** before the proposal, ask which catches were HIS felt sense arriving before
 the reason — those go to `memory/dima-stories.md` as appends (the leaf's own rule), not to the
 flawlog's drop pile. skipped for two weeks once (2026-09-05).
