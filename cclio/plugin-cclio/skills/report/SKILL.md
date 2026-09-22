@@ -20,6 +20,9 @@ ONE message, this shape, nothing more:
 ❓ **on dima** · open calls; «nothing blocked» if none
 🃏 · one-liner mood
 
+## jev
+«how did jev do» → `pnpm jev:report`, pasted as is — one block per flow, then the session and health lines.
+
 ## freebie sweep — mandatory
 any «sup / what's next / where are we» triggers a FRESH linear query for open issues carrying
 the `freebie` label. GraphQL, never `issue view`, never from memory.
