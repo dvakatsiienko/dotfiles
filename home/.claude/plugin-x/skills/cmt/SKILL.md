@@ -155,6 +155,15 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
   coder wrote «the `[skip ci]` note» in a body and its pr lost ci and the review lane for an
   hour (bytes #84, 2026-09-12). write «the skip-ci marker».
 
+### A push to a repo with a deployed app arms the deploy watch
+
+Green CI answers «did it fail», never «did it build» — the deploy state lives only in
+`vercel inspect`. So the session that pushes `bytes` arms a `Monitor` on
+`~/dotfiles/cclio/.claude/hooks/deploy-watch.sh <sha>` in the same turn (ci runs for that head,
+then the newest prod deploy of every app the head touched; terminal states only, a heartbeat
+every 2 min, 30 min cap). The reply says **done** only on the `Ready` line, and a red is reported
+the moment it lands. `dotfiles` deploys nothing — no watch.
+
 ### What a push actually does to the ticket
 
 - The pre-push hook (`script/linear-push.ts`, run as a `lefthook` pre-push job) waits for the
