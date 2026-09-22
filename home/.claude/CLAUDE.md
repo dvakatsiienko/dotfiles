@@ -57,7 +57,7 @@ Anything we create should not just work well. It should be approachable and easy
 
 - **our skills are the flow, not add-ons.** the `x:*` and `cclio:*` set is written and kept by us for this exact setup; the external ones (matt's, greptile's, impeccable, dataviz) are hand-picked and kept current by `cclio:evergreen`. a task a skill covers runs through the skill — a fresh guess over a maintained procedure is the miss we keep paying for.
 - **the check is mechanical, at the start of every task:** scan the skill list for a name whose trigger words match the ask (commit, pr, ticket id, a url, a file type, a vault path, «walk me through») and load it before the first tool call. a rule in `rules/` that fires on a file read is the backstop, never the front door.
-- **name every load in the reply** — «skills: x:cmt, x:guide-typescript» — and name a miss when you notice one late. that line is the only data the fleet gets on which triggers fail.
+- **name every load in the reply** — «skills: x:cmt, x:guide-typescript» — and name a miss when you notice one late. that line is the only data the fleet gets on which triggers fail. a `skills (jev router): …` line in the prompt is jev's pick with its score: carry the score onto the reply's skills line — «skills: x:pm (jev 0.82), x:cmt» — and when jev's pick is wrong for the task, say so on that line and skip it; a wrong pick is recorded with `pnpm jev:vet miss skill-router lane=<skill> <why>` in `~/dotfiles`.
 - a skill's instructions rank below the fleet floor and local rules; a conflict is said out loud, never resolved quietly (`fleet-identity.md`).
 
 

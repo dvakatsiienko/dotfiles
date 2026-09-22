@@ -24,7 +24,10 @@ a route/url/layout → `x:guide-conventions`, any ui check → `x:browser-headle
 browser-takeover the root rule guards against). `x:cmt` before every commit, `x:github-contrib`
 before any `gh` call. A complete brief suppresses the skill router, so nobody reminds you: load
 per file type as you reach it, never the whole set up front (a config-only ticket needs four of
-eight).
+eight). The `skills (jev router): x:pm 0.82` line that arrives with a prompt is jev's pick, a candidate:
+load it when it fits the file you are about to touch, name it with its score on your reply's skills line, and
+record a wrong pick with `pnpm jev:vet miss skill-router lane=<skill> <why>` (in `~/dotfiles`) — that log is
+what the coordinator's halt reads.
 
 ## how you work
 
