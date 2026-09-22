@@ -84,7 +84,7 @@ if (live) {
     const top = ranked[0];
     appendFileSync(
         logPath,
-        `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.map(([n]) => n).join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\t${ms}\n`,
+        `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.map(([n]) => n).join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\t${ms}\t${process.env.JEV_SESSION ?? '-'}\n`,
     );
     if (loads.length)
         console.log(

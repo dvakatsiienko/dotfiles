@@ -54,6 +54,10 @@
           {
             "type": "command",
             "command": "bash ~/.claude/shelf/hooks/opus-register.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/shelf/hooks/skill-route.sh"
           }
         ]
       }
