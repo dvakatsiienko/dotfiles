@@ -15,9 +15,7 @@
 // ⚠️ the decrypted payload holds every extension's stored preferences in the clear, api keys
 // among them. `--json` prints all of it; the default output prints chords and nothing else.
 
-import { createDecipheriv, scryptSync } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import { gunzipSync } from 'node:zlib';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 import { chordOf } from '../hotkeys/chord.ts';
 import { manualHotkeys } from '../hotkeys/manual.ts';
@@ -26,58 +24,56 @@ import {
     type ChordRow,
     type RayShortcut,
     boundTwice,
+    commandNameOf,
+    decryptExport,
     diffAgainstMap,
+    dropHotkey,
+    encryptExport,
     toChord,
 } from './lib/rayconfig.ts';
 
 const [file] = process.argv.slice(2).filter((arg) => !arg.startsWith('--'));
 const wantsJson = process.argv.includes('--json');
+const dropName = flag('--drop-hotkey');
 const password =
     flag('--password') ??
     process.env.RAYCONFIG_PASSWORD ??
-    fail('no passphrase — pass --password <p> or set RAYCONFIG_PASSWORD.');
+    fail(
+        'no passphrase. pass --password <p>, set RAYCONFIG_PASSWORD, or run this through\n' +
+            '`script/op-run.sh`, which resolves it from op://dev/raycast-export/credential.\n' +
+            '`pnpm rayconfig:decrypt` already does that.',
+    );
 
 if (!file)
-    fail('usage: node script/rayconfig-decrypt.ts <file.rayconfig> [--json]');
+    fail(
+        'usage: node script/rayconfig-decrypt.ts <file.rayconfig> [--json] [--drop-hotkey <command>]',
+    );
 
-const raw = readFileSync(file);
-if (raw.subarray(0, 8).toString() !== 'RAYCFG3\n')
-    fail(`${file} does not start with RAYCFG3 — not a schema-3 export.`);
-
-const headerLength = raw.readUInt32LE(8);
-const header = JSON.parse(
-    gunzipSync(raw.subarray(12, 12 + headerLength)).toString(),
-);
-
-const key = scryptSync(
-    password,
-    Buffer.from(header.encryption.salt, 'hex'),
-    32,
-    {
-        N: 16384,
-        p: 1,
-        r: 8,
-    },
-);
-const decipher = createDecipheriv(
-    'aes-256-gcm',
-    key,
-    Buffer.from(header.encryption.iv, 'hex'),
-);
-// the tag is the last 16 bytes, so a wrong passphrase fails here rather than handing back
-// plausible garbage — `final()` is the check, and nothing downstream needs a second one.
-decipher.setAuthTag(raw.subarray(raw.length - 16));
-
-let payload: string;
+let opened: ReturnType<typeof decryptExport>;
 try {
-    payload = gunzipSync(
-        Buffer.concat([
-            decipher.update(raw.subarray(12 + headerLength, raw.length - 16)),
-            decipher.final(),
-        ]),
-    ).toString();
-} catch {
-    fail('the tag did not verify — wrong passphrase, or a truncated file.');
+    opened = decryptExport(readFileSync(file), password);
+} catch (error) {
+    fail(`${file}: ${(error as Error).message}`);
+}
+
+const { header } = opened;
+let payload = opened.payload;
+
+// The one write this tool does. Everything the export carries is kept; the named command
+// loses its binding and the result is sealed under a fresh iv and salt, beside the input.
+if (dropName !== undefined) {
+    const dropped = dropHotkey(payload, dropName);
+    payload = dropped.payload;
+
+    const clean = file.replace(/\.rayconfig$/, '-clean.rayconfig');
+    writeFileSync(clean, encryptExport({ header, password, payload }));
+
+    console.log(
+        `unbound ${dropped.removed.length}: ${dropped.removed.join(', ')}`,
+    );
+    console.log(`wrote ${clean}`);
+    console.log('raycast does not read this on its own — import it by hand.');
+    process.exit(0);
 }
 
 if (wantsJson) {
@@ -173,10 +169,7 @@ function toRow(hotkey: RayHotkey | undefined, action: string) {
 // app/quicklink/script row points at, `::-::` fronts the command name of an extension row.
 // A target that is a file is worth only its basename — the rest is where it happens to live.
 function nameOf(id: string) {
-    const tail = id.split('::=::').pop() ?? id;
-    const name = tail.split('::-::').pop() ?? tail;
-
-    const leaf = name.includes('/') ? (name.split('/').pop() ?? name) : name;
+    const leaf = commandNameOf(id);
 
     return quicklinkName.get(leaf) ?? leaf;
 }
