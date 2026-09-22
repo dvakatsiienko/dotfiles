@@ -120,7 +120,7 @@ const HandoffDetail = (props: HandoffDetailProps) => {
 // Four sections, because the verbs are four: paste into the session in front of you, copy
 // for somewhere else, open the file, throw it away. Within the first two the cclio line
 // leads — it is the one that boots a coordinator, and the plain ingest line is the fallback
-// for a session already booted. Delete sits alone at the bottom, far from the return key.
+// for a session already booted. Delete sits alone at the bottom under macos's own ⌘⌫.
 const HandoffShelfActions = (props: HandoffShelfActionsProps) => {
     return (
         <>
@@ -215,7 +215,7 @@ const DeleteHandoffAction = (props: DeleteHandoffActionProps) => {
         <Action
             icon={Icon.Trash}
             onAction={handleDelete}
-            shortcut={{ key: 'x', modifiers: ['ctrl'] }}
+            shortcut={{ key: 'delete', modifiers: ['cmd'] }}
             style={Action.Style.Destructive}
             title='delete handoff'
         />
