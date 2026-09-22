@@ -1,5 +1,7 @@
 /* Core */
+
 import { type ReactNode, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* Components */
 import { Notice, apiTrouble } from '@/components/Notice.tsx';
@@ -8,13 +10,12 @@ import { StatRow } from '@/components/StatRow.tsx';
 /* Instruments */
 import {
     type Span,
-    type StatsReport,
     type WindowName,
-    fetchStats,
     subscribeLive,
     windowNames,
 } from '@/api.ts';
 import { colorOf } from '@/keyboard.ts';
+import { queryKeys, useStats } from '@/queries.ts';
 import { navigate } from '@/router.ts';
 import { GHOST, H2, TAB } from '@/ui.ts';
 
@@ -34,9 +35,12 @@ const FOLD_HEIGHT = 607;
 
 export const StatsPage = () => {
     const [window, setWindow] = useState<WindowName>('all');
-    const [report, setReport] = useState<StatsReport | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [tick, setTick] = useState(0);
+    const queryClient = useQueryClient();
+    const stats = useStats(window);
+    const report = stats.data ?? null;
+    // A failed refresh keeps the numbers that are already on screen — they have only stopped
+    // being fresh — which is what the notice below says and what DESIGN.md asks for.
+    const error = stats.error?.message ?? null;
 
     // The board has listened to this stream since it was built; this route was reading a
     // snapshot taken when it mounted, so a press showed up only after switching the window.
@@ -52,7 +56,9 @@ export const StatsPage = () => {
         // chord arrives as a run of events.
         const soon = () => {
             clearTimeout(timer);
-            timer = setTimeout(() => setTick((at) => at + 1), 1000);
+            timer = setTimeout(() => {
+                queryClient.invalidateQueries({ queryKey: queryKeys.stats });
+            }, 1000);
         };
 
         const stop = subscribeLive({
@@ -67,27 +73,7 @@ export const StatsPage = () => {
             clearTimeout(timer);
             stop();
         };
-    }, []);
-
-    // `tick` is the dependency, not a value: the press stream bumps it to re-run this fetch,
-    // and nothing inside the effect reads it.
-    // biome-ignore lint/correctness/useExhaustiveDependencies: the bump is the point
-    useEffect(() => {
-        let live = true;
-
-        fetchStats(window)
-            .then((next) => {
-                if (live) {
-                    setReport(next);
-                    setError(null);
-                }
-            })
-            .catch((failure: Error) => live && setError(failure.message));
-
-        return () => {
-            live = false;
-        };
-    }, [window, tick]);
+    }, [queryClient]);
 
     // Per table, because he expands the one he is reading and leaves the others alone.
     // localStorage throws outright in a private window and a throw in render blanks the page,
@@ -111,7 +97,9 @@ export const StatsPage = () => {
         );
     });
 
-    const retry = () => setTick((at) => at + 1);
+    const retry = () => {
+        stats.refetch();
+    };
 
     // A failure only takes the page over when there is nothing behind it. With a report already
     // fetched the numbers are still true — they have only stopped being fresh — and throwing

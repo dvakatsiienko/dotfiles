@@ -1,10 +1,12 @@
 /* Core */
+
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Feedback, defaultPreset } from '@dnd-kit/dom';
 import { DragDropProvider } from '@dnd-kit/react';
 /* Instruments */
 import { canonicalQuery, chordOf, modOrder } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* Components */
 import { Aurora } from '@/components/Aurora.tsx';
@@ -16,22 +18,29 @@ import { Notice, apiTrouble } from '@/components/Notice.tsx';
 
 import {
     type NoteStore,
-    type ScanPayload,
-    fetchNotes,
-    fetchScan,
     postManualMove,
     putNote,
     subscribeLive,
 } from '@/api.ts';
 import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
+import { queryKeys, useNotes, useScan } from '@/queries.ts';
 import { GHOST, H2, TAB } from '@/ui.ts';
 
+// One frozen object for "no notes yet". A fresh `{}` per render would be a new dependency on
+// every render, and the memos below would rebuild forever.
+const EMPTY_NOTES: NoteStore = {};
+
 export const BoardPage = (props: BoardPageProps) => {
-    const [scan, setScan] = useState<ScanPayload | null>(null);
-    const [scanError, setScanError] = useState<string | null>(null);
+    const queryClient = useQueryClient();
+    const scanQuery = useScan();
+    const notesQuery = useNotes();
+    const scan = scanQuery.data ?? null;
+    // A failed refresh keeps the board that is already drawn; only a first load with nothing
+    // behind it shows the notice.
+    const scanError = scanQuery.error?.message ?? null;
     const [presses, setPresses] = useState<Record<string, number>>({});
     const [pressedAt, setPressedAt] = useState<string | null>(null);
-    const [notes, setNotes] = useState<NoteStore>({});
+    const notes = notesQuery.data ?? EMPTY_NOTES;
     // stats hands a chord back as ?layer=&key=, so a row there opens the board on that key. An
     // absent param is not the same as an empty one: layer='' is the no-modifier layer.
     const [layer, setLayer] = useState(props.params.get('layer') ?? 'hyper');
@@ -58,27 +67,24 @@ export const BoardPage = (props: BoardPageProps) => {
     // stream calls. It has no dependencies, so the effect still runs exactly once and pressing
     // retry re-fetches the scan without tearing the EventSource down and building it again.
     const loadScan = useCallback(() => {
-        fetchScan()
-            .then((next) => {
-                setScan(next);
-                setScanError(null);
-                // A rescan is how a rebind finishes: the daemon rewrote manual.ts and pushed.
-                setPending((held) => {
-                    if (held) setLandedAt(Date.now());
-                    return null;
-                });
-            })
-            .catch((error: Error) => setScanError(error.message));
-    }, []);
+        queryClient.invalidateQueries({ queryKey: queryKeys.scan });
+    }, [queryClient]);
+
+    // A rescan is how a rebind finishes: the daemon rewrote manual.ts and pushed, and the key
+    // the cap is landing on is held until that arrives. The clock on the query is what says a
+    // scan landed — it moves on every success, including one the stream asked for.
+    useEffect(() => {
+        if (scanQuery.dataUpdatedAt === 0) return;
+
+        setPending((held) => {
+            if (held) setLandedAt(Date.now());
+            return null;
+        });
+    }, [scanQuery.dataUpdatedAt]);
 
     // One stream for the life of the page: a rerun would open a second EventSource and leak
     // the first.
     useEffect(() => {
-        loadScan();
-        fetchNotes()
-            .then(setNotes)
-            .catch(() => undefined);
-
         // Both kinds of news arrive on one stream, so the page holds no timer: a press
         // repaints the counts, a config change repulls the whole scan.
         return subscribeLive({
@@ -190,7 +196,8 @@ export const BoardPage = (props: BoardPageProps) => {
                         layer: from.mods,
                         text: '',
                     });
-                    setNotes(
+                    queryClient.setQueryData(
+                        queryKeys.notes,
                         await putNote({
                             key: to.key,
                             layer: to.layer,
@@ -207,7 +214,7 @@ export const BoardPage = (props: BoardPageProps) => {
                 setMoveError((error as Error).message);
             }
         },
-        [notes],
+        [notes, queryClient],
     );
 
     // Press-to-pick: with a hand-kept binding selected and the ear armed, the next chord pressed
@@ -257,7 +264,10 @@ export const BoardPage = (props: BoardPageProps) => {
     const saveNote = async (text: string) => {
         if (!selected) return;
 
-        setNotes(await putNote({ key: selected, layer, text }));
+        queryClient.setQueryData(
+            queryKeys.notes,
+            await putNote({ key: selected, layer, text }),
+        );
     };
 
     // Markdown, because the destination is always a chat with an agent.
