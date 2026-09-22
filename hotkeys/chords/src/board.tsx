@@ -9,6 +9,7 @@ import type { Hotkey } from '@hotkeys/manual.ts';
 /* Components */
 import { Aurora } from '@/components/Aurora.tsx';
 import { Board } from '@/components/Board.tsx';
+import { Chord } from '@/components/Kbd.tsx';
 import { List, ListEmpty, ListRow } from '@/components/List.tsx';
 import { NoteEditor } from '@/components/NoteEditor.tsx';
 import { Notice, apiTrouble } from '@/components/Notice.tsx';
@@ -269,10 +270,11 @@ export const BoardPage = (props: BoardPageProps) => {
             )
             .join('\n');
 
-    const bindRow = (hotkey: Hotkey, at: number) => {
+    // The selected list sits under a header that already shows the chord; the layer list does not.
+    const bindRow = (hotkey: Hotkey, at: number, withChord = true) => {
         return (
             <ListRow
-                chord={chordOf(hotkey)}
+                chord={withChord ? chordOf(hotkey) : undefined}
                 color={colorOf(hotkey.app)}
                 key={`${hotkey.app}-${hotkey.key}-${at}`}
                 who={
@@ -384,7 +386,6 @@ export const BoardPage = (props: BoardPageProps) => {
             {/* The region the layer tabs switch. A tablist that controls nothing is a promise
                 to a screen reader that the page does not keep. */}
             <div id='board-panel' role='tabpanel'>
-                <Aurora seed={Math.max(0, layers.indexOf(layer))} wake={wake} />
                 <DragDropProvider
                     onDragEnd={(event) => {
                         const from = dragging;
@@ -433,24 +434,33 @@ export const BoardPage = (props: BoardPageProps) => {
                         pressed={lastPress}
                         presses={presses}
                         selected={selected}
+                        strip={
+                            <Aurora
+                                seed={Math.max(0, layers.indexOf(layer))}
+                                wake={wake}
+                            />
+                        }
                     />
                 </DragDropProvider>
             </div>
 
             <div className='grid grid-cols-1 gap-[22px] min-[761px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]'>
                 <section className='grid content-start gap-2.5'>
-                    <h2 className={H2}>selected key</h2>
-                    <div className='font-mono text-[16px] font-semibold'>
-                        {selectedChord ?? 'no key selected'}
-                        {selected && selectedBinds.length === 0 ? (
-                            <small className='ml-2 font-sans text-[13px] font-normal text-ink-2'>
-                                free
-                            </small>
-                        ) : null}
+                    <div className='flex min-h-[28px] flex-wrap items-center gap-3'>
+                        <h2 className={H2}>selected key</h2>
+                        {selectedChord ? (
+                            <Chord chord={selectedChord} size='lg' />
+                        ) : (
+                            <span className='text-[13px] text-ink-2'>none</span>
+                        )}
                     </div>
-                    <List>
-                        {selectedBinds.map((hotkey, at) => bindRow(hotkey, at))}
-                    </List>
+                    {selectedBinds.length > 0 && (
+                        <List>
+                            {selectedBinds.map((hotkey, at) =>
+                                bindRow(hotkey, at, false),
+                            )}
+                        </List>
+                    )}
                     {movable ? (
                         <div className='flex flex-wrap items-center gap-2 text-[12px] text-ink-2'>
                             {pending ? (

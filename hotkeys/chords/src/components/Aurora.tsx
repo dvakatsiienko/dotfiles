@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 // still by default: one frame at mount, and it only moves for a bounded moment after the
 // layer turns, a drag starts, or a rebind lands. A browser without WebGPU gets the plain deck.
 const SHADER = /* wgsl */ `
-struct Uniforms { time: f32, seed: f32, width: f32, height: f32 };
+struct Uniforms { time: f32, seed: f32, width: f32, height: f32, px: f32, py: f32, hover: f32, pad: f32 };
 @group(0) @binding(0) var<uniform> u: Uniforms;
 
 struct Out { @builtin(position) pos: vec4f, @location(0) uv: vec2f };
@@ -34,29 +34,50 @@ fn fbm(p: vec2f) -> f32 {
   return v;
 }
 
-// The rail, top to bottom, as a ramp.
-fn rail(t: f32) -> vec3f {
-  let c0 = vec3f(0.31, 0.49, 1.00); let c1 = vec3f(0.18, 0.77, 0.71);
-  let c2 = vec3f(0.24, 0.86, 0.52); let c3 = vec3f(1.00, 0.82, 0.25);
-  let c4 = vec3f(1.00, 0.31, 0.37);
-  let x = clamp(t, 0, 1) * 4;
-  if (x < 1) { return mix(c0, c1, x); }
-  if (x < 2) { return mix(c1, c2, x - 1); }
-  if (x < 3) { return mix(c2, c3, x - 2); }
-  return mix(c3, c4, x - 3);
+// Pearl: a base tone shifted per channel around a phase, the way a foil's colour walks with
+// the angle. The offsets are the rail's order, blue leading, red trailing.
+fn pearl(phase: f32) -> vec3f {
+  return 0.74 + 0.26 * cos(6.2831853 * (phase + vec3f(0.00, 0.33, 0.67)));
+}
+
+// Etched contours: nested waves whose spacing warps with a second sine, then traced as thin
+// lines — the engraving under the foil.
+fn etched(p: vec2f) -> f32 {
+  let warp = sin(p.y * 7.0 + sin(p.x * 4.0)) * 0.085;
+  let rings = sin((p.x + warp) * 22.0 + sin(p.y * 9.0) * 0.6);
+  return smoothstep(0.85, 1.0, rings);
 }
 
 @fragment fn fs(@location(0) uv: vec2f) -> @location(0) vec4f {
   let aspect = u.width / max(u.height, 1.0);
-  let p = vec2f(uv.x * aspect, uv.y) * 0.9 + u.seed * 3.7;
-  let t = u.time * 0.12;
-  let drift = fbm(p + vec2f(t, -t * 0.4));
-  let band = fbm(p * 0.7 + vec2f(-t * 0.6, drift));
-  let hue = fract(uv.x * 0.9 + band * 0.55 + u.seed * 0.21);
-  let glow = smoothstep(0.32, 0.8, band) * (0.6 + 0.4 * drift);
+  let p = vec2f(uv.x * aspect, uv.y);
+  let light = vec2f(u.px * aspect, u.py);
+  let toLight = light - p;
+  let dist = length(toLight);
+  let t = u.time * 0.08;
+
+  // Grain and slow drift keep the foil from reading as a flat gradient.
+  let grain = fbm(p * 3.0 + u.seed * 3.7 + vec2f(t, -t * 0.4));
+  let flow = fbm(p * 1.4 + vec2f(-t * 0.5, t * 0.2) + u.seed);
+
+  // Diffraction: hue walks with the angle between the light and the groove direction, so it
+  // fans out around the pointer instead of banding left to right.
+  let groove = normalize(vec2f(1.0, 0.35 + 0.25 * sin(p.y * 6.0 + flow)));
+  let angle = dot(normalize(toLight + vec2f(0.0001, 0.0)), groove);
+  let phase = angle * 0.6 + p.x * 0.22 + flow * 0.35 + u.seed * 0.21;
+  var color = pearl(phase);
+
+  // The specular pool follows the pointer; when nothing hovers it rests off-centre and low.
+  let pool = exp(-dist * dist * (3.5 - 2.0 * u.hover)) * (0.45 + 0.55 * u.hover);
+  let lines = etched(p + flow * 0.15);
+  color = mix(color, vec3f(1.0), pool * 0.55 + lines * pool * 0.35);
+
+  let lum = 0.45 + 0.55 * (0.5 + 0.5 * flow) * (0.9 + 0.1 * grain);
+  let strength = lum * (0.55 + 0.35 * u.hover) + pool * 0.3;
   // Fade at the top edge so the strip melts into the desk rather than cutting across it.
-  let edge = smoothstep(0.0, 0.35, uv.y) * smoothstep(1.0, 0.75, uv.y);
-  return vec4f(rail(hue) * glow * edge, glow * edge);
+  let edge = smoothstep(0.0, 0.45, uv.y);
+  let a = clamp(strength, 0.0, 1.0) * edge;
+  return vec4f(color * a, a);
 }
 `;
 
@@ -109,7 +130,7 @@ export const Aurora = (props: AuroraProps) => {
                 vertex: { entryPoint: 'vs', module },
             });
             const uniforms = device.createBuffer({
-                size: 16,
+                size: 32,
                 usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
             });
             const bindGroup = device.createBindGroup({
@@ -134,6 +155,10 @@ export const Aurora = (props: AuroraProps) => {
                         props.seed,
                         element.width,
                         element.height,
+                        pointer.current.x,
+                        pointer.current.y,
+                        pointer.current.hover,
+                        0,
                     ]),
                 );
                 const encoder = device.createCommandEncoder();
@@ -170,6 +195,45 @@ export const Aurora = (props: AuroraProps) => {
         };
     }, [props.seed]);
 
+    // The light: where the pointer is over the strip, in uv, and whether it is there at all.
+    // A move redraws one frame; leaving eases the light back to rest over a few frames.
+    const pointer = useRef({ hover: 0, x: 0.72, y: 0.35 });
+    const settle = useRef(0);
+
+    const onPointerMove = (event: { clientX: number; clientY: number }) => {
+        const element = canvas.current;
+
+        if (!element) return;
+
+        const box = element.getBoundingClientRect();
+
+        pointer.current = {
+            hover: 1,
+            x: (event.clientX - box.left) / box.width,
+            y: 1 - (event.clientY - box.top) / box.height,
+        };
+        cancelAnimationFrame(settle.current);
+        drawRef.current?.(lastTime.current);
+    };
+
+    const onPointerLeave = () => {
+        const rest = { x: 0.72, y: 0.35 };
+        const step = () => {
+            const at = pointer.current;
+            const next = {
+                hover: at.hover * 0.82,
+                x: at.x + (rest.x - at.x) * 0.12,
+                y: at.y + (rest.y - at.y) * 0.12,
+            };
+
+            pointer.current = next;
+            drawRef.current?.(lastTime.current);
+            if (next.hover > 0.02) settle.current = requestAnimationFrame(step);
+        };
+
+        settle.current = requestAnimationFrame(step);
+    };
+
     // A bounded run: `props.wake` changes → ~900ms of frames, then still again. Nothing loops
     // while the page is idle.
     const lastTime = useRef(0);
@@ -197,7 +261,9 @@ export const Aurora = (props: AuroraProps) => {
     return (
         <canvas
             aria-hidden
-            className='pointer-events-none block h-[44px] w-full'
+            className='block h-[26px] w-full'
+            onPointerLeave={onPointerLeave}
+            onPointerMove={onPointerMove}
             ref={canvas}
         />
     );

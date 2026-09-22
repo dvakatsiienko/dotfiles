@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { useDraggable, useDroppable } from '@dnd-kit/react';
 import { chordOf } from '@hotkeys/chord.ts';
@@ -135,9 +136,11 @@ export const Board = (props: BoardProps) => {
         </span>
     );
 
+    // The strip is the deck's top band — part of the body, flush with its rounded edge.
     return (
-        <div className='overflow-x-auto rounded-[14px] bg-board p-3.5'>
-            <div className='grid min-w-[760px] grid-cols-[auto_minmax(0,1fr)_auto] gap-2.5'>
+        <div className='overflow-x-auto rounded-[14px] bg-board'>
+            {props.strip}
+            <div className='grid min-w-[760px] grid-cols-[auto_minmax(0,1fr)_auto] gap-2.5 p-3.5 pt-2.5'>
                 {railJSX('left')}
                 <div className='grid gap-1.5'>{rowListJSX}</div>
                 {railJSX('right')}
@@ -363,6 +366,7 @@ interface BoardProps {
     pressed: { chord: string; at: number } | null;
     presses: Record<string, number>;
     selected: string | null;
+    strip: ReactNode;
 }
 interface KeycapProps {
     binds: readonly Hotkey[];

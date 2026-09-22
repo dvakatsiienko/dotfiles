@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { Chord } from '@/components/Kbd.tsx';
+
 // Three lists on this page share one row — a colour dot, a chord in mono, and whatever the
 // chord means. Keeping them one component is what keeps the two columns aligned.
 export const List = (props: { children: ReactNode }) => (
@@ -7,12 +9,13 @@ export const List = (props: { children: ReactNode }) => (
 );
 
 export const ListRow = (props: ListRowProps) => (
-    <li className='grid grid-cols-[9px_128px_1fr] items-baseline gap-2.5 border-b border-line py-[3px] text-[13px]'>
+    <li
+        className={`grid items-center gap-2.5 border-b border-line py-1.5 text-[13px] ${props.chord ? 'grid-cols-[9px_150px_1fr]' : 'grid-cols-[9px_1fr]'}`}>
         <span
-            className='relative top-px size-[9px] rounded-full'
+            className='size-[9px] rounded-full'
             style={{ background: props.color }}
         />
-        <span className='font-mono'>{props.chord}</span>
+        {props.chord ? <Chord chord={props.chord} /> : null}
         <span>
             {props.children}
             {props.who ? (
@@ -39,7 +42,8 @@ interface ListRowProps {
     // app's own config carries none, because nothing here may write it.
     action?: ReactNode;
     children: ReactNode;
-    chord: string;
+    // Absent where the chord is already on screen, as under the selected-key header.
+    chord?: string;
     color: string;
     who?: string;
 }
