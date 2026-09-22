@@ -454,46 +454,53 @@ export const BoardPage = (props: BoardPageProps) => {
                             <span className='text-[13px] text-ink-2'>none</span>
                         )}
                     </div>
-                    {selectedBinds.length > 0 && (
-                        <List>
-                            {selectedBinds.map((hotkey, at) =>
-                                bindRow(hotkey, at, false),
-                            )}
-                        </List>
-                    )}
-                    {movable ? (
-                        <div className='flex flex-wrap items-center gap-2 text-[12px] text-ink-2'>
-                            {pending ? (
-                                <span>rebinding…</span>
-                            ) : listening ? (
-                                <span className='text-ink'>
-                                    press the new chord on the keyboard — esc
-                                    stops
-                                </span>
-                            ) : (
-                                <span>
-                                    drag the key to a free cap to rebind, or
-                                </span>
-                            )}
-                            {!pending && (
-                                <button
-                                    aria-pressed={listening}
-                                    className={`${GHOST} px-2 py-0.5 text-[12px] aria-pressed:border-accent aria-pressed:text-ink`}
-                                    onClick={() => {
-                                        setListening((on) => !on);
-                                        setMoveError(null);
-                                    }}
-                                    type='button'>
-                                    {listening ? 'cancel' : 'press to rebind'}
-                                </button>
-                            )}
-                            {moveError ? (
-                                <span className='basis-full text-ink'>
-                                    {moveError}
-                                </span>
-                            ) : null}
-                        </div>
-                    ) : null}
+                    {/* A fixed slot for the row and the rebind hint, so the note field below
+                        never moves when a free key or no key is selected — measured: 32.5 +
+                        33.5 + the 10px gap between them. */}
+                    <div className='grid min-h-[76px] content-start gap-2.5'>
+                        {selectedBinds.length > 0 && (
+                            <List>
+                                {selectedBinds.map((hotkey, at) =>
+                                    bindRow(hotkey, at, false),
+                                )}
+                            </List>
+                        )}
+                        {movable ? (
+                            <div className='flex flex-wrap items-center gap-2 text-[12px] text-ink-2'>
+                                {pending ? (
+                                    <span>rebinding…</span>
+                                ) : listening ? (
+                                    <span className='text-ink'>
+                                        press the new chord on the keyboard —
+                                        esc stops
+                                    </span>
+                                ) : (
+                                    <span>
+                                        drag the key to a free cap to rebind, or
+                                    </span>
+                                )}
+                                {!pending && (
+                                    <button
+                                        aria-pressed={listening}
+                                        className={`${GHOST} px-2 py-0.5 text-[12px] aria-pressed:border-accent aria-pressed:text-ink`}
+                                        onClick={() => {
+                                            setListening((on) => !on);
+                                            setMoveError(null);
+                                        }}
+                                        type='button'>
+                                        {listening
+                                            ? 'cancel'
+                                            : 'press to rebind'}
+                                    </button>
+                                )}
+                                {moveError ? (
+                                    <span className='basis-full text-ink'>
+                                        {moveError}
+                                    </span>
+                                ) : null}
+                            </div>
+                        ) : null}
+                    </div>
                     <NoteEditor
                         chord={selectedChord}
                         notesMarkdown={notesMarkdown}
