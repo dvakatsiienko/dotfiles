@@ -1,5 +1,5 @@
-// Renders one emoji as an x-ray command tile. Invoked by `script/x-ray-icon.ts`, never by hand.
-//   swift script/lib/x-ray-icon.swift <emoji> <out.png>
+// Renders one emoji as an x-ray command tile. Invoked by `script/x-ray-icon-generate.ts`, never by hand.
+//   swift script/lib/x-ray-icon-generate.swift <emoji> <out.png>
 //
 // Two passes, because emoji metrics lie. `size(withAttributes:)` reports the line box —
 // ascender, descender and leading included — and for Apple Color Emoji that box is both
@@ -21,7 +21,7 @@ let glyphBox = 424.0
 let referenceSize = 400.0
 
 guard CommandLine.arguments.count == 3 else {
-    FileHandle.standardError.write("usage: x-ray-icon.swift <emoji> <out.png>\n".data(using: .utf8)!)
+    FileHandle.standardError.write("usage: x-ray-icon-generate.swift <emoji> <out.png>\n".data(using: .utf8)!)
     exit(2)
 }
 let emoji = CommandLine.arguments[1] as NSString
