@@ -1,23 +1,37 @@
+// biome-ignore-all assist/source/useSortedKeys: keyCap's order is pinned — see its own note.
 // One spelling for one chord, shared by the scanner (what is bound) and the reader (what was
 // pressed) so the two can be joined. The swift daemon builds the same string independently —
 // see the modifier order note in schedule/jobs/x-monitor-hotkey-stats/main.swift.
 import type { Hotkey } from './manual.ts';
 
-// Carbon key codes → key caps (us layout). It sits here rather than in scan.ts because
-// scan.ts is an entrypoint — it writes hotkeys.json and prints at import time — so any
-// reader wanting to name a key code would run a whole hotkey scan to get the table.
-// 📌 schedule/jobs/x-monitor-hotkey-stats/main.swift carries the same table and has
-// drifted: 95 codes there against this one's 65.
+// Carbon key codes → key caps (us layout). THE one table: the swift daemon's copy in
+// schedule/jobs/x-monitor-hotkey-stats/keycodes.swift is generated from this by
+// `pnpm monitor-hotkey:keycodes`, and a test fails the commit if the two drift.
+//
+// It sits here rather than in scan.ts because scan.ts is an entrypoint — it writes
+// hotkeys.json and prints at import time — so any reader wanting to name a key code would run
+// a whole hotkey scan to get the table.
+//
+// 📌 The daemon only ever looks a code up on a keyDown, and the modifier codes (54–63) never
+// produce one; they are here for the config readers, which do see them, and are inert on the
+// swift side. The daemon's separate `modifierName` table is a different question — which
+// physical modifier moved during flagsChanged — and is not generated from this.
+// 📌 The numeric order below is pinned. biome's key comparator is lexicographic, which files
+// 126 between 125 and 13; in a keycode table the sequence IS the data, and `keyboard.ts` is
+// pinned for the same reason — the shape of that table is the keyboard.
 export const keyCap: Record<number, string> = {
     0: 'a',
     1: 's',
+    2: 'd',
+    3: 'f',
+    4: 'h',
+    5: 'g',
+    6: 'z',
+    7: 'x',
+    8: 'c',
+    9: 'v',
     11: 'b',
-    117: 'del',
     12: 'q',
-    123: 'left',
-    124: 'right',
-    125: 'down',
-    126: 'up',
     13: 'w',
     14: 'e',
     15: 'r',
@@ -25,7 +39,6 @@ export const keyCap: Record<number, string> = {
     17: 't',
     18: '1',
     19: '2',
-    2: 'd',
     20: '3',
     21: '4',
     22: '6',
@@ -36,7 +49,6 @@ export const keyCap: Record<number, string> = {
     27: '-',
     28: '8',
     29: '0',
-    3: 'f',
     30: ']',
     31: 'o',
     32: 'u',
@@ -47,7 +59,6 @@ export const keyCap: Record<number, string> = {
     37: 'l',
     38: 'j',
     39: "'",
-    4: 'h',
     40: 'k',
     41: ';',
     42: '\\',
@@ -58,7 +69,6 @@ export const keyCap: Record<number, string> = {
     47: '.',
     48: 'tab',
     49: 'space',
-    5: 'g',
     50: '`',
     51: 'backspace',
     53: 'esc',
@@ -67,14 +77,53 @@ export const keyCap: Record<number, string> = {
     56: 'shift',
     58: 'opt',
     59: 'ctrl',
-    6: 'z',
     60: 'rshift',
     61: 'ropt',
     62: 'rctrl',
     63: 'fn',
-    7: 'x',
-    8: 'c',
-    9: 'v',
+    65: 'keypad.',
+    67: 'keypad*',
+    69: 'keypad+',
+    71: 'clear',
+    75: 'keypad/',
+    76: 'keypadenter',
+    78: 'keypad-',
+    81: 'keypad=',
+    82: 'keypad0',
+    83: 'keypad1',
+    84: 'keypad2',
+    85: 'keypad3',
+    86: 'keypad4',
+    87: 'keypad5',
+    88: 'keypad6',
+    89: 'keypad7',
+    91: 'keypad8',
+    92: 'keypad9',
+    96: 'f5',
+    97: 'f6',
+    98: 'f7',
+    99: 'f3',
+    100: 'f8',
+    101: 'f9',
+    103: 'f11',
+    105: 'f13',
+    107: 'f14',
+    109: 'f10',
+    111: 'f12',
+    113: 'f15',
+    114: 'help',
+    115: 'home',
+    116: 'pageup',
+    117: 'del',
+    118: 'f4',
+    119: 'end',
+    120: 'f2',
+    121: 'pagedown',
+    122: 'f1',
+    123: 'left',
+    124: 'right',
+    125: 'down',
+    126: 'up',
 };
 
 export const modOrder = ['hyper', 'ctrl', 'opt', 'shift', 'cmd'];

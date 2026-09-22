@@ -20,24 +20,10 @@
 
 import Cocoa
 
-// US-layout virtual keycodes. The TypeScript twin is `keyCap` in hotkeys/scan.ts —
-// same numbering, kept in step by hand because the two live on opposite sides of a language line.
-let keyCap: [Int64: String] = [
-    0: "a", 1: "s", 2: "d", 3: "f", 4: "h", 5: "g", 6: "z", 7: "x", 8: "c", 9: "v",
-    11: "b", 12: "q", 13: "w", 14: "e", 15: "r", 16: "y", 17: "t", 18: "1", 19: "2",
-    20: "3", 21: "4", 22: "6", 23: "5", 24: "=", 25: "9", 26: "7", 27: "-", 28: "8",
-    29: "0", 30: "]", 31: "o", 32: "u", 33: "[", 34: "i", 35: "p", 36: "return",
-    37: "l", 38: "j", 39: "'", 40: "k", 41: ";", 42: "\\", 43: ",", 44: "/", 45: "n",
-    46: "m", 47: ".", 48: "tab", 49: "space", 50: "`", 51: "backspace", 53: "esc",
-    65: "keypad.", 67: "keypad*", 69: "keypad+", 71: "clear", 75: "keypad/",
-    76: "keypadenter", 78: "keypad-", 81: "keypad=", 82: "keypad0", 83: "keypad1",
-    84: "keypad2", 85: "keypad3", 86: "keypad4", 87: "keypad5", 88: "keypad6",
-    89: "keypad7", 91: "keypad8", 92: "keypad9",
-    96: "f5", 97: "f6", 98: "f7", 99: "f3", 100: "f8", 101: "f9", 103: "f11",
-    105: "f13", 107: "f14", 109: "f10", 111: "f12", 113: "f15", 114: "help",
-    115: "home", 116: "pageup", 117: "del", 118: "f4", 119: "end", 120: "f2",
-    121: "pagedown", 122: "f1", 123: "left", 124: "right", 125: "down", 126: "up",
-]
+// `keyCap` sits in keycodes.swift, generated from hotkeys/chord.ts by
+// `pnpm monitor-hotkey:keycodes` and compiled into this binary. The two were hand-kept twins
+// and drifted anyway — 95 codes here against 66 there — so this daemon logged `pageup` while
+// the config readers called the same key `key116`, and a press on it joined to nothing.
 
 // Canonical modifier order, identical to `modOrder` in hotkeys/chord.ts:
 // hyper, ctrl, opt, shift, cmd. All four together collapse to `hyper`.
