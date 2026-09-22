@@ -2,6 +2,7 @@
 /* Components */
 import { BoardPage } from '@/board.tsx';
 /* Instruments */
+import { useStatsPrefetcher } from '@/queries.ts';
 import { navigate, useRoute } from '@/router.ts';
 import { StatsPage } from '@/stats.tsx';
 import { TAB } from '@/ui.ts';
@@ -14,6 +15,7 @@ const pages = [
 export const App = () => {
     const route = useRoute();
     const path = route.path === '/stats' ? '/stats' : '/';
+    const prefetchStats = useStatsPrefetcher();
 
     const navJSX = pages.map((page) => {
         return (
@@ -22,6 +24,11 @@ export const App = () => {
                 className={`${TAB} ${page.path === path ? 'border-accent bg-sel text-ink' : 'border-line bg-transparent text-ink-2'}`}
                 key={page.path}
                 onClick={() => navigate(page.path)}
+                // Stats reparses the whole press log to answer; the pointer travelling to the
+                // tab is time the daemon can spend instead of the reader.
+                onMouseEnter={
+                    page.path === '/stats' ? prefetchStats : undefined
+                }
                 type='button'>
                 {page.label}
             </button>

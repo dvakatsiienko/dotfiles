@@ -23,7 +23,7 @@ import {
     subscribeLive,
 } from '@/api.ts';
 import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
-import { queryKeys, useNotes, useScan } from '@/queries.ts';
+import { queryKeys, useNotes, usePrefetchStats, useScan } from '@/queries.ts';
 import { GHOST, H2, TAB } from '@/ui.ts';
 
 // One frozen object for "no notes yet". A fresh `{}` per render would be a new dependency on
@@ -38,6 +38,9 @@ export const BoardPage = (props: BoardPageProps) => {
     // A failed refresh keeps the board that is already drawn; only a first load with nothing
     // behind it shows the notice.
     const scanError = scanQuery.error?.message ?? null;
+
+    // The board is what dima lands on; stats warms behind it once this page has what it needs.
+    usePrefetchStats(scanQuery.isSuccess);
     const [presses, setPresses] = useState<Record<string, number>>({});
     const [pressedAt, setPressedAt] = useState<string | null>(null);
     const notes = notesQuery.data ?? EMPTY_NOTES;
@@ -85,11 +88,33 @@ export const BoardPage = (props: BoardPageProps) => {
     // One stream for the life of the page: a rerun would open a second EventSource and leak
     // the first.
     useEffect(() => {
+        // The daemon replays its current counts the instant the stream opens. That is not
+        // news, and treating it as news would mark the stats cache stale on every single
+        // board mount — undoing the prefetch that exists to make the route instant.
+        let replayed = false;
+
+        // The stats route is not mounted while the board is, so nothing else can notice that
+        // its numbers went out of date. `refetchType: 'none'` marks it stale without paying
+        // for a whole-log parse now: the parse happens once, when the route is next opened or
+        // warmed on hover — not on every press.
+        const staleStats = () => {
+            queryClient.invalidateQueries({
+                queryKey: queryKeys.stats,
+                refetchType: 'none',
+            });
+        };
+
         // Both kinds of news arrive on one stream, so the page holds no timer: a press
         // repaints the counts, a config change repulls the whole scan.
         return subscribeLive({
-            onBindings: loadScan,
+            onBindings: () => {
+                loadScan();
+                staleStats();
+            },
             onPresses: (payload) => {
+                if (replayed) staleStats();
+                replayed = true;
+
                 // The stream carries totals, so the chord just pressed is the one whose count
                 // moved. That is what press-to-pick listens for.
                 setPresses((previous) => {
@@ -107,7 +132,7 @@ export const BoardPage = (props: BoardPageProps) => {
                 setPressedAt(payload.updatedAt);
             },
         });
-    }, [loadScan]);
+    }, [loadScan, queryClient]);
 
     // While a rebind is in flight the board already shows it landed: the row sits on its new
     // chord and the old one is empty, and both caps are held until the daemon's rescan confirms
