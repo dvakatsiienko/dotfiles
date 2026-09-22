@@ -16,7 +16,7 @@ import {
 // A press is the cap sinking into its lip: 2px down, the lip gone, 70ms in and out. A click
 // does it under the finger; a real press reported by the daemon does it once on the board.
 const BASE =
-    'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none transition-[transform,box-shadow] duration-75 ease-out active:translate-y-[2px] active:shadow-none data-[pressing]:translate-y-[2px] data-[pressing]:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:outline-2 aria-pressed:outline-offset-1 aria-pressed:outline-accent';
+    'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none transition-[transform,box-shadow] duration-75 ease-out active:translate-y-[2px] active:shadow-none data-[pressing]:translate-y-[2px] data-[pressing]:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-[current=true]:outline-2 aria-[current=true]:outline-offset-1 aria-[current=true]:outline-accent';
 // Hover deepens the lip rather than tinting the cap. The lip is the only depth this world
 // carries, a firmer edge reads as a key taken under a finger, and no new tone or motion enters
 // the system to say it. Zero blur holds: the offset is still 2px and the radius still 0.
@@ -231,7 +231,14 @@ const Keycap = (props: KeycapProps) => {
     return (
         <button
             aria-busy={props.pending}
-            aria-pressed={props.selected}
+            // 📌 Selection cannot ride aria-pressed here. dnd-kit writes its own a11y set
+            // straight onto this node — aria-roledescription, aria-grabbed, and aria-pressed,
+            // which for it means "grabbed" — so React's value is overwritten the moment the
+            // cap becomes draggable, which is every cap worth picking. The outline never
+            // appeared on the board and only :focus-visible was ever showing, which dies as
+            // soon as focus moves to the note field. aria-current is the right word anyway:
+            // this is the current item in a set, not a toggle.
+            aria-current={props.selected}
             className={`${BASE} ${tone} ${lip} ${dragTone} ${movable && !props.pending ? 'cursor-grab active:cursor-grabbing' : ''} ${props.pending ? 'cursor-progress outline-2 outline-dashed outline-offset-1 outline-ink-3' : ''}`}
             data-pressing={pressing ? '' : undefined}
             onClick={() => {
