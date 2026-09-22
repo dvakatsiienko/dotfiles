@@ -128,6 +128,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   prints a short calm list and nothing is red. before trusting a quiet pr, ask «was a RUN
   created for this head», never «is a check green» (bytes #84, 2026-09-12: a commit body that
   quoted the skip marker; the guard is a `commit-msg` hook in both repos)
+- **a gate is read by its exit code, never by grepping its output** — `pnpm --silent --filter chords typecheck | head` printed nothing on 4 type errors and the commit hook caught them a minute later (2026-09-22); `--silent`, a pipe, or a `grep` for «error» all turn red into quiet
 - **a green typecheck answers «did the configured files pass», never «are my files configured»** — `hotkeys/*.ts` sat in no tsconfig for a week and a reverted interface field left the gate green (2026-09-20). a new dir of `.ts` is proven by planting a type error and watching `pnpm typecheck` go red
 - **github's `Deploy · success` is the hook trigger, never the build** — three production builds were red for 20 minutes behind a green Actions page (2026-09-21); the build state lives only in `vercel inspect <deploy url>` (`status ● Error`), and `vercel ls <project> --prod` names the newest one
 - **a conflicting pr gets no `pull_request` run at all** — github creates none without a merge ref, and «no checks reported» reads calm. main moves under an open pr → merge it in within the hour (ten heads ran no ci, 2026-09-20)
