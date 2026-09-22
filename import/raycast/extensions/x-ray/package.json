@@ -117,6 +117,7 @@
                 "filter",
                 "blocklist"
             ],
+            "icon": "gmail-block-sender.png",
             "mode": "view"
         }
     ],
