@@ -18,6 +18,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 
 import { chordOf } from '../hotkeys/chord.ts';
+import type { Hotkey } from '../hotkeys/manual.ts';
 import { manualHotkeys } from '../hotkeys/manual.ts';
 import { liveHotkeys } from '../hotkeys/stats.ts';
 import {
@@ -29,6 +30,7 @@ import {
     diffAgainstMap,
     dropHotkey,
     encryptExport,
+    splitGhosts,
     toChord,
 } from './lib/rayconfig.ts';
 
@@ -86,7 +88,8 @@ if (wantsJson) {
 const GHOST_NOTE = [
     '   raycast keeps one settings row per command id and prunes none when an extension stops',
     '   declaring that command. the export carries no manifest and no deletion marker — so a',
-    '   row that outlived its command still reads as bound, and the clash is the only tell.',
+    '   row that outlived its command still reads as bound, and a chord claimed twice is the',
+    '   only tell the file carries.',
 ].join('\n');
 
 // Filled by toRow as it goes: a shortcut whose key this reader cannot name is said once at
@@ -110,32 +113,50 @@ const rowList = [
     ),
 ];
 
-// Every live row, not just the ones credited to raycast: manual.ts names the app a binding
-// DRIVES, not the app that holds it, and its own header says the cleanshot commands are bound
-// in raycast's cleanshot extension. Filtering on `raycast` reported all eleven of those as
-// missing from a map that has carried them all along.
-const mapRowList = liveHotkeys(manualHotkeys).map((hotkey) => ({
-    action: `${hotkey.action} · ${hotkey.app}`,
-    chord: chordOf(hotkey),
-}));
+// A named ghost is said once and then left out of every check below: it is a dead row, and
+// counting it as a binding put a ⚠️ clash and a phantom «manual.ts lacks» row on every run.
+const { ghosts, live } = splitGhosts(rowList);
+
+// The first question — what does raycast bind that the map has never heard of — is asked against
+// EVERY live row, because `app` in manual.ts names the app a binding DRIVES, not the store that
+// holds it: the cleanshot rows are bound inside raycast's cleanshot extension, and filtering them
+// out reported all eleven as missing from a map that has carried them all along.
+const mapRowList = liveHotkeys(manualHotkeys).map(toMapRow);
+
+// The second question is the reverse — what the map keeps and this export does not bind — and
+// only a chord raycast could bind at all can answer it. macos's own shortcuts and 1password's
+// live inside those apps, so an export not binding them is not a gap; they printed 18 rows of
+// noise on every run.
+const raycastStore = ['raycast', 'cleanshot'];
+const storeRowList = liveHotkeys(manualHotkeys)
+    .filter((hotkey) => raycastStore.includes(hotkey.app))
+    .map(toMapRow);
 
 console.log(
     `${header.exportedAt} · raycast ${header.appVersion} · schema ${header.schemaVersion}`,
 );
-console.log(`${rowList.length} bound:`);
-for (const row of rowList)
-    console.log(`  ${row.chord.padEnd(24)} ${row.action}`);
+console.log(`${live.length} bound:`);
+for (const row of live) console.log(`  ${row.chord.padEnd(24)} ${row.action}`);
 
-for (const clash of boundTwice(rowList)) {
+for (const ghost of ghosts)
+    console.log(`\n👻 known ghost: ${ghost.chord} → ${ghost.action}`);
+if (ghosts.length > 0) console.log(GHOST_NOTE);
+
+for (const clash of boundTwice(live)) {
     console.log(
         `\n⚠️ bound twice: ${clash.chord} → ${clash.actions.join(', ')}`,
     );
     console.log(GHOST_NOTE);
 }
 
-const diff = diffAgainstMap(rowList, mapRowList);
-report('raycast binds, hotkeys/manual.ts lacks', diff.onlyInExport);
-report('hotkeys/manual.ts keeps, this export does not bind', diff.onlyInMap);
+report(
+    'raycast binds, hotkeys/manual.ts lacks',
+    diffAgainstMap(live, mapRowList).onlyInExport,
+);
+report(
+    'hotkeys/manual.ts keeps, this export does not bind',
+    diffAgainstMap(live, storeRowList).onlyInMap,
+);
 
 if (unnamed.length > 0)
     console.log(`\nkey shape this reader cannot name: ${unnamed.join(', ')}`);
@@ -152,6 +173,13 @@ function report(title: string, rows: readonly ChordRow[]) {
     for (const row of rows)
         console.log(`  ${row.chord.padEnd(24)} ${row.action}`);
 }
+function toMapRow(hotkey: Hotkey) {
+    return {
+        action: `${hotkey.action} · ${hotkey.app}`,
+        chord: chordOf(hotkey),
+    };
+}
+
 function toRow(hotkey: RayHotkey | undefined, action: string) {
     const shortcut = hotkey?.kind?.shortcut;
     if (!shortcut) return [];

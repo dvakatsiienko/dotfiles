@@ -200,6 +200,21 @@ export const boundTwice = (rows: readonly ChordRow[]) => {
         .sort((a, z) => a.chord.localeCompare(z.chord));
 };
 
+/**
+ * ? A command raycast no longer has, whose settings row the export still carries. It reads as
+ * ? bound and clashes with whatever now owns its chord, and nothing in the file says otherwise —
+ * ? no manifest, no deletion marker. Unbinding it in a `-clean` export did not help either:
+ * ? raycast MERGES an imported config into the live one rather than replacing it, so the live
+ * ? row survives the import. Until raycast prunes it, naming it here is what stops one dead row
+ * ? from being reported as a real clash and a real binding on every run.
+ */
+export const GHOSTS = ['linear-query-wide'];
+
+export const splitGhosts = (rows: readonly ChordRow[]) => ({
+    ghosts: rows.filter((row) => GHOSTS.includes(row.action)),
+    live: rows.filter((row) => !GHOSTS.includes(row.action)),
+});
+
 export const diffAgainstMap = (
     exported: readonly ChordRow[],
     mapped: readonly ChordRow[],

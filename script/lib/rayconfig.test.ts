@@ -6,6 +6,7 @@ import {
     diffAgainstMap,
     dropHotkey,
     encryptExport,
+    splitGhosts,
     toChord,
 } from './rayconfig.ts';
 
@@ -246,5 +247,29 @@ describe('dropHotkey', () => {
 
     it('refuses a command name nothing is bound under', () => {
         expect(() => dropHotkey(payload, 'nobody')).toThrow(/nobody/);
+    });
+});
+
+describe('splitGhosts', () => {
+    const rows = [
+        { action: 'linear-query-wide', chord: 'hyper+pageup' },
+        { action: 'linear-query-tickets (quicklink)', chord: 'hyper+pageup' },
+        { action: 'handoffs', chord: 'hyper+h' },
+    ];
+
+    it('names the dead command and leaves the live rows alone', () => {
+        const split = splitGhosts(rows);
+        expect(split.ghosts.map((row) => row.action)).toEqual([
+            'linear-query-wide',
+        ]);
+        expect(split.live.map((row) => row.action)).toEqual([
+            'linear-query-tickets (quicklink)',
+            'handoffs',
+        ]);
+    });
+
+    it('the clash the ghost caused is gone once it is split off', () => {
+        expect(boundTwice(rows)).toHaveLength(1);
+        expect(boundTwice(splitGhosts(rows).live)).toEqual([]);
     });
 });
