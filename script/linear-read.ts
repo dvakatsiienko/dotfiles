@@ -11,7 +11,12 @@
 /* Core */
 import * as zx from 'zx';
 
-import { TICKET_QUERY, type Ticket, ticketLines } from './lib/linear-read.ts';
+import {
+    TICKET_QUERY,
+    type Ticket,
+    hopTarget,
+    ticketLines,
+} from './lib/linear-read.ts';
 
 const args = process.argv.slice(2);
 const id = args.find((a) => /^[A-Z]+-\d+$/.test(a));
@@ -22,28 +27,53 @@ if (!id) {
     process.exit(2);
 }
 
-const result = await zx.$({
-    quiet: true,
-})`linear api ${TICKET_QUERY(id)}`.nothrow();
-const body = parseReply(result.stdout);
-if (!body?.data?.issue) {
+const ticket = await fetchTicket(id);
+const opts = {
+    noBody: args.includes('--no-body'),
+    noComments: args.includes('--no-comments'),
+};
+const hopId = args[args.indexOf('--hop') + 1];
+const hop = args.includes('--hop') ? hopTarget(ticket, hopId ?? '') : null;
+if (args.includes('--hop') && !hop) {
+    console.error(
+        `${hopId ?? '(missing id)'} is not in ${id}'s graph — parent, child, relation or inverse relation only`,
+    );
+    process.exit(1);
+}
+
+const hopTicket = hop ? await fetchTicket(hop) : null;
+if (args.includes('--json')) {
+    console.log(
+        JSON.stringify(
+            hopTicket ? { hop: hopTicket, ticket } : ticket,
+            null,
+            4,
+        ),
+    );
+} else {
+    const lines = ticketLines(ticket, opts);
+    if (hopTicket)
+        lines.push(
+            '',
+            `## hop → ${hopTicket.identifier}`,
+            '',
+            ...ticketLines(hopTicket, opts),
+        );
+    console.log(lines.join('\n'));
+}
+
+async function fetchTicket(ticketId: string): Promise<Ticket> {
+    const result = await zx.$({
+        quiet: true,
+    })`linear api ${TICKET_QUERY(ticketId)}`.nothrow();
+    const body = parseReply(result.stdout);
+    if (body?.data?.issue) return body.data.issue;
     const reason =
         body?.errors?.map((e) => e.message).join('; ') ||
         result.stderr.trim() ||
         'no reply from linear api';
-    console.error(`${id}: ${reason}`);
+    console.error(`${ticketId}: ${reason}`);
     process.exit(1);
-}
-
-if (args.includes('--json')) {
-    console.log(JSON.stringify(body.data.issue, null, 4));
-} else {
-    console.log(
-        ticketLines(body.data.issue, {
-            noBody: args.includes('--no-body'),
-            noComments: args.includes('--no-comments'),
-        }).join('\n'),
-    );
 }
 
 function parseReply(raw: string): Reply | null {

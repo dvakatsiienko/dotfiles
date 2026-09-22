@@ -5,17 +5,18 @@
 
 export const TICKET_QUERY = (id: string) => `query { issue(id: "${id}") {
   identifier title description priority estimate
-  state { name } project { name } projectMilestone { name } assignee { name }
+  state { name type } project { name } projectMilestone { name } assignee { name }
   labels(first: 50) { nodes { name } pageInfo { hasNextPage } }
   parent { identifier title }
-  children(first: 50) { nodes { identifier title state { name } } pageInfo { hasNextPage } }
-  relations(first: 50) { nodes { type relatedIssue { identifier title state { name } } } pageInfo { hasNextPage } }
-  inverseRelations(first: 50) { nodes { type issue { identifier title state { name } } } pageInfo { hasNextPage } }
+  children(first: 50) { nodes { identifier title state { name type } } pageInfo { hasNextPage } }
+  relations(first: 50) { nodes { type relatedIssue { identifier title state { name type } } } pageInfo { hasNextPage } }
+  inverseRelations(first: 50) { nodes { type issue { identifier title state { name type } } } pageInfo { hasNextPage } }
   attachments(first: 50) { nodes { title url } pageInfo { hasNextPage } }
   comments(first: 100) { nodes { body createdAt user { name } botActor { name } } pageInfo { hasNextPage } }
 } }`;
 
 const CAPPED = '⚠️ capped';
+const DONE_TYPES = new Set(['completed', 'canceled']);
 
 /** the inverse side reads «X blocks me», so its verb flips for the reader */
 const INVERSE_VERB: Record<string, string> = {
@@ -28,8 +29,16 @@ export function ticketLines(t: Ticket, opts: ReadOptions): string[] {
     const cap = (p: Page<unknown>) =>
         p.pageInfo.hasNextPage ? ` ${CAPPED}` : '';
     const labels = t.labels.nodes.map((l) => l.name).join(', ') || 'no labels';
+    const blockers = t.inverseRelations.nodes
+        .filter(
+            (r) => r.type === 'blocks' && !DONE_TYPES.has(r.issue.state.type),
+        )
+        .map((r) => r.issue.identifier);
+    const state = blockers.length
+        ? `${t.state.name} 🚫 blocked by ${blockers.join(', ')}`
+        : t.state.name;
     const lines = [
-        `${t.identifier} · ${t.title} · ${t.state.name} · ${t.project?.name ?? 'no project'} · p${t.priority} · ${t.estimate === null ? 'e—' : `e${t.estimate}`} · ${t.assignee?.name ?? 'unassigned'} · ${labels}${cap(t.labels)}`,
+        `${t.identifier} · ${t.title} · ${state} · ${t.project?.name ?? 'no project'} · p${t.priority} · ${t.estimate === null ? 'e—' : `e${t.estimate}`} · ${t.assignee?.name ?? 'unassigned'} · ${labels}${cap(t.labels)}`,
     ];
     if (t.projectMilestone) lines.push(`milestone ${t.projectMilestone.name}`);
     if (t.parent) lines.push(`parent ${t.parent.identifier} ${t.parent.title}`);
@@ -68,10 +77,22 @@ export function ticketLines(t: Ticket, opts: ReadOptions): string[] {
     return lines;
 }
 
+/** one hop, never two: the id must sit in the main ticket's own graph */
+export function hopTarget(t: Ticket, id: string): string | null {
+    const graph = [
+        t.parent?.identifier,
+        ...t.children.nodes.map((c) => c.identifier),
+        ...t.relations.nodes.map((r) => r.relatedIssue.identifier),
+        ...t.inverseRelations.nodes.map((r) => r.issue.identifier),
+    ];
+    return graph.includes(id) ? id : null;
+}
+
 /* Types */
 export type Page<T> = { nodes: T[]; pageInfo: { hasNextPage: boolean } };
 type Named = { name: string };
-type Ref = { identifier: string; state: Named; title: string };
+type StateRef = { name: string; type: string };
+type Ref = { identifier: string; state: StateRef; title: string };
 
 export type Ticket = {
     assignee: Named | null;
@@ -93,7 +114,7 @@ export type Ticket = {
     project: Named | null;
     projectMilestone: Named | null;
     relations: Page<{ relatedIssue: Ref; type: string }>;
-    state: Named;
+    state: StateRef;
     title: string;
 };
 

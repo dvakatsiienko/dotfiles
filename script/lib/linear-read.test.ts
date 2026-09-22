@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { type Ticket, ticketLines } from './linear-read.ts';
+import { type Ticket, hopTarget, ticketLines } from './linear-read.ts';
 
 const ticket: Ticket = {
     assignee: null,
@@ -34,10 +34,10 @@ const ticket: Ticket = {
             {
                 issue: {
                     identifier: 'DOT-9',
-                    state: { name: 'Todo' },
+                    state: { name: 'Todo', type: 'unstarted' },
                     title: 'nine',
                 },
-                type: 'blocks',
+                type: 'related',
             },
         ],
         pageInfo: { hasNextPage: false },
@@ -51,7 +51,7 @@ const ticket: Ticket = {
     project: { name: 'pm' },
     projectMilestone: { name: 'm1' },
     relations: { nodes: [], pageInfo: { hasNextPage: false } },
-    state: { name: 'In Progress' },
+    state: { name: 'In Progress', type: 'started' },
     title: 'one',
 };
 
@@ -62,7 +62,7 @@ describe('ticketLines', () => {
             'DOT-1 · one · In Progress · pm · p3 · e2 · unassigned · agent, bug',
         );
         expect(out).toContain('parent DOT-0 zero');
-        expect(out).toContain('blocked by DOT-9 nine (Todo)');
+        expect(out).toContain('related DOT-9 nine (Todo)');
         expect(out).toContain('pr #4 https://x/4');
         expect(out.indexOf('first')).toBeLessThan(out.indexOf('second'));
         expect(out).toContain('— coder · 2026-09-01');
@@ -79,5 +79,46 @@ describe('ticketLines', () => {
         }).join('\n');
         expect(out).not.toContain('the body');
         expect(out).not.toContain('second');
+    });
+});
+
+describe('blocked marker', () => {
+    it('names open blockers right after the state', () => {
+        const blocked: Ticket = {
+            ...ticket,
+            inverseRelations: {
+                nodes: [
+                    {
+                        issue: {
+                            identifier: 'DOT-9',
+                            state: { name: 'Todo', type: 'unstarted' },
+                            title: 'nine',
+                        },
+                        type: 'blocks',
+                    },
+                    {
+                        issue: {
+                            identifier: 'DOT-8',
+                            state: { name: 'Done', type: 'completed' },
+                            title: 'eight',
+                        },
+                        type: 'blocks',
+                    },
+                ],
+                pageInfo: { hasNextPage: false },
+            },
+        };
+        expect(ticketLines(blocked, {})[0]).toContain(
+            'In Progress 🚫 blocked by DOT-9 ·',
+        );
+        expect(ticketLines(blocked, {})[0]).not.toContain('DOT-8');
+    });
+});
+
+describe('hopTarget', () => {
+    it('accepts a ticket in the graph and refuses one outside it', () => {
+        expect(hopTarget(ticket, 'DOT-9')).toBe('DOT-9');
+        expect(hopTarget(ticket, 'DOT-0')).toBe('DOT-0');
+        expect(hopTarget(ticket, 'DOT-777')).toBeNull();
     });
 });
