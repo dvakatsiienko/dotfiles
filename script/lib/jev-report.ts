@@ -13,6 +13,10 @@ import type { Registry, Verdict } from './jev-vet.ts';
 import { VET_DIR, cleanDays } from './jev-vet.ts';
 
 const RUNS_LOG = join(VET_DIR, 'runs.log');
+const ROUTE_LOG = join(VET_DIR, 'route.log');
+/** the router's kill switch: the file exists → `skill-route.sh` exits before any jev call */
+export const ROUTER_OFF = join(VET_DIR, 'router.off');
+export const isRouterOff = (path = ROUTER_OFF) => existsSync(path);
 // a pick inside the band is a near-miss: neither confident nor rejected (verdictBand's numbers)
 const BAND = { high: 0.7, low: 0.3 } as const;
 
@@ -29,6 +33,54 @@ export const runsLog = (
     );
 
 const dayOf = (line: string) => line.slice(0, 10);
+
+/**
+ * route.log: `ts · top pick+conf · loads · prompt[ · ms]` — the trailing ms column arrived
+ * 2026-09-22, older lines have four columns and no latency
+ */
+export const routeParse = (text: string, today?: string): RouteRow[] =>
+    text
+        .split('\n')
+        .filter((l) => l && (!today || dayOf(l) === today))
+        .map((l) => {
+            const [ts = '', top = '', loads = '-', prompt = '', ms] =
+                l.split('\t');
+            const at = top.lastIndexOf(' ');
+            return {
+                conf: Number(top.slice(at + 1)),
+                loads: loads === '-' ? [] : loads.split(','),
+                ms: ms === undefined ? undefined : Number(ms),
+                prompt,
+                top: top.slice(0, at),
+                ts,
+            };
+        });
+
+export const routeRead = (today?: string, path = ROUTE_LOG) =>
+    routeParse(existsSync(path) ? readFileSync(path, 'utf8') : '', today);
+
+export const latencyStats = (rows: RouteRow[]): Latency | undefined => {
+    const ms = rows
+        .flatMap((r) => (r.ms === undefined ? [] : [r.ms]))
+        .sort((a, b) => a - b);
+    if (!ms.length) return undefined;
+    return {
+        avg: Math.round(ms.reduce((n, x) => n + x, 0) / ms.length),
+        p95: ms[Math.min(ms.length - 1, Math.ceil(ms.length * 0.95) - 1)] ?? 0,
+        runs: ms.length,
+    };
+};
+
+export const routerHealth = (isOff: boolean, stats: Latency | undefined) =>
+    isOff
+        ? 'router: OFF'
+        : stats
+          ? `router: on · avg ${stats.avg} ms · p95 ${stats.p95} ms (today)`
+          : 'router: on · no runs today';
+
+/** the last n prompts whose top pick sat in the band — the probes worth replaying */
+export const nearMisses = (rows: RouteRow[], n: number) =>
+    rows.filter((r) => r.conf >= BAND.low && r.conf < BAND.high).slice(-n);
 
 export const runsRead = (today: string, path = RUNS_LOG): Run[] =>
     (existsSync(path) ? readFileSync(path, 'utf8') : '')
@@ -83,7 +135,12 @@ export const reportLines = (
     runs: Run[],
     verdicts: VerdictRow[],
     today: string,
-    health: Health = { api: true, fixture: true, key: true },
+    health: Health = {
+        api: true,
+        fixture: true,
+        key: true,
+        router: 'router: on · no runs today',
+    },
 ) => {
     const lines: string[] = [];
     for (const [name, flow] of Object.entries(registry.flows)) {
@@ -152,7 +209,7 @@ export const reportLines = (
         .filter((f) => !verdicts.some((v) => v.flow === f));
     const ok = (isOk: boolean) => (isOk ? 'ok' : 'FAIL');
     lines.push(
-        `🚦 **health** — api ${ok(health.api)}, key ${ok(health.key)}, fixture probe ${ok(health.fixture)}, verdicts missing: ${missing.join(', ') || 'none'}`,
+        `🚦 **health** — api ${ok(health.api)}, key ${ok(health.key)}, fixture probe ${ok(health.fixture)}, verdicts missing: ${missing.join(', ') || 'none'}, ${health.router}`,
     );
     return lines;
 };
@@ -166,4 +223,18 @@ export type Run = {
     picks: Pick[];
 };
 export type VerdictRow = { flow: string; verdict: Verdict; note: string };
-export type Health = { api: boolean; key: boolean; fixture: boolean };
+export type Health = {
+    api: boolean;
+    key: boolean;
+    fixture: boolean;
+    router: string;
+};
+export type RouteRow = {
+    ts: string;
+    top: string;
+    conf: number;
+    loads: string[];
+    prompt: string;
+    ms: number | undefined;
+};
+export type Latency = { avg: number; p95: number; runs: number };

@@ -1,12 +1,13 @@
 // probe: can jev pick the x:* skill a prompt needs, from the skills' own descriptions?
-// usage: script/op-run.sh node script/skill-route.ts            → the probe set
-//        script/op-run.sh node script/skill-route.ts '<prompt>' → live: prints the loads, logs the pick
+// usage: script/op-run.sh node script/skill-route.ts                → the probe set
+//        script/op-run.sh node script/skill-route.ts --from-log [n]  → replay the last n near-misses from route.log
+//        script/op-run.sh node script/skill-route.ts '<prompt>'      → live: prints the loads, logs the pick + ms
 import { appendFileSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 
 import type { Question } from './lib/jev.ts';
 import { judge } from './lib/jev.ts';
 import { printTable } from './lib/jev-print.ts';
-import { runsLog } from './lib/jev-report.ts';
+import { nearMisses, routeRead, runsLog } from './lib/jev-report.ts';
 import { bb, bold, dim, gb, rb } from './lib/print.ts';
 
 // frontmatter description is one line, or a `>-` folded block of indented lines
@@ -70,19 +71,25 @@ const probes = [
     ['sup, where are we', 'cclio:report'],
 ] as const;
 
-const live = process.argv[2];
+const isFromLog = process.argv[2] === '--from-log';
+const live = isFromLog ? undefined : process.argv[2];
 if (live) {
+    const started = performance.now();
     const res = await judge({ prompt: live }, questions);
+    const ms = Math.round(performance.now() - started);
     const ranked = Object.entries(res.answers)
         .map(([name, a]) => [name, 'noul' in a ? a.noul : 0] as const)
         .sort((a, b) => b[1] - a[1]);
-    const loads = ranked.filter(([, p]) => p >= routeThreshold).map(([n]) => n);
+    const loads = ranked.filter(([, p]) => p >= routeThreshold);
     const top = ranked[0];
     appendFileSync(
         logPath,
-        `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\n`,
+        `${new Date().toISOString()}\t${top?.[0]} ${top?.[1].toFixed(2)}\t${loads.map(([n]) => n).join(',') || '-'}\t${live.slice(0, 80).replace(/\s+/g, ' ')}\t${ms}\n`,
     );
-    if (loads.length) console.log(`skills (jev router): ${loads.join(', ')}`);
+    if (loads.length)
+        console.log(
+            `skills (jev router): ${loads.map(([n, p]) => `${n} ${p.toFixed(2)}`).join(', ')}`,
+        );
     // the top pick only — a whole prompt's 59 nouls would drown the report
     runsLog(
         'skill-router',
@@ -93,8 +100,18 @@ if (live) {
     process.exit(0);
 }
 
+// --from-log: yesterday's real near-misses replace the hand-written probes; dima fills `want`
+const replay = isFromLog
+    ? nearMisses(routeRead(), Number(process.argv[3] ?? 10)).map(
+          (r) => [r.prompt, '?'] as const,
+      )
+    : probes;
+const describe = (name: string) =>
+    skills.find((s) => s.name === name)?.description.slice(0, 100) ?? '';
+
 const rows: string[][] = [];
-for (const [prompt, expected] of probes) {
+const hints: string[] = [];
+for (const [prompt, expected] of replay) {
     const res = await judge({ prompt }, questions);
     const ranked = Object.entries(res.answers)
         .map(([name, a]) => [name, 'noul' in a ? a.noul : 0] as const)
@@ -102,6 +119,11 @@ for (const [prompt, expected] of probes) {
     const hit =
         ranked[0]?.[0] === expected ||
         (expected === '—' && (ranked[0]?.[1] ?? 0) < 0.5);
+    const first = ranked[0];
+    if (first && first[1] < routeThreshold)
+        hints.push(
+            `${bold(first[0])} ${first[1].toFixed(2)} ← «${prompt.slice(0, 50)}» · description now: ${dim(describe(first[0]))}`,
+        );
     const top = ranked
         .slice(0, 3)
         .map(([n, p], i) =>
@@ -110,7 +132,7 @@ for (const [prompt, expected] of probes) {
                 : dim(`${n} ${p.toFixed(2)}`),
         );
     rows.push([
-        hit ? '✅' : '❌',
+        expected === '?' ? '❓' : hit ? '✅' : '❌',
         prompt,
         dim('want'),
         bb(expected),
@@ -119,4 +141,12 @@ for (const [prompt, expected] of probes) {
     ]);
 }
 printTable(rows);
+if (hints.length) {
+    console.log(
+        dim(
+            '\nlow-confidence top picks — a miss here is usually a description to reword:',
+        ),
+    );
+    for (const h of hints) console.log(`  ${h}`);
+}
 console.log(dim(`\n${skills.length} skills as nouls per request`));

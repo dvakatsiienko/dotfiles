@@ -11,7 +11,15 @@ import { join } from 'node:path';
 /* Instruments */
 import { judge } from './lib/jev.ts';
 import { inboxQuestions } from './lib/jev-questions.ts';
-import { reportLines, runsRead, verdictsRead } from './lib/jev-report.ts';
+import {
+    isRouterOff,
+    latencyStats,
+    reportLines,
+    routeRead,
+    routerHealth,
+    runsRead,
+    verdictsRead,
+} from './lib/jev-report.ts';
 import { VET_DIR, registryRead } from './lib/jev-vet.ts';
 
 const today = new Date().toISOString().slice(0, 10);
@@ -56,10 +64,13 @@ const probe = async () => {
     }
 };
 
-const health = await probe();
+const router = routerHealth(isRouterOff(), latencyStats(routeRead(today)));
+const health = { ...(await probe()), router };
 if (process.argv.includes('--health')) {
     const isOk = health.api && health.key && health.fixture;
-    console.log(isOk ? 'api ok, key ok, fixture probe ok' : health.why);
+    console.log(
+        isOk ? `api ok, key ok, fixture probe ok, ${router}` : health.why,
+    );
     process.exit(isOk ? 0 : 1);
 }
 

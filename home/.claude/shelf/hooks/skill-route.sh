@@ -1,6 +1,7 @@
 #!/bin/bash
-# UserPromptSubmit: jev ranks the x:* skills for this prompt; loads ≥ 0.6 print into context.
+# UserPromptSubmit: jev ranks the x:* skills for this prompt; loads ≥ 0.6 print into context with their score.
 # fail-soft: no key, no network, no node → silent, the built-in router still runs.
+[ -f "$HOME/.claude/shelf/jev/router.off" ] && exit 0   # pnpm jev:router off — the kill switch, nothing runs
 prompt=$(jq -r '.prompt // empty' 2>/dev/null)
 [ -z "$prompt" ] && exit 0
 case "$prompt" in \<*) exit 0;; esac   # a <task-notification> is the harness talking, not dima
