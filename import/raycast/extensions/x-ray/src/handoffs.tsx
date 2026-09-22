@@ -215,7 +215,7 @@ const DeleteHandoffAction = (props: DeleteHandoffActionProps) => {
         <Action
             icon={Icon.Trash}
             onAction={handleDelete}
-            shortcut={{ key: 'delete', modifiers: ['cmd'] }}
+            shortcut={{ key: 'backspace', modifiers: ['cmd'] }}
             style={Action.Style.Destructive}
             title='delete handoff'
         />
