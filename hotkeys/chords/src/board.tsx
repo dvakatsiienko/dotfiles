@@ -7,6 +7,7 @@ import { canonicalQuery, chordOf, modOrder } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
 
 /* Components */
+import { Aurora } from '@/components/Aurora.tsx';
 import { Board } from '@/components/Board.tsx';
 import { List, ListEmpty, ListRow } from '@/components/List.tsx';
 import { NoteEditor } from '@/components/NoteEditor.tsx';
@@ -42,6 +43,9 @@ export const BoardPage = (props: BoardPageProps) => {
     // it is landing on until the daemon has written manual.ts and pushed the rescan.
     const [dragging, setDragging] = useState<Hotkey | null>(null);
     const [pending, setPending] = useState<Pending | null>(null);
+    const [landedAt, setLandedAt] = useState<number | null>(null);
+    // The strip moves for a moment on a layer turn, a drag, or a rebind landing.
+    const wake = `${layer}·${dragging ? 'drag' : ''}·${landedAt ?? 0}`;
     const [listening, setListening] = useState(false);
     const [lastPress, setLastPress] = useState<{
         chord: string;
@@ -58,7 +62,10 @@ export const BoardPage = (props: BoardPageProps) => {
                 setScan(next);
                 setScanError(null);
                 // A rescan is how a rebind finishes: the daemon rewrote manual.ts and pushed.
-                setPending(null);
+                setPending((held) => {
+                    if (held) setLandedAt(Date.now());
+                    return null;
+                });
             })
             .catch((error: Error) => setScanError(error.message));
     }, []);
@@ -319,6 +326,19 @@ export const BoardPage = (props: BoardPageProps) => {
                         ? `${coldCount} never pressed · last press ${new Date(pressedAt).toLocaleTimeString()}`
                         : 'no press data — run pnpm hotkeys:live'}
                 </span>
+                {apps.map((app) => {
+                    return (
+                        <span
+                            className='flex items-center gap-1.5 text-[12px] text-ink-2'
+                            key={app}>
+                            <span
+                                className='size-[9px] rounded-full'
+                                style={{ background: colorOf(app) }}
+                            />
+                            {app}
+                        </span>
+                    );
+                })}
             </div>
 
             {scanError ? (
@@ -364,6 +384,7 @@ export const BoardPage = (props: BoardPageProps) => {
             {/* The region the layer tabs switch. A tablist that controls nothing is a promise
                 to a screen reader that the page does not keep. */}
             <div id='board-panel' role='tabpanel'>
+                <Aurora seed={Math.max(0, layers.indexOf(layer))} wake={wake} />
                 <DragDropProvider
                     onDragEnd={(event) => {
                         const from = dragging;
@@ -395,32 +416,25 @@ export const BoardPage = (props: BoardPageProps) => {
                     <Board
                         binds={binds}
                         dragging={dragging}
+                        landedAt={landedAt}
                         layer={layer}
+                        layers={layers}
                         noted={noted}
+                        onLayer={(next) => {
+                            setLayer(next);
+                            setSelected(null);
+                        }}
                         onSelect={setSelected}
                         pending={
                             pending && pending.layer === layer
                                 ? [pending.from.key, pending.key]
                                 : []
                         }
+                        pressed={lastPress}
                         presses={presses}
                         selected={selected}
                     />
                 </DragDropProvider>
-            </div>
-
-            <div className='flex flex-wrap gap-x-[14px] gap-y-1.5 text-[12px] text-ink-2'>
-                {apps.map((app) => {
-                    return (
-                        <span className='flex items-center gap-1.5' key={app}>
-                            <span
-                                className='size-[9px] rounded-full'
-                                style={{ background: colorOf(app) }}
-                            />
-                            {app}
-                        </span>
-                    );
-                })}
             </div>
 
             <div className='grid grid-cols-1 gap-[22px] min-[761px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]'>

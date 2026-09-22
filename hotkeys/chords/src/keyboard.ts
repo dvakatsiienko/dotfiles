@@ -57,6 +57,29 @@ export const capLabel: Record<string, string> = {
     up: '↑',
 };
 
+// The caps on dima's own board, from his photo: cream letters, a red number row, lavender
+// function row with the backtick, a mint esc, blue arrows, a yellow del. The board tints only a
+// FREE cap by its family — a bound cap stays white under its app bar, so bound and free still
+// read apart the way they always did.
+export const capFamily: Record<string, 'esc' | 'fn' | 'num' | 'arrow' | 'del'> =
+    {
+        '-': 'num',
+        '=': 'num',
+        '`': 'fn',
+        del: 'del',
+        down: 'arrow',
+        esc: 'esc',
+        left: 'arrow',
+        right: 'arrow',
+        up: 'arrow',
+        ...Object.fromEntries(
+            Array.from({ length: 12 }, (_, i) => [`f${i + 1}`, 'fn']),
+        ),
+        ...Object.fromEntries(
+            Array.from({ length: 10 }, (_, i) => [String(i), 'num']),
+        ),
+    };
+
 const appColor: Record<string, string> = {
     '1password': 'var(--app-1password)',
     bartender: 'var(--app-bartender)',

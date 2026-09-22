@@ -1,12 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { type CSSProperties, useEffect, useRef, useState } from 'react';
 import { useDraggable, useDroppable } from '@dnd-kit/react';
 import { chordOf } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
 
-import { capLabel, colorOf, layerMods, layout, modKeys } from '@/keyboard.ts';
+import {
+    capFamily,
+    capLabel,
+    colorOf,
+    layerMods,
+    layout,
+    modKeys,
+} from '@/keyboard.ts';
 
+// A press is the cap sinking into its lip: 2px down, the lip gone, 70ms in and out. A click
+// does it under the finger; a real press reported by the daemon does it once on the board.
 const BASE =
-    'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:outline-2 aria-pressed:outline-offset-1 aria-pressed:outline-accent';
+    'relative flex min-h-[46px] cursor-pointer flex-col justify-between rounded-md border-0 px-[7px] py-[5px] text-left font-mono text-[12px]/[1.15] font-medium select-none transition-[transform,box-shadow] duration-75 ease-out active:translate-y-[2px] active:shadow-none data-[pressing]:translate-y-[2px] data-[pressing]:shadow-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent aria-pressed:outline-2 aria-pressed:outline-offset-1 aria-pressed:outline-accent';
 // Hover deepens the lip rather than tinting the cap. The lip is the only depth this world
 // carries, a firmer edge reads as a key taken under a finger, and no new tone or motion enters
 // the system to say it. Zero blur holds: the offset is still 2px and the radius still 0.
@@ -32,6 +41,16 @@ const OVER =
 const CANNOT_DROP = 'cursor-not-allowed opacity-45';
 // The cap in flight: a slight lift and lean, transform only, so reduced-motion has nothing to
 // object to — there is no animation, just a pose.
+// Written out, not built from the family name: tailwind emits only the classes it can read.
+const FAMILY_TONE = {
+    arrow: 'bg-cap-arrow',
+    del: 'bg-cap-del',
+    esc: 'bg-cap-esc',
+    fn: 'bg-cap-fn',
+    num: 'bg-cap-num',
+} as const;
+const LEDS = ['b1', 'b2', 'g1', 'g2', 'y1', 'y2', 'o1', 'r1'] as const;
+
 const LIFTED =
     'z-10 rotate-[-2deg] scale-105 shadow-[0_10px_24px_-8px_rgba(0,0,0,.45)] outline-2 outline-accent';
 
@@ -53,7 +72,17 @@ export const Board = (props: BoardProps) => {
         const rowId = row[0][0];
         const keyListJSX = row.map(([label, width]) => {
             if (!label) {
-                return (
+                // The Air75 has one gap on its top row, and the volume knob sits in it. Here it
+                // turns the layer: a click steps forward, the wheel goes either way.
+                return rowId === 'esc' ? (
+                    <Knob
+                        key='knob'
+                        layer={props.layer}
+                        layers={props.layers}
+                        onLayer={props.onLayer}
+                        width={width}
+                    />
+                ) : (
                     <span
                         className='invisible'
                         key={`gap-${rowId}`}
@@ -73,6 +102,7 @@ export const Board = (props: BoardProps) => {
                     noted={props.noted.has(label)}
                     onSelect={props.onSelect}
                     pending={props.pending.includes(label)}
+                    pressed={props.pressed}
                     presses={props.presses}
                     selected={props.selected === label}
                     width={width}
@@ -89,9 +119,29 @@ export const Board = (props: BoardProps) => {
         );
     });
 
+    // The rails sit on the deck outside the key grid, the way the lights sit on the case and
+    // not between the caps.
+    // `key` on the rail re-mounts it when a rebind lands, which is what plays the sweep once.
+    const railJSX = (side: 'left' | 'right') => (
+        <span
+            aria-hidden
+            className='led-rail'
+            data-side={side}
+            data-sweep={props.landedAt ? '' : undefined}
+            key={`${side}-${props.landedAt ?? 0}`}>
+            {LEDS.map((led, at) => (
+                <i key={led} style={{ '--at': at } as CSSProperties} />
+            ))}
+        </span>
+    );
+
     return (
         <div className='overflow-x-auto rounded-[14px] bg-board p-3.5'>
-            <div className='grid min-w-[760px] gap-1.5'>{rowListJSX}</div>
+            <div className='grid min-w-[760px] grid-cols-[auto_minmax(0,1fr)_auto] gap-2.5'>
+                {railJSX('left')}
+                <div className='grid gap-1.5'>{rowListJSX}</div>
+                {railJSX('right')}
+            </div>
         </div>
     );
 };
@@ -124,6 +174,17 @@ const Keycap = (props: KeycapProps) => {
         id: `key:${props.label}`,
     });
     const cap = useRef<HTMLButtonElement | null>(null);
+    const [pressing, setPressing] = useState(false);
+
+    // The daemon's press stream names the chord that just fired; this cap sinks for 140ms when
+    // it was the one.
+    useEffect(() => {
+        if (!props.pressed || props.pressed.chord !== chord) return;
+
+        setPressing(true);
+        const timer = setTimeout(() => setPressing(false), 140);
+        return () => clearTimeout(timer);
+    }, [props.pressed, chord]);
 
     // The selected key is where the keyboard is: a click lands focus here anyway, and a rebind
     // or a stats link selects without a click, so the cap takes it — never the note field.
@@ -135,8 +196,15 @@ const Keycap = (props: KeycapProps) => {
     // focusable, operable buttons — clicking one selects it — so their legend is an accessible
     // name and owes 4.5:1, which Ink Faint never had here (2.55:1 light, 3.36:1 dark). The grey
     // cap keeps carrying the meaning; only the text that has to be read moved.
+    const family = capFamily[props.label];
     const tone = [
-        props.isLit ? 'bg-sel' : props.binds.length ? 'bg-cap' : 'bg-cap-free',
+        props.isLit
+            ? 'bg-sel'
+            : props.binds.length
+              ? 'bg-cap'
+              : family
+                ? FAMILY_TONE[family]
+                : 'bg-cap-free',
         isMod
             ? props.isLit
                 ? 'text-ink'
@@ -162,6 +230,7 @@ const Keycap = (props: KeycapProps) => {
             aria-busy={props.pending}
             aria-pressed={props.selected}
             className={`${BASE} ${tone} ${lip} ${dragTone} ${movable && !props.pending ? 'cursor-grab active:cursor-grabbing' : ''} ${props.pending ? 'cursor-progress outline-2 outline-dashed outline-offset-1 outline-ink-3' : ''}`}
+            data-pressing={pressing ? '' : undefined}
             onClick={() => {
                 // The pointer comes up on the cap it dragged, so a drop ends in a click on the
                 // source — which is not a selection.
@@ -223,17 +292,75 @@ const Keycap = (props: KeycapProps) => {
     );
 };
 
+// The dial's notch points at the current layer: the layer's index around the full turn. The
+// angle accumulates whole turns so last → first keeps turning forward instead of unwinding.
+const Knob = (props: KnobProps) => {
+    const at = Math.max(0, props.layers.indexOf(props.layer));
+    const count = props.layers.length;
+    const turns = useRef({ at, whole: 0 });
+
+    if (turns.current.at !== at) {
+        if (turns.current.at === count - 1 && at === 0)
+            turns.current.whole += 1;
+        if (turns.current.at === 0 && at === count - 1)
+            turns.current.whole -= 1;
+        turns.current.at = at;
+    }
+
+    const angle = (360 / count) * (at + turns.current.whole * count);
+    const step = (delta: number) => {
+        const next =
+            props.layers[
+                (at + delta + props.layers.length) % props.layers.length
+            ];
+
+        if (next !== undefined) props.onLayer(next);
+    };
+
+    return (
+        <span
+            className='flex items-center justify-end pr-1'
+            style={{ gridColumn: `span ${props.width}` }}>
+            <button
+                aria-label={`layer dial — ${props.layer || 'no modifier'}`}
+                className='knob relative size-[38px] cursor-pointer rounded-full border-0 p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
+                onClick={() => step(1)}
+                onWheel={(event) => {
+                    event.preventDefault();
+                    step(event.deltaY > 0 ? 1 : -1);
+                }}
+                style={{ transform: `rotate(${angle}deg)` }}
+                title='turn: next layer · wheel: either way'
+                type='button'>
+                <span className='knob-notch' />
+            </button>
+        </span>
+    );
+};
+
 /* Types */
+interface KnobProps {
+    layer: string;
+    layers: readonly string[];
+    onLayer: (layer: string) => void;
+    width: number;
+}
 interface BoardProps {
     binds: readonly Hotkey[];
     // The binding in flight, while a drag is on; the board draws every landing place from it.
     dragging: Hotkey | null;
+    // The moment the last rebind's rescan arrived; the rails sweep once per value.
+    landedAt: number | null;
     layer: string;
+    layers: readonly string[];
     noted: ReadonlySet<string>;
+    onLayer: (layer: string) => void;
     onSelect: (key: string) => void;
     // The two keys of a rebind in flight — where it left and where it landed — held until the
     // daemon writes and rescans.
     pending: readonly string[];
+    // The chord the daemon last saw fire, and when — one sink on the board per press.
+    pressed: { chord: string; at: number } | null;
     presses: Record<string, number>;
     selected: string | null;
 }
@@ -246,6 +373,7 @@ interface KeycapProps {
     noted: boolean;
     onSelect: (key: string) => void;
     pending: boolean;
+    pressed: { chord: string; at: number } | null;
     presses: Record<string, number>;
     selected: boolean;
     width: number;

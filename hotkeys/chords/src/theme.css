@@ -35,6 +35,12 @@
   --color-ink-3: var(--p-ink-3);
   --color-line: var(--p-line);
   --color-sel: var(--p-sel);
+  --color-cap-esc: var(--p-cap-esc);
+  --color-cap-fn: var(--p-cap-fn);
+  --color-cap-num: var(--p-cap-num);
+  --color-cap-arrow: var(--p-cap-arrow);
+  --color-cap-del: var(--p-cap-del);
+  --color-knob: var(--p-knob);
 
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
@@ -66,6 +72,17 @@
    * 3:1 and the pair it replaced managed 1.28:1. */
   --p-bar: #7c8496;
 
+  /* The free-cap tints of the physical families, kept pale so Ink Muted still clears 4.5:1
+   * on every one of them (measured in the flavor pass, 2026-09-22). */
+  --p-cap-esc: #dcefe6;
+  --p-cap-fn: #e6e1f1;
+  --p-cap-num: #f6dcd8;
+  --p-cap-arrow: #dae3f3;
+  --p-cap-del: #f4e6c8;
+  /* The volume knob on the Air75 — the one red round thing on the board. */
+  --p-knob: #e5484d;
+  --p-knob-edge: #b3282e;
+
   /* One colour per source, so a glance at the board says which app owns a key. */
   --app-1password: #4f6df5;
   --app-bartender: #22c55e;
@@ -95,6 +112,12 @@
     --p-sel: #243a6b;
     --p-bar: #7f8798;
 
+    --p-cap-esc: #1f3a30;
+    --p-cap-fn: #2b2740;
+    --p-cap-num: #402627;
+    --p-cap-arrow: #22303f;
+    --p-cap-del: #3b3320;
+
     --app-1password: #7b91ff;
     --app-bartender: #4ade80;
     --app-cleanshot: #2dd4bf;
@@ -123,6 +146,12 @@
   --p-sel: #243a6b;
   --p-bar: #7f8798;
 
+  --p-cap-esc: #1f3a30;
+  --p-cap-fn: #2b2740;
+  --p-cap-num: #402627;
+  --p-cap-arrow: #22303f;
+  --p-cap-del: #3b3320;
+
   --app-1password: #7b91ff;
   --app-bartender: #4ade80;
   --app-cleanshot: #2dd4bf;
@@ -136,6 +165,57 @@
 }
 
 @layer components {
+  /*
+   * The two led rails on the Air75's aluminium sides, one per side, eight square lights each
+   * running blue at the top through green and yellow to red at the bottom — the strip in dima's
+   * photo. A light source is the one thing on this deck allowed a blurred glow; the caps keep
+   * their zero-blur lip. Static: nothing here repaints, and a light that is simply on is the
+   * honest reading of a keyboard that is simply on.
+   */
+  .led-rail {
+    display: grid;
+    gap: 3px;
+    align-content: start;
+    padding-inline: 2px;
+    padding-top: 6px;
+  }
+
+  .led-rail > i {
+    display: block;
+    width: 5px;
+    height: 5px;
+    background: var(--led);
+    border-radius: 1px;
+    box-shadow:
+      0 0 3px var(--led),
+      0 0 8px color-mix(in oklab, var(--led) 55%, transparent);
+  }
+
+  .led-rail > i:nth-child(1) {
+    --led: #4f7cff;
+  }
+  .led-rail > i:nth-child(2) {
+    --led: #3fa0ff;
+  }
+  .led-rail > i:nth-child(3) {
+    --led: #2ec4b6;
+  }
+  .led-rail > i:nth-child(4) {
+    --led: #3ddc84;
+  }
+  .led-rail > i:nth-child(5) {
+    --led: #b8e04a;
+  }
+  .led-rail > i:nth-child(6) {
+    --led: #ffd23f;
+  }
+  .led-rail > i:nth-child(7) {
+    --led: #ff8c42;
+  }
+  .led-rail > i:nth-child(8) {
+    --led: #ff4f5e;
+  }
+
   /*
    * A folded stats list is a twenty-row window onto a two-hundred-row list, and its scrollbar
    * is the only standing cue that the rest is there — so the bar has to be visible while the
@@ -185,5 +265,63 @@
   /* Dark needs this stated: the ua default selection is unreadable on a dark surface. */
   ::selection {
     background: var(--color-sel);
+  }
+}
+
+@layer components {
+  /* One sweep down the rail when a rebind has landed — the only motion the deck ever plays,
+   * and it plays once. Reduced motion skips it; the lights are already on. */
+  @media (prefers-reduced-motion: no-preference) {
+    .led-rail[data-sweep] > i {
+      animation: led-sweep 640ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: calc(var(--at) * 45ms);
+    }
+  }
+
+  @keyframes led-sweep {
+    0% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    30% {
+      transform: scale(1.8);
+      filter: brightness(1.9);
+    }
+    100% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+  }
+
+  /* The knob: a red disc with a machined edge and a notch that points at the layer. The turn
+   * is a transition on the button's transform, ease-out, one per click. */
+  .knob {
+    background: radial-gradient(
+      circle at 35% 30%,
+      color-mix(in oklab, var(--p-knob) 70%, white),
+      var(--p-knob) 60%,
+      var(--p-knob-edge)
+    );
+    box-shadow:
+      0 2px 0 var(--p-knob-edge),
+      0 3px 6px rgba(0, 0, 0, 0.25);
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .knob-notch {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    width: 3px;
+    height: 9px;
+    background: #fff;
+    border-radius: 2px;
+    transform: translateX(-50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .knob {
+      transition: none;
+    }
   }
 }
