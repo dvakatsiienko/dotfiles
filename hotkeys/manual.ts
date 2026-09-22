@@ -12,6 +12,8 @@ export const manualHotkeys = [
             ['1', 'Google Chrome'],
             ['e', 'Linear'],
             ['n', 'Notion'],
+            ['m', 'Telegram'],
+            ['k', 'Calendar'],
             ['d', 'Obsidian'],
             ['c', 'Slack'],
             ['s', 'Spark'],
@@ -19,7 +21,6 @@ export const manualHotkeys = [
             ['t', 'Warp'],
             ['w', 'Wispr Flow'],
             ['space', 'Search Emoji & Symbols'],
-            ['u', 'Toggle Focus Session'],
             ['y', 'Raycast Notes'],
         ] as const
     ).map(
@@ -31,11 +32,27 @@ export const manualHotkeys = [
         }),
     ),
     { action: 'Raycast', app: 'raycast', key: 'space', mods: 'cmd' },
+    // quicklinks on hyper — raycast keeps them sealed, hand-kept; linear-query-tickets moved off pageup on 2026-09-22 (right-hand key while the right hand holds the mouse)
     {
-        action: 'Switch Windows (disabled)',
+        action: 'linear-query-tickets (quicklink)',
         app: 'raycast',
-        key: 'tab',
-        mods: 'opt',
+        key: 'pageup',
+        mods: 'hyper',
+        since: '2026-09-18',
+        until: '2026-09-22',
+    },
+    {
+        action: 'linear-query-tickets (quicklink)',
+        app: 'raycast',
+        key: 'g',
+        mods: 'hyper',
+        since: '2026-09-22',
+    },
+    {
+        action: 'translate selection (quicklink)',
+        app: 'raycast',
+        key: 'pagedown',
+        mods: 'hyper',
     },
     {
         action: 'Switch to English (Birman)',
@@ -281,7 +298,6 @@ export const manualHotkeys = [
             [',', 'app settings'],
             ['left', 'line start'],
             ['right', 'line end'],
-            ['esc', 'accessibility reader (read & speak)'],
         ] as const
     ).map(
         ([key, action]): Hotkey => ({ action, app: 'macos', key, mods: 'cmd' }),
