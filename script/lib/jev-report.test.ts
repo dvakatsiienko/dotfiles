@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { reportLines } from './jev-report.ts';
-import type { Registry } from './jev-vet.ts';
+import type { Flow, Registry } from './jev-vet.ts';
 
 const registry: Registry = {
     flows: {
@@ -23,6 +23,7 @@ const registry: Registry = {
     windowDays: 14,
 };
 const today = '2026-09-22';
+const inboxLanes = registry.flows['inbox-lanes'] as Flow;
 
 describe('jev report', () => {
     it('a vetting flow with runs today prints its window and the day', () => {
@@ -72,12 +73,7 @@ describe('jev report', () => {
         const lines = reportLines(
             {
                 ...registry,
-                flows: {
-                    'inbox-lanes': {
-                        ...registry.flows['inbox-lanes']!,
-                        since: today,
-                    },
-                },
+                flows: { 'inbox-lanes': { ...inboxLanes, since: today } },
             },
             [],
             [
