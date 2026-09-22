@@ -9,7 +9,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { canonical } from './chord.ts';
+import { canonical, keyCap } from './chord.ts';
 import { type Hotkey, manualHotkeys } from './manual.ts';
 import {
     bartenderPreference,
@@ -24,75 +24,6 @@ const plistJson = (path: string, key: string) =>
         encoding: 'utf8',
     });
 
-// carbon key codes → key caps (us layout)
-const keyCap: Record<number, string> = {
-    0: 'a',
-    1: 's',
-    11: 'b',
-    117: 'del',
-    12: 'q',
-    123: 'left',
-    124: 'right',
-    125: 'down',
-    126: 'up',
-    13: 'w',
-    14: 'e',
-    15: 'r',
-    16: 'y',
-    17: 't',
-    18: '1',
-    19: '2',
-    2: 'd',
-    20: '3',
-    21: '4',
-    22: '6',
-    23: '5',
-    24: '=',
-    25: '9',
-    26: '7',
-    27: '-',
-    28: '8',
-    29: '0',
-    3: 'f',
-    30: ']',
-    31: 'o',
-    32: 'u',
-    33: '[',
-    34: 'i',
-    35: 'p',
-    36: 'return',
-    37: 'l',
-    38: 'j',
-    39: "'",
-    4: 'h',
-    40: 'k',
-    41: ';',
-    42: '\\',
-    43: ',',
-    44: '/',
-    45: 'n',
-    46: 'm',
-    47: '.',
-    48: 'tab',
-    49: 'space',
-    5: 'g',
-    50: '`',
-    51: 'backspace',
-    53: 'esc',
-    54: 'rcmd',
-    55: 'cmd',
-    56: 'shift',
-    58: 'opt',
-    59: 'ctrl',
-    6: 'z',
-    60: 'rshift',
-    61: 'ropt',
-    62: 'rctrl',
-    63: 'fn',
-    7: 'x',
-    8: 'c',
-    9: 'v',
-};
 const modifierCodes = new Set([55, 56, 58, 59, 63]);
 const modsOf = (mask: number, bits: [number, string][]) =>
     bits
