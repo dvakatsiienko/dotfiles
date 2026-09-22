@@ -1,22 +1,20 @@
 import { useEffect, useRef } from 'react';
+import { effect, frame, init, surface } from 'vgpu';
 
 // The strip above the deck: the rail's eight colours as slow aurora bands, drawn on the GPU.
-// Raw WebGPU rather than vgpu — the same WGSL, none of the 6.6 MB and no three.js peer. It is
-// still by default: one frame at mount, and it only moves for a bounded moment after the
-// layer turns, a drag starts, or a rebind lands. A browser without WebGPU gets the plain deck.
+// Built on vgpu, which owns the parts that were boilerplate here — the adapter and device, the
+// fullscreen vertex stage, the pipeline and its blend state, the uniform buffer and bind group,
+// and keeping the canvas sized to its box. What is left is the fragment shader and when to run
+// it. It is still by default: one frame at mount, and it only moves for a bounded moment after
+// the layer turns, a drag starts, or a rebind lands. A browser without WebGPU gets the plain
+// deck, exactly as before.
+//
+// 📌 Two vgpu defaults differ from what this strip needs and are set explicitly below: a pass
+// clears with `target.clearColor`, which is OPAQUE BLACK by default, and this canvas has to
+// stay transparent; and the uv handed to the fragment runs the other way up (see the shader).
 const SHADER = /* wgsl */ `
 struct Uniforms { time: f32, seed: f32, width: f32, height: f32, px: f32, py: f32, hover: f32, pad: f32 };
 @group(0) @binding(0) var<uniform> u: Uniforms;
-
-struct Out { @builtin(position) pos: vec4f, @location(0) uv: vec2f };
-
-@vertex fn vs(@builtin(vertex_index) i: u32) -> Out {
-  var p = array<vec2f, 3>(vec2f(-1, -1), vec2f(3, -1), vec2f(-1, 3));
-  var o: Out;
-  o.pos = vec4f(p[i], 0, 1);
-  o.uv = p[i] * 0.5 + 0.5;
-  return o;
-}
 
 fn hash(p: vec2f) -> f32 {
   return fract(sin(dot(p, vec2f(127.1, 311.7))) * 43758.5453);
@@ -48,7 +46,12 @@ fn etched(p: vec2f) -> f32 {
   return smoothstep(0.85, 1.0, rings);
 }
 
-@fragment fn fs(@location(0) uv: vec2f) -> @location(0) vec4f {
+@fragment fn fs(@location(0) raw: vec2f) -> @location(0) vec4f {
+  // vgpu injects the fullscreen vertex stage and hands down a TOP-origin uv, where v
+  // grows downward. This shader was written against a bottom-origin one, so the flip
+  // happens once here and the body below is untouched — their porting note says the
+  // same, and it is the difference between this strip and an upside-down one.
+  let uv = vec2f(raw.x, 1.0 - raw.y);
   let aspect = u.width / max(u.height, 1.0);
   let p = vec2f(uv.x * aspect, uv.y);
   let light = vec2f(u.px * aspect, u.py);
@@ -87,111 +90,69 @@ export const Aurora = (props: AuroraProps) => {
 
     useEffect(() => {
         const element = canvas.current;
-        const gpu = navigator.gpu;
 
-        if (!(element && gpu)) return;
+        if (!(element && navigator.gpu)) return;
 
         let disposed = false;
-        let cleanup = () => undefined as void;
+        let dispose: (() => void) | null = null;
 
         (async () => {
-            const adapter = await gpu.requestAdapter();
-            const device = await adapter?.requestDevice();
-            const context = element.getContext('webgpu');
+            const gpu = await init({ label: 'aurora' });
 
-            if (!(device && context) || disposed) return;
+            if (disposed) {
+                gpu.dispose();
+                return;
+            }
 
-            const format = gpu.getPreferredCanvasFormat();
-            context.configure({ alphaMode: 'premultiplied', device, format });
-
-            const module = device.createShaderModule({ code: SHADER });
-            const pipeline = device.createRenderPipeline({
-                fragment: {
-                    entryPoint: 'fs',
-                    module,
-                    targets: [
-                        {
-                            blend: {
-                                alpha: {
-                                    dstFactor: 'one-minus-src-alpha',
-                                    srcFactor: 'one',
-                                },
-                                color: {
-                                    dstFactor: 'one-minus-src-alpha',
-                                    srcFactor: 'one',
-                                },
-                            },
-                            format,
-                        },
-                    ],
-                },
-                layout: 'auto',
-                primitive: { topology: 'triangle-list' },
-                vertex: { entryPoint: 'vs', module },
+            // clearColor is the one that bites: a pass clears with it by default, and vgpu's
+            // default is opaque black. This strip is transparent everywhere the bands are not.
+            const view = surface(gpu, element, {
+                alphaMode: 'premultiplied',
+                clearColor: [0, 0, 0, 0],
+                dpr: [1, 2],
             });
-            const uniforms = device.createBuffer({
-                size: 32,
-                usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-            });
-            const bindGroup = device.createBindGroup({
-                entries: [{ binding: 0, resource: { buffer: uniforms } }],
-                layout: pipeline.getBindGroupLayout(0),
+            const band = effect(gpu, SHADER, {
+                blend: 'premultiplied',
+                label: 'aurora',
             });
 
-            const fit = () => {
-                const scale = Math.min(window.devicePixelRatio, 2);
-                element.width = Math.max(1, element.clientWidth * scale);
-                element.height = Math.max(1, element.clientHeight * scale);
-            };
-
+            // Bindings go by their WGSL name, so the struct above is the only place the
+            // uniform layout is written down — no Float32Array packed in field order.
             drawRef.current = (time) => {
                 if (disposed) return;
-                fit();
-                device.queue.writeBuffer(
-                    uniforms,
-                    0,
-                    new Float32Array([
+
+                band.set({
+                    u: {
+                        height: view.size[1],
+                        hover: pointer.current.hover,
+                        pad: 0,
+                        px: pointer.current.x,
+                        py: pointer.current.y,
+                        seed: props.seed,
                         time,
-                        props.seed,
-                        element.width,
-                        element.height,
-                        pointer.current.x,
-                        pointer.current.y,
-                        pointer.current.hover,
-                        0,
-                    ]),
-                );
-                const encoder = device.createCommandEncoder();
-                const pass = encoder.beginRenderPass({
-                    colorAttachments: [
-                        {
-                            clearValue: { a: 0, b: 0, g: 0, r: 0 },
-                            loadOp: 'clear',
-                            storeOp: 'store',
-                            view: context.getCurrentTexture().createView(),
-                        },
-                    ],
+                        width: view.size[0],
+                    },
                 });
-                pass.setPipeline(pipeline);
-                pass.setBindGroup(0, bindGroup);
-                pass.draw(3);
-                pass.end();
-                device.queue.submit([encoder.finish()]);
+                frame(gpu, (pass) => pass.pass(view, band));
             };
             drawRef.current(0);
 
-            const onResize = () => drawRef.current?.(lastTime.current);
-            window.addEventListener('resize', onResize);
-            cleanup = () => {
-                window.removeEventListener('resize', onResize);
-                device.destroy();
+            // The surface watches its own box, so this replaces the window resize listener.
+            const stopResize = view.onResize(() =>
+                drawRef.current?.(lastTime.current),
+            );
+
+            dispose = () => {
+                stopResize();
+                view.dispose();
+                gpu.dispose();
             };
         })();
 
         return () => {
             disposed = true;
             drawRef.current = null;
-            cleanup();
+            dispose?.();
         };
     }, [props.seed]);
 

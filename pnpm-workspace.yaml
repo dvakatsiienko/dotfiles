@@ -4,8 +4,14 @@ packages:
   - import/raycast/extensions/x-ray
 
 allowBuilds:
+  # vgpu's node adapter and its Dawn bindings. The chords app is browser-only and imports the
+  # base entry, never `vgpu/node`, so neither native build has to run — and not running them
+  # keeps a week-old package's postinstall out of this machine. Flip to true if `vgpu/node`
+  # is ever wanted for headless rendering.
+  '@vgpu/adapter-node': false
   esbuild: true
   lefthook: true
+  webgpu: false
 
 minimumReleaseAgeExclude:
   - biome-config-polished
