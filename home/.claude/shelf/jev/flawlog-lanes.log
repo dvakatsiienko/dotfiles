@@ -2,3 +2,5 @@
 2026-09-20T19:21:26.161Z	miss	lane=ticket 09-20 flush: the barrel-not-loading line and the day-granular-dates line laned ticket; both are notes to carry (memory/drop), no session of their own
 2026-09-20T19:21:26.247Z	ok	lane=rule 09-20 flush: every fleet-hazards candidate laned rule; the coder-retro lines laned memory/rule as placed
 2026-09-21T16:20:01.441Z	miss	lane=rule 7 of 12 lines laned memory were fleet-wide tool hazards (vercel cache, pnpm CI frozen lockfile, Deploy-success trigger, app-dir deploy) — rule; criteria reworded: any-session-any-repo → rule
+2026-09-22T19:27:50.738Z	miss	lane=rule jev lanes fixed-in-place lines (python asserts, --silent pipe) as rule; a line already resolved in the session is drop, and a measured fact about a tool (the daemon spare) is memory not rule — criterion needs «was it fixed the same session → drop»
+2026-09-22T19:29:01.928Z	miss	jev lanes fixed-in-place lines as rule (python asserts, --silent pipe) and a measured tool fact (daemon spare) as rule; criterion needs: fixed in the same session → drop, a measured fact → memory

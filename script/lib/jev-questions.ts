@@ -34,9 +34,9 @@ export const inboxQuestions = {
 export const flawlogQuestions = {
     lane: {
         criteria: {
-            drop: 'Already resolved, or a one-off with nothing transferable: the line names a fix that was applied, says «drop», or records a good find with no rule behind it.',
+            drop: 'Already resolved in the same session, or a one-off with nothing transferable: the line names a fix that was applied (a script rewritten, a command corrected, a hook that caught it), says «drop» or «fixed», or records a good find with no rule behind it. A resolved line stays drop even when it describes a tool trap — the trap is closed.',
             memory: 'A standing fact or habit ONE agent role keeps — the coordinator, a coder, a cw thread: a convention that only that role meets, a thing that belongs in its memory leaf, an AGENTS.md or a skill. A tool behaviour any session in any repo could hit (pnpm, vercel, github, git, macos) is not memory, it is rule.',
-            rule: 'A hazard or floor that can bite ANY session in ANY repo — a measured tool behaviour (pnpm, vercel, github, git, macos, the bash sandbox), a trap that reads green, a delete or write shape that lost data: it belongs in a fleet-wide rules file such as fleet-hazards, whichever session found it.',
+            rule: 'A hazard or floor that can bite ANY session in ANY repo and is NOT yet fixed — a measured tool behaviour (pnpm, vercel, github, git, macos, the bash sandbox), a trap that reads green, a delete or write shape that lost data: it belongs in a fleet-wide rules file such as fleet-hazards, whichever session found it. A fact about how one of OUR tools or spawns behaves (the coordinator daemon, a coder brief, a skill) is memory, not rule.',
             story: "A line marked GOOD, or a catch where dima's felt sense arrived before the reason: kept as a story in dima-stories, never as a rule.",
             ticket: 'Needs code, a script, a build, or a decision from dima before it is closed: work with its own session, tracked in linear.',
         },
