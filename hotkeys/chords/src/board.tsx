@@ -1,7 +1,9 @@
 /* Core */
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Feedback, defaultPreset } from '@dnd-kit/dom';
+import { DragDropProvider } from '@dnd-kit/react';
 /* Instruments */
-import { canonicalQuery, chordOf } from '@hotkeys/chord.ts';
+import { canonicalQuery, chordOf, modOrder } from '@hotkeys/chord.ts';
 import type { Hotkey } from '@hotkeys/manual.ts';
 
 /* Components */
@@ -20,10 +22,7 @@ import {
     subscribeLive,
 } from '@/api.ts';
 import { colorOf, layerName, layerOrder, layout, modKeys } from '@/keyboard.ts';
-import { H2, TAB } from '@/ui.ts';
-
-const MOVE_BTN =
-    'cursor-pointer rounded-md border px-3 py-1 font-sans text-[13px] font-medium hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+import { GHOST, H2, TAB } from '@/ui.ts';
 
 export const BoardPage = (props: BoardPageProps) => {
     const [scan, setScan] = useState<ScanPayload | null>(null);
@@ -38,13 +37,16 @@ export const BoardPage = (props: BoardPageProps) => {
         props.params.get('key'),
     );
     const [noteFilter, setNoteFilter] = useState('');
-    // The move, in two clicks. `moving` is the row that left; `target` is where it went, and
-    // until that is set every click on the board picks a destination rather than a selection.
-    const [moving, setMoving] = useState<Hotkey | null>(null);
-    const [target, setTarget] = useState<{ layer: string; key: string } | null>(
-        null,
-    );
-    const [opens, setOpens] = useState('');
+    // A rebind is one gesture: drag a bound keycap onto a free one, or arm `listening` and press
+    // the new chord on the real keyboard. `dragging` is the binding in flight, `pending` the key
+    // it is landing on until the daemon has written manual.ts and pushed the rescan.
+    const [dragging, setDragging] = useState<Hotkey | null>(null);
+    const [pending, setPending] = useState<Pending | null>(null);
+    const [listening, setListening] = useState(false);
+    const [lastPress, setLastPress] = useState<{
+        chord: string;
+        at: number;
+    } | null>(null);
     const [moveError, setMoveError] = useState<string | null>(null);
 
     // Lifted out of the effect below so the retry in the notice can call the same function the
@@ -55,6 +57,8 @@ export const BoardPage = (props: BoardPageProps) => {
             .then((next) => {
                 setScan(next);
                 setScanError(null);
+                // A rescan is how a rebind finishes: the daemon rewrote manual.ts and pushed.
+                setPending(null);
             })
             .catch((error: Error) => setScanError(error.message));
     }, []);
@@ -72,13 +76,39 @@ export const BoardPage = (props: BoardPageProps) => {
         return subscribeLive({
             onBindings: loadScan,
             onPresses: (payload) => {
-                setPresses(payload.counts);
+                // The stream carries totals, so the chord just pressed is the one whose count
+                // moved. That is what press-to-pick listens for.
+                setPresses((previous) => {
+                    const pressed = Object.keys(payload.counts).find(
+                        (chord) =>
+                            (payload.counts[chord] ?? 0) >
+                            (previous[chord] ?? 0),
+                    );
+
+                    if (pressed)
+                        setLastPress({ at: Date.now(), chord: pressed });
+
+                    return payload.counts;
+                });
                 setPressedAt(payload.updatedAt);
             },
         });
     }, [loadScan]);
 
-    const hotkeys = useMemo(() => scan?.hotkeys ?? [], [scan]);
+    // While a rebind is in flight the board already shows it landed: the row sits on its new
+    // chord and the old one is empty, and both caps are held until the daemon's rescan confirms
+    // or the request fails and the real rows come back.
+    const hotkeys = useMemo(() => {
+        const scanned = scan?.hotkeys ?? [];
+
+        if (!pending) return scanned;
+
+        return scanned.map((hotkey) =>
+            hotkey === pending.from
+                ? { ...hotkey, key: pending.key, mods: pending.layer }
+                : hotkey,
+        );
+    }, [scan, pending]);
     const binds = useMemo(
         () => hotkeys.filter((hotkey) => hotkey.mods === layer),
         [hotkeys, layer],
@@ -121,58 +151,100 @@ export const BoardPage = (props: BoardPageProps) => {
         (note) => note.layer === layer && note.key === selected,
     );
 
-    const cancelMove = () => {
-        setMoving(null);
-        setTarget(null);
-        setMoveError(null);
-    };
+    const rebind = useCallback(
+        async (from: Hotkey, to: { key: string; layer: string }) => {
+            setPending({ from, key: to.key, layer: to.layer });
+            setMoveError(null);
+            setListening(false);
+            setLayer(to.layer);
+            setSelected(to.key);
 
-    const confirmMove = async () => {
-        if (!(moving && target)) return;
-
-        try {
-            await postManualMove({
-                from: {
-                    action: moving.action,
-                    app: moving.app,
-                    key: moving.key,
-                    mods: moving.mods,
-                },
-                to: {
-                    action: opens.trim() || moving.action,
-                    key: target.key,
-                    mods: target.layer,
-                },
-            });
-
-            // The note is about the meaning and not the keycap, so it travels with it
-            // (dima, 2026-09-20). Cleared from the old chord, written on the new one.
-            const note = Object.values(notes).find(
-                (each) => each.layer === moving.mods && each.key === moving.key,
-            );
-
-            if (note) {
-                await putNote({
-                    key: moving.key,
-                    layer: moving.mods,
-                    text: '',
+            try {
+                await postManualMove({
+                    from: {
+                        action: from.action,
+                        app: from.app,
+                        key: from.key,
+                        mods: from.mods,
+                    },
+                    to: { action: from.action, key: to.key, mods: to.layer },
                 });
-                setNotes(
-                    await putNote({
-                        key: target.key,
-                        layer: target.layer,
-                        text: note.text,
-                    }),
-                );
-            }
 
-            // Nothing refetches the scan here: manual.ts changed, the daemon sees its mtime
-            // move, reruns the scan and pushes `bindings` — the same road a hand edit takes.
-            cancelMove();
-        } catch (error) {
-            setMoveError((error as Error).message);
+                // The note is about the meaning and not the keycap, so it travels with it
+                // (dima, 2026-09-20). Cleared from the old chord, written on the new one.
+                const note = Object.values(notes).find(
+                    (each) => each.layer === from.mods && each.key === from.key,
+                );
+
+                if (note) {
+                    await putNote({
+                        key: from.key,
+                        layer: from.mods,
+                        text: '',
+                    });
+                    setNotes(
+                        await putNote({
+                            key: to.key,
+                            layer: to.layer,
+                            text: note.text,
+                        }),
+                    );
+                }
+
+                // Nothing refetches the scan here: manual.ts changed, the daemon sees its
+                // mtime move, reruns the scan and pushes `bindings` — the same road a hand edit
+                // takes — and loadScan is what clears `pending`.
+            } catch (error) {
+                setPending(null);
+                setMoveError((error as Error).message);
+            }
+        },
+        [notes],
+    );
+
+    // Press-to-pick: with a hand-kept binding selected and the ear armed, the next chord pressed
+    // on the real keyboard is the destination — any layer. A taken chord is refused with its
+    // owner named, so the answer is never a silent second binding.
+    const movable = selectedBinds.find((hotkey) => hotkey.source === 'manual');
+
+    useEffect(() => {
+        if (!(listening && lastPress && movable)) return;
+        if (Date.now() - lastPress.at > 2000) return;
+
+        const parts = lastPress.chord.split('+');
+        const key = parts.at(-1) ?? '';
+        const mods = parts.slice(0, -1).join('+');
+
+        if (!key || parts.length === 1 || !modOrder.includes(parts[0] ?? '')) {
+            return;
         }
-    };
+        if (lastPress.chord === chordOf(movable)) return;
+
+        const owner = hotkeys.find(
+            (hotkey) => chordOf(hotkey) === lastPress.chord,
+        );
+
+        if (owner) {
+            setMoveError(
+                `${lastPress.chord} is taken — ${owner.app}: ${owner.action}`,
+            );
+            setListening(false);
+            return;
+        }
+
+        void rebind(movable, { key, layer: mods });
+    }, [listening, lastPress, movable, hotkeys, rebind]);
+
+    useEffect(() => {
+        if (!listening) return;
+
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setListening(false);
+        };
+
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [listening]);
 
     const saveNote = async (text: string) => {
         if (!selected) return;
@@ -190,27 +262,9 @@ export const BoardPage = (props: BoardPageProps) => {
             )
             .join('\n');
 
-    // Only a row that lives in manual.ts can move. Everything else is read out of its own app's
-    // config, so a write here would be a lie the next scan erases — the action is absent rather
-    // than present-and-failing.
-    const bindRow = (hotkey: Hotkey, at: number, canMove = false) => {
+    const bindRow = (hotkey: Hotkey, at: number) => {
         return (
             <ListRow
-                action={
-                    canMove && hotkey.source === 'manual' ? (
-                        <button
-                            className='ml-2 cursor-pointer rounded border border-line bg-transparent px-1.5 font-sans text-[11.5px] text-ink-2 hover:border-accent hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
-                            onClick={() => {
-                                setMoving(hotkey);
-                                setTarget(null);
-                                setOpens(hotkey.action);
-                                setMoveError(null);
-                            }}
-                            type='button'>
-                            rebind
-                        </button>
-                    ) : null
-                }
                 chord={chordOf(hotkey)}
                 color={colorOf(hotkey.app)}
                 key={`${hotkey.app}-${hotkey.key}-${at}`}
@@ -310,16 +364,49 @@ export const BoardPage = (props: BoardPageProps) => {
             {/* The region the layer tabs switch. A tablist that controls nothing is a promise
                 to a screen reader that the page does not keep. */}
             <div id='board-panel' role='tabpanel'>
-                <Board
-                    binds={binds}
-                    layer={layer}
-                    noted={noted}
-                    onSelect={(key) =>
-                        moving ? setTarget({ key, layer }) : setSelected(key)
-                    }
-                    presses={presses}
-                    selected={selected}
-                />
+                <DragDropProvider
+                    onDragEnd={(event) => {
+                        const from = dragging;
+                        const target = event.operation.target;
+
+                        setDragging(null);
+                        if (event.canceled || !(from && target)) return;
+
+                        const to = target.data as { key: string };
+
+                        void rebind(from, { key: to.key, layer });
+                    }}
+                    onDragStart={(event) => {
+                        const data = event.operation.source?.data as
+                            | { hotkey?: Hotkey }
+                            | undefined;
+
+                        setDragging(data?.hotkey ?? null);
+                        setMoveError(null);
+                    }}
+                    // No slide back to the origin: the board has already drawn the cap on its
+                    // new key by the time the pointer lets go.
+                    plugins={[
+                        ...defaultPreset.plugins.filter(
+                            (plugin) => plugin !== Feedback,
+                        ),
+                        Feedback.configure({ dropAnimation: null }),
+                    ]}>
+                    <Board
+                        binds={binds}
+                        dragging={dragging}
+                        layer={layer}
+                        noted={noted}
+                        onSelect={setSelected}
+                        pending={
+                            pending && pending.layer === layer
+                                ? [pending.from.key, pending.key]
+                                : []
+                        }
+                        presses={presses}
+                        selected={selected}
+                    />
+                </DragDropProvider>
             </div>
 
             <div className='flex flex-wrap gap-x-[14px] gap-y-1.5 text-[12px] text-ink-2'>
@@ -348,68 +435,39 @@ export const BoardPage = (props: BoardPageProps) => {
                         ) : null}
                     </div>
                     <List>
-                        {selectedBinds.map((hotkey, at) =>
-                            bindRow(hotkey, at, true),
-                        )}
+                        {selectedBinds.map((hotkey, at) => bindRow(hotkey, at))}
                     </List>
-                    {moving ? (
-                        <div className='grid gap-2 rounded-md border border-accent bg-cap px-3 py-2.5'>
-                            {target ? (
-                                <>
-                                    <div className='font-mono text-[13px] text-ink'>
-                                        {chordOf(moving)} →{' '}
-                                        {chordOf({
-                                            key: target.key,
-                                            mods: target.layer,
-                                        })}
-                                    </div>
-                                    <label className='grid gap-1 font-sans text-[12px] text-ink-2'>
-                                        opens
-                                        <input
-                                            className='rounded-md border border-line bg-cap px-2.5 py-1.5 font-sans text-[13px] text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent'
-                                            onChange={(event) =>
-                                                setOpens(event.target.value)
-                                            }
-                                            value={opens}
-                                        />
-                                    </label>
-                                    <div className='flex flex-wrap items-center gap-2'>
-                                        <button
-                                            className={`${MOVE_BTN} border-accent bg-accent text-on-accent`}
-                                            onClick={() => void confirmMove()}
-                                            type='button'>
-                                            rebind
-                                        </button>
-                                        <button
-                                            className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
-                                            onClick={cancelMove}
-                                            type='button'>
-                                            cancel
-                                        </button>
-                                        {moveError ? (
-                                            <span className='text-[12px] text-ink-2'>
-                                                {moveError}
-                                            </span>
-                                        ) : null}
-                                    </div>
-                                </>
+                    {movable ? (
+                        <div className='flex flex-wrap items-center gap-2 text-[12px] text-ink-2'>
+                            {pending ? (
+                                <span>rebinding…</span>
+                            ) : listening ? (
+                                <span className='text-ink'>
+                                    press the new chord on the keyboard — esc
+                                    stops
+                                </span>
                             ) : (
-                                <div className='flex flex-wrap items-center gap-2 text-[13px] text-ink'>
-                                    <span>
-                                        click the new key for{' '}
-                                        <span className='font-mono'>
-                                            {moving.action}
-                                        </span>{' '}
-                                        — any key, any layer
-                                    </span>
-                                    <button
-                                        className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
-                                        onClick={cancelMove}
-                                        type='button'>
-                                        cancel
-                                    </button>
-                                </div>
+                                <span>
+                                    drag the key to a free cap to rebind, or
+                                </span>
                             )}
+                            {!pending && (
+                                <button
+                                    aria-pressed={listening}
+                                    className={`${GHOST} px-2 py-0.5 text-[12px] aria-pressed:border-accent aria-pressed:text-ink`}
+                                    onClick={() => {
+                                        setListening((on) => !on);
+                                        setMoveError(null);
+                                    }}
+                                    type='button'>
+                                    {listening ? 'cancel' : 'press to rebind'}
+                                </button>
+                            )}
+                            {moveError ? (
+                                <span className='basis-full text-ink'>
+                                    {moveError}
+                                </span>
+                            ) : null}
                         </div>
                     ) : null}
                     <NoteEditor
@@ -470,4 +528,11 @@ export const BoardPage = (props: BoardPageProps) => {
 /* Types */
 interface BoardPageProps {
     params: URLSearchParams;
+}
+
+/* Types */
+interface Pending {
+    from: Hotkey;
+    key: string;
+    layer: string;
 }

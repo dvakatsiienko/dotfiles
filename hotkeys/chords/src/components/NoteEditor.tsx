@@ -20,7 +20,6 @@ export const NoteEditor = (props: NoteEditorProps) => {
     useEffect(() => {
         setDraft(props.text);
         setStatus('');
-        if (props.chord) field.current?.focus();
     }, [props.chord]);
 
     useEffect(() => {
