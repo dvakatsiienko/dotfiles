@@ -99,6 +99,33 @@ const objectBlockAt = (text: string, fieldAt: number) => {
     return { close: close + 1, open, text: text.slice(open, close + 1) };
 };
 
+// After a move the file carries the ended row and the live one under the same action, so the
+// action alone names two places. The live row is the one whose block holds this key and mods
+// and no `until`.
+const liveBlockOf = (text: string, row: Hotkey) => {
+    const blocks = indexesOf(text, `action: ${quote(row.action)}`)
+        .map((at) => objectBlockAt(text, at))
+        .filter(
+            (block) =>
+                block.text.includes(`key: ${quote(row.key)}`) &&
+                block.text.includes(`mods: ${quote(row.mods)}`) &&
+                !/\buntil:/.test(block.text),
+        );
+
+    if (blocks.length === 0) {
+        throw new ManualEditError(
+            'the row is not written literally in manual.ts',
+        );
+    }
+    if (blocks.length > 1) {
+        throw new ManualEditError(
+            `${blocks.length} live rows read ${quote(row.action)} on that chord — edit manual.ts by hand`,
+        );
+    }
+
+    return blocks[0] as ReturnType<typeof objectBlockAt>;
+};
+
 const setField = (block: string, field: string, next: string) => {
     const pattern = new RegExp(
         `(\\b${field}:\\s*)(('(?:[^'\\\\]|\\\\.)*')|("(?:[^"\\\\]|\\\\.)*"))`,
@@ -165,19 +192,7 @@ export const editManualText = (
         return appendRow(dropTupleLine(text, tupleAt), next);
     }
 
-    const fieldAt = onlyIndex(
-        text,
-        `action: ${quote(row.action)}`,
-        `the action ${quote(row.action)}`,
-    );
-
-    if (fieldAt === null) {
-        throw new ManualEditError(
-            'the row is not written literally in manual.ts',
-        );
-    }
-
-    const block = objectBlockAt(text, fieldAt);
+    const block = liveBlockOf(text, row);
     let edited = setField(block.text, 'action', next.action);
     edited = setField(edited, 'key', next.key);
     edited = setField(edited, 'mods', next.mods);
@@ -190,7 +205,9 @@ export const editManualText = (
 // The text search alone cannot tell which layer a tuple sits in, so the parsed rows are what
 // prove the target is the row the ui meant. One match, or nothing happens.
 const onlyMatch = (rows: readonly Hotkey[], ref: ManualRowRef): Hotkey => {
-    const matched = rows.filter((row) => sameRow(row, ref));
+    const matched = rows.filter(
+        (row) => row.until === undefined && sameRow(row, ref),
+    );
 
     if (matched.length === 0) {
         throw new ManualEditError('no hand-kept row matches that chord');
@@ -268,21 +285,9 @@ export const moveManualText = (
         );
     }
 
-    const fieldAt = onlyIndex(
-        text,
-        `action: ${quote(row.action)}`,
-        `the action ${quote(row.action)}`,
-    );
-
-    if (fieldAt === null) {
-        throw new ManualEditError(
-            'the row is not written literally in manual.ts',
-        );
-    }
-
     // The old row stays exactly where it is, under whatever comment explains it, and only gains
     // its end date. Only the new row is appended.
-    const block = objectBlockAt(text, fieldAt);
+    const block = liveBlockOf(text, row);
     const indent = ' '.repeat(
         block.open - text.lastIndexOf('\n', block.open) - 1,
     );

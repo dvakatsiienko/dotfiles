@@ -241,6 +241,43 @@ describe('moveManualText', () => {
         ).toThrow(/changes nothing/);
     });
 
+    // After one move the file holds the ended row and the live one under the same action, and
+    // the next move (back, or onward) must land on the live one, never refuse.
+    it('moves a row that already moved once', () => {
+        const moved = move(rows[0] as Hotkey, {
+            action: 'Linear',
+            key: 'l',
+            mods: 'hyper',
+        });
+        const movedRows: Hotkey[] = [
+            { ...(rows[0] as Hotkey), until: '2026-09-20' },
+            {
+                action: 'Linear',
+                app: 'raycast',
+                key: 'l',
+                mods: 'hyper',
+                since: '2026-09-20',
+            },
+            ...rows.slice(1),
+        ];
+        const back = moveManualText(moved, movedRows, {
+            from: movedRows[1] as Hotkey,
+            on: '2026-09-22',
+            to: { action: 'Linear', key: 'e', mods: 'hyper' },
+        });
+
+        expect(flat(back)).toContain(
+            "key: 'l', mods: 'hyper', since: '2026-09-20', until: '2026-09-22',",
+        );
+        expect(flat(back)).toContain(
+            "key: 'e', mods: 'hyper', since: '2026-09-22',",
+        );
+        // the first ended row is untouched
+        expect(flat(back)).toContain(
+            "key: 'e', mods: 'hyper', until: '2026-09-20',",
+        );
+    });
+
     it('refuses a chord no hand-kept row carries', () => {
         expect(() =>
             move(

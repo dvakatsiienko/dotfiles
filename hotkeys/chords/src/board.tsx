@@ -207,7 +207,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                 setMoveError(null);
                             }}
                             type='button'>
-                            moved
+                            rebind
                         </button>
                     ) : null
                 }
@@ -378,7 +378,7 @@ export const BoardPage = (props: BoardPageProps) => {
                                             className={`${MOVE_BTN} border-accent bg-accent text-on-accent`}
                                             onClick={() => void confirmMove()}
                                             type='button'>
-                                            record the move
+                                            rebind
                                         </button>
                                         <button
                                             className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
@@ -396,11 +396,11 @@ export const BoardPage = (props: BoardPageProps) => {
                             ) : (
                                 <div className='flex flex-wrap items-center gap-2 text-[13px] text-ink'>
                                     <span>
-                                        click where{' '}
+                                        click the new key for{' '}
                                         <span className='font-mono'>
                                             {moving.action}
                                         </span>{' '}
-                                        went — any key, any layer
+                                        — any key, any layer
                                     </span>
                                     <button
                                         className={`${MOVE_BTN} border-line bg-transparent text-ink-2`}
