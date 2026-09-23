@@ -19,7 +19,10 @@
 ## artifacts
 
 - `home/.claude/plugin-x-cw/skills/memory-update/SKILL.md` — the shape of every cw memory edit
-- `home/.claude/plugin-x-cw/skills/memory-sync/SKILL.md` — the map + up-merge + constant blocks
+- `script/lib/memory-sync-mirror.ts` — renders the field from the masters; routing is a
+  `<!-- sync: cw -->` line under a heading in `CLAUDE.md` or `rules/*.md` (`pnpm memory-sync:map`
+  prints every route); dima's own section is
+  `home/.claude/plugin-x-cw/skills/memory-update/instructions-head.md`
 - `home/.claude/rules/fleet-hazards.md` — fleet-wide pitfalls the sync carries into cw
 - `docs/knowledge/claude-fleet-capabilities.md` — cw platform facts land here (e.g. the
   device-bound scheduled-task limit)
@@ -36,8 +39,9 @@ delete the doc and its line.
 
 ## the run
 
-1. **trigger** — cc masters changed meaningfully, or dima says the bridge feels stale. hand him
-   the cw prompt in a copy-fence: `/x-cw:memory-sync dry` first after any long gap, then real.
+1. **trigger** — cc masters changed meaningfully, or dima says the bridge feels stale. after
+   a master change: `pnpm memory-sync:copy`, dima pastes into claude.ai settings › account ›
+   profile › instructions for claude; to verify, a new cw thread runs `/x-cw:memory-update check`.
 2. **field report** — cwrk writes a thorough handoff of what the run hit; dima drops it here
    via `/x:handoff-ingest`.
 3. **eval** — the report is a candidate, not a finding: verify stale claims against git/disk,
