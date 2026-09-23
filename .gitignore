@@ -92,3 +92,6 @@ gmail/token.json
 # coder worktrees (embedded checkouts), the same location cc uses
 .claude/worktrees/
 import/raycast/backups/*.rayconfig
+
+# vitest json reporter output
+.vitest/
