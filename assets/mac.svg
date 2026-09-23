@@ -1,10 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 258" width="270" height="258" role="img" aria-label="an 80s mac showing ~ frame">
 <style>
   text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre}
-  .bg{fill:#fbf1c7} .b{fill:#665c54} .s{fill:#b16286} .c{fill:#b57614}
-  @media (prefers-color-scheme: dark){ .bg{fill:#32302f} .b{fill:#a89984} .s{fill:#d3869b} .c{fill:#fabd2f} }
+  .bg{fill:#fbf1c7} .b{fill:#665c54} .s{fill:#b16286} .c{fill:#b57614} .scan{fill:#3c3836;opacity:.07}
+  @media (prefers-color-scheme: dark){ .bg{fill:#32302f} .b{fill:#a89984} .s{fill:#d3869b} .c{fill:#fabd2f} .scan{fill:#000;opacity:.25} }
 </style>
-<rect class="bg" width="270" height="258" rx="6"/>
+<defs>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect class="scan" width="3" height="1"/></pattern>
+<radialGradient id="vig" cx="50%" cy="50%" r="70%"><stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".22"/></radialGradient>
+</defs>
+<path class="bg" d="M0 0H270V252Q270 258 264 258H6Q0 258 0 252Z"/>
 <g xml:space="preserve">
 <text x="12" y="34" class="b"> .-------------------.</text>
 <text x="12" y="52" class="b"> | .---------------. |</text>
@@ -20,4 +24,5 @@
 <text x="12" y="232" class="b"> &#x27;-------------------&#x27;</text>
 <text x="12" y="250" class="b">  /_________________\</text>
 </g>
+<g class="crt"><rect x="38" y="44" width="142" height="132" rx="10" fill="url(#vig)"/><rect x="38" y="44" width="142" height="132" rx="10" fill="url(#scan)"/></g>
 </svg>

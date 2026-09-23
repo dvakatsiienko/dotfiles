@@ -12,6 +12,7 @@ all moving.
   <img src="assets/banner.svg" align="left" width="100%" alt="frame — the inventory of one mac">
   <img src="assets/mac.svg" align="right" width="36%" alt="an 80s mac showing ~ frame">
 </p>
+<br>
 
 - [mirror](#mirror) — `home/` is `~`
 - [machine](#machine) — brew, defaults, launchd
