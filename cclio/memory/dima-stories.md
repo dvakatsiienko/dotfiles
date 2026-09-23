@@ -15,17 +15,6 @@ His clearest piece of feedback about how the agent was failing him. Not wrong an
 right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
 he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
 
-## «yes they all went green, not very good» · 2026-09-06
-four design lanes, four different skills, one frozen brief — and every result came back green. he saw it in the tabs before any of us named the cause: two hex codes in the brief labelled «refs, not specs» had pulled every lane the same way. the test was «too narrow» in his words, and the fix was to strip the codes, not to add a rule. the felt sense arrived as a verdict on the output; the reason sat in the input. → BYT-75, the round-2 brief
-
-## the flat starship end · 2026-09-07
-He pasted a prompt screenshot: «another blocky case. make it so the ending part is rounded.» The
-cap glyph was already rounded; the reason was elsewhere. A staged change with zero lines (an
-empty file, a rename, a binary) hid `git_metrics` and its cap, and the `gitcap` fallback hid too
-because the diff was non-empty. Two rules, both correct, one gap between them. The felt sense was
-«blocky»; the fix was making the fallback key off the same number the other module shows. → the
-`starship.toml` gitcap `when`
-
 ## «sounds like cheating from VC side» · 2026-09-09
 He dropped it in the inbox with no evidence, only the feel: «can't believe in deploy quota burning so fast… when a deploy was truly skipped and compute was not spent, the count should not be affected. i feel something is off here.» A researcher opened vercel's own doc and found the sentence: canceled builds started by the ignored build step count toward the deployment limit. The six `turbo-ignore` lines had been removed two days earlier without anyone knowing that was the reason. The felt sense named the bug before the doc did; the fix had landed by accident. → the vercel research, `cclio:evergreen`'s gate rules
 
@@ -91,3 +80,6 @@ how does it work and why is it needed? how to not forget to remove it?» — no 
 the fix, only a taste. The reason arrived while answering: an override hides a dependant whose
 range renovate will never lift, so the pin outlives its cause unless something reminds. The
 felt sense was about the shelf life, not the mechanism. → the override reminder in `_reminders.md`
+
+## «coder still looks like a cat» · 2026-09-23
+twelve renders of a pixel coder, and after each one he said the same thing: «still looks like a cat». the palette, the helmet, the tools all changed; the verdict did not. the cause was never in the face — every take gave the head two pointed top corners, and at 16 px a silhouette with pointed corners reads «cat» before any eye or nose is seen. floppy ears hanging beside the head fixed it in one pass. his felt sense read the silhouette; i kept editing the features. → `brand/avatars/fleet/coder`, the flawlog line on species cues
