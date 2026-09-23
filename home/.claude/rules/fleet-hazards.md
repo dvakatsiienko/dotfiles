@@ -27,6 +27,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 ## git hooks
 
 - a gitignore pattern with a `/` in the middle is anchored to the ignore file's directory — `.impeccable/x.json` at a repo root never matches `apps/web/.impeccable/x.json`; `**/` in front makes it match at any depth (measured with `git check-ignore -v`, 2026-09-19)
+- **frame's lefthook stashes unstaged changes only for PARTIALLY staged files** — a fully-unstaged wip file stays live during `pnpm test` and can fail the gate (the cw `/profile.md#fleet` size check, 2026-09-23); wrap the commit in a path-limited `git stash push -- <files>`
 - a git worktree of `frame` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout)
 - worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
@@ -68,6 +69,10 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 - a gui uninstall that moves the bundle to the Trash leaves its login items alive — appcleaner's
   `SmartDelete` helper ran out of `~/.Trash` for two days and popped on every later deletion
   (2026-09-15). after any app removal: `sfltool dumpbtm | grep -i <name>` and empty the Trash
+
+## claude desktop
+
+- **Claude Desktop writes its in-memory config back to `claude_desktop_config.json` on quit** — an edit made while the app runs silently reverts; edit only with the app closed (two restarts lost, 2026-09-23)
 
 ## the bash sandbox
 

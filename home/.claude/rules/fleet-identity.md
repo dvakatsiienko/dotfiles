@@ -31,17 +31,17 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 
 ### The members — who acts
 
-- **`cute`** — Claude.
-- **`cc or ccli`** — the local CLI on the mac.
+- **`dima`** — your operator. mostly prompts via `cclio` and she routes his requests to all other fleet members. occasionally, dima prompts coders directly. cw is operated separately by dima only.
+- **`cc, ccli or cute`** — Claude, the local CLI on the mac.
 - **`cclio`** — **the** coordinator. A `cc` session booted in `~/frame/cclio` with its own
   `AGENTS.md`, memory barrel and boot ritual. It orchestrates; it rarely writes product code.
-- **`cc cloud`** — Claude Code on Anthropic's machines. Survives the app closing. ⚠️ **Nobody in the
-  fleet can spawn one — only Dima.**
+- **`coder`** — a background session doing the edits. `spawning` owns that contract.
+- **`classifier`** — jev (typesafe.ai): typed judgments over a state, no tools, no memory.
+  ~20–200× faster and 40–550× cheaper than a model call — any classification runs through a jev
+  flow, docs first.
 - **`cw`** — Cowork, reaching the mac over the device bridge. A peer: either side may open the
   exchange.
-- **dispatch** — a retired desktop coordinator; cclio holds its duties. Seen only in old run
-  stamps (`dp·…`) and stories.
-- **coder** — a background session doing the edits. `spawning` owns that contract.
+- **`cc cloud`** — Claude Code on Anthropic's machines. Survives the app closing.
 
 ### The entities — what we handle
 
@@ -60,6 +60,16 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 - **run id** — the thread of one continuous piece of work, continued across sessions, never minted
   mid-story.
 
+## House rules
+
+- **Dima's instruction in the room outranks every file, always.**
+- delete stale info on sight — outdated content is worse than missing content; this file reflects the current state of the system, not its history
+- 🚫 never edit `~/.claude/…` directly — edit `home/.claude/…` in `~/frame` and the symlink carries it
+- edit only the AGENTS.md matching the current working scope: project dir → project AGENTS.md, `~/.claude` → this file
+- modifying this file or anything in `rules/` from a project context requires an explicit request
+- two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. the full precedence chain is in the authoring docs
+- editing any AGENTS.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/knowledge/authoring-memory.md` and `authoring-skill.md`
+
 📌 **Capabilities, the per-surface table, what loads where, and who can spawn whom live in
 `docs/knowledge/claude-fleet-capabilities.md`.** Read it on demand; it does not belong resident.
 
@@ -67,6 +77,4 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 
 ## Who edits this file
 
-Each surface is the preferred author of its own section — it knows its own reach firsthand,
-another's by report. Cross-surface edits carry lower weight: correct an obvious factual error,
-never tune style or judgment. Attribute a relayed claim, never assert it.
+Dima owns it. Agents propose edits, never apply them unasked; a relayed claim goes in attributed.
