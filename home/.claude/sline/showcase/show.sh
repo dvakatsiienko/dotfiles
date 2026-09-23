@@ -1,7 +1,7 @@
 #!/bin/zsh
-# sline on a clean stage: a throwaway home + shallow clone, so no live stash, handoff or
-# peer-socket state leaks in. `show.sh stage` builds it (hidden in the tape), `show.sh play`
-# renders the three fixture states (fresh, mid, heavy).
+# sline on a clean stage, for render-svg.ts: a throwaway home + shallow clone, so no live stash,
+# handoff or peer-socket state leaks in. `show.sh stage` builds it, `show.sh ansi` writes each
+# fixture state (fresh, mid, heavy) as raw ansi. then: node render-svg.ts
 stage=/tmp/sline-stage
 bin=/Users/dima/.claude/sline/bin; dir=/Users/dima/.claude/sline/showcase
 if [[ $1 == stage ]]; then
@@ -11,10 +11,12 @@ if [[ $1 == stage ]]; then
   printf '{"current_index":48,"last_update_time":%s}' "$(date +%s)" > $stage/.claude/sline/sline-state.json
   exit
 fi
+# `show.sh ansi` writes each state's raw sline output to $stage/sN.ansi for render-svg.ts
 touch /tmp/cc-socks/$$.sock
 export HOME=$stage
 cd $stage/frame
+i=0
 for f in $dir/s{0,1,2}.json; do
-  clear; printf '\n'; sed "s#/Users/dima/frame#$stage/frame#g" $f | $bin; printf '\n'; sleep 1.4
+  sed "s#/Users/dima/frame#$stage/frame#g" $f | FORCE_HYPERLINK=0 $bin > $stage/s$i.ansi; i=$((i+1))
 done
 rm -f /tmp/cc-socks/$$.sock
