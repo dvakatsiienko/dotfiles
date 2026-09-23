@@ -49,15 +49,29 @@ export const postManualEdit = (edit: ManualEdit) =>
 // One stream, two kinds of news: a chord was pressed, or the bindings behind the board moved.
 // EventSource reconnects on its own, so a daemon restart costs the page a few seconds and no
 // reload — which is the whole reason the 2s poll is gone.
-export const subscribeLive = (handlers: LiveHandlers) => {
-    const source = new EventSource('/api/presses');
+// One connection for the life of the tab: a route change swaps listeners, never the stream,
+// so switching board ↔ stats neither drops a press nor reconnects.
+const listeners = new Set<LiveHandlers>();
+let source: EventSource | undefined;
 
-    source.addEventListener('presses', (event) => {
-        handlers.onPresses(JSON.parse((event as MessageEvent<string>).data));
+const openSource = () => {
+    const next = new EventSource('/api/presses');
+    next.addEventListener('presses', (event) => {
+        const presses = JSON.parse((event as MessageEvent<string>).data);
+        for (const l of listeners) l.onPresses(presses);
     });
-    source.addEventListener('bindings', () => handlers.onBindings());
+    next.addEventListener('bindings', () => {
+        for (const l of listeners) l.onBindings();
+    });
+    return next;
+};
 
-    return () => source.close();
+export const subscribeLive = (handlers: LiveHandlers) => {
+    source ??= openSource();
+    listeners.add(handlers);
+    return () => {
+        listeners.delete(handlers);
+    };
 };
 
 /* Types */
