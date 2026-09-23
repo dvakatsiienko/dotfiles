@@ -12,7 +12,7 @@ import { join } from 'node:path';
 
 /* Instruments */
 import { render, target } from './lib/memory-sync-mirror.ts';
-import { done, fail, ok, step, title } from './lib/print.ts';
+import { done, fail, note, ok, step, title } from './lib/print.ts';
 
 const r = render(join(homedir(), 'frame'));
 
