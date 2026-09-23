@@ -67,12 +67,34 @@ function parseLine(line: string): Run[] {
     return runs;
 }
 
-const layers = states.map((raw) => raw.trimEnd().split('\n').map(parseLine));
+// the second line runs ~170 columns; github scales the svg to its column, so it is split before
+// the 5h bar — model + cost on one row, the three usage bars on the next — and the text grows
+function splitAtBars(line: string): string[] {
+    const at = line.indexOf(' 5h ');
+    if (at < 0) return [line];
+    const bullet = line.lastIndexOf('•', at);
+    const cut = line.lastIndexOf(`${ESC}[`, bullet);
+    return [line.slice(0, cut), line.slice(bullet + 1)];
+}
+
+const layers = states.map((raw) =>
+    raw
+        .trimEnd()
+        .split('\n')
+        .flatMap(splitAtBars)
+        .map(parseLine)
+        .map((runs) => {
+            if (runs[0]) runs[0].text = runs[0].text.trimStart();
+            return runs;
+        })
+        .filter((runs) => runs.some((r) => r.text.trim())),
+);
 const widest = Math.max(
     ...layers.flat().map((runs) => cells(runs.map((r) => r.text).join(''))),
 );
 const width = Math.ceil(widest * charWidth * 1.02 + pad * 2);
-const height = pad * 2 + lineHeight * 2 - (lineHeight - fontSize);
+const rows = Math.max(...layers.map((l) => l.length));
+const height = pad * 2 + lineHeight * rows - (lineHeight - fontSize);
 
 const total = hold * states.length + fade * (states.length - 1);
 const pct = (t: number) => `${((t / total) * 100).toFixed(2)}%`;
