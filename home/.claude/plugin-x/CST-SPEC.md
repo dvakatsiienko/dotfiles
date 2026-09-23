@@ -18,7 +18,7 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
 
 **META goes first, and it is the one section a human reads.** Format it prettily — headings, short lists, whitespace — because Dima peeks at it to manage several pending handoffs at once. Everything below META is for the model.
 
-- **META**: six fields, omit any that is empty.
+- **META**: five fields, omit any that is empty.
   - **scope** — omit entirely when the CST is full (the default). On a scoped handoff write `scope: partial — <what>`, so the ingesting session knows it is NOT a full continuation and does not act as if it holds the rest of the thread.
   - **queues** — cross-session `/queue` items still owed, one line each.
   - **first-acts** — ordered actions the ingesting session performs before anything else. Numbered; the order is the content.
@@ -26,7 +26,6 @@ If a TARGET/focus was stated (what the continuation is for), weight R/D/S toward
   - **run marker** — the active tracker run id (`cc·20260819·batch1`), if one was minted. The
     ingesting session continues that run instead of minting a new one, so a batch spanning two
     sessions still reverts as one. Format and stamping rules: the `pm` skill.
-  - **compare-anchors** — numbers the next session must diff against, each labelled and dated (e.g. `/context` sizes at save time). An anchor without its number is not an anchor — see the save-time step in the sender skill.
 - **G**: goal + current mental model of the problem.
 - **R**: user-stated requirements/preferences/corrections, verbatim or near-verbatim (highest-loss items in naive summaries — be generous here).
 - **D**: decisions made + one-line rationale each (so the continuation doesn't re-litigate).
@@ -130,4 +129,4 @@ check is a few shell calls; cost of skipping it is work done against a fiction.
 📌 This applies to S and META only. R and D are the user's words and decisions — those are honoured,
 not re-verified.
 
-Ingest silently — never echo the CST into visible output; confirm in ≤2 lines (thread topic + next step). Run META's first-acts before anything else, in their given order, and carry its queues and compare-anchors into this thread. Persist `C→memory:` lines into the memory system if one exists (else keep them in C when re-handing-off). Honor R and D as if the user said them in this thread. Then proceed exactly as the old thread from S.
+Ingest silently — never echo the CST into visible output; confirm in ≤2 lines (thread topic + next step). Run META's first-acts before anything else, in their given order, and carry its queues into this thread. Persist `C→memory:` lines into the memory system if one exists (else keep them in C when re-handing-off). Honor R and D as if the user said them in this thread. Then proceed exactly as the old thread from S.

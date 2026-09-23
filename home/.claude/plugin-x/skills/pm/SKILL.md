@@ -53,6 +53,7 @@ call and is always cheaper than a wrong guess.
 
 - **listing** — `linear issue query --team FRM`. `issue list` shows only issues assigned to *you*,
   and there is no `--query` flag on it.
+- **old ids resolve** — a team key change keeps every old identifier alive: `DOT-26` answers as `FRM-26` in `issue(id:)` and in search, so old ids in text never need a sweep.
 - **searching** — no `issue search` subcommand exists. Use `linear api` with `searchIssues`.
 - **multi-line bodies** — write a file, pass `--description-file f.md` (`issue create` /
   `issue update`) or `--body-file f.md` (`issue comment add` / `issue comment update` — there is no

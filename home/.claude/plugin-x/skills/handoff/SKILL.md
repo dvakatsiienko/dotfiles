@@ -38,10 +38,6 @@ and a pending list that says `any lane · by any` is a writer that skipped them.
 - 🚨 **The sibling check is mandatory, and it comes first.** `list --for <this session's
   audience>`. A pending handoff of THIS thread → fold its live content into the new CST and pass
   `--replaces <its slug>`, which deletes it as the new one lands. One thread leaves ONE file.
-- **Ask for the anchors, one line**: META's compare-anchors need numbers this session cannot
-  read — Dima's `/context` output and anything the next session must diff against. He declines
-  or is silent → write anyway and say the numbers are missing. Never guess one, never silently
-  omit the field. Applies to triggers B, C, D — and A when the request is not urgent.
 - **Build META's fleet roster** from `ListAgents` (fresh — refs rotate): only sessions worth
   reattaching to, naming what each holds.
 
