@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 258" width="270" height="258" role="img" aria-label="an 80s mac showing ~ frame">
+<style>
+  text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre}
+  .bg{fill:#fbf1c7} .b{fill:#665c54} .s{fill:#b16286} .c{fill:#b57614}
+  @media (prefers-color-scheme: dark){ .bg{fill:#32302f} .b{fill:#a89984} .s{fill:#d3869b} .c{fill:#fabd2f} }
+</style>
+<rect class="bg" width="270" height="258" rx="6"/>
+<g xml:space="preserve">
+<text x="12" y="34" class="b"> .-------------------.</text>
+<text x="12" y="52" class="b"> | .---------------. |</text>
+<text x="12" y="70" class="b"> | |               | |</text>
+<text x="12" y="88"><tspan class="b"> | |  </tspan><tspan class="s">~ frame     </tspan><tspan class="b"> | |</tspan></text>
+<text x="12" y="106"><tspan class="b"> | |  </tspan><tspan class="s">&gt; mirror </tspan><tspan class="b">    | |</tspan></text>
+<text x="12" y="124"><tspan class="b"> | |  </tspan><tspan class="s">&gt; machine</tspan><tspan class="b">    | |</tspan></text>
+<text x="12" y="142"><tspan class="b"> | |  </tspan><tspan class="s">&gt; fle</tspan><tspan class="c">e</tspan><tspan class="b">t _    | |</tspan></text>
+<text x="12" y="160" class="b"> | |               | |</text>
+<text x="12" y="178" class="b"> | &#x27;---------------&#x27; |</text>
+<text x="12" y="196" class="b"> |                   |</text>
+<text x="12" y="214" class="b"> |  ===         [::] |</text>
+<text x="12" y="232" class="b"> &#x27;-------------------&#x27;</text>
+<text x="12" y="250" class="b">  /_________________\</text>
+</g>
+</svg>
