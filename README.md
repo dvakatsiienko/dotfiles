@@ -22,7 +22,7 @@ all moving.
 
 - [fleet](#-fleet) — skills, memory, sline, hotkeys
 - [mirror](#-mirror) — `home/` is `~`
-- [machine](#️-machine) — brew, defaults, launchd
+- [machine](#-machine) — brew, defaults, launchd
 - [link it](#-link-it)
 
 <br clear="right">
@@ -50,7 +50,7 @@ pnpm frame:link untrack ~/.gitconfig   # hand a file back to ~
 
 <img src="assets/frame-link.gif" width="720" alt="pnpm frame:link, ending on everything mirrored">
 
-## 🖥️ machine
+## 💻 machine
 
 the mac's setup is kept as data, because data does not rot and scripts do: the `Brewfile`, the
 macos defaults, the `duti` file bindings, and the launchd jobs under `schedule/`.
