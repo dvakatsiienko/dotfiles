@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20" viewBox="0 0 130 20" role="img" aria-label="renovate: enabled">
+<defs>
+<clipPath id="r"><rect width="130" height="20" rx="4"/></clipPath>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" opacity=".12"/></pattern>
+</defs>
+<g clip-path="url(#r)">
+<rect width="68" height="20" fill="#1d2021"/>
+<rect x="68" width="62" height="20" fill="#689d6a"/>
+<rect width="130" height="20" fill="url(#scan)"/>
+</g>
+<g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" text-anchor="middle">
+<text x="34" y="14" fill="#ebdbb2">renovate</text>
+<text x="99" y="14" fill="#282828" font-weight="700">enabled</text>
+</g>
+</svg>

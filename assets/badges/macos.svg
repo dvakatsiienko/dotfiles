@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="20" viewBox="0 0 76 20" role="img" aria-label="macos: 27">
+<defs>
+<clipPath id="r"><rect width="76" height="20" rx="4"/></clipPath>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" opacity=".12"/></pattern>
+</defs>
+<g clip-path="url(#r)">
+<rect width="48" height="20" fill="#1d2021"/>
+<rect x="48" width="28" height="20" fill="#d3869b"/>
+<rect width="76" height="20" fill="url(#scan)"/>
+</g>
+<g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" text-anchor="middle">
+<text x="24" y="14" fill="#ebdbb2">macos</text>
+<text x="62" y="14" fill="#282828" font-weight="700">27</text>
+</g>
+</svg>

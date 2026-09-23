@@ -6,6 +6,7 @@
     "scripts": {
         "chords:dev": "pnpm --filter chords dev",
         "chords:build": "pnpm --filter chords build",
+        "badges:sync": "node ./script/badges-sync.ts",
         "frame:link": "node ./script/frame-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
