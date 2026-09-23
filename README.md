@@ -2,7 +2,7 @@
 all moving.
 
 <p align="center">
-  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat-square&label=ci&labelColor=1d2021&color=b8bb26" alt="ci"></a>
+  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat-square&label=ci&labelColor=1d2021" alt="ci"></a>
   <img src="https://img.shields.io/badge/node-24-8ec07c?style=flat-square&labelColor=1d2021" alt="node 24">
   <img src="https://img.shields.io/badge/macos-27-d3869b?style=flat-square&labelColor=1d2021" alt="macos 27">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-mit-a89984?style=flat-square&labelColor=1d2021" alt="license mit"></a>
