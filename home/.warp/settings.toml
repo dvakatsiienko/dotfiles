@@ -181,7 +181,7 @@ is_needs_attention_enabled = true
 is_password_prompt_enabled = true
 long_running_threshold = 30
 mode = "enabled"
-play_notification_sound = true
+play_notification_sound = false
 
 [account]
 is_settings_sync_enabled = true
