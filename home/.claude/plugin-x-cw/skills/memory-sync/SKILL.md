@@ -1,6 +1,6 @@
 ---
 name: memory-sync
-description: dima runs /memory-sync to mirror the dotfiles masters into cw memory — a byte-compare against the rendered manifest, no judgment. Args: <cw path> · dry. cw-only.
+description: dima runs /memory-sync to mirror the frame masters into cw memory — a byte-compare against the rendered manifest, no judgment. Args: <cw path> · dry. cw-only.
 disable-model-invocation: true
 ---
 
@@ -16,7 +16,7 @@ every write still follows `memory-update` mechanics: read first, version token, 
 
 ## the procedure
 
-1. render fresh — shell lane on `mac-lan`, dotfiles root:
+1. render fresh — shell lane on `mac-lan`, frame root:
 
    ```
    node script/skill-memory-sync-mirror.ts
@@ -25,7 +25,7 @@ every write still follows `memory-update` mechanics: read first, version token, 
    it prints one line per fragment with its size and warns above a cap. output lands in
    `home/.claude/shelf/memory-sync-mirror/` (gitignored build) plus `manifest.json`.
    📌 `device_bash` runs in a linux vm with the wrong node — run this through desktop-commander
-   `start_process` on the mac (`cd ~/dotfiles && node script/skill-memory-sync-mirror.ts`).
+   `start_process` on the mac (`cd ~/frame && node script/skill-memory-sync-mirror.ts`).
 2. read `manifest.json`. keys are `<host path>#<fragment>`.
 3. for each key: `memory_read` the host entry, find the block between `<!-- mirror:start -->`
    and `<!-- mirror:end -->`, compare the `source-sha256` inside its first comment line to the

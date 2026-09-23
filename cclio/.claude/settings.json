@@ -3,7 +3,7 @@
     "cclio": {
       "source": {
         "source": "directory",
-        "path": "/Users/dima/dotfiles/cclio/plugin-cclio"
+        "path": "/Users/dima/frame/cclio/plugin-cclio"
       }
     }
   },
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dima/dotfiles/cclio/.claude/hooks/boot-prefetch.sh"
+            "command": "/Users/dima/frame/cclio/.claude/hooks/boot-prefetch.sh"
           }
         ]
       }

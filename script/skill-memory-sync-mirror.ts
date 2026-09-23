@@ -19,7 +19,7 @@ import {
 } from './lib/memory-sync-mirror.ts';
 import { done, ok, step, title, warn } from './lib/print.ts';
 
-const ROOT = join(homedir(), 'dotfiles');
+const ROOT = join(homedir(), 'frame');
 const OUT = join(ROOT, 'home/.claude/shelf/memory-sync-mirror');
 
 title('skill:memory-sync-mirror', OUT.replace(homedir(), '~'));

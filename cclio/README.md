@@ -1,16 +1,16 @@
 # cclio
 
 coordinator home for **cclio** (ccli orchestrator) — dima's coordinator brain running as a
-plain claude code cli session. lives inside the dotfiles repo — dotfiles is the fleet repo, and
+plain claude code cli session. lives inside the frame repo — frame is the fleet repo, and
 a fleet coordinator does not sit in a repo of its own.
 
 the coder-global memfile at `~/projects/CLAUDE.md` does not exist yet ([DOT-195](https://linear.app/x-com/issue/DOT-195)
 creates it). when it does, this path would start inheriting it — the fix then is relocating the
-whole dotfiles repo to `~/dotfiles`, not moving cclio back out. see [DOT-202](linear://linear.app/issue/DOT-202).
+whole repo (renamed from dotfiles to frame, 2026-09-23), not moving cclio back out. see [DOT-202](linear://linear.app/issue/DOT-202).
 
 ## boot
 ```
-cd ~/dotfiles/cclio && claude
+cd ~/frame/cclio && claude
 /cclio:init
 ```
 
@@ -21,4 +21,4 @@ cd ~/dotfiles/cclio && claude
 - `.claude/x-queue.md` — `/queue`'s store · `ROLLBACK.md` — how to undo this
 
 ## reverse
-`git rm -r cclio/` inside dotfiles, plus a revert of the fold commit. see `ROLLBACK.md`.
+`git rm -r cclio/` inside frame, plus a revert of the fold commit. see `ROLLBACK.md`.

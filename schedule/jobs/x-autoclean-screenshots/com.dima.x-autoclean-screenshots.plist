@@ -7,7 +7,7 @@
   - moves — files under ~/Desktop/screenshots aged past 30 days, into ~/.Trash
   - spares — hidden files, .DS_Store included
   - output — ~/.local/share/x-autoclean-screenshots/run.log, run.err.log for stderr
-  - source — ~/dotfiles/schedule/jobs/x-autoclean-screenshots/main.swift
+  - source — ~/frame/schedule/jobs/x-autoclean-screenshots/main.swift
   - build — pnpm autoclean-screenshots:build
   - gotcha — needs Files and Folders → Desktop, or Full Disk Access, granted to the binary below
 
@@ -25,7 +25,7 @@
     <array>
         <!-- launchd does not expand ~, so this path is absolute by necessity.
              Build it first: pnpm autoclean-screenshots:build -->
-        <string>/Users/dima/dotfiles/schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots</string>
+        <string>/Users/dima/frame/schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots</string>
     </array>
 
     <key>StartCalendarInterval</key>

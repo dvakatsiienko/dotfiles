@@ -5,7 +5,7 @@
  * ?   pnpm plugin:release          # status: what changed, what would bump
  * ?   pnpm plugin:release apply    # bump, then refresh each registered plugin
  * ?
- * ? Status and apply are one code path, the `dotfiles-link` house convention.
+ * ? Status and apply are one code path, the `frame-link` house convention.
  * ? Nothing here commits: the bump lands in the working tree and the commit is
  * ? the caller's, so a release and its reason stay in one commit.
  * ?

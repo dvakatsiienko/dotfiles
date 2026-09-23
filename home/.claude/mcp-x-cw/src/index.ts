@@ -4,7 +4,7 @@
  * transcripts, the Linear PM handbook, and the cclio snapshot.
  *
  * Wiring only. Each tool family owns its own module, and the handoff family
- * owns nothing at all — it forwards to the `handoff-store` cli in dotfiles, so
+ * owns nothing at all — it forwards to the `handoff-store` cli in frame, so
  * cc and cw read one set of store rules.
  */
 

@@ -158,7 +158,7 @@ double-runs the work.
 - Worktrees at ~5+ agents or genuine concurrent edits, not before. a worktree brief's step 0 is
   `CI=1 pnpm install` (inline, that command only) — kills the shared-hooks rewrite
   (`rules/fleet-hazards.md`, git hooks).
-- ⚠️ a dotfiles worktree cannot push and must never run `pnpm` (`rules/fleet-hazards.md`, git
+- ⚠️ a frame worktree cannot push and must never run `pnpm` (`rules/fleet-hazards.md`, git
   hooks) — the coordinator merges and pushes.
 
 ## lifetime and stopping

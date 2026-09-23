@@ -19,7 +19,7 @@ only mirrors it. **The file is `.claude/x-queue.md`** — named for this skill, 
 Resolve once per session, in this order, and say which you picked:
 
 1. walking **up** from cwd, the nearest directory already containing `.claude/` — the normal
-   case, and what keeps each place its own queue (cclio, dotfiles, bytes never mix).
+   case, and what keeps each place its own queue (cclio, frame, bytes never mix).
 2. none above, but inside a git repo → create `.claude/x-queue.md` at the repo root.
 3. not in a repo, or read-only tree → the session scratch dir, **said plainly** — that park
    dies with the session.

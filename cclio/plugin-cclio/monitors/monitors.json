@@ -1,6 +1,6 @@
 [
     {
-        "command": "/Users/dima/dotfiles/cclio/.claude/hooks/ci-watch.sh --watch",
+        "command": "/Users/dima/frame/cclio/.claude/hooks/ci-watch.sh --watch",
         "description": "📡 persistent monitor — new ci/vercel reds, one line per unseen failure, silent otherwise; runs for the whole session by design",
         "name": "📡 ci-watch · persistent"
     }

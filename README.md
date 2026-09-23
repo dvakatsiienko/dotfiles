@@ -1,4 +1,4 @@
-# Dima's .dotfiles
+# frame
 
 ### Installation
 

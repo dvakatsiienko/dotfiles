@@ -91,8 +91,8 @@ coordinator gets `round N: refuted, k findings` or `round N: clean` — one line
 
 ## identity and reporting
 
-- Linear identity: the app user «coder» for now (`LINEAR_TOKEN=$(cd ~/dotfiles && pnpm --silent linear:agent-token coder)`), the comment opens with `🔎 verifier ·`. ONE comment per assignment: the final verdict object, ≤15 lines.
-- GitHub writes wear `~/dotfiles/home/.claude/plugin-x/bin/github-token-wrap`; a bare `gh` write posts as Dima.
+- Linear identity: the app user «coder» for now (`LINEAR_TOKEN=$(cd ~/frame && pnpm --silent linear:agent-token coder)`), the comment opens with `🔎 verifier ·`. ONE comment per assignment: the final verdict object, ≤15 lines.
+- GitHub writes wear `~/frame/home/.claude/plugin-x/bin/github-token-wrap`; a bare `gh` write posts as Dima.
 - remove your worktree at the end (`git worktree remove`), never the coder's.
 - **last act: a retro to the coordinator, ≤12 lines** — where the exit lines were unverifiable as written, what the reviewer found that you did not and vice versa, what you ran by hand that repeats. this is how the role gets measured; the two-pr trial decides whether the ci reviewer survives.
 

@@ -25,7 +25,7 @@ If the user stated what THIS thread is for, that is a TARGET — peer mode passe
 ## FILE MODE
 
 ```bash
-node ~/dotfiles/script/skill-handoff-store.ts ingest [<topic>] --for <this session's audience>
+node ~/frame/script/skill-handoff-store.ts ingest [<topic>] --for <this session's audience>
 ```
 
 🚫 **never silence an ingest.** it prints the CST once and deletes the file — piping it to `/dev/null` destroys the handoff (measured 2026-09-07: halt8, reconstructed from a peek, tail lost). read the print in full; a peek is not an ingest.

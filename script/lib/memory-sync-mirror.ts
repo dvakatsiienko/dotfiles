@@ -27,7 +27,7 @@ import { readFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
 export type Source = {
-    /** master file, relative to the dotfiles root */
+    /** master file, relative to the frame root */
     file: string;
     /** keep only these `## ` sections (plus the title block); absent = the whole master */
     sections?: string[];

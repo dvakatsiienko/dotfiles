@@ -27,13 +27,13 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 ## git hooks
 
 - a gitignore pattern with a `/` in the middle is anchored to the ignore file's directory — `.impeccable/x.json` at a repo root never matches `apps/web/.impeccable/x.json`; `**/` in front makes it match at any depth (measured with `git check-ignore -v`, 2026-09-19)
-- a git worktree of `dotfiles` cannot push (the `mirror` gate reads `~` symlinks that point at
+- a git worktree of `frame` cannot push (the `mirror` gate reads `~` symlinks that point at
   the main checkout)
 - worktrees share `.git/hooks`, and any pnpm run in one rewrites the shared lefthook shims to
   the worktree's path — including pnpm's own auto-install before ANY script, so the first gated
   commit in a fresh worktree does it by itself. harmless to gating (the shim's repo-root
   fallback rescues it) but dirty. **the guard: `CI=1 pnpm install`** — lefthook's postinstall exits early on `CI` (measured
-  2026-08-30). in dotfiles it is AUTOMATED: the `EnterWorktree` hook
+  2026-08-30). in frame it is AUTOMATED: the `EnterWorktree` hook
   (`.claude/hooks/worktree-setup.sh`) runs it in every bg coder's fresh worktree; manual
   `CI=1 pnpm install` is needed only for a hand-made `git worktree add`. inline env for that
   one command only, never global
@@ -96,11 +96,11 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
   nothing old enough reads identical to a deny: log the scanned count
 - `plutil -convert json` drops xml comments — prose in a plist is read from the raw file; `launchctl
   print` repeats `state =` in nested blocks — anchor the parse on the top-level line
-- `pnpm dotfiles:link apply` links new leaves and never prunes a dangling old symlink after a rename
+- `pnpm frame:link apply` links new leaves and never prunes a dangling old symlink after a rename
 
 ## node
 
-- `.node-version` holds the MAJOR (`24`) in dotfiles and bytes; fnm resolves the installed one. a `Can't find an installed Node version` prompt means a pin drifted back to a patch — repin to the major, never install the patch (2026-09-17)
+- `.node-version` holds the MAJOR (`24`) in frame and bytes; fnm resolves the installed one. a `Can't find an installed Node version` prompt means a pin drifted back to a patch — repin to the major, never install the patch (2026-09-17)
 
 ## raycast extensions
 
@@ -147,7 +147,7 @@ the vault section into cw memory — the rest is cc-only, deliberately not mirro
 
 ## declarative tools
 
-- **a tool that treats its config as the whole truth imports the live state before its first apply** — `gmailctl apply` deleted dima's two hand-made filters because `download` never ran first (2026-09-20). same shape: renovate's first run, `dotfiles:link apply`, a launchd bootstrap. the first apply on a live account is preceded by the tool's own import verb
+- **a tool that treats its config as the whole truth imports the live state before its first apply** — `gmailctl apply` deleted dima's two hand-made filters because `download` never ran first (2026-09-20). same shape: renovate's first run, `frame:link apply`, a launchd bootstrap. the first apply on a live account is preceded by the tool's own import verb
 
 ## ci runners
 

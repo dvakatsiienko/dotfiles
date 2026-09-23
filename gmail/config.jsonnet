@@ -1,4 +1,4 @@
-// gmail filters as code — `gmailctl apply --config ~/dotfiles/gmail`.
+// gmail filters as code — `gmailctl apply --config ~/frame/gmail`.
 // the blocklist is the only thing edited by hand (or by the x-ray «gmail: block sender» command);
 // every entry becomes a delete-on-arrival filter. gmail's own spam classification stays untouched.
 local blocklist = import 'blocklist.json';

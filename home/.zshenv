@@ -5,7 +5,7 @@
 # Contains environment variables that should be available globally
 
 # Generated tool init, cached and version-stamped by zsh_init_cached in .zshrc.
-# Generated data, so it lives outside the dotfiles repo.
+# Generated data, so it lives outside the frame repo.
 export ZSH_INIT_CACHE_DIR=$HOME/.cache/zsh
 
 # =============================================================================

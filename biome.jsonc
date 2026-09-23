@@ -5,7 +5,7 @@
 
   // `@theme`, `@source`, `@custom-variant` and friends are tailwind v4 at-rules, and the css
   // parser reads them as syntax errors until it is told. bytes gets this from ultracite;
-  // dotfiles extends only polished, so it says so itself.
+  // frame extends only polished, so it says so itself.
   "css": { "parser": { "tailwindDirectives": true } },
   "files": {
     "ignoreUnknown": false,

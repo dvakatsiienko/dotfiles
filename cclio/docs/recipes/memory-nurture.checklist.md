@@ -7,7 +7,7 @@ carries run #1's map and verdicts — a new run resets the checklist, keeps the 
 ticket body is not a granular plan.
 
 📌 standing sweep line, every run: **`docs/research/` — anything past its `dies-when`?** delete
-or flag; the frontmatter contract lives in the dotfiles `CLAUDE.md` research bullet.
+or flag; the frontmatter contract lives in the frame `CLAUDE.md` research bullet.
 
 three homes, and nothing crosses them:
 
@@ -266,7 +266,7 @@ Every coder session on this machine pays that saving too.
    - fix leftover comments from earlier sessions while there
    - judge each filename — pretty for dima first, then for the agent. 🅠 **queue a filename sweep
      for afterwards**, since relevance shifts once things move
-3. **then project** `CLAUDE.md`**s**, top to bottom: **dotfiles first**, then `bytes`,
+3. **then project** `CLAUDE.md`**s**, top to bottom: **frame first**, then `bytes`,
    `dvakatsiienko`, `inner-marker`, `reinforcement-learning`.
 4. 🚧 **skills pass — HALF done (2026-08-25).** the criteria/eval half ran: all 15 plugin-x
    skills read once, [DOT-217](linear://linear.app/issue/DOT-217) closed (criteria added to 6,

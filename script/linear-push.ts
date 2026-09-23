@@ -8,7 +8,7 @@
  * ?   node script/linear-push.ts hook <remote-name> <remote-url>   # refs on stdin
  * ?   node script/linear-push.ts run --job=<path>                  # the detached half
  * ?
- * ? It is a `lefthook` pre-push job, called from `dotfiles` by relative path and
+ * ? It is a `lefthook` pre-push job, called from `frame` by relative path and
  * ? from `bytes` by absolute path — one implementation, two callers. It stands
  * ? down in any repo that is not Dima's — see parseRemote.
  * ?

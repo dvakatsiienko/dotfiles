@@ -3,4 +3,4 @@
 # every gh call that WRITES to a pr or issue in our repos goes through this,
 # so the post wears the app and never dima. usage: github-token-wrap pr comment 76 --body …
 set -euo pipefail
-GH_TOKEN=$(cd ~/dotfiles && pnpm --silent github:agent-token) exec gh "$@"
+GH_TOKEN=$(cd ~/frame && pnpm --silent github:agent-token) exec gh "$@"

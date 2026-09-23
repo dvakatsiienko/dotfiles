@@ -78,7 +78,7 @@ Compress the **language**, never the substance. Telegraphic fragments are fine. 
 
 ## Store contract (semantics)
 
-📌 **The mechanics live in one executable: `~/dotfiles/script/skill-handoff-store.ts`.** Filename
+📌 **The mechanics live in one executable: `~/frame/script/skill-handoff-store.ts`.** Filename
 grammar, permissions, the audience gate, age flagging, the replace — it owns all of it, and every
 frontend calls it rather than re-deriving it: the `cc` `handoff` and `handoff-ingest` skills
 directly, `cw` through the `x-cw` mcp server's adapters. sline keeps its own read-only glob for

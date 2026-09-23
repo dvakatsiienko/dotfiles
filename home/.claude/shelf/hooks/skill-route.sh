@@ -11,4 +11,4 @@ case "$prompt" in \<*) exit 0;; esac   # a <task-notification> is the harness ta
 case "$prompt" in /*) prompt=$(printf '%s' "$prompt" | sed '1s#^/[^ ]*##');; esac
 prompt=$(printf '%s' "$prompt" | sed -e 's/^[[:space:]]*//' -e '/./,$!d')
 [ -z "$prompt" ] && exit 0
-timeout 8 ~/dotfiles/script/op-run.sh node ~/dotfiles/script/skill-route.ts "$prompt" 2>/dev/null || true
+timeout 8 ~/frame/script/op-run.sh node ~/frame/script/skill-route.ts "$prompt" 2>/dev/null || true

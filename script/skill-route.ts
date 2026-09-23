@@ -37,8 +37,8 @@ const logPath = `${process.env.HOME}/.claude/shelf/jev/route.log`;
 mkdirSync(`${process.env.HOME}/.claude/shelf/jev`, { recursive: true });
 
 const pluginDirs = {
-    cclio: `${process.env.HOME}/dotfiles/cclio/plugin-cclio/skills`,
-    x: `${process.env.HOME}/dotfiles/home/.claude/plugin-x/skills`,
+    cclio: `${process.env.HOME}/frame/cclio/plugin-cclio/skills`,
+    x: `${process.env.HOME}/frame/home/.claude/plugin-x/skills`,
 };
 
 const skills = Object.entries(pluginDirs).flatMap(([prefix, dir]) =>

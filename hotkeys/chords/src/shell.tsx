@@ -54,7 +54,7 @@ export const App = () => {
 
             <footer className='border-t border-line pt-3 text-[12px] text-ink-2'>
                 seeded by <span className='font-mono'>pnpm hotkeys:scan</span>{' '}
-                in dotfiles — wispr flow, magnet, bartender, cursor and macos
+                in frame — wispr flow, magnet, bartender, cursor and macos
                 are read from their files; raycast, cleanshot and 1password are
                 typed by hand in{' '}
                 <span className='font-mono'>hotkeys/manual.ts</span>. notes live

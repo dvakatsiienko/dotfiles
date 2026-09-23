@@ -124,21 +124,21 @@ describe('pre-push stdin', () => {
 describe('remote ownership', () => {
     test('accepts both url shapes for a repo we own', () => {
         for (const url of [
-            'git@github.com:dvakatsiienko/dotfiles.git',
-            'https://github.com/dvakatsiienko/dotfiles',
-            'https://github.com/dvakatsiienko/dotfiles.git',
-            'ssh://git@github.com/dvakatsiienko/dotfiles.git',
+            'git@github.com:dvakatsiienko/frame.git',
+            'https://github.com/dvakatsiienko/frame',
+            'https://github.com/dvakatsiienko/frame.git',
+            'ssh://git@github.com/dvakatsiienko/frame.git',
         ])
             expect(parseRemote(url).ok, url).toBe(true);
     });
 
     test('carries owner and repo out, so a commit url can be built', () => {
-        const parsed = parseRemote('git@github.com:dvakatsiienko/dotfiles.git');
+        const parsed = parseRemote('git@github.com:dvakatsiienko/frame.git');
 
         expect(parsed.ok && parsed.remote).toEqual({
             host: 'github.com',
             owner: 'dvakatsiienko',
-            repo: 'dotfiles',
+            repo: 'frame',
         });
     });
 

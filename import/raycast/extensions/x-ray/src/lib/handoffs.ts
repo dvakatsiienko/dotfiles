@@ -52,12 +52,7 @@ export const toAge = (modifiedAt: number) => {
 // Raycast resolves a bare command against its own PATH, which carries /opt/homebrew/bin —
 // the same assumption `gmail-block-sender` already makes for `gmailctl`. That node is not
 // the repo's fnm one, whose path is per-shell and so cannot be named from here.
-const storeCli = join(
-    homedir(),
-    'dotfiles',
-    'script',
-    'skill-handoff-store.ts',
-);
+const storeCli = join(homedir(), 'frame', 'script', 'skill-handoff-store.ts');
 
 // Mirrors cclio/.claude/hooks/boot-prefetch.sh. The grammar is
 // `<audience>--<lane>--<topic>--by-<author>--<stamp>`, optionally suffixed `-shared`;

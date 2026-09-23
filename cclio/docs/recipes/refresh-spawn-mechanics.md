@@ -14,7 +14,7 @@ Keeps the spawn evidence base true against the current claude code build. Recipe
 - re-verify every [verified] row against the current cc build — the standing mechanical pass
 - workflow per-call `effort` — the one open flag question left
 - 🆕 the cclio-stack bleed (§11 of the evidence base): a designed probe for why a
-  `cwd: ~/dotfiles` `--bg` session once loaded the coordinator's stack — non-deterministic,
+  `cwd: ~/frame` `--bg` session once loaded the coordinator's stack — non-deterministic,
   trigger unknown, cost is a session quietly wearing cclio's brain
 - new spawn surfaces or flags in the cc changelog since 2.1.251
 - orchestrator best-practices sweep — BOUNDED: one pass, findings land as evidence-base rows
@@ -66,7 +66,7 @@ against a [verified] row.
 probes, 3 subagents, 2 one-agent workflows, both stop routes.
 
 - 🚨 **the subagent stack flipped AGAIN: a subagent inherits the parent's whole stack, whatever
-  its cwd.** two cclio subagents at `~/dotfiles/docs` and `~/dotfiles` both carried
+  its cwd.** two cclio subagents at `~/frame/docs` and `~/frame` both carried
   `cclio/CLAUDE.md` + every memory leaf. tagged [volatile] in §7 — three builds, three answers.
 - **the bleed is explained for subagents** (inheritance) and **unreproduced for `--bg`**: 2/2
   clean on this build. the §11 row stays as a watch, not a rule.
@@ -91,7 +91,7 @@ probes, 3 subagents, 2 one-agent workflows, both stop routes.
 **what contradicted a [verified] row** — four, three of them load-bearing:
 
 - 🚨 **a subagent starts in the PARENT'S CWD, not the workspace root.** discriminated from
-  `~/dotfiles/docs`: parent and child both landed there. the old rule said repo root.
+  `~/frame/docs`: parent and child both landed there. the old rule said repo root.
 - 🚨 **`claude --bg '<prompt>'` DOES run the prompt.** the transcript carries the prompt as a user
   record and the answer as the first assistant text. the old rule said it comes up idle and needs
   a follow-up `SendMessage` — a wasted round trip on every coder spawn since.

@@ -5,7 +5,7 @@ description: load when dima types /cclio:evergreen, asks «updates?», «what's 
 
 # /cclio:evergreen 🧬 — the news layer over renovate and brew
 
-renovate opens the PRs (`renovate.json` in `bytes` and `dotfiles`: patches daily + automerge on
+renovate opens the PRs (`renovate.json` in `bytes` and `frame`: patches daily + automerge on
 green, minors monday 09:00 kyiv, majors one PR each with no schedule so they land as found after
 the 3-day cooldown, 0.x never automerges). this skill is the half a bot cannot do: **read, judge,
 tell dima only what he would want to know, act on his word.** 🌲 is her commit prefix (renovate
@@ -148,7 +148,7 @@ same message («hold #61») subtract from the round.
   `npx -y skills@latest update -p -y` in `~/projects/bytes` (`skills-lock.json`: next.js, shadcn,
   turborepo) and in `~/projects/bytes/apps/x-com-chat` (the convex set — sat 5 months stale
   because nobody looked there), then `npx -y skills@latest update -g -y` once
-  (`~/.agents/.skill-lock.json`, untracked — snapshot it to the scratchpad first). dotfiles has
+  (`~/.agents/.skill-lock.json`, untracked — snapshot it to the scratchpad first). frame has
   no project skills. `greptile skills update` rides the same lane. the digest line per scope is
   the lockfile diff (`git diff -- '**/skills-lock.json'` in bytes, a byte-compare for global);
   a moved hash names the skill.

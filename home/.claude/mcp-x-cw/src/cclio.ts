@@ -73,7 +73,7 @@ export function registerCclioTools(server: McpServer) {
             const stat = statOrNull(SNAPSHOT_PATH);
             if (!body || !stat)
                 return text(
-                    `no snapshot at ${SNAPSHOT_PATH}. it is compiled at every cclio halt; ask Dima to run \`pnpm skill:cclio-mode-snapshot\` in ~/dotfiles.`,
+                    `no snapshot at ${SNAPSHOT_PATH}. it is compiled at every cclio halt; ask Dima to run \`pnpm skill:cclio-mode-snapshot\` in ~/frame.`,
                 );
             const ageH = ((Date.now() - stat.mtimeMs) / 3_600_000).toFixed(1);
             const pages = paginate(body);

@@ -70,7 +70,7 @@ a page you named, never navigates from a site root to the page you meant.
   scheme opens the macos app.
 - **file paths are links too, and still in backticks.** backticks go *inside* the label.
   - in a chat reply the target is **absolute** with no `~` and uses the editor scheme, since a
-    reply has no base path: `[`rules/fleet-voice.md`](cursor://file/Users/dima/dotfiles/home/.claude/rules/fleet-voice.md)`
+    reply has no base path: `[`rules/fleet-voice.md`](cursor://file/Users/dima/frame/home/.claude/rules/fleet-voice.md)`
   - 📌 `file:///…` and `vscode://file/…` also route if ever needed. cursor is the editor here.
   - **inside a repo file, a plain relative markdown link** — `[pm](pm.md)` — renders in every
     viewer; no scheme.
@@ -122,7 +122,7 @@ lowercase reads flatter and flows; a capital mid-line is a bump the eye clears.
 - our linear, in full: ticket titles, bodies, comments
 - our own memory files and rules
 - our own skills
-- readmes and docs of repos we own (`dotfiles`, `bytes`, …)
+- readmes and docs of repos we own (`frame`, `bytes`, …)
 - commit subjects and bodies, in our own repos
 
 **off** — never lowercase:

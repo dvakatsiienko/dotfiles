@@ -19,7 +19,7 @@ the SessionStart hook printed `=== cclio boot digest · <time> ===` at the top o
 inbox, x-queue head, the roadmap block, stuck reminders, live sessions · worktrees · coder prs, renovate
 counts, repos vs origin, the settings symlink, the flawlog tail. **one shell round at most:**
 - digest older than 30 min (its header time vs now — a `/clear` in the evening prints a digest that is
-  stale by midday) or absent → re-run it: `BOOT_STRICT=1 ~/dotfiles/cclio/.claude/hooks/boot-prefetch.sh`.
+  stale by midday) or absent → re-run it: `BOOT_STRICT=1 ~/frame/cclio/.claude/hooks/boot-prefetch.sh`.
   fresh → zero shell rounds before the board.
 - a `🚨 FAIL ·` line → report it FIRST, before any work. a check that could not run prints FAIL, never
   nothing — `=== all checks green ===` is the only green.

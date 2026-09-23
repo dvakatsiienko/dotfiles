@@ -5,11 +5,11 @@
 
   - schedule — always on: RunAtLoad plus KeepAlive, relaunch throttled to one start per 10s
   - reads — the jsonl x-monitor-hotkey-stats appends; this job never touches the keyboard
-  - writes — ~/dotfiles/hotkeys/hotkeys.json on a rescan, and hotkeys/manual.ts on a ui rebind
+  - writes — ~/frame/hotkeys/hotkeys.json on a rescan, and hotkeys/manual.ts on a ui rebind
   - serves — http://localhost:7373 — chords/dist plus /api/hotkeys, /api/notes, /api/manual, and /api/presses as server-sent events
   - idle cost — one stat per log file every 2s; the month's log is reparsed only after a change
   - output — ~/.local/share/x-monitor-hotkey-live/daemon.log, daemon.err.log for stderr
-  - source — ~/dotfiles/hotkeys/live.ts
+  - source — ~/frame/hotkeys/live.ts
   - reader — pnpm hotkeys:top
   - open — http://localhost:7373
   - manual — pnpm hotkeys:live runs the same watcher and server in a terminal
@@ -30,7 +30,7 @@
     <array>
         <!-- launchd does not expand ~, so both paths are absolute by necessity. -->
         <string>/Users/dima/.local/share/fnm/aliases/default/bin/node</string>
-        <string>/Users/dima/dotfiles/hotkeys/live.ts</string>
+        <string>/Users/dima/frame/hotkeys/live.ts</string>
         <string>--watch</string>
     </array>
 

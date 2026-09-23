@@ -256,7 +256,7 @@ export const checkVersionAgreement = (
 /**
  * ? The `packages:` entries of a pnpm workspace, and only those.
  * ?
- * ? Reading every `- ` line is the obvious shortcut and it is wrong: dotfiles'
+ * ? Reading every `- ` line is the obvious shortcut and it is wrong: frame's
  * ? own workspace also lists `minimumReleaseAgeExclude`, whose items are package
  * ? NAMES rather than paths. So the block is bounded by indentation — items
  * ? belong to `packages:` until a line returns to column zero.
@@ -296,7 +296,7 @@ export const findManifestPaths = (repoRoot: string) => {
 
     for (const glob of readWorkspaceGlobs(repoRoot)) {
         // ? Two shapes carry every workspace we have: `dir/*` fans out one level,
-        // ? anything else names a package directly (dotfiles uses the second).
+        // ? anything else names a package directly (frame uses the second).
         const dirs = glob.endsWith('/*')
             ? childDirs(repoRoot, glob.slice(0, -2))
             : [glob];

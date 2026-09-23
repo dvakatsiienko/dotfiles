@@ -50,7 +50,7 @@ the next call, and a dotfile never shows in `ls` or dedupe.
 ```bash
 URL='<the youtube url>'
 SHELF="$HOME/.claude/shelf/yt-transcripts"
-SCRIPTS="$HOME/dotfiles/home/.claude/plugin-x/skills/yt-transcript/scripts"
+SCRIPTS="$HOME/frame/home/.claude/plugin-x/skills/yt-transcript/scripts"
 WORK="$SHELF/.work-$$"   # per run: two parallel transits shared one dir and one's delete killed the other's meta.json (2026-09-10)
 mkdir -p "$SHELF" "$WORK"
 # after step 1 exists, this belongs in the preamble too:

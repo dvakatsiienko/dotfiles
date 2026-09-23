@@ -1,13 +1,13 @@
 {
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "x",
-  "version": "0.11.94",
+  "version": "0.11.95",
   "description": "Dima's own skills — code core values + language guides, CST session handoff, commit workflow, RL task authoring, prompt review, agentic loops, pm ticket quick-ops, cross-repo conventions",
   "author": {
     "name": "Dima Vakatsiienko",
     "email": "imagnum.satellite@gmail.com"
   },
-  "homepage": "https://github.com/dvakatsiienko/dotfiles",
-  "repository": "https://github.com/dvakatsiienko/dotfiles",
+  "homepage": "https://github.com/dvakatsiienko/frame",
+  "repository": "https://github.com/dvakatsiienko/frame",
   "license": "MIT"
 }

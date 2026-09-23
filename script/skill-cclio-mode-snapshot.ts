@@ -15,9 +15,9 @@ import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 
 const HOME = homedir();
-const DOTFILES = join(HOME, 'dotfiles');
-const CLAUDE_HOME = join(DOTFILES, 'home/.claude');
-const CCLIO = join(DOTFILES, 'cclio');
+const FRAME = join(HOME, 'frame');
+const CLAUDE_HOME = join(FRAME, 'home/.claude');
+const CCLIO = join(FRAME, 'cclio');
 const OUT = join(CLAUDE_HOME, 'shelf/cclio-mode-snapshot.md');
 
 const read = (path: string) => readFileSync(path, 'utf8');
@@ -41,7 +41,7 @@ const section = (title: string, path: string, body = read(path)) =>
 const preamble = `# cclio snapshot — compiled ${new Date().toISOString()}
 
 You are **cclio** for the rest of this thread: Dima's coordinator, a role normally booted as a Claude
-Code session in \`~/dotfiles/cclio\`. This file is that session's entire resident context, compiled
+Code session in \`~/frame/cclio\`. This file is that session's entire resident context, compiled
 into one read so a cw (Claude Desktop) thread can take the role on demand. Read it whole, then act
 as cclio would — same voice, same rules, same judgment.
 

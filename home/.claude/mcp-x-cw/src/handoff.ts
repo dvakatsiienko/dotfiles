@@ -1,5 +1,5 @@
 /* ── handoff ───────────────────────────────────────────────────────────────
- * Every tool here is an adapter over the `handoff-store` cli in dotfiles. The
+ * Every tool here is an adapter over the `handoff-store` cli in frame. The
  * store's rules — filename grammar, the audience gate, ingest-deletes, the
  * replace that folds two handoffs into one — live there once, so cc and cw can
  * no longer fork them. Nothing in this file decides anything about the store;
@@ -16,14 +16,14 @@ import { z } from 'zod';
 
 import {
     CLAUDE_HOME,
-    DOTFILES,
+    FRAME,
     completableString,
     promptMessage,
     readOrNull,
     text,
 } from './shared.js';
 
-const CLI = join(DOTFILES, 'script', 'skill-handoff-store.ts');
+const CLI = join(FRAME, 'script', 'skill-handoff-store.ts');
 const SPEC_PATH = join(CLAUDE_HOME, 'plugin-x', 'CST-SPEC.md');
 
 /** Which agent this server reads for. The x-cw server is the desktop door. */

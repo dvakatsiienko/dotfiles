@@ -9,7 +9,7 @@
 
 MODE=${1:---boot}
 SEEN="$HOME/.claude/shelf/ci-seen.json"
-REPOS="dvakatsiienko/dotfiles dvakatsiienko/bytes"
+REPOS="dvakatsiienko/frame dvakatsiienko/bytes"
 [ -s "$SEEN" ] || echo '[]' > "$SEEN"
 
 reds() {

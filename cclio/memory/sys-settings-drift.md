@@ -1,7 +1,7 @@
 # settings-json drift
 
 `~/.claude/settings.json` is **not static** — CC writes it at runtime (plugin toggles, `autoMode`
-learning), so the symlink into dotfiles is the only thing keeping repo and live equal.
+learning), so the symlink into frame is the only thing keeping repo and live equal.
 
 The drift traced to commit `d03f3da`, which placed a real file where the link belonged; the repo
 copy froze while live kept moving, surfacing only at a pre-push refusal months later.

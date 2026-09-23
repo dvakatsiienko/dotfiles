@@ -1,4 +1,4 @@
-# AGENTS.md: dotfiles
+# AGENTS.md: frame
 
 Hey.
 Welcome to my repo with dotfiles. Here we improve the dotfiles by themselves, build other
@@ -30,9 +30,9 @@ this project's own config. The global one nests under `home/` precisely so the t
 ### the link commands
 
 ```bash
-pnpm dotfiles:link apply                  # link everything not linked yet
-pnpm dotfiles:link register ~/.foo        # move a file into the mirror and link it back
-pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+pnpm frame:link apply                  # link everything not linked yet
+pnpm frame:link register ~/.foo        # move a file into the mirror and link it back
+pnpm frame:link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
 ```
 
 `package.json` `scripts` is the full list — read it rather than a copy here.
@@ -48,7 +48,7 @@ sat in four places on 2026-09-19). the one crossing: a feature's scheduled **dae
 
 ## scripts
 
-- **`script/lib/manifest.ts`** decides (walks `home/`, derives the expected link set), `dotfiles-link.ts`
+- **`script/lib/manifest.ts`** decides (walks `home/`, derives the expected link set), `frame-link.ts`
   acts — status / apply / untrack, idempotent, refuses to clobber a real file. Never run the
   manifest directly.
 - **`macos-setup.ts`** — `brew bundle` against the root `Brewfile`, the macOS defaults this repo
@@ -57,11 +57,11 @@ sat in four places on 2026-09-19). the one crossing: a feature's scheduled **dae
   `erasableSyntaxOnly`, which bans any syntax needing real compilation. `pnpm typecheck` checks.
 - **`pnpm typecheck` is the type gate, never a build** — `ray build` bundles with esbuild and reports success over type errors (typescript 7 is the native port, ray finds no compiler api to call); root typecheck recurses into every workspace member.
 - **`biome.jsonc` stops descending at an excluded directory** — re-including anything under `!**/import` names every ancestor; and probe the real config, never a minimal repro, because `extends` supplies patterns a repro lacks.
-- **`pnpm toolchain:sync`** writes `.node-version` (major), `packageManager` and `engines` in dotfiles + bytes from the installed node and pnpm; renovate is told off those pins. run it after any `fnm install` or pnpm bump.
+- **`pnpm toolchain:sync`** writes `.node-version` (major), `packageManager` and `engines` in frame + bytes from the installed node and pnpm; renovate is told off those pins. run it after any `fnm install` or pnpm bump.
 - Anything directly under `script/` is a runnable entrypoint with a matching `pnpm` script;
   `script/lib/` is library code, never invoked directly.
 - Formatter and linter is **biome** (`pnpm check`). Git hooks run through **lefthook** — biome on
-  staged files plus `pnpm typecheck` and `pnpm test` at commit, `dotfiles-link` at push. Nothing in
+  staged files plus `pnpm typecheck` and `pnpm test` at commit, `frame-link` at push. Nothing in
   a hook writes to your files. 📌 `pnpm check` itself WRITES repo-wide — run biome on your own
   paths only; lefthook already formats what you stage (it reformatted `hotkeys/map.html`
   under a coder, 2026-09-15).

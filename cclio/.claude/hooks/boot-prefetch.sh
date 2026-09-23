@@ -51,22 +51,22 @@ if [ -r "$VAULT/inbox.md" ]; then
   [ "$n" = 0 ] && echo "clean" || echo "$n content lines — parse into flowlog before any work"
   grep -q 'FROZEN' "$VAULT/inbox.md" && echo "FROZEN marker present — do not touch"
   echo "-- inbox, laned by jev (script/lib/jev-questions.ts; ⏳ = band 0.30–0.70, dima's call) --"
-  timeout 25 ~/dotfiles/script/op-run.sh node ~/dotfiles/script/inbox-triage.ts 2>/dev/null || echo "jev triage unavailable — lane by hand"
+  timeout 25 ~/frame/script/op-run.sh node ~/frame/script/inbox-triage.ts 2>/dev/null || echo "jev triage unavailable — lane by hand"
 else
   fail "inbox unreadable (icloud not mounted?)"
 fi
 
 echo "-- jev vet (pnpm jev:vet ok|miss <flow> <note> records a verdict; a miss restarts the window) --"
-node "$HOME/dotfiles/script/jev-vet.ts" 2>/dev/null || fail "jev vet registry unreadable"
-health=$(timeout 15 "$HOME/dotfiles/script/op-run.sh" node "$HOME/dotfiles/script/jev-report.ts" --health 2>&1) && echo "jev health: $health" || fail "jev: ${health:-probe did not run}"
+node "$HOME/frame/script/jev-vet.ts" 2>/dev/null || fail "jev vet registry unreadable"
+health=$(timeout 15 "$HOME/frame/script/op-run.sh" node "$HOME/frame/script/jev-report.ts" --health 2>&1) && echo "jev health: $health" || fail "jev: ${health:-probe did not run}"
 
 echo "-- x-queue head --"
 awk '/^## queue/{flag=1; next} flag && NF {print; count++} count==3{exit}' \
-  "$HOME/dotfiles/cclio/.claude/x-queue.md" 2>/dev/null || fail "no x-queue file"
+  "$HOME/frame/cclio/.claude/x-queue.md" 2>/dev/null || fail "no x-queue file"
 
-"$HOME/dotfiles/cclio/.claude/hooks/gazette-trail.sh"   # gazette rides the memory import, not stdout
+"$HOME/frame/cclio/.claude/hooks/gazette-trail.sh"   # gazette rides the memory import, not stdout
 
-roadmap=$("$HOME/dotfiles/cclio/.claude/hooks/roadmap-prefetch.sh")
+roadmap=$("$HOME/frame/cclio/.claude/hooks/roadmap-prefetch.sh")
 if echo "$roadmap" | grep -q '^-- scope'; then
   echo "$roadmap"
 else
@@ -74,20 +74,20 @@ else
 fi
 
 echo "-- stuck reminders (raise every one in the opening board) --"
-grep '^⏰📌' "$HOME/dotfiles/cclio/memory/_reminders.md" 2>/dev/null || echo "none"
+grep '^⏰📌' "$HOME/frame/cclio/memory/_reminders.md" 2>/dev/null || echo "none"
 
 echo "-- fleet: live sessions · worktrees · coder prs --"
 live=$(jq -r '.cwd // empty' "$HOME"/.claude/sessions/*.json 2>/dev/null | sort | uniq -c | sed 's/^ *//')
 [ -n "$live" ] && echo "$live" || echo "no live sessions registered"
 wt=$(git -C "$HOME/projects/bytes" worktree list 2>/dev/null | grep -v '^/Users/dima/projects/bytes ' )
 [ -n "$wt" ] && echo "$wt" || echo "no bytes worktrees"
-for repo in bytes dotfiles; do
+for repo in bytes frame; do
   prs=$(gh pr list -R "dvakatsiienko/$repo" --search 'head:coder/' --json number,title,headRefName --jq '.[] | "#\(.number) \(.headRefName) — \(.title)"' 2>/dev/null) || { fail "gh unreachable for $repo"; continue; }
   [ -n "$prs" ] && echo "$repo coder prs: $prs" || echo "$repo: no open coder prs"
 done
 
 echo "-- renovate (digest is /cclio:evergreen, on his word) --"
-for repo in bytes dotfiles; do
+for repo in bytes frame; do
   gh pr list -R "dvakatsiienko/$repo" --search 'author:app/renovate' --json number,createdAt 2>/dev/null \
     | jq -r --arg r "$repo" 'if length == 0 then "\($r): 0" else "\($r): \(length) open · oldest \(min_by(.createdAt).createdAt[:10])" end' \
     || fail "gh unreachable for renovate/$repo"
@@ -96,10 +96,10 @@ jq -r --arg today "$(date +%Y-%m-%d)" '(map(.markedAt) | max) as $m
   | ($today | strptime("%Y-%m-%d") | mktime) as $t
   | ($t - (($t | strftime("%u") | tonumber) - 1) * 86400 | strftime("%Y-%m-%d")) as $monday
   | "apps lane: \(length) apps · last marked \($m) · " + (if $m < $monday then "DUE (a monday passed) — pnpm skill:evergreen-apps" else "next monday" end)' \
-  "$HOME/dotfiles/cclio/evergreen/sources.json" || fail "apps lane index unreadable"
+  "$HOME/frame/cclio/evergreen/sources.json" || fail "apps lane index unreadable"
 
 echo "-- repos vs origin (behind-only → loot as a freebie; ahead+behind → propose the rebase) --"
-for repo in "$HOME/dotfiles" "$HOME/projects/bytes"; do
+for repo in "$HOME/frame" "$HOME/projects/bytes"; do
   git -C "$repo" fetch -q 2>/dev/null || fail "fetch failed in $(basename "$repo")"
   counts=$(git -C "$repo" rev-list --left-right --count HEAD...@{upstream} 2>/dev/null)
   echo "$(basename "$repo"): ahead ${counts%%	*} · behind ${counts##*	}"

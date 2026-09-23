@@ -29,7 +29,7 @@ whose whole audience benefits. wrong-bucket placement is the mistake this map ki
 
 📌 **the worked example — how the audience test runs:** pnpm FEELS coder-specific (topic: package
 management), so the reflex says `~/projects/AGENTS.md`. but ask who benefits: any session may run
-pnpm, even in non-coding projects like `~/dotfiles` — so it parks in root. run every placement
+pnpm, even in non-coding projects like `~/frame` — so it parks in root. run every placement
 through this shape: name the audience, ignore the topic.
 
 ## the deep layers — when the router is not enough

@@ -367,7 +367,7 @@ func TestFormatWindowRollover(t *testing.T) {
 
 func TestNormalizeRemoteURL(t *testing.T) {
 	cases := map[string]string{
-		"git@github.com:dvakatsiienko/dotfiles.git": "https://github.com/dvakatsiienko/dotfiles",
+		"git@github.com:dvakatsiienko/frame.git": "https://github.com/dvakatsiienko/frame",
 		"https://github.com/user/repo.git":          "https://github.com/user/repo",
 		"https://github.com/user/repo":              "https://github.com/user/repo",
 		"ssh://weird/path":                          "",
@@ -582,15 +582,15 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 	if err != nil {
 		t.Skip("no home dir")
 	}
-	currentDir := filepath.Join(home, "dotfiles")
+	currentDir := filepath.Join(home, "frame")
 
 	// The link needs the absolute path; only the rendered half wears the ~.
 	abs, display := workingDir(currentDir)
 	if abs != currentDir {
 		t.Errorf("abs = %q, want %q", abs, currentDir)
 	}
-	if display != "~/dotfiles" {
-		t.Errorf("display = %q, want ~/dotfiles", display)
+	if display != "~/frame" {
+		t.Errorf("display = %q, want ~/frame", display)
 	}
 
 	if !strings.Contains(dirSegment(currentDir), "cursor://file"+abs) {
@@ -599,7 +599,7 @@ func TestWorkingDirShortensButKeepsTheAbsolutePath(t *testing.T) {
 }
 
 func TestEditorURL(t *testing.T) {
-	if got := editorURL("/Users/dima/dotfiles"); got != "cursor://file/Users/dima/dotfiles" {
+	if got := editorURL("/Users/dima/frame"); got != "cursor://file/Users/dima/frame" {
 		t.Errorf("got %q", got)
 	}
 	if got := editorURL(""); got != "" {
@@ -665,13 +665,13 @@ func TestOutputStyleBadgeLinksItsSource(t *testing.T) {
 
 // Split out of TestOutputStyleBadgeLinksItsSource, which only builds link
 // strings and runs anywhere. This half asserts the machine is actually wired
-// up, which is true only where dotfiles:link has run — so on a CI runner, or
+// up, which is true only where frame:link has run — so on a CI runner, or
 // any checkout that is not the live one, it skips rather than fails.
 func TestOutputStyleFileIsLinkedOnDisk(t *testing.T) {
 	path := claudeHome("output-styles", "output-ELI5.md")
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
-		t.Skipf("no style file at %s — dotfiles:link has not run here", path)
+		t.Skipf("no style file at %s — frame:link has not run here", path)
 	}
 	if err != nil {
 		t.Errorf("the linked style file must actually exist: %v", err)

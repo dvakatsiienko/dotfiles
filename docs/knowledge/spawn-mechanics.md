@@ -23,12 +23,12 @@ runs on anthropic machines and nobody in the fleet can start one.
 
 - runs inside the parent's **own os process** [verified]
 - **starts in the parent's SHELL cwd** [verified 2.1.258] — the cwd the parent's `Bash` tool sits
-  in, mutated by any earlier `cd`. a cclio parent (registry cwd `~/dotfiles/cclio`) whose last Bash
-  call had `cd ~/dotfiles/docs` produced a child at `~/dotfiles/docs`; after `cd ~/dotfiles`, the
-  next child started at `~/dotfiles`. the shell cwd sets the child's cwd only, not its context
+  in, mutated by any earlier `cd`. a cclio parent (registry cwd `~/frame/cclio`) whose last Bash
+  call had `cd ~/frame/docs` produced a child at `~/frame/docs`; after `cd ~/frame`, the
+  next child started at `~/frame`. the shell cwd sets the child's cwd only, not its context
   stack (§7).
   - 🚨 **reversed on 2.1.251**: through 2.1.239 a subagent started at the *workspace root*
-    (`~/dotfiles/cclio` → `~/dotfiles`). absolute paths in briefs are correct under both.
+    (`~/frame/cclio` → `~/frame`). absolute paths in briefs are correct under both.
 - **async** [verified] — the parent keeps its turn; completion arrives as a `<task-notification>`
   user-role message with the agent's final text plus a token/duration block.
 - **model is settable and honoured** [verified] — `model: "haiku"` from an opus parent produced
@@ -62,7 +62,7 @@ runs on anthropic machines and nobody in the fleet can start one.
   cannot see unpushed commits.** governed by `worktree.baseRef`: default `fresh` = origin, `head`
   = local HEAD.
 - **auto-removed when the agent changes nothing** [verified] — `git worktree list` clean afterwards
-- ⚠️ in `dotfiles` a worktree **cannot push** and must **never run `pnpm`** — it rewrites the
+- ⚠️ in `frame` a worktree **cannot push** and must **never run `pnpm`** — it rewrites the
   shared `.git/hooks` to the worktree path (`rules/fleet-hazards.md`). brief both bans explicitly.
 
 ## 4. workflow — the `Workflow` tool
@@ -136,12 +136,12 @@ for any claim about it:
 ## 7. base context — what a spawn knows before it reads anything
 
 **a background session's stack is decided by the launch shell's cwd, recorded faithfully in the
-registry** [verified] — a `--bg` from `~/dotfiles/docs` recorded `cwd: /Users/dima/dotfiles/docs`
+registry** [verified] — a `--bg` from `~/frame/docs` recorded `cwd: /Users/dima/frame/docs`
 and loaded `~/.claude/CLAUDE.md` + `rules/*` + `dotfiles/CLAUDE.md` + the auto-memory index, and
 nothing below that. 📌 **`cd` before `--bg` is the entire context-selection mechanism.**
 
 **a subagent INHERITS the parent's context stack, whatever its own cwd** [volatile — verified
-2.1.258] — two cclio subagents (opus at `~/dotfiles/docs`, haiku at `~/dotfiles`) both held
+2.1.258] — two cclio subagents (opus at `~/frame/docs`, haiku at `~/frame`) both held
 `cclio/CLAUDE.md` and every `cclio/memory/*` leaf and quoted its first sentence on request; a
 `--bg` from the same shell and cwd held neither.
 🚨 **reversed 2.1.251** (re-derive from own cwd), which had reversed 2.1.239 (inherit). three
@@ -227,8 +227,8 @@ visible at claude.ai/code, model and effort settable, non-blocking, stopped by t
   and not `ListAgents` [verified 2.1.239]; whether it also hides the in-tui agent view [unknown].
 - ⚠️ **the cclio-stack bleed — explained for subagents, unreproduced for `--bg`.** subagent
   inheritance (§7) is what the 2026-08-30 run saw from the inside. its one `--bg` observation
-  (registry cwd `~/dotfiles`, cclio leaves loaded) did not reproduce: two `--bg` probes on 2.1.258
-  from `~/dotfiles` and `~/dotfiles/docs` loaded nothing under `cclio/`. 1 bleed in 3 bg launches
+  (registry cwd `~/frame`, cclio leaves loaded) did not reproduce: two `--bg` probes on 2.1.258
+  from `~/frame` and `~/frame/docs` loaded nothing under `cclio/`. 1 bleed in 3 bg launches
   across two builds; the daemon recording the first `--bg` call's cwd (§5) is the remaining
   suspect. **a bg coder's brief asks it to name its loaded CLAUDE.md paths in its first reply** —
   the only detector.
@@ -258,11 +258,11 @@ jq '.respawnFlags, .cwd, .template' ~/.claude/jobs/<jobId>/state.json
 ps -o pid,ppid,command -p <bg-pid>                    # ppid → bg-spare slot, not the parent
 
 # context stack: launch cwd decides — run from two directories, compare
-cd ~/dotfiles/docs && claude --bg -n probe-cwd --model haiku '…list your CLAUDE.md paths…'
+cd ~/frame/docs && claude --bg -n probe-cwd --model haiku '…list your CLAUDE.md paths…'
 
 # subagent cwd — must run from a SUBDIRECTORY of a repo to discriminate
-#   parent ~/dotfiles/docs → child ~/dotfiles/docs  = parent's cwd (2.1.251)
-#   parent ~/dotfiles/docs → child ~/dotfiles       = workspace root (2.1.239)
+#   parent ~/frame/docs → child ~/frame/docs  = parent's cwd (2.1.251)
+#   parent ~/frame/docs → child ~/frame       = workspace root (2.1.239)
 
 # forced tool calls — the only reliable capability test inside a subagent
 #   ToolSearch 'select:ListAgents,Workflow' → "No matching deferred tools found" = absent

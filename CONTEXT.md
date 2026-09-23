@@ -1,4 +1,4 @@
-# .dotfiles
+# frame
 
 Personal macOS dotfiles: shell/git/terminal configuration plus the Claude Code
 workflow layer (`home/.claude/`) — sline, the plugin-x, and agent docs.

@@ -13,7 +13,7 @@ import {
 } from '@raycast/api';
 
 const run = promisify(execFile);
-const gmailDir = join(homedir(), 'dotfiles', 'gmail');
+const gmailDir = join(homedir(), 'frame', 'gmail');
 const blocklistPath = join(gmailDir, 'blocklist.json');
 
 const GmailBlockSender = () => {

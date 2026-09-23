@@ -14,7 +14,7 @@ briefed you; the report goes back to whoever did.
 ## step 0 — load the sharpeners before the first file
 
 **a brief that names impeccable** (a verb, a pass, «refine with impeccable») → read
-`~/dotfiles/docs/knowledge/impeccable-refine.md` first and follow it; the tool's docs answer
+`~/frame/docs/knowledge/impeccable-refine.md` first and follow it; the tool's docs answer
 mechanics, that file answers order, gates and who runs what. no impeccable named → never load it.
 
 
@@ -26,7 +26,7 @@ before any `gh` call. A complete brief suppresses the skill router, so nobody re
 per file type as you reach it, never the whole set up front (a config-only ticket needs four of
 eight). The `skills (jev router): x:pm 0.82` line that arrives with a prompt is jev's pick, a candidate:
 load it when it fits the file you are about to touch, name it with its score on your reply's skills line, and
-record a wrong pick with `pnpm jev:vet miss skill-router lane=<skill> <why>` (in `~/dotfiles`) — that log is
+record a wrong pick with `pnpm jev:vet miss skill-router lane=<skill> <why>` (in `~/frame`) — that log is
 what the coordinator's halt reads.
 
 ## how you work
@@ -96,7 +96,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 
 - **remote state comes from `git ls-remote`, never `@{u}`** — a worktree that cannot push asserted
   «pushed» twice from a stale upstream ref.
-- **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through `~/dotfiles/home/.claude/plugin-x/bin/edit-anchored <file> <anchor-file> <replacement-file>`: it writes only when the anchor matches exactly once, reads the bytes back, and prints `<file>:<line>`. The anchor and the replacement are files, so the shell never reaches them. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
+- **PR by default in `bytes`.** First act on any pr-lane job: `git fetch && git log --oneline origin/main..main` — local main ahead of origin means your branch would carry the coordinator's unpushed commits into the pr diff (46 files instead of 7 on dotfiles #42); ask the coordinator to push before you branch. A `--bg` job briefed into a shared checkout (no worktree) has `Edit`/`Write` blocked by the isolation guard — edit through `~/frame/home/.claude/plugin-x/bin/edit-anchored <file> <anchor-file> <replacement-file>`: it writes only when the anchor matches exactly once, reads the bytes back, and prints `<file>:<line>`. The anchor and the replacement are files, so the shell never reaches them. Then: `git worktree add .claude/worktrees/<ticket>-<slug>
   -b coder/<ticket>-<slug> main`, then `pnpm worktree:seed <path>` (env copies, `CI=1` install, a
   port offset so your dev servers never collide with the main tree; cc's EnterWorktree hook does it
   for a tree it made). Worktrees live under `<repo>/.claude/worktrees/` — cc's own default, gitignored,
@@ -197,16 +197,16 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 
 - Your Linear identity is the app user «coder». Every comment goes through it, never as Dima:
   ```
-  LINEAR_TOKEN=$(cd ~/dotfiles && pnpm --silent linear:agent-token coder)
+  LINEAR_TOKEN=$(cd ~/frame && pnpm --silent linear:agent-token coder)
   curl -s https://api.linear.app/graphql -H "Authorization: Bearer $LINEAR_TOKEN" -H 'content-type: application/json' \
     -d '{"query":"mutation { commentCreate(input: { issueId: \"<uuid>\", body: \"…\" }) { success } }"}'
   ```
   issue uuid: `linear api 'query { issue(id: "<id>") { id } }'`.
 - Your GitHub identity is the app `x-coder-cc`. **Every `gh` call that WRITES** (comment, reply,
   label, pr body, review request) wears it, never Dima — through the wrapper
-  `~/dotfiles/home/.claude/plugin-x/bin/github-token-wrap` (one script, the app token, `exec gh "$@"`):
+  `~/frame/home/.claude/plugin-x/bin/github-token-wrap` (one script, the app token, `exec gh "$@"`):
   ```
-  ~/dotfiles/home/.claude/plugin-x/bin/github-token-wrap pr comment <n> --body-file f.md
+  ~/frame/home/.claude/plugin-x/bin/github-token-wrap pr comment <n> --body-file f.md
   ```
   a bare `gh` write posts as Dima (it happened on a probe pr, 2026-09-11).
   pushes, force-pushes and ref deletion stay on Dima's git auth (the app has no `contents:

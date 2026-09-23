@@ -40,7 +40,7 @@ export const mirrorRoot = `${repoRoot}/home`;
 
 // ? Stored in home/ but never linked into ~. The reason is the interesting part
 // ? and there are two of them, so it is data rather than a comment above a
-// ? flat list — `pnpm dotfiles:link` prints it, and a new entry has to declare
+// ? flat list — `pnpm frame:link` prints it, and a new entry has to declare
 // ? which rule it belongs to instead of joining an undifferentiated set.
 export const noLinkReasons = {
     absolutePath: 'reached by absolute path, so a link would be dead weight',
@@ -115,7 +115,7 @@ export async function lstatOrNull(path: string) {
 
 // ? The blind spot the walk cannot see. Every entry above is derived FROM the
 // ? mirror, so a link whose source left the repo is not in the manifest at all
-// ? and reconcile never looks at it — `dotfiles-link` reported "everything
+// ? and reconcile never looks at it — `frame-link` reported "everything
 // ? mirrored" while ~/.claude held two links to files deleted hours earlier.
 // ? Finding them needs the opposite direction: read what is actually in the
 // ? link directories and keep the ones pointing at a repo path that is gone.

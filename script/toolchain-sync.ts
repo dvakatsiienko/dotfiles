@@ -9,7 +9,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-const repos = [join(homedir(), 'dotfiles'), join(homedir(), 'projects/bytes')];
+const repos = [join(homedir(), 'frame'), join(homedir(), 'projects/bytes')];
 const check = process.argv.includes('--check');
 
 const nodeMajor = process.version.slice(1).split('.')[0];

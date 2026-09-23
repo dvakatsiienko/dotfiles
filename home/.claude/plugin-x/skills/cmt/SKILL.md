@@ -90,7 +90,7 @@ revert, or bisect on its own.
 Commit under Dima's configured identity, no flags. GitHub cannot match `fleet@x-com.local` to
 an account, so the verified badge dies; Dima wants verified commits. The full investigation
 (and why the author field never drove the Linear assign) lives in
-the header of `~/dotfiles/script/linear-push.ts`.
+the header of `~/frame/script/linear-push.ts`.
 
 📌 **The agent fingerprint is a trailer, not the author field.** Every agent commit ends with
 an `Agent:` trailer (§4) and Dima's hand-typed commits do not, so `git log --grep='^Agent:'`
@@ -107,7 +107,7 @@ instead of silently omitting the trailer. Measured 2026-09-07: a terminal-born c
   (`coder`, `cclio`), model is the product name as it reads: `Agent: coder · Claude Fable 5.1`.
   One spelling; twelve once made `git who` a zoo (2026-09-03). No `Co-Authored-By` line.
   🚫 **No `Claude-Session:` trailer either**, whatever the harness note at session start asks —
-  Dima: useless to both sides. A `commit-msg` hook strips it in `dotfiles` and `bytes` regardless.
+  Dima: useless to both sides. A `commit-msg` hook strips it in `frame` and `bytes` regardless.
 - A coder's step-commit names its step in the first body line (`step 3 of BYT-25: …`) so an
   interleaved `main` still reads as a sequence.
 
@@ -159,16 +159,16 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
 
 Green CI answers «did it fail», never «did it build» — the deploy state lives only in
 `vercel inspect`. So the session that pushes `bytes` arms a `Monitor` on
-`~/dotfiles/cclio/.claude/hooks/deploy-watch.sh <sha>` in the same turn (ci runs for that head,
+`~/frame/cclio/.claude/hooks/deploy-watch.sh <sha>` in the same turn (ci runs for that head,
 then the newest prod deploy of every app the head touched; terminal states only, a heartbeat
 every 2 min, 30 min cap). The reply says **done** only on the `Ready` line, and a red is reported
-the moment it lands. `dotfiles` deploys nothing — no watch.
+the moment it lands. `frame` deploys nothing — no watch.
 
 ### What a push actually does to the ticket
 
 - The pre-push hook (`script/linear-push.ts`, run as a `lefthook` pre-push job) waits for the
   push to land, then attaches each commit and applies the closes. It logs to
-  `.git/linear-push.log` and fires only in **`dotfiles` and `bytes`** — the two repos whose
+  `.git/linear-push.log` and fires only in **`frame` and `bytes`** — the two repos whose
   `lefthook` config calls it; a third repo needs those lines copied from `bytes` first. Nothing
   to do or say after a push — the hook owns it. Report only a miss: no Resources entry 30s
   after the push.
@@ -186,7 +186,7 @@ with `- ticket: BYT-N` and its step line), `gh pr create` with the body's **one*
 (a PR is Linear's lane, its automations are wanted: open → In Progress, merge → Done), then
 **squash-merge** on Dima's word — the squash body lists the steps. On a `coder/*` branch the coder holds `y+` and `push+` (commit each step, push, **open the PR at the first push** — a real one, never a draft: dima wants no drafts, the PR is the review surface from its first commit); on `main` the default lane's rules hold unchanged. Load `x:github-contrib`
 before the `gh` call. **The PR url goes to Dima as a one-click link the moment `gh pr create`
-prints it** — in the coder's chat and in its ping to the coordinator. `dotfiles` keeps the
+prints it** — in the coder's chat and in its ping to the coordinator. `frame` keeps the
 default lane.
 
 ### Exception lane — other pull requests
@@ -202,7 +202,7 @@ rewriting remote commits.
 remote is `github.com` under an owner of ours. The per-repo push webhook Linear's own parser
 needs is no longer part of committing.
 
-⚠️ Those webhooks still exist on `dotfiles` and `bytes`, and all repos share **one**
+⚠️ Those webhooks still exist on `frame` and `bytes`, and all repos share **one**
 `githubCommit` integration — so a banned keyword that slips into a body still reaches Linear
 from either of them. That is what §5's grep-before-push is for.
 

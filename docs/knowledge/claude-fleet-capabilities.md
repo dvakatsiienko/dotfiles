@@ -71,7 +71,7 @@ copy of the cli, so a desktop-launched session writes into both at once.
 - `~/.claude.json` is **state, not config** — the cli holds it in memory and rewrites it whole;
   hand-edits mid-session get clobbered. `~/.claude/.claude.json` is a symlink back to it.
 - cc **refuses to write through a symlink** — resolve with `readlink -f`, edit the real file under
-  `~/dotfiles/home/.claude/`.
+  `~/frame/home/.claude/`.
 - `daemon/` is the reattach machinery (roster, control key, socket) — live, never sweep.
   `focus/` is ours (sline pin). Deleting from `projects/` is safe but **permanent** — that
   conversation and its `--resume` are gone.
@@ -151,7 +151,7 @@ surfaces, and they are **not** two disjoint filesystems:
 | Desktop Commander MCP | the Mac, zsh, full shell | everything, as `dima` |
 
 A file written from the sandbox at `mnt/dotfiles/x` is immediately readable on the Mac at
-`~/dotfiles/x` **[verified]**. The mounts are a view of the real folder, not a copy.
+`~/frame/x` **[verified]**. The mounts are a view of the real folder, not a copy.
 
 The genuinely detached, Mac-independent surface is Claude Code's `--cloud` session, not this.
 
@@ -161,7 +161,7 @@ The genuinely detached, Mac-independent surface is Claude Code's `--cloud` sessi
 - `/sessions` **persists across bash calls**; only cwd and env do not carry over.
 - Preinstalled: node 22.22.3, npm 10.9.8, python 3.10.12, git 2.34.1, jq, ripgrep, curl.
 - **Missing: pnpm, gh, go, rust, deno, bun, fd, docker.**
-- Node is **22**, this repo's `engines` floor is **>=24**. `pnpm test` / `dotfiles-link` cannot be
+- Node is **22**, this repo's `engines` floor is **>=24**. `pnpm test` / `frame-link` cannot be
   validated from the sandbox — run them through Desktop Commander (Mac node is 24.12.0).
   `node --experimental-strip-types` does work under 22, so single files still run.
 
@@ -181,11 +181,11 @@ Git over **SSH** fails from the sandbox — `Host key verification failed`, no k
 
 ### Git from the sandbox: read yes, write no [verified 2026-08-15]
 
-Tested end to end against `dvakatsiienko/dotfiles`:
+Tested end to end against `dvakatsiienko/frame`:
 
 | Step | Result |
 |---|---|
-| `git clone https://github.com/dvakatsiienko/dotfiles.git` | **OK** — public repo, anonymous, no auth needed |
+| `git clone https://github.com/dvakatsiienko/frame.git` | **OK** — public repo, anonymous, no auth needed |
 | `git commit` | **OK** — the sandbox git has **no `commit.gpgsign`**, so the 1Password Touch ID wall that blocks Mac-side commits does not exist here |
 | `git push` | **fails**: `could not read Username for 'https://github.com'` |
 
@@ -524,7 +524,7 @@ absent on disk) and another did not. Owned by DOT-55; do not build on either ans
 
 Added 2026-08-21 under DOT-188 / DOT-190. Two candidate homes for the coordinator role. `dpatch`
 is the cowork/dispatch desktop surface; `cclio` is a plain claude code cli session booted in
-`~/dotfiles/cclio`. **Never mix the names.**
+`~/frame/cclio`. **Never mix the names.**
 
 ⚠️ Living section. Every session that learns something new about either side edits this in place
 rather than writing a fresh note. Tag claims like the rest of the file.
@@ -534,7 +534,7 @@ rather than writing a fresh note. Tag claims like the rest of the file.
 | capability | `dpatch` | `cclio` |
 | --- | --- | --- |
 | runtime | Agent SDK, inside the desktop app **[verified]** | claude code cli **[verified]** |
-| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/dotfiles/cclio/CLAUDE.md` says **[verified]** |
+| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/frame/cclio/CLAUDE.md` says **[verified]** |
 | rendering to Dima | `SendUserMessage` only **[verified]** | plain stdout **[verified]** |
 | config stack | cowork prefs + mounted project `CLAUDE.md`. **no `rules/`, no `~/.claude`** **[verified]** | four-layer `CLAUDE.md` stack loads automatically, incl. ancestor dirs **[verified 2026-08-21]** |
 | filesystem | mounts, re-established each init **[verified]** | the real Mac fs, no ceremony **[verified]** |
@@ -585,7 +585,7 @@ at a terminal to open it.
 
 ## the env gripe — "User selected a folder: no"
 
-dpatch reports no selected folder and re-mounts `~/dotfiles` plus the obsidian prompts
+dpatch reports no selected folder and re-mounts `~/frame` plus the obsidian prompts
 folder at every init. Dima wants a persistent selection so init stops re-mounting.
 
 - **Likely configurable, not a hard limit.** A cowork **project** carries attached folders that

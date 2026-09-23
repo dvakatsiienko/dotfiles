@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * ? dotfiles — reconcile ~ with the mirror.
+ * ? frame — reconcile ~ with the mirror.
  * ?
- * ?   pnpm dotfiles:link                        # status: what's linked, what conflicts
- * ?   pnpm dotfiles:link apply                  # link everything that isn't linked yet
- * ?   pnpm dotfiles:link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
- * ?   pnpm dotfiles:link register ~/.foo        # move a file into the mirror and link it back
+ * ?   pnpm frame:link                        # status: what's linked, what conflicts
+ * ?   pnpm frame:link apply                  # link everything that isn't linked yet
+ * ?   pnpm frame:link untrack ~/.gitconfig   # hand a file back to ~, drop it from the repo
+ * ?   pnpm frame:link register ~/.foo        # move a file into the mirror and link it back
  * ?
  * ? There is no install step and no backup directory. The tree under home/ is
  * ? the whole config — status and apply are one code path, and apply refuses to
@@ -77,7 +77,7 @@ else {
     zx.echo(rb(`Unknown verb: ${verb}`));
     zx.echo(
         bb(
-            'Usage: pnpm dotfiles:link [status|apply|untrack <path>|register <path>]',
+            'Usage: pnpm frame:link [status|apply|untrack <path>|register <path>]',
         ),
     );
     process.exit(1);
@@ -89,7 +89,7 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
     const orphans = await findOrphans(rows.map((row) => row.entry));
 
     title(
-        'Dotfiles',
+        'Frame',
         dryRun ? `${rows.length} entries mirrored into ~` : 'applying',
     );
     print(rows);
@@ -153,7 +153,7 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
             for (const { entry } of pending) skip(toTilde(entry.target));
         }
 
-        done('Dry run. Run `pnpm dotfiles:link apply` to make it so.', {
+        done('Dry run. Run `pnpm frame:link apply` to make it so.', {
             clean: false,
         });
         process.exit(1);
@@ -183,9 +183,7 @@ async function reconcile({ dryRun }: { dryRun: boolean }) {
 
 async function untrack(rawPath: string | undefined) {
     if (!rawPath) {
-        zx.echo(
-            rb('❌ Which file? e.g. pnpm dotfiles:link untrack ~/.gitconfig'),
-        );
+        zx.echo(rb('❌ Which file? e.g. pnpm frame:link untrack ~/.gitconfig'));
         process.exit(1);
     }
 
@@ -231,7 +229,7 @@ async function untrack(rawPath: string | undefined) {
 
 async function register(rawPath: string | undefined) {
     if (!rawPath) {
-        zx.echo(rb('❌ Which file? e.g. pnpm dotfiles:link register ~/.foo'));
+        zx.echo(rb('❌ Which file? e.g. pnpm frame:link register ~/.foo'));
         process.exit(1);
     }
 

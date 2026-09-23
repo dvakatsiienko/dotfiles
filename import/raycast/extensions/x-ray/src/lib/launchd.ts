@@ -22,7 +22,7 @@ const coworkOkState = 'last run ok';
 // A cloud job runs on anthropic's machines, so launchctl will never know it. Each one drops a
 // heartbeat here instead — ONE FILE PER JOB, so a second cloud job needs no code change — and
 // freshness is the only state anything local can derive.
-const coworkStateDir = join(homedir(), 'dotfiles', 'schedule', 'state');
+const coworkStateDir = join(homedir(), 'frame', 'schedule', 'state');
 
 // One daily slot plus two hours of slack: a beat older than this means a run went missing.
 const coworkStaleMs = 26 * 60 * 60 * 1000;

@@ -382,7 +382,7 @@ export const BoardPage = (props: BoardPageProps) => {
                 <Notice onRetry={loadScan}>
                     no hotkey data — {apiTrouble(scanError)}. the scan behind it
                     is <span className='font-mono'>pnpm hotkeys:scan</span>, run
-                    in dotfiles.
+                    in frame.
                 </Notice>
             ) : null}
 

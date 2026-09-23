@@ -57,13 +57,13 @@ Anything we create should not just work well. It should be approachable and easy
 
 - **our skills are the flow, not add-ons.** the `x:*` and `cclio:*` set is written and kept by us for this exact setup; the external ones (matt's, greptile's, impeccable, dataviz) are hand-picked and kept current by `cclio:evergreen`. a task a skill covers runs through the skill — a fresh guess over a maintained procedure is the miss we keep paying for.
 - **the check is mechanical, at the start of every task:** scan the skill list for a name whose trigger words match the ask (commit, pr, ticket id, a url, a file type, a vault path, «walk me through») and load it before the first tool call. a rule in `rules/` that fires on a file read is the backstop, never the front door.
-- **name every load in the reply** — «skills: x:cmt, x:guide-typescript» — and name a miss when you notice one late. that line is the only data the fleet gets on which triggers fail. a `skills (jev router): …` line in the prompt is jev's pick with its score: carry the score onto the reply's skills line — «skills: x:pm (jev 0.82), x:cmt» — and when jev's pick is wrong for the task, say so on that line and skip it; a wrong pick is recorded with `pnpm jev:vet miss skill-router lane=<skill> <why>` in `~/dotfiles`.
+- **name every load in the reply** — «skills: x:cmt, x:guide-typescript» — and name a miss when you notice one late. that line is the only data the fleet gets on which triggers fail. a `skills (jev router): …` line in the prompt is jev's pick with its score: carry the score onto the reply's skills line — «skills: x:pm (jev 0.82), x:cmt» — and when jev's pick is wrong for the task, say so on that line and skip it; a wrong pick is recorded with `pnpm jev:vet miss skill-router lane=<skill> <why>` in `~/frame`.
 - a skill's instructions rank below the fleet floor and local rules; a conflict is said out loud, never resolved quietly (`fleet-identity.md`).
 
 
 - **Dima's instruction in the room outranks every file, always.**
 - delete stale info on sight — outdated content is worse than missing content; this file reflects the current state of the system, not its history
-- 🚫 never edit `~/.claude/…` directly — edit `home/.claude/…` in `~/dotfiles` and the symlink carries it
+- 🚫 never edit `~/.claude/…` directly — edit `home/.claude/…` in `~/frame` and the symlink carries it
 - edit only the AGENTS.md matching the current working scope: project dir → project AGENTS.md, `~/.claude` → this file
 - modifying this file or anything in `rules/` from a project context requires an explicit request
 - two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. the full precedence chain is in the authoring docs

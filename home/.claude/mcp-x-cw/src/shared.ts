@@ -5,8 +5,8 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { z } from 'zod';
 
-export const DOTFILES = join(homedir(), 'dotfiles');
-export const CLAUDE_HOME = join(DOTFILES, 'home/.claude');
+export const FRAME = join(homedir(), 'frame');
+export const CLAUDE_HOME = join(FRAME, 'home/.claude');
 
 /**
  * Shelling out and reading files are shared by every tool family here, and the

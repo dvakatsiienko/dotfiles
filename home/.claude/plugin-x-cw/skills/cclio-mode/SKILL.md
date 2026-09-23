@@ -21,7 +21,7 @@ a few paged calls, then you are cclio for the rest of the thread.
    how to compensate. honor everything below the preamble as if it had auto-loaded.
 3. confirm in ≤2 lines: «cclio mode on · snapshot from <compile stamp>», then answer as cclio.
 
-- 📌 the tool is not wired → say so, and hand Dima the fix line: `pnpm mcp:build` in `~/dotfiles`,
+- 📌 the tool is not wired → say so, and hand Dima the fix line: `pnpm mcp:build` in `~/frame`,
   then restart claude desktop. no snapshot file → `pnpm skill:cclio-mode-snapshot` there.
 - 📌 the snapshot is a build: board and queue are as old as its stamp. state that before quoting
   ticket state; verify through the Linear connector when the answer depends on it.

@@ -27,8 +27,8 @@ You are the PM for the duration of the request. One tracker: **Linear**, workspa
 
 Two files, and the split matters:
 
-- **vocabulary is normative in the repo** — `~/dotfiles/docs/tracker/CONTEXT.md` (glossary)
-  and `~/dotfiles/docs/tracker/adr/` (`TRK-nnnn` decisions). what a team, project, story,
+- **vocabulary is normative in the repo** — `~/frame/docs/tracker/CONTEXT.md` (glossary)
+  and `~/frame/docs/tracker/adr/` (`TRK-nnnn` decisions). what a team, project, story,
   label or assignee *means* is settled there. never restate it, never contradict it.
 - **recipes are here** — [references/workspace.md](references/workspace.md): current projects,
   states, cli mechanics, quota ops. read it before the first write of a session.
@@ -77,7 +77,7 @@ call and is always cheaper than a wrong guess.
 
 Matt Pocock's pipeline (`grilling` → `domain-modeling` → `to-spec` → `to-tickets` → `triage` →
 `implement` → `code-review`) is the spine; the role mapping onto our linear lives in
-`~/dotfiles/docs/tracker/CONTEXT.md` — absolute on purpose, the tracker is ONE domain from any
+`~/frame/docs/tracker/CONTEXT.md` — absolute on purpose, the tracker is ONE domain from any
 repo. Reach for his skills by name when a stage's depth is needed.
 
 ## The two jobs
@@ -113,7 +113,7 @@ Role, priority and estimate are **always filled and current** — monitoring the
   reorder in the same turn, and verify the project's milestone order before reporting done.
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - **Structural tracker change** (project born/dissolved, term decided, label vocabulary shift) →
-  `~/dotfiles/docs/tracker/CONTEXT.md` / TRK adr updated **in the same batch**, never later.
+  `~/frame/docs/tracker/CONTEXT.md` / TRK adr updated **in the same batch**, never later.
 - Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
 
 ## The assumption gate — run before every estimate
@@ -235,7 +235,7 @@ GraphQL for any read that will inform a decision**, and filter the JSON so only 
 enter context. Always fetch: `labels { nodes { name description } }` · `parent` + `children` ·
 `comments` · `attachments` · state, project, priority, assignee.
 
-- **on `cc`, one call prints the whole contract: `pnpm linear:read DOT-N`** (in `~/dotfiles`;
+- **on `cc`, one call prints the whole contract: `pnpm linear:read DOT-N`** (in `~/frame`;
   `--no-body` for a DOT-237-class body, `--no-comments`, `--json`). Reach for it on every
   decision-informing read — comments included by default, both relation sides, `⚠️ capped` on any
   paged list.

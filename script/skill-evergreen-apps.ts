@@ -13,7 +13,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-const SOURCES = join(homedir(), 'dotfiles/cclio/evergreen/sources.json');
+const SOURCES = join(homedir(), 'frame/cclio/evergreen/sources.json');
 const BODY_CAP = 1_500;
 const PAGE = 30;
 
@@ -28,7 +28,7 @@ const picked = only.length
 
 const text = async (url: string) => {
     const res = await fetch(url, {
-        headers: { 'user-agent': 'x-evergreen/1 (+dotfiles)' },
+        headers: { 'user-agent': 'x-evergreen/1 (+frame)' },
     });
     if (!res.ok) throw new Error(`${res.status} ${url}`);
     return res.text();

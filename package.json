@@ -1,12 +1,12 @@
 {
-    "name": "dotfiles",
+    "name": "frame",
     "version": "0.0.1",
     "author": "Dima Vakatsiienko <imagnum.satellite@gmail.com>",
     "type": "module",
     "scripts": {
         "chords:dev": "pnpm --filter chords dev",
         "chords:build": "pnpm --filter chords build",
-        "dotfiles:link": "node ./script/dotfiles-link.ts",
+        "frame:link": "node ./script/frame-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
         "github:agent-token": "node ./script/github-agent-token.ts",
         "autoclean-screenshots:build": "mkdir -p ./schedule/jobs/x-autoclean-screenshots/bin && swiftc -O ./schedule/jobs/x-autoclean-screenshots/main.swift -o ./schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots && codesign --force --sign - --identifier com.dima.x-autoclean-screenshots ./schedule/jobs/x-autoclean-screenshots/bin/x-autoclean-screenshots",
