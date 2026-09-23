@@ -1,6 +1,6 @@
 ---
 name: memory-update
-description: Load BEFORE any memory_write, memory_str_replace, memory_append or memory_delete to cw global memory, and before creating any new memory entry — no exceptions, including a one-line edit and including a write dima did not ask for in those words. Also on «upd memory», «remember this», «save to memory», «prettify memory», «forget that». Owns the description grammar every entry is born with. Args: prettify <entry|all> · dedupe [entry|all] · dry. cw-only; a cc session stops here (cc memory has its own procedure).
+description: Load BEFORE any memory_write, memory_str_replace, memory_append or memory_delete to cw global memory, and before creating any new memory entry — no exceptions, including a one-line edit and including a write dima did not ask for in those words. Also on «upd memory», «remember this», «save to memory», «prettify memory», «forget that». Owns the description grammar every entry is born with. Args: check · prettify <entry|all> · dedupe [entry|all] · dry; dima typing it bare gets the menu. cw-only; a cc session stops here (cc memory has its own procedure).
 ---
 
 # memory-update — the shape of every cw memory edit
@@ -10,6 +10,16 @@ nothing else writes cw memory. dima's account / profile / instructions is fed fr
 `pnpm memory-sync:copy` and his paste — his own section (above the `═══` line) from
 `instructions-head.md` beside this skill, the cc masters (below it) from every section tagged
 `<!-- sync: cw -->`; `pnpm memory-sync:map` lists the routes. cw never writes that field.
+
+## the menu — every way in
+
+dima typing `/x-cw:memory-update` with no arg → print this menu and stop; do nothing else.
+
+- *(auto, no arg)* — loaded before any memory write; runs the dupe check, then the write
+- `check` — is the account instructions field current? stamp compare, plus a field-side edit to his section
+- `prettify <entry|all>` — reformat only, nothing removed; starts with `check`, ends with a dupes report
+- `dedupe [entry|all]` — apply the dupes report, each fix on his word
+- `dry` — add to `prettify` or `dedupe`: print every planned write, write nothing
 
 ## the dupe check — first, before every write
 
@@ -139,13 +149,9 @@ memory serves two readers: dima (must answer his question without re-asking) and
 
 run the full pass, print every intended write as a diff, write nothing.
 
-## arg: `prettify <entry|all>`
+## arg: `check`
 
-**prettify is a formatter, never a de-duper: it reshapes lines and loses nothing.** in scope:
-register, `[stated]` prefixes, stale descriptions, sectioning. a line that reads like flavour is
-rewritten flat, its fact kept. `all` walks every entry in the listing.
-
-before the per-entry walk, one **field check** — the first report line:
+is the account instructions field current? read-only.
 
 - render fresh on the mac (desktop-commander `start_process`: `cd ~/frame && node script/skill-memory-sync-mirror.ts`)
   and compare the manifest's `source-sha256` with the one in this session's account instructions.
@@ -154,6 +160,14 @@ before the per-entry walk, one **field check** — the first report line:
 - the text above the `═══` line differs from `instructions-head.md` → he typed in the field: say so,
   and offer to copy his field text into the file word for word before he runs `copy` — never
   the other way round.
+
+## arg: `prettify <entry|all>`
+
+**prettify is a formatter, never a de-duper: it reshapes lines and loses nothing.** in scope:
+register, `[stated]` prefixes, stale descriptions, sectioning. a line that reads like flavour is
+rewritten flat, its fact kept. `all` walks every entry in the listing.
+
+it starts with `check` — its result is the report's first line.
 
 after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side —
 the account instructions count as one more entry — and flag any fact claimed by two of them — per-entry reading is structurally blind to dupes, and
