@@ -1,7 +1,8 @@
 # frame
 
-Personal macOS dotfiles: shell/git/terminal configuration plus the Claude Code
-workflow layer (`home/.claude/`) — sline, the plugin-x, and agent docs.
+The inventory of one mac, in three tiers: the mirror (`home/` symlinked into `~`), the machine
+(Brewfile, macOS defaults, launchd jobs as data), and the fleet (the Claude Code layer in
+`home/.claude/`, cclio, sline, plugin-x, hotkeys).
 
 ## Maturity — read before proposing changes
 
