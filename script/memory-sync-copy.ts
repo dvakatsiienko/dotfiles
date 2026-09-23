@@ -35,6 +35,13 @@ ok(
     `${r.chars} / ${target.cap} chars · stamp ${r.sha256.slice(0, 8)}`,
 );
 
+/** the settings page that holds the field — opens straight on account › profile (tested 2026-09-23) */
+const URL = 'https://claude.ai/new#settings/account';
+/** osc 8 — a cmd+click hyperlink in warp, iterm and every modern terminal; plain text elsewhere */
+const link = (url: string, label: string) =>
+    `\u001b]8;;${url}\u001b\\${label}\u001b]8;;\u001b\\`;
+
 done(
-    'paste now: settings › account › profile › instructions for claude → select all → paste',
+    `paste now: ${link(URL, 'settings › account › profile › instructions for claude')} → select all → paste`,
 );
+note(URL);
