@@ -1,18 +1,19 @@
 /**
- * ? memory-sync mirror — renders the cc masters into dima's «instructions for claude» box.
+ * ? memory-sync mirror — renders the cc masters into dima's `profile / instructions`
+ * ? (claude.ai settings → «instructions for claude»).
  * ?
- * ? the box (claude.ai settings → profile) is the one cw destination the masters feed: it loads
+ * ? `profile / instructions` is the one cw destination the masters feed: it loads
  * ? on every surface, holds 32 768 chars (dima's paste test, 2026-09-23), and only dima can write
  * ? it — so the render is a paste block, and cw's own memory entries (`/preferences.md`,
  * ? `/profile.md`, the leaves) stay fully cw-native, never spliced.
  * ?
  * ? ROUTING IS A TAG IN THE MASTER, never a list here. a line `<!-- sync: cw -->` directly under a
- * ? heading sends that section — and every subsection under it — to the box; a subsection may opt
+ * ? heading sends that section — and every subsection under it — to `profile / instructions`; a subsection may opt
  * ? back out with `<!-- sync: none -->`. a tag on its own line before the first heading routes the
  * ? whole file. cc strips html comments at load, so a tag costs cc nothing and the masters keep
  * ? their natural section order. `pnpm memory-sync:map` prints the routing table.
  * ?
- * ? over 32 768 the box refuses the paste, so the render aborts first. the fragment renders
+ * ? over 32 768 the field refuses the paste, so the render aborts first. the fragment renders
  * ? COMPACT: headers, bullets and marker-led paragraphs whole, plain prose and html comments
  * ? dropped — except a leaf section left with nothing but its heading, which keeps its prose.
  */
@@ -26,7 +27,7 @@ type Tag = 'cw' | 'none';
 const TAGS: readonly Tag[] = ['cw', 'none'];
 
 export type Target = {
-    /** where the fragment lands — `instructions` is dima's settings box */
+    /** where the fragment lands — `profile/instructions` is dima's settings field */
     path: string;
     fragment: string;
     /** chars the destination accepts */
@@ -40,7 +41,7 @@ export type Rendered = {
     path: string;
     fragment: string;
     sha256: string;
-    /** rendered length — what the box counts */
+    /** rendered length — what the field counts */
     chars: number;
     body: string;
     /** the tagged sections this fragment carries, in render order, with their rendered size */
@@ -82,7 +83,7 @@ export const ORDER = [
 export const target: Target = {
     cap: 32_768,
     fragment: 'core',
-    path: 'instructions',
+    path: 'profile/instructions',
 };
 
 export function listMasters(root: string): string[] {
@@ -243,7 +244,7 @@ export function render(root: string): Rendered {
     return {
         body,
         chars: body.length,
-        file: `${target.path}.${target.fragment}.md`,
+        file: `${target.path.replace('/', '-')}.${target.fragment}.md`,
         fragment: target.fragment,
         path: target.path,
         sections,

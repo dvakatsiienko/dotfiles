@@ -1,6 +1,6 @@
 /**
  * ? the memory-sync mirror renders against a fixture tree, never the live repo — except the
- * ? last block, which checks the live masters: every tag valid, the box inside its cap.
+ * ? last block, which checks the live masters: every tag valid, the field inside its cap.
  */
 
 /* Core */
@@ -129,7 +129,7 @@ describe('render', () => {
         expect(r.body).toContain('\n- b');
         expect(r.body).not.toContain('- c');
         expect(r.body).not.toContain('[stated]');
-        expect(r.file).toBe('instructions.core.md');
+        expect(r.file).toBe('profile-instructions.core.md');
     });
 
     test('the stamp follows the tags, not only the prose', async () => {
@@ -142,21 +142,21 @@ describe('render', () => {
         expect(render(root).sha256).not.toBe(before);
     });
 
-    test('the manifest keys the box and lists the masters it drew from', async () => {
+    test('the manifest keys the field and lists the masters it drew from', async () => {
         await write(
             'home/.claude/rules/alpha.md',
             '# a\n\n## one\n<!-- sync: cw -->\n\n- x\n',
         );
         const m = toManifest(render(root));
-        expect(Object.keys(m)).toEqual(['instructions#core']);
-        expect(m['instructions#core']?.sources).toEqual([
+        expect(Object.keys(m)).toEqual(['profile/instructions#core']);
+        expect(m['profile/instructions#core']?.sources).toEqual([
             'home/.claude/rules/alpha.md',
         ]);
     });
 });
 
 describe('the live masters', () => {
-    test('every tag parses and the box renders inside its cap', () => {
+    test('every tag parses and the field renders inside its cap', () => {
         const repo = path.join(import.meta.dirname, '..', '..');
         expect(render(repo).chars).toBeLessThanOrEqual(target.cap);
     });

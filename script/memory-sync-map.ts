@@ -1,6 +1,6 @@
 /**
  * memory-sync:map — prints what reaches cw from the cc masters: every `<!-- sync: cw -->` section,
- * grouped by master, with the chars it costs in dima's «instructions for claude» box and the room
+ * grouped by master, with the chars it costs in dima's `profile / instructions` field and the room
  * left. read-only: renders in memory, writes nothing. `pnpm memory-sync:map`.
  */
 
@@ -21,9 +21,9 @@ const BAR = 30;
 const filled = Math.min(BAR, Math.round(share * BAR));
 const bar = `${(share > 1 ? yb : gb)('█'.repeat(filled))}${dim('░'.repeat(BAR - filled))}`;
 
-title('memory-sync:map', 'cc masters → cw · the «instructions for claude» box');
+title('memory-sync:map', 'cc masters → cw · profile / instructions');
 
-step('the box');
+step('profile / instructions');
 console.log(
     `  ${bar}  ${bold(`${num(r.chars)} / ${num(target.cap)}`)} chars  ${dim(`${Math.round(share * 100)}% · ${num(target.cap - r.chars)} free · stamp ${r.sha256.slice(0, 8)}`)}`,
 );

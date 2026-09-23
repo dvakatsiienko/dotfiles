@@ -1,8 +1,8 @@
 /**
  * skill:memory-sync-mirror — renders the `sync: cw` sections of the cc masters into the paste block
- * for dima's «instructions for claude» box, under `home/.claude/shelf/memory-sync-mirror/`, plus a
+ * for dima's `profile / instructions` field, under `home/.claude/shelf/memory-sync-mirror/`, plus a
  * `manifest.json` carrying its stamp. cw's `x-cw:memory-sync` runs this and compares the stamp
- * with the box it sees. the routing table: `pnpm memory-sync:map`. logic lives in
+ * with the field it sees. the routing table: `pnpm memory-sync:map`. logic lives in
  * `script/lib/memory-sync-mirror.ts`; routing lives in the masters as tags.
  */
 
@@ -21,7 +21,7 @@ const OUT = join(ROOT, 'home/.claude/shelf/memory-sync-mirror');
 title('skill:memory-sync-mirror', OUT.replace(homedir(), '~'));
 mkdirSync(OUT, { recursive: true });
 
-step('the box');
+step('profile / instructions');
 const r = render(ROOT);
 writeFileSync(join(OUT, r.file), r.body);
 writeFileSync(
@@ -33,7 +33,7 @@ const over = r.chars > target.cap;
 if (over)
     warn(
         `${r.path}#${r.fragment}`,
-        `${size} — ${r.chars - target.cap} over; the box refuses the paste`,
+        `${size} — ${r.chars - target.cap} over; the field refuses the paste`,
     );
 else ok(`${r.path}#${r.fragment}`, size);
 
