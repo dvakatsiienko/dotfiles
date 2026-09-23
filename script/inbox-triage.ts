@@ -9,7 +9,7 @@ import type { Pick } from './lib/jev-report.ts';
 import { runsLog } from './lib/jev-report.ts';
 import { dim } from './lib/print.ts';
 
-const inboxPath = `${process.env.HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/hq/inbox.md`;
+const inboxPath = `${process.env.HOME}/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/_hq/inbox.md`;
 
 // an item is a `**title**` block under a `## section` header; the section is context, not a lane
 function parseInbox(md: string) {
