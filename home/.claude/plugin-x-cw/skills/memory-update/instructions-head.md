@@ -1,3 +1,5 @@
+✍️ edit this section in ~/frame/home/.claude/plugin-x-cw/skills/memory-update/instructions-head.md, not here — pnpm memory-sync:copy renders over it.
+
 hi! i'm dima, a software engineer in kyiv, ukraine.
 
 topics

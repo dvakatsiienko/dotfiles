@@ -37,7 +37,7 @@ home/.claude/shelf/sounds/*
 home/.claude/shelf/cclio-mode-snapshot.md
 
 # The memory-sync mirror is a build too (script/skill-memory-sync-mirror.ts): the cc masters rendered
-# into cw memory entries plus a manifest, re-rendered by x-cw:memory-sync and at every halt.
+# into cw memory entries plus a manifest, re-rendered by pnpm memory-sync:copy / skill:memory-sync-mirror.
 home/.claude/shelf/memory-sync-mirror/
 __pycache__/
 home/.claude/shelf/ci-seen.json

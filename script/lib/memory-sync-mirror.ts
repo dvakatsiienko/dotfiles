@@ -60,12 +60,11 @@ export type Manifest = Record<
 >;
 
 /**
- * dima's own section — the top of the field, above the line. he edits it in the field or in this
- * file; `x-cw:memory-sync` pulls a field edit back into the file before it renders, so a paste
- * never loses his words.
+ * dima's own section — the top of the field, above the line. this file is its source of truth: he
+ * edits it here, never in the field, because the next paste renders over the field.
  */
 export const HEAD =
-    'home/.claude/plugin-x-cw/skills/memory-sync/instructions-head.md';
+    'home/.claude/plugin-x-cw/skills/memory-update/instructions-head.md';
 
 /** the line between his section and the synced part — plain text, it reads in the settings field. */
 export const SEPARATOR = [

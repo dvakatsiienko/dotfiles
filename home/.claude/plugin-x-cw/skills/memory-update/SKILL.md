@@ -6,7 +6,10 @@ description: Load BEFORE any memory_write, memory_str_replace, memory_append or 
 # memory-update — the shape of every cw memory edit
 
 Every write to cw global memory goes through this skill. It owns HOW a memory is written;
-`memory-sync` feeds dima's account / profile / instructions and never writes memory.
+nothing else writes cw memory. dima's account / profile / instructions is fed from `~/frame` by
+`pnpm memory-sync:copy` and his paste — his own section (above the `═══` line) from
+`instructions-head.md` beside this skill, the cc masters (below it) from every section tagged
+`<!-- sync: cw -->`; `pnpm memory-sync:map` lists the routes. cw never writes that field.
 
 ## the dupe check — first, before every write
 
@@ -141,6 +144,16 @@ run the full pass, print every intended write as a diff, write nothing.
 **prettify is a formatter, never a de-duper: it reshapes lines and loses nothing.** in scope:
 register, `[stated]` prefixes, stale descriptions, sectioning. a line that reads like flavour is
 rewritten flat, its fact kept. `all` walks every entry in the listing.
+
+before the per-entry walk, one **field check** — the first report line:
+
+- render fresh on the mac (desktop-commander `start_process`: `cd ~/frame && node script/skill-memory-sync-mirror.ts`)
+  and compare the manifest's `source-sha256` with the one in this session's account instructions.
+- print `account instructions: current` or `account instructions: stale — run pnpm memory-sync:copy, then paste`.
+  never touch his clipboard; never print the block.
+- the text above the `═══` line differs from `instructions-head.md` → he typed in the field: say so,
+  and offer to copy his field text into the file word for word before he runs `copy` — never
+  the other way round.
 
 after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side —
 the account instructions count as one more entry — and flag any fact claimed by two of them — per-entry reading is structurally blind to dupes, and
