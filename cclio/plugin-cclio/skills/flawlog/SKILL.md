@@ -26,6 +26,10 @@ now and a rewind at wrap.
 **fixed in place → do NOT write it to the log.** it is resolved. logging it manufactures work
 that re-litigates a settled thing hours later.
 
+**a line that still earns its place after a fix opens with `fixed:`** — the fix landed, the lesson
+stays. jev's flawlog lanes read an unmarked line as an open rule candidate (two such lines were
+laned «rule» on 2026-09-22); the marker is how the lane knows it is closed.
+
 ## 2. what actually reaches the log
 only what could NOT be closed on the spot:
 - needs dima's decision or approval
