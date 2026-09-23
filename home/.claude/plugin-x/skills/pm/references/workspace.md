@@ -14,7 +14,7 @@ single tracker since 2026-08-13; gh issues retired (closed history with pointer 
 
 | team | key | scope |
 | --- | --- | --- |
-| dotfiles | `DOT` | tooling, approaches, how-we-work |
+| frame | `DOT` | tooling, approaches, how-we-work |
 | bytes | `BYT` | building apps — the `bytes` monorepo's product work |
 
 **split by nature of the work, never by which repo the files live in.** a build-infra or
