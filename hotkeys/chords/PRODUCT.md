@@ -93,15 +93,6 @@ the look is inherited from the `map.html` page this app replaced, and dima has a
 - no personality, no second person. the page does not talk about itself
 - file paths and commands appear literally, in mono, never paraphrased into a description
 
-📌 three shipped strings do not meet this yet, all carried over from `map.html`. recorded debt,
-not a decision, and a later `clarify` pass owns them:
-
-- the four panel headings and the three buttons are sentence case — «Selected key», «All bindings
-  on this layer», «Free keys on this layer», «Notes», «Save note», «Clear», «Copy notes»
-- «click a key» is an instruction standing where a bare fact belongs
-- the note field's placeholder and aria-label both open «what you want on this chord» — the one
-  «you» on the page
-
 ## Evidence on Hand
 
 real data only, all of it measured on this mac: 90 bindings from the live scan, a month of press
