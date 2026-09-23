@@ -46,7 +46,7 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 ### The entities — what we handle
 
 - **CST** — a handoff transcript, the thing that carries a thread to its successor.
-- **`inbox`** — `prompts/inbox.md` in the obsidian vault. Dima's drop point and cclio's plan: he
+- **`inbox`** — `hq/inbox.md` in the obsidian vault. Dima's drop point and cclio's plan: he
   drops an idea or todo in any thread, the agent folds it into the right section. It is **not
   under git** and icloud sync lands minutes after obsidian opens — a relaunch forces it. Never
   edit before the synced version has arrived. cclio edits freely; everyone else reads, and edits

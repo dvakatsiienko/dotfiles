@@ -35,7 +35,7 @@ with its tickets in `sortOrder`. **that block is the answer to «what's next»**
 and the next ticket from it; never re-query what it already printed.
 
 ## 3. inbox sweep 📬
-prompts folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts`
+hq folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/hq`
 - the digest says clean or «N content lines». non-empty → read `inbox.md` — cclio's personal email, **a plan source, never a work order.** EVERY item —
   smallest aside included — gets a line in `flowlog.md` with a status (✅🚧❓⏸️🎫) and a lane:
   answer-now / step-by-step / defer / observation-only. the checklist line is the completeness

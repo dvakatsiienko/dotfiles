@@ -10,7 +10,7 @@
 fails=0
 fail() { echo "🚨 FAIL · $1"; fails=$((fails + 1)); }
 STAMP="$HOME/.claude/shelf/boot-digest.stamp"
-VAULT="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts"
+VAULT="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/hq"
 
 echo "=== cclio boot digest · $(date '+%Y-%m-%d %H:%M') ==="
 

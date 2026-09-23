@@ -4,7 +4,7 @@ Shared files are Dima's living space; leftovers cost him attention and blur what
 
 ## the obsidian channel — ideas he drops from mobile, iCloud sync, no mount needed
 
-`/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/prompts/`
+`/Users/dima/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Dima's Vault/hq/`
 
 - `inbox.md` — his raw drops. **Check first thing every boot; it must always end empty of
   CONTENT — his section headers stay**, they are his reprint-saving skeleton. Copy items into
