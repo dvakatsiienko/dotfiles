@@ -1,6 +1,5 @@
-<p align="center">
-  <img src="assets/banner.svg" width="840" alt="frame — the inventory of one mac">
-</p>
+**frame**: a mirror of `~`, the machine's setup as data, and a fleet of claude agents that keep it
+all moving.
 
 <p align="center">
   <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat-square&label=ci&labelColor=1d2021&color=b8bb26" alt="ci"></a>
@@ -9,8 +8,9 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-mit-a89984?style=flat-square&labelColor=1d2021" alt="license mit"></a>
 </p>
 
-**frame**, written down: a mirror of `~`, the machine's setup as data, and a fleet of claude agents
-that keep it all moving.
+<p align="center">
+  <img src="assets/banner.svg" width="840" alt="frame — the inventory of one mac">
+</p>
 
 <img src="assets/mac.svg" align="right" width="270" alt="an 80s mac showing ~ frame">
 
