@@ -34,6 +34,7 @@
         "memory-sync:copy": "node ./script/memory-sync-copy.ts",
         "plugin:release": "node ./script/plugin-release.ts",
         "rayconfig:decrypt": "./script/op-run.sh node ./script/rayconfig-decrypt.ts",
+        "repo:defaults": "node ./script/repo-defaults.ts",
         "schedule:install": "node ./schedule/install.ts",
         "skill:cclio-mode-snapshot": "node ./script/skill-cclio-mode-snapshot.ts",
         "skill:evergreen-apps": "node ./script/skill-evergreen-apps.ts",
