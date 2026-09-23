@@ -21,6 +21,9 @@ pick per op is the cheapest lane that does not break the vault; nothing here is 
 - 🚨 **drive the cli with `timeout 15 … </dev/null`, and judge a rename by the file landing**
   (`until [ -f "<new path>" ]`), never by the process returning — it hung on a read and on a rename
   that had already finished. an open stdin in a script makes it eat the loop.
+- **a note's icon is its `icon:` frontmatter** (iconize reads it) — live-safe, obsidian may stay open.
+- 🚫 **a plugin's `data.json` is written only with obsidian closed** (`pgrep -x Obsidian` first) — the plugin holds it in memory and saves over an outside edit. folder icons live only there (iconize), so they wait for dima to quit the app.
+- a vault `AGENTS.md`/`CLAUDE.md` never loads — lazy nested memory stops at the working tree, `--add-dir ~` included (probed 2026-09-23). vault knowledge lives here.
 - `property:set` reformats the whole frontmatter (inline lists → yaml lists). fine, diff-noisy.
 - 🚫 the `Local REST API` plugin / any obsidian mcp: 5× the cli, no rename endpoint. not installed.
 - 🚫 icloud sync is whole-file, last-writer-wins: never write while a mobile device may hold a
