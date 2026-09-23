@@ -2,7 +2,7 @@
 
 the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. operational recipes live in `x:pm`; this file is vocabulary only.
 
-- **team** — top split by nature of work, never by repo: `DOT` = tooling/approaches/how-we-work, `BYT` = building apps. two teams, free-plan max.
+- **team** — top split by nature of work, never by repo: `FRM` = tooling/approaches/how-we-work (key `DOT` until 2026-09-23; old `DOT-N` ids resolve), `BYT` = building apps. two teams, free-plan max.
 - **project** — long-lived area inside a team. never closes. DOT: pm, mind, fleet, cli, shelf, revamp, sline, numi. BYT: rl, design-system, cv, x-com-chat, tooling, lab, trophy-sys, monorepo (bytes-the-repo: shape, deps, turbo, lint, scripts — sweeps over the whole repo).
 - **story** — a ticket with sub-tickets grouping one strand or batch inside a project. the only grouping term («epic» is dead, TRK-0001). no title marker — the sub-tickets are what makes it a story.
 - **ticket** — unit of work. pretty title (short, descriptive, subject-first), body = key data only.
@@ -20,7 +20,7 @@ the linear workspace (`x-com`) domain. one term per concept, per TRK adrs. opera
 
 ## channel
 
-issues live in **linear**, workspace `x-com`, teams `DOT` / `BYT`, since the 2026-08-13 migration.
+issues live in **linear**, workspace `x-com`, teams `FRM` / `BYT`, since the 2026-08-13 migration.
 github issues are retired — closed history only, each carrying a pointer comment to its linear
 successor. never create or reopen a gh issue.
 

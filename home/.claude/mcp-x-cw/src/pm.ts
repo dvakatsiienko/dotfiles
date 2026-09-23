@@ -30,7 +30,7 @@ export function registerPmTools(server: McpServer) {
             description:
                 "LINEAR TICKETS — READ THIS BEFORE TOUCHING ONE. Returns the operating handbook for Dima's Linear tracker (workspace x-com, teams DOT and BYT). " +
                 'Call it BEFORE you create, update, close, comment on, triage, prioritise or label any ticket, and before answering a question about how the tracker works. ' +
-                'Also call it the moment a DOT-N or BYT-N id appears, or the user says "save this as a ticket" / "file that" / "what is the state of X". ' +
+                'Also call it the moment a FRM-N, BYT-N or old DOT-N id appears, or the user says "save this as a ticket" / "file that" / "what is the state of X". ' +
                 'Call it ONCE per conversation, at the first ticket-shaped request, then follow what it returns for the rest of the conversation. ' +
                 'It returns three things you do not otherwise have: the ticket lifecycle rules, the PM handbook (field contract, run stamps, ticket economy, output shape), and the live workspace recipes (projects, states, cli mechanics). ' +
                 'Without it you WILL get it wrong in ways that look fine — labels replace instead of add, a create with no state lands in Triage, and an unstamped write cannot be undone. ' +

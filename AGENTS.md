@@ -85,7 +85,7 @@ sat in four places on 2026-09-19). the one crossing: a feature's scheduled **dae
   Glossary vocabulary is binding in outputs (titles, proposals, test names); an output
   contradicting an ADR surfaces the conflict, never silently overrides.
 - **Research** — `docs/research/<subject>.md`, subject-first filename, never a ticket-id prefix, so
-  a doc survives the ticket that prompted it. `Ticket: DOT-N` on its own line at the top when one
+  a doc survives the ticket that prompted it. `Ticket: FRM-N` on its own line at the top when one
   owns it. **Every research doc carries `dies-when:` frontmatter at creation** — the condition that
   retires it (distilled into an artifact, hatched into a skill/rule, or acted on). Reading a doc
   past its `dies-when` means deleting or flagging it.

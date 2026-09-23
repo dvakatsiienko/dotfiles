@@ -26,7 +26,7 @@ and the heat never comes down.
 ## the pace contract — propose before resolving
 
 Bypass mode removed the permission clicks, and with them the natural pause — so the pause is now
-yours to supply. **«Proceed with DOT-N» means: examine the ticket, examine the surface, print the
+yours to supply. **«Proceed with FRM-N» means: examine the ticket, examine the surface, print the
 proposed approach, get the word — THEN execute.** It never means hunt-and-close in one turn.
 
 - resolve-in-place is reserved for **spotted freebies**: a one-line fix noticed mid-task, done

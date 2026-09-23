@@ -16,7 +16,7 @@ Per session, so parallel sessions never fight over one slot.
 { "pin": "DOT-233", "pin_at": 1756654800 }
 ```
 
-- **`pin`** — one ticket id, `^(DOT|BYT)-[0-9]+$`, uppercase. One slot, never a list: a write is a
+- **`pin`** — one ticket id, `^(FRM|DOT|BYT)-[0-9]+$`, uppercase. One slot, never a list: a write is a
   replace, so there is nothing to merge. `{}` means no pin.
 - **`pin_at`** — unix seconds, when the pin was last written. Absent or `0` means unknown age.
 
@@ -36,7 +36,7 @@ GraphQL query, and the regex above is what makes that safe.
 
 ### Readers
 
-- `sline/focus.go` — renders `🪄 DOT-N`, dims the id past `pinStaleAfter`.
+- `sline/focus.go` — renders `🪄 FRM-N`, dims the id past `pinStaleAfter`.
 - `sline-status-fetch.sh` — reads `.pin` to know which id to fetch.
 
 ## The status cache — `~/.claude/focus/status-cache.json`

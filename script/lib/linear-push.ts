@@ -75,7 +75,7 @@ export type Plan = {
  */
 export const ALLOWED_OWNERS = new Set(['dvakatsiienko']);
 export const ALLOWED_HOST = 'github.com';
-export const TEAM_PREFIXES = ['DOT', 'BYT'] as const;
+export const TEAM_PREFIXES = ['FRM', 'DOT', 'BYT'] as const;
 
 const ZERO_OID = /^0+$/;
 

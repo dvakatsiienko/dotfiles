@@ -204,6 +204,18 @@ describe('our own link form', () => {
         ]);
     });
 
+    test('reads the current team key and the retired one alike', () => {
+        expect(
+            linkTargetsIn([
+                commit('c3', 'subject\n\n- ticket: FRM-26'),
+                commit('d4', 'subject\n\n- ticket: DOT-26'),
+            ]),
+        ).toMatchObject([
+            { closing: false, id: 'FRM-26' },
+            { closing: false, id: 'DOT-26' },
+        ]);
+    });
+
     test('the form is invisible to the parser we are hiding from', () => {
         expect(magicRefsIn(['- ticket: DOT-210 (closes)'])).toEqual([]);
     });

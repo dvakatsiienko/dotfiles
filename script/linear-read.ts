@@ -22,7 +22,7 @@ const args = process.argv.slice(2);
 const id = args.find((a) => /^[A-Z]+-\d+$/.test(a));
 if (!id) {
     console.error(
-        'usage: pnpm linear:read <DOT-N|BYT-N> [--no-body] [--no-comments] [--json]',
+        'usage: pnpm linear:read <FRM-N|BYT-N> [--no-body] [--no-comments] [--json]',
     );
     process.exit(2);
 }

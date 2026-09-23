@@ -21,7 +21,7 @@ messages: `rules/dima-signals.md`.
   - 🚫 oneline lists are banned — «topic a · topic b · topic c» always becomes multiline. the
     `·` separator never appears inside a sentence at all: three things in a row are three
     bullets (dima on a «missed so far» paragraph, 2026-09-08: «ugly block»).
-- **operations get list shape, never prose.** one op per line, `DOT-N → what happened`, grouped by
+- **operations get list shape, never prose.** one op per line, `FRM-N → what happened`, grouped by
   kind. his words on a reply packed with ids mid-sentence: *«so ugly… hard to read»*. reasoning
   stays prose; operations never do.
 - **next steps are plain separate lines.** never ①②③ glyph run-ons in one line.
@@ -79,7 +79,7 @@ a page you named, never navigates from a site root to the page you meant.
 
 🚨 **the check is mechanical, not attentional.** this rule has been broken with the rule in
 context — once ~20 bare ticket ids in one reply, once ~26 bare filenames the next day. an id feels
-like a word while you are writing it. **before sending, scan for `DOT-`, `BYT-` and any filename
+like a word while you are writing it. **before sending, scan for `FRM-`, `DOT-`, `BYT-` and any filename
 he might open, and confirm each sits inside `](linear://` or `](cursor://file/`.** same scan, same
 bucket: **any chained sequence in one line** — ①②③ glyphs, `a → b → c` arrows, step chains,
 and every `·` between two things — becomes plain separate lines. the shape is the bug, not the

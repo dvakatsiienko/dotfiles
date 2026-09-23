@@ -14,16 +14,16 @@ single tracker since 2026-08-13; gh issues retired (closed history with pointer 
 
 | team | key | scope |
 | --- | --- | --- |
-| frame | `DOT` | tooling, approaches, how-we-work |
+| frame | `FRM` | tooling, approaches, how-we-work |
 | bytes | `BYT` | building apps — the `bytes` monorepo's product work |
 
 **split by nature of the work, never by which repo the files live in.** a build-infra or
-deploy-quota problem is `DOT` even when every file it touches is under `bytes`. a feature in an
+deploy-quota problem is `FRM` even when every file it touches is under `bytes`. a feature in an
 app is `BYT` even when the session edits shared config. the test: "am i solving how we work, or
 building the thing?"
 
 📌 `BYT/tooling` is the one trap — it is app-local build config **inside `bytes` only**.
-cross-cutting tooling is `DOT`, always.
+cross-cutting tooling is `FRM`, always.
 
 free plan: **2 teams max** (both used), **250 non-archived issues** workspace-wide.
 
@@ -55,7 +55,7 @@ hierarchy is what makes it a story.
 - if you meet «epic» in an old title or body while editing, rewrite it to «story» in passing.
 
 ```bash
-linear issue update DOT-N --parent DOT-M     # hang a ticket under a story parent
+linear issue update FRM-N --parent FRM-M     # hang a ticket under a story parent
 ```
 
 ## assignee ≠ role label

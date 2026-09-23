@@ -119,7 +119,7 @@ const LinearQueryTickets = (props: LinearQueryTicketsProps) => {
 export default LinearQueryTickets;
 
 /* Helpers */
-const issueIdPattern = /^(DOT|BYT)-\d+$/i;
+const issueIdPattern = /^(FRM|DOT|BYT)-\d+$/i;
 
 const toCountText = (count: number) =>
     count === 1 ? '1 issue' : `${count} issues`;

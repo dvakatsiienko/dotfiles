@@ -1,7 +1,7 @@
 ---
 name: pm
 description: >-
-  Load BEFORE any `linear` command runs — reads included — any DOT-N/BYT-N mention,
+  Load BEFORE any `linear` command runs — reads included — any FRM-N/BYT-N mention,
   "read/check <ticket>", create/update/comment/close/triage, "save this idea as a ticket",
   "ticketify", scope changes to tracked work, or /x:pm.
 ---
@@ -51,7 +51,7 @@ flags (`issue list --query`, `issue search`) came from citing recipes that sat u
 list is **what breaks**; for anything not on it, `linear <cmd> --help` confirms a flag in one
 call and is always cheaper than a wrong guess.
 
-- **listing** — `linear issue query --team DOT`. `issue list` shows only issues assigned to *you*,
+- **listing** — `linear issue query --team FRM`. `issue list` shows only issues assigned to *you*,
   and there is no `--query` flag on it.
 - **searching** — no `issue search` subcommand exists. Use `linear api` with `searchIssues`.
 - **multi-line bodies** — write a file, pass `--description-file f.md` (`issue create` /
@@ -60,7 +60,7 @@ call and is always cheaper than a wrong guess.
   backticks silently.
 - **labels replace, never add** — `issue update --label` drops every label you omit, silently, with
   a success message. Pass the full intended set (`--label agent --label improvement --label 'opus
-  5'`) and verify: `linear api 'query { issue(id: "DOT-N") { labels { nodes { name } } } }'`.
+  5'`) and verify: `linear api 'query { issue(id: "FRM-N") { labels { nodes { name } } } }'`.
 - **state on create** — `issue create` with no `--state` lands in **Triage**, and that is the
   contract (dima's call 2026-08-31): agent-created tickets are BORN in Triage so he sees, trims
   and steers every one. Never pass `--state Todo` on create; promotion out of Triage is his word.
@@ -98,9 +98,9 @@ Role, priority and estimate are **always filled and current** — monitoring the
   never resolve, start, or reassign it; the `human` label says a human does the work, not *which*
   human (importance is priority's job).
 - **Starting work pins it in sline** (`cc` only). Same turn as the In Progress move, replace this
-  session's one-slot focus file — sline renders it as `🪄 DOT-N` on line 1, and `claim DOT-N` typed
+  session's one-slot focus file — sline renders it as `🪄 FRM-N` on line 1, and `claim FRM-N` typed
   by Dima writes the same slot:
-  `printf '{"session_id":"%s","prompt":"claim DOT-N"}' "$CLAUDE_CODE_SESSION_ID" | ~/.claude/shelf/hooks/sline-focus.sh` — that hook is the ONLY writer of the slot, and it also kicks off the status fetch a raw write skips (`shelf/hooks/FOCUS-SPEC.md`)
+  `printf '{"session_id":"%s","prompt":"claim FRM-N"}' "$CLAUDE_CODE_SESSION_ID" | ~/.claude/shelf/hooks/sline-focus.sh` — that hook is the ONLY writer of the slot, and it also kicks off the status fetch a raw write skips (`shelf/hooks/FOCUS-SPEC.md`)
 - 📌 `--label` **replaces** the whole label set rather than adding to it. Always pass role AND
   kind together, or one of them is silently dropped.
 - On create: propose priority (1–4) + estimate (1–5) + project + **parent and milestone** — a
@@ -206,7 +206,7 @@ deleted — the call is Dima's, every time.
 - **Titles are the interface**: clear, concise, subject-first — details go in the body, never the title.
 - Bodies tidy and formatted. Ticket-id link format is not restated here — `rules/fleet-output-format.md` owns it.
 - Pretty output: tables for batches, one-line confirmations for single ops.
-- **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename DOT-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
+- **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename FRM-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.
 
@@ -235,7 +235,7 @@ GraphQL for any read that will inform a decision**, and filter the JSON so only 
 enter context. Always fetch: `labels { nodes { name description } }` · `parent` + `children` ·
 `comments` · `attachments` · state, project, priority, assignee.
 
-- **on `cc`, one call prints the whole contract: `pnpm linear:read DOT-N`** (in `~/frame`;
+- **on `cc`, one call prints the whole contract: `pnpm linear:read FRM-N`** (in `~/frame`;
   `--no-body` for a DOT-237-class body, `--no-comments`, `--json`). Reach for it on every
   decision-informing read — comments included by default, both relation sides, `⚠️ capped` on any
   paged list.

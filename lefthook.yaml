@@ -71,11 +71,11 @@ commit-msg:
     no-linear-keyword:
       # Linear's parser reads every push: one of its keywords next to a ticket id
       # («fixes DOT-1», «closes BYT-2», «ref DOT-3») assigns dima and moves the
-      # ticket behind our back. The only allowed form is `- ticket: DOT-N` with an
+      # ticket behind our back. The only allowed form is `- ticket: FRM-N` with an
       # optional `(closes)` AFTER the id, which the pre-push hook applies itself.
       # A coder hand-scanned 18 bodies for this on 2026-09-20; the hook does it now.
       run: |
-        if grep -qiE '\b(refs?|references|part of|contributes to|towards?|close[sd]?|fix(es|ed)?|resolve[sd]?|complete[sd]?|implement(s|ed)?)\b[[:space:]]*:?[[:space:]]*(DOT|BYT)-[0-9]+' {1}; then
-          echo "commit-msg: a Linear keyword sits next to a ticket id — Linear would assign dima and move the ticket. Write «- ticket: DOT-N» (with «(closes)» after the id) and nothing else beside an id."
+        if grep -qiE '\b(refs?|references|part of|contributes to|towards?|close[sd]?|fix(es|ed)?|resolve[sd]?|complete[sd]?|implement(s|ed)?)\b[[:space:]]*:?[[:space:]]*(FRM|DOT|BYT)-[0-9]+' {1}; then
+          echo "commit-msg: a Linear keyword sits next to a ticket id — Linear would assign dima and move the ticket. Write «- ticket: FRM-N» (with «(closes)» after the id) and nothing else beside an id."
           exit 1
         fi

@@ -2,7 +2,7 @@
 # UserPromptSubmit hook — maintains the per-session focus file sline renders.
 # One slot: the ticket this session is on.
 #
-#   claim DOT-23  -> that is the ticket now, replacing whatever was there.
+#   claim FRM-23  -> that is the ticket now, replacing whatever was there.
 #                    Alias: pin.
 #   ticket fly    -> clear the slot. Also: tickets fly.
 #
@@ -38,7 +38,7 @@ while IFS= read -r line; do
 		printf '{}' >"$file"
 		continue
 	fi
-	[[ $line =~ ^[[:space:]]*(claim|pin)[[:space:]]+((DOT|BYT)-[0-9]+)[[:space:]]*$ ]] || continue
+	[[ $line =~ ^[[:space:]]*(claim|pin)[[:space:]]+((FRM|DOT|BYT)-[0-9]+)[[:space:]]*$ ]] || continue
 	id=$(printf '%s' "${BASH_REMATCH[2]}" | tr '[:lower:]' '[:upper:]')
 	# One slot, so the write is a replace — nothing to merge with what was there.
 	jq -n --arg p "$id" --argjson t "$now" '{pin: $p, pin_at: $t}' >"$file.tmp" &&

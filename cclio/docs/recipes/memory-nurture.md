@@ -62,7 +62,7 @@ runs first because it is free, exact, and it shortens every later step. **never 
 
 | check | how | today's precision |
 | -- | -- | -- |
-| **closed-ticket citations** | every `DOT-N`/`BYT-N` in a resident file → ask linear its state → flag Done/Canceled ids sitting within 2 lines of open-state language (`tracks it`, `trial`, `awaiting`, `pending`, `until he decides`) | **~92%** — 12 flagged, 11 genuine |
+| **closed-ticket citations** | every `FRM-N`/`BYT-N` in a resident file → ask linear its state → flag Done/Canceled ids sitting within 2 lines of open-state language (`tracks it`, `trial`, `awaiting`, `pending`, `until he decides`) | **~92%** — 12 flagged, 11 genuine |
 | **dead `@import`** | every `@slug` in a barrel resolves to a file | clean |
 | **barrel omission** | every leaf on disk is imported; every import exists | clean, 54/54 both ways |
 | **dead `cursor://` link** | the absolute path in each link exists | clean |

@@ -25,7 +25,7 @@ Working artifacts die the turn their job is done: processed flowlog buckets, scr
 - 🚫 never destroy pending or ambiguous content (`rules/fleet-bypass-restraint.md`) — in doubt, mark done and
   ask at the halt.
 - **exemption:** `docs/research/*` is kept — deletion there is his manual call; the duty is
-  linkage (`Ticket: DOT-N` at the top), not removal.
+  linkage (`Ticket: FRM-N` at the top), not removal.
 
 🌍 Fleet-wide habit; queue fleet-bound bits on [DOT-186](linear://linear.app/issue/DOT-186), never
 push into another surface's store yourself.

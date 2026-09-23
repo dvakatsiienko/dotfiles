@@ -9,12 +9,13 @@ the middle of doing something else. Anything past it, load the `pm` skill or han
 📌 **This flow binds only workspace `x-com`.** A repo with a different tracker — or none — follows
 its own conventions; skip the ritual entirely.
 
-- **Linear**, workspace `x-com`. Two teams: **`DOT`** = tooling, approaches, how-we-work.
+- **Linear**, workspace `x-com`. Two teams: **`FRM`** = tooling, approaches, how-we-work (key was `DOT` until 2026-09-23 — an old
+  `DOT-N` id still resolves to its `FRM-N`, so old links never need a sweep).
   **`BYT`** = building apps. Split by the nature of the work, never by which repo the files sit in.
 - The channel is the **`linear` CLI**. 🚫 **Never the Linear MCP.** `linear api '<graphql>'` covers
   anything the CLI lacks.
   - `linear api` takes the query **positionally**, not behind a flag.
-  - `linear issue list`/`mine` shows only YOUR issues — general listing is `issue query --team DOT`.
+  - `linear issue list`/`mine` shows only YOUR issues — general listing is `issue query --team FRM`.
   - `linear issue comment add -b <text>` / `--body-file <path>` posts a comment (cli ≥2.5.0);
     `update` and `delete` exist too.
 
@@ -23,11 +24,11 @@ its own conventions; skip the ritual entirely.
 **The moment work on a ticket actually starts, move it to In Progress** — same turn, not
 retroactively, not when the commit lands.
 
-    linear issue update DOT-N --state "In Progress"
+    linear issue update FRM-N --state "In Progress"
 
 📌 **Moving a ticket never assigns it.** In Progress says the work is happening; the assignee says
 the ticket is Dima's. **Never pass `--assignee`.** Unassigned is the default and stays that way
-until he assigns himself. This is absolute for workspace `x-com`, teams `DOT` and `BYT` — an oss
+until he assigns himself. This is absolute for workspace `x-com`, teams `FRM` and `BYT` — an oss
 repo or a client tracker follows that project's conventions instead.
 
 **One exception, the `standing` label:** recurring work with no last round legitimately stays In
@@ -36,10 +37,10 @@ Progress between rounds. An In Progress ticket *without* that label is stale, no
 ## Ids are never invented
 
 An id comes from Dima, from the conversation, or from the branch name. **Nowhere else.** Never
-guess one, never grep for a plausible match, never write `DOT-?`. Most commits have no ticket, and
+guess one, never grep for a plausible match, never write `FRM-?`. Most commits have no ticket, and
 omitting the line is always correct.
 
-⚠️ A commit body names its ticket as `- ticket: DOT-N`, and nothing else — Linear's own keywords
+⚠️ A commit body names its ticket as `- ticket: FRM-N`, and nothing else — Linear's own keywords
 (`ref`, `closes`, …) next to an id are banned, because its parser answers them by assigning Dima.
 The `cmt` skill owns that contract and loads on every commit; the pre-push hook
 (`script/linear-push.ts`) does the linking itself.

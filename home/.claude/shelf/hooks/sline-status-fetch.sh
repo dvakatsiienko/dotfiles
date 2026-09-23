@@ -26,7 +26,7 @@ now=$(date +%s)
 # The focus file holds one id. The shape check is also what makes it safe to
 # interpolate into the query below.
 id=$(jq -r '.pin // empty' "$file" 2>/dev/null || true)
-[[ $id =~ ^(DOT|BYT)-[0-9]+$ ]] || exit 0
+[[ $id =~ ^(FRM|DOT|BYT)-[0-9]+$ ]] || exit 0
 
 # Fetch when this id has no entry at all, or when its entry has aged out. The
 # test looks ONLY at this id: entries for ids that have since left keep their

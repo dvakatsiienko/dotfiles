@@ -117,8 +117,8 @@ Linear↔GitHub **issue sync is off** — tickets must never leak to GitHub. A c
 only thread tying code back to its ticket, and it carries that thread in **one form**:
 
 ```
-- ticket: DOT-N
-- ticket: DOT-N (closes)
+- ticket: FRM-N
+- ticket: FRM-N (closes)
 ```
 
 **We do the linking ourselves.** The pre-push hook reads this line, attaches the commit to the
@@ -135,12 +135,12 @@ on [DOT-229](https://linear.app/x-com/issue/DOT-229) 2026-08-28, six forms, one 
 
 Dima's lane: no branch, no PR, commit and push. The **commit body carries everything**.
 
-- **Every commit touching the work**: a `- ticket: DOT-N` line.
-- **Close on the last one**: `- ticket: DOT-N (closes)` when the commit finishes the ticket.
+- **Every commit touching the work**: a `- ticket: FRM-N` line.
+- **Close on the last one**: `- ticket: FRM-N (closes)` when the commit finishes the ticket.
   One close per ticket, never repeated.
 - **No ticket → no line.** Most commits have none. The id comes from the conversation, the
   branch name, or Dima — nowhere else. Never guess, never grep for a plausible match, never
-  write `DOT-?`. Omitting the line is always correct.
+  write `FRM-?`. Omitting the line is always correct.
 - **Never close on Dima's behalf without saying so.** Name the ticket you are about to close in
   the reply.
 - 🎯 **A commit body is PARSED, not read — writing *about* a banned keyword IS using one.**
@@ -148,7 +148,7 @@ Dima's lane: no branch, no PR, commit and push. The **commit body carries everyt
   moved the ticket five seconds after push). **Before pushing, grep the body for the id pattern
   and count the hits** — the count is what fires, never the intent. Write "a `ticket:` line
   naming DOT-1", never a banned keyword next to an id.
-- Scoped to Dima's tracker (`DOT`/`BYT`); an oss repo's conventions belong to that project.
+- Scoped to Dima's tracker (`FRM`/`BYT`); an oss repo's conventions belong to that project.
 - 🎯 **the same parser trap on the github side: a body never contains the literal `[skip ci]`,
   `[ci skip]`, `[skip actions]` or `[actions skip]`, quoting included.** github reads the marker
   anywhere in the message and creates no push or pull_request run for that head, silently — a
@@ -192,8 +192,8 @@ default lane.
 ### Exception lane — other pull requests
 
 Cloud-agent branches (`claude/…`) and anything Dima explicitly opens a PR for follow the same
-shape: branch commits carry `- ticket: DOT-N`, the PR description carries exactly one
-`Closes DOT-N`. For a branch never checked out here, write it with `gh pr edit`, never by
+shape: branch commits carry `- ticket: FRM-N`, the PR description carries exactly one
+`Closes FRM-N`. For a branch never checked out here, write it with `gh pr edit`, never by
 rewriting remote commits.
 
 ### Wiring a new repo
