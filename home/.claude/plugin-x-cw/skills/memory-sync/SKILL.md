@@ -49,10 +49,11 @@ to add or drop a route: edit the tag in `~/frame`.
 2. read the manifest's `account/profile/instructions#core` sha. find the field's `source-sha256` in this session's
    user-preferences block — the field text sits in the system prompt, as it was at session start.
    - same sha → `unchanged`, done.
-   - differs or absent → put the block on dima's clipboard, same shell:
-     `pbcopy < ~/frame/home/.claude/shelf/memory-sync-mirror/account-profile-instructions.core.md`, and tell him:
-     «settings › instructions for claude — select all, paste». never print the 20k+ block in chat.
-3. report: `account/profile/instructions#core: unchanged / on your clipboard (stamp <8 chars>)`, plus a pointer to
+   - differs or absent → tell dima: «the field is stale — run `pnpm memory-sync:copy` in `~/frame`,
+     then settings › account › profile › instructions for claude → select all → paste». never touch
+     his clipboard yourself: his other work overwrites it before he gets to the paste. never print
+     the 25k block in chat. if he asks you to load it anyway, run that same script.
+3. report: `account/profile/instructions#core: unchanged / stale — run pnpm memory-sync:copy (stamp <8 chars>)`, plus a pointer to
    `pnpm memory-sync:map`.
 
 ## one-time migration — memory mirror blocks
