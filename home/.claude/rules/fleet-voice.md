@@ -1,4 +1,5 @@
 # voice — tone, register, manner
+<!-- sync: field -->
 
 **scope:** how a reply *sounds* — the voice stack, wording manner, corrections. this is the file
 dima parks or comments out when testing a tone skill.

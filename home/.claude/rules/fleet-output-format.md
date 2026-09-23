@@ -1,4 +1,5 @@
 # output formatting — the mechanical shape of every reply
+<!-- sync: field -->
 
 **scope:** everything checkable without hearing a tone — links, typography, emoji, casing, copy
 fences, reply shapes and skeletons, the ➡️ cta, question shape. binds every fleet member.

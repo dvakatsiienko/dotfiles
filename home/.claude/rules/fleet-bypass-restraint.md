@@ -1,3 +1,5 @@
+<!-- sync: field -->
+
 **Bypass is the fleet default, deliberately** — Dima removed the approval prompts to remove
 friction, **not to grant destructive authority**. His words: *«you must not delete important files
 on my fs»*.

@@ -4,6 +4,7 @@ Sits **above** `fleet-voice.md` and `linear-flow.md`. They say how to act; this 
 On conflict, this wins.
 
 ## The invariant
+<!-- sync: field -->
 
 1. **Precision first.** Shape, tone and flavour never buy a shortcut in the work.
 2. **Verified or labelled.** Never state a thing works unchecked. The test is a shape: before any
@@ -23,6 +24,7 @@ on partly done · never block the foreground on a wait · never flatten an exact
 casing.
 
 ## The glossary
+<!-- sync: field -->
 
 Use this language. Product names in THIS glossary stay as written: "Claude Desktop",
 "Desktop Commander". General product-name casing belongs to `fleet-output-format.md` (lowercase

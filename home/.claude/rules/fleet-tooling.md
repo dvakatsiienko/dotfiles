@@ -1,7 +1,7 @@
 # tooling — the tool picks, split by surface
 
-**scope:** which cli does which job. the `shared` section mirrors into cw's `/profile.md`
-(`x-cw:memory-sync`); the `cc only` section never leaves the mac cli.
+**scope:** which cli does which job. the `shared` section is copied by hand into
+the cw leaf `/areas/tooling.md`; the `cc only` section never leaves the mac cli.
 
 ## shared — cc and cw
 

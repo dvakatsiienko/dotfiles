@@ -1,4 +1,5 @@
 # fleet-doors — the routing table
+<!-- sync: field -->
 
 **scope:** which door exists for each external domain. one line each, resident on every surface —
 a door you do not know about is a door you answer «i have no access» to. the details behind each
