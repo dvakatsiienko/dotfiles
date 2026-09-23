@@ -1,6 +1,7 @@
-// draws the readme's own badges from facts in the repo, in the banner's style: gruvbox violet,
-// scanlines, softly rounded. ci stays live on shields (a committed file cannot go red); every
-// badge here is a stored fact, redrawn on each run. run: pnpm badges:sync
+// draws the readme's badges in the banner's style: gruvbox violet, scanlines, softly rounded.
+// `pnpm badges:sync` redraws the stored facts into assets/badges/. `--ci <result> <dir>` draws only
+// ci.svg — the ci workflow calls it after every main run and pushes it to the `badges` branch,
+// which is how a badge in our own style still turns red live.
 import { execFileSync } from 'node:child_process';
 import {
     existsSync,
@@ -15,62 +16,6 @@ const out = `${root}assets/badges`;
 
 const run = (cmd: string, args: string[]) =>
     execFileSync(cmd, args, { cwd: root, encoding: 'utf8' });
-
-const skills = globSync(
-    [
-        'home/.claude/plugin-x/skills/*/SKILL.md',
-        'cclio/plugin-cclio/skills/*/SKILL.md',
-    ],
-    {
-        cwd: root,
-    },
-).length;
-
-const mirrored = Number(
-    run('node', ['script/frame-link.ts']).match(/(\d+) entries mirrored/)?.[1],
-);
-
-const vitestOut = '/tmp/frame-badges-vitest.json';
-run('npx', ['vitest', 'run', '--reporter=json', `--outputFile=${vitestOut}`]);
-const tests: { numPassedTests: number } = JSON.parse(
-    readFileSync(vitestOut, 'utf8'),
-);
-
-const pnpm: string = JSON.parse(
-    readFileSync(`${root}package.json`, 'utf8'),
-).packageManager.replace('pnpm@', '');
-
-const node = readFileSync(`${root}.node-version`, 'utf8').trim();
-const license = /^MIT License/.test(readFileSync(`${root}LICENSE`, 'utf8'))
-    ? 'mit'
-    : 'see LICENSE';
-
-const renovate = existsSync(`${root}renovate.json`) ? 'enabled' : 'off';
-
-const badges = [
-    { color: '#8ec07c', label: 'node', name: 'node', value: node },
-    {
-        color: '#fe8019',
-        label: 'skills',
-        name: 'skills',
-        value: String(skills),
-    },
-    {
-        color: '#83a598',
-        label: 'mirrored',
-        name: 'mirrored',
-        value: String(mirrored),
-    },
-    {
-        color: '#b8bb26',
-        label: 'tests',
-        name: 'tests',
-        value: String(tests.numPassedTests),
-    },
-    { color: '#fabd2f', label: 'pnpm', name: 'pnpm', value: pnpm },
-    { color: '#689d6a', label: 'renovate', name: 'renovate', value: renovate },
-    { color: '#a89984', label: 'license', name: 'license', value: license },
-];
 
 const fontSize = 13;
 const charWidth = 7.9;
@@ -99,6 +44,74 @@ function badge(label: string, value: string, color: string): string {
 </svg>
 `;
 }
+
+const ciAt = process.argv.indexOf('--ci');
+if (ciAt >= 0) {
+    const passing = process.argv[ciAt + 1] === 'success';
+    const dir = process.argv[ciAt + 2] ?? '.';
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(
+        `${dir}/ci.svg`,
+        badge(
+            'ci',
+            passing ? 'passing' : 'failing',
+            passing ? '#b8bb26' : '#fb4934',
+        ),
+    );
+    process.exit(0);
+}
+
+const skills = globSync(
+    [
+        'home/.claude/plugin-x/skills/*/SKILL.md',
+        'cclio/plugin-cclio/skills/*/SKILL.md',
+    ],
+    {
+        cwd: root,
+    },
+).length;
+
+const mirrored = Number(
+    run('node', ['script/frame-link.ts']).match(/(\d+) entries mirrored/)?.[1],
+);
+
+const vitestOut = '/tmp/frame-badges-vitest.json';
+run('npx', ['vitest', 'run', '--reporter=json', `--outputFile=${vitestOut}`]);
+const tests: { numPassedTests: number } = JSON.parse(
+    readFileSync(vitestOut, 'utf8'),
+);
+
+const pnpm: string = JSON.parse(
+    readFileSync(`${root}package.json`, 'utf8'),
+).packageManager.replace('pnpm@', '');
+
+const node = readFileSync(`${root}.node-version`, 'utf8').trim();
+
+const renovate = existsSync(`${root}renovate.json`) ? 'enabled' : 'off';
+
+const badges = [
+    { color: '#8ec07c', label: 'node', name: 'node', value: node },
+    {
+        color: '#fe8019',
+        label: 'skills',
+        name: 'skills',
+        value: String(skills),
+    },
+    {
+        color: '#83a598',
+        label: 'mirrored',
+        name: 'mirrored',
+        value: String(mirrored),
+    },
+    {
+        color: '#b8bb26',
+        label: 'tests',
+        name: 'tests',
+        value: String(tests.numPassedTests),
+    },
+    { color: '#fabd2f', label: 'pnpm', name: 'pnpm', value: pnpm },
+    { color: '#689d6a', label: 'renovate', name: 'renovate', value: renovate },
+];
 
 mkdirSync(out, { recursive: true });
 for (const b of badges)

@@ -2,14 +2,13 @@
 all moving.
 
 <p align="center">
-  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat&label=ci&labelColor=1d2021" height="24" alt="ci"></a>
+  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://raw.githubusercontent.com/dvakatsiienko/frame/badges/ci.svg" alt="ci"></a>
   <img src="assets/badges/tests.svg" alt="tests">
   <img src="assets/badges/renovate.svg" alt="renovate">
   <img src="assets/badges/node.svg" alt="node">
   <img src="assets/badges/pnpm.svg" alt="pnpm">
   <img src="assets/badges/skills.svg" alt="skills">
   <img src="assets/badges/mirrored.svg" alt="mirrored">
-  <a href="LICENSE"><img src="assets/badges/license.svg" alt="license"></a>
 </p>
 
 <p align="center">
