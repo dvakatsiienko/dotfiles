@@ -27,7 +27,7 @@ to add or drop a route: edit the tag in `~/frame`.
 
 ## the field has two parts
 
-- **dima's section, on top** — his own words, sourced from `~/frame/home/.claude/instructions-head.md`.
+- **dima's section, on top** — his own words, sourced from `instructions-head.md` beside this skill (`~/frame/home/.claude/plugin-x-cw/skills/memory-sync/`).
 - a `═══` line reading «⬇ synced from cc memory» — everything under it is rendered, never hand-edited.
 
 ## the procedure

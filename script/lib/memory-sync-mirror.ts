@@ -64,7 +64,8 @@ export type Manifest = Record<
  * file; `x-cw:memory-sync` pulls a field edit back into the file before it renders, so a paste
  * never loses his words.
  */
-export const HEAD = 'home/.claude/instructions-head.md';
+export const HEAD =
+    'home/.claude/plugin-x-cw/skills/memory-sync/instructions-head.md';
 
 /** the line between his section and the synced part — plain text, it reads in the settings field. */
 export const SEPARATOR = [
