@@ -84,6 +84,7 @@ real in the logs → skip the step entirely.
 one message, short lines, **no queries here — pure assembly**:
 - «hey <model> here» (the root claude.md rule)
 - healthcheck verdict (one line if green)
+- 📝 `flawlog: <path>` — the day's file from step 8, opened BEFORE the board is assembled; the line prints only once the file exists, so a skipped step 8 shows as a missing line (the 2026-09-23 miss: the file never opened all day)
 - ⏰📌 stuck reminders, own line each (omit if none)
 - inbox status · handoffs pending · queue depth + top item
 - 📋 the proposed processing order — a numbered session plan, one line per item, with a
