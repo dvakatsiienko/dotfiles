@@ -14,6 +14,7 @@
       "!.claude/worktrees", // coder worktrees carry their own biome.jsonc — a nested root otherwise
       "!assets", // generated readme art: mac.svg keeps ascii spacing under xml:space, a reformat breaks it
       "!home/.claude/sline/showcase/sline.svg", // rendered by render-svg.ts, never hand-edited
+      "!brand", // generated avatar and brand art (svg + png), never hand-formatted
 
       // Not ours to format — editor/app config consumed verbatim, and themes
       // whose diffs would be pure noise.
