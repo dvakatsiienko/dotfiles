@@ -6,7 +6,22 @@ description: Load BEFORE any memory_write, memory_str_replace, memory_append or 
 # memory-update — the shape of every cw memory edit
 
 Every write to cw global memory goes through this skill. It owns HOW a memory is written;
-`memory-sync` owns WHAT the bridge entries contain and defers here for the writing.
+`memory-sync` feeds dima's account / profile / instructions and never writes memory.
+
+## the dupe check — first, before every write
+
+three stores load together: dima's own section of account / profile / instructions (above the
+`═══` line), the cc rules rendered under that line, and this memory. **one fact, one store.**
+
+1. read the account instructions in this session's system prompt. the fact is already there →
+   **do not write it.** a sharper version of a rule below the line is a change for its master in
+   `~/frame`; a sharper version of dima's own section is his to edit — relay either, never file a
+   memory copy.
+2. `memory_list` with previews. the fact already lives in an entry → update that entry, never add
+   a second copy.
+3. a dupe met on the way is fixed in the same run when it is a pure repeat: remove the memory
+   copy — the field wins over memory; between two entries, the entry whose subject owns the fact
+   wins. a dupe that differs in substance is a conflict: print it and ask, never pick a side.
 
 ## routing — where a fact belongs
 
@@ -74,8 +89,8 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
 
 - **only `/profile.md` and `/preferences.md` are auto-loaded.** every other entry is a leaf: a
   path and a description in the listing, read only when this skill's reader chooses to.
-- injected-char budgets per host, measured 2026-09-21. native content and any mirror block spend
-  the same budget:
+- injected-char budgets per host, measured 2026-09-21. no mirror blocks live in memory anymore —
+  the whole budget is cw-native:
   - `/preferences.md` — 16 384
   - `/profile.md` — 8 192
   - a leaf — 49 152 bytes of storage, and it costs nothing at all until it is read
@@ -85,7 +100,7 @@ Every write to cw global memory goes through this skill. It owns HOW a memory is
   stay resident is only what a leaf cannot rescue: that a door exists at all. a leaf is read only
   when the reader already knows it is in that domain, so an unknown-unknown — gmail has a cli,
   and no mcp — is lost unless it is resident. the doors live in `rules/fleet-doors.md` and reach
-  cw through `memory-sync`; never hand-write them into an entry.
+  cw through account / profile / instructions; never hand-write them into an entry.
 
 ## register — how memory prose reads
 
@@ -113,9 +128,9 @@ memory serves two readers: dima (must answer his question without re-asking) and
 - unsure whether to prune a line → ask him before writing.
 - a fact with a master file in `~/frame` is a derived copy — point at the master or copy it
   exactly; never write a competing variant.
-- an entry carrying `source-sha256:` in its frontmatter, or a block between `<!-- mirror:start -->`
-  and `<!-- mirror:end -->`, is a mirror written by `memory-sync` — never edit it by hand; the change
-  goes to the master in `~/frame`, then `/memory-sync`.
+- everything under the `═══` line in account / profile / instructions is a cc master rendered by
+  `memory-sync` — never copy it into an entry; a change goes to the master in `~/frame`, then
+  `pnpm memory-sync:copy` and dima's paste.
 
 ## arg: `dry`
 
@@ -127,8 +142,8 @@ run the full pass, print every intended write as a diff, write nothing.
 register, `[stated]` prefixes, stale descriptions, sectioning. a line that reads like flavour is
 rewritten flat, its fact kept. `all` walks every entry in the listing.
 
-after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side
-and flag any fact claimed by two files — per-entry reading is structurally blind to dupes, and
+after the per-entry walk, one **cross-entry pass**: list every entry's subjects side by side —
+the account instructions count as one more entry — and flag any fact claimed by two of them — per-entry reading is structurally blind to dupes, and
 every dupe found in the field test survived a full prettify walk. the pass prints one fixed
 block and writes none of it:
 
