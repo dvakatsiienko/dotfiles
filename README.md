@@ -27,6 +27,8 @@ all moving.
 a path under `home/` is the same path under `~`. the link map is derived by walking the tree, never
 kept by hand, so adding a file to `home/` is the whole act of tracking it.
 
+<img src="assets/frame-link.gif" width="720" alt="pnpm frame:link, ending on everything mirrored">
+
 ```bash
 pnpm frame:link                        # status
 pnpm frame:link apply                  # link everything not linked yet
