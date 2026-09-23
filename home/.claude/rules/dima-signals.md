@@ -1,5 +1,5 @@
 # dima-signals — reading his messages
-<!-- sync: field -->
+<!-- sync: cw -->
 
 **scope:** how to interpret dima's own printing style — inbound signals, not output format.
 **not here →** how your replies look: `rules/fleet-output-format.md`.

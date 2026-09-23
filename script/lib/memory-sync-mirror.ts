@@ -1,26 +1,20 @@
 /**
- * ? memory-sync mirror — renders the cc masters into cw's three auto-loaded surfaces.
+ * ? memory-sync mirror — renders the cc masters into dima's «instructions for claude» box.
  * ?
- * ? cw auto-loads exactly three things per conversation: dima's «instructions for claude» box
- * ? (claude.ai settings → profile; only he can edit it, so the render hands him a paste block), and
- * ? the memory entries `/preferences.md` and `/profile.md`. every other memory entry is a leaf read
- * ? on demand.
+ * ? the box (claude.ai settings → profile) is the one cw destination the masters feed: it loads
+ * ? on every surface, holds 32 768 chars (dima's paste test, 2026-09-23), and only dima can write
+ * ? it — so the render is a paste block, and cw's own memory entries (`/preferences.md`,
+ * ? `/profile.md`, the leaves) stay fully cw-native, never spliced.
  * ?
- * ? ROUTING IS A TAG IN THE MASTER, never a list here. a line `<!-- sync: <dest> -->` directly under
- * ? a heading sends that section — and every subsection under it — to one destination; a
- * ? subsection may override with its own tag, `none` keeps it cc-only. a tag on its own line before
- * ? the first heading routes the whole file. cc strips html comments at load, so a tag costs cc
- * ? nothing and the masters keep their natural section order. `grep -rn 'sync:' home/.claude` is the
- * ? whole routing table; the render also prints it and writes `map.md` beside the fragments.
+ * ? ROUTING IS A TAG IN THE MASTER, never a list here. a line `<!-- sync: cw -->` directly under a
+ * ? heading sends that section — and every subsection under it — to the box; a subsection may opt
+ * ? back out with `<!-- sync: none -->`. a tag on its own line before the first heading routes the
+ * ? whole file. cc strips html comments at load, so a tag costs cc nothing and the masters keep
+ * ? their natural section order. `pnpm memory-sync:map` prints the routing table.
  * ?
- * ? each destination injects a fixed number of CHARS — the box 32 768 (dima's paste test,
- * ? 2026-09-23), `/preferences.md` 16 384, `/profile.md` 8 192 (measured 2026-09-21) — and a memory
- * ? host's own native content eats the same budget. over budget, cw stores the write and
- * ? TRUNCATES the tail silently at load, so the render aborts instead. every fragment renders
+ * ? over 32 768 the box refuses the paste, so the render aborts first. the fragment renders
  * ? COMPACT: headers, bullets and marker-led paragraphs whole, plain prose and html comments
  * ? dropped — except a leaf section left with nothing but its heading, which keeps its prose.
- * ? the only other transform is `- ` → `- [stated] ` on bullets, which cw's memory guidance
- * ? requires on fact lines.
  */
 
 /* Core */
@@ -28,40 +22,29 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-export const DESTS = ['field', 'prefs', 'profile'] as const;
-export type Dest = (typeof DESTS)[number];
-type Tag = Dest | 'none';
+type Tag = 'cw' | 'none';
+const TAGS: readonly Tag[] = ['cw', 'none'];
 
 export type Target = {
-    dest: Dest;
-    /** the cw host entry the fragment splices into, or `instructions` for dima's settings box */
+    /** where the fragment lands — `instructions` is dima's settings box */
     path: string;
     fragment: string;
-    /** chars cw injects from this destination per conversation */
-    injectedCap: number;
-    /** chars of the host cw wrote itself — they eat the same budget */
-    nativeReserve: number;
-    /** dima pastes it by hand as a full replace — cw cannot write this destination */
-    paste?: boolean;
+    /** chars the destination accepts */
+    cap: number;
 };
 
-/** what the fragment may spend: the injected cap minus the host's own native content. */
-export const budgetOf = (t: Target) => t.injectedCap - t.nativeReserve;
-
-export type Routed = { dest: Dest; file: string; section: string };
+export type Section = { file: string; section: string; chars: number };
 
 export type Rendered = {
     file: string;
     path: string;
     fragment: string;
     sha256: string;
-    /** file size — the byte marker cw compares */
-    bytes: number;
-    /** rendered length — what the cw caps count */
+    /** rendered length — what the box counts */
     chars: number;
     body: string;
-    /** the tagged sections this fragment carries, in render order */
-    routed: Routed[];
+    /** the tagged sections this fragment carries, in render order, with their rendered size */
+    sections: Section[];
 };
 
 export type Manifest = Record<
@@ -69,22 +52,14 @@ export type Manifest = Record<
     {
         file: string;
         sha256: string;
-        bytes: number;
+        chars: number;
         sources: string[];
         fragment: string;
-        paste: boolean;
     }
 >;
 
 export const MARK_START = '<!-- mirror:start -->';
 export const MARK_END = '<!-- mirror:end -->';
-
-/**
- * ⚠️ the memory storage cap (32 768 bytes) is NOT the binding one for a memory host — an
- * over-budget entry stores fine and cw TRUNCATES it silently at load, so the render aborts on the
- * injected budget instead. the settings box refuses past 32 768 chars (dima, 2026-09-23).
- */
-export const STORAGE_CAP = 32_768;
 
 const CLAUDE = 'home/.claude';
 const RULES = `${CLAUDE}/rules`;
@@ -104,30 +79,11 @@ export const ORDER = [
     `${RULES}/fleet-output-format.md`,
 ];
 
-export const targets: Target[] = [
-    {
-        dest: 'field',
-        fragment: 'core',
-        injectedCap: 32_768,
-        nativeReserve: 0,
-        paste: true,
-        path: 'instructions',
-    },
-    {
-        dest: 'prefs',
-        fragment: 'habits',
-        injectedCap: 16_384,
-        nativeReserve: 4_400,
-        path: '/preferences.md',
-    },
-    {
-        dest: 'profile',
-        fragment: 'fleet',
-        injectedCap: 8_192,
-        nativeReserve: 2_000,
-        path: '/profile.md',
-    },
-];
+export const target: Target = {
+    cap: 32_768,
+    fragment: 'core',
+    path: 'instructions',
+};
 
 export function listMasters(root: string): string[] {
     const rules = readdirSync(join(root, RULES))
@@ -172,10 +128,6 @@ const clean = (body: string) =>
         })
         .join('\n\n');
 
-/** the one transform: fact bullets get cw's `[stated]` tag; indentation and everything else stay. */
-export const tagBullets = (body: string) =>
-    body.replace(/^(\s*)- (?!\[stated\] )/gm, '$1- [stated] ');
-
 type Part = {
     level: number;
     title: string;
@@ -200,7 +152,7 @@ export function parseMaster(body: string, file = 'master'): Part[] {
             let own: Tag | undefined;
             if (match?.[1]) {
                 const tag = match[1];
-                if (tag !== 'none' && !DESTS.includes(tag as Dest))
+                if (!TAGS.includes(tag as Tag))
                     throw new Error(`${file}: unknown sync tag «${tag}»`);
                 own = tag as Tag;
                 lines.splice(at, 1);
@@ -223,23 +175,30 @@ export function parseMaster(body: string, file = 'master'): Part[] {
 }
 
 /**
- * the parts routed to `dest`, compacted. a routed part pulls its ancestors' heading lines along so
- * the hierarchy reads; a routed leaf left with only its heading keeps its prose.
+ * the parts routed to cw, compacted. a routed part pulls its ancestors' heading lines along so the
+ * hierarchy reads; a routed leaf left with only its heading keeps its prose. each tagged section
+ * reports the chars it and its subsections render to.
  */
 export function selectFor(
     body: string,
-    dest: Dest,
     file = 'master',
-): { text: string; sections: string[] } {
+): { text: string; sections: Section[] } {
     const parts = parseMaster(body, file);
     const out: string[] = [];
-    const sections: string[] = [];
+    const sections: Section[] = [];
     const emitted = new Set<Part>();
     const stack: Part[] = [];
     parts.forEach((part, i) => {
         while (stack.length && (stack.at(-1)?.level ?? 0) >= part.level)
             stack.pop();
-        if (part.eff === dest) {
+        if (part.eff === 'cw') {
+            if (part.own === 'cw')
+                sections.push({
+                    chars: 0,
+                    file,
+                    section: part.title || '(whole file)',
+                });
+            const current = sections.at(-1);
             for (const up of stack)
                 if (!emitted.has(up) && up.level > 0) {
                     out.push(up.text.split('\n')[0] ?? '');
@@ -247,100 +206,59 @@ export function selectFor(
                 }
             const next = parts[i + 1];
             const hasRoutedChild =
-                !!next && next.level > part.level && next.eff === dest;
+                !!next && next.level > part.level && next.eff === 'cw';
             let text = compact(part.text.trim());
             if (!hasRoutedChild && !text.includes('\n'))
                 text = clean(part.text.trim());
-            if (text) out.push(text);
+            if (text) {
+                out.push(text);
+                if (current) current.chars += text.length;
+            }
             emitted.add(part);
-            if (part.own === dest) sections.push(part.title || '(whole file)');
         }
         stack.push(part);
     });
     return { sections, text: out.join('\n\n') };
 }
 
-const outName = (target: Target) =>
-    `${target.path.replace(/^\//, '').replace(/\.md$/, '')}.${target.fragment}.md`;
-
-export function renderTarget(root: string, target: Target): Rendered {
+export function render(root: string): Rendered {
     const bodies: string[] = [];
-    const routed: Routed[] = [];
+    const sections: Section[] = [];
     const used: string[] = [];
     for (const file of listMasters(root)) {
         const master = readFileSync(join(root, file), 'utf8');
-        const { text, sections } = selectFor(master.trim(), target.dest, file);
-        if (!text) continue;
+        const picked = selectFor(master.trim(), file);
+        if (!picked.text) continue;
         used.push(file);
-        for (const section of sections)
-            routed.push({ dest: target.dest, file, section });
-        // `[stated]` is a memory convention; the pasted box is dima's own text and carries none
-        bodies.push(
-            `<!-- ${file} -->\n\n${target.paste ? text : tagBullets(text)}`,
-        );
+        sections.push(...picked.sections);
+        bodies.push(`<!-- ${file} -->\n\n${picked.text}`);
     }
     /**
      * over the SELECTED, COMPACTED bodies — never the raw masters. a tag change alters the
      * fragment without touching a master's prose, and a masters-only sha left that change
-     * invisible: cw compared the stamp, saw no diff, and skipped the splice (2026-09-21).
+     * invisible: the stamp compare saw no diff and skipped the update (2026-09-21).
      */
     const sourceSha = sha(bodies.join('\n\n'));
-    const body = `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from the \`sync: ${target.dest}\` sections of ${used.join(' + ') || 'nothing'} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
+    const body = `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from the \`sync: cw\` sections of ${used.join(' + ') || 'nothing'} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
     return {
         body,
-        bytes: Buffer.byteLength(body),
         chars: body.length,
-        file: outName(target),
+        file: `${target.path}.${target.fragment}.md`,
         fragment: target.fragment,
         path: target.path,
-        routed,
+        sections,
         sha256: sourceSha,
     };
 }
 
-export function renderAll(root: string): Rendered[] {
-    return targets.map((t) => renderTarget(root, t));
-}
-
-/** the human routing table — what reaches cw, from where, into which destination. */
-export function toMap(rendered: Rendered[]): string {
-    const lines = [
-        '# cc → cw sync map',
-        '',
-        'generated by `pnpm skill:memory-sync-mirror` — never edit by hand. a route is a',
-        '`<!-- sync: <dest> -->` line under a heading in the master; change the tag, not this file.',
-    ];
-    for (const r of rendered) {
-        const t = targets.find(
-            (x) => x.path === r.path && x.fragment === r.fragment,
-        );
-        if (!t) throw new Error(`no target for ${r.path}`);
-        lines.push(
-            '',
-            `## ${t.dest} → ${t.path}#${t.fragment} — ${r.chars} / ${budgetOf(t)} chars${t.paste ? ' — pasted by dima' : ''}`,
-            '',
-        );
-        if (!r.routed.length) lines.push('- (nothing routed)');
-        for (const x of r.routed) lines.push(`- \`${x.file}\` › ${x.section}`);
-    }
-    return `${lines.join('\n')}\n`;
-}
-
-export function toManifest(rendered: Rendered[]): Manifest {
-    const out: Manifest = {};
-    for (const r of rendered) {
-        const t = targets.find(
-            (x) => x.path === r.path && x.fragment === r.fragment,
-        );
-        if (!t) throw new Error(`no target for ${r.path}`);
-        out[`${r.path}#${r.fragment}`] = {
-            bytes: r.bytes,
+export function toManifest(r: Rendered): Manifest {
+    return {
+        [`${r.path}#${r.fragment}`]: {
+            chars: r.chars,
             file: r.file,
             fragment: r.fragment,
-            paste: !!t.paste,
             sha256: r.sha256,
-            sources: [...new Set(r.routed.map((x) => x.file))],
-        };
-    }
-    return out;
+            sources: [...new Set(r.sections.map((x) => x.file))],
+        },
+    };
 }

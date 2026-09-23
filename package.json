@@ -29,6 +29,7 @@
         "linear:read": "node ./script/linear-read.ts",
         "macos:setup": "node ./script/macos-setup.ts",
         "mcp:build": "pnpm --filter mcp-x-cw build",
+        "memory-sync:map": "node ./script/memory-sync-map.ts",
         "plugin:release": "node ./script/plugin-release.ts",
         "rayconfig:decrypt": "./script/op-run.sh node ./script/rayconfig-decrypt.ts",
         "schedule:install": "node ./schedule/install.ts",

@@ -3,7 +3,7 @@
 Adopted words. Recognize them from Dima, use them back sparingly.
 
 ## fleet words — how he steers an agent
-<!-- sync: field -->
+<!-- sync: cw -->
 
 - **slay** = push (git push). «go slay» → push it.
 - **freebie** = a ticket/action executable without Dima's approval (pre-approved or approval-free by contract). «do the freebies» → run them unprompted.
