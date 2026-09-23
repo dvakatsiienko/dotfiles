@@ -1,15 +1,14 @@
-**frame**: a mirror of `~`, the machine's setup as data, and a fleet of claude agents that keep it
+🎞️ **frame**: a mirror of `~`, the machine's setup as data, and a fleet of claude agents that keep it
 all moving.
 
 <p align="center">
-  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat&label=ci&labelColor=1d2021" alt="ci"></a>
+  <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dvakatsiienko/frame/ci.yml?branch=main&style=flat&label=ci&labelColor=1d2021" height="24" alt="ci"></a>
   <img src="assets/badges/tests.svg" alt="tests">
-  <img src="assets/badges/skills.svg" alt="skills">
-  <img src="assets/badges/mirrored.svg" alt="mirrored">
+  <img src="assets/badges/renovate.svg" alt="renovate">
   <img src="assets/badges/node.svg" alt="node">
   <img src="assets/badges/pnpm.svg" alt="pnpm">
-  <img src="assets/badges/macos.svg" alt="macos">
-  <img src="assets/badges/renovate.svg" alt="renovate">
+  <img src="assets/badges/skills.svg" alt="skills">
+  <img src="assets/badges/mirrored.svg" alt="mirrored">
   <a href="LICENSE"><img src="assets/badges/license.svg" alt="license"></a>
 </p>
 
@@ -17,10 +16,12 @@ all moving.
   <img src="assets/banner.svg" align="left" width="100%" alt="frame — the inventory of one mac">
   <img src="assets/mac.svg" align="right" width="36%" alt="an 80s mac showing ~ frame">
 </p>
+<br>
 
-### toc
+### 🧭 toc
 
 - [fleet](#-fleet) — skills, memory, sline, hotkeys
+- [chords](#-chords) — the keyboard map, live
 - [mirror](#-mirror) — `home/` is `~`
 - [machine](#-machine) — brew, defaults, launchd
 - [link it](#-link-it)
@@ -35,6 +36,14 @@ home, the session that plans and routes work to background coders. `hotkeys/` ma
 keyboard chord on the machine and serves `chords`, the map's app.
 
 <img src="home/.claude/sline/showcase/sline.svg" width="100%" alt="sline, the statusline, as a session climbs from fresh to heavy">
+
+## 🎹 chords
+
+chords is this mac's keyboard map: every binding on every modifier layer, how often each one
+fires, and which keys are still free. it runs locally from `hotkeys/chords/`, fed by a daemon that
+counts real key presses.
+
+<img src="hotkeys/chords/showcase.png" width="100%" alt="chords: the hyper layer on a NuPhy Air75, each bound key with its app and press count">
 
 ## 🪞 mirror
 

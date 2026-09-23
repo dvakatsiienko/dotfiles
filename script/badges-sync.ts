@@ -41,7 +41,6 @@ const pnpm: string = JSON.parse(
 ).packageManager.replace('pnpm@', '');
 
 const node = readFileSync(`${root}.node-version`, 'utf8').trim();
-const macos = run('sw_vers', ['-productVersion']).trim().replace(/\..*/, '');
 const license = /^MIT License/.test(readFileSync(`${root}LICENSE`, 'utf8'))
     ? 'mit'
     : 'see LICENSE';
@@ -50,7 +49,6 @@ const renovate = existsSync(`${root}renovate.json`) ? 'enabled' : 'off';
 
 const badges = [
     { color: '#8ec07c', label: 'node', name: 'node', value: node },
-    { color: '#d3869b', label: 'macos', name: 'macos', value: macos },
     {
         color: '#fe8019',
         label: 'skills',
@@ -74,20 +72,20 @@ const badges = [
     { color: '#a89984', label: 'license', name: 'license', value: license },
 ];
 
-const fontSize = 11;
-const charWidth = 6.8;
-const padX = 7;
-const height = 20;
+const fontSize = 13;
+const charWidth = 7.9;
+const padX = 8;
+const height = 24;
 
 function badge(label: string, value: string, color: string): string {
     const left = Math.round(label.length * charWidth + padX * 2);
     const right = Math.round(value.length * charWidth + padX * 2);
     const width = left + right;
-    const y = 14;
+    const y = 16.5;
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label}: ${value}">
 <defs>
 <clipPath id="r"><rect width="${width}" height="${height}" rx="4"/></clipPath>
-<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" opacity=".12"/></pattern>
+<pattern id="scan" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" opacity=".06"/></pattern>
 </defs>
 <g clip-path="url(#r)">
 <rect width="${left}" height="${height}" fill="#1d2021"/>
@@ -96,7 +94,7 @@ function badge(label: string, value: string, color: string): string {
 </g>
 <g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="${fontSize}" text-anchor="middle">
 <text x="${left / 2}" y="${y}" fill="#ebdbb2">${label}</text>
-<text x="${left + right / 2}" y="${y}" fill="#282828" font-weight="700">${value}</text>
+<text x="${left + right / 2}" y="${y}" fill="#1d2021" font-weight="700">${value}</text>
 </g>
 </svg>
 `;

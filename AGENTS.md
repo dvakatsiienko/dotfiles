@@ -77,6 +77,14 @@ sat in four places on 2026-09-19). the one crossing: a feature's scheduled **dae
   play. Colocate our produce here rather than scattering it across `~/.claude`.
 - **`sline/`** — this repo's statusline. Its own `AGENTS.md` loads when working under it.
 
+## the readme stays true
+
+`README.md` shows live facts: the badge row, the sections, the clips. **A change to what it shows
+lands with its README update in the same commit** — a toolchain move (pnpm → bun), a renamed
+command, a new top-level feature. `pnpm badges:sync` redraws `assets/badges/` from the repo; the
+sline clip re-renders via `home/.claude/sline/showcase/` (`show.sh`, then `render-svg.ts`); the
+chords shot is `hotkeys/chords/showcase.png`, retaken with agent-browser on `localhost:7373`.
+
 ## docs and tracker
 
 - GitHub issues are retired; everything tracker-shaped lives in Linear per `rules/linear-flow.md`.
