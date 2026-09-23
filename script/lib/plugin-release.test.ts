@@ -232,7 +232,7 @@ describe('the cw symlink audit', () => {
 
         await fs.mkdir(path.join(source, 'pm'), { recursive: true });
         await fs.mkdir(path.join(cw, 'pm'), { recursive: true });
-        await fs.mkdir(path.join(cw, 'opus-mode'), { recursive: true });
+        await fs.mkdir(path.join(cw, 'cclio-mode'), { recursive: true });
 
         const audit = await auditCwSymlinks({
             cwSkills: cw,
