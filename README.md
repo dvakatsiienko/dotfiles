@@ -23,7 +23,7 @@ all moving.
 - [chords](#-chords) — the keyboard map, live
 - [mirror](#-mirror) — `home/` is `~`
 - [machine](#-machine) — brew, defaults, launchd
-- [link it](#-link-it)
+- [link it](#-link-it) — a fresh mac: brew, node, deps, then every link in place
 
 <br clear="right">
 
