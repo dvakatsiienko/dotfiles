@@ -7,19 +7,19 @@
 <defs><pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><line class="line" x1="0" y1="0.5" x2="4" y2="0.5"/></pattern></defs>
 <path class="bg" d="M0 0H270V252Q270 258 264 258H6Q0 258 0 252Z"/>
 <g xml:space="preserve">
-<text x="12" y="34" class="b"> .-------------------.</text>
-<text x="12" y="52" class="b"> | .---------------. |</text>
-<text x="12" y="70" class="b"> | |               | |</text>
-<text x="12" y="88"><tspan class="b"> | |  </tspan><tspan class="s">~ frame     </tspan><tspan class="b"> | |</tspan></text>
-<text x="12" y="106"><tspan class="b"> | |  </tspan><tspan class="s">&gt; mirror </tspan><tspan class="b">    | |</tspan></text>
-<text x="12" y="124"><tspan class="b"> | |  </tspan><tspan class="s">&gt; machine</tspan><tspan class="b">    | |</tspan></text>
-<text x="12" y="142"><tspan class="b"> | |  </tspan><tspan class="s">&gt; fle</tspan><tspan class="c">e</tspan><tspan class="b">t _    | |</tspan></text>
-<text x="12" y="160" class="b"> | |               | |</text>
-<text x="12" y="178" class="b"> | &#x27;---------------&#x27; |</text>
-<text x="12" y="196" class="b"> |                   |</text>
-<text x="12" y="214" class="b"> |  ===         [::] |</text>
-<text x="12" y="232" class="b"> &#x27;-------------------&#x27;</text>
-<text x="12" y="250" class="b">  /_________________\</text>
+<text x="40" y="34" class="b"> .-------------------.</text>
+<text x="40" y="52" class="b"> | .---------------. |</text>
+<text x="40" y="70" class="b"> | |               | |</text>
+<text x="40" y="88"><tspan class="b"> | |  </tspan><tspan class="s">~ frame     </tspan><tspan class="b"> | |</tspan></text>
+<text x="40" y="106"><tspan class="b"> | |  </tspan><tspan class="s">&gt; mirror </tspan><tspan class="b">    | |</tspan></text>
+<text x="40" y="124"><tspan class="b"> | |  </tspan><tspan class="s">&gt; machine</tspan><tspan class="b">    | |</tspan></text>
+<text x="40" y="142"><tspan class="b"> | |  </tspan><tspan class="s">&gt; fle</tspan><tspan class="c">e</tspan><tspan class="b">t _    | |</tspan></text>
+<text x="40" y="160" class="b"> | |               | |</text>
+<text x="40" y="178" class="b"> | &#x27;---------------&#x27; |</text>
+<text x="40" y="196" class="b"> |                   |</text>
+<text x="40" y="214" class="b"> |  ===         [::] |</text>
+<text x="40" y="232" class="b"> &#x27;-------------------&#x27;</text>
+<text x="40" y="250" class="b">  /_________________\</text>
 </g>
 <path d="M0 0H270V252Q270 258 264 258H6Q0 258 0 252Z" fill="url(#scan)"/>
 </svg>
