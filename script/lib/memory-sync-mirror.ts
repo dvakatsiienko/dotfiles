@@ -1,14 +1,14 @@
 /**
- * ? memory-sync mirror — renders the cc masters into dima's `profile / instructions`
- * ? (claude.ai settings → «instructions for claude»).
+ * ? memory-sync mirror — renders the cc masters into dima's `account / profile / instructions`
+ * ? (claude.ai settings → account → «instructions for claude»).
  * ?
- * ? `profile / instructions` is the one cw destination the masters feed: it loads
+ * ? `account / profile / instructions` is the one cw destination the masters feed: it loads
  * ? on every surface, holds 32 768 chars (dima's paste test, 2026-09-23), and only dima can write
  * ? it — so the render is a paste block, and cw's own memory entries (`/preferences.md`,
  * ? `/profile.md`, the leaves) stay fully cw-native, never spliced.
  * ?
  * ? ROUTING IS A TAG IN THE MASTER, never a list here. a line `<!-- sync: cw -->` directly under a
- * ? heading sends that section — and every subsection under it — to `profile / instructions`; a subsection may opt
+ * ? heading sends that section — and every subsection under it — to `account / profile / instructions`; a subsection may opt
  * ? back out with `<!-- sync: none -->`. a tag on its own line before the first heading routes the
  * ? whole file. cc strips html comments at load, so a tag costs cc nothing and the masters keep
  * ? their natural section order. `pnpm memory-sync:map` prints the routing table.
@@ -27,7 +27,7 @@ type Tag = 'cw' | 'none';
 const TAGS: readonly Tag[] = ['cw', 'none'];
 
 export type Target = {
-    /** where the fragment lands — `profile/instructions` is dima's settings field */
+    /** where the fragment lands — `account/profile/instructions` is dima's settings field */
     path: string;
     fragment: string;
     /** chars the destination accepts */
@@ -59,6 +59,21 @@ export type Manifest = Record<
     }
 >;
 
+/**
+ * dima's own section — the top of the field, above the line. he edits it in the field or in this
+ * file; `x-cw:memory-sync` pulls a field edit back into the file before it renders, so a paste
+ * never loses his words.
+ */
+export const HEAD = 'home/.claude/instructions-head.md';
+
+/** the line between his section and the synced part — plain text, it reads in the settings field. */
+export const SEPARATOR = [
+    '═'.repeat(48),
+    '⬇  synced from cc memory (~/frame) — edit the masters, not below',
+    '   routes: pnpm memory-sync:map',
+    '═'.repeat(48),
+].join('\n');
+
 export const MARK_START = '<!-- mirror:start -->';
 export const MARK_END = '<!-- mirror:end -->';
 
@@ -83,7 +98,7 @@ export const ORDER = [
 export const target: Target = {
     cap: 32_768,
     fragment: 'core',
-    path: 'profile/instructions',
+    path: 'account/profile/instructions',
 };
 
 export function listMasters(root: string): string[] {
@@ -239,12 +254,13 @@ export function render(root: string): Rendered {
      * fragment without touching a master's prose, and a masters-only sha left that change
      * invisible: the stamp compare saw no diff and skipped the update (2026-09-21).
      */
-    const sourceSha = sha(bodies.join('\n\n'));
-    const body = `${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from the \`sync: cw\` sections of ${used.join(' + ') || 'nothing'} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
+    const head = readFileSync(join(root, HEAD), 'utf8').trim();
+    const sourceSha = sha(`${head}\n\n${bodies.join('\n\n')}`);
+    const body = `${head}\n\n${SEPARATOR}\n\n${MARK_START}\n<!-- rendered by script/skill-memory-sync-mirror.ts from the \`sync: cw\` sections of ${used.join(' + ') || 'nothing'} · source-sha256: ${sourceSha} · never edit by hand -->\n\n${bodies.join('\n\n')}\n\n${MARK_END}\n`;
     return {
         body,
         chars: body.length,
-        file: `${target.path.replace('/', '-')}.${target.fragment}.md`,
+        file: `${target.path.replaceAll('/', '-')}.${target.fragment}.md`,
         fragment: target.fragment,
         path: target.path,
         sections,

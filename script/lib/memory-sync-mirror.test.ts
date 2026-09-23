@@ -11,9 +11,11 @@ import { afterEach, beforeEach, describe, expect, test } from 'vitest';
 
 /* Instruments */
 import {
+    HEAD,
     MARK_END,
     MARK_START,
     ORDER,
+    SEPARATOR,
     compact,
     listMasters,
     parseMaster,
@@ -34,6 +36,7 @@ beforeEach(async () => {
     root = await fs.mkdtemp(path.join(os.tmpdir(), 'memory-sync-mirror-test-'));
     // every ORDER master must exist — a missing one fails the render, never skips silently
     for (const file of ORDER) await write(file, `# ${path.basename(file)}\n`);
+    await write(HEAD, 'hi, my part\n');
 });
 afterEach(async () => {
     await fs.rm(root, { force: true, recursive: true });
@@ -123,13 +126,21 @@ describe('render', () => {
             '# a\n\n## box\n<!-- sync: cw -->\n\n- b\n\n## cc only\n\n- c\n',
         );
         const r = render(root);
-        expect(r.body.startsWith(`${MARK_START}\n`)).toBe(true);
+        expect(
+            r.body.startsWith(`hi, my part\n\n${SEPARATOR}\n\n${MARK_START}\n`),
+        ).toBe(true);
         expect(r.body.endsWith(`${MARK_END}\n`)).toBe(true);
         expect(r.body).toContain('<!-- home/.claude/rules/alpha.md -->');
         expect(r.body).toContain('\n- b');
         expect(r.body).not.toContain('- c');
         expect(r.body).not.toContain('[stated]');
-        expect(r.file).toBe('profile-instructions.core.md');
+        expect(r.file).toBe('account-profile-instructions.core.md');
+    });
+
+    test('the stamp follows his own section too', async () => {
+        const before = render(root).sha256;
+        await write(HEAD, 'hi, my part, edited\n');
+        expect(render(root).sha256).not.toBe(before);
     });
 
     test('the stamp follows the tags, not only the prose', async () => {
@@ -148,8 +159,8 @@ describe('render', () => {
             '# a\n\n## one\n<!-- sync: cw -->\n\n- x\n',
         );
         const m = toManifest(render(root));
-        expect(Object.keys(m)).toEqual(['profile/instructions#core']);
-        expect(m['profile/instructions#core']?.sources).toEqual([
+        expect(Object.keys(m)).toEqual(['account/profile/instructions#core']);
+        expect(m['account/profile/instructions#core']?.sources).toEqual([
             'home/.claude/rules/alpha.md',
         ]);
     });
