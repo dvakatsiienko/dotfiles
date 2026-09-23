@@ -52,6 +52,8 @@ pnpm macos:setup   # brew bundle, macos defaults, duti, vim-plug
 home, the session that plans and routes work to background coders. `hotkeys/` maps every
 keyboard chord on the machine and serves `chords`, the map's app.
 
+<img src="home/.claude/sline/showcase/sline.gif" width="100%" alt="sline, the statusline, as a session climbs from fresh to heavy">
+
 ## link it
 
 on a fresh mac, by hand first: [brew](https://brew.sh/), then `fnm` and `pnpm` through brew, then

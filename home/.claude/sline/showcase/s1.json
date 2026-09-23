@@ -1,0 +1,30 @@
+{
+    "context_window": {
+        "context_window_size": 1000000,
+        "current_usage": {
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 0,
+            "input_tokens": 310000,
+            "output_tokens": 0
+        },
+        "used_percentage": 31
+    },
+    "cost": { "total_cost_usd": 4.87 },
+    "cwd": "/Users/dima/frame",
+    "effort": { "level": "medium" },
+    "fast_mode": false,
+    "model": { "display_name": "Fable 5.1", "id": "claude-fable-5-1" },
+    "output_style": { "name": "output-fun" },
+    "rate_limits": {
+        "five_hour": { "resets_at": 1790183078, "used_percentage": 38 },
+        "seven_day": { "resets_at": 1790521478, "used_percentage": 33 }
+    },
+    "session_id": "53150b18-d828-438b-9c29-04fa4fe131d3",
+    "session_name": "frame readme",
+    "transcript_path": "",
+    "version": "2.1.280",
+    "workspace": {
+        "current_dir": "/Users/dima/frame",
+        "project_dir": "/Users/dima/frame"
+    }
+}
