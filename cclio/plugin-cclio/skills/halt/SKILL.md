@@ -111,6 +111,7 @@ halt report — he misses a few every session, and this is where they get caught
 `pnpm jev:flawlog` first: jev lanes every line (memory / rule / story / ticket / drop) and the
 proposal starts from its lanes, not from a blank read. then cluster, ONE batched proposal, ONE
 approval, execute and commit. see `/cclio:flawlog`.
+🚨 **the flush is the one stop in a full halt, whatever the args** (`wire+` included): print the proposal, wait for dima's literal yes, apply it, THEN go on to the gazette and the CST. a flush decision never parks into the CST's first-acts — the next session applies it cold, far from the traces (dima, 2026-09-23: «process flawlog during traces are hot»).
 **the vet verdicts, same phase, every halt:** each jev lane the flush disagreed with is
 `pnpm jev:vet miss flawlog-lanes <why>`; a clean run is one `ok`. the same for the day's inbox
 lanes (`inbox-lanes`) and the router's loads (`skill-router`, from `shelf/jev/route.log` vs the
