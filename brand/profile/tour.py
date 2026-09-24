@@ -122,6 +122,31 @@ def jar(p, k):
 <rect x="92" y="28" width="56" height="18" rx="4" fill="url(#{p}brass)"/>{ridges}<ellipse cx="120" cy="29.5" rx="27" ry="2.6" fill="#f8e3a0" opacity=".85"/><rect x="92" y="43" width="56" height="2" fill="#5a3f12" opacity=".3"/>'''
 
 
+def dish(p, k):
+    light = k == 'light'
+    wave = '#c9772a' if light else '#ffd58a'
+    struts = ''.join(f'<line x1="{x}" y1="{y}" x2="0" y2="-44" stroke="#7e8a96" stroke-width="1.6"/>' for x, y in ((-40, -6), (40, -6), (0, -20)))
+    waves = ''.join((f'<path d="M{-r} {-56 - r * .5}q{r} {-r * .7} {2 * r} 0" stroke="{wave}" stroke-width="7" stroke-linecap="round" fill="none" opacity="{o * .25}"/>' if not light else '')
+                    + f'<path d="M{-r} {-56 - r * .5}q{r} {-r * .7} {2 * r} 0" stroke="{wave}" stroke-width="3" stroke-linecap="round" fill="none" opacity="{o}"/>'
+                    for r, o in ((8, .95), (15, .65), (22, .4)))
+    ribs = ''.join(f'<path d="M{x} -4q{-x * .15} {14 - abs(x) * .2} {-x * .3} {22 - abs(x) * .3}" stroke="#5d6873" stroke-opacity=".3" stroke-width="1.2" fill="none"/>' for x in (-30, -10, 10, 30))
+    vents = ''.join(f'<rect x="{x}" y="128" width="2" height="8" rx="1" fill="#5d6873" opacity=".6"/>' for x in (96, 101, 106))
+    return f'''<defs><linearGradient id="{p}steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".6" stop-color="#b9c3cc"/><stop offset="1" stop-color="#7e8a96"/></linearGradient><radialGradient id="{p}dish" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#cfd7de"/><stop offset="1" stop-color="#8b97a3"/></radialGradient></defs>{shadow(116, 157, 54)}
+<path d="M116 118L90 152M116 118L142 152M116 118v36" stroke="url(#{p}steel)" stroke-width="5" stroke-linecap="round"/>
+<path d="M100 139h32" stroke="url(#{p}steel)" stroke-width="2.5" stroke-linecap="round"/><path d="M116 118L90 152M116 118L142 152" stroke="#5d6873" stroke-opacity=".35" stroke-width="1.5"/>
+<ellipse cx="116" cy="155" rx="6" ry="2.5" fill="#5d6873"/><ellipse cx="90" cy="152" rx="6" ry="2.4" fill="#5d6873"/><ellipse cx="142" cy="152" rx="6" ry="2.4" fill="#5d6873"/><ellipse cx="89" cy="151" rx="3" ry="1" fill="#fff" opacity=".35"/><ellipse cx="141" cy="151" rx="3" ry="1" fill="#fff" opacity=".35"/>
+<rect x="92" y="124" width="22" height="16" rx="3" fill="url(#{p}steel)" stroke="#7e8a96" stroke-width=".8"/>{vents}<circle cx="110" cy="129" r="1.8" fill="#8ec07c"/><circle cx="110" cy="134.5" r="1.8" fill="#fabd2f"/><rect x="94" y="137" width="12" height="1.6" rx=".8" fill="#5d6873" opacity=".5"/>
+<rect x="98" y="104" width="36" height="14" rx="4" fill="url(#{p}steel)"/><circle cx="104" cy="112" r="1.4" fill="#5d6873"/><circle cx="128" cy="112" r="1.4" fill="#5d6873"/><rect x="100" y="105.5" width="32" height="2.5" rx="1.2" fill="#fff" opacity=".6"/>
+<rect x="111" y="92" width="10" height="14" fill="url(#{p}steel)"/>
+<g transform="translate(116 86) rotate(38)">
+<path d="M-54 -6Q0 40 54 -6z" fill="url(#{p}steel)"/>{ribs}<path d="M-50 -2Q0 30 50 -2" stroke="#fff" stroke-opacity=".45" stroke-width="2" fill="none"/>
+<ellipse cx="0" cy="-6" rx="54" ry="15" fill="url(#{p}dish)" stroke="#7e8a96" stroke-width="1.5"/><ellipse cx="0" cy="-6" rx="50.5" ry="13" fill="none" stroke="#fff" stroke-opacity=".6"/>
+<ellipse cx="0" cy="-6" rx="36" ry="9.5" fill="none" stroke="#7e8a96" stroke-opacity=".35"/><ellipse cx="0" cy="-6" rx="20" ry="5.2" fill="none" stroke="#7e8a96" stroke-opacity=".3"/><line x1="0" y1="-6" x2="40.0" y2="-6.0" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="28.3" y2="1.4" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="0.0" y2="4.5" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="-28.3" y2="1.4" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="-40.0" y2="-6.0" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="-28.3" y2="-13.4" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="-0.0" y2="-16.5" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><line x1="0" y1="-6" x2="28.3" y2="-13.4" stroke="#7e8a96" stroke-opacity=".3" stroke-width=".8"/><circle cx="52.0" cy="-6.0" r="1" fill="#5d6873"/><circle cx="45.0" cy="1.0" r="1" fill="#5d6873"/><circle cx="26.0" cy="6.1" r="1" fill="#5d6873"/><circle cx="0.0" cy="8.0" r="1" fill="#5d6873"/><circle cx="-26.0" cy="6.1" r="1" fill="#5d6873"/><circle cx="-45.0" cy="1.0" r="1" fill="#5d6873"/><circle cx="-52.0" cy="-6.0" r="1" fill="#5d6873"/><circle cx="-45.0" cy="-13.0" r="1" fill="#5d6873"/><circle cx="-26.0" cy="-18.1" r="1" fill="#5d6873"/><circle cx="-0.0" cy="-20.0" r="1" fill="#5d6873"/><circle cx="26.0" cy="-18.1" r="1" fill="#5d6873"/><circle cx="45.0" cy="-13.0" r="1" fill="#5d6873"/><circle cx="0" cy="-6" r="2.4" fill="#7e8a96"/>
+<path d="M-46 -12a54 15 0 0 1 40 -8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+{struts}<path d="M-37 -5L-3 -41" stroke="#3a3f47" stroke-width="1" stroke-dasharray="3 1.5"/><rect x="-6" y="-50" width="12" height="9" rx="2" fill="url(#{p}brass)"/><path d="M-4 -50l-2 -6h12l-2 6z" fill="url(#{p}brassv)"/><circle cx="0" cy="-59" r="2.4" fill="#fb4934"/>{waves}</g>
+<path d="M100 134q-14 6-10 14q4 7 16 3q14-4 34 2" stroke="#3a3f47" stroke-width="2" fill="none" stroke-linecap="round"/>'''
+
+
 def djinni(p, k):
     light = k == 'light'
     smoke = '#9a88c9' if light else '#d9ccff'
@@ -158,3 +183,8 @@ FRAME = ('frame: a brass djinni lamp with gems, a flame and a curl of magic smok
 
 def bytes_icon(k): return tile('bytes', k, *BYTES, 'bytes', 'the apps')
 def frame_icon(k): return tile('frame', k, *FRAME, 'frame', 'the machine as data')
+
+
+# parked for the frame readme (FRM-257): the dish is not on the profile page
+DISH = ('frame: a satellite dish on a tripod, turned up and right, sending signal waves', dish)
+def dish_icon(k): return tile('frame-dish', k, *DISH, 'frame', 'the machine as data')
