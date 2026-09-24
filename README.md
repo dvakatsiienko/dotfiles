@@ -1,5 +1,4 @@
-🎞️ **frame**: a mirror of `~`, the machine's setup as data, and a fleet of claude agents that keep it
-all moving.
+🎞️ the **frame**: a place where most of the machine's setup lives as data.
 
 <p align="center">
   <a href="https://github.com/dvakatsiienko/frame/actions/workflows/ci.yml"><img src="https://raw.githubusercontent.com/dvakatsiienko/frame/badges/ci.svg" alt="ci"></a>
@@ -29,25 +28,24 @@ all moving.
 
 ## 🛸 fleet
 
-`home/.claude/` is the claude code setup every session on this mac reads: rules, skills
-(`plugin-x`), hooks, output styles, and `sline`, the statusline. `cclio/` is the coordinator's
-home, the session that plans and routes work to background coders. `hotkeys/` maps every
-keyboard chord on the machine and serves `chords`, the map's app.
+`home/.claude/` is the claude code setup every session reads: memories, rules, skills
+(`plugin-x`), hooks, output styles, and `sline`, the statusline.
+`cclio/` is the coordinator's home, the session that plans and routes work to background coders.
+`hotkeys/` maps every keyboard chord on the machine and serves `chords`, the map's app.
 
 <img src="home/.claude/sline/showcase/sline.svg" width="100%" alt="sline, the statusline, as a session climbs from fresh to heavy">
 
 ## 🎹 chords
 
-chords is this mac's keyboard map: every binding on every modifier layer, how often each one
-fires, and which keys are still free. it runs locally from `hotkeys/chords/`, fed by a daemon that
-counts real key presses.
+chords is a keyboard map app: every key binding on every modifier layer, how often each one
+fires, and which keys are still free. powered by launchd daemon that counts key presses.
 
 <img src="hotkeys/chords/showcase.png" width="100%" alt="chords: the hyper layer on a NuPhy Air75, each bound key with its app and press count">
 
 ## 🪞 mirror
 
-a path under `home/` is the same path under `~`. the link map is derived by walking the tree, never
-kept by hand, so adding a file to `home/` is the whole act of tracking it.
+the `mirror` links dotfiles and configs. a path under `home/` is the same path under `~`.
+the link map is derived by walking the tree, so adding a file to `home/` auto-tracks it.
 
 ```bash
 pnpm frame:link                        # status
@@ -69,8 +67,11 @@ pnpm macos:setup   # brew bundle, macos defaults, duti, vim-plug
 
 ## 🔗 link it
 
-on a fresh mac, by hand first: [brew](https://brew.sh/), then `fnm` and `pnpm` through brew, then
-node 24 through `fnm`. then:
+on a fresh machine, by hand:
+1. [brew](https://brew.sh/)
+2. `fnm` and `pnpm` through `brew`
+3. then `node 24` through `fnm`
+4. then:
 
 ```bash
 pnpm i
