@@ -374,11 +374,37 @@ def wizard_tower(cx, base, night, i=''):
             + ''.join(f'<path fill="#cfd6f0" d="M{x} {y-3}l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>' for x, y in [(cx-18, base-66), (cx+17, base-72), (cx+22, base-54)])) if night else ''
     return f'<g>{turret}{body}{lines}{ledge}{cone}{flag}{window}{glow}</g>'
 
+R1 = [(0, 170), (70, 138), (130, 156), (210, 118), (300, 162), (380, 132), (470, 166), (560, 128), (660, 164), (740, 142), (800, 152)]
+MEADOW_EDGE = [(0, 196), (60, 183), (110, 182), (170, 170), (230, 164), (280, 165), (340, 178), (400, 172), (460, 172), (540, 184), (610, 176), (680, 170), (740, 174), (800, 180)]
+
+def along(line, x):
+    for (x0, y0), (x1, y1) in zip(line, line[1:]):
+        if x0 <= x <= x1:
+            return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
+    return line[-1][1]
+
+def tree_row(line, step, h0, h1, c1, c2, sink, skip=()):
+    out = ''
+    for k, x in enumerate(range(6, 800, step)):
+        if any(a <= x <= b for a, b in skip):
+            continue
+        H = h0 + (h1 - h0) * ((k * 37) % 11) / 10
+        out += pine(x, along(line, x) + sink, H, c1, c2, 'none', 3).replace(' filter="url(#none)"', '').replace('fill="#5a4030"', f'fill="{c2}"')
+    return out
+
+def hut(cx, base, night, i):
+    wall, roof, win = ('#3a4a6c', '#2c3656', '#ffd27a') if night else ('#d8c4a0', '#a0735a', '#8a7a68')
+    glow = f'<circle cx="{cx+2}" cy="{base-5}" r="8" fill="url(#ff{i})"/>' if night else ''
+    return (f'<g><rect x="{cx-8}" y="{base-9}" width="16" height="9" fill="{wall}"/><path fill="{roof}" d="M{cx-10} {base-8}L{cx} {base-16}L{cx+10} {base-8}Z"/>'
+            f'<rect x="{cx+3}" y="{base-14}" width="2.5" height="4" fill="{roof}"/><rect x="{cx+1}" y="{base-6.5}" width="3" height="3" fill="{win}"/><rect x="{cx-5}" y="{base-6}" width="3" height="6" fill="{roof}"/>{glow}</g>')
+
 def meadow(P, f, night=False, i=''):
     far = ''.join(pine(x, 172, 34, P['r2'], P['r2'], f, 3) for x in range(12, 800, 46))
     return (f'<path fill="{P["r0"]}" filter="url(#{f})" d="M0 150L90 120L170 134L260 104L340 130L430 110L520 128L600 112L700 132L800 118V300H0Z"/>{far}{wizard_tower(408, 146, night, i)}'
             f'<path fill="{P["r1"]}" filter="url(#{f})" d="M0 170L70 138L130 156L210 118L300 162L380 132L470 166L560 128L660 164L740 142L800 152V300H0Z"/>'
+            f'{tree_row(R1, 13, 16, 24, P["haze"], P["haze2"], 6, skip=((384, 432), (184, 210)))}{hut(197, along(R1, 197) + 5, night, i)}'
             f'<path fill="{P["meadow"]}" filter="url(#{f})" d="M0 196C60 178 110 184 170 170S280 160 340 178S460 168 540 184S680 166 800 180V300H0Z"/>'
+            f'{tree_row(MEADOW_EDGE, 11, 22, 34, P["edge"], P["edge2"], 6)}'
             f'<path fill="{P["meadow2"]}" opacity=".6" d="M0 206C90 194 160 198 250 190S420 196 520 200S700 186 800 196V214C680 206 560 216 440 210S200 214 0 222Z"/>')
 
 def river_bg(night):
@@ -395,7 +421,7 @@ def river_bg(night):
     return f'<path fill="{deep}" d="{shape(0, 0)}"/><path fill="{water}" d="{shape(1.5, 2)}"/>{glints}'
 
 def plate_grove(night, i):
-    P = dict(NIGHT, rexHi='#8e4a43', meadow='#34506a', meadow2='#3d5a78') if night else dict(DAY, rexHi='#d77552', meadow='#a9c07e', meadow2='#bdd096')
+    P = dict(NIGHT, rexHi='#8e4a43', meadow='#34506a', meadow2='#3d5a78', haze='#35446c', haze2='#2e3c60', edge='#2c4560', edge2='#253b54') if night else dict(DAY, rexHi='#d77552', meadow='#a9c07e', meadow2='#bdd096', haze='#c9c69c', haze2='#b8b68c', edge='#94ae7c', edge2='#809a6a')
     W = WOOD2['night' if night else 'day']; f = f'ps{i}'
     if night:
         P = dict(P, dot='#9ff5e6')
