@@ -250,7 +250,7 @@ const DEFAULT_APPS = [
     { app: CURSOR, ext: 'tsx', uti: 'org.vim.typescript-source' },
     { app: CURSOR, ext: 'js', uti: 'com.netscape.javascript-source' },
     { app: CURSOR, ext: 'json', uti: 'public.json' },
-    { app: CURSOR, ext: 'toml', uti: 'public.toml' },
+    { app: CURSOR, ext: 'toml', uti: 'org.vim.toml-file' },
     { app: CURSOR, ext: 'yml', uti: 'public.yaml' },
     { app: CURSOR, ext: 'css', uti: 'public.css' },
 ];
