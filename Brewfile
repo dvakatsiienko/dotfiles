@@ -115,6 +115,7 @@ cask "superwhisper"              # dictation, local whisper/parakeet models + ll
 cask "1password"                 # password manager, the SSH signing agent lives here
 cask "bartender"                 # menu bar — v7
 cask "betterdisplay"             # display control + `betterdisplaycli`
+cask "vorssaint"                 # menu bar toolkit (gpl, local-first) — features are installed per-feature in its hub; on trial 2026-09-24
 cask "claude"                    # claude desktop
 cask "conductor"                 # parallel coder workspaces
 cask "cursor"                    # the editor
