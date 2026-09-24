@@ -88,7 +88,7 @@ ${t.text(r.name, 60, 19, 15, 'Medium', gv.ink)}${t.text(r.role, 60, 37, 13, 'Boo
     const runs: Array<[string, Face]> = [['this week: ', 'Book'], [`${f.agentCommits}`, 'Medium'], [' agent commits · ', 'Book'],
         [`${f.ticketsClosed}`, 'Medium'], [' tickets · ', 'Book'], [`${f.skills}`, 'Medium'], [' skills in the kit', 'Book']];
     let x = 44;
-    let foot = `<path d="M28 294l6 6-6 6" fill="none" stroke="${gv.green}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    let foot = `<path d="M28.5 296.6l4.4 4.4-4.4 4.4" fill="none" stroke="${gv.green}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>`;
     for (const [s, face] of runs) {
         foot += t.text(s, x, 305, 14, face, face === 'Medium' ? gv.ink : gv.dim);
         x += t.width(s, 14, face);
