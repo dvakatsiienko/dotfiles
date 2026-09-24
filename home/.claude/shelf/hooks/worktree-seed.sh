@@ -7,6 +7,14 @@
 input=$(cat)
 wt=$(printf '%s' "$input" | jq -r '.tool_response.worktreePath // empty' 2>/dev/null)
 if [ -z "$wt" ] || [ ! -d "$wt" ]; then exit 0; fi
+# A git-crypt repo keeps its key in the main .git, not the worktree's gitdir, so a
+# fresh tree holds ciphertext and every add/commit dies on the clean filter.
+# Unlocking with the main key file decrypts the tree in place (measured 2026-09-24).
+key="$(git -C "$wt" rev-parse --git-common-dir 2>/dev/null)/git-crypt/keys/default"
+if [ -f "$key" ] && [ ! -d "$(git -C "$wt" rev-parse --git-dir)/git-crypt" ]; then
+  (cd "$wt" && git-crypt unlock "$key") >/dev/null 2>&1 \
+    || echo "git-crypt unlock failed in $wt — commits will die on the clean filter"
+fi
 [ -f "$wt/package.json" ] || exit 0
 if jq -e '.scripts["worktree:seed"]' "$wt/package.json" >/dev/null 2>&1; then
   CI=1 pnpm --dir "$wt" -s worktree:seed "$wt" >/dev/null 2>&1 || true

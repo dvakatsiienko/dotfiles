@@ -41,7 +41,7 @@ into the cw leaf `/topics/obsidian.md` — the rest is cc-only, deliberately not
 - `rebase.updateRefs` is on since the git overhaul (2026-09-03): a safety BRANCH made before a
   rebase is dragged forward with the rewrite and stops being a recovery point — a tag or the
   reflog is the net (a coder lost its net on a reword, 2026-09-05)
-- `git worktree add` in a git-crypt repo dies on the smudge filter (no key under `.git/worktrees/<n>/`): add with `-c filter.git-crypt.smudge=cat -c filter.git-crypt.required=false`, copy the key into `.git/worktrees/<n>/git-crypt/keys/`, then `git-crypt unlock` inside the tree. `git add -A <path>` still scans the whole tree and trips on a locked file — pathspec commits only (2026-09-20)
+- a git-crypt repo keeps its key in the main `.git`, never under `.git/worktrees/<n>/`, so a fresh worktree holds ciphertext and **even a pathspec `git add` dies on the clean filter** (the index refresh runs it over every locked file). `EnterWorktree` trees are unlocked by `shelf/hooks/worktree-seed.sh`; a hand-made `git worktree add` takes `-c filter.git-crypt.smudge=cat -c filter.git-crypt.required=false`, then `git-crypt unlock "$(git rev-parse --git-common-dir)/git-crypt/keys/default"` inside the tree — the main key file unlocks in one step, no copy (2026-09-24). a tree still locked: `git -c filter.git-crypt.clean=cat -c filter.git-crypt.required=false add|commit` is safe ONLY after `git hash-object --no-filters <locked file>` equals its `git ls-files -s` blob — same ciphertext, nothing plaintext can be staged
 
 ## the shared working tree
 
