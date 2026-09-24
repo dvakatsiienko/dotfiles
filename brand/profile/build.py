@@ -43,7 +43,7 @@ def board():
         foot += outline(text, x, 305, 14, 'Book', fill=g['dim']); x += width(text, 14, 'Book')
     return f'''<svg xmlns="http://www.w3.org/2000/svg" class="board" viewBox="0 0 800 344" width="800" height="344" role="img" aria-label="fleet board, last seven days: cclio coordinates, coder crafts, reviewer reviews, verifier verifies">
 <rect width="800" height="344" rx="10" fill="{g['panel']}"/><path d="M10 0h780a10 10 0 0 1 10 10v20H0V10A10 10 0 0 1 10 0z" fill="{g['bar']}"/>{traffic()}{outline('frame · fleet', 400, 20, 13, 'Book', 'middle', g['dim'])}
-{rows}<rect x="0" y="278" width="800" height="1" fill="{g['bar']}"/>{foot}<rect x="{x + 6:.1f}" y="293" width="8" height="15" fill="{g['ink']}"/>{outline(f'redrawn by the fleet on {REDRAWN}', 772, 332, 12, 'Book', 'end', g['dim'])}</svg>'''
+{rows}<rect x="0" y="278" width="800" height="1" fill="{g['bar']}"/>{foot}<rect x="{x + 6:.1f}" y="293" width="8" height="15" fill="{g['ink']}"/>{outline(f'redrawn by the fleet on {REDRAWN}', 28, 332, 12, 'Book', 'start', g['dim'])}</svg>'''
 
 def barcard(title, data, unit, top_fill, aria):
     g = GV; fmt = lambda v: f'{v}{unit}'
