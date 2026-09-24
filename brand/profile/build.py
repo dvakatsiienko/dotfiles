@@ -1,72 +1,39 @@
-import base64, io, pathlib, re, shutil
+import base64, io, json, pathlib, re, shutil, subprocess
 from PIL import Image
-import lettering
 from fontTools.ttLib import TTFont
-from lettering import outline, width
+from fontTools.pens.svgPathPen import SVGPathPen
 from tour import FRAMES, bytes_icon, frame_icon
 
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / 'out'
+README = OUT / 'readme'
+GH = 'https://github.com/dvakatsiienko'
 
-# ---------- the shared blocks ----------
-
-def avatar(name):
-    im = Image.open(HERE / name).convert('RGB').resize((72, 72), Image.LANCZOS)
-    buf = io.BytesIO(); im.save(buf, 'PNG', optimize=True)
-    return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode()
-
-ROWS = [('owl.png', 'cclio', 'coordinates', '23 tickets closed · 6 planned'), ('bulldog.png', 'coder', 'crafts', '290 commits · last FRM-258'),
-        ('basset.png', 'reviewer', 'reviews', '5 prs · 3 findings'), ('../avatars/fleet/verifier/verifier-dalmatian-space.png', 'verifier', 'verifies', '4 rounds · 1 finding')]
-SKILLS = sum(1 for p in (HERE.parents[1] / 'home/.claude/plugin-x/skills').iterdir() if p.is_dir())
-FOOT = ['this week: ', ('290', ' agent commits · '), ('23', ' tickets · '), (str(SKILLS), ' skills in the kit')]
-
-# the terminal panel stays gruvbox-dark in both themes; lettering is Operator Mono, seeded into lettering's font cache
+# ---------- inputs for redraw.ts: it draws the board and the cards, here and in the weekly action ----------
 MONO_FACE = str(pathlib.Path.home() / 'Library/Fonts/Operator Mono %s Regular.otf')
-lettering.fonts |= {w: TTFont(MONO_FACE % w) for w in ('Book', 'Medium')}
-GV = dict(panel='#282828', bar='#3c3836', mute='#665c54', aqua='#8ec07c', blue='#83a598', ink='#ebdbb2', dim='#a89984', red='#fb4934', yellow='#fabd2f', green='#b8bb26', pink='#d3869b')
-REDRAWN = '2026-09-24'
-STATE = dict(cclio=('idle', 'green'), coder=('working', 'yellow'), reviewer=('reviewing', 'pink'), verifier=('idle', 'green'))
+AVATARS = dict(cclio='owl.png', coder='bulldog.png', reviewer='basset.png', verifier='../avatars/fleet/verifier/verifier-dalmatian-space.png')
 
-def traffic(): return ''.join(f'<circle cx="{cx}" cy="15" r="5" fill="{GV[c]}"/>' for cx, c in ((20, 'red'), (38, 'yellow'), (56, 'green')))
+def export_glyphs():
+    faces, upm = {}, 0
+    for w in ('Book', 'Medium'):
+        font = TTFont(MONO_FACE % w); gs = font.getGlyphSet(); cmap = font.getBestCmap(); upm = font['head'].unitsPerEm
+        faces[w] = {}
+        for c in [chr(i) for i in range(32, 127)] + ['·']:
+            pen = SVGPathPen(gs); gs[cmap[ord(c)]].draw(pen)
+            faces[w][c] = [gs[cmap[ord(c)]].width, pen.getCommands()]
+    (HERE / 'glyphs.json').write_text(json.dumps(dict(upm=upm, faces=faces), ensure_ascii=False, separators=(',', ':')))
 
-def board():
-    g = GV; rows = ''
-    for n, (av, name, role, fact) in enumerate(ROWS):
-        word, c = STATE[name]
-        rows += f'''<g transform="translate(28 {46 + n * 58})"><clipPath id="av{n}"><rect width="44" height="44" rx="8"/></clipPath><image href="{avatar(av)}" width="44" height="44" clip-path="url(#av{n})"/>
-{outline(name, 60, 19, 15, 'Medium', fill=g['ink'])}{outline(role, 60, 37, 13, 'Book', fill=g['dim'])}
-<circle cx="276" cy="23" r="4.5" fill="{g[c]}"/>{outline(word, 288, 28, 14, 'Book', fill=g[c])}{outline(fact, 410, 28, 14, 'Book', fill=g['ink'])}</g>'''
-    x = 44; foot = f'<path d="M28 294l6 6-6 6" fill="none" stroke="{g["green"]}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
-    foot += outline(FOOT[0], x, 305, 14, 'Book', fill=g['dim']); x += width(FOOT[0], 14, 'Book')
-    for num, text in FOOT[1:]:
-        foot += outline(num, x, 305, 14, 'Medium', fill=g['ink']); x += width(num, 14, 'Medium')
-        foot += outline(text, x, 305, 14, 'Book', fill=g['dim']); x += width(text, 14, 'Book')
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" class="board" viewBox="0 0 800 344" width="800" height="344" role="img" aria-label="fleet board, last seven days: cclio coordinates, coder crafts, reviewer reviews, verifier verifies">
-<rect width="800" height="344" rx="10" fill="{g['panel']}"/><path d="M10 0h780a10 10 0 0 1 10 10v20H0V10A10 10 0 0 1 10 0z" fill="{g['bar']}"/>{traffic()}{outline('frame · fleet', 400, 20, 13, 'Book', 'middle', g['dim'])}
-{rows}<rect x="0" y="278" width="800" height="1" fill="{g['bar']}"/>{foot}<rect x="{x + 6:.1f}" y="293" width="8" height="15" fill="{g['ink']}"/>{outline(f'redrawn by the fleet on {REDRAWN}', 28, 332, 12, 'Book', 'start', g['dim'])}</svg>'''
+def export_avatars():
+    def uri(name):
+        im = Image.open(HERE / name).convert('RGB').resize((72, 72), Image.LANCZOS)
+        buf = io.BytesIO(); im.save(buf, 'PNG', optimize=True)
+        return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode()
+    (HERE / 'avatars.json').write_text(json.dumps({k: uri(v) for k, v in AVATARS.items()}, indent=1))
 
-def barcard(title, data, unit, top_fill, aria):
-    g = GV; fmt = lambda v: f'{v}{unit}'
-    lab_w = max(width(l, 13, 'Book') for l, _ in data)
-    val_w = max(width(fmt(v), 13, 'Medium') for _, v in data)
-    x0 = 20 + lab_w + 14
-    span = 390 - 20 - val_w - 8 - x0
-    mx = max(v for _, v in data); step = 22 if len(data) > 4 else 27; rows = ''
-    for n, (lab, v) in enumerate(data):
-        y = 46 + n * step; w = span * v / mx; top = v == mx
-        rows += (f'<g><title>{lab}: {fmt(v)}</title>{outline(lab, 20, y + 11, 13, "Book", fill=g["ink"] if top else g["dim"])}'
-                 f'<rect x="{x0:.1f}" y="{y}" width="{w:.1f}" height="14" rx="2" fill="{g[top_fill] if top else g["mute"]}"/>'
-                 f'{outline(fmt(v), x0 + w + 8, y + 11, 13, "Medium" if top else "Book", fill=g["ink"] if top else g["dim"])}</g>')
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" class="card" viewBox="0 0 390 170" width="390" height="170" role="img" aria-label="{aria}">
-<rect width="390" height="170" rx="10" fill="{g['panel']}"/><path d="M10 0h370a10 10 0 0 1 10 10v20H0V10A10 10 0 0 1 10 0z" fill="{g['bar']}"/>{traffic()}
-{outline(title, 74, 20, 12, 'Book', fill=g['dim'])}{rows}</svg>'''
+def panels(out, data):
+    subprocess.run(['node', str(HERE / 'redraw.ts'), '--data', str(data), '--out', str(out)], check=True)
 
-LANGS = [('typescript', 58.4), ('shell', 17.2), ('swift', 11.6), ('python', 7.9), ('css', 4.9)]
-LAZY = [('morning', 372), ('daytime', 892), ('evening', 1383), ('night', 585)]
-def langs(): return barcard('top langs', LANGS, '%', 'aqua', 'top languages: typescript 58.4, shell 17.2, swift 11.6, python 7.9, css 4.9 percent')
-def lazy(): return barcard('laziness levels · commits by time of day', LAZY, '', 'blue', 'commits by time of day: morning 372, daytime 892, evening 1383, night 585')
-
-# ---------- stack: one wrapping strip ----------
+# ---------- stack: one grid of linked icons ----------
 STACK = ('typescript swift react nextdotjs vite reactquery zustand jotai graphql prisma drizzle convex clerk betterauth vitest prettier '
          'biome nodedotjs bun pnpm turborepo homebrew tailwindcss shadcnui motion anthropic claude cursor neovim raycast linear '
          'vercel railway docker').split()
@@ -87,59 +54,114 @@ def lum(hex6):
     c = [x / 12.92 if x <= .04045 else ((x + .055) / 1.055) ** 2.4 for x in c]
     return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]
 
+def icon(n, k):
+    v = (HERE / 'icons' / f'{n}.svg').read_text()
+    hex6 = re.search(r'fill="#([0-9A-Fa-f]{6})"', v).group(1)
+    if v.count('fill="#') == 1 and not .05 < lum(hex6) < .9: v = v.replace(f'fill="#{hex6}"', f'fill="{NEUTRAL[k]}"', 1)
+    return re.sub(r'<title>.*?</title>', '', v)
+
 def stack(k):
     cells = ''
     for n in STACK:
-        v = (HERE / 'icons' / f'{n}.svg').read_text()
-        hex6 = re.search(r'fill="#([0-9A-Fa-f]{6})"', v).group(1)
-        if v.count('fill="#') == 1 and not .05 < lum(hex6) < .9: v = v.replace(f'fill="#{hex6}"', f'fill="{NEUTRAL[k]}"', 1)
-        v = re.sub(r'<title>.*?</title>', '', v).replace('<svg ', f'<svg width="{72 if n in WIDE else 28}" height="28" aria-hidden="true" ', 1)
+        v = icon(n, k).replace('<svg ', f'<svg width="{72 if n in WIDE else 28}" height="28" aria-hidden="true" ', 1)
         cells += f'<a class="ic{" wide" if n in WIDE else ""}" href="{HOME[n]}" title="{LABEL.get(n, n)}" aria-label="{LABEL.get(n, n)}">{v}</a>'
     return f'<div class="stack">{cells}</div>'
+
+# ---------- the readme: every image a light/dark pair unless both themes draw the same ----------
+FRUIT = '🍒 hey 🥝 привіт 🍓 привет 🫐 konnichiwa 🍀'
+TOUR_TITLE = 'around the camp'
+FRAME_TAKE = 'djinni'
+TOURS = [('frame', lambda k: frame_icon(FRAME_TAKE, k)), ('bytes', bytes_icon)]
+GAZETTE = f'{GH}/frame/tree/main/cclio/gazette'
+COLS = 12
+
+def picture(name, alt, width, light, dark=None):
+    (README / 'assets' / f'{name}{"-light" if dark else ""}.svg').write_text(light)
+    img = f'<img src="assets/{name}{"-light" if dark else ""}.svg" width="{width}" alt="{alt}">'
+    if not dark: return img
+    (README / 'assets' / f'{name}-dark.svg').write_text(dark)
+    return f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">{img}</picture>'
+
+def cell(n, k):
+    w = 80 if n in WIDE else 36
+    inner = re.sub(r'<svg ', f'<svg x="4" y="4" width="{w - 8}" height="28" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 36" width="{w}" height="36">{inner}</svg>'
+
+def readme():
+    shutil.rmtree(README, ignore_errors=True); (README / 'assets' / 'stack').mkdir(parents=True)
+    for k, mode in (('light', 'day'), ('dark', 'night')):
+        shutil.copy(HERE / f'hero-grove-{mode}.svg', README / 'assets' / f'hero-{k}.svg')
+    hero = '<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg"><img src="assets/hero-light.svg" width="100%" alt="a paper-cut grove: a cabin, a campfire, a castle on the hill and a t-rex; a sign says hey, welcome to my crafting place"></picture>'
+    tour = ' '.join(f'<a href="{GH}/{r}">{picture(f"tour-{r}", f"{r}", "49%", art("light"), art("dark"))}</a>' for r, art in TOURS)
+    shutil.copy(HERE / 'fleet.json', README / 'assets' / 'fleet.json'); panels(README / 'assets', README / 'assets' / 'fleet.json')
+    rows, row, used = [], '', 0
+    for n in STACK:
+        span = 2 if n in WIDE else 1
+        if used + span > COLS: rows.append(row); row, used = '', 0
+        light, dark = cell(n, 'light'), cell(n, 'dark')
+        if light == dark:
+            (README / 'assets' / 'stack' / f'{n}.svg').write_text(light); img = f'<img src="assets/stack/{n}.svg" alt="{LABEL.get(n, n)}">'
+        else:
+            for k, v in (('light', light), ('dark', dark)): (README / 'assets' / 'stack' / f'{n}-{k}.svg').write_text(v)
+            img = f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack/{n}-dark.svg"><img src="assets/stack/{n}-light.svg" alt="{LABEL.get(n, n)}"></picture>'
+        row += f'<a href="{HOME[n]}" title="{LABEL.get(n, n)}">{img}</a>'; used += span
+    rows.append(row)
+    stack_md = '<br>'.join(rows)
+    (README / 'README.md').write_text(f'''{hero}
+
+<p align="center">{FRUIT}</p>
+
+### {TOUR_TITLE}
+
+<p align="center">{tour}</p>
+
+### [this week, by the fleet]({GAZETTE})
+
+<img src="assets/board.svg" width="100%" alt="fleet board: this week's agent commits, tickets and skills">
+<p align="center"><img src="assets/langs.svg" width="49%" alt="top languages"> <img src="assets/lazy.svg" width="49%" alt="commits by time of day"></p>
+
+### stack
+
+<p>{stack_md}</p>
+''')
 
 # ---------- the comp page ----------
 def hero(scene, mode): return f'<img class="hero" src="hero-{scene}-{mode}.svg" width="800" height="300" alt="{scene} hero, {mode}">'
 def dn(light, dark): return f'<div class="dn day">{light}</div><div class="dn night">{dark}</div>'
 
-TOUR_TITLE = 'around the camp'
-FRAME_TAKE = 'djinni'
-
-TOURS = [('frame', lambda k: frame_icon(FRAME_TAKE, k)), ('bytes', bytes_icon)]
-
 def mock(hero_light, hero_dark):
-    url = lambda repo: f'https://github.com/dvakatsiienko/{repo}'
-    tour = ' '.join(f'<a href="{url(r)}">{dn(art("light"), art("dark"))}</a>' for r, art in TOURS)
-    week = board() + f'<div class="cards">{langs()}{lazy()}</div>'
+    tour = ' '.join(f'<a href="{GH}/{r}">{dn(art("light"), art("dark"))}</a>' for r, art in TOURS)
+    week = (OUT / 'board.svg').read_text() + f'<div class="cards">{(OUT / "langs.svg").read_text()}{(OUT / "lazy.svg").read_text()}</div>'
     return f'''<div class="gh"><div class="file">README.md</div>{dn(hero_light, hero_dark)}
-<p class="opener" align="center">🍒 hey 🥝 привіт 🍓 привет 🫐 konnichiwa 🍀</p>
+<p class="opener" align="center">{FRUIT}</p>
 <h3>{TOUR_TITLE}</h3><div align="center" class="tour">{tour}</div>
-<h3><a href="https://github.com/dvakatsiienko/frame/tree/main/cclio/gazette">this week, by the fleet</a></h3>{week}
-<h3>stack</h3>{dn(stack('light'), stack('dark'))}
-<details><summary>how this page is drawn</summary><p>every picture here is an svg generated by <code>brand/profile</code> in frame.<br>lettering is outlined to paths, so no fonts are shipped.<br>the fleet numbers are redrawn weekly by an action.<br><a href="https://github.com/dvakatsiienko/frame/tree/main/brand/profile">see the generator →</a></p></details></div>'''
+<h3><a href="{GAZETTE}">this week, by the fleet</a></h3>{week}
+<h3>stack</h3>{dn(stack('light'), stack('dark'))}</div>'''
 
 def section(n, title, sub, body, notes):
     return f'<article class="take"><h2>{n} · {title} <small>{sub}</small></h2><div class="main">{body}</div><dl class="notes">{notes}</dl></article>'
 
 def build():
     OUT.mkdir(exist_ok=True)
+    if pathlib.Path(MONO_FACE % 'Book').exists(): export_glyphs(); export_avatars()
     for p in HERE.glob('hero-grove-*.svg'):
         shutil.copy(p, OUT / p.name)
+    panels(OUT, HERE / 'fleet.json')
     files = {}
     for k in ('light', 'dark'):
-        files |= {f'board-{k}.svg': board(), f'langs-{k}.svg': langs(), f'lazy-{k}.svg': lazy(),
-                  f'tour-bytes-{k}.svg': bytes_icon(k), f'tour-frame-{k}.svg': frame_icon(FRAME_TAKE, k)} | {f'tour-frame-{t}-{k}.svg': frame_icon(t, k) for t in FRAMES}
+        files |= {f'tour-bytes-{k}.svg': bytes_icon(k), f'tour-frame-{k}.svg': frame_icon(FRAME_TAKE, k)} | {f'tour-frame-{t}-{k}.svg': frame_icon(t, k) for t in FRAMES}
     for name, text in files.items():
         (OUT / name).write_text(text)
+    readme()
 
     takes = [section('v', 'the readme', 'grove hero, final — one page, both themes', mock(hero('grove', 'day'), hero('grove', 'night')),
         '<dt>hero</dt><dd>grove, day and night, 800×300, one svg per theme.</dd>'
-        '<dt>tag</dt><dd>paper sign on two threads, top left, no dot: «hey, welcome to my crafting place»</dd>'
         '<dt>greeting</dt><dd>one centered line under the hero, <code>&lt;p align="center"&gt;</code>: github strips <code>style</code> but keeps <code>align</code> on <code>&lt;p&gt;</code>.</dd>'
-        '<dt>fleet</dt><dd>board and both cards are gruvbox terminals, dark in both themes; lettering is Operator Mono outlined to paths.</dd>'
-        '<dt>stack icons</dt><dd>a 12 × 2 grid of 36 px cells; brand hex from simple-icons; a black or white brand takes #1d2021 on light and #ebdbb2 on dark, one svg per theme, since currentColor renders black inside a readme <code>&lt;img&gt;</code>.</dd>')]
+        '<dt>fleet</dt><dd>board and cards are drawn by <code>redraw.ts</code> from <code>fleet.json</code> — here, and weekly in the profile repo\'s action.</dd>'
+        '<dt>stack icons</dt><dd>brand hex from simple-icons; a black or white brand takes #1d2021 on light and #ebdbb2 on dark.</dd>')]
     page = (HERE / 'shell.html').read_text().replace('%TAKES%', '\n'.join(takes))
     (OUT / 'index.html').write_text(page)
-    for n in sorted(files): print(f'{n:22} {len(files[n]) / 1024:6.1f} KB')
+    print(f'readme: {README / "README.md"}, {sum(1 for _ in (README / "assets").rglob("*.svg"))} svgs')
 
 if __name__ == '__main__':
     build()
