@@ -2,7 +2,7 @@ import base64, io, json, pathlib, re, shutil, subprocess
 from PIL import Image
 from fontTools.ttLib import TTFont
 from fontTools.pens.svgPathPen import SVGPathPen
-from tour import FRAMES, bytes_icon, frame_icon
+from tour import bytes_icon, frame_icon
 
 HERE = pathlib.Path(__file__).resolve().parent
 OUT = HERE / 'out'
@@ -60,18 +60,10 @@ def icon(n, k):
     if v.count('fill="#') == 1 and not .05 < lum(hex6) < .9: v = v.replace(f'fill="#{hex6}"', f'fill="{NEUTRAL[k]}"', 1)
     return re.sub(r'<title>.*?</title>', '', v)
 
-def stack(k):
-    cells = ''
-    for n in STACK:
-        v = icon(n, k).replace('<svg ', f'<svg width="{72 if n in WIDE else 28}" height="28" aria-hidden="true" ', 1)
-        cells += f'<a class="ic{" wide" if n in WIDE else ""}" href="{HOME[n]}" title="{LABEL.get(n, n)}" aria-label="{LABEL.get(n, n)}">{v}</a>'
-    return f'<div class="stack">{cells}</div>'
-
 # ---------- the readme: every image a light/dark pair unless both themes draw the same ----------
 FRUIT = '🍒 hey 🥝 привіт 🍓 привет 🫐 konnichiwa 🍀'
 TOUR_TITLE = 'around the camp'
-FRAME_TAKE = 'djinni'
-TOURS = [('frame', lambda k: frame_icon(FRAME_TAKE, k)), ('bytes', bytes_icon)]
+TOURS = [('frame', frame_icon), ('bytes', bytes_icon)]
 GAZETTE = f'{GH}/frame/tree/main/cclio/gazette'
 COLS = 18  # grid units: jotai's wordmark takes two, so 34 icons fill 17 + 17
 
@@ -142,42 +134,9 @@ def readme():
 <p>{stack_md}</p>
 ''')
 
-# ---------- the comp page ----------
-def hero(scene, mode): return f'<img class="hero" src="hero-{scene}-{mode}.svg" width="800" height="300" alt="{scene} hero, {mode}">'
-def dn(light, dark): return f'<div class="dn day">{light}</div><div class="dn night">{dark}</div>'
-
-def mock(hero_light, hero_dark):
-    tour = ' '.join(f'<a href="{GH}/{r}">{dn(art("light"), art("dark"))}</a>' for r, art in TOURS)
-    week = (OUT / 'board.svg').read_text() + f'<div class="cards">{(OUT / "langs.svg").read_text()}{(OUT / "lazy.svg").read_text()}</div>'
-    return f'''<div class="gh"><div class="file">README.md</div>{dn(hero_light, hero_dark)}
-<p class="opener" align="center">{FRUIT}</p>
-<h3>{TOUR_TITLE}</h3><div align="center" class="tour">{tour}</div>
-<h3><a href="{GAZETTE}">this week, by the fleet</a></h3>{week}
-<h3>stack</h3>{dn(stack('light'), stack('dark'))}</div>'''
-
-def section(n, title, sub, body, notes):
-    return f'<article class="take"><h2>{n} · {title} <small>{sub}</small></h2><div class="main">{body}</div><dl class="notes">{notes}</dl></article>'
-
 def build():
-    OUT.mkdir(exist_ok=True)
     if pathlib.Path(MONO_FACE % 'Book').exists(): export_glyphs(); export_avatars()
-    for mode in ('day', 'night'):
-        shutil.copy(HERE / f'hero-grove-{mode}.svg', OUT / f'hero-grove-{mode}.svg')
-    panels(OUT, HERE / 'fleet.json')
-    files = {}
-    for k in ('light', 'dark'):
-        files |= {f'tour-bytes-{k}.svg': bytes_icon(k), f'tour-frame-{k}.svg': frame_icon(FRAME_TAKE, k)} | {f'tour-frame-{t}-{k}.svg': frame_icon(t, k) for t in FRAMES}
-    for name, text in files.items():
-        (OUT / name).write_text(text)
     readme()
-
-    takes = [section('v', 'the readme', 'grove hero, final — one page, both themes', mock(hero('grove', 'day'), hero('grove', 'night')),
-        '<dt>hero</dt><dd>grove, day and night, 800×300, one svg per theme.</dd>'
-        '<dt>greeting</dt><dd>one centered line under the hero, <code>&lt;p align="center"&gt;</code>: github strips <code>style</code> but keeps <code>align</code> on <code>&lt;p&gt;</code>.</dd>'
-        '<dt>fleet</dt><dd>board and cards are drawn by <code>redraw.ts</code> from <code>fleet.json</code> — here, and weekly in the profile repo\'s action.</dd>'
-        '<dt>stack icons</dt><dd>brand hex from simple-icons; a black or white brand takes #1d2021 on light and #ebdbb2 on dark.</dd>')]
-    page = (HERE / 'shell.html').read_text().replace('%TAKES%', '\n'.join(takes))
-    (OUT / 'index.html').write_text(page)
     print(f'readme: {README / "README.md"}, {sum(1 for _ in (README / "assets").rglob("*.svg"))} svgs')
 
 if __name__ == '__main__':

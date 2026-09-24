@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 206" width="240" height="206" role="img" aria-label="bytes — the apps: bytes: a glass jar with a brass lid, fireflies glowing inside"><defs>
 <linearGradient id="bytes-dark-brass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8e3a0"/><stop offset=".4" stop-color="#d4a543"/><stop offset=".75" stop-color="#a67a2a"/><stop offset="1" stop-color="#6e4f18"/></linearGradient>
 <linearGradient id="bytes-dark-brassv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8e3a0"/><stop offset=".5" stop-color="#c9973a"/><stop offset="1" stop-color="#7a5a1e"/></linearGradient>
-<linearGradient id="bytes-dark-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f6f8"/><stop offset=".6" stop-color="#b9c3cc"/><stop offset="1" stop-color="#7e8a96"/></linearGradient>
-<radialGradient id="bytes-dark-dish" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#cfd7de"/><stop offset="1" stop-color="#8b97a3"/></radialGradient>
 <linearGradient id="bytes-dark-glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/><stop offset=".35" stop-color="#bfe3f0" stop-opacity="0.08"/><stop offset="1" stop-color="#7fb4d6" stop-opacity="0.2"/></linearGradient>
 <radialGradient id="bytes-dark-warm" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffcf6a" stop-opacity="0.6"/><stop offset="1" stop-color="#ffcf6a" stop-opacity="0"/></radialGradient>
 <radialGradient id="bytes-dark-fly" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".95"/><stop offset=".35" stop-color="#ffd58a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient>
