@@ -35,7 +35,7 @@ into the cw leaf `/topics/obsidian.md` — the rest is cc-only, deliberately not
   commit in a fresh worktree does it by itself. harmless to gating (the shim's repo-root
   fallback rescues it) but dirty. **the guard: `CI=1 pnpm install`** — lefthook's postinstall exits early on `CI` (measured
   2026-08-30). in frame it is AUTOMATED: the `EnterWorktree` hook
-  (`.claude/hooks/worktree-setup.sh`) runs it in every bg coder's fresh worktree; manual
+  (`shelf/hooks/worktree-seed.sh`, user scope) runs it in every bg coder's fresh worktree; manual
   `CI=1 pnpm install` is needed only for a hand-made `git worktree add`. inline env for that
   one command only, never global
 - `rebase.updateRefs` is on since the git overhaul (2026-09-03): a safety BRANCH made before a
