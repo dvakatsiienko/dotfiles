@@ -14,7 +14,7 @@ one → say so to dima and propose building it first. once it exists, the steps 
 «run the cli» and this line dies.
 
 Scratch lives in `$CLAUDE_JOB_DIR/tmp` (or the session scratchpad); deliverables go to
-`~/Downloads/<slug>/`. **Absolute paths in every command** — a `cd` moves the session's cwd and
+`~/frame/gifs/<slug>/` — the gif storage, its shape and the sources rule in `gifs/AGENTS.md`. **Absolute paths in every command** — a `cd` moves the session's cwd and
 sline shows the scratch path to dima.
 
 ## steps
