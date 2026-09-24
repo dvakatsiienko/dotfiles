@@ -35,6 +35,7 @@ const BREWFILE = `${repoRoot}/Brewfile`;
 // ? at launch — it is restarted once, and only when one of its keys changed.
 const FINDER = 'com.apple.finder';
 const DESKTOP_SERVICES = 'com.apple.desktopservices';
+const DOCK = 'com.apple.dock';
 const GLOBAL = 'NSGlobalDomain';
 
 const DEFAULTS = [
@@ -133,6 +134,39 @@ const DEFAULTS = [
         key: 'DSDontWriteUSBStores',
         label: 'No .DS_Store on USB volumes',
         value: true,
+    },
+    {
+        domain: DOCK,
+        key: 'autohide-delay',
+        label: 'Dock reveals with no delay',
+        restart: 'Dock',
+        value: 0,
+    },
+    {
+        domain: DOCK,
+        key: 'show-recents',
+        label: 'Dock hides recent apps',
+        restart: 'Dock',
+        value: false,
+    },
+    {
+        domain: DOCK,
+        key: 'mru-spaces',
+        label: 'Spaces keep their order',
+        restart: 'Dock',
+        value: false,
+    },
+    {
+        domain: GLOBAL,
+        key: 'NSAutomaticSpellingCorrectionEnabled',
+        label: 'Autocorrect off',
+        value: false,
+    },
+    {
+        domain: 'com.apple.TextEdit',
+        key: 'RichText',
+        label: 'TextEdit opens plain text',
+        value: false,
     },
     {
         domain: GLOBAL,
