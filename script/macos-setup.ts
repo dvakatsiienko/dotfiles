@@ -30,20 +30,128 @@ import {
 
 const BREWFILE = `${repoRoot}/Brewfile`;
 
-// ? Every macOS default this repo owns, in one place.
+// ? Every macOS default this repo owns, in one place. The value's JS type picks
+// ? the `defaults write` flag. `restart` names an app that reads its prefs only
+// ? at launch — it is restarted once, and only when one of its keys changed.
+const FINDER = 'com.apple.finder';
+const DESKTOP_SERVICES = 'com.apple.desktopservices';
+const GLOBAL = 'NSGlobalDomain';
+
 const DEFAULTS = [
     {
-        args: ['com.apple.finder', 'AppleShowAllFiles', '-bool', 'true'],
+        domain: FINDER,
+        key: 'AppleShowAllFiles',
         label: 'Finder shows hidden files',
+        restart: 'Finder',
+        value: true,
     },
     {
-        args: ['NSGlobalDomain', 'KeyRepeat', '-int', '1'],
+        domain: GLOBAL,
+        key: 'AppleShowAllExtensions',
+        label: 'Finder shows every filename extension',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: FINDER,
+        key: '_FXShowPosixPathInTitle',
+        label: 'Finder window title shows the full path',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: FINDER,
+        key: 'FXEnableExtensionChangeWarning',
+        label: 'No «change extension?» prompt',
+        restart: 'Finder',
+        value: false,
+    },
+    {
+        domain: FINDER,
+        key: 'FXPreferredViewStyle',
+        label: 'Finder defaults to list view',
+        restart: 'Finder',
+        value: 'Nlsv',
+    },
+    {
+        domain: FINDER,
+        key: 'FXDefaultSearchScope',
+        label: 'Finder search looks in the current folder',
+        restart: 'Finder',
+        value: 'SCcf',
+    },
+    {
+        domain: FINDER,
+        key: '_FXSortFoldersFirst',
+        label: 'Finder sorts folders first',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: FINDER,
+        key: 'NewWindowTarget',
+        label: 'New Finder windows open a folder path',
+        restart: 'Finder',
+        value: 'PfLo',
+    },
+    {
+        domain: FINDER,
+        key: 'NewWindowTargetPath',
+        label: 'New Finder windows open ~/frame',
+        restart: 'Finder',
+        value: `file://${zx.os.homedir()}/frame/`,
+    },
+    {
+        domain: FINDER,
+        key: 'ShowPathbar',
+        label: 'Finder shows the path bar',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: FINDER,
+        key: 'ShowStatusBar',
+        label: 'Finder shows the status bar',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: FINDER,
+        key: 'FXRemoveOldTrashItems',
+        label: 'Trash empties items older than 30 days',
+        restart: 'Finder',
+        value: true,
+    },
+    {
+        domain: DESKTOP_SERVICES,
+        key: 'DSDontWriteNetworkStores',
+        label: 'No .DS_Store on network volumes',
+        value: true,
+    },
+    {
+        domain: DESKTOP_SERVICES,
+        key: 'DSDontWriteUSBStores',
+        label: 'No .DS_Store on USB volumes',
+        value: true,
+    },
+    {
+        domain: GLOBAL,
+        key: 'KeyRepeat',
         label: 'Fastest key repeat',
+        value: 1,
     },
     {
-        args: ['NSGlobalDomain', 'InitialKeyRepeat', '-int', '10'],
+        domain: GLOBAL,
+        key: 'InitialKeyRepeat',
         label: 'Short delay before key repeat',
+        value: 10,
     },
+] as const satisfies readonly SystemDefault[];
+
+// ? Finder keeps these as per-folder view state with no single key, so they stay
+// ? a printed checklist instead of a write.
+const MANUAL_DEFAULTS = [
+    'Finder › View Options › Size column + «Calculate all sizes» + «Use as Defaults»',
 ];
 
 // ? Which app opens which kind of file. Keyed by the UTI macOS actually assigns,
@@ -199,15 +307,46 @@ async function taps() {
 async function defaults() {
     step('System defaults');
 
-    for (const { label, args } of DEFAULTS) {
+    const restarts = new Set<string>();
+
+    for (const entry of DEFAULTS) {
+        const { domain, key, label, value } = entry;
+        // ? `defaults read` prints a bool as 1/0, so compare against that form.
+        const wanted =
+            typeof value === 'boolean' ? (value ? '1' : '0') : String(value);
+        const current = await zx.$`defaults read ${domain} ${key}`
+            .quiet()
+            .nothrow();
+
+        if (current.exitCode === 0 && current.stdout.trim() === wanted) {
+            ok(label, 'already set');
+            continue;
+        }
+
         if (!apply) {
             skip(label, 'would set');
             continue;
         }
 
-        await zx.$`defaults write ${args}`;
-        ok(label);
+        const flag =
+            typeof value === 'boolean'
+                ? '-bool'
+                : typeof value === 'number'
+                  ? '-int'
+                  : '-string';
+
+        await zx.$`defaults write ${domain} ${key} ${flag} ${String(value)}`;
+        ok(label, 'set');
+
+        if ('restart' in entry) restarts.add(entry.restart);
     }
+
+    for (const app of restarts) {
+        await zx.$`killall ${app}`.quiet().nothrow();
+        ok(app, 'restarted to pick up the new values');
+    }
+
+    for (const item of MANUAL_DEFAULTS) note(`by hand: ${item}`);
 }
 
 async function defaultApps() {
@@ -301,3 +440,12 @@ async function which(binary: string) {
         return false;
     }
 }
+
+/* Types */
+type SystemDefault = {
+    domain: string;
+    key: string;
+    label: string;
+    restart?: string;
+    value: boolean | number | string;
+};
