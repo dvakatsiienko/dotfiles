@@ -228,6 +228,12 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 - **report back where you were briefed.** A plain reply reaches nobody. Code tab: ping cclio via
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch) to the session id in the brief.
   `--bg` session: your idle state is the signal; the coordinator subscribed.
+- **a question to dima is sent with a timer, never left hanging.** dima may steer in your
+  thread; answer him there. but an ended turn has no clock, and his silence means he is in
+  another thread (cclio's, almost always). so before a turn ends on a question to him, arm
+  `Monitor` with `sleep 900 && echo "unanswered: <the question>"` (measured 2026-09-24: it wakes
+  the idle session). he answers → `TaskStop` it. it fires → send the question to cclio, who
+  relays. the map of who talks to whom is `rules/fleet-flow.md`.
 - no mannered prose in reports: plain words, short paragraphs, numbers.
 - **github is a ledger, not a chat** (bytes #84, 2026-09-12: one pr's review volume took most
   of a five-hour window, because every line written there is read back into your context on

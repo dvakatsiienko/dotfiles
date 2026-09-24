@@ -1,0 +1,22 @@
+# fleet flow — who talks to whom
+**scope:** the comms model between fleet members. the per-member contracts stay in their briefs
+(`x:coder-brief`, `x:verifier-brief`, `craft-spawning`); this file is the map they hang on.
+
+## the loop
+
+dima steers cclio. cclio does the small nonblocking bits herself and delegates the rest, research
+included. every reply to dima comes back through cclio; a member's own chat is a workbench, not a
+channel — dima may step into it and steer there, and the member answers him there.
+
+## per member — talks to · hears from · reply lands as
+
+- **cclio** — talks to dima and every member · hears from all · the board in dima's tab
+- **coder** — talks to cclio (one ping per assignment) and to its verifier · hears from cclio, the verifier, and dima when he drops in · a linear comment + the ping
+- **verifier** — talks to the coder, one checkpoint line per round to cclio · hears from the coder · a dispute or a round-3 stop goes to cclio
+- **cw** — a peer: either side opens the exchange, the shared store carries the handoffs
+
+## silence
+
+a question dima has not answered means he is in another thread. the member does not wait on it:
+a timed question goes to cclio, and cclio relays (the mechanics are in each brief). an ended turn
+has no clock — a member watching for dima's answer arms its own timer.
