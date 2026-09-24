@@ -1,10 +1,17 @@
 """The visit-tour tiles: the bytes jar and the frame takes, one svg per theme, one light source (top left)."""
 
+import pathlib, re
+
 from lettering import outline, width
 
 W, H = 240, 180
 CAP_H = 26
-NIGHT = ('#141b31', '#243052')  # the hero's night sky, top to bottom
+HERE = pathlib.Path(__file__).resolve().parent
+
+
+def hero_sky(mode):
+    stops = re.search(r'<linearGradient id="sk"[^>]*>((?:<stop[^>]*>)+)', (HERE / f'hero-grove-{mode}.svg').read_text()).group(1)
+    return re.findall(r'stop-color="(#[0-9a-fA-F]{6})"', stops)
 CAP = dict(light=('#0969da', '#59636e'), dark=('#4493f8', '#9198a1'))
 
 
@@ -23,16 +30,25 @@ def defs(p, k):
 </defs>'''
 
 
-def night_sky():
-    return f'<defs><linearGradient id="night-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{NIGHT[0]}"/><stop offset="1" stop-color="{NIGHT[1]}"/></linearGradient></defs>'
+def sky(p, mode):
+    top, bottom = hero_sky(mode)
+    return (f'<defs><linearGradient id="{p}sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{top}"/><stop offset="1" stop-color="{bottom}"/></linearGradient>'
+            f'<clipPath id="{p}clip"><rect width="{W}" height="{H}" rx="12"/></clipPath>'
+            f'<filter id="{p}paper" x="-10%" y="-20%" width="120%" height="160%"><feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#4a321a" flood-opacity=".22"/></filter></defs>'
+            f'<rect width="{W}" height="{H}" rx="12" fill="url(#{p}sky)"/>')
 
 
-def ground(k):
+def ground(p, k):
     if k == 'light':
-        return ''
+        cloud = 'q8-12 20-6q9-9 21 0q12 0 12 9h-58q-2-5 5-3z'
+        tufts = ''.join(f'<path d="M{x} {y}l-2-6M{x} {y}l1-7M{x} {y}l3-5" stroke="#5d7a4c" stroke-width="1.3" stroke-linecap="round"/>' for x, y in ((22, 166), (212, 164), (58, 172), (196, 174)))
+        return (f'{sky(p, "day")}<g clip-path="url(#{p}clip)">'
+                f'<path fill="#f7fbfd" filter="url(#{p}paper)" d="M24 38{cloud}"/><path fill="#f7fbfd" filter="url(#{p}paper)" transform="translate(178 22) scale(.7)" d="M0 0{cloud}"/>'
+                f'<path fill="#a9c48a" filter="url(#{p}paper)" d="M0 146C50 136 90 144 140 140S210 136 240 142V180H0Z"/>'
+                f'<path fill="#8faa70" filter="url(#{p}paper)" d="M0 158C60 152 120 160 170 155S220 152 240 156V180H0Z"/>{tufts}</g>')
     stars = ''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="#eee6cf" opacity=".7"/>' for x, y, r in
                     [(28, 24, 1.2), (62, 44, .9), (206, 30, 1.3), (188, 62, .8), (40, 88, .8), (216, 104, 1)])
-    return f'{night_sky()}<rect width="{W}" height="{H}" rx="12" fill="url(#night-sky)"/>{stars}'
+    return f'{sky(p, "night")}{stars}'
 
 
 def caption(k, repo, text):
@@ -44,7 +60,7 @@ def caption(k, repo, text):
 def tile(name, k, label, body, repo, text):
     p = f'{name}-{k}-'
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H + CAP_H}" width="{W}" height="{H + CAP_H}" role="img" aria-label="{repo} — {text}: {label}">'
-            f'{defs(p, k)}{ground(k)}{body(p, k)}{caption(k, repo, text)}</svg>')
+            f'{defs(p, k)}{ground(p, k)}{body(p, k)}{caption(k, repo, text)}</svg>')
 
 
 def shadow(cx, cy, rx):
@@ -69,7 +85,10 @@ def jar(p, k):
     ridges = ''.join(f'<rect x="{x}" y="31" width="1.6" height="13" fill="#5a3f12" opacity=".35"/>' for x in range(98, 143, 6))
     body = 'M100 52h40v6c18 6 24 18 24 34v44q0 16-16 16h-56q-16 0-16-16V92c0-16 6-28 24-34z'
     pool = '' if light else f'<ellipse cx="120" cy="156" rx="44" ry="8" fill="url(#{p}warm)"/>'
-    return f'''{shadow(120, 157, 48)}{pool}
+    stump = '' if not light else ('<path d="M72 152h96v15q0 6-8 7H80q-8-1-8-7z" fill="#8a5a3c"/><path d="M84 156v14M104 156v16M134 156v16M154 156v14" stroke="#6b4428" stroke-width="1.5"/>'
+        '<ellipse cx="120" cy="152" rx="48" ry="7" fill="#d9b98a" stroke="#8a5a3c"/><ellipse cx="120" cy="152" rx="32" ry="4.5" fill="none" stroke="#b58f5e"/><ellipse cx="120" cy="152" rx="17" ry="2.4" fill="none" stroke="#b58f5e"/>'
+        '<rect x="183" y="160" width="6" height="9" rx="2" fill="#f1e4c8"/><path d="M177 162q9-14 18 0z" fill="#9a5b2e"/><path d="M180 158q5-5 10-1" stroke="#fff" stroke-opacity=".4" stroke-width="1.2" fill="none"/>')
+    return f'''{shadow(120, 157, 48)}{pool}{stump}
 <circle cx="120" cy="112" r="{46 if light else 58}" fill="url(#{p}warm)"/>
 <path d="{body}" fill="url(#{p}glass)" stroke="#7fb4d6" stroke-opacity=".7" stroke-width="1.5"/>
 <path d="{body}" transform="translate(120 104) scale(.93) translate(-120 -104)" fill="none" stroke="#fff" stroke-opacity=".28"/>
@@ -121,7 +140,9 @@ def djinni(p, k):
     dots = ''.join(f'<circle cx="{x}" cy="131" r="1.2" fill="#6e4f18" opacity=".6"/>' for x in range(92, 154, 7))
     rivets = ''.join(f'<circle cx="{x}" cy="{105 + abs(x - 122) * .08}" r="1.3" fill="#6e4f18" opacity=".7"/>' for x in range(104, 142, 6))
     wisp = 'M199 76c-9-12 7-20 0-34c-6-11-22-8-21 3c1 8 12 7 11-1'
-    return f'''<g transform="translate(-12 0)">{shadow(122, 157, 54)}
+    stone = '' if not light else ('<path d="M76 158q2-9 22-10h48q20 1 24 10q-2 7-24 8h-48q-20-1-22-8z" fill="#b9b3a6"/><path d="M86 151q30-5 74 0" stroke="#fff" stroke-opacity=".55" stroke-width="1.5" fill="none"/>'
+        + ''.join(f'<path d="M{x} 164q-4-10 2-18M{x} 164q4-9 10-12M{x} 164q-8-6-14-6" stroke="#5d7a4c" stroke-width="2.2" fill="none" stroke-linecap="round"/>' for x in (68, 184)))
+    return f'''<g transform="translate(-12 0)">{shadow(122, 157, 54)}{stone}
 <circle cx="172" cy="52" r="{42 if light else 60}" fill="url(#{p}magic)"/>
 <g transform="translate(0 -9)"><path d="{wisp}" stroke="{smoke}" stroke-width="9" stroke-linecap="round" fill="none" opacity=".2"/>
 <path d="{wisp}" stroke="{smoke}" stroke-width="4" stroke-linecap="round" fill="none" opacity=".4"/>
