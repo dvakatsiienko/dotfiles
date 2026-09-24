@@ -34,8 +34,8 @@ def panels(out, data):
     subprocess.run(['node', str(HERE / 'redraw.ts'), '--data', str(data), '--out', str(out)], check=True)
 
 # ---------- stack: one grid of linked icons ----------
-STACK = ('typescript swift react nextdotjs vite reactquery zustand jotai graphql prisma drizzle convex clerk betterauth vitest prettier '
-         'biome nodedotjs bun pnpm turborepo homebrew tailwindcss shadcnui motion anthropic claude cursor neovim raycast linear '
+STACK = ('typescript swift react nextdotjs vite reactquery zustand graphql prisma drizzle convex clerk betterauth vitest prettier '
+         'biome jotai nodedotjs bun pnpm turborepo homebrew tailwindcss shadcnui motion anthropic claude cursor neovim raycast linear '
          'vercel railway docker').split()
 LABEL = dict(claude='claude code')
 WIDE = {'jotai'}
@@ -87,9 +87,21 @@ def round_hero(svg, r=12):
     body = body.removesuffix('</svg>')
     return f'{head}><clipPath id="hero-round"><rect width="800" height="300" rx="{r}"/></clipPath><g clip-path="url(#hero-round)">{body}</g></svg>'
 
+# ink box (x0, y0, x1, y1) and coverage per icon, measured once by drawing each icon on a 200 px canvas;
+# re-measure after adding an icon: a missing entry fails the build
+INK = {'anthropic': (0, 0.145, 1, 0.855, 0.342), 'betterauth': (0, 0.14, 1, 0.86, 0.534), 'biome': (0, 0.07, 1, 0.935, 0.378), 'bun': (0.055, 0.175, 0.945, 0.855, 0.479), 'claude': (0, 0, 1, 1, 0.397), 'clerk': (0.095, 0, 0.905, 1, 0.415), 'convex': (0.01, 0, 0.99, 1, 0.465), 'cursor': (0.06, 0, 0.94, 1, 0.474), 'docker': (0, 0.14, 1, 0.86, 0.376), 'drizzle': (0, 0.235, 1, 0.765, 0.122), 'graphql': (0.055, 0, 0.945, 1, 0.276), 'homebrew': (0.175, 0, 0.825, 1, 0.223), 'linear': (0, 0, 1, 1, 0.596), 'motion': (0, 0, 1, 1, 0.958), 'neovim': (0.09, 0, 0.91, 1, 0.364), 'nextdotjs': (0, 0, 1, 1, 0.691), 'nodedotjs': (0.055, 0, 0.945, 1, 0.296), 'pnpm': (0, 0, 1, 1, 0.697), 'prettier': (0.07, 0, 0.93, 1, 0.268), 'prisma': (0.085, 0, 0.915, 1, 0.276), 'railway': (0, 0, 1, 1, 0.595), 'raycast': (0, 0, 1, 1, 0.302), 'react': (0, 0.055, 1, 0.945, 0.294), 'reactquery': (0.075, 0.03, 0.925, 0.97, 0.576), 'shadcnui': (0, 0, 1, 1, 0.166), 'swift': (0, 0, 1, 1, 0.754), 'tailwindcss': (0, 0.2, 1, 0.8, 0.204), 'turborepo': (0, 0, 1, 1, 0.473), 'typescript': (0, 0, 1, 1, 0.816), 'vercel': (0, 0.07, 1, 0.935, 0.432), 'vite': (0, 0.02, 1, 0.98, 0.469), 'vitest': (0, 0.015, 1, 0.985, 0.475), 'zustand': (0.08, 0.12, 0.92, 0.94, 0.53)}
+INK_MEDIAN = sorted(v[4] for v in INK.values())[len(INK) // 2]
+
+def placement(n, box=32, cell=44):
+    x0, y0, x1, y1, cover = INK[n]
+    size = box * min(1.2, max(.8, (INK_MEDIAN / cover) ** .25))
+    return cell / 2 - (x0 + x1) / 2 * size, cell / 2 - (y0 + y1) / 2 * size, size
+
 def cell(n, k):
     w = 88 if n in WIDE else 44
-    inner = re.sub(r'<svg ', f'<svg x="6" y="6" width="{w - 12}" height="32" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
+    x, y, size = (6, 6, 32) if n in WIDE else placement(n)
+    width = w - 12 if n in WIDE else size
+    inner = re.sub(r'<svg ', f'<svg x="{x:.1f}" y="{y:.1f}" width="{width:.1f}" height="{size:.1f}" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 44" width="{w}" height="44">{inner}</svg>'
 
 def readme():
