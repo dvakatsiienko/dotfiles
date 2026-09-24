@@ -161,8 +161,8 @@ def section(n, title, sub, body, notes):
 def build():
     OUT.mkdir(exist_ok=True)
     if pathlib.Path(MONO_FACE % 'Book').exists(): export_glyphs(); export_avatars()
-    for p in HERE.glob('hero-grove-*.svg'):
-        shutil.copy(p, OUT / p.name)
+    for mode in ('day', 'night'):
+        shutil.copy(HERE / f'hero-grove-{mode}.svg', OUT / f'hero-grove-{mode}.svg')
     panels(OUT, HERE / 'fleet.json')
     files = {}
     for k in ('light', 'dark'):
