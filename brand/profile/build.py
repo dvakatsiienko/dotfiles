@@ -73,7 +73,7 @@ TOUR_TITLE = 'around the camp'
 FRAME_TAKE = 'djinni'
 TOURS = [('frame', lambda k: frame_icon(FRAME_TAKE, k)), ('bytes', bytes_icon)]
 GAZETTE = f'{GH}/frame/tree/main/cclio/gazette'
-COLS = 12
+COLS = 18  # grid units: jotai's wordmark takes two, so 34 icons fill 17 + 17
 
 def picture(name, alt, width, light, dark=None):
     (README / 'assets' / f'{name}{"-light" if dark else ""}.svg').write_text(light)
@@ -88,9 +88,9 @@ def round_hero(svg, r=12):
     return f'{head}><clipPath id="hero-round"><rect width="800" height="300" rx="{r}"/></clipPath><g clip-path="url(#hero-round)">{body}</g></svg>'
 
 def cell(n, k):
-    w = 80 if n in WIDE else 36
-    inner = re.sub(r'<svg ', f'<svg x="4" y="4" width="{w - 8}" height="28" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
-    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 36" width="{w}" height="36">{inner}</svg>'
+    w = 88 if n in WIDE else 44
+    inner = re.sub(r'<svg ', f'<svg x="6" y="6" width="{w - 12}" height="32" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} 44" width="{w}" height="44">{inner}</svg>'
 
 def readme():
     shutil.rmtree(README, ignore_errors=True); (README / 'assets' / 'stack').mkdir(parents=True)
