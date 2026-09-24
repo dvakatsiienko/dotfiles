@@ -1,6 +1,10 @@
 """The visit-tour tiles: the bytes jar and the frame takes, one svg per theme, one light source (top left)."""
 
+from lettering import outline, width
+
 W, H = 240, 180
+CAP_H = 26
+CAP = dict(light=('#0969da', '#59636e'), dark=('#4493f8', '#9198a1'))
 PAPER = ('#f3f1ec', '#e4e0d8')
 NIGHT = '#141a2e'
 
@@ -30,10 +34,16 @@ def ground(p, k):
     return f'<rect width="{W}" height="{H}" rx="12" fill="{NIGHT}"/>{stars}'
 
 
-def tile(name, k, label, body):
+def caption(k, repo, text):
+    rest = f' — {text}'
+    x = W / 2 - (width(repo, 10, 'Bold') + width(rest, 10, 'Regular')) / 2
+    return outline(repo, x, H + 17, 10, 'Bold', fill=CAP[k][0]) + outline(rest, x + width(repo, 10, 'Bold'), H + 17, 10, 'Regular', fill=CAP[k][1])
+
+
+def tile(name, k, label, body, repo, text):
     p = f'{name}-{k}-'
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-label="{label}">'
-            f'{defs(p, k)}{ground(p, k)}{body(p, k)}</svg>')
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H + CAP_H}" width="{W}" height="{H + CAP_H}" role="img" aria-label="{repo} — {text}: {label}">'
+            f'{defs(p, k)}{ground(p, k)}{body(p, k)}{caption(k, repo, text)}</svg>')
 
 
 def shadow(cx, cy, rx):
@@ -137,5 +147,5 @@ FRAMES = {
 }
 
 
-def bytes_icon(k): return tile('bytes', k, *BYTES)
-def frame_icon(take, k): return tile(f'frame-{take}', k, *FRAMES[take])
+def bytes_icon(k): return tile('bytes', k, *BYTES, 'bytes', 'the apps')
+def frame_icon(take, k): return tile(f'frame-{take}', k, *FRAMES[take], 'frame', 'the machine as data')
