@@ -163,6 +163,44 @@ const DEFAULTS = [
         value: false,
     },
     {
+        domain: GLOBAL,
+        key: 'NSAutomaticQuoteSubstitutionEnabled',
+        label: 'Straight quotes stay straight',
+        value: false,
+    },
+    {
+        domain: GLOBAL,
+        key: 'NSAutomaticDashSubstitutionEnabled',
+        label: 'Double hyphens stay hyphens',
+        value: false,
+    },
+    {
+        domain: GLOBAL,
+        key: 'ApplePressAndHoldEnabled',
+        label: 'Holding a key repeats it, no accent popup',
+        value: false,
+    },
+    // ? The save panel's expanded state lives under two keys — newer macOS reads
+    // ? the `2` one, older builds the plain one.
+    {
+        domain: GLOBAL,
+        key: 'NSNavPanelExpandedStateForSaveMode',
+        label: 'Save dialogs open expanded',
+        value: true,
+    },
+    {
+        domain: GLOBAL,
+        key: 'NSNavPanelExpandedStateForSaveMode2',
+        label: 'Save dialogs open expanded (current key)',
+        value: true,
+    },
+    {
+        domain: GLOBAL,
+        key: 'NSDocumentSaveNewDocumentsToCloud',
+        label: 'New documents save to this mac, not iCloud',
+        value: false,
+    },
+    {
         domain: 'com.apple.TextEdit',
         key: 'RichText',
         label: 'TextEdit opens plain text',
