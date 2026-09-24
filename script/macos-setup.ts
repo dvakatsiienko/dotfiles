@@ -247,7 +247,7 @@ const DEFAULT_APPS = [
     { app: MACVIM, ext: 'sh', uti: 'public.shell-script' },
     { app: CURSOR, ext: 'zsh', uti: 'public.zsh-script' },
     { app: CURSOR, ext: 'go', uti: 'org.golang.go-script' },
-    { app: CURSOR, ext: 'tsx', uti: 'com.microsoft.typescript' },
+    { app: CURSOR, ext: 'tsx', uti: 'org.vim.typescript-source' },
     { app: CURSOR, ext: 'js', uti: 'com.netscape.javascript-source' },
     { app: CURSOR, ext: 'json', uti: 'public.json' },
     { app: CURSOR, ext: 'toml', uti: 'public.toml' },
@@ -453,9 +453,6 @@ async function defaultApps() {
         // ? take the type away from whatever holds it, which is how a stale row
         // ? here silently reverted .go and .tsx off Cursor — reported for months
         // ? as an ordinary "would open in Neovide" line.
-        // ? A type nobody has claimed and a type currently claimed by a
-        // ? DIFFERENT app are not the same news. The second means apply would
-        // ? take the type away from whatever holds it.
         const heldByOther = current.id !== '' && current.name !== '';
 
         if (!apply) {
@@ -464,7 +461,15 @@ async function defaultApps() {
             continue;
         }
 
-        await zx.$`duti -s ${app.id} ${uti} all`;
+        // ? A UTI the running macOS never registered makes duti exit 2 — one
+        // ? stale row must not abort the rows after it.
+        const set = await zx.$`duti -s ${app.id} ${uti} all`.quiet().nothrow();
+
+        if (set.exitCode !== 0) {
+            fail(label, set.stderr.trim() || `duti exited ${set.exitCode}`);
+            continue;
+        }
+
         warn(
             label,
             heldByOther
