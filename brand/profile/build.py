@@ -66,14 +66,19 @@ def langs(): return barcard('top langs', LANGS, '%', 'aqua', 'top languages: typ
 def lazy(): return barcard('laziness levels · commits by time of day', LAZY, '', 'blue', 'commits by time of day: morning 372, daytime 892, evening 1383, night 585')
 
 # ---------- stack: one wrapping strip ----------
-STACK = ('typescript react nextdotjs vite reactquery zustand jotai graphql prisma drizzle clerk betterauth vitest prettier '
-         'biome nodedotjs bun pnpm tailwindcss shadcnui neovim claude anthropic vercel railway docker').split()
+STACK = ('typescript swift react nextdotjs vite reactquery zustand jotai graphql prisma drizzle convex clerk betterauth vitest prettier '
+         'biome nodedotjs bun pnpm turborepo homebrew tailwindcss shadcnui motion anthropic claude cursor neovim raycast linear '
+         'vercel railway docker').split()
+LABEL = dict(claude='claude code')
+WIDE = {'jotai'}
 HOME = dict(typescript='https://www.typescriptlang.org', react='https://react.dev', nextdotjs='https://nextjs.org', vite='https://vite.dev',
  reactquery='https://tanstack.com/query', graphql='https://graphql.org', prisma='https://www.prisma.io', drizzle='https://orm.drizzle.team',
  clerk='https://clerk.com', betterauth='https://www.better-auth.com', vitest='https://vitest.dev', prettier='https://prettier.io', biome='https://biomejs.dev',
  nodedotjs='https://nodejs.org', bun='https://bun.sh', pnpm='https://pnpm.io', tailwindcss='https://tailwindcss.com', shadcnui='https://ui.shadcn.com',
- neovim='https://neovim.io', claude='https://claude.ai', anthropic='https://www.anthropic.com', vercel='https://vercel.com', railway='https://railway.com', docker='https://www.docker.com',
- zustand='https://zustand.docs.pmnd.rs', jotai='https://jotai.org')
+ neovim='https://neovim.io', claude='https://www.anthropic.com/claude-code', anthropic='https://www.anthropic.com', vercel='https://vercel.com', railway='https://railway.com', docker='https://www.docker.com',
+ zustand='https://zustand.docs.pmnd.rs', jotai='https://jotai.org', swift='https://www.swift.org', convex='https://www.convex.dev',
+ turborepo='https://turborepo.com', homebrew='https://brew.sh', motion='https://motion.dev', cursor='https://cursor.com',
+ raycast='https://www.raycast.com', linear='https://linear.app')
 NEUTRAL = dict(light='#1d2021', dark='#ebdbb2')
 
 def lum(hex6):
@@ -86,9 +91,9 @@ def stack(k):
     for n in STACK:
         v = (HERE / 'icons' / f'{n}.svg').read_text()
         hex6 = re.search(r'fill="#([0-9A-Fa-f]{6})"', v).group(1)
-        if not .05 < lum(hex6) < .9: v = v.replace(f'fill="#{hex6}"', f'fill="{NEUTRAL[k]}"', 1)
-        v = re.sub(r'<title>.*?</title>', '', v).replace('<svg ', '<svg width="28" height="28" aria-hidden="true" ', 1)
-        cells += f'<a class="ic" href="{HOME[n]}" title="{n}" aria-label="{n}">{v}</a>'
+        if v.count('fill="#') == 1 and not .05 < lum(hex6) < .9: v = v.replace(f'fill="#{hex6}"', f'fill="{NEUTRAL[k]}"', 1)
+        v = re.sub(r'<title>.*?</title>', '', v).replace('<svg ', f'<svg width="{72 if n in WIDE else 28}" height="28" aria-hidden="true" ', 1)
+        cells += f'<a class="ic{" wide" if n in WIDE else ""}" href="{HOME[n]}" title="{LABEL.get(n, n)}" aria-label="{LABEL.get(n, n)}">{v}</a>'
     return f'<div class="stack">{cells}</div>'
 
 # ---------- the comp page ----------
@@ -96,21 +101,18 @@ def hero(scene, mode): return f'<img class="hero" src="hero-{scene}-{mode}.svg" 
 def dn(light, dark): return f'<div class="dn day">{light}</div><div class="dn night">{dark}</div>'
 
 TOUR_TITLE = 'around the camp'
-FRAME_TAKE = 'lantern'
+FRAME_TAKE = 'djinni'
 
-def tile(repo, art, cap):
-    url = f'https://github.com/dvakatsiienko/{repo}'
-    return f'<figure><a href="{url}">{art}</a><figcaption><a href="{url}">{repo}</a> — {cap}</figcaption></figure>'
+TOURS = [('frame', lambda k: frame_icon(FRAME_TAKE, k), 'the machine as data'), ('bytes', bytes_icon, 'the apps')]
 
 def mock(hero_light, hero_dark):
-    tour = (tile('frame', dn(frame_icon(FRAME_TAKE, 'light'), frame_icon(FRAME_TAKE, 'dark')), 'the machine as data')
-            + tile('bytes', dn(bytes_icon('light'), bytes_icon('dark')), 'the apps'))
-    picks = ''.join(f'<figure>{dn(frame_icon(t, "light"), frame_icon(t, "dark"))}<figcaption>{"abc"[i]} · {t}</figcaption></figure>' for i, t in enumerate(FRAMES))
+    url = lambda repo: f'https://github.com/dvakatsiienko/{repo}'
+    tiles = ''.join(f'<td width="50%" align="center"><a href="{url(r)}">{dn(art("light"), art("dark"))}</a></td>' for r, art, _ in TOURS)
+    caps = ''.join(f'<td width="50%" align="center"><a href="{url(r)}">{r}</a> — {cap}</td>' for r, _, cap in TOURS)
     week = board() + f'<div class="cards">{langs()}{lazy()}</div>'
     return f'''<div class="gh"><div class="file">README.md</div>{dn(hero_light, hero_dark)}
 <p class="opener" align="center">🍒 hey 🥝 привіт 🍓 привет 🫐 konnichiwa 🍀</p>
-<h3>{TOUR_TITLE}</h3><div class="tour">{tour}</div>
-<p class="picks">frame, three takes — pick one</p><div class="tour">{picks}</div>
+<h3>{TOUR_TITLE}</h3><table class="tour"><tr>{tiles}</tr><tr>{caps}</tr></table>
 <h3>this week, by the fleet</h3>{week}
 <h3>stack</h3>{dn(stack('light'), stack('dark'))}</div>'''
 

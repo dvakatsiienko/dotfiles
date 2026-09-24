@@ -39,14 +39,12 @@ svg{max-width:100%}
 .opener{font-size:16px;margin:16px 0 0}
 .gh h3{font-size:16px;margin:20px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--gh-line)}
 .gh a{color:var(--gh-link);text-decoration:none}.gh a:hover{text-decoration:underline}
-.tour{display:flex;flex-wrap:wrap;gap:16px}
-.tour figure{margin:0;width:240px;max-width:100%}.tour figure>a{display:block}
-.tour svg{width:100%;height:auto;display:block;border-radius:8px}
-.tour figcaption{font-size:14px;color:var(--gh-muted);margin-top:6px;white-space:nowrap}
-.picks{font-size:14px;color:var(--gh-muted);margin:16px 0 8px}
+.tour{width:100%;border-collapse:collapse;table-layout:fixed}
+.tour td{border:1px solid var(--gh-line);padding:6px 13px;vertical-align:top;font-size:14px;color:var(--gh-muted)}
+.tour tr:first-child td>a{display:block}.tour svg{width:100%;height:auto;display:block;border-radius:8px}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}@media (max-width:640px){.cards{grid-template-columns:1fr}}
-.stack{display:grid;grid-template-columns:repeat(auto-fill,36px);gap:8px;max-width:564px}
-.stack .ic{display:grid;place-items:center;width:36px;height:36px}.stack .ic svg{width:28px;height:28px}
+.stack{display:grid;grid-template-columns:repeat(auto-fill,36px);gap:8px;max-width:520px}
+.stack .ic{display:grid;place-items:center;width:36px;height:36px}.stack .ic svg{width:28px;height:28px}.stack .ic.wide{grid-column:span 2;width:80px}.stack .ic.wide svg{width:72px}
 .notes{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14px;margin:0}
 .notes dt{font:700 12px ui-monospace,Menlo,monospace;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-top:10px}
 .notes dt:first-child{margin-top:0}.notes dd{margin:2px 0 0}
