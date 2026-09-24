@@ -70,3 +70,4 @@ lanes: ws = built-in WebSearch · fast = `--mode fast` · agentic = `--mode agen
 
 - 2026-09-24 · search fast+advanced · 10 fleet lookups · 6/10 + 9/10 hits (websearch 9/10) · 4.4 s / 2.0 s · 3–60k chars per call · ~6¢ settled for 22 calls
 - 2026-09-24 · research core · em-dash + self-wake questions · 4/5 + 5/5 · 95 s / 75 s · one answer each, ~4k chars · ~4¢ each (upper bound)
+- 2026-09-24 · monitor create ×2 (lite, 1d) · cc #95589 + vhs #787 state · first events pending · balance 493¢ → 488¢ + 1¢ pending around the creates (search pending debits settled in the same window, so ≤5¢ for both)

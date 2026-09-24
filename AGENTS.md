@@ -97,5 +97,17 @@ chords shot is `hotkeys/chords/showcase.png`, retaken with agent-browser on `loc
   owns it. **Every research doc carries `dies-when:` frontmatter at creation** — the condition that
   retires it (distilled into an artifact, hatched into a skill/rule, or acted on). Reading a doc
   past its `dies-when` means deleting or flagging it.
+- **Vets** — `docs/vet/<subject>.md`, one file per tool or lane on trial (`parallel`, `review-stack`,
+  `ctx-burn`, `notes-stack/` with its bench scripts). A vet is a running measurement any session
+  may append a round to, so it lives here and never under `cclio/`; it closes with a verdict line
+  (adopted / dropped) and stays as the record. A research doc answers once; a vet accumulates.
+
+## the other homes at root
+
+- `gifs/` — dima's gif storage, one dir per gif, `gifs/AGENTS.md` is the contract.
+- `brand/` — avatars and marks (`brand/avatars/fleet/` is the crew); `assets/` — the readme's own
+  art, badges and clips, drawn by scripts.
+- `gmail/` — the `gmailctl` filter set and the block list; `schedule/` — every launchd job.
+- `cc` is a symlink to `home/.claude/`, a short path for the agent system.
 
 📌 **1Password is required** for SSH signing. Vim plugins need a manual `:PlugInstall` after setup.
