@@ -44,6 +44,17 @@ def tuft(x, y, s, c):
 def mush(x, y, s, P, f):
     return f'<g filter="url(#{f})" transform="translate({x} {y}) scale({s})"><path fill="{P["stem"]}" d="M-3 0h6l-1-12h-4z"/><path fill="{P["cap"]}" d="M-11-10q11-16 22 0z"/><circle cx="-4" cy="-14" r="1.6" fill="{P["dot"]}"/><circle cx="3" cy="-16" r="1.3" fill="{P["dot"]}"/><circle cx="6" cy="-12" r="1" fill="{P["dot"]}"/></g>'
 
+def porcini(x, y, s, night, f):
+    cap, rim, stem, shade = ('#6a4a3a', '#7e5c48', '#b9b3a2', '#948e7e') if night else ('#8a5a36', '#a8744a', '#efe2c4', '#d6c6a4')
+    return (f'<g filter="url(#{f})" transform="translate({x} {y}) scale({s})"><path fill="{stem}" d="M-4 0q-2-6 0-12h8q2 6 0 12z"/><path fill="{shade}" d="M1 0q2-6 0-12h3q2 6 0 12z"/>'
+            f'<path fill="{cap}" d="M-11-10q0-10 11-10t11 10q-11 2-22 0z"/><path fill="{rim}" d="M-11-10q11 3 22 0q-11 4-22 0z"/><path d="M-6-16q3-3 7-3" stroke="{rim}" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>')
+
+def chanterelle(x, y, s, night, f):
+    cap, gill = ('#a8783a', '#8a6230') if night else ('#e8a33c', '#c98424')
+    return (f'<g filter="url(#{f})" transform="translate({x} {y}) scale({s})"><path fill="{cap}" d="M-2 0q-1-5 0-9h4q1 4 0 9z"/>'
+            f'<path fill="{cap}" d="M-2-8q-7-2-9-8q3-2 5 0q2-3 6-2q4-1 6 2q2-2 5 0q-2 6-9 8z"/>'
+            f'<path d="M-1-8l-4-6M1-8l4-6M0-8v-6" stroke="{gill}" stroke-width=".9" fill="none"/></g>')
+
 def bush(x, y, s, P, f):
     blobs = ''.join(f'<circle cx="{x+dx*s}" cy="{y+dy*s}" r="{r*s}" fill="{c}"/>' for dx, dy, r, c in [(-18, -8, 12, P['bush2']), (16, -9, 12, P['bush2']), (-6, -18, 14, P['bush']), (8, -16, 13, P['bush']), (0, -6, 14, P['bush'])])
     ber = ''.join(f'<circle cx="{x+dx*s}" cy="{y+dy*s}" r="{2.3*s}" fill="{P["berry"]}"/>' for dx, dy in [(-10, -14), (-6, -10), (4, -20), (9, -12), (13, -15), (-14, -4), (2, -6)])
@@ -424,7 +435,6 @@ def plate_grove(night, i):
     P = dict(NIGHT, rexHi='#8e4a43', meadow='#34506a', meadow2='#3d5a78', haze='#35446c', haze2='#2e3c60', edge='#2c4560', edge2='#253b54') if night else dict(DAY, rexHi='#d77552', meadow='#a9c07e', meadow2='#bdd096', haze='#c9c69c', haze2='#b8b68c', edge='#94ae7c', edge2='#809a6a')
     W = WOOD2['night' if night else 'day']; f = f'ps{i}'
     if night:
-        P = dict(P, dot='#9ff5e6')
         sky = (''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="#f4efdc"/>' for x, y, r in STARS if (x, y) != (70, 40))
                + hanging_stars(P, f, [(318, 92, 7), (452, 60, 10), (540, 36, 6), (736, 34, 7)]) + comet(i, 404, 30))
         extra = comet_defs(i)
@@ -447,7 +457,7 @@ def plate_grove(night, i):
 {cabin2(212, 246, P, W, night, f, i)}{barrel(276, 246, W, f)}{barrel(292, 250, W, f, .85)}{bucket(306, 252, W, f)}{stump_axe(160, 262, W, f)}
 <path fill="{P['gr2']}" filter="url(#{f})" d="M0 270C140 262 260 272 400 268S640 262 800 270V300H0Z"/>{glow}
 {shadow(578, 248, 50, night)}{rex(P, i, 600, 96, detail=True)}{shadow(282, 276, 26, night)}{seat(282, 274, f)}{camp}
-{bush(752, 266, .9, P, f)}{well(700, 272, P, W, f)}{ferns}{mush(536, 280, 1, P, f)}{mush(550, 284, .7, P, f)}{mush(700, 290, .9, P, f)}{mush(244, 282, .8, P, f)}
+{bush(752, 266, .9, P, f)}{well(700, 272, P, W, f)}{ferns}{porcini(536, 280, 1, night, f)}{chanterelle(550, 284, .7, night, f)}{porcini(700, 290, .9, night, f)}{chanterelle(222, 286, .8, night, f)}
 {path}{tufts}
 {tallL}{tallR}{bush(96, 292, 1.3, P, f)}{bush(790, 298, 1.1, P, f)}{flies}{tag(i, P)}
 <rect width="800" height="300" filter="url(#gr{i})"/>'''
