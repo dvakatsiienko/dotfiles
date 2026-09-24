@@ -82,6 +82,11 @@ def picture(name, alt, width, light, dark=None):
     (README / 'assets' / f'{name}-dark.svg').write_text(dark)
     return f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/{name}-dark.svg">{img}</picture>'
 
+def round_hero(svg, r=12):
+    head, body = svg.split('>', 1)
+    body = body.removesuffix('</svg>')
+    return f'{head}><clipPath id="hero-round"><rect width="800" height="300" rx="{r}"/></clipPath><g clip-path="url(#hero-round)">{body}</g></svg>'
+
 def cell(n, k):
     w = 80 if n in WIDE else 36
     inner = re.sub(r'<svg ', f'<svg x="4" y="4" width="{w - 8}" height="28" ', icon(n, k).replace(' xmlns="http://www.w3.org/2000/svg"', ''), count=1)
@@ -90,7 +95,7 @@ def cell(n, k):
 def readme():
     shutil.rmtree(README, ignore_errors=True); (README / 'assets' / 'stack').mkdir(parents=True)
     for k, mode in (('light', 'day'), ('dark', 'night')):
-        shutil.copy(HERE / f'hero-grove-{mode}.svg', README / 'assets' / f'hero-{k}.svg')
+        (README / 'assets' / f'hero-{k}.svg').write_text(round_hero((HERE / f'hero-grove-{mode}.svg').read_text()))
     hero = '<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg"><img src="assets/hero-light.svg" width="100%" alt="a paper-cut grove: a cabin, a campfire, a castle on the hill and a t-rex; a sign says hey, welcome to my crafting place"></picture>'
     tour = ' '.join(f'<a href="{GH}/{r}">{picture(f"tour-{r}", f"{r}", "49%", art("light"), art("dark"))}</a>' for r, art in TOURS)
     shutil.copy(HERE / 'fleet.json', README / 'assets' / 'fleet.json'); panels(README / 'assets', README / 'assets' / 'fleet.json')
