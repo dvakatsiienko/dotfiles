@@ -419,9 +419,9 @@ def plate_grove(night, i):
     body = f'''{defs(i, night, P, extra)}<rect width="800" height="300" fill="url(#sk{i})"/>{sky}{sun}{meadow(P, f, night, i)}{river_bg(night)}
 <path fill="{P['gr']}" filter="url(#{f})" d="M0 236C150 226 300 232 450 228S680 230 800 226V300H0Z"/>{grove}
 {cabin2(212, 246, P, W, night, f, i)}{barrel(276, 246, W, f)}{barrel(292, 250, W, f, .85)}{bucket(306, 252, W, f)}{stump_axe(160, 262, W, f)}
-<path fill="{P['gr2']}" filter="url(#{f})" d="M0 270C140 262 260 272 400 268S640 262 800 270V300H0Z"/>{glow}{bush(520, 246, .9, P, f)}
+<path fill="{P['gr2']}" filter="url(#{f})" d="M0 270C140 262 260 272 400 268S640 262 800 270V300H0Z"/>{glow}
 {shadow(578, 248, 50, night)}{rex(P, i, 600, 96, detail=True)}{shadow(282, 276, 26, night)}{seat(282, 274, f)}{camp}
-{well(700, 272, P, W, f)}{ferns}{mush(536, 280, 1, P, f)}{mush(550, 284, .7, P, f)}{mush(700, 290, .9, P, f)}{mush(244, 282, .8, P, f)}
+{bush(752, 266, .9, P, f)}{well(700, 272, P, W, f)}{ferns}{mush(536, 280, 1, P, f)}{mush(550, 284, .7, P, f)}{mush(700, 290, .9, P, f)}{mush(244, 282, .8, P, f)}
 {path}{tufts}
 {tallL}{tallR}{bush(96, 292, 1.3, P, f)}{bush(790, 298, 1.1, P, f)}{flies}{tag(i, P)}
 <rect width="800" height="300" filter="url(#gr{i})"/>'''
