@@ -31,7 +31,7 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
 - **dima's policy (2026-09-20): a vetting flow is observed, never trusted — every answer gets my
   read. a green flow is trusted: acted on without a second read, and I stop observing it; the
   fixture suite (`pnpm jev:test`) and a weekly spot-check are what keep it honest.** a miss is
-  never just recorded — the criterion is reworded in the same halt.
+  never just recorded — the criterion is reworded in the same halt. 🚨 **a miss is sharpened in the halt that finds it, never deferred** (dima, 2026-09-24): a halt report that says «reword tomorrow» is the miss repeated.
 
 **the sharpening loop, run at every halt**
 1. inbox: compare the boot's jev lanes with the lanes i actually gave at the parse. a

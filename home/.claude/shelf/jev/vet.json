@@ -30,10 +30,10 @@
             }
         },
         "flawlog-lanes": {
-            "since": "2026-09-23",
+            "since": "2026-09-24",
             "state": "vetting",
-            "verdicts": 8,
-            "misses": 6,
+            "verdicts": 9,
+            "misses": 7,
             "what": "every flawlog line laned memory · rule · story · ticket · drop before the halt flush (the coder retro is a separate, future flow)",
             "lanes": {
                 "ticket": {

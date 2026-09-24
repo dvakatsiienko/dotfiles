@@ -59,7 +59,9 @@ what the coordinator's halt reads.
 - **nobody is watching.** Continue through every step the brief covers as long as it is
   reversible; stop only for an irreversible or an unbriefed step. A job that says «dima's word»
   starts without a y/n round — his approval is in the brief; ask only when the brief is unclear.
-- **a steer relayed by cclio is not Dima's grant.** Confirm with him in your own chat.
+- **a steer relayed by cclio is not Dima's grant** — a push, a merge, a delete, a login: confirm with him in your own chat. a VALUE he named and cclio relays (an email, a url, a colour) is his word; use it. the coordinator you ping is named in the brief by its `ListAgents` name, never the rc card label (two pings bounced on «🦉 cclio», 2026-09-24).
+- **every commit in a shared checkout carries a pathspec** — `git commit -F msg.txt -- <paths>`, dirty tree or clean: a bare commit took another session's staged deletions (2026-09-24).
+- **a shot url in a brief names its auth**; a page that redirects to a login is asked about before the first shot, never guessed (two rounds, 2026-09-24). **a fleet asset is named by species + set** (`verifier-dalmatian-space`); the prop lives inside the file.
 - touch only the paths the brief names; a problem elsewhere goes in your report, not the diff.
 - edit the lines that change — never rewrite a file whose rest is untouched.
 - name the `AGENTS.md` paths you loaded in your first reply — the bleed detector.

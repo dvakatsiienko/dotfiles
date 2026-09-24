@@ -154,6 +154,10 @@ into the cw leaf `/topics/obsidian.md` — the rest is cc-only, deliberately not
 
 - **a tool that treats its config as the whole truth imports the live state before its first apply** — `gmailctl apply` deleted dima's two hand-made filters because `download` never ran first (2026-09-20). same shape: renovate's first run, `frame:link apply`, a launchd bootstrap. the first apply on a live account is preceded by the tool's own import verb
 
+## vercel
+
+- **every branch pushed to a repo with vercel projects is built by every project unless the branch itself carries the opt-out** — `git.deploymentEnabled: false` is read from each app's `vercel.json` on THAT commit, not from main; an orphan `badges` branch holding one svg started 6 preview builds, all dying on «Root Directory does not exist» and all counted on the daily 100 (bytes, 2026-09-24). a single-file or orphan branch carries `cp --parents apps/*/vercel.json` in the job that pushes it
+
 ## ci runners
 
 - a jq program is proven when ci compiles it — ubuntu runners ship jq 1.7, the mac 1.8; `a + b`
