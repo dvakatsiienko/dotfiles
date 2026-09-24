@@ -26,7 +26,7 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 - **opus-5.5** — the default coder since 2026-09-22 (`--model opus` resolves to `claude-opus-5-5` on cc 2.1.280, probed): **`--effort medium` for the trial** (dima 2026-09-22: «set default coder to opus 5.5 medium, let's explore how 5.5 performs»); the models.md refresh on 10-06 decides the standing effort. before it: opus-5 at `--effort high` (his 2026-09-06 word)
   (measured at only ~+10% weekly usage — do not revert on a hunch). ⚠️ **not a PM**: overlong
   prose, invented jargon, unasked docs.
-- 📌 **a `fork` always runs on the parent model** (fable in cclio) whatever `model` says — research and lookups go to a fresh agent (`general-purpose`, `haiku` for retrieval), forks only when the job needs this session's context. `CLAUDE_CODE_SUBAGENT_MODEL=opus` in settings.json makes opus the fresh-agent default (dima's yes, 2026-09-13, after two fable forks spent ~365k on web reading).
+- 📌 **a `fork` always runs on the parent model** (the session model — opus since the 09-24 settings change) whatever `model` says — research and lookups go to a fresh agent (`general-purpose`, `haiku` for retrieval), forks only when the job needs this session's context. `CLAUDE_CODE_SUBAGENT_MODEL=opus` in settings.json makes opus the fresh-agent default (dima's yes, 2026-09-13, after two fable forks spent ~365k on web reading).
 - **fable-5 / 5.1** — spawned only on his word, and then **always `low`** (dima, 2026-09-06: five medium tasks burned ~40–50% of a 5h window; the knob follows complexity, never volume, and the pick is his — bump only when he says so); Dima spends that budget
   on his own turns. Anything Dima reads → fable flavour: *«opus picks pragmatically, fable =
   flavour»*.

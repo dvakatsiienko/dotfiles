@@ -83,6 +83,6 @@ alias tb='turbo'
 
 # llms
 alias cc='claude'
-alias cclio='cd ~/frame/cclio && claude --remote-control "🦊 cclio"'
+alias cclio='cd ~/frame/cclio && claude --remote-control "🦉 cclio"'
 alias cclio-list='~/frame/cclio/.claude/hooks/boot-prefetch.sh'
 alias hk='pnpm --dir ~/frame --silent hotkeys:top'   # which chords + apps i actually use

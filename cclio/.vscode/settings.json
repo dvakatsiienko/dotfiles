@@ -2,14 +2,14 @@
     "peacock.affectActivityBar": false,
     "peacock.affectStatusBar": false,
     "peacock.affectTitleBar": true,
-    "peacock.color": "#a5450d",
+    "peacock.color": "#c88697",
     "workbench.colorCustomizations": {
-        "commandCenter.border": "#e7e7e799",
-        "commandCenter.foreground": "#e7e7e7",
-        "sash.hoverBorder": "#d45911",
-        "titleBar.activeBackground": "#a5450d",
-        "titleBar.activeForeground": "#e7e7e7",
-        "titleBar.inactiveBackground": "#a5450d99",
-        "titleBar.inactiveForeground": "#e7e7e799"
+        "commandCenter.border": "#15202b99",
+        "commandCenter.foreground": "#595959",
+        "sash.hoverBorder": "#d8a9b5",
+        "titleBar.activeBackground": "#c88697",
+        "titleBar.activeForeground": "#595959",
+        "titleBar.inactiveBackground": "#c8869799",
+        "titleBar.inactiveForeground": "#15202b99"
     }
 }

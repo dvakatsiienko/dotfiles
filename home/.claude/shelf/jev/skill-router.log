@@ -3,3 +3,4 @@
 2026-09-20T19:14:54.637Z	ok	lane=x:guide-code lane credit for the 9 guide-code loads (re-recorded after the lane field landed)
 2026-09-21T16:23:23.242Z	ok	09-21: 30 prompts, 9 loads all correct, 0 false; guide-code/typescript under the line at 0.43–0.59 on code turns (hand-loaded) — description keywords, not the threshold
 2026-09-22T19:27:50.601Z	ok	day 4 clean: 0 wrong loads seen in cclio; three x:guide-code near-misses at 0.44–0.45 on raycast-snippet prompts stayed below the gate — description reworded to source-code words at the halt
+2026-09-24T10:05:43.370Z	miss	lane=x:notes 1password + parallel setup turn, no vault or notion mention; «entry» read as note

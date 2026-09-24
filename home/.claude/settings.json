@@ -30,7 +30,7 @@
       "/Users/dima"
     ]
   },
-  "model": "claude-fable-5-1[1m]",
+  "model": "opus[1m]",
   "disableClaudeAiConnectors": true,
   "hooks": {
     "PreToolUse": [
@@ -210,7 +210,7 @@
       "effortLevel": "low"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "medium"
     }
   },
   "fastModePerSessionOptIn": true,
