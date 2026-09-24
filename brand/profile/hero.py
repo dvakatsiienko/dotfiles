@@ -431,8 +431,12 @@ def river_bg(night):
                      for k, (x, y, w, t) in enumerate(pts) if t > .3 and k % 3 == 0)
     return f'<path fill="{deep}" d="{shape(0, 0)}"/><path fill="{water}" d="{shape(1.5, 2)}"/>{glints}'
 
+BLUE_DAY = dict(sky='#8fc3e6', sky2='#e2eff3', r0='#bcd2d8', r1='#a8c4b8', r2='#8fae9a', haze='#a9c2aa', haze2='#98b39a')
+
 def plate_grove(night, i):
     P = dict(NIGHT, rexHi='#8e4a43', meadow='#34506a', meadow2='#3d5a78', haze='#35446c', haze2='#2e3c60', edge='#2c4560', edge2='#253b54') if night else dict(DAY, rexHi='#d77552', meadow='#a9c07e', meadow2='#bdd096', haze='#c9c69c', haze2='#b8b68c', edge='#94ae7c', edge2='#809a6a')
+    if not night:
+        P |= BLUE_DAY
     W = WOOD2['night' if night else 'day']; f = f'ps{i}'
     if night:
         sky = (''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="#f4efdc"/>' for x, y, r in STARS if (x, y) != (70, 40))
