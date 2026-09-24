@@ -4,9 +4,8 @@ from lettering import outline, width
 
 W, H = 240, 180
 CAP_H = 26
-CAP = dict(light=('#0969da', '#59636e'), dark=('#4493f8', '#9198a1'))
-PAPER = ('#f3f1ec', '#e4e0d8')
 NIGHT = '#141a2e'
+CAP = dict(light=('#0969da', '#59636e'), dark=('#4493f8', '#9198a1'))
 
 
 def defs(p, k):
@@ -21,14 +20,12 @@ def defs(p, k):
 <radialGradient id="{p}fly" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".95"/><stop offset=".35" stop-color="#ffd58a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient>
 <radialGradient id="{p}flame" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fffbe6"/><stop offset=".4" stop-color="#ffd24a"/><stop offset="1" stop-color="#ff7a1a"/></radialGradient>
 <radialGradient id="{p}magic" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="{'#8f78d6' if light else '#cbb8ff'}" stop-opacity="{.35 if light else .55}"/><stop offset="1" stop-color="#cbb8ff" stop-opacity="0"/></radialGradient>
-<linearGradient id="{p}paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{PAPER[0]}"/><stop offset="1" stop-color="{PAPER[1]}"/></linearGradient>
-<filter id="{p}sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#2b2622" flood-opacity=".2"/></filter>
 </defs>'''
 
 
-def ground(p, k):
+def ground(k):
     if k == 'light':
-        return f'<rect x="6" y="5" width="{W - 12}" height="{H - 14}" rx="14" fill="url(#{p}paper)" stroke="#d6cfc2" filter="url(#{p}sh)"/>'
+        return ''
     stars = ''.join(f'<circle cx="{x}" cy="{y}" r="{r}" fill="#eee6cf" opacity=".7"/>' for x, y, r in
                     [(28, 24, 1.2), (62, 44, .9), (206, 30, 1.3), (188, 62, .8), (40, 88, .8), (216, 104, 1)])
     return f'<rect width="{W}" height="{H}" rx="12" fill="{NIGHT}"/>{stars}'
@@ -43,7 +40,7 @@ def caption(k, repo, text):
 def tile(name, k, label, body, repo, text):
     p = f'{name}-{k}-'
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H + CAP_H}" width="{W}" height="{H + CAP_H}" role="img" aria-label="{repo} — {text}: {label}">'
-            f'{defs(p, k)}{ground(p, k)}{body(p, k)}{caption(k, repo, text)}</svg>')
+            f'{defs(p, k)}{ground(k)}{body(p, k)}{caption(k, repo, text)}</svg>')
 
 
 def shadow(cx, cy, rx):
@@ -81,7 +78,7 @@ def jar(p, k):
 <path d="M99 58q21 5 42 0" stroke="#a97c45" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M99 59.5q21 5 42 0" stroke="#6e4f18" stroke-opacity=".4" stroke-width=".8" fill="none"/>
 <path d="M140 58q6-6 8 0q-6 4-8 0zM140 58q-2 7 4 8" stroke="#a97c45" stroke-width="1.6" fill="none" stroke-linecap="round"/>
 <path d="M142 60q8 6 12 12" stroke="#a97c45" stroke-width="1.1" fill="none"/>
-<g transform="rotate(16 158 78)"><rect x="150" y="72" width="17" height="11" rx="1.5" fill="#d9b98a" stroke="#a97c45" stroke-width=".8"/><circle cx="153.5" cy="77.5" r="1.3" fill="{'#e4e0d8' if light else '#141a2e'}" stroke="#a97c45" stroke-width=".6"/><path d="M157 76h7M157 79h5" stroke="#8a6a3a" stroke-width=".9" stroke-linecap="round"/></g>
+<g transform="rotate(16 158 78)"><rect x="150" y="72" width="17" height="11" rx="1.5" fill="#d9b98a" stroke="#a97c45" stroke-width=".8"/><circle cx="153.5" cy="77.5" r="1.3" fill="{'#ffffff' if light else NIGHT}" stroke="#a97c45" stroke-width=".6"/><path d="M157 76h7M157 79h5" stroke="#8a6a3a" stroke-width=".9" stroke-linecap="round"/></g>
 <rect x="92" y="28" width="56" height="18" rx="4" fill="url(#{p}brass)"/>{ridges}<ellipse cx="120" cy="29.5" rx="27" ry="2.6" fill="#f8e3a0" opacity=".85"/><rect x="92" y="43" width="56" height="2" fill="#5a3f12" opacity=".3"/>'''
 
 

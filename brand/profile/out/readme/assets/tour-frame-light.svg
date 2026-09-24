@@ -8,9 +8,7 @@
 <radialGradient id="frame-djinni-light-fly" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe7a3" stop-opacity=".95"/><stop offset=".35" stop-color="#ffd58a" stop-opacity=".45"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient>
 <radialGradient id="frame-djinni-light-flame" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fffbe6"/><stop offset=".4" stop-color="#ffd24a"/><stop offset="1" stop-color="#ff7a1a"/></radialGradient>
 <radialGradient id="frame-djinni-light-magic" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#8f78d6" stop-opacity="0.35"/><stop offset="1" stop-color="#cbb8ff" stop-opacity="0"/></radialGradient>
-<linearGradient id="frame-djinni-light-paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f1ec"/><stop offset="1" stop-color="#e4e0d8"/></linearGradient>
-<filter id="frame-djinni-light-sh" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#2b2622" flood-opacity=".2"/></filter>
-</defs><rect x="6" y="5" width="228" height="166" rx="14" fill="url(#frame-djinni-light-paper)" stroke="#d6cfc2" filter="url(#frame-djinni-light-sh)"/><g transform="translate(-12 0)"><ellipse cx="122" cy="157" rx="54" ry="6" fill="#000" opacity=".18"/>
+</defs><g transform="translate(-12 0)"><ellipse cx="122" cy="157" rx="54" ry="6" fill="#000" opacity=".18"/>
 <circle cx="172" cy="52" r="42" fill="url(#frame-djinni-light-magic)"/>
 <g transform="translate(0 -9)"><path d="M199 76c-9-12 7-20 0-34c-6-11-22-8-21 3c1 8 12 7 11-1" stroke="#9a88c9" stroke-width="9" stroke-linecap="round" fill="none" opacity=".2"/>
 <path d="M199 76c-9-12 7-20 0-34c-6-11-22-8-21 3c1 8 12 7 11-1" stroke="#9a88c9" stroke-width="4" stroke-linecap="round" fill="none" opacity=".4"/>
