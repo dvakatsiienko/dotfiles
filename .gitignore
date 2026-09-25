@@ -95,3 +95,4 @@ import/raycast/backups/*.rayconfig
 
 # vitest json reporter output
 .vitest/
+home/.claude/shelf/parallel-monitor-seen.txt

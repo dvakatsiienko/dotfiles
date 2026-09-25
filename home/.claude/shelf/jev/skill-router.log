@@ -5,3 +5,7 @@
 2026-09-22T19:27:50.601Z	ok	day 4 clean: 0 wrong loads seen in cclio; three x:guide-code near-misses at 0.44–0.45 on raycast-snippet prompts stayed below the gate — description reworded to source-code words at the halt
 2026-09-24T10:05:43.370Z	miss	lane=x:notes 1password + parallel setup turn, no vault or notion mention; «entry» read as note
 2026-09-24T10:37:35.745Z	miss	lane=x:github-contrib issue ids named as monitor targets, no gh op
+2026-09-25T17:36:39.873Z	miss	lane=x:writing-for-humans 0.61 on a question with nothing to write — a question about a tool pick, no message for a human	So, after a quick test, Leva is much worse for me … Why, then, did you suggest even trying it?
+2026-09-25T17:36:40.008Z	miss	lane=cclio:halt 0.60 — «that's it for now» closed a tweak batch mid-session, not the session; a halt word needs the session frame	and thats it for now from my side.
+2026-09-25T17:36:40.388Z	miss	lane=x:queue 0.81 — «plan … next session» went to a ticket line (BYT-105), not the in-session queue	app logo - ... Plan to draw a cool logo for atelier, maybe next session
+2026-09-25T17:36:40.531Z	ok	2026-09-25: ~10 right picks (x:handoff, x:cmt 0.84/0.91, x:art-kit, x:pm, x:github-contrib, x:browser-headless …), 3 misses above; latency avg 679 ms p95 806
