@@ -14,9 +14,10 @@ guides (`guide-react`) sit on top of this one.
   contrast for text, ≥3:1 for icons, chart marks, axis lines, focus rings
 - **`user-select: none` only on chrome** — buttons, icons, chart marks, drag handles. Values,
   ids, code, errors stay selectable. Dark theme sets `::selection` explicitly (opaque bg)
-- **every clickable is `<button>`/`<a>` with `cursor: pointer`** — a `div` with onClick is a
-  keyboard hole. Hit target ≥24×24 (44 touch); a dense chart gets a transparent padded hit
-  rect per cell, empty cells included
+- **every clickable is `<button>`/`<a>` with `cursor: pointer` and a visible hover state** — the
+  surface, border or underline shifts under the pointer; an image that opens a zoom is a
+  clickable too. A `div` with onClick is a keyboard hole. Hit target ≥24×24 (44 touch); a dense
+  chart gets a transparent padded hit rect per cell, empty cells included
 - **state never by colour alone** — pair with weight, underline, border. `:focus-visible` ring
   ≥2px, never removed
 - **honour `prefers-reduced-motion` and `prefers-color-scheme`** — both palettes as tokens
