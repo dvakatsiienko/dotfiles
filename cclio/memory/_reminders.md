@@ -44,7 +44,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰📌 🦉👁️ the daemon spare that skips AGENTS.md — every `--bg` coder claims a pre-warmed `claude bg-spare`; a day-old spare booted one WITHOUT the repo's root `AGENTS.md` (2026-09-22, ccbee7b0), a minutes-old spare loaded it. the workaround is the spawn preflight in `craft-spawning` (spare age → `claude daemon stop --keep-workers` after the throwaway probe → spawn). watch: (a) every coder's first reply names its loaded AGENTS.md paths — a missing root file means the preflight leaked; (b) upstream [#95589](https://github.com/anthropics/claude-code/issues/95589) (our comment carries the spare-age table) — `gh issue view 95589 -R anthropics/claude-code --json state` at every cc version bump. dies when the issue closes fixed and one post-fix coder boots complete on a stale spare — then the preflight line goes too. dima's ask 2026-09-22: «keep an eye on this until fixed on the claude code side, so we know when to remove this tracking habit» — set 2026-09-22
 
 
-⏰ 🦉📜 models.md refresh for opus 5.5 — on/after 2026-10-06: the coder env reported `Opus 5.5` on 2026-09-22 (cc 2.1.280); dima: «plan models.md refresh after 2 weeks when there are measures landed». then: `rules/models.md` + `docs/knowledge/models.md` cards, the spawn default in `craft-spawning`, a coder trial at the next spawn — set 2026-09-22
 
 
 
