@@ -32,3 +32,10 @@ bucketed by 15 min.
   reviewer's prompt in `claude.yml` asked for terse findings; diagnostics run in a subagent so
   the spiral dies with it; review payloads read filtered (`jq` fields), never raw; one ci
   adversary at a time (the greptile-ci decision, 09-16)
+
+## 2026-09-25 · BYT-103 atelier coder (opus 5.5, medium → high mid-run)
+
+- **size**: 352 api calls, ~323k output, 168M cache reads, context ended at ~755k — about 75 min of wall clock for a new app + 9 kit components + 15 commits
+- **the loop around it**: a verifier (113 calls, ~78k out, 19M reads, ~16 min of its own work over 3 rounds) + the ci reviewer (2 rounds) + local matt code-review + coderabbit, each read in a subagent
+- **github replies**: 3 thread answers, sent late (the brief had a hole in verifier mode, fixed in x 0.11.108). dima: keep the replies, and watch whether they move the burn — this job's replies were 3 short ones, not a measurable share
+- **watch next**: whether the reply rule grows the context on a pr with many threads; a coder at 700k+ is past half the window — the next assignment in the same session starts heavy
