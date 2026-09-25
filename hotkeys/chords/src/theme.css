@@ -39,7 +39,8 @@
   --color-cap-fn: var(--p-cap-fn);
   --color-cap-num: var(--p-cap-num);
   --color-cap-arrow: var(--p-cap-arrow);
-  --color-cap-del: var(--p-cap-del);
+  --color-cap-help: var(--p-cap-help);
+  --color-cap-snip: var(--p-cap-snip);
   --color-knob: var(--p-knob);
 
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -78,7 +79,8 @@
   --p-cap-fn: #e6e1f1;
   --p-cap-num: #f6dcd8;
   --p-cap-arrow: #dae3f3;
-  --p-cap-del: #f4e6c8;
+  --p-cap-help: #f7c948;
+  --p-cap-snip: #fdfcf8;
   /* The volume knob on the Air75 — the one red round thing on the board. */
   --p-knob: #e5484d;
   --p-knob-edge: #b3282e;
@@ -116,7 +118,8 @@
     --p-cap-fn: #2b2740;
     --p-cap-num: #402627;
     --p-cap-arrow: #22303f;
-    --p-cap-del: #3b3320;
+    --p-cap-help: #6b5212;
+    --p-cap-snip: #34373d;
 
     --app-1password: #7b91ff;
     --app-bartender: #4ade80;
@@ -150,7 +153,8 @@
   --p-cap-fn: #2b2740;
   --p-cap-num: #402627;
   --p-cap-arrow: #22303f;
-  --p-cap-del: #3b3320;
+  --p-cap-help: #6b5212;
+  --p-cap-snip: #34373d;
 
   --app-1password: #7b91ff;
   --app-bartender: #4ade80;

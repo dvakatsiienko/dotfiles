@@ -45,10 +45,11 @@ const CANNOT_DROP = 'cursor-not-allowed opacity-45';
 // Written out, not built from the family name: tailwind emits only the classes it can read.
 const FAMILY_TONE = {
     arrow: 'bg-cap-arrow',
-    del: 'bg-cap-del',
     esc: 'bg-cap-esc',
     fn: 'bg-cap-fn',
+    help: 'bg-cap-help',
     num: 'bg-cap-num',
+    snip: 'bg-cap-snip',
 } as const;
 const LEDS = ['b1', 'b2', 'g1', 'g2', 'y1', 'y2', 'o1', 'r1'] as const;
 
