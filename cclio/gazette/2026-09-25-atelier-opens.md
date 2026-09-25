@@ -22,9 +22,9 @@ posted: {health: yes}
 
 ## state
 - open: the settings pick per readme and scene one drawn to the bar ([FRM-263](https://linear.app/x-com/issue/FRM-263)); a drawn atelier logo; the jev «read first» hook tag; the vercel why (on the ci review)
-- the warm coder and verifier stay alive on BYT-105 for dima's next tweaks
+- the BYT-105 coder and verifier were stopped at the halt; new tweaks go to a fresh coder from the list
 
 ## trail
 - shipped: atelier v1 → v1.2 (#94, #96–#100) under launchd · art-kit + art door · greptile dropped · coder medium / verifier high decided · 09-25 flush (briefs, headless hazards, jev sharpened)
 - open: readme settings pick + scene one (FRM-263) · atelier logo · jev ⚠ read-first tag · vercel not-affected records · BYT-55 rename
-- state: frame e48284ac pushed, bytes 5f837ed7 pushed, coder + verifier warm on BYT-105, impeccable on, x 0.11.113 · cclio 0.3.67
+- state: frame e48284ac pushed, bytes 5f837ed7 pushed, no coders, impeccable off, x 0.11.114 · cclio 0.3.67

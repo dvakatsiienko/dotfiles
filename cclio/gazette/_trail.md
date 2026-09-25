@@ -3,7 +3,7 @@
 ## 2026-09-25-atelier-opens
 - shipped: atelier v1 → v1.2 (#94, #96–#100) under launchd · art-kit + art door · greptile dropped · coder medium / verifier high decided · 09-25 flush (briefs, headless hazards, jev sharpened)
 - open: readme settings pick + scene one (FRM-263) · atelier logo · jev ⚠ read-first tag · vercel not-affected records · BYT-55 rename
-- state: frame e48284ac pushed, bytes 5f837ed7 pushed, coder + verifier warm on BYT-105, impeccable on, x 0.11.113 · cclio 0.3.67
+- state: frame e48284ac pushed, bytes 5f837ed7 pushed, no coders, impeccable off, x 0.11.114 · cclio 0.3.67
 
 ## 2026-09-24-the-profile-and-the-cabin
 - shipped: profile page live + FRM-258 closed · bytes readme with cabin hero, badges, app rows, logged-in shots (FRM-257 half) · fleet-flow, parallel door, vet home, gifs/, flawlog flush committed
