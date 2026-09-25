@@ -33,6 +33,13 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
   fixture suite (`pnpm jev:test`) and a weekly spot-check are what keep it honest.** a miss is
   never just recorded — the criterion is reworded in the same halt. 🚨 **a miss is sharpened in the halt that finds it, never deferred** (dima, 2026-09-24): a halt report that says «reword tomorrow» is the miss repeated.
 
+🔒 **a green skill-router never auto-trusts a side-effect skill** (dima, 2026-09-25) — `cclio:halt`,
+`x:cmt`, `x:handoff`, `cclio:evergreen`'s merge hand: a load of one always waits for my read of dima's
+actual words. the case: «that's it for now from my side» scored `cclio:halt` 0.60 while it closed a
+tweak batch mid-session — trusted, it would have opened the halt early. **at the router's green lift,
+re-check this list first**; the mechanical form (the hook tags these picks «⚠ read first») is a flush
+candidate.
+
 **the sharpening loop, run at every halt**
 1. inbox: compare the boot's jev lanes with the lanes i actually gave at the parse. a
    disagreement is either my miss (say so) or a criterion to reword; reword in the same halt.
