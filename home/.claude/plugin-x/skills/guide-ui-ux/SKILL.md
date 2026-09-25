@@ -18,6 +18,8 @@ guides (`guide-react`) sit on top of this one.
   surface, border or underline shifts under the pointer; an image that opens a zoom is a
   clickable too. A `div` with onClick is a keyboard hole. Hit target ≥24×24 (44 touch); a dense
   chart gets a transparent padded hit rect per cell, empty cells included
+- **the app's logo or name, top-left, is always a link to the app's root (`/`)** with
+  `cursor: pointer` — the one way home from any screen (dima, 2026-09-25)
 - **state never by colour alone** — pair with weight, underline, border. `:focus-visible` ring
   ≥2px, never removed
 - **honour `prefers-reduced-motion` and `prefers-color-scheme`** — both palettes as tokens
