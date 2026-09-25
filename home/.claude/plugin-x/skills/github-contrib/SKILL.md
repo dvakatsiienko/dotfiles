@@ -28,8 +28,7 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
 - **reading a reviewer, measured 2026-09-11**: the ci reviewer posts to a different endpoint per
   round — poll all three (`issues/N/comments`, `pulls/N/reviews`, `pulls/N/comments`), never
   the workflow run (an `issue_comment` workflow runs on the default branch; `gh run list
-  --branch` never shows it). greptile posts once, then EDITS its summary comment in place and
-  completes the `Greptile Review` check-run on the head — watch `updated_at` + the check-run.
+  --branch` never shows it).
   an inline thread is answered only through `POST /pulls/{n}/comments/{id}/replies`; a
   top-level comment does not count as a reply.
 - **the bytes review lane**: `gh pr edit <n> --add-label '🤖 review:requested'` starts the ci

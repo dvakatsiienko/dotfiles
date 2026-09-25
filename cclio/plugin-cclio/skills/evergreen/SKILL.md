@@ -149,7 +149,7 @@ same message («hold #61») subtract from the round.
   turborepo) and in `~/projects/bytes/apps/x-com-chat` (the convex set — sat 5 months stale
   because nobody looked there), then `npx -y skills@latest update -g -y` once
   (`~/.agents/.skill-lock.json`, untracked — snapshot it to the scratchpad first). frame has
-  no project skills. `greptile skills update` rides the same lane. the digest line per scope is
+  no project skills. the digest line per scope is
   the lockfile diff (`git diff -- '**/skills-lock.json'` in bytes, a byte-compare for global);
   a moved hash names the skill.
 - **plugins lane, same weekly slot** — a marketplace refreshes itself only where
