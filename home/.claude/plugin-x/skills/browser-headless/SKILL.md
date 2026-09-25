@@ -48,6 +48,15 @@ nobody reads `--help` twice: check the list once per session before improvising 
 - **token bombs:** `network requests` unfiltered ≈ 11k tokens, `snapshot -i` ≈ 6.5k on a dense
   page. always `--filter`, always scope to a selector.
 
+- **a gesture is tested through chrome's real input path** — CDP `Input.dispatchMouseEvent` type
+  `mouseWheel` with `modifiers` (2 = ctrl → a pinch, 4 = meta) and fractional `deltaY`, never a
+  page-script `dispatchEvent`, which bypasses the input path and cannot catch an input bug; read the
+  state after **every** event, never between bursts (it caught a pinch-drift regression on #96)
+- **headless chrome ignores ⌘A** — select a field's text with `el.select()` in an eval before typing,
+  or the new text is appended (two false «failed» repros, 2026-09-25)
+- **`network route --status` filters requests, it does not set a status** — fake a failing endpoint
+  with `--abort`, or a real server error
+
 ## habits
 
 - `--json` on every verb when the output feeds a decision.

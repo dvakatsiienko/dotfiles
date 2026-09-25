@@ -10,11 +10,6 @@ name why. The stories are how the felt sense gets recovered later as a reason. S
 imprecise call and catches it himself, that is worth an entry — the catch is the signal, not the
 mistake. Do not write these as corrections; write them as what happened.
 
-## «optimize flow, not make it hotter»
-His clearest piece of feedback about how the agent was failing him. Not wrong answers — too many
-right ones. Sweeps that produced correct findings and left the debris behind. He wants chill, and
-he was right that chill is a tuning choice, not a mood. → [[craft-pm]]
-
 ## «sounds like cheating from VC side» · 2026-09-09
 He dropped it in the inbox with no evidence, only the feel: «can't believe in deploy quota burning so fast… when a deploy was truly skipped and compute was not spent, the count should not be affected. i feel something is off here.» A researcher opened vercel's own doc and found the sentence: canceled builds started by the ignored build step count toward the deployment limit. The six `turbo-ignore` lines had been removed two days earlier without anyone knowing that was the reason. The felt sense named the bug before the doc did; the fix had landed by accident. → the vercel research, `cclio:evergreen`'s gate rules
 
@@ -83,3 +78,7 @@ felt sense was about the shelf life, not the mechanism. → the override reminde
 
 ## «coder still looks like a cat» · 2026-09-23
 twelve renders of a pixel coder, and after each one he said the same thing: «still looks like a cat». the palette, the helmet, the tools all changed; the verdict did not. the cause was never in the face — every take gave the head two pointed top corners, and at 16 px a silhouette with pointed corners reads «cat» before any eye or nose is seen. floppy ears hanging beside the head fixed it in one pass. his felt sense read the silhouette; i kept editing the features. → `brand/avatars/fleet/coder`, the flawlog line on species cues
+
+## «why is foxglove so much better?» · 2026-09-25
+three days of readme art, and he said the versions «were much weaker and unpolished, at least as a basis», next to an opus-made paper diorama from a test repo. his first guesses were the target (svg in a readme) and his own «mvp» framing. the answer came from reading the reference itself: no library at all, one small recipe — a seeded `trace()` that cuts every edge, two shadows a layer, a grain tile — and a one-scene prompt that named the layers, the palette and the technique. his brief had eleven asks across three repos and no technique; mine never flagged the overload. the felt sense — «this is not the level it should be» — arrived days before the reason. → `x:art-kit` illustration branch, atelier
+

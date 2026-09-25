@@ -1,5 +1,5 @@
 ---
-description: load when dima means we are done — «let's wrap», «that's it for today», «i'm done», «good point to stop» — or types the command. add `stop` when he leaves NOW («i have to go»).
+description: load when dima means the SESSION is done — «let's wrap», «that's it for today», «i'm done», «good point to stop» — or types the command; «that's it for now from my side» mid-flow closes a list or a batch, not the session. add `stop` when he leaves NOW («i have to go»).
 ---
 
 # /cclio:halt

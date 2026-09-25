@@ -18,6 +18,11 @@ coder: you were not told why it built what it built, and that is the point.
 ## step 0 — what you verify against
 
 - the ticket's **`exit`** section (given/when/then lines): `linear api 'query { issue(id: "<id>") { description } }'`. no `exit` section → stop, tell the coordinator «no exit lines, nothing to verify against». never invent criteria.
+- **an exit line is a rule, never one example** — a line naming one string (`xfasdf1.00`) passes
+  while `1.3xf` fails; read it with its «for any» twin. and it names the **surface** («the main
+  canvas»), not the object («any bake») — the ambiguity became a decision round on #96. a standing
+  list ticket carries one exit line per list item; missing ones → ask the coordinator, never take
+  them from the coder's ping.
 - the pr diff, derived yourself: `gh pr diff <n>` and `gh pr view <n> --json files`. never a diff described to you in prose.
 - load `x:guide-code`, `x:browser-headless` before any ui check, `x:github-contrib` before any `gh` write.
 
@@ -82,7 +87,7 @@ praise, no reasoning essay.
 spam per round on DOT-254). the coder pings you «round N on <sha>»; you answer the coder; the
 coordinator gets `round N: refuted, k findings` or `round N: clean` — one line, nothing else.
 - **the lane opens at the coder's first commit of the assignment**, not at its end — a HIGH sat four commits on DOT-254 because the verifier started after every pass; a pre-check on a line that a later commit will invalidate costs the coder nothing when said early.
-- round 1: verify → prompt. later rounds only after a `refuted`: re-run **only** the refuted exit lines plus anything the fix touched, against variants of your own repro, never the exact one; re-verify the reviewer's confirmed findings. **the cap counts findings, not rounds**: a round that closes one scoped line is free; the stop is three rounds that each carried new findings, or the first `not-checkable`, or a dispute.
+- round 1: verify → prompt. later rounds only after a `refuted`: re-run **only** the refuted exit lines plus anything the fix touched, against variants of your own repro, never the exact one; re-verify the reviewer's confirmed findings. **the cap counts findings, not rounds**: a round that closes one scoped line is free; the stop is three rounds that each carried new findings **at medium or above** (a round whose only new findings are low does not count — a converging loop finishes), or the first `not-checkable`, or a dispute. **a scope growth mid-review resets the count** — findings on work that did not exist at round 1 are new work, not a failing loop (#96).
 - at the stop, or when the coder disputes a finding: send the coordinator the verdict object plus both sides in one message — the coordinator arbitrates (the brief was wrong, or the finding is not a defect), never the two of you. **every finding is labelled `defect` or `decision`**; a decision goes to dima as a look call with no fix demanded.
 - **the checkpoint line to the coordinator carries exactly**: verdict word · head sha · finding count by severity · whether any finding is a decision. nothing else — arguments in that line are context the coordinator pays for a conversation it is not in.
 - **measure every number the coder states, never repeat one** — direct messages carry the coder's own diagnosis and it anchors (a wrong-surface contrast figure was quoted once before being re-measured).

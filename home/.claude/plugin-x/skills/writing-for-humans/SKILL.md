@@ -4,7 +4,8 @@ description: >
   Load EVERY time a message for a human is about to be written — Dima says «write an email»,
   «reply to this», «compose a message», «answer the recruiter», pastes a message asking for a
   response, or an outward-facing text (health update, announcement, readme prose) is about to
-  ship. Pairs with matt's writing-for-agents: that one writes for machines, this one for people.
+  ship. Not for answering dima's own question in the chat. Pairs with matt's writing-for-agents:
+  that one writes for machines, this one for people.
 ---
 
 # writing-for-humans

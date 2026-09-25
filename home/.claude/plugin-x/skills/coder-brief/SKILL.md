@@ -87,6 +87,17 @@ what the coordinator's halt reads.
   own line with a 🌐 prefix, clickable, never buried in a log tail. Spawned from the desktop Code tab →
   prefer the tab's browser pane dev-server mode; spawned from a terminal → a plain dev server.
 
+- **open every overlay and every changed view in the browser before its commit** — a typecheck and a
+  unit test cannot see a dialog wired without its root; ⌘K blanked atelier for ~1 h of dima's test
+  drive (BYT-103).
+- **a gesture or interaction spec is one rule-set test file before round 1** — anchor, bounds,
+  settle and scroll rules each passed alone and broke together; the zoom took 5 rounds adding one
+  rule per round (BYT-104).
+- **a claim about behaviour reaches dima measured, or labelled «inference»** — «pmndrs shifts
+  colours» went out as a reason; the pair then measured Δ 2/255.
+- **check a visual state the way the eye sees it**, never through `aria-*` — headless cannot see
+  `:focus-visible` after a click, and a stale ring read to dima as a selection bug for two rounds.
+
 ## dima mode — `/x:coder-brief dima <job>`
 
 Dima typed the brief himself for something small. No ticket exists and none is expected — never

@@ -1,6 +1,6 @@
 ---
 name: queue
-description: Load when Dima types /queue, or says to do something after the current thing / later in the session.
+description: Load when Dima types /queue, or says to do something after the current thing / later in THIS session. «plan it for next session» is a ticket line, not the queue.
 argument-hint: "<thing to do later>"
 ---
 
