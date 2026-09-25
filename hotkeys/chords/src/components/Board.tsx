@@ -330,7 +330,7 @@ const Knob = (props: KnobProps) => {
 
     return (
         <span
-            className='flex items-center justify-end pr-1'
+            className='flex items-center justify-center'
             style={{ gridColumn: `span ${props.width}` }}>
             <button
                 aria-label={`layer dial — ${props.layer || 'no modifier'}`}
