@@ -6,6 +6,8 @@
     "scripts": {
         "chords:dev": "pnpm --filter chords dev",
         "chords:build": "pnpm --filter chords build",
+        "diorama:dev": "pnpm --filter diorama-stage dev",
+        "diorama:draw": "node ./brand/diorama/draw.ts",
         "badges:sync": "node ./script/badges-sync.ts",
         "frame:link": "node ./script/frame-link.ts",
         "toolchain:sync": "node script/toolchain-sync.ts",
@@ -57,6 +59,7 @@
         "@types/node": "26.2.0",
         "@types/react": "19.3.0",
         "@types/react-dom": "19.3.0",
+        "@types/three": "0.186.0",
         "@vitejs/plugin-react": "6.1.1",
         "biome-config-polished": "0.0.8",
         "lefthook": "2.1.14",

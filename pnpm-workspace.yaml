@@ -1,4 +1,5 @@
 packages:
+  - brand/diorama/stage
   - home/.claude/mcp-x-cw
   - hotkeys/chords
   - import/raycast/extensions/x-ray
@@ -15,3 +16,4 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - biome-config-polished
+  - three@0.186.1
