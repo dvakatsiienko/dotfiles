@@ -1,5 +1,4 @@
 packages:
-  - brand/diorama/stage
   - home/.claude/mcp-x-cw
   - hotkeys/chords
   - import/raycast/extensions/x-ray

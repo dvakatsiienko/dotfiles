@@ -23,10 +23,5 @@
     // erasable-syntax rule. A single `*` does not recurse, so `hotkeys/chords` keeps its own
     // tsconfig — that one is a browser app. Until this line existed nothing typechecked those
     // files at all, and a field deleted from an interface stayed green through the whole gate.
-    "include": [
-        "script/**/*.ts",
-        "hotkeys/*.ts",
-        "brand/profile/*.ts",
-        "brand/diorama/*.ts"
-    ]
+    "include": ["script/**/*.ts", "hotkeys/*.ts", "brand/profile/*.ts"]
 }

@@ -13,14 +13,14 @@ step repeats unchanged.
 
 ## analysis vectors — the questions each run answers from local evidence
 
-- does every image hold the bible (`brand/diorama/story.md`, `dino.md`, `palette.ts`)?
+- does every image hold the bible (`bytes/apps/atelier/art/story.md`, `dino.md`, `palette.ts`)?
 - light = day and dark = night on every piece?
 - does the art direction stay quiet: few flowers, no cheer, Oles stern?
 - svg or raster: which one wins per piece, and what does each cost to render and ship?
 
 ## artifacts — where they live
 
-- `~/frame/brand/diorama/` — the bible (`story.md`, `dino.md`), `palette.ts`, the generators, `out/`
+- `~/projects/bytes/apps/atelier/art/` — the bible (`story.md`, `dino.md`), `palette.ts`, the generators, `out/`
 - `~/frame/home/.claude/plugin-x/skills/guide-ui-ux/SKILL.md` — ui rules that came out of the studio
 - the studio artifact — https://claude.ai/artifact/4YAEdDqeH5SrSCUWnkB13h (source rebuilt by a
   scratch `build.ts`; move it into frame once the recipe settles)
@@ -56,7 +56,7 @@ step repeats unchanged.
 - **measured** — homestead day: svg 199 KB · png 2× 2.9 MB · webp 2× 115 KB. the webp ships
   lighter than the svg
 
-- **the stage** — `brand/diorama/stage` (vite + three.js, :7380, `pnpm diorama:dev`) imports the
+- **the stage** — atelier (`bytes/apps/atelier`, `pnpm dev:atelier`; it replaced `frame/brand/diorama/stage` on 2026-09-25) imports the
   scene modules directly: no data-url build step, hmr on every edit. a designed side panel
   (dima: lil-gui «have ugly selector») — day/night switches in place, grouped sliders, a switch
   per effect: card thickness (a dark cut edge behind each sheet), paper fibre (a normal map),
