@@ -119,6 +119,13 @@ flawlog's «skill not loaded» lines). a miss is also a criterion to reword in
 `script/lib/jev-questions.ts` in the same halt — the flow passes its window because it was
 sharpened, not because it was watched. the boot prints every flow's streak.
 **then `pnpm jev:report`**, printed right after the flush verdicts — one block per flow; a flow with a miss today gets its criterion sharpened in place, `RUNS=3`, same halt. its health line carries the router latency (`avg · p95`): a p95 over 2 s or a rising avg is a finding for the flush, since every prompt waits on it.
+**then the vet board — everything on trial, not only jev** (dima, 2026-09-25, «let's try»): one
+line per item — name · state (vetting n/14, open, due) · days left · today's evidence — built from
+four sources, each read, never recalled: `shelf/jev/vet.json` (the flows, after today's verdicts),
+the open files in `docs/vet/` (a file without a verdict line is open), the 🔬/👁️ trial reminders in
+`memory/_reminders.md`, and the model/effort trials (`rules/models.md`, the spawn defaults in
+`craft-spawning`). ⏰ leads any line due within 3 days; an item with no evidence today still gets its
+line — a trial nobody names is being dropped by default.
 **and the stories:** before the proposal, ask which catches were HIS felt sense arriving before
 the reason — those go to `memory/dima-stories.md` as appends (the leaf's own rule), not to the
 flawlog's drop pile. skipped for two weeks once (2026-09-05).

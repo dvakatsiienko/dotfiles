@@ -20,7 +20,6 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 ⏰ 🦉📜 humanize skill copies freshness — `plugin-x/skills/humanize` + `humanize-audit` are 1:1 copies of github.com/harshaneel/humanize (commit 4ec7973145, 2026-08-27); if still manual after ~2 months (≈2026-10-27) → raise: refresh via the `refresh-writing-for-humans` procedure, or automate the pull — set 2026-08-27
 
 
-⏰ 🦉👁️ proto-lab vet — on/after 2026-10-04: has one real proto been built in `apps/proto-lab` since 2026-09-04 (`git log --since=2026-09-04 -- apps/proto-lab/src/protos` in bytes)? yes → BYT-55 graduates; no → deleted per lab's rule, frame pattern noted in BYT-56 first, dima's word on the rm — set 2026-09-04
 
 ⏰ 🦉👁️ the freshness engine — the unbuilt half lives on [DOT-256](https://linear.app/x-com/issue/DOT-256) (ci runner · supply-chain scan · cron'd round), under DOT-232; raise it when evergreen runs, not at every boot — set 2026-09-08, rebound 2026-09-22
 
