@@ -133,7 +133,7 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      survives its triage. A server-side error gets one retry, then skip it and say so. Push.
   3b. **A verifier session id in the brief changes the rest of the chain**: skip steps 4 and 5.
      «final» is a `SendMessage` to the verifier (pr url + head sha), it owns the ci reviewer and
-     reads every reviewer for you — you read none. Its reply is one prompt per round, ≤12 lines,
+     reads every reviewer for you — you read none. **every reviewer thread is still yours to answer on github**, as `x-coder-cc`, ≤3 lines on the thread itself (fixed in `<sha>` / declined: why) — the verifier reads threads, it never replies to them (#94: three ci threads fixed and never answered). Its reply is one prompt per round, ≤12 lines,
      with a `verdict:` line; fix what it lists, push, message it «round N on <sha>». **the loop is
      yours and the verifier's — the coordinator reads one checkpoint line per round and nothing
      else.** open the lane at your FIRST commit («round 1 on <sha>»), not at the end of the
@@ -161,11 +161,6 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      `pulls/N/reviews`, `pulls/N/comments` — it posts to a different one per round. Fix what is
      real, answer «declined: <why>» on the thread (an inline thread is answered through the
      replies endpoint, a top-level comment does not count), re-label once per batch of fixes.
-     Same minute: `gh pr comment <n> --body "@greptile review"` — the github app is on trial
-     (dima, 2026-09-11: the value is the chat — greptile defends or pushes on the thread; answer it
-     there, fix or «declined: <why>»). Greptile edits its summary comment in place and completes
-     the «Greptile Review» check-run on the head — watch those two, no new post comes. Observed
-     until ~2026-09-16.
   5. **Only after both reviews are handled**: `gh pr edit <n> --add-reviewer dvakatsiienko`, then
      the «final» line to the coordinator (PR url + head sha + «final»). Adding the reviewer before
      the reviews land hands dima a PR with open findings (measured on #68). Leave no untracked
