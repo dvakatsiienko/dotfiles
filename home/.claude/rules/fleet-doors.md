@@ -14,3 +14,4 @@ door live in `rules/fleet-tooling.md` (cc) and the cw leaf named on the line.
 - api keys → 1password vault `dev`, never a literal value · cw leaf `/areas/tooling.md`
 - deletes → `trash`, never `rm` · cw leaf `/areas/tooling.md`
 - obsidian vault → raw files, `obsidian` cli for rename/move · cw leaf `/topics/obsidian.md`
+- art (any picture, icon, avatar, gif, terminal clip) → the `x:art-kit` skill; illustration is made in atelier (`bytes/apps/atelier`) · cc only, cw hands art asks to the mac
