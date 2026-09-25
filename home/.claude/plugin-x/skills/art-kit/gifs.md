@@ -1,14 +1,8 @@
----
-name: gif-kit
-description: Load BEFORE making any gif — «make a gif», «gif from this video», «meme», a YouTube link with timestamps, «captions over a clip», «shrink this gif».
-argument-hint: "<youtube url | clip path> [from] [to]"
----
-
-# gif-kit
+# gifs — video → gif
 
 **lane** — `cc` only: ffmpeg, gifski, yt-dlp and agent-browser run on the mac.
 
-🛠️ **the cli is [FRM-260](linear://linear.app/issue/FRM-260)** — `gif-kit/` with `pnpm gif:fetch` ·
+🛠️ **the cli is [FRM-260](linear://linear.app/issue/FRM-260)** — `gifs/` with `pnpm gif:fetch` ·
 `gif:motion` · `gif:build <spec.json>`, built on the **second real gif**. this gif is that second
 one → say so to dima and propose building it first. once it exists, the steps below collapse to
 «run the cli» and this line dies.

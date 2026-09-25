@@ -1,6 +1,6 @@
 # gifs — dima's gif storage
 
-every gif made with `x:gif-kit` lands here, one dir per gif, named by its slug. this dir is the
+every gif made with `x:art-kit` lands here, one dir per gif, named by its slug. this dir is the
 feature's home: the cli from [FRM-260](https://linear.app/x-com/issue/FRM-260) (`pnpm gif:*`)
 lives here when it exists, and the raycast extension reads this tree.
 
