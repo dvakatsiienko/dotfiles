@@ -32,6 +32,14 @@ export const manualHotkeys = [
         }),
     ),
     { action: 'Raycast', app: 'raycast', key: 'space', mods: 'cmd' },
+    // the air75's yellow top-row key sends help (keycode 114), not del
+    {
+        action: 'Toggle System Appearance',
+        app: 'raycast',
+        key: 'help',
+        mods: 'hyper',
+        since: '2026-09-25',
+    },
     // quicklinks on hyper — raycast keeps them sealed, hand-kept; linear-query-tickets moved off pageup on 2026-09-22 (right-hand key while the right hand holds the mouse)
     {
         action: 'linear-query-tickets (quicklink)',

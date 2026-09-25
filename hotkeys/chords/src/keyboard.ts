@@ -3,8 +3,8 @@
 // one and a half units wide; an empty label is the gap above the arrow cluster.
 // biome-ignore format: one line per keyboard row — the shape of this table IS the keyboard
 export const layout = [
-    [['esc', 4], ['f1', 4], ['f2', 4], ['f3', 4], ['f4', 4], ['f5', 4], ['f6', 4], ['f7', 4], ['f8', 4], ['f9', 4], ['f10', 4], ['f11', 4], ['f12', 4], ['del', 4], ['', 8]],
-    [['`', 4], ['1', 4], ['2', 4], ['3', 4], ['4', 4], ['5', 4], ['6', 4], ['7', 4], ['8', 4], ['9', 4], ['0', 4], ['-', 4], ['=', 4], ['backspace', 8], ['pageup', 4]],
+    [['esc', 4], ['f1', 4], ['f2', 4], ['f3', 4], ['f4', 4], ['f5', 4], ['f6', 4], ['f7', 4], ['f8', 4], ['f9', 4], ['f10', 4], ['f11', 4], ['f12', 4], ['snip', 4], ['help', 4], ['knob', 4]],
+    [['`', 4], ['1', 4], ['2', 4], ['3', 4], ['4', 4], ['5', 4], ['6', 4], ['7', 4], ['8', 4], ['9', 4], ['0', 4], ['-', 4], ['=', 4], ['backspace', 8], ['del', 4]],
     [['tab', 6], ['q', 4], ['w', 4], ['e', 4], ['r', 4], ['t', 4], ['y', 4], ['u', 4], ['i', 4], ['o', 4], ['p', 4], ['[', 4], [']', 4], ['\\', 6], ['pagedown', 4]],
     [['caps', 7], ['a', 4], ['s', 4], ['d', 4], ['f', 4], ['g', 4], ['h', 4], ['j', 4], ['k', 4], ['l', 4], [';', 4], ["'", 4], ['return', 9], ['home', 4]],
     [['shift', 9], ['z', 4], ['x', 4], ['c', 4], ['v', 4], ['b', 4], ['n', 4], ['m', 4], [',', 4], ['.', 4], ['/', 4], ['rshift', 7], ['up', 4], ['end', 4]],
@@ -60,7 +60,7 @@ export const capLabel: Record<string, string> = {
 };
 
 // The caps on dima's own board, from his photo: cream letters, a red number row, lavender
-// function row with the backtick, a mint esc, blue arrows, a yellow del. The board tints only a
+// function row with the backtick, a mint esc, blue arrows, a yellow help key. The board tints only a
 // FREE cap by its family — a bound cap stays white under its app bar, so bound and free still
 // read apart the way they always did.
 export const capFamily: Record<string, 'esc' | 'fn' | 'num' | 'arrow' | 'del'> =
@@ -68,9 +68,9 @@ export const capFamily: Record<string, 'esc' | 'fn' | 'num' | 'arrow' | 'del'> =
         '-': 'num',
         '=': 'num',
         '`': 'fn',
-        del: 'del',
         down: 'arrow',
         esc: 'esc',
+        help: 'del',
         left: 'arrow',
         right: 'arrow',
         up: 'arrow',
