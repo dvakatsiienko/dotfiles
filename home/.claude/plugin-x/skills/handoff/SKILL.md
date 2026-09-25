@@ -102,19 +102,10 @@ Add `--replaces <slug>` when the sibling check found this thread's own pending f
 user in one line: file written; any frontend ingests it (`handoff-ingest` skill on cc, the
 `/handoff-ingest` prompt on cw) and deletes on ingest (`-shared`: kept).
 
-**Then the pickup block, every time, on every surface** — a fenced, ribboned copy block Dima
-pastes verbatim into the target thread. It carries the ingest line plus one sentence naming what
-the thread is for, so the receiver needs nothing else. A handoff without this block is
-unfinished (Dima, 2026-09-15: «I notice that you sometimes miss it»):
-
-    📋 **copy → next session** 📋
-
-    ```
-    /x:handoff-ingest <slug>
-    continue <run id>: <the next step in one sentence>
-    ```
-
-    ✂️ **end** ✂️
+**No pickup block, no accompanying prompt.** Dima picks CSTs up from the raycast handoffs
+command, which pastes the ingest line itself (2026-09-25: «handoff must now be fully
+self-contained»). So the CST carries everything the next thread needs — run id, first moves,
+pending decisions — in META; a reply names the slug once and nothing else.
 
 ## Trigger C — `/handoff spawn [focus]`
 
