@@ -52,7 +52,7 @@
         "zx": "8.8.5"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.13",
+        "@biomejs/biome": "2.5.14",
         "@tailwindcss/vite": "4.3.3",
         "@types/node": "26.2.0",
         "@types/react": "19.3.0",
