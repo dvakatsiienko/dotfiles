@@ -1,5 +1,5 @@
-# the readme's terminal clip. vhs 0.12 + ffmpeg 9 writes no gif (its ffmpeg step fails silently),
-# so vhs records frames and ffmpeg builds a play-once gif:
+# the readme's terminal clip. vhs records frames and ffmpeg builds the gif: vhs has no play-once
+# or palette setting, and its own gif loops forever at twice the size (86 KB vs 39 KB, vhs 0.12.1):
 #   vhs assets/frame-link.tape && cd /tmp/frame-link-frames && ffmpeg -y -framerate 50 -i frame-text-%05d.png \
 #     -framerate 50 -i frame-cursor-%05d.png -filter_complex "[0][1]overlay,fps=12,scale=720:-1:flags=lanczos,split[a][b];\
 #     [a]palettegen=max_colors=32:stats_mode=diff[p];[b][p]paletteuse=dither=none:diff_mode=rectangle" \
