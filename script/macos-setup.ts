@@ -164,6 +164,12 @@ const DEFAULTS = [
     },
     {
         domain: GLOBAL,
+        key: 'NSDisabledCharacterPaletteMenuItem',
+        label: 'No Emoji & Symbols menu item, so ctrl+cmd+space stays free',
+        value: true,
+    },
+    {
+        domain: GLOBAL,
         key: 'NSAutomaticQuoteSubstitutionEnabled',
         label: 'Straight quotes stay straight',
         value: false,
