@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  🎨 x-atelier-live — keeps atelier, the fleet's art studio, running.
+
+  - schedule — always on: RunAtLoad plus KeepAlive, relaunch throttled to one start per 10s
+  - serves — http://localhost:5180 — the vite dev server, so a scene edit shows up live (hmr)
+  - idle cost — a resting vite server; the canvas renders only on change, bakes spawn a headless browser on demand
+  - output — ~/.local/share/x-atelier-live/daemon.log, daemon.err.log for stderr
+  - source — ~/projects/bytes/apps/atelier (bytes repo, BYT-103)
+  - open — http://localhost:5180
+  - manual — pnpm dev:atelier from the bytes root runs the same server in a terminal
+  - setup — mkdir -p ~/.local/share/x-atelier-live; launchd will not create a missing log dir
+  - gotcha — needs no permission; a new dependency in atelier needs `pnpm install` in bytes, then a restart (pnpm schedule:install)
+
+  node is fnm's `default` alias for the same reason as x-monitor-hotkey-live: a shell's node dies
+  with that shell, the alias is a stable symlink fnm repoints on every version bump.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dima.x-atelier-live</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- launchd does not expand ~, so every path is absolute by necessity. -->
+        <string>/Users/dima/.local/share/fnm/aliases/default/bin/node</string>
+        <string>/Users/dima/projects/bytes/script/with-port.ts</string>
+        <string>5180</string>
+        <string>vite</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/dima/projects/bytes/apps/atelier</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/dima/projects/bytes/apps/atelier/node_modules/.bin:/Users/dima/.local/share/fnm/aliases/default/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+
+    <key>StandardOutPath</key>
+    <string>/Users/dima/.local/share/x-atelier-live/daemon.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/dima/.local/share/x-atelier-live/daemon.err.log</string>
+</dict>
+</plist>
