@@ -69,6 +69,8 @@ a page you named, never navigates from a site root to the page you meant.
 - **ticket ids are always a link plus a short tldr**, never bare — including inside tables and
   lists: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`. the `linear://`
   scheme opens the macos app.
+- **an issue or pr from another repo is a full link** — `[vhs#787](https://github.com/charmbracelet/vhs/issues/787)`.
+  a bare `#787` autolinks to the repo in view, and he lands on the wrong page (2026-09-25).
 - **file paths are links too, and still in backticks.** backticks go *inside* the label.
   - in a chat reply the target is **absolute** with no `~` and uses the editor scheme, since a
     reply has no base path: `[`rules/fleet-voice.md`](cursor://file/Users/dima/frame/home/.claude/rules/fleet-voice.md)`
