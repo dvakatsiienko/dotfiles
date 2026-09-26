@@ -127,6 +127,9 @@ sharpened, not because it was watched. the boot prints every flow's streak.
 as coordinator or pm, with the fix — `🥊 <issue>` + `➡️ <approach>`, one line each — and write the
 pair into the CST META. the next boot prints it and reads no flawlog. grounded in this log or
 absent, never invented.
+**verify recipes, same phase:** a retro line naming a verify-recipe gap or a check worth adding is
+placed by cclio into that app's `.claude/skills/verify/SKILL.md` in the flush — coders and
+verifiers only suggest; the recipe stays short (commands that worked, flows worth driving, gotchas).
 **then `pnpm jev:report`**, printed right after the flush verdicts — one block per flow; a flow with a miss today gets its criterion sharpened in place, `RUNS=3`, same halt. its health line carries the router latency (`avg · p95`): a p95 over 2 s or a rising avg is a finding for the flush, since every prompt waits on it.
 **then the vet board — everything on trial, not only jev** (dima, 2026-09-25, «let's try»): one
 line per item — name · state (vetting n/14, open, due) · days left · today's evidence — built from

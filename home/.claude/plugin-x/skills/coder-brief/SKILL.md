@@ -223,8 +223,8 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
 - **last act of every assignment: a retro to the coordinator, ≤20 lines, ranked by cost.** The
   why: the fleet improves itself only from what its members saw, and you are the one inside the
   lane — where the brief was dead weight or wrong, which steers came late or on a false premise,
-  what you would have done differently unbriefed, what nobody asked about. Blunt, specific, name
-  the moment. The coordinator folds it into the flawlog flush; nothing you say there is a
+  what you would have done differently unbriefed, what nobody asked about, and any verify-recipe
+  gap or check worth adding for the app you touched. Blunt, specific, name the moment. The coordinator folds it into the flawlog flush; nothing you say there is a
   complaint, it is the input.
   **One more angle, the automation one**: what did you do by hand that repeats across jobs, and
   what would hold it — a script, a skill line, a memory line? Only what is worth its weight: a
