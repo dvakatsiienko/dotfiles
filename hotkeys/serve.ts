@@ -76,7 +76,8 @@ export const startChordsServer = (options: ChordsServerOptions) => {
         });
     });
 
-    server.listen(chordsPort, '127.0.0.1', () => {
+    // every interface, so a phone on the same wi-fi can open the map
+    server.listen(chordsPort, '0.0.0.0', () => {
         console.log(`chords served on http://localhost:${chordsPort}`);
         // Off the request path: resolving a month of bundle ids is ~5s of synchronous mdfind,
         // and an always-on daemon should spend it once at boot rather than inside whichever
