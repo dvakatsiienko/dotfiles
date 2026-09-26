@@ -80,6 +80,15 @@ done when the PR or issue is in the state the request named — labeled, templat
 said which state that is. a PR left open when the request said merge-when-green is not done,
 and neither is one merged when the request said report and ask.
 
+## github api reads
+
+- **a ci watcher waits for the run to exist before `gh run watch`** — github creates the run a few seconds after the push; asked at +15 s for the head sha it answered nothing and the watcher died on a 404 (2026-09-23). poll `gh run list --commit <sha>` until an id appears, then watch that id
+- `gh api --paginate` emits one json array PER PAGE — `.[0]` reads the first 30 items and looks
+  complete; fold with `jq -s add` (a review guard nearly read half the threads, 2026-09-11)
+- a poller that seeds its window at «now» is blind to everything that made it worth starting —
+  seed two hours back (greptile's findings sat unseen for a round, 2026-09-11)
+- **a conflicting pr gets no `pull_request` run at all** — github creates none without a merge ref, and «no checks reported» reads calm. main moves under an open pr → merge it in within the hour (ten heads ran no ci, 2026-09-20)
+
 ## posting under dima's account outside our repos
 
 an issue, pr or comment on a repo we do not own, written by an agent and posted with dima's `gh`,
