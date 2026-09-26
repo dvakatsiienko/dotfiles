@@ -27,20 +27,17 @@ cross-cutting tooling is `FRM`, always.
 
 free plan: **2 teams max** (both used), **250 non-archived issues** workspace-wide.
 
-## projects — current (restructured 2026-08-17, DOT-72 / TRK-0001)
+## projects — read live, never from here
 
-- **DOT**: `pm` (tracker + pm skill) · `mind` (memory, skills, rules, writing) · `fleet` (surfaces
-  and bridges: `cc cloud`, ipad, handoff) · `cli` (the interface layer over the rest) ·
-  `shelf` (artifact store + transcript family) · `revamp` (setup audit + restructure) · `sline` ·
-  `numi`
-- **BYT**: `rl` (benchmark work) · `design-system` · `cv` · `x-com-chat` · `tooling`
+the board moves faster than this file; the list and each project's purpose come from one query:
+
+```bash
+linear api 'query { teams(first: 10) { nodes { key projects(first: 50) { pageInfo { hasNextPage } nodes { name state description } } } } }'
+```
 
 - a project is a long-lived area and never closes. propose one for every create.
 - **projectless is legal** for one-offs and idea pools — do not force a project.
-- dissolved 2026-08-17: `claude` → split into pm/mind/fleet/cli · `handoff` → into `fleet`.
-- this map is authoritative by convention: pm maintains it. creating or renaming a project and
-  updating this file is **one operation** — and if the change is a decision, it wants a `TRK`
-  adr too.
+- creating or renaming a project that is a decision wants a `TRK` adr in the same batch.
 
 ## stories, not epics
 
