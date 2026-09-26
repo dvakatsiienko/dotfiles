@@ -48,3 +48,5 @@ Store contract: the `remind` skill. Both tiers die only when Dima drops them.
 
 
 ⏰ 🔬 parallel vet, one week to 2026-10-01 — every «research X» runs `parallel-cli research run --processor core` (via `script/op-run.sh`) FIRST, an opus agent second, both graded; every lookup that WebSearch misses gets a `parallel-cli search --mode advanced` retry; the next list-shaped ask tries `findall`, the next url-that-returns-a-shell tries `extract`, one github-issue reminder tries `monitor`. every round appends one line to `docs/research/parallel-measure.md` «vet log»: date · tool · ask · hit · seconds · chars in ctx · ¢ (balance before/after, settled later). on 10-01: adopt as a door, or drop. dima 2026-09-24: «decide based on data not guesses» — set 2026-09-24
+
+⏰ art beyond svg — at the halt, tell dima to prompt you a research: other ways for you to make really solid art besides the svg workaround (no image generation today) — relatively short to run, not expensive. dies when he sends that prompt — set 2026-09-26
