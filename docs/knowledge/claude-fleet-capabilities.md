@@ -36,7 +36,7 @@ directory layering does the isolation with no env var at all. The precedence cha
 manifest `{"name": "anthropic-skills", …}`. It is uuid-keyed per install and its mtime moves when the
 app runs, so it is materialised from the account side rather than being a source of truth. **Writing
 files there cannot automate the upload** — Dima drags and drops by hand until an account-side channel
-exists ([DOT-77](linear://linear.app/issue/DOT-77)).
+exists ([DOT-77](https://linear.app/x-com/issue/DOT-77)).
 
 📌 The «regenerated» read is **inferred from the mtime and the manifest name**, never from an
 overwrite test.
@@ -329,8 +329,8 @@ cclio owns that work.
   `permissions.allow` included, so every call prompts. [DOT-91](https://linear.app/x-com/issue/DOT-91).
   combined with a two-button dialog that has no "always allow", this is what made mobile use
   expensive: ~40 dialogs in one evening.
-- ⚠️ **its chat UI sanitizes non-https hrefs**, so a `linear://` deep link renders dead there. every
-  other surface uses `linear://`; dispatch needs `https://linear.app/...`.
+- ⚠️ **its chat UI sanitizes non-https hrefs** — so do the desktop Code tab and cw, which is why
+  every surface writes https links only (`rules/fleet-output-format.md`).
 - 🚫 **cannot spawn a cloud `cc`** — `isolation: "remote"` resolves the base branch from a non-git
   scratch cwd and fails. it **can** spawn a local `cc` with worktree isolation.
 - ❓ **effort is not settable on its spawns** and appears inherited — mechanic never verified, so do

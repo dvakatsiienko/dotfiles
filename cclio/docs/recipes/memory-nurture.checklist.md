@@ -3,7 +3,7 @@
 the complementary checklist of the [memory-nurture recipe](memory-nurture.md): a nurture run
 may span sessions or days (run #1 took four), so its state lives here, not in chat. this copy
 carries run #1's map and verdicts — a new run resets the checklist, keeps the shape.
-**dima's plan lives here**, moved out of [DOT-73](linear://linear.app/issue/DOT-73)'s body so a
+**dima's plan lives here**, moved out of [DOT-73](https://linear.app/x-com/issue/DOT-73)'s body so a
 ticket body is not a granular plan.
 
 📌 standing sweep line, every run: **`docs/research/` — anything past its `dies-when`?** delete
@@ -78,7 +78,7 @@ file is touched.
    - ⚠️ **the last clause is the real question.** «what do we do wrong» outranks the number: a
      115k cold boot that reaches 200k after one turn is either normal for this class of work or a
      symptom. answer which, with evidence, before proposing a target.
-   - 📌 the answer steers [DOT-198](linear://linear.app/issue/DOT-198) directly — that ticket's
+   - 📌 the answer steers [DOT-198](https://linear.app/x-com/issue/DOT-198) directly — that ticket's
      old 25k target was dispatch's invention and was removed for being made up. do not replace one
      invented number with another.
    - measure before optimising: what actually fills the window here is memory files (72k of 115k),
@@ -96,7 +96,7 @@ file is touched.
      matt's skill taking the final word. ❓ is that both-worlds or bloat — answer it, do not assume.
    - 📌 dima's update, and it changes the shape: *«writing-for-agents most likely is only good for
      skills»*. if so, a **mem-writing skill is missing** and this phase must produce it.
-   - ❓ **do we still need skillsmith** ([DOT-132](linear://linear.app/issue/DOT-132))?
+   - ❓ **do we still need skillsmith** ([DOT-132](https://linear.app/x-com/issue/DOT-132))?
 
 📌 decide skill-vs-doc size **after** the research lands. `skillsmith` stays thin with a pointer
 into the bigger guide rather than swallowing it.
@@ -269,8 +269,8 @@ Every coder session on this machine pays that saving too.
 3. **then project** `CLAUDE.md`**s**, top to bottom: **frame first**, then `bytes`,
    `dvakatsiienko`, `inner-marker`, `reinforcement-learning`.
 4. 🚧 **skills pass — HALF done (2026-08-25).** the criteria/eval half ran: all 15 plugin-x
-   skills read once, [DOT-217](linear://linear.app/issue/DOT-217) closed (criteria added to 6,
-   5 had one, 4 deliberately none), [DOT-110](linear://linear.app/issue/DOT-110) closed by dima
+   skills read once, [DOT-217](https://linear.app/x-com/issue/DOT-217) closed (criteria added to 6,
+   5 had one, 4 deliberately none), [DOT-110](https://linear.app/x-com/issue/DOT-110) closed by dima
    as drifted — its insight survives as a comment (criteria double as oracles).
    **still owed: the GROOM half** — per-skill keep/trim/merge/drop verdict + bucket rebalance
    (skill ↔ memory ↔ doc), the same treatment the memory leaves got. `writing-for-agents` habit
@@ -301,11 +301,11 @@ minor fleet member now. cclio takes over its responsibilities and updates refere
 everywhere they appear; dispatch's own facts collapse into `fleet-capabilities.md`.
 
 the **one** thing still planned with it: **after cclio's setup is fully done**, try linking cclio's
-memories into dispatch by symlink. that is all. [DOT-115](linear://linear.app/issue/DOT-115) holds it.
+memories into dispatch by symlink. that is all. [DOT-115](https://linear.app/x-com/issue/DOT-115) holds it.
 
 ⛔ **do not touch dispatch's own memfiles.**
 
-### carried in: provenance ([DOT-106](linear://linear.app/issue/DOT-106), folded here)
+### carried in: provenance ([DOT-106](https://linear.app/x-com/issue/DOT-106), folded here)
 
 the rule already lives twice in cclio memory (`rule-proof`,
 `report-verify`) and once as the CST truth rule. what is left is **generalising it**
@@ -316,12 +316,12 @@ X* — never asserted» into `CST-SPEC.md`, `x:pm`, and `rules/`. one bucketing 
 
 ## phase 3 · the coder-global layer
 
-`~/projects/CLAUDE.md` exists as a deliberate **stub** ([DOT-195](linear://linear.app/issue/DOT-195)).
+`~/projects/CLAUDE.md` exists as a deliberate **stub** ([DOT-195](https://linear.app/x-com/issue/DOT-195)).
 filling it is a bucketing place in its own right.
 
 ✅ **surveyed 2026-08-25:** all outer `~/projects/*/CLAUDE.md` files collated (4 files) — no
 orphan rules waiting to move up; every repeat already owned by a higher layer. the stub stays a
-stub until the coder-behavior decision ([DOT-73](linear://linear.app/issue/DOT-73) comment holds
+stub until the coder-behavior decision ([DOT-73](https://linear.app/x-com/issue/DOT-73) comment holds
 the evidence). dima's vertical map landed in `rules/authoring-memory-and-skills.md`.
 
 ❓ **the part dima explicitly does not know how to solve** — `guide-react`, `guide-typescript`,
@@ -450,7 +450,7 @@ dima's spec for what those files should hold, verbatim and complete:
 > info that is useful to **you**, in a format appropriate to **you**
 
 no expanded version for the reader. binding on every skill and rule write, asked for or
-self-initiated. the enforceable ruleset is [DOT-127](linear://linear.app/issue/DOT-127).
+self-initiated. the enforceable ruleset is [DOT-127](https://linear.app/x-com/issue/DOT-127).
 
 ---
 

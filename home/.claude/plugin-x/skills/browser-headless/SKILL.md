@@ -63,5 +63,3 @@ nobody reads `--help` twice: check the list once per session before improvising 
 - a chart or layout check runs at 390 / 768 / 1280 wide, and reads the console after.
 - a coder writes «verified in agent-browser: <what, at which widths>» in its report, or says
   «unverified in a browser» — never silence.
-
-Research behind the pick: `docs/research/headless-browser-tool.md` (dies when this skill is in use).

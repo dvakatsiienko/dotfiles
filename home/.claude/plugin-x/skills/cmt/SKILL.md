@@ -118,12 +118,11 @@ only thread tying code back to its ticket, and it carries that thread in **one f
 
 ```
 - ticket: FRM-N
-- ticket: FRM-N (closes)
 ```
 
-**We do the linking ourselves.** The pre-push hook reads this line, attaches the commit to the
-ticket through Linear's API, and moves the ticket to Done when the line says `(closes)`. The
-ticket gains a link and nothing else — no assignee, no state churn, no history noise.
+**We do the linking ourselves.** The pre-push hook reads this line and attaches the commit to the
+ticket through Linear's API. The ticket gains a link and nothing else — no assignee, no state
+churn, no history noise.
 
 🚫 **Linear's own keywords are BANNED in a commit body** — `ref` `refs` `references` `part of`
 `contributes to` `toward(s)` `close(s|d)` `fix(es|ed)` `resolve(s|d)` `complete(s|d)`
@@ -136,13 +135,11 @@ on [DOT-229](https://linear.app/x-com/issue/DOT-229) 2026-08-28, six forms, one 
 Dima's lane: no branch, no PR, commit and push. The **commit body carries everything**.
 
 - **Every commit touching the work**: a `- ticket: FRM-N` line.
-- **Close on the last one**: `- ticket: FRM-N (closes)` when the commit finishes the ticket.
-  One close per ticket, never repeated.
+- **A commit never closes its ticket.** The close is the coordinator's move (or Dima's), made in
+  Linear after verifying, with a closing word in the body — never a marker in a commit.
 - **No ticket → no line.** Most commits have none. The id comes from the conversation, the
   branch name, or Dima — nowhere else. Never guess, never grep for a plausible match, never
   write `FRM-?`. Omitting the line is always correct.
-- **Never close on Dima's behalf without saying so.** Name the ticket you are about to close in
-  the reply.
 - 🎯 **A commit body is PARSED, not read — writing *about* a banned keyword IS using one.**
   Linear cannot tell a quotation from an intent (measured: a quoted example assigned Dima and
   moved the ticket five seconds after push). **Before pushing, grep the body for the id pattern
@@ -167,7 +164,7 @@ the moment it lands. `frame` deploys nothing — no watch.
 ### What a push actually does to the ticket
 
 - The pre-push hook (`script/linear-push.ts`, run as a `lefthook` pre-push job) waits for the
-  push to land, then attaches each commit and applies the closes. It logs to
+  push to land, then attaches each commit. It logs to
   `.git/linear-push.log` and fires only in **`frame` and `bytes`** — the two repos whose
   `lefthook` config calls it; a third repo needs those lines copied from `bytes` first. Nothing
   to do or say after a push — the hook owns it. Report only a miss: no Resources entry 30s
@@ -217,4 +214,5 @@ body's ticket-id-pattern hits are counted and each one is intended. Say the hash
 - Sanity check before every commit: leftover debug/test code, commented-out code, stray
   debuggers → pause, report, resume when resolved.
 - Pre-commit hook failure → never self-fix; summarize and stop.
-- `git add -A` unless told otherwise, or when splitting (§2).
+- stage the paths the plan names, never `git add -A`, and commit with a pathspec
+  (`git commit -F msg.txt -- <paths>`): a shared tree holds other sessions' work.

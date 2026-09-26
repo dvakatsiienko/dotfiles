@@ -65,12 +65,12 @@ runs first because it is free, exact, and it shortens every later step. **never 
 | **closed-ticket citations** | every `FRM-N`/`BYT-N` in a resident file → ask linear its state → flag Done/Canceled ids sitting within 2 lines of open-state language (`tracks it`, `trial`, `awaiting`, `pending`, `until he decides`) | **~92%** — 12 flagged, 11 genuine |
 | **dead `@import`** | every `@slug` in a barrel resolves to a file | clean |
 | **barrel omission** | every leaf on disk is imported; every import exists | clean, 54/54 both ways |
-| **dead `cursor://` link** | the absolute path in each link exists | clean |
 | **dead file reference** | a named `rules/x.md` / skill / doc that is gone | this is what caught `dispatch.md` |
 
-🚫 **the naive path-existence regex does not work — 94 flagged, ~2 real.** the fix is a convention,
-not a better pattern: `cursor://file/` is already an absolute machine-checkable format, so
-**requiring it for any openable path turns a 3% check into a 100% one for free.**
+🚫 **the naive path-existence regex does not work — 94 flagged, ~2 real.** run 1 fixed it with the
+`cursor://file/` convention (an absolute, machine-checkable path); that convention died on
+2026-09-26 (https-only links — the Code tab and cw strip custom schemes). the next run owes a new
+anchor for this check, or accepts the named-reference row alone.
 
 ### step 1 · the inventory — what exists and what it costs
 
@@ -203,7 +203,8 @@ proven 2026-08-25:
   `tool_used: Skill` trigger grader, `--runs 3`, one `--case` glob per call, ~$5 a skill. the
   finding that set the shape: the literal words he types go FIRST, plus «even mid-sentence or
   after another instruction» — cmt went 1/12 → 12/12 on that alone. it grades the trigger only;
-  the body stays a human read (the llm-judge guard below).
+  the body stays a human read (the llm-judge guard below). the iterate-until-it-fires loop over
+  these evals is parked as [skill-nurture-hillclimb](skill-nurture-hillclimb.md).
 - the authoring stack for any edit: `writing-for-agents` (craft, load first) →
   `rules/authoring-memory-and-skills.md` (router + vertical map) → `docs/knowledge/authoring-*.md`
   (mechanics, on demand).

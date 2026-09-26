@@ -48,7 +48,7 @@ vocabulary cold at session start; asking Dima what a label means is a bug.
 **Shared tools where the agent is the majority user**, which inverts who the ergonomics serve.
 His reframe: *«you use my git ~98% more than me… so you'd be interested to have a proper setup.»*
 Underneath: agent and human commit under one identity, which caps sweep confidence —
-[DOT-159](linear://linear.app/issue/DOT-159) scrapes for the fingerprint. Deliberately after the
+[DOT-159](https://linear.app/x-com/issue/DOT-159) scrapes for the fingerprint. Deliberately after the
 fleet settles; waiting is not neglect.
 
 ## 📦 bytes — the product work

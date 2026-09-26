@@ -10,7 +10,7 @@ argument-hint: "<youtube url> [transit] | <title fragment or video id> | list"
 
 Downloads YouTube captions, cleans them into readable text, shelves them so a video is never
 fetched twice. **Captions only** — Whisper is deliberately not here
-([DOT-211](linear://linear.app/issue/DOT-211)); never download a model, point at the ticket.
+([DOT-211](https://linear.app/x-com/issue/DOT-211)); never download a model, point at the ticket.
 
 Plain shell — run via `Bash` on cc, Desktop Commander on `cw`. Needs `yt-dlp`, `jq`, `python3`.
 
@@ -137,8 +137,8 @@ reporting, so a wrong repair is visible.
 ### 6. Read it, then report
 
 📌 **Check size before reading whole** — a 50-min talk ≈ 60k chars ≈ 15k tokens; narrow ask →
-grep or slice, and say which you did. Report one line: title, channel, duration, path as a
-`cursor://` link.
+grep or slice, and say which you did. Report one line: title, channel, duration, path in
+backticks.
 
 ## Transit
 
@@ -171,6 +171,6 @@ fetch — never invent a url.
 
 ## Not in this skill
 
-- **Whisper** — [DOT-211](linear://linear.app/issue/DOT-211); trigger is "the captions are
+- **Whisper** — [DOT-211](https://linear.app/x-com/issue/DOT-211); trigger is "the captions are
   wrong", detectable only by a human.
 - **`parakeet-cli`** — possible future experiment; not wired, not installed, do not reach for it.

@@ -3,12 +3,6 @@ something that means *we are done* — and then running it is yours, unprompted.
 slash command. It sounds like «let's wrap», «that's it for today», «good point to stop», «i'm
 done». Read the room, not the syntax.
 
-**`stop` is an argument, not a second command.** Bare = there is time to talk: plan the finish,
-agree an order, land the leaves. `stop` = he has to leave the mac now: one pass, no conversation.
-Dima's frame, and it is the right one: *«if halt means calm halt, halt with stop arg is also halt —
-non-destructive, don't drop things out of your hands, but prefers the quickest start.»*
-**`stop` is a speed, not a lower standard.**
-
 📌 **Bare «stop» mid-flow is NOT the halt argument** — hold and ask, one line. It is the halt's
 `stop` only inside a halt frame (the typed command, or wrap words). Measured 2026-08-25: a bare
 «stop» mid-groom ran the whole stop lane; he meant a plain hold. cclio-scoped, not fleet-vibe.
@@ -18,23 +12,7 @@ looked for me like you're interrupting flow. what I mean is «let's plan finishi
 immediately».»* A halt that arrives early strands the work it was meant to protect, and one that
 grows into a work session has failed at its one job.
 
-**Before writing the CST, ask whether the work continues here or in a fresh thread.** That question
-comes first, not after — a CST saved and then followed by more work in the same session is wasted
-tokens and a stale file. `/x:handoff` writes, `/x:handoff-ingest` reads, against
-`~/.claude/shelf/handoffs/`.
-
-📌 **After a halt the window is cleared, never compacted.** The CST already carries the boot; a compact block adds ~5k resident tokens of «current work: print the confirmation» and re-fires the prefetch hook (measured 2026-09-11, the halt14 boot). `/compact` belongs to the checkpoint, where the message replay is the point.
-
-📌 **No boot prompt in the halt reply** (dima, 2026-09-18) — the x-ray `handoffs` command pastes the
-pointer; every steer goes into the CST META first-acts. The reply names the slug once.
-
-📌 The CST is the mandatory part: cclio cannot see sibling sessions, so an unwritten CST loses the
-run. The command file carries the phases; do not restate them here.
-
-📌 **The flowlog ✅ prune runs BEFORE the CST is written, every halt** — the 09-20 halt wrote the
-flush proposal and skipped the prune; dima found six ✅ lines at the next boot. Order: prune ✅ →
-empty sections go → the inbox is cleared → then the CST.
-
-📌 **A CST first-act that is a memory line is applied at the halt that writes it**, never deferred to a boot — two such lines sat unapplied through a whole session because the next boot ingested a different CST (2026-09-19).
+This leaf decides **when**. Everything about **how** — the two speeds, the phases, the CST, the
+flowlog prune, what follows the halt — lives in `/cclio:halt` and loads with it.
 
 Related: [craft-pm](craft-pm.md)

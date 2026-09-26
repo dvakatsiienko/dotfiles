@@ -9,7 +9,7 @@ ticket: DOT-130
 **Read on demand when a model-selection question opens.** Moved out of `rules/`, where every coder
 session paid for it; the distilled version cclio actually acts on lives in `cclio/memory/spawning.md`.
 
-📌 This file is meant to stay evergreen — [DOT-130](linear://linear.app/issue/DOT-130) owns that.
+📌 This file is meant to stay evergreen — [DOT-130](https://linear.app/x-com/issue/DOT-130) owns that.
 Add measurements and Dima's live calls; never delete a claim tag.
 
 Claim tags: **[dima]** his own assessment, assert it · **[bench]** published benchmark · **[vendor]**

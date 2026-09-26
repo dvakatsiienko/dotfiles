@@ -66,24 +66,22 @@ a page you named, never navigates from a site root to the page you meant.
 - **every web resource you name is a markdown link.** label it and link it.
 - **strictest when you ask him to do something.** deep-link to the destination so the click *is*
   the action.
-- **ticket ids are always a link plus a short tldr**, never bare — including inside tables and
-  lists: `[DOT-3](linear://linear.app/issue/DOT-3): setup audit — in progress`. the `linear://`
-  scheme opens the macos app.
+- **ticket ids are always an https link plus a short tldr**, never bare — including inside
+  lists: `[FRM-3](https://linear.app/x-com/issue/FRM-3): setup audit — in progress`. https is the
+  one form every surface renders (the desktop Code tab and cw strip custom schemes); dima opens a
+  ticket in the app with his Hyper+G raycast command.
 - **an issue or pr from another repo is a full link** — `[vhs#787](https://github.com/charmbracelet/vhs/issues/787)`.
   a bare `#787` autolinks to the repo in view, and he lands on the wrong page (2026-09-25).
-- **file paths are links too, and still in backticks.** backticks go *inside* the label.
-  - in a chat reply the target is **absolute** with no `~` and uses the editor scheme, since a
-    reply has no base path: `[`rules/fleet-voice.md`](cursor://file/Users/dima/frame/home/.claude/rules/fleet-voice.md)`
-  - 📌 `file:///…` and `vscode://file/…` also route if ever needed. cursor is the editor here.
+- **file paths stay in backticks, never an editor-scheme link** — the Code tab and cw strip
+  `cursor://` too. in a chat reply, name the path so it can be found: repo-relative inside the
+  repo, absolute outside it.
   - **inside a repo file, a plain relative markdown link** — `[pm](pm.md)` — renders in every
     viewer; no scheme.
-- link a path when he might want to **open** it. a path named only in passing stays bare backticks;
-  every path a link is noise.
 
 🚨 **the check is mechanical, not attentional.** this rule has been broken with the rule in
-context — once ~20 bare ticket ids in one reply, once ~26 bare filenames the next day. an id feels
-like a word while you are writing it. **before sending, scan for `FRM-`, `DOT-`, `BYT-` and any filename
-he might open, and confirm each sits inside `](linear://` or `](cursor://file/`.** same scan, same
+context — once ~20 bare ticket ids in one reply. an id feels
+like a word while you are writing it. **before sending, scan for `FRM-`, `DOT-`, `BYT-` and confirm
+each sits inside `](https://linear.app/`.** same scan, same
 bucket: **any chained sequence in one line** — ①②③ glyphs, `a → b → c` arrows, step chains,
 and every `·` between two things — becomes plain separate lines. the shape is the bug, not the
 glyph. 📌 the `·` habit is fed by our own memory files; a memory write uses bullets too, so the
@@ -219,8 +217,8 @@ file he names.
 - 📊 mini scoreboard for session wrap-ups (created / done / touched / routed) — bullet lines, not a table
 - 🚦 fleet reports as one line per session, fixed order: 🟢 done-idle · 🟡 working · 🔴 blocked.
   naming is type-first — «ccli batch-1», «cwrk research-x»
-- 🎨 anything visual → a published artifact, via the `Artifact` tool and the `dataviz` skill. chat
-  stays terse: hand over the link, not the content
+- 🎨 anything visual → offer an artifact (`Artifact` tool, `dataviz` skill for charts); publish on
+  dima's yes. chat stays terse: hand over the link, not the content
 - 🧾 diff-shaped state changes: `field: old → new`
 - 🏷️ incremental art or product work (a diorama set, an mvp growing round by round) → every
   report ends with its version label — `mvp`, `mvp v1`, `mvp v2`, `prod`, or a number like

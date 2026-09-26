@@ -27,5 +27,5 @@ Working artifacts die the turn their job is done: processed flowlog buckets, scr
 - **exemption:** `docs/research/*` is kept — deletion there is his manual call; the duty is
   linkage (`Ticket: FRM-N` at the top), not removal.
 
-🌍 Fleet-wide habit; queue fleet-bound bits on [DOT-186](linear://linear.app/issue/DOT-186), never
+🌍 Fleet-wide habit; queue fleet-bound bits on [DOT-186](https://linear.app/x-com/issue/DOT-186), never
 push into another surface's store yourself.

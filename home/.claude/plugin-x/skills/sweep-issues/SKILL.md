@@ -198,8 +198,8 @@ apply** — edits happen only on the user's approval, preferably backed by a cro
 
 ## Model policy
 
-- **eligible reviewers**: Opus 5 (default — measured high precision and recall), Opus 4.8,
-  Sonnet 5. Haiku and smaller are ineligible: against a ~20% precision baseline a weak reviewer
+- **eligible reviewers**: Opus 5 (default — measured high precision and recall), Opus 5.5
+  (unmeasured here), Opus 4.8, Sonnet 5. Haiku and smaller are ineligible: against a ~20% precision baseline a weak reviewer
   produces confident noise.
 - **cost dial is `effort`, never model tier** — a cheap pass is a capable model at low/medium.
 - **`different-model`** rotates within the eligible set: must differ from every model a

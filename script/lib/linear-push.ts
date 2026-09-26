@@ -41,15 +41,8 @@ export type MagicRef = {
     id: string;
 };
 
-/** One ticket, the commits that named it, and whether any of them closed it. */
-export type LinkTarget = MagicRef & { commits: Commit[] };
-
-export type State = {
-    id: string;
-    name: string;
-    position: number;
-    type: string;
-};
+/** One ticket and the commits that named it. */
+export type LinkTarget = { commits: Commit[]; id: string };
 
 export type HistoryNode = {
     createdAt: string;
@@ -101,13 +94,10 @@ const magicWord = (words: string) =>
  * fires on a keyword, so a `ticket:` label passes it untouched. Measured on
  * DOT-229 — one push, six commits, six forms, and only `ref` produced a write.
  *
- * The leading class allows the bullet the commit body is written with. `(closes)`
- * is the closing marker; without it the commit links and moves nothing.
+ * The leading class allows the bullet the commit body is written with. The line
+ * links and moves nothing — a close is the coordinator's, made in Linear.
  */
-const LINK_LINE = new RegExp(
-    `^[\\s>*+-]*ticket:\\s*${TICKET}\\s*(\\(closes\\))?\\s*$`,
-    'i',
-);
+const LINK_LINE = new RegExp(`^[\\s>*+-]*ticket:\\s*${TICKET}\\s*$`, 'i');
 
 /**
  * Fail closed: an unparseable url, a foreign host or a foreign owner all mean
@@ -192,33 +182,20 @@ export function linkTargetsIn(commits: Commit[]): LinkTarget[] {
     const found = new Map<string, LinkTarget>();
 
     for (const commit of commits) {
-        const named = new Map<string, boolean>();
+        const named = new Set<string>();
         for (const line of commit.body.split('\n')) {
-            const match = LINK_LINE.exec(line);
-            const id = match?.[1]?.toUpperCase();
-            if (id)
-                named.set(id, Boolean(match?.[2]) || (named.get(id) ?? false));
+            const id = LINK_LINE.exec(line)?.[1]?.toUpperCase();
+            if (id) named.add(id);
         }
 
-        for (const [id, closing] of named) {
-            const target = found.get(id) ?? { closing: false, commits: [], id };
-            target.closing ||= closing;
+        for (const id of named) {
+            const target = found.get(id) ?? { commits: [], id };
             target.commits.push(commit);
             found.set(id, target);
         }
     }
 
     return [...found.values()];
-}
-
-/** Where a closing commit sends the ticket. Named `Done` if the team has one. */
-export function pickDoneState(states: State[]): State | null {
-    const completed = states.filter((state) => state.type === 'completed');
-    return (
-        completed.find((state) => state.name === 'Done') ??
-        completed.sort((a, b) => a.position - b.position)[0] ??
-        null
-    );
 }
 
 /**

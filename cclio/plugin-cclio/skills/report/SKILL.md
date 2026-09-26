@@ -56,7 +56,6 @@ without his approval.
   close-on-sight (no relevance anymore) · fine-where-it-is
 - batch the suggestions, ONE approval round, then flush — the craft-pm one-flush rule holds
 - **bold keys**, plain values, `backticks` for ids/files/commands
-- EVERY ticket id a full https link, never bare:
-  [FRM-N](https://linear.app/x-com/issue/FRM-N) — it must open in a browser
+- every ticket id a link plus a short tldr, in the `rules/fleet-output-format.md` form, never bare
 - counts come from real state (flowlog statuses, linear, git), never guessed
 - ≤16 lines. no history retelling.

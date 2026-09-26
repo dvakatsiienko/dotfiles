@@ -37,7 +37,8 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 - **`cc, ccli or cute`** — Claude, the local CLI on the mac.
 - **`cclio`** — **the** coordinator. A `cc` session booted in `~/frame/cclio` with its own
   `AGENTS.md`, memory barrel and boot ritual. It orchestrates; it rarely writes product code.
-- **`coder`** — a background session doing the edits. `spawning` owns that contract.
+- **`coder`** — a background session doing the edits. `x:coder-brief` owns that contract;
+  cclio's `craft-spawning` owns the spawn side.
 - **`classifier`** — jev (typesafe.ai): typed judgments over a state, no tools, no memory.
   ~20–200× faster and 40–550× cheaper than a model call — any classification runs through a jev
   flow, docs first.
@@ -75,7 +76,7 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 📌 **Capabilities, the per-surface table, what loads where, and who can spawn whom live in
 `docs/knowledge/claude-fleet-capabilities.md`.** Read it on demand; it does not belong resident.
 
-📌 Per-model strengths and the spawn defaults live in `rules/models.md`.
+📌 Per-model cards live in `docs/knowledge/models.md`; the spawn defaults in cclio's `craft-spawning`.
 
 ## Who edits this file
 

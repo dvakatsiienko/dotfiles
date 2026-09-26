@@ -115,7 +115,7 @@ Role, priority and estimate are **always filled and current** — monitoring the
 - On any scope change to an existing ticket: re-eval both, propose the delta.
 - **Structural tracker change** (project born/dissolved, term decided, label vocabulary shift) →
   `~/frame/docs/tracker/CONTEXT.md` / TRK adr updated **in the same batch**, never later.
-- Approval is **batched and diff-shaped**: one pretty table per edit batch (`field: old → new`), one approve — never N sequential confirms. Silence on a row in Dima's reply = accepted.
+- Approval is **batched and diff-shaped**: one bullet list per edit batch, one `field: old → new` line per change, one approve — never N sequential confirms. Silence on a line in Dima's reply = accepted.
 
 ## The assumption gate — run before every estimate
 
@@ -177,8 +177,7 @@ linear api 'query { searchIssues(term: "cc·20260819·batch1") { nodes { identif
 ## Compression budget
 
 **Structured by default, prose by exception — Linear must stay un-wordy.** That is the whole
-budget; no line limit exists (the old ≤10 was dispatch's invention, never Dima's ask). Judge by
-load, not length.
+budget; no line limit exists. Judge by load, not length.
 
 - Keep: the decision to make, the hard constraint, the non-obvious fact, the exact command or path.
 - Cut: restated context, anything an agent re-derives from the repo, "why this matters" paragraphs.
@@ -196,7 +195,7 @@ a list cannot:
 - any place where the connective tissue between facts *is* the fact.
 
 The test is not length, it is load: **does this paragraph carry something a list would drop?** If
-yes it stays and the ≤10 lines bends. If it only restates, it goes.
+yes it stays. If it only restates, it goes.
 
 📌 **Flag, never auto-strip.** A sweeper pass over existing bodies reports prose it suspects and
 leaves the text alone. Rewriting someone's ticket body on a heuristic is how real reasoning gets
@@ -206,7 +205,7 @@ deleted — the call is Dima's, every time.
 
 - **Titles are the interface**: clear, concise, subject-first — details go in the body, never the title.
 - Bodies tidy and formatted. Ticket-id link format is not restated here — `rules/fleet-output-format.md` owns it.
-- Pretty output: tables for batches, one-line confirmations for single ops.
+- Pretty output: bullet lines for batches (tables are banned, `rules/fleet-output-format.md`), one-line confirmations for single ops.
 - **CC only**: on the first ticket touch in a session (first `linear issue view`/create), suggest a session rename as a ready-to-run line: `/rename FRM-N: compact-title` — Dima pastes it manually, `/rename` isn't tool-callable. One suggestion per session, not on every subsequent ticket op.
 
 Stay quick — this skill is for ticket ops. A request that turns into scope/architecture thinking gets a grill suggestion, not silent expansion.

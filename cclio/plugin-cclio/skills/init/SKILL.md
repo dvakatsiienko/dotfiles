@@ -136,8 +136,8 @@ counts client-side):
 linear api 'query { teams(first: 10) { nodes { key name } } projects(first: 50) { pageInfo { hasNextPage } nodes { name state description } } issues(filter: { state: { type: { nin: ["completed","canceled"] } } }, first: 250) { pageInfo { hasNextPage } nodes { identifier project { name } parent { identifier project { name } } } } }'
 ```
 
-- **skeleton**: compact table — project · state · open count · what it is for (the `description`
-  is the payload). count no-project issues too; an unprojected ticket is invisible on every board.
+- **skeleton**: one bullet line per project — project, state, open count, what it is for (the
+  `description` is the payload). count no-project issues too; an unprojected ticket is invisible on every board.
 - **milestones** — the first source of truth for «what's next»:
 
 ```
@@ -160,7 +160,8 @@ linear api 'query { projectMilestones(first: 50) { pageInfo { hasNextPage } node
 ## the command family
 - global, any ccli session: `/pre` · `/queue` · `/remind` · `/handoff` · `/cmt` · `/x:pm`
 - coordinator-only: `/cclio:init [board]` · `/cclio:report` · `/cclio:flawlog` ·
-  `/cclio:halt` (bare = planned finish, `stop` = immediate)
+  `/cclio:halt` (bare = planned finish, `stop` = immediate) · `/cclio:checkpoint` ·
+  `/cclio:evergreen` · `/cclio:gazette`
 - nothing in the global family may assume this home exists.
 
 ## rules

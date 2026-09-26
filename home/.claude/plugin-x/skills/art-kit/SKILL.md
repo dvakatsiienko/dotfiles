@@ -14,7 +14,7 @@ only that file.
 - **terminal → clip** (a scripted shell session for a readme) → [clips.md](clips.md).
 - **code → illustration** (a diorama, a readme hero, a spot, an icon, a badge) →
   [illustration.md](illustration.md). the studio is `atelier`.
-- **prompt → image** (a real image model) → not built yet: [BYT-70](linear://linear.app/issue/BYT-70)
+- **prompt → image** (a real image model) → not built yet: [BYT-70](https://linear.app/x-com/issue/BYT-70)
   becomes atelier's second room. say so and stop.
 
 **completion criterion:** the branch file's own «done when» holds, and the reply names the branch

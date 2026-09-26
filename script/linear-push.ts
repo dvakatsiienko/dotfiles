@@ -17,7 +17,7 @@
  * ? 0 whatever happened. A Linear outage must not stop Dima pushing.
  * ?
  * ? `run` waits for the push to actually reach the remote, then links the
- * ? commits and closes what a closing marker closed. Anything Linear wrote on
+ * ? commits. Anything Linear wrote on
  * ? its own is reversed inside a time window anchored on the push — see
  * ? planRevert.
  */
@@ -35,13 +35,11 @@ import {
     type MagicRef,
     type PushedRef,
     type Remote,
-    type State,
     branchOf,
     linkTargetsIn,
     magicRefsIn,
     parsePushedRefs,
     parseRemote,
-    pickDoneState,
     planRevert,
     pushRange,
 } from './lib/linear-push.ts';
@@ -220,34 +218,6 @@ async function link(target: LinkTarget, remote: Remote) {
                 : `${target.id}: linked ${short(commit.sha)}`,
         );
     }
-
-    if (target.closing) await close(target.id);
-}
-
-async function close(id: string) {
-    const issue = await callLinear<{
-        state: { type: string } | null;
-        team: { states: { nodes: State[] } };
-    }>(
-        `query { issue(id: "${id}") { state { type } team { states(first: 50) { nodes { id name position type } } } } }`,
-        'issue',
-    );
-    if (!issue) return log(`${id}: could not read the issue — not closing it`);
-
-    if (issue.state?.type === 'completed')
-        return log(`${id}: already completed — leaving it`);
-
-    const done = pickDoneState(issue.team.states.nodes);
-    if (!done) return log(`${id}: the team has no completed state`);
-
-    const result = await callLinear(
-        `mutation { issueUpdate(id: "${id}", input: { stateId: "${done.id}" }) { success } }`,
-    );
-    log(
-        result === null
-            ? `${id}: closing FAILED`
-            : `${id}: closed — state → ${done.name}`,
-    );
 }
 
 /** The legacy half: commits written with Linear's own keywords still get both writes. */

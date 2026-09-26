@@ -19,7 +19,6 @@ import {
     magicRefsIn,
     parsePushedRefs,
     parseRemote,
-    pickDoneState,
     planRevert,
     pushRange,
 } from './linear-push.ts';
@@ -192,16 +191,13 @@ describe('our own link form', () => {
         subject: body.split('\n')[0] ?? '',
     });
 
-    test('reads the form, and the closing marker with it', () => {
+    test('reads the form', () => {
         expect(
             linkTargetsIn([
                 commit('a1', 'subject\n\n- ticket: DOT-210'),
-                commit('b2', 'subject\n\n- ticket: BYT-7 (closes)'),
+                commit('b2', 'subject\n\n* ticket: BYT-7'),
             ]),
-        ).toMatchObject([
-            { closing: false, id: 'DOT-210' },
-            { closing: true, id: 'BYT-7' },
-        ]);
+        ).toMatchObject([{ id: 'DOT-210' }, { id: 'BYT-7' }]);
     });
 
     test('reads the current team key and the retired one alike', () => {
@@ -210,23 +206,19 @@ describe('our own link form', () => {
                 commit('c3', 'subject\n\n- ticket: FRM-26'),
                 commit('d4', 'subject\n\n- ticket: DOT-26'),
             ]),
-        ).toMatchObject([
-            { closing: false, id: 'FRM-26' },
-            { closing: false, id: 'DOT-26' },
-        ]);
+        ).toMatchObject([{ id: 'FRM-26' }, { id: 'DOT-26' }]);
     });
 
     test('the form is invisible to the parser we are hiding from', () => {
-        expect(magicRefsIn(['- ticket: DOT-210 (closes)'])).toEqual([]);
+        expect(magicRefsIn(['- ticket: DOT-210'])).toEqual([]);
     });
 
-    test('several commits on one ticket group, and closing wins', () => {
+    test('several commits on one ticket group', () => {
         const [target] = linkTargetsIn([
             commit('a1', 's\n\n- ticket: DOT-1'),
-            commit('b2', 's\n\n- ticket: DOT-1 (closes)'),
+            commit('b2', 's\n\n- ticket: DOT-1'),
         ]);
 
-        expect(target?.closing).toBe(true);
         expect(target?.commits.map((one) => one.sha)).toEqual(['a1', 'b2']);
     });
 
@@ -260,16 +252,6 @@ describe('push metadata', () => {
                 remoteRef: 'refs/heads/probe-linear-forms',
             }),
         ).toBe('probe-linear-forms');
-    });
-
-    test('a closing commit lands on Done, not on whatever completed state sorts first', () => {
-        expect(
-            pickDoneState([
-                { id: 'x', name: 'Canceled', position: 0, type: 'canceled' },
-                { id: 'y', name: 'Duplicate', position: 1, type: 'completed' },
-                { id: 'z', name: 'Done', position: 2, type: 'completed' },
-            ])?.id,
-        ).toBe('z');
     });
 });
 

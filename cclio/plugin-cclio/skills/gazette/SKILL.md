@@ -66,15 +66,12 @@ literal: a milestone reached done/total this session, or a roadmap step closed. 
 silently. when it fires: three sentences — what became true, what starts, what it unblocks —
 through `initiativeUpdateCreate` (same shape as the project update, `health` included), full
 markdown links for ids. a step transition also rewrites the initiative body's nine-line list and
-moves the attached projects to the new step (`memory/dima-roadmap.md`, using it).
+moves the attached projects to the new step (`memory/dima-strategy.md`, the roadmap section).
 
 ## completion criterion
 
 the day's file holds today's facts with correct `posted:` marks, and the reply names what went
 out on the wire (or that it was declined).
-
-📌 the first two runs are the shakedown — this file was written before run #1 (rule-break
-approved 2026-08-26); fix what reality disagrees with the same session it disagrees.
 
 ## 👁️ ingest side (for reference)
 

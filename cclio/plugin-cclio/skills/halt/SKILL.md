@@ -11,6 +11,8 @@ description: load when dima means the SESSION is done — «let's wrap», «that
 - `/cclio:halt stop` — dima has to leave the mac NOW. same ritual, one pass, no
   conversation, under a minute.
 
+dima's frame: *«if halt means calm halt, halt with stop arg is also halt — non-destructive,
+don't drop things out of your hands, but prefers the quickest start.»*
 **both are graceful, and `stop` is not the careless one.** it is still a halt: nothing is dropped
 out of your hands, nothing is left half-applied, nothing is forced. it just prefers the quickest
 safe finish over the best one. never trade safety for speed — a rushed exit leaving a half-written
@@ -97,6 +99,9 @@ every halt, both lanes, no confirmation: re-read `inbox.md`, confirm each item h
 (a flowlog line, a ticket, an answer given, a fold), then clear the content — his section
 headers stay. an item without a home is not deleted: it gets its flowlog line first, then
 goes. dima, 2026-09-07: «cleaning inbox is your default habit each halt without re-confirming».
+the same pass prunes `flowlog.md` first: every ✅ line goes, then any section left empty, then the
+inbox clears — before the CST is written, every halt, both lanes (the 09-20 halt skipped the prune
+and dima found six ✅ lines at the next boot).
 
 ## phase 2 — missed sweep
 re-read the flowlog, `.claude/x-queue.md`, and this thread for dropped asks and unanswered
@@ -127,7 +132,7 @@ absent, never invented.
 line per item — name · state (vetting n/14, open, due) · days left · today's evidence — built from
 four sources, each read, never recalled: `shelf/jev/vet.json` (the flows, after today's verdicts),
 the open files in `docs/vet/` (a file without a verdict line is open), the 🔬/👁️ trial reminders in
-`memory/_reminders.md`, and the model/effort trials (`rules/models.md`, the spawn defaults in
+`memory/_reminders.md`, and the model/effort trials (`docs/knowledge/models.md`, the spawn defaults in
 `craft-spawning`). ⏰ leads any line due within 3 days; an item with no evidence today still gets its
 line — a trial nobody names is being dropped by default.
 **and the stories:** before the proposal, ask which catches were HIS felt sense arriving before
@@ -142,13 +147,14 @@ the next session directly. before writing the CST:
 - attach anything finished this session to its milestone, and anything newly started
 - if a milestone is complete, say so to dima — completing it is his call, not an agent's
 - if the work drifted away from every milestone, that is the signal the **roadmap** moved. update
-  [[dima-roadmap]] in the same pass rather than bending the milestones to fit
+  the linear initiative «roadmap» in the same pass (`memory/dima-strategy.md`, the roadmap section)
+  rather than bending the milestones to fit
 - one line in the wrap: `milestone · done/total · what moved`
 
 
 ## phase 4 — the board
 the `/cclio:report` shape, mutated to fold in whatever the sweep and the park list surfaced.
-ticket ids as full https links.
+ticket ids as links in the `rules/fleet-output-format.md` form.
 
 ## phase 4.5 — the gazette 🗞️ (before the CST, always)
 
@@ -159,9 +165,12 @@ alone. the CST afterwards carries only what the gazette did not.
 ## phase 5 — handoff CST 📬
 **mandatory, never skipped.** cclio cannot see sibling sessions, so the CST is its ONLY
 continuity — an unwritten one loses the run.
-auto-save via the handoff store; a halt implies a fresh thread next, so no here-or-fresh
-question. slug `<runid-topic>-halt`. a previous CST marked FROZEN is never superseded — save
-alongside and say which is which.
+auto-save via the handoff store (`/x:handoff` writes, `/x:handoff-ingest` reads). ask once,
+before writing, whether the work continues here or in a fresh thread — a CST followed by more
+work in the same thread is wasted tokens and a stale file. slug `<runid-topic>-halt`. a previous
+CST marked FROZEN is never superseded — save alongside and say which is which.
+a first-act that is a memory line is applied now, by this halt — never left for a boot (two sat
+unapplied through a whole session when the next boot ingested a different CST, 2026-09-19).
 
 ## phase 6 — no boot prompt
 the halt reply prints NO boot block (dima, 2026-09-18: «i'll use the command now»). the x-ray
@@ -169,6 +178,9 @@ the halt reply prints NO boot block (dima, 2026-09-18: «i'll use the command no
 next session must know lives in the CST META first-acts — run id, the first moves, the pending
 decision. a steer that would have gone into the prompt goes into META instead. the reply names
 the CST slug once, nothing more.
+after the halt the window is cleared, never compacted — the CST carries the boot; a compact block
+adds ~5k resident tokens and re-fires the prefetch hook (measured 2026-09-11). `/compact` belongs
+to `/cclio:checkpoint`.
 
 ## phase 7 — one earned joke. never skip it.
 

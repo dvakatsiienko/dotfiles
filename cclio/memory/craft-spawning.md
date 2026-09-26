@@ -51,8 +51,8 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    door that derives its stack from cwd (2/2 clean on 2.1.258). a subagent inherits the
    coordinator's brain whatever the cwd — fine for a probe, wrong for a coder. the brief asks the
    coder to name its loaded AGENTS.md paths in its first reply — the bleed detector.
-4. **ticket** — pass the id; link-only keyword on every commit; closing keyword only on cclio's
-   word — **cclio verifies, then closes.**
+4. **ticket** — pass the id; a `- ticket:` line on every commit, never a close marker —
+   **cclio verifies, then closes**, with the closing word in the body.
 5. **identity (vet)** — the brief carries `LINEAR_API_KEY=$(pnpm --silent linear:agent-token coder)` (the linear cli reads only that name; `LINEAR_TOKEN` silently posted as dima, 2026-09-25) and
    asks the coder to post its done-report as one linear comment on the ticket through that token
    (`linear api` with `Authorization: Bearer`); it renders as «coder». the reminder counts.

@@ -6,7 +6,7 @@ a fleet coordinator does not sit in a repo of its own.
 
 the coder-global memfile at `~/projects/CLAUDE.md` does not exist yet ([DOT-195](https://linear.app/x-com/issue/DOT-195)
 creates it). when it does, this path would start inheriting it — the fix then is relocating the
-whole repo (renamed from dotfiles to frame, 2026-09-23), not moving cclio back out. see [DOT-202](linear://linear.app/issue/DOT-202).
+whole repo (renamed from dotfiles to frame, 2026-09-23), not moving cclio back out. see [DOT-202](https://linear.app/x-com/issue/DOT-202).
 
 ## boot
 ```

@@ -2,7 +2,7 @@
 
 **lane** — `cc` only: ffmpeg, gifski, yt-dlp and agent-browser run on the mac.
 
-🛠️ **the cli is [FRM-260](linear://linear.app/issue/FRM-260)** — `gifs/` with `pnpm gif:fetch` ·
+🛠️ **the cli is [FRM-260](https://linear.app/x-com/issue/FRM-260)** — `gifs/` with `pnpm gif:fetch` ·
 `gif:motion` · `gif:build <spec.json>`, built on the **second real gif**. this gif is that second
 one → say so to dima and propose building it first. once it exists, the steps below collapse to
 «run the cli» and this line dies.

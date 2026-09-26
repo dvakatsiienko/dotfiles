@@ -10,7 +10,6 @@ conventions for pull requests and issues — the `gh` mechanics under the lanes 
 
 ## pull requests
 
-- **never open a PR unless dima explicitly asks.**
 - titles follow the target repo's conventions — simple, clear; conventional-commit style where
   the repo uses it: `fix(web): new threads no longer spike CPU`.
 - descriptions: the problem in a sentence or two, then how you solved it. end with a blurb
