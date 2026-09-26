@@ -9,10 +9,10 @@
             "what": "the boot digest lanes every inbox item (ticket · fold · flowlog · answer · drop) before cclio parses it"
         },
         "skill-router": {
-            "since": "2026-09-25",
+            "since": "2026-09-26",
             "state": "vetting",
-            "verdicts": 11,
-            "misses": 5,
+            "verdicts": 14,
+            "misses": 8,
             "what": "the UserPromptSubmit hook names the skills a prompt should load",
             "lanes": {
                 "x:guide-code": {
@@ -33,11 +33,15 @@
                 },
                 "cclio:halt": {
                     "hit": 0,
-                    "total": 1
+                    "total": 2
                 },
                 "x:queue": {
                     "hit": 0,
                     "total": 1
+                },
+                "x:cmt": {
+                    "hit": 0,
+                    "total": 2
                 }
             }
         },
