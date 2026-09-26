@@ -219,6 +219,30 @@ visible at claude.ai/code, model and effort settable, non-blocking, stopped by t
 [description|session_id|url]`; a prior-art claim that `--cloud` refuses `--print` dates from
 2026-08-15 and is stale until re-run.
 
+## 10b. facts the coordinator no longer keeps resident
+
+moved out of `cclio/memory/craft-spawning.md`: true, measured, but none of them changes a spawn decision on its own. re-probe with the suite in §13.
+
+- ⚠️ **a subagent starts in the parent's bash cwd and inherits cclio's whole stack regardless
+  of it** (2.1.258; flipped on each of the last three builds — re-probe every build). keep every
+  path in a brief absolute.
+- ⚠️ **effort is inherited only by an effort-capable child** — an opus subagent gets
+  `CLAUDE_EFFORT`, a haiku one records `effort=null`. never measure effort with haiku in the loop.
+- ⚠️ **a worktree agent branches from `origin/<default-branch>`, not local HEAD** — it cannot see
+  unpushed commits.
+- 📌 `~/.claude/jobs/<jobId>/state.json` carries `respawnFlags` — the only place a session's
+  launch argv survives.
+- ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
+  coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
+  a separate check.
+- ✅ **cclio spawns `--bg` coders from either birth, terminal or Code tab** — measured 2026-09-07: a Code-tab-born session's child booted on `Claude Max`, wrote a file, bridged rc. the desktop env markers (`CLAUDE_CODE_ENTRYPOINT=claude-desktop`, `ANTHROPIC_BASE_URL`) are harmless. an auth error on spawn means cc is signed out, not a broken door — probe: `claude -p --model haiku 'reply: alive'`.
+- **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
+  store, never a handshake.
+- ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about
+  waking peers.
+- `ListAgents` and `Workflow` are absent from subagent toolsets — only the coordinator surveys the
+  fleet.
+
 ## 11. open questions
 
 - **`claude attach`** — requires a tty; every shell here is non-tty.

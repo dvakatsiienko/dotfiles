@@ -56,7 +56,6 @@ asking for *only* a part = a SCOPED handoff — restrict content, set META's `sc
 ## When to offer one, unasked
 
 - resuming a long thread re-reads its history uncached — up to ~20% of a 5h window
-- suggest `/clear` around **80k tokens** while a thread is active
 - suggest a handoff at **any size before going idle over an hour** — cache TTL expires and the
   next turn pays full price
 

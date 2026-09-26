@@ -57,13 +57,13 @@ linear issue update FRM-N --parent FRM-M     # hang a ticket under a story paren
 
 ## states ↔ roles
 
-| role | linear |
-| --- | --- |
-| needs-triage | **Triage** status (native inbox) |
-| needs-info | Todo + one `blocker`: `needs human` (agent waiting on dima) · `needs agent` (dima waiting on agent research) |
-| ready-for-agent | `agent` label + Todo |
-| ready-for-human | `human` label + Todo |
-| wontfix | **Canceled** |
+- needs-triage — the **Triage** status (native inbox)
+- needs-info — Todo + one `blocker` label:
+  - `needs human` — an agent waiting on dima
+  - `needs agent` — dima waiting on agent research
+- ready-for-agent — `agent` label + Todo
+- ready-for-human — `human` label + Todo
+- wontfix — **Canceled**
 
 Backlog is deliberately unused — a blocked ticket keeps its real role and stays visible in Todo.
 

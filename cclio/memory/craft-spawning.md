@@ -68,24 +68,12 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   a `Workflow` `agent()` call honours its per-call `effort` too (2.1.258).
 - ✅ **`claude --bg '<prompt>'` RUNS the prompt** (re-verified 2.1.258; it came up idle on 2.1.239).
   `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
-- ⚠️ **a subagent starts in the parent's bash cwd and inherits cclio's whole stack regardless
-  of it** (2.1.258; flipped on each of the last three builds — re-probe every build). keep every
-  path in a brief absolute.
-- ⚠️ **effort is inherited only by an effort-capable child** — an opus subagent gets
-  `CLAUDE_EFFORT`, a haiku one records `effort=null`. never measure effort with haiku in the loop.
-- ⚠️ **a worktree agent branches from `origin/<default-branch>`, not local HEAD** — it cannot see
-  unpushed commits.
-- 📌 `~/.claude/jobs/<jobId>/state.json` carries `respawnFlags` — the only place a session's
-  launch argv survives.
 - ⚠️ **a peer answering in plain prose reaches nobody** — only a message call travels; say so
   in any brief expecting an answer. Code-tab sessions have no cc `SendMessage`; their channel is
   `mcp__ccd_session_mgmt__send_message` (load via ToolSearch), one-way per call, delivered as a
   user turn — a two-way needs both sides to load it and to know the other's `session_id`
   (`get_session self`). **both, always:** the ping for timing, the transcript (`list_events`)
   for the picture — dima also steers the coder in its own chat, and only the transcript shows that.
-- ⭐ **background sessions are ADOPTABLE** — anything reading `~/.claude/sessions/` can brief a
-  coder it never spawned. Never respawn to escape a lost parent; delivery is proven, correctness is
-  a separate check.
 - 🚨 **a hang is mine to break** (dima 2026-09-20, after a whole loop stood still — coder, verifier and coordinator all idle): the coordinator is the only member that sees every session, so it is the detector. every member is subscribed (`notify_when_idle`, re-armed on every send); an idle notice with an open assignment → ping the idle member in the same turn with the next concrete step; no reply within ~5 min (a `Monitor` on the registry status, deadline stated) → ping dima if he is around, otherwise re-brief from the member's CST or respawn; a stall is reported the moment it is seen, never folded into a later summary
 - 🚨 **an idle notice is a check, never a «nothing new»** (dima 2026-09-20, after a coder stalled twice within minutes): on every idle notice run `git -C <worktree> status --short` + `git log -1` against the coder's last ping; a dirty tree, an unpinged commit or an open assignment → nudge in the same turn. the stall then lasts seconds, unattended
 - ⚠️ **`notify_when_idle` subscriptions die on a coordinator restart, silently** — re-subscribe
@@ -96,13 +84,6 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 - 🚨 **remote control has ONE owner per session** (loser prints 4090). Start in the terminal, treat
   the desktop Code tab as join-only. 📌 handover direction untested — assert no cause.
 - 🚫 **the desktop Browser pane (`mcp__Claude_Browser__*`) exists ONLY in a session the Code tab itself created** — injected via `--mcp-config` at creation, never on resume, never for `claude --bg` or remote-control (sources in `docs/knowledge/claude-fleet-capabilities.md`). a browser-needing coder is a handoff dima opens in a fresh Code-tab session; a terminal-born cclio has no pane. `x:browser-headless` works from either.
-- ✅ **cclio spawns `--bg` coders from either birth, terminal or Code tab** — measured 2026-09-07: a Code-tab-born session's child booted on `Claude Max`, wrote a file, bridged rc. the desktop env markers (`CLAUDE_CODE_ENTRYPOINT=claude-desktop`, `ANTHROPIC_BASE_URL`) are harmless. an auth error on spawn means cc is signed out, not a broken door — probe: `claude -p --model haiku 'reply: alive'`.
-- **cloud is receive-only** and cli → cloud delivery is unverified — a one-way pipe plus a shared
-  store, never a handshake.
-- ✅ peer messaging is non-intrusive — Dima: *«does not look like spamming»*. No hedging about
-  waking peers.
-- `ListAgents` and `Workflow` are absent from subagent toolsets — only the coordinator surveys the
-  fleet.
 
 ## briefing and watching — write freely, read on a leash
 
