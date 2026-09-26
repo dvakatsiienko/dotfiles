@@ -178,9 +178,6 @@ directory in the brief, every path absolute.**
 - 🚫 **`claude -p` sessions do not register** — no `~/.claude/sessions/` entry, no bridge
   [verified]: invisible to `ListAgents`, unreachable by `SendMessage`. use `--bg` for anything
   addressable.
-- 📌 stale enough to distrust: on cc **2.1.237** the dpatch surface ran at `--effort low` with
-  `Bash` in its `--disallowedTools`, read off its live process args [verified then]. re-read the
-  process args before citing it.
 
 ## 9. messaging between sessions
 

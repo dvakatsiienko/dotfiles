@@ -30,7 +30,7 @@ to drop, or i suggest and drop only what he confirms.
   intact, nothing deleted (dima, 2026-09-11: the inbox survives a checkpoint so he can diff it;
   the halt clears only `✅` lines). the mark tells him what is handled; the resume diff below
   tells me what is missing
-- flawlog flush: one batched proposal, his one approve, execute (halt phase 3); stories appended
+- flawlog flush: one batched proposal, his one approve, execute (halt phase 3a); stories appended
 - milestones refreshed (halt phase 3.5)
 - gazette: `/cclio:gazette` writes the ⸻ upd block; **no wire** unless he says so
 - **the coder roster**: retro received? still needed? a coder that is done is stopped now

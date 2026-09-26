@@ -27,7 +27,7 @@ the ritual.
 
 ## the stop lane — read this first when `stop` is passed
 
-skip phases 0, 2, 3, and 7 entirely. do this, in order, **without asking**:
+skip phases 0, 2, 3a, 3b and 7 entirely. do this, in order, **without asking**:
 
 1. **freeze the dangerous things first.** any write in flight — finish it or revert it, never
    leave it half-applied. any spawned session — let it run, note its id. never kill a running job
@@ -112,24 +112,29 @@ those specifically.
 offers left undecided, and verifications only he can run. print them as a short list in the
 halt report — he misses a few every session, and this is where they get caught.
 
-## phase 3 — flawlog flush
+## phase 3a — flawlog flush, the one stop
 `pnpm jev:flawlog` first: jev lanes every line (memory / rule / story / ticket / drop) and the
 proposal starts from its lanes, not from a blank read. then cluster, ONE batched proposal, ONE
 approval, execute and commit. see `/cclio:flawlog`.
 🚨 **the flush is the one stop in a full halt, whatever the args** (`wire+` included): print the proposal, wait for dima's literal yes, apply it, THEN go on to the gazette and the CST. a flush decision never parks into the CST's first-acts — the next session applies it cold, far from the traces (dima, 2026-09-23: «process flawlog during traces are hot»).
-**the vet verdicts, same phase, every halt:** each jev lane the flush disagreed with is
+**the stories, before the proposal:** ask which catches were HIS felt sense arriving before
+the reason — those go to `memory/dima-stories.md` as appends (the leaf's own rule), not to the
+flawlog's drop pile. skipped for two weeks once (2026-09-05).
+**verify recipes, in the flush:** a retro line naming a verify-recipe gap or a check worth adding is
+placed by cclio into that app's `.claude/skills/verify/SKILL.md` in the flush — coders and
+verifiers only suggest; the recipe stays short (commands that worked, flows worth driving, gotchas).
+**the self-grill, with the log still open:** with the day's log still open, name the ONE weakest part of cclio
+as coordinator or pm, with the fix — `🥊 <issue>` + `➡️ <approach>`, one line each — and write the
+pair into the CST META. the next boot prints it and reads no flawlog. grounded in this log or
+absent, never invented.
+
+## phase 3b — the vet board
+**the vet verdicts, every halt:** each jev lane the flush disagreed with is
 `pnpm jev:vet miss flawlog-lanes <why>`; a clean run is one `ok`. the same for the day's inbox
 lanes (`inbox-lanes`) and the router's loads (`skill-router`, from `shelf/jev/route.log` vs the
 flawlog's «skill not loaded» lines). a miss is also a criterion to reword in
 `script/lib/jev-questions.ts` in the same halt — the flow passes its window because it was
 sharpened, not because it was watched. the boot prints every flow's streak.
-**the self-grill, same phase:** with the day's log still open, name the ONE weakest part of cclio
-as coordinator or pm, with the fix — `🥊 <issue>` + `➡️ <approach>`, one line each — and write the
-pair into the CST META. the next boot prints it and reads no flawlog. grounded in this log or
-absent, never invented.
-**verify recipes, same phase:** a retro line naming a verify-recipe gap or a check worth adding is
-placed by cclio into that app's `.claude/skills/verify/SKILL.md` in the flush — coders and
-verifiers only suggest; the recipe stays short (commands that worked, flows worth driving, gotchas).
 **then `pnpm jev:report`**, printed right after the flush verdicts — one block per flow; a flow with a miss today gets its criterion sharpened in place, `RUNS=3`, same halt. its health line carries the router latency (`avg · p95`): a p95 over 2 s or a rising avg is a finding for the flush, since every prompt waits on it.
 **then the vet board — everything on trial, not only jev** (dima, 2026-09-25, «let's try»): one
 line per item — name · state (vetting n/14, open, due) · days left · today's evidence — built from
@@ -138,9 +143,6 @@ the open files in `docs/vet/` (a file without a verdict line is open), the 🔬/
 `memory/_reminders.md`, and the model/effort trials (`docs/knowledge/models.md`, the spawn defaults in
 `craft-spawning`). ⏰ leads any line due within 3 days; an item with no evidence today still gets its
 line — a trial nobody names is being dropped by default.
-**and the stories:** before the proposal, ask which catches were HIS felt sense arriving before
-the reason — those go to `memory/dima-stories.md` as appends (the leaf's own rule), not to the
-flawlog's drop pile. skipped for two weeks once (2026-09-05).
 
 ## phase 3.5 — milestones, before the board
 

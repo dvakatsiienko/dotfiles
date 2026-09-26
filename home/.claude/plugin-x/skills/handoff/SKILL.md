@@ -26,7 +26,7 @@ node ~/frame/script/skill-handoff-store.ts delete <slug> | --all
 timestamp; never build a path by hand. `--help` prints the rest.
 
 `<audience>` = who the CST is FOR: nobody in particular → `any`; a specific agent → its token
-(`cclio` for a coordinator session, `ccli` for a plain one, `cw`, `dpatch`). `--shared` when
+(`cclio` for a coordinator session, `ccli` for a plain one, `cw`). `--shared` when
 several threads will pull it.
 
 `--author` = who is WRITING it — this session's own token, always passed. `--lane` = the kind of

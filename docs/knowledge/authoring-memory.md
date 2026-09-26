@@ -116,8 +116,7 @@ comment carries everything a maintainer needs and a reader does not.**
 
 ```markdown
 <!-- why here: coordinator-only — a coder session would act on it wrongly.
-     how it helps: stops the pm flow being re-explained every boot.
-     watch: if dispatch ever reads this store, this moves to rules/. -->
+     how it helps: stops the pm flow being re-explained every boot. -->
 - label AND project AND parent AND milestone, decided at create time.
 ```
 

@@ -49,16 +49,6 @@ overwrite test.
 - `cw` — the `x-cw` plugin, whose skills are symlinks into `plugin-x`. No `rules/`
   mechanism, so what `plugin-x` defers to a rules file reaches it another way: `linear-flow.md`
   is symlinked into the plugin root, and `x-cw__pm_guide` inlines it on demand.
-- ⚠️ **dispatch** — Cowork preferences + project `CLAUDE.md`, nothing else. No `rules/`, no memory;
-  it keeps its own. The casing rule went silently unapplied there until 2026-08-17.
-- ⚠️ **dispatch-spawned sessions ignore `~/.claude/settings.json`** — `defaultMode` and
-  `permissions.allow` included. DOT-91.
-
-### Dispatch limits (retired 2026-09-04 — kept as the record of why)
-
-Cannot spawn a cloud `cc`: `isolation: "remote"` resolves the base branch from a non-git scratch
-cwd. `?` cause inferred. **Can** spawn local `cc` with worktree isolation — use that.
-
 ## Claude on disk — the durable facts (distilled from the DOT-157 survey, 2026-08-19)
 
 Two homes, not variants of one thing: `~/.claude` + `~/.claude.json` belong to the **cli**;
@@ -78,7 +68,7 @@ copy of the cli, so a desktop-launched session writes into both at once.
 - growth-only stores to check first when `~/.claude` gets fat: `session-env/`, `file-history/`,
   `projects/`, `paste-cache/`, `focus/`. Everything except `plugins/` + `projects/` is ~12 MiB.
 - cowork tree: `local-agent-mode-sessions/<account>/<install>/` — `spaces.json` (mounted folders),
-  `agent/memory/` (dispatch's memory), `local_<uuid>/` per chat with its own **private `.claude`**;
+  `agent/memory/` (the desktop agent's memory), `local_<uuid>/` per chat with its own **private `.claude`**;
   a folderless chat's whole world is its own `local_<uuid>/` dir.
 - 🚨 security habit from the 2026-08-19 finding (plaintext github token, world-readable, in a stray
   mcp config): tool-written files under `~/.claude` can be world-readable —
@@ -93,20 +83,7 @@ copy of the cli, so a desktop-launched session writes into both at once.
 | --- | --- | --- | --- |
 | `cc` | file-based `memory/` + `MEMORY.md` index | `~/.claude/projects/<slug>/memory/` | agent + Dima |
 | `cw` | **30 fixed cells** in desktop-app settings | app settings, not the filesystem | **Dima only** |
-| dispatch | file-based `memory/` + `MEMORY.md` index | `~/Library/Application Support/Claude/local-agent-mode-sessions/9db8e8a8-de2d-45c8-a7f5-48d07d079250/479224f0-2513-4983-9662-3ea72431a644/agent/memory/` | agent + Dima |
 | `cc cloud` | none of its own | — | — |
-
-📌 dispatch has **no personal `CLAUDE.md`**. It borrows Cowork preferences plus the mounted
-project's `CLAUDE.md`, and nothing from `~/.claude` — no `rules/`, no cc memory. Its `memory/` is a
-separate store from cc's and the two never sync.
-
-⚠️ **dispatch's memory layout is reverse-engineered, not a documented interface.** Anthropic
-documents Cowork/Dispatch memory only at product level ("Claude remembers what you've worked on");
-there is no official scope taxonomy, no endpoint, no CLI, and no supported way to read or write it
-from outside a session. The per-session `memory/` dir above is an observed implementation detail
-and can change on any app update. Chat memory is a separate system again — do not conflate either
-with Claude Code's documented `CLAUDE.md` / `MEMORY.md`, despite the shared naming.
-*(DOT-115, researched 2026-08-19.)*
 
 📌 `cw`'s 30 cells are a hard cap and Dima-editable only, so anything `cw` should retain must be
 handed to him to enter. This is why `cw` context arrives through handoff CSTs instead.
@@ -116,23 +93,11 @@ handed to him to enter. This is why `cw` context arrives through handoff CSTs in
 | spawner | can spawn | cannot |
 | --- | --- | --- |
 | Dima | anything, incl. cloud `cc` via CLI flag or the desktop app | — |
-| dispatch | local `cc`, worktree-isolated; can also **operate** it | cloud `cc` |
 | `cc` | local sessions, worktrees | cloud `cc` |
 | `cw` | nothing | local `cc`, cloud `cc` |
 
-⚠️ **Nobody in the fleet can spawn a cloud `cc`.** Not `cw`, not dispatch, not `cc`. Only Dima,
+⚠️ **Nobody in the fleet can spawn a cloud `cc`.** Not `cw`, not `cc`. Only Dima,
 by CLI flag or from the desktop app. **[verified]**
-
-**Spawn model and effort — half verified, 2026-08-17.**
-
-- **Model is forced when passed.** A dispatch spawn with an explicit `model` param got that model —
-  confirmed with a haiku test. **[verified]**
-- **Effort appears inherited from the spawner**: a fable-5 / low orchestrator produced a low child.
-  **[observed]** by Dima in the UI. ⚠️ **The selection mechanic is unverified** — whether effort is
-  inherited, defaulted, or set some other way is an **open question**, and Dima flagged it as
-  important. Do not build on it.
-- 📌 The tool documentation claims the child uses "the user's default" — contradicted by the model
-  test at least. Trust the test over the doc.
 
 Scope note: this file is about **Cowork**. The Claude Code cloud session is a different product
 with a different VM — see [The two VMs](#the-two-vms-do-not-confuse-them). Conflating them was the
@@ -252,7 +217,7 @@ learn an MCP tool's real output shape.
 
 ## Projects
 
-A Cowork project bundles six things: description (Dispatch reads it to route tasks), folders,
+A Cowork project bundles six things: description, folders,
 standing instructions, reference links, linked claude.ai projects, and a **project-scoped memory
 store that persists across sessions**. Three creation paths: from scratch, import a claude.ai
 project, or point at an existing folder — this repo's project is the third.
@@ -263,7 +228,6 @@ Quirks worth knowing:
   it as an additional project folder. Individual file reads cap at 50 MB.
 - **Archiving deletes the project's memory** along with its name, instructions and links. The
   attached folders on disk are untouched. There is no "archive but keep memory".
-- Dispatch can route background work into a project so it inherits the same folders and memory.
 
 ### Cowork project vs claude.ai Chat project
 
@@ -296,48 +260,11 @@ Source: <https://claude.com/docs/cowork/guide/projects>
 
 ### Mobile (iOS/iPadOS) reach [verified by user, 2026-08-26]
 
-- **All thread types from iOS — dispatch, chat, cowork — reach the x-plugin skill set, even with
-  the desktop app closed** (dispatch itself needs the host, but plugin skills do not). An earlier
+- **All thread types from iOS — chat, cowork — reach the x-plugin skill set, even with the
+  desktop app closed.** An earlier
   thread claiming otherwise predated the plugin install.
 - **`cc --remote-control` sessions are reachable and usable from mobile** — Dima runs the
   coordinator via RC and prints from his phone routinely.
-
-## Dispatch [docs]
-
-A single persistent conversation in the Cowork tab that takes high-level tasks and spawns child
-Cowork or Code sessions for them. It reads each project's **description** to decide where to route
-work, so it is layered *on top of* projects, not a way around them. Child tasks cannot spawn
-further children. Pro/Max only.
-
-⚠️ **Dispatch is not a cloud escape hatch.** "When Claude Desktop is running, your computer
-registers as a Dispatch host" and the docs require "your computer awake and online". An asleep Mac
-or a closed app means no Dispatch — which also explains the frequent connection drops: the
-conversation is bound to a live host process.
-
-There is **no documented beta label, limitations section, or roadmap** for Dispatch anywhere.
-
-### what dispatch structurally cannot do — distilled from the retired `rules/dispatch.md`
-
-dispatch left the fleet on 2026-09-04 (DOT-236); cclio holds its duties. these were the
-capability facts worth keeping — the operating contract that sat beside them is retired, because
-cclio owns that work.
-
-- ⚠️ **no `rules/` layer.** dispatch auto-loads Cowork preferences and a project `CLAUDE.md`, and
-  nothing else. anything in `~/.claude/rules/` reaches it only if a human pastes it or it reads the
-  file by hand through Desktop Commander. this is why skill copies had to be hand-inlined for it.
-- ⚠️ **dispatch-spawned sessions never read `~/.claude/settings.json`** — `defaultMode` and
-  `permissions.allow` included, so every call prompts. [DOT-91](https://linear.app/x-com/issue/DOT-91).
-  combined with a two-button dialog that has no "always allow", this is what made mobile use
-  expensive: ~40 dialogs in one evening.
-- ⚠️ **its chat UI sanitizes non-https hrefs** — so do the desktop Code tab and cw, which is why
-  every surface writes https links only (`rules/fleet-output-format.md`).
-- 🚫 **cannot spawn a cloud `cc`** — `isolation: "remote"` resolves the base branch from a non-git
-  scratch cwd and fails. it **can** spawn a local `cc` with worktree isolation.
-- ❓ **effort is not settable on its spawns** and appears inherited — mechanic never verified, so do
-  not build on it.
-- its task-session output folders are **ephemeral** and die with the session, so anything worth
-  keeping is attached to its ticket the moment it is born.
-
 
 ## Spawning cloud sessions — nothing agent-side can do it [verified 2026-08-15]
 
@@ -505,7 +432,7 @@ absent on disk) and another did not. Owned by DOT-55; do not build on either ans
 - Repo work needing pnpm / node 24 / real git → **Desktop Commander**, or Claude Code.
 - Throwaway compute, parsing, scratch scripts → **sandbox bash**.
 - Clone-build-commit-push, or anything that must survive a closed laptop → **Claude Code cloud
-  session**, started by a human. Not Cowork, not Dispatch.
+  session**, started by a human. Not Cowork.
 - Recurring reports over connector data → **artifact** + **scheduled task**.
 - Deleting anything in the repo from the sandbox → impossible; use Desktop Commander.
 
@@ -518,38 +445,8 @@ absent on disk) and another did not. Owned by DOT-55; do not build on either ans
 - Whether dynamic workflows run in the Cowork tab at all — undocumented, and Cowork does not read
   the CLI's `~/.claude` directory, so probably not. Tracked in DOT-56.
 
----
+## Scheduling from `cc` — three routes
 
-# dpatch vs cclio — 🧪 LIVING, keep an eye as we go
-
-Added 2026-08-21 under DOT-188 / DOT-190. Two candidate homes for the coordinator role. `dpatch`
-is the cowork/dispatch desktop surface; `cclio` is a plain claude code cli session booted in
-`~/frame/cclio`. **Never mix the names.**
-
-⚠️ Living section. Every session that learns something new about either side edits this in place
-rather than writing a fresh note. Tag claims like the rest of the file.
-
-## what each can do
-
-| capability | `dpatch` | `cclio` |
-| --- | --- | --- |
-| runtime | Agent SDK, inside the desktop app **[verified]** | claude code cli **[verified]** |
-| role framing | orchestrator-only, "you do NOT perform tasks yourself" **[verified]** | none imposed — the role is whatever `~/frame/cclio/CLAUDE.md` says **[verified]** |
-| rendering to Dima | `SendUserMessage` only **[verified]** | plain stdout **[verified]** |
-| config stack | cowork prefs + mounted project `CLAUDE.md`. **no `rules/`, no `~/.claude`** **[verified]** | four-layer `CLAUDE.md` stack loads automatically, incl. ancestor dirs **[verified 2026-08-21]** |
-| filesystem | mounts, re-established each init **[verified]** | the real Mac fs, no ceremony **[verified]** |
-| git | through Desktop Commander **[verified]** | native, incl. signing **[verified]** |
-| spawn cowork children | yes — `start_task` **[verified]** | no **[verified]** — Dima has accepted this |
-| spawn ccli children | yes — `start_code_task`, worktree-isolated **[verified]**, but see the session-capability caveat above | yes — `Agent` tool, subagents, worktree isolation **[verified]** |
-| scheduled tasks | scheduled-tasks MCP **[verified]** | **yes, three ways** — see below **[verified]** |
-| computer use / chrome | both MCPs present **[verified]** | chrome MCP present; computer-use present but policy-dormant **[verified]** |
-| 1Password autofill | yes, ~600 words of prompt **[verified]**, inert in practice **[observed]** | present, same **[verified]** |
-| Desktop Commander | yes **[verified]** | not needed — it has a real shell **[verified]** |
-| system prompt weight | ~84k incl. ~44.5k of deferred tool names **[verified]** | far smaller, and **editable** **[verified]** |
-
-## scheduling on cclio — NOT lost
-
-The open question was whether moving to `cclio` costs the scheduled-tasks MCP. It does not.
 Three routes exist, in order of preference:
 
 1. **built-in `CronCreate` / `CronList` / `CronDelete`** — local scheduled sessions, first-class
@@ -562,35 +459,7 @@ Three routes exist, in order of preference:
    the three, but each run starts with no session context, so the prompt must be fully
    self-contained. Same constraint the desktop scheduled tasks already carry. **[verified]**
 
-📌 Route 2 is strictly better than the dpatch MCP for anything unattended: dpatch scheduled tasks
-only fire while the desktop app is open.
-
 📌 **Device-bound scheduled tasks (claude.ai/cw side) are UI-create-only.** `create_trigger` with
 `requires_local_device: true` fails with `no_signed_approval`, and the `Require this computer`
 toggle cannot be added after creation — Dima must create the task by hand in the desktop UI, so a
 cw thread needing one hands him the prompt in a copy-fence instead. **[verified 2026-08-28, cwrk]**
-
-## pluses and minuses
-
-**`dpatch` plus** — mobile reach, cowork-child spawning, one persistent conversation, mounts of
-non-repo folders (obsidian) without extra config.
-**`dpatch` minus** — ~84k of unopenable prompt, a duplicated and self-contradicting orchestrator
-block, three dead instruction blocks, no `rules/` layer so every fleet rule must be inlined by
-hand, mounts that do not persist, and a formatting ban that has to be overridden every session.
-
-**`cclio` plus** — the whole prompt is ours, `rules/` and skills load for free, real fs and git,
-no mount ceremony, cheap subagents, and scheduling is better rather than worse.
-**`cclio` minus** — no cowork children, no persistent phone-side conversation, and Dima has to be
-at a terminal to open it.
-
-## the env gripe — "User selected a folder: no"
-
-dpatch reports no selected folder and re-mounts `~/frame` plus the obsidian prompts
-folder at every init. Dima wants a persistent selection so init stops re-mounting.
-
-- **Likely configurable, not a hard limit.** A cowork **project** carries attached folders that
-  persist across sessions, and dispatch can route work into a project so it inherits those
-  folders and that memory. Attaching both folders to one project is the shape of the fix.
-  **[docs]** — see the Projects section above; **not yet tried**.
-- ⚠️ Caveat: a folder-bound cowork project is desktop-only, which is already true here.
-- On `cclio` the gripe does not exist. There is nothing to mount.

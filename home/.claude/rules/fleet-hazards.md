@@ -1,7 +1,8 @@
 # fleet-hazards — well-known pitfalls, fleet-wide
 
 common traps any surface can hit. one section per subject; add a section only for a hazard
-that bites more than one surface. this file is the source of truth; the vault section is copied by hand
+that bites 2+ repos or every session — a hazard that bites one repo goes to that repo's
+`AGENTS.md`. this file is the source of truth; the vault section is copied by hand
 into the cw leaf `/topics/obsidian.md` — the rest is cc-only, deliberately not mirrored.
 
 📌 hazards that bite one subject live beside it: frame `AGENTS.md` (launchd + tcc, git-crypt,

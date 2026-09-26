@@ -64,8 +64,8 @@ _hq folder: `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Di
   not due → say nothing.
 
 ## 5. stuck reminders ⏰📌
-`/remind stick` writes `⏰📌` entries into the auto-memory store; **raise every one at every
-boot, unprompted** — that is the whole difference from an ordinary `⏰`. an answered stuck
+cclio's `⏰📌` reminders live in `memory/_reminders.md` and the boot digest prints each one; **raise
+every one at every boot, unprompted** — that is the whole difference from an ordinary `⏰`. an answered stuck
 reminder still surfaces; it dies only when dima says drop it. none → say nothing.
 
 ## 6. self-grill 🥊
@@ -157,14 +157,6 @@ linear api 'query { projectMilestones(first: 50) { pageInfo { hasNextPage } node
 
 ---
 
-## the command family
-- global, any ccli session: `/pre` · `/queue` · `/remind` · `/handoff` · `/cmt` · `/x:pm`
-- coordinator-only: `/cclio:init [board]` · `/cclio:report` · `/cclio:flawlog` ·
-  `/cclio:halt` (bare = planned finish, `stop` = immediate) · `/cclio:checkpoint` ·
-  `/cclio:evergreen` · `/cclio:gazette`
-- nothing in the global family may assume this home exists.
-
 ## rules
-- default verb is FOLD OR DROP, not file. one flush per session.
-- no destructive ops unasked.
+- nothing in the global `x:*` family may assume this home exists.
 - dima on mobile → nothing that can throw a permission dialog.

@@ -44,7 +44,7 @@ const LANE = z
     );
 
 const AUDIENCE = z
-    .enum(['any', 'cw', 'cclio', 'dpatch', 'ccli'])
+    .enum(['any', 'cw', 'cclio', 'ccli'])
     .optional()
     .describe(
         'Which agent this CST is FOR. Omit (or "any") when it is for whoever picks it up next. Naming one means only that agent pulls it — every other agent leaves it alone instead of ingesting and deleting it by mistake.',

@@ -93,7 +93,7 @@ const parseFileName = (fileName: string) => {
 
 // A whitelist, so an unparsed audience can never wrongly claim a file is someone else's
 // and get it left behind forever.
-const foreignAudienceList = ['cw', 'ccli', 'dpatch'] as const;
+const foreignAudienceList = ['cw', 'ccli'] as const;
 
 // The shelf directory only exists once something has been handed off, so a missing one is
 // an empty shelf. Anything else — this directory is 0700, and an i/o fault is possible —

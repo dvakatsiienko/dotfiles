@@ -30,7 +30,7 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 
-export const AUDIENCES = ['any', 'ccli', 'cclio', 'cw', 'dpatch'] as const;
+export const AUDIENCES = ['any', 'ccli', 'cclio', 'cw'] as const;
 
 export type Audience = (typeof AUDIENCES)[number];
 
