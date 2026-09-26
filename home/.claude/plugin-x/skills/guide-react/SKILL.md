@@ -20,6 +20,9 @@ refinements. Binding when printing React — follow exactly, no freestyle. Types
   collections): `const optionListJSX = props.options.map(…)`.
 - **Explicit `return` in map/render callbacks** — block body over implicit-return arrow: a
   `console.log`/`debugger` drops in without restructuring mid-debug.
+- **An effect returns its release.** Every effect that subscribes, listens, times, observes or
+  fetches returns the cleanup that undoes it (`abort()`, `clearInterval`, `unsubscribe`), so an
+  unmount leaks nothing.
 - **Body = logic, return = markup.** The body prepares data; the return stays pure JSX. Simple
   expressions inline are fine — complexity graduates to a named const.
 

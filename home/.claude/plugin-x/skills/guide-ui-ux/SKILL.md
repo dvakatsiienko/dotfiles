@@ -23,6 +23,9 @@ guides (`guide-react`) sit on top of this one.
 - **state never by colour alone** — pair with weight, underline, border. `:focus-visible` ring
   ≥2px, never removed
 - **honour `prefers-reduced-motion` and `prefers-color-scheme`** — both palettes as tokens
+- **leaving a view stops what it started** — autoplay, animation loops, audio, polling: a route
+  change or a closed panel halts them, and coming back resumes from a still frame, never mid-play
+  (dima, 2026-09-26)
 - **`tabular-nums` on every numeric column**; truncated text carries the full value in a
   tooltip; tooltips are hoverable and Esc-dismissible
 - **dark surface ≈ `#121212`, never `#000`** — elevation by lighter surface, accents
