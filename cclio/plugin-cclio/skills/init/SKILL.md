@@ -69,8 +69,9 @@ boot, unprompted** — that is the whole difference from an ordinary `⏰`. an a
 reminder still surfaces; it dies only when dima says drop it. none → say nothing.
 
 ## 6. self-grill 🥊
-read the **last two flawlog files** (named in the digest) and ask ONE grounded question — the
-weakest part of cclio as coordinator or pm, with the fix. **two lines, last lines of the board:**
+print the 🥊 pair from the ingested CST's META — the halt wrote it while the flawlog flush had the
+day's log open, so the boot reads no flawlog (dima, 2026-09-26: a boot starts unloaded from
+settled lines). no CST, or no pair in it → skip the step. **two lines, last lines of the board:**
 
 ```
 🥊 <the issue, one line>

@@ -33,6 +33,13 @@ function readDescription(md: string) {
 }
 
 const routeThreshold = 0.6;
+// a pick of these never auto-trusts, green router or not (memory/sys-jev.md)
+const sideEffectSkills: ReadonlySet<string> = new Set([
+    'cclio:evergreen',
+    'cclio:halt',
+    'x:cmt',
+    'x:handoff',
+]);
 const logPath = `${process.env.HOME}/.claude/shelf/jev/route.log`;
 mkdirSync(`${process.env.HOME}/.claude/shelf/jev`, { recursive: true });
 
@@ -96,7 +103,7 @@ if (live) {
     );
     if (loads.length)
         console.log(
-            `skills (jev router): ${loads.map(([n, p]) => `${n} ${p.toFixed(2)}`).join(', ')}`,
+            `skills (jev router): ${loads.map(([n, p]) => `${n} ${p.toFixed(2)}${sideEffectSkills.has(n) ? ' ⚠ read first' : ''}`).join(', ')}`,
         );
     // the top pick only — a whole prompt's 59 nouls would drown the report
     runsLog(

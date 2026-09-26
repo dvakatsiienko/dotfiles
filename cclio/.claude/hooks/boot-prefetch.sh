@@ -177,8 +177,7 @@ else
 fi
 echo "📌 this hook proves the FILE chain in a fresh process; the running session proves itself at init step 1 — a stale gate in a parked process only that step sees"
 
-echo "-- flawlog (self-grill reads the last two) --"
-ls -t "$HOME/.claude/shelf/flawlog/"*.md 2>/dev/null | head -2 | xargs -n1 basename
+echo "-- flawlog (the day's file; the 🥊 pair rides the CST) --"
 today="$HOME/.claude/shelf/flawlog/$(date +%Y-%m-%d)"
 ls "$today"-*.md >/dev/null 2>&1 && echo "today's file exists" || echo "no file for today yet — open one at step 8"
 
