@@ -1,5 +1,6 @@
 ---
 name: gazette
+description: load when /cclio:halt reaches phase 4.5, when /cclio:checkpoint writes its update block, or when dima says «gazette» — the day's post and the gated wire.
 ---
 
 # /cclio:gazette — cclio's gazette 🗞️ the tweet and the wire
@@ -75,4 +76,4 @@ out on the wire (or that it was declined).
 
 ## 👁️ ingest side (for reference)
 
-every post ends with a `## trail` section: three bullets, `shipped:` / `open:` / `state:`, one line each — the only part of the post that stays resident. after writing the post, run `cclio/.claude/hooks/gazette-trail.sh` (from the dotfiles root) — it regenerates `gazette/_trail.md`, which the memory barrel imports into every cclio boot. the full posts sit in `gazette/`; a multi-day arc may warrant reading one — the boot judges.
+every post ends with a `## trail` section: three bullets, `shipped:` / `open:` / `state:`, one line each — the only part of the post that stays resident. after writing the post, run `cclio/.claude/hooks/gazette-trail.sh` (from the frame root) — it regenerates `gazette/_trail.md`, which the memory barrel imports into every cclio boot. the full posts sit in `gazette/`; a multi-day arc may warrant reading one — the boot judges.

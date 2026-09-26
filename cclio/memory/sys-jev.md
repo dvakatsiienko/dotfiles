@@ -37,8 +37,7 @@ we pull, it judges, we write back. two lanes live, both from 2026-09-19:
 `x:cmt`, `x:handoff`, `cclio:evergreen`'s merge hand: a load of one always waits for my read of dima's
 actual words. the case: «that's it for now from my side» scored `cclio:halt` 0.60 while it closed a
 tweak batch mid-session — trusted, it would have opened the halt early. **at the router's green lift,
-re-check this list first**; the mechanical form (the hook tags these picks «⚠ read first») is a flush
-candidate.
+re-check this list first**; the hook already tags these picks «⚠ read first».
 
 **the sharpening loop, run at every halt**
 1. inbox: compare the boot's jev lanes with the lanes i actually gave at the parse. a

@@ -34,33 +34,39 @@ what the coordinator's halt reads.
 - **the brief names the constraint you may break** («ship only what a test exercises today»,
   «touch the shared biome config if lint needs it»); brief behaviours, never a count — «one
   test: renders, a variant, a click» produced a conjunctive test where five were right.
-  **Measure the live number before a build that rests on one** (the 10-day grant reframed a
-  whole step, 2026-09-11). A manifest survey unions `dependencies` + `devDependencies` before
-  counting (a one-field read hid three tools twice). A taxonomy comes from a grep, never from
-  adjacency. A probe runs its control first, then the surprising input. **A probe that needs dima's hands asks first and launches on his word** — «he is at the keyboard» is never a guarantee (two wasted probe rounds, 2026-09-14). **A grep done-criterion is run once before it enters a brief** — «old name absent» can never be empty when the new name contains the old. The same rule for every verb, function name and file list the brief carries: `--help` and one grep before the word is typed — a brief named a cli verb that did not exist and a function by the wrong name (2026-09-15). **A brief that adds a field names its value set or its default**, and **enumerates every writer of that field, not only the readers** — the coder invented the lane vocabulary and found the feature shipped dead without its writers. **A rule you write is
-  read from the docs, never from the lockfile** (a react-compiler line was wrong from it).
-  **After reversing a decision mid-pr, re-read every commit on the branch that asserted
-  something about the reversed thing** — two review findings on #76 were docs from the old
-  thesis. Before replacing an assertion, say what the old one protected.
-  **Fetch main before asking a question a commit could answer.** Two coders in one repo: the
-  second brief names the files the first is touching, or the coordinator holds the first's
-  merge until the second's pr is open (a merged pr broke a rebase, 2026-09-11).
-  **After touching a trust boundary, write what the NEW code trusts and who controls it, before
-  the push** — three of twelve defects on #79 were holes opened while closing another (a pr can
-  move its own `base.sha`; an empty `$app` matched everything). **A file's own header is a
-  constraint: copy the incident with the block, or say why it does not apply** — a `needs:` edge
-  made the required gate skippable in a repo whose sibling workflow opens with that exact trap.
-  **A type fix names the new type, not the symptom** («annotate as X» was wrong when the field
-  became `unknown` and needed a narrow). **One run is evidence of more than one thing** — before
-  reporting it as proof of X, ask what else it shows (the greptile skip on #83 was both «owner
-  test works» and the cancel bug).
+- **measure before you build on it**:
+  - measure the live number before a build that rests on one (the 10-day grant reframed a
+    whole step, 2026-09-11).
+  - a manifest survey unions `dependencies` + `devDependencies` before counting (a one-field
+    read hid three tools twice).
+  - a taxonomy comes from a grep, never from adjacency.
+  - a probe runs its control first, then the surprising input.
+  - **a probe that needs dima's hands asks first and launches on his word** — «he is at the
+    keyboard» is never a guarantee (two wasted probe rounds, 2026-09-14).
+- **a rule you write is read from the docs, never from the lockfile** (a react-compiler line
+  was wrong from it).
+- **reversing a decision**:
+  - after reversing one mid-pr, re-read every commit on the branch that asserted something
+    about the reversed thing — two review findings on #76 were docs from the old thesis.
+  - before replacing an assertion, say what the old one protected.
+- **fetch main before asking a question a commit could answer.**
+- **trust and constraints**:
+  - after touching a trust boundary, write what the NEW code trusts and who controls it,
+    before the push — three of twelve defects on #79 were holes opened while closing another
+    (a pr can move its own `base.sha`; an empty `$app` matched everything).
+  - a file's own header is a constraint: copy the incident with the block, or say why it does
+    not apply — a `needs:` edge made the required gate skippable in a repo whose sibling
+    workflow opens with that exact trap.
+- **a type fix names the new type, not the symptom** («annotate as X» was wrong when the field
+  became `unknown` and needed a narrow).
+- **one run is evidence of more than one thing** — before reporting it as proof of X, ask what
+  else it shows (the greptile skip on #83 was both «owner test works» and the cancel bug).
 - **a brief item is arguable on day one.** Say «i would cut this, because …» before building it —
   the answer lane on #79 produced 5 of 12 defects and the coder had the argument at the start.
 - **nobody is watching.** Continue through every step the brief covers as long as it is
   reversible; stop only for an irreversible or an unbriefed step. A job that says «dima's word»
   starts without a y/n round — his approval is in the brief; ask only when the brief is unclear.
 - **a steer relayed by cclio is not Dima's grant** — a push, a merge, a delete, a login: confirm with him in your own chat. a VALUE he named and cclio relays (an email, a url, a colour) is his word; use it. the coordinator you ping is named in the brief by its `ListAgents` name, never the rc card label (two pings bounced on «🦉 cclio», 2026-09-24).
-- **every commit in a shared checkout carries a pathspec** — `git commit -F msg.txt -- <paths>`, dirty tree or clean: a bare commit took another session's staged deletions (2026-09-24).
 - **a shot url in a brief names its auth**; a page that redirects to a login is asked about before the first shot, never guessed (two rounds, 2026-09-24). **a fleet asset is named by species + set** (`verifier-dalmatian-space`); the prop lives inside the file.
 - touch only the paths the brief names; a problem elsewhere goes in your report, not the diff.
 - edit the lines that change — never rewrite a file whose rest is untouched.

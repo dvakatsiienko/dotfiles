@@ -91,7 +91,6 @@ export const ORDER = [
     `${RULES}/dima-signals.md`,
     `${RULES}/fleet-vibe.md`,
     `${RULES}/fleet-doors.md`,
-    `${RULES}/fleet-bypass-restraint.md`,
     `${RULES}/fleet-output-format.md`,
 ];
 

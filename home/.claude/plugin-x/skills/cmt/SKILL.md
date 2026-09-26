@@ -179,7 +179,7 @@ the moment it lands. `frame` deploys nothing — no watch.
 
 **A coder assignment lands through a PR by default** (dima, 2026-09-07: he cannot review at the pace agents print; the PR is the review surface). The exceptions are a freebie or a genuinely small change — when in doubt the brief says «PR or main?» once, up front, never mid-flight. The flow: so `main` reverts by
 assignment, not by hash: branch `coder/BYT-N-<slug>` from `main`, step-commits on it (each
-with `- ticket: BYT-N` and its step line), `gh pr create` with the body's **one** `Closes BYT-N`
+with `- ticket: BYT-N` and its step line), `gh pr create` with `- ticket: BYT-N` in the body, and `Closes BYT-N` only when the PR ends the ticket
 (a PR is Linear's lane, its automations are wanted: open → In Progress, merge → Done), then
 **squash-merge** on Dima's word — the squash body lists the steps. On a `coder/*` branch the coder holds `y+` and `push+` (commit each step, push, **open the PR at the first push** — a real one, never a draft: dima wants no drafts, the PR is the review surface from its first commit); on `main` the default lane's rules hold unchanged. Load `x:github-contrib`
 before the `gh` call. **The PR url goes to Dima as a one-click link the moment `gh pr create`

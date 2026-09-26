@@ -12,8 +12,7 @@ resolution recipe is blurry, and each item's verdict shapes the next.
 
 ## the round — one item, four bullets, then stop
 
-Pretty, this exact shape. The item name keeps its file extension and, when it is a file, renders
-as a clickable editor link (the output-format rules own the link shape — do not restate them):
+Pretty, this exact shape. The item name keeps its file extension, in backticks:
 
 - 🔎 **«[item name] — what is it?»** — tldr, one or two lines
 - 🤔 **«why?»** — think hard: why does it exist, who pays for it

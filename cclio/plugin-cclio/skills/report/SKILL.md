@@ -8,17 +8,17 @@ loads on `/cclio:report`, or when dima asks «sup» / «where are we» / «what'
 
 ONE message, this shape, nothing more:
 
-📊 **run** · `<run id>` — **elapsed** · `<time>`
+📊 **run** `<run id>` — **elapsed** `<time>`
 
-🟢 **done** · `N / ~M`
-- **<area>** · value with `backticked` artifacts and https ticket links
+🟢 **done** — `N / ~M`
+- **<area>** — value with `backticked` artifacts and https ticket links
   (2-4 biggest, one line each)
 
-🚧 **in flight** · what runs right now
-⏸️ **left** · next 2-3 concrete items, in order
-🟩 **freebies** · `N` ready — the 1-2 juiciest, id + one-line what; «none open» if empty
-❓ **on dima** · open calls; «nothing blocked» if none
-🃏 · one-liner mood
+🚧 **in flight** — what runs right now
+⏸️ **left** — next 2-3 concrete items, in order
+🟩 **freebies** — `N` ready — the 1-2 juiciest, id + one-line what; «none open» if empty
+❓ **on dima** — open calls; «nothing blocked» if none
+🃏 one-liner mood
 
 ## jev
 «how did jev do» → `pnpm jev:report`, pasted as is — one block per flow, then the session and health lines.
@@ -36,7 +36,8 @@ one fresh query, three hunts (this exact query RAN 2026-08-26):
 linear api 'query { urgent: issues(filter: { state: { type: { nin: ["completed","canceled"] } }, priority: { lte: 2, neq: 0 }, updatedAt: { lt: "-P4D" } }, first: 15) { nodes { identifier title } } orphans: issues(filter: { state: { type: { nin: ["completed","canceled"] } }, projectMilestone: { null: true }, project: { null: false } }, first: 20) { nodes { identifier project { name } } } stale: issues(filter: { state: { type: { eq: "started" } }, updatedAt: { lt: "-P3D" }, labels: { every: { name: { neq: "standing" } } } }, first: 10) { nodes { identifier title } } }'
 ```
 
-render as ONE board line: `🔭 strays · urgent N (>4d) · no-milestone N · stale-in-progress N (>3d)`
+render as one block: `🔭 **strays**`, then one bullet each — `urgent N (>4d)`, `no-milestone N`,
+`stale-in-progress N (>3d)`
 — always print the day-thresholds so the numbers carry their meaning. expand only the urgent ones
 (id + title + days-stray, linked), cap 3; the counts alone carry the other two hunts. orphans are
 mostly healthy backlog — a count is a pulse, never a to-do list. stale-in-progress non-zero →
@@ -52,8 +53,8 @@ without his approval.
   (or attaching them to a step), with a proposed priority
 - **mild restructure**: a stray obviously misplaced → suggest the better project/parent;
   storify only where a real story emerges — mildly, only where something is obviously off
-- **verdicts per stray**, offered not executed: wrong place · poorly formatted · stale ·
-  close-on-sight (no relevance anymore) · fine-where-it-is
+- **verdicts per stray**, offered not executed — one of: wrong place, poorly formatted, stale,
+  close-on-sight (no relevance anymore), fine-where-it-is
 - batch the suggestions, ONE approval round, then flush — the craft-pm one-flush rule holds
 - **bold keys**, plain values, `backticks` for ids/files/commands
 - every ticket id a link plus a short tldr, in the `rules/fleet-output-format.md` form, never bare

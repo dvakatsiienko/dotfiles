@@ -40,6 +40,10 @@ The split is **disposable-vs-watchable**, not research-vs-code.
 
 0. **reuse before spawn** — an idle child revives by message with context intact; a warm coder is
    worth ~50k.
+0.5. **spare age** — every `--bg` spawn claims a pre-warmed `claude bg-spare`, and a day-old spare
+   booted a coder WITHOUT the repo's root `AGENTS.md` (2026-09-22, ccbee7b0). check
+   `ps -o pid,lstart,command -ax | grep '[b]g-spare'`; older than a day → `claude daemon stop
+   --keep-workers`, then spawn. the brief's «name your loaded AGENTS.md paths» line is the belt.
 1. **tier** — code, repo, real filesystem ⇒ a real session, never a thinking-only one.
 2. **name + argv** — the template, literal, prompt BEFORE `--remote-control` (measured 2026-09-07: the flag ate a 1.5 kB brief as its rc label → 400, idle child):
    `cd <repo> && claude --bg -n '🔧 code: BYT-N <what>' --model opus --effort medium '/x:coder-brief BYT-N <job> coordinator: <cclio registry name>' --remote-control`
@@ -66,7 +70,6 @@ The split is **disposable-vs-watchable**, not research-vs-code.
   a `Workflow` `agent()` call honours its per-call `effort` too (2.1.258).
 - ✅ **`claude --bg '<prompt>'` RUNS the prompt** (re-verified 2.1.258; it came up idle on 2.1.239).
   `SendMessage` is still how you brief it later, and the only way to attach `notify_when_idle`.
-- ⚠️ **a `--bg` session is a pre-warmed daemon spare, not a fresh process** — the pool keeps one `claude bg-spare` warm and re-warms on claim; a spare older than a day booted a coder WITHOUT the repo's root `AGENTS.md` (2026-09-22, coder ccbee7b0), a spare born minutes earlier loaded it. check: `ps -o pid,lstart,command -ax | grep '[b]g-spare'` — the brief's «name your loaded AGENTS.md paths» line is the belt, a yesterday-born spare is the tell
 - ⚠️ **a subagent starts in the parent's bash cwd and inherits cclio's whole stack regardless
   of it** (2.1.258; flipped on each of the last three builds — re-probe every build). keep every
   path in a brief absolute.
@@ -128,6 +131,8 @@ archaeology. Subscribe, never poll. Budget three round trips — more means the 
 **An AGENTS.md imperative about WHEN acts at read time** — «start `ray develop` first» was read, then recalled after the whole edit; dima caught it (2026-09-22).
 **A brief carries the symptom + the evidence; a guessed cause says «guess»** — the job-6 brief asserted «a per-command key still exists» as the cause of a 401, and three curl calls found an empty header instead (2026-09-18).
 **A move is proven by executing every moved entrypoint** — a grep for the moved names missed a second relative import and the move died at runtime with typecheck green (2026-09-19).
+**Every word a brief carries is checked before it is typed** — a grep done-criterion is run once before it enters a brief («old name absent» can never be empty when the new name contains the old); every verb, function name and file list gets `--help` and one grep (a brief named a cli verb that did not exist and a function by the wrong name, 2026-09-15).
+**A brief that adds a field names its value set or its default**, and **enumerates every writer of that field, not only the readers** — the coder invented the lane vocabulary and found the feature shipped dead without its writers.
 **A brief whose proof needs dima's hands says so at the TOP** and asks up front — the rcmd count needed three of his presses, discovered one at a time at the end (2026-09-19).
 **A coder's report is a candidate, not a finding** — check its claims before relaying.
 **A relay to a coder names the source it was read from** — and a claim about a repo's behaviour

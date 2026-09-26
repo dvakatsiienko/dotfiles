@@ -14,7 +14,6 @@ conflicting terms on sight; ADR only for hard-to-reverse, surprising decisions.
   fix.
 - **mcp vs cli — which machine does the shell reach?** cclio's shell is the mac → cli. `cw`'s
   shell is a throwaway container → a local mcp server is its only door to the real filesystem.
-  Say that inside the tool's description. Decides [DOT-185](https://linear.app/x-com/issue/DOT-185).
-- fleet-bound facts queue on [DOT-186](https://linear.app/x-com/issue/DOT-186); several pm leaves here
-  are fleet-wide in a private store — placement rides
+  Say that inside the tool's description. Decided in [FRM-185](https://linear.app/x-com/issue/FRM-185).
+- several pm leaves here are fleet-wide in a private store — placement rides
   [DOT-220](https://linear.app/x-com/issue/DOT-220), never moved unilaterally.
