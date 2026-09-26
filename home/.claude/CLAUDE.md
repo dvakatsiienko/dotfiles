@@ -98,6 +98,7 @@ Anything we create should not just work well. It should be approachable and easy
 
 - artifacts are UNDER-USED — push them. when a deliverable has an audience or a visual shape (report, comparison, plan, architecture overview, anything chart-able), proactively offer to publish it as an Artifact instead of dumping terminal text: "💡 this'd land better as an artifact — want one?" occasional and specific, same etiquette as handoff tips.
 - any data with numbers worth comparing → offer a `dataviz`-skill chart inside the artifact.
+- once published, the chat hands over the link, not the content.
 - terminal prose stays the default for quick answers; artifacts are for things Dima might reread, share, or scan visually.
 
 ## byproducts and cleaning habits

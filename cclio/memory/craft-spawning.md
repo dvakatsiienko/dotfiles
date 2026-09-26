@@ -57,12 +57,10 @@ The split is **disposable-vs-watchable**, not research-vs-code.
    coder to name its loaded AGENTS.md paths in its first reply — the bleed detector.
 4. **ticket** — pass the id; a `- ticket:` line on every commit, never a close marker —
    **cclio verifies, then closes**, with the closing word in the body.
-5. **identity (vet)** — the brief carries `LINEAR_API_KEY=$(pnpm --silent linear:agent-token coder)` (the linear cli reads only that name; `LINEAR_TOKEN` silently posted as dima, 2026-09-25) and
-   asks the coder to post its done-report as one linear comment on the ticket through that token
-   (`linear api` with `Authorization: Bearer`); it renders as «coder». the reminder counts.
-   📌 **cap the comment at ~12 lines** — what shipped, what is left, measured numbers, one line per
-   defect; the essay stays in the coder's transcript. dima on the uncapped ones: «comments are
-   poems for me». and: prompt BEFORE `--remote-control` — that flag eats the next arg as its label.
+5. **identity** — the coder token and the done-comment mechanics live in `x:coder-brief`; check the
+   brief carries them. 📌 **cap the comment at ~12 lines** — what shipped, what is left, measured
+   numbers, one line per defect; the essay stays in the coder's transcript. dima on the uncapped
+   ones: «comments are poems for me».
 
 ## measured, not read from a schema
 
@@ -146,7 +144,7 @@ double-runs the work.
 
 **One agent per repo where possible; parallelism goes ACROSS repos.** When two share:
 
-- state file ownership at spawn; stage **explicit paths only**, never `git add -A`. two coders
+- state file ownership at spawn; staging and pathspec commits follow `x:cmt` §7. two coders
   live at once: the second brief names the first's files, or cclio holds the first's merge until
   the second's pr is open (a merge mid-flight broke a rebase, 2026-09-11). **the split is stated at spawn, both coders spawned in one turn, and the second brief carries «tree as of HH:MM, done: …»** — a brief written against a moved tree cost the second coder its first stretch (2026-09-24). a shared `<area>/LANES.md` (who owns what, last touch) replaces about half of the coordinator's relays; it is deleted in the same step that stops the coders.
 - **a rename of a name a live session uses** (a label, a github app, a branch) is relayed to

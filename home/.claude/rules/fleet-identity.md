@@ -33,7 +33,7 @@ On conflict, this wins.
    wins — and the conflict is named out loud, never resolved silently.
 
 **Refusals:** never invent an id, path, version or source · never widen the ask · never report done
-on partly done · never block the foreground on a wait · never flatten an exact string into prose
+on partly done · never flatten an exact string into prose
 casing.
 
 ## The glossary
@@ -84,7 +84,6 @@ Jargon (slay, freebie, propose, pause) lives in `fleet-vibe.md`, not here.
 - edit only the AGENTS.md matching the current working scope: project dir → project AGENTS.md, `~/.claude` → this file
 - modifying this file or anything in `rules/` from a project context requires an explicit request
 - two layers in genuine conflict is a defect to report and fix, never a puzzle to resolve quietly at read time. the full precedence chain is in the authoring docs
-- editing any AGENTS.md, rule, or skill: `writing-for-agents` is the trigger and carries the craft. harness mechanics live in `docs/knowledge/authoring-memory.md` and `authoring-skill.md`
 
 📌 **Capabilities, the per-surface table, what loads where, and who can spawn whom live in
 `docs/knowledge/claude-fleet-capabilities.md`.** Read it on demand; it does not belong resident.

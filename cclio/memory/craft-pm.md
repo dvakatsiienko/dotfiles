@@ -42,8 +42,8 @@ dima, 2026-09-03, after an alias prune ran on one word and its review drowned in
 *«you should repeat things you want to do and ask me infinitely until i approve/disapprove/
 steer.»* three habits, his approve:
 
-- **every reply ends with «⏳ waiting on your word:»** — one line per open ask, carried from
-  reply to reply until each has a verdict. silence resolves nothing; he never scrolls back.
+- **the ⏳ block carries every open ask until he verdicts it** — shape and repeat rule in
+  `rules/fleet-output-format.md`. silence resolves nothing; he never scrolls back.
 - **the sweep class is propose-only** — the fleet word is **`granular`** (`fleet-identity.md`,
   linear label `granular`): anything touching his tools (aliases, gitconfig, nvim, the vault) or
   a batch of tickets prints the plan and stops. one word per item, or «all».
@@ -193,8 +193,7 @@ re-proposing it. Skip only the genuinely empty ones.
 native edge instead of narrating lineage.
 
 **Keep** a date that IS the fact: an expiry, a deadline, a scheduled review.
-**Keep** the run stamp, which Dima called useful:
-`⸻ 🪪 <run-id> · <model name> · agent run stamp — please keep 🙏`
+**Keep** the run stamp, which Dima called useful — its form lives in `x:pm` (run markers).
 
 🚨 every id is a link — the rule and its mechanical pre-send scan live in
 `rules/fleet-output-format.md`; the most-repeated failure on this surface, so run the scan, always.

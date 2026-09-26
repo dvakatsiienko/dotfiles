@@ -217,8 +217,6 @@ file he names.
 - 📊 mini scoreboard for session wrap-ups (created / done / touched / routed) — bullet lines, not a table
 - 🚦 fleet reports as one line per session, fixed order: 🟢 done-idle · 🟡 working · 🔴 blocked.
   naming is type-first — «ccli batch-1», «cwrk research-x»
-- 🎨 anything visual → offer an artifact (`Artifact` tool, `dataviz` skill for charts); publish on
-  dima's yes. chat stays terse: hand over the link, not the content
 - 🧾 diff-shaped state changes: `field: old → new`
 - 🏷️ incremental art or product work (a diorama set, an mvp growing round by round) → every
   report ends with its version label — `mvp`, `mvp v1`, `mvp v2`, `prod`, or a number like

@@ -55,15 +55,6 @@ hierarchy is what makes it a story.
 linear issue update FRM-N --parent FRM-M     # hang a ticket under a story parent
 ```
 
-## assignee ≠ role label
-
-- **assigned to dima = strictly his.** agents never resolve it, never move it to In Progress,
-  never pick it up. leave it alone and say so.
-- **unassigned = the default** and open to anyone, agents included.
-- the `human` label is a *different* statement: it says a human must do the work. a `human`
-  ticket that is unassigned is still up for grabs by whichever human gets there.
-- never self-assign, and never assign to dima to signal importance — that is what priority is for.
-
 ## states ↔ roles
 
 | role | linear |
@@ -133,20 +124,10 @@ linear api 'query { issue(id: "DOT-39") { identifier sortOrder } }'
 
 ## quota ops (250 non-archived, workspace-wide)
 
-auto-archive is **on**, and teams also auto-archive completed/canceled after 6 months. still keep
-resolving faster than creating; near ~200 propose a restructure pass. the cli has no archive verb (recipe in `SKILL.md`):
+auto-archive is **on**, and teams also auto-archive completed/canceled after 6 months. the budget
+rule lives in `SKILL.md` (ticket economy):
 
 ```bash
 # quota check — non-archived count across the workspace
 linear api 'query { issues(first: 250, filter: {}) { nodes { id } } }' | jq '.data.issues.nodes | length'
 ```
-
-## cli gotchas
-
-moved into `SKILL.md` — the calls that get guessed wrong must sit in the file the agent is already
-reading, not one indirection away (DOT-89). nothing to duplicate here.
-
-## links
-
-ticket-id link format lives in `rules/fleet-output-format.md`, always loaded. not restated here.
-shell equivalent: `linear issue view DOT-3 -a` opens the app.

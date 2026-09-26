@@ -162,21 +162,11 @@ still hold for hygiene (commit shape, identity, no stray files), not for ceremon
      2026-09-20: a local adversary is worth it in most cases); a big PR runs both adversaries
      (code-review AND coderabbit); a long-lived PR is a reason for more review, never less.
      after `clean` the coordinator tells you to add Dima as reviewer.
-  4. `gh pr edit <n> --add-label '🤖 review:requested'` — the ci reviewer, on `bytes`. The label
-     is the review request for THIS head: the `review` check is required on main, it runs only on
-     a label event, and a later push leaves it stale — so a re-review is remove + add the label
-     at the next «final», never per push (each run is ~13 min of opus on dima's own window).
-     **Before every label, read the round counter** — `gh api
-     'repos/<o>/<r>/actions/workflows/review.yml/runs?branch=<head>' --jq '[.workflow_runs[] |
-     select(.conclusion=="success")] | length'` — never a tally kept in your head: at 1, tell
-     the coordinator BEFORE the label goes on (a third round is dima's word); at 2, the label
-     does nothing. A green `review:clean` means «a review ran», not «no findings» — read the
-     reviewer's comment either way.
-     The tracking comment shows progress; the check goes green only on a clean review, red on
-     findings. **Read the reviewer's output from the pr, never the run**: `issues/N/comments`,
-     `pulls/N/reviews`, `pulls/N/comments` — it posts to a different one per round. Fix what is
-     real, answer «declined: <why>» on the thread (an inline thread is answered through the
-     replies endpoint, a top-level comment does not count), re-label once per batch of fixes.
+  4. the ci reviewer on `bytes` — the label, the round counter, the stale rule and where it posts
+     live in `x:github-contrib` (the bytes review lane). yours on top: re-label at the next
+     «final», never per push (each run is ~13 min of opus on dima's own window); at counter 1,
+     tell the coordinator BEFORE the label goes on. Fix what is real, answer «declined: <why>» on
+     the thread, re-label once per batch of fixes.
   5. **Only after both reviews are handled**: `gh pr edit <n> --add-reviewer dvakatsiienko`, then
      the «final» line to the coordinator (PR url + head sha + «final»). Adding the reviewer before
      the reviews land hands dima a PR with open findings (measured on #68). Leave no untracked
